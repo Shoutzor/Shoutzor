@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<ices>
+	<background>0</background>
+	<logpath>/var/log/ices2</logpath>
+	<logfile>ices.log</logfile>
+	<logsize>2048</logsize>
+	<loglevel>3</loglevel>
+	<consolelog>0</consolelog>
+	<pidfile>/var/log/ices2/ices.pid</pidfile>
+	
+	<stream>
+		<metadata>
+			<name>Shoutz0r</name>
+			<genre>Any</genre>
+			<description>The Shoutz0r audio stream</description>
+			<url>http://shoutzor.org</url>
+		</metadata>
+		<input>
+            <module>oss</module>
+            <param name="device">pulse</param>
+            <param name="channels">2</param>
+            <param name="rate">44100</param>
+            <param name="metadata">1</param>
+        </input>
+		<instance>
+			<hostname>127.0.0.1</hostname>
+			<port>8000</port>
+			<password>changeme</password>
+			<mount>/shoutz0r.ogg</mount>
+			<reconnectdelay>1</reconnectdelay>
+			<reconnectattempts>50</reconnectattempts>
+			<downmix>2</downmix>
+		</instance>
+	</stream>
+</ices>

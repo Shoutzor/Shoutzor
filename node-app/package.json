@@ -1,0 +1,14 @@
+{
+	"name": "shoutzor_player",
+	"version": "1.0.0",
+	"license": "GPL-3.0-only",
+	"description": "The shoutzor music player",
+	"author": "Jorin Vermeulen <jorin.vermeulen@gmail.com>",
+	"main": "server.js",
+	"scripts": {
+		"start": "node server.js"
+	},
+	"dependencies": {
+		"express": "^4.16.1"
+	}
+}

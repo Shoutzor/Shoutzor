@@ -1,0 +1,97 @@
+<icecast>
+    <!-- location and admin are two arbitrary strings that are e.g. visible
+         on the server info page of the icecast web interface
+         (server_version.xsl). -->
+    <location>Somewhere on Earth</location>
+    <admin>ask.your.organizer@localhost</admin>
+
+    <limits>
+        <clients>200</clients>
+        <sources>1</sources>
+        <queue-size>524288</queue-size>
+        <client-timeout>30</client-timeout>
+        <header-timeout>15</header-timeout>
+        <source-timeout>10</source-timeout>
+        <!-- If enabled, this will provide a burst of data when a client
+             first connects, thereby significantly reducing the startup
+             time for listeners that do substantial buffering. However,
+             it also significantly increases latency between the source
+             client and listening client.  For low-latency setups, you
+             might want to disable this. -->
+        <burst-on-connect>1</burst-on-connect>
+        <!-- same as burst-on-connect, but this allows for being more
+             specific on how much to burst. Most people won't need to
+             change from the default 64k. Applies to all mountpoints  -->
+        <burst-size>65535</burst-size>
+    </limits>
+
+    <authentication>
+        <!-- Sources log in with username 'source' -->
+        <source-password>changeme</source-password>
+        <!-- Relays log in with username 'relay' -->
+        <relay-password>randomizeme</relay-password>
+
+        <!-- Admin logs in with the username given below -->
+        <admin-user>randomizeme</admin-user>
+        <admin-password>randomizeme</admin-password>
+    </authentication>
+
+    <!-- set the mountpoint for a shoutcast source to use, the default if not
+         specified is /stream but you can change it here if an alternative is
+         wanted or an extension is required -->
+    <shoutcast-mount>/shoutz0r.ogg</shoutcast-mount>
+
+    <hostname>localhost</hostname>
+
+    <!-- You may have multiple <listener> elements -->
+    <listen-socket>
+        <port>8000</port>
+        <bind-address>0.0.0.0</bind-address>
+    </listen-socket>
+
+    <http-headers>
+        <header name="Access-Control-Allow-Origin" value="*" />
+    </http-headers>
+
+    <fileserve>1</fileserve>
+
+    <paths>
+        <!-- basedir is only used if chroot is enabled -->
+        <basedir>/usr/share/icecast2</basedir>
+
+        <!-- Note that if <chroot> is turned on below, these paths must both
+             be relative to the new root, not the original root -->
+        <logdir>/var/log/icecast2</logdir>
+        <webroot>/usr/share/icecast2/web</webroot>
+        <adminroot>/usr/share/icecast2/admin</adminroot>
+        <!-- <pidfile>/usr/share/icecast2/icecast.pid</pidfile> -->
+
+        <!-- Aliases: treat requests for 'source' path as being for 'dest' path
+             May be made specific to a port or bound address using the "port"
+             and "bind-address" attributes.
+          -->
+        <!--
+        <alias source="/foo" destination="/bar"/>
+        -->
+        <!-- Aliases: can also be used for simple redirections as well,
+             this example will redirect all requests for http://server:port/ to
+             the status page
+        -->
+        <alias source="/" destination="/status.xsl"/>
+        <!-- The certificate file needs to contain both public and private part.
+             Both should be PEM encoded.
+        <ssl-certificate>/usr/share/icecast2/icecast.pem</ssl-certificate>
+        -->
+    </paths>
+
+    <logging>
+        <accesslog>access.log</accesslog>
+        <errorlog>error.log</errorlog>
+        <loglevel>3</loglevel>
+        <logsize>10000</logsize>
+    </logging>
+
+    <security>
+        <chroot>0</chroot>
+    </security>
+</icecast>
