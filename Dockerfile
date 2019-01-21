@@ -37,6 +37,10 @@ pulseaudio \
 darkice \
 icecast2
 
+#Install Phalcon for PHP 7
+RUN curl -s "https://packagecloud.io/install/repositories/phalcon/stable/script.deb.sh" | /bin/bash && \
+apt-get install php7.0-phalcon
+
 #Add permissions for our own accounts to access PulseAudio
 RUN usermod -G audio,video,pulse,pulse-access shoutzor && \
 usermod -G audio,video,pulse,pulse-access www-data

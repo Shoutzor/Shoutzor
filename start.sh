@@ -13,10 +13,10 @@
 /etc/init.d/icecast2 start
 
 #Start Darkice
-sudo PULSE_RUNTIME_PATH=/var/run/pulse -u pulse /usr/bin/darkice
+sudo PULSE_RUNTIME_PATH=/var/run/pulse -u pulse /usr/bin/darkice &
 
 #Run our nodeJS app as the same shoutzor user
 #cd /usr/src/app && su -c "npm start" -s /bin/bash shoutzor
 
 #Start nginx in the foreground in order to keep this container running
-nginx -g "daemon off;"
+/usr/sbin/nginx -g "daemon off;"
