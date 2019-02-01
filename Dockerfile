@@ -49,10 +49,7 @@ darkice \
 icecast2
 
 #Install unit testing for PHP
-RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" && \
-    php composer-setup.php --install-dir=/usr/bin --filename=composer && \
-    php -r "unlink('composer-setup.php');" && \
-	curl -L 'https://phar.phpunit.de/phpunit-7.phar' > /usr/bin/phpunit && \
+RUN curl -L 'https://phar.phpunit.de/phpunit-7.phar' > /usr/bin/phpunit && \
     chmod a+x /usr/bin/phpunit
 
 #Add permissions for our own accounts to access PulseAudio
@@ -83,10 +80,6 @@ COPY persistence /
 
 #Copy our website files
 COPY www /usr/share/nginx/html
-
-#Install composer dependencies
-WORKDIR /usr/share/nginx/html/
-RUN composer install
 
 #Copy the NodeJS app files
 WORKDIR /usr/src/app
