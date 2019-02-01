@@ -2,21 +2,17 @@ FROM nginx:1.15.8
 
 LABEL maintainer="jorin.vermeulen@gmail.com"
 
-#Add required user
-RUN useradd -m -G audio shoutzor
-
-#Add required groups for pulseaudio
-RUN groupadd --system pulse && \
+#Add required user and required groups for pulseaudio
+RUN useradd -m -G audio shoutzor && \
+groupadd --system pulse && \
 groupadd --system pulse-access && \
 useradd --system -g pulse -G audio -d /var/run/pulse -m pulse -s /bin/bash
 
 #Disable interactive mode to prevent package install issues
 RUN echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections
 
-RUN apt-get update && apt-get upgrade -y
-
 #Install required system packages
-RUN apt-get install -y \
+RUN apt-get update && apt-get upgrade -y && apt-get install -y \
 nano \
 sudo \
 curl \
@@ -40,10 +36,11 @@ unzip
 RUN wget -q https://packages.sury.org/php/apt.gpg -O- | sudo apt-key add -
 RUN echo "deb https://packages.sury.org/php/ stretch main" | sudo tee /etc/apt/sources.list.d/php.list
 
-RUN apt-get update
+#Add Phalcon for PHP 7 PPA
+RUN curl -s "https://packagecloud.io/install/repositories/phalcon/stable/script.deb.sh" | /bin/bash
 
 #Install required applications for shoutzor (except mysql)
-RUN apt-get install -y \
+RUN apt-get update && apt-get install -y \
 php7.2-fpm \
 php7.2-mysql \
 php7.2-dom \
@@ -51,16 +48,11 @@ pulseaudio \
 darkice \
 icecast2
 
-#Install Phalcon for PHP 7
-RUN curl -s "https://packagecloud.io/install/repositories/phalcon/stable/script.deb.sh" | /bin/bash && \
-apt-get install php7.2-phalcon
-
 #Install unit testing for PHP
 RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" && \
     php composer-setup.php --install-dir=/usr/bin --filename=composer && \
-    php -r "unlink('composer-setup.php');"
-
-RUN curl -L 'https://phar.phpunit.de/phpunit-7.phar' > /usr/bin/phpunit && \
+    php -r "unlink('composer-setup.php');" && \
+	curl -L 'https://phar.phpunit.de/phpunit-7.phar' > /usr/bin/phpunit && \
     chmod a+x /usr/bin/phpunit
 
 #Add permissions for our own accounts to access PulseAudio
