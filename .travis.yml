@@ -5,10 +5,10 @@ services:
 
 before_install:
   - docker build -t xorinzor/shoutz0r .
-  - docker run -d -p 80:80 -p 443:443 xorinzor/shoutz0r
+  - docker run -d -p 80:80 -p 443:443 --name shoutz0r xorinzor/shoutz0r
 
 script:
-  - docker exec -it xorinzor/shoutz0r /bin/sh -c "cd /usr/share/nginx/html/tests; phpunit"
+  - docker exec -it shoutz0r /bin/sh -c "cd /usr/share/nginx/html/tests; phpunit"
 
 deploy:
   provider: script
