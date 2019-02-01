@@ -1,6 +1,6 @@
 # Shoutz0r
 
-[![Build Status](https://travis-ci.com/xorinzor/Shoutz0r/master.svg)](https://travis-ci.com/xorinzor/Shoutz0r)
+[![Build Status](https://travis-ci.com/xorinzor/Shoutz0r.svg)](https://travis-ci.com/xorinzor/Shoutz0r)
 [![Docker stars](https://img.shields.io/docker/stars/xorinzor/shoutz0r.svg)](https://hub.docker.com/r/xorinzor/shoutz0r/)
 [![Docker pulls](https://img.shields.io/docker/pulls/xorinzor/shoutz0r.svg)](https://hub.docker.com/r/xorinzor/shoutz0r/)
 [![Docker Image size](https://img.shields.io/microbadger/image-size/xorinzor/shoutz0r/latest.svg?style=flat)](https://hub.docker.com/r/xorinzor/shoutz0r/)
