@@ -1,7 +1,4 @@
 {
-    "require-dev": {
-        "phpunit/phpunit": "^5.0"
-    },
     "require": {
         "phalcon/incubator": "^3.0"
     }
