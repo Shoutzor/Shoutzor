@@ -32,7 +32,9 @@ libasound2 \
 libasound2-plugins \
 alsa-utils \
 alsa-oss \
-apt-transport-https
+apt-transport-https \
+zip \
+unzip
 
 #Add PHP 7.2 PPA
 RUN wget -q https://packages.sury.org/php/apt.gpg -O- | sudo apt-key add -
