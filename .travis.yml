@@ -1,0 +1,17 @@
+language: php
+
+services:
+  - docker
+
+before_install:
+  - docker build -t xorinzor/shoutz0r .
+  - docker run -d -p 80:80 -p 443:443 --name shoutzor shoutzor
+
+script:
+  - docker exec -it shoutzor /bin/sh -c "cd /usr/share/nginx/html/tests; phpunit"
+
+deploy:
+  provider: script
+  script: bash docker_push
+  on:
+    branch: master
