@@ -1,9 +1,10 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
+    "hash": "e35720e24e3c0d0d706a1f11f8e4ad3c",
     "content-hash": "d00a17c7cb8d73a1bc524aa8b53c55e2",
     "packages": [
         {
@@ -73,7 +74,7 @@
                 "incubator",
                 "phalcon"
             ],
-            "time": "2018-11-19T09:30:11+00:00"
+            "time": "2018-11-19 09:30:11"
         }
     ],
     "packages-dev": [],

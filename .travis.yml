@@ -4,8 +4,9 @@ services:
   - docker
 
 before_install:
-  - docker build -t xorinzor/shoutz0r .
-  - docker run xorinzor/shoutz0r /bin/sh -c "cd /usr/share/nginx/html/tests/ && phpunit"
+  - docker build -t shoutzor .
+  - docker run -d --name shoutzor -p 80:80 -p 8000:8000 shoutzor
+  - docker exec shoutzor /bin/sh -c "cd /usr/share/nginx/html/tests/ && phpunit"
 
 deploy:
   provider: script
