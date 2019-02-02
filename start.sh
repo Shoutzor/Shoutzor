@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #Start required services
-/etc/init.d/php7.0-fpm start
+/etc/init.d/php7.2-fpm start
 
 #Start the DBus daemon
 /etc/init.d/dbus start
