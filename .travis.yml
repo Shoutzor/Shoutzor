@@ -5,7 +5,7 @@ services:
 
 before_install:
   - docker build -t shoutzor .
-  - docker run --name shoutzor -p 80:80 -p 8000:8000 shoutzor
+  - docker run -d --name shoutzor -p 80:80 -p 8000:8000 shoutzor
   - docker stop shoutzor
   - docker run -p 80:80 -p 8000:8000 shoutzor /bin/sh -c "cd /usr/share/nginx/html/tests/ && phpunit"
 
