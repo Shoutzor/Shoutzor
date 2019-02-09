@@ -26,6 +26,7 @@ RUN apt-get update && \
 	sudo \
 	htop \
 	dbus \
+	apt-utils \
 	libasound2 \
 	libasound2-plugins \
 	alsa-utils \
