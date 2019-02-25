@@ -12,7 +12,7 @@ $_SERVER['DOCUMENT_ROOT'] = BASE_PATH;
 
 echo "\n\n\n========= DEBUG DATA =============\n\n";
 echo "DOCUMENT_ROOT: " . $_SERVER['DOCUMENT_ROOT'] . "\n";
-echo "__DIR__: " . __DIR__);
+echo "__DIR__: " . __DIR__;
 echo "\n==================================\n\n\n";
 
 define("ROOT_PATH", __DIR__);
