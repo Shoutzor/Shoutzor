@@ -82,9 +82,14 @@ COPY persistence /
 #Copy our website files
 COPY www /usr/share/nginx/html
 
+#Install composer
+COPY ./install_composer.sh /
+RUN chmod +x /install_composer.sh && \
+sh /install_composer.sh
+
 #Install composer dependencies
-RUN cd /usr/share/nginx/html/www && \
-./composer.phar install && \
+WORKDIR /usr/share/nginx/html/www
+RUN composer install && \
 chown -R shoutzor:shoutzor /usr/share/nginx/html/www/vendor
 
 #Copy the NodeJS app files
