@@ -88,9 +88,9 @@ RUN chmod +x /install_composer.sh && \
 sh /install_composer.sh
 
 #Install composer dependencies
-WORKDIR /usr/share/nginx/html/www
+WORKDIR /usr/share/nginx/html/
 RUN composer install && \
-chown -R shoutzor:shoutzor /usr/share/nginx/html/www/vendor
+chown -R shoutzor:shoutzor /usr/share/nginx/html/vendor
 
 #Copy the NodeJS app files
 WORKDIR /usr/src/app
