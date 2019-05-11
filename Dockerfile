@@ -83,8 +83,8 @@ COPY persistence /
 COPY www /usr/share/nginx/html
 
 #Install composer dependencies
-WORKDIR /usr/share/nginx/html/www
-RUN ./composer.phar install && \
+RUN cd /usr/share/nginx/html/www && \
+./composer.phar install && \
 chown -R shoutzor:shoutzor /usr/share/nginx/html/www/vendor
 
 #Copy the NodeJS app files
