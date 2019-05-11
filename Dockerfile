@@ -82,6 +82,11 @@ COPY persistence /
 #Copy our website files
 COPY www /usr/share/nginx/html
 
+#Install Composer
+WORKDIR /usr/share/nginx/html/www
+RUN composer install
+chown -R shoutzor:shoutzor /usr/share/nginx/html/www/vendor
+
 #Copy the NodeJS app files
 WORKDIR /usr/src/app
 COPY node-app /usr/src/app
