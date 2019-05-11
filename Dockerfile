@@ -84,7 +84,7 @@ COPY www /usr/share/nginx/html
 
 #Install Composer
 WORKDIR /usr/share/nginx/html/www
-RUN composer install
+RUN composer install && \
 chown -R shoutzor:shoutzor /usr/share/nginx/html/www/vendor
 
 #Copy the NodeJS app files
