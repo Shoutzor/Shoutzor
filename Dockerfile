@@ -102,7 +102,7 @@ chown -R shoutzor:shoutzor /usr/src/app
 #Copy our start script
 COPY ./start.sh /
 RUN chmod 777 /start.sh
-ENTRYPOINT ["/bin/bash", "/start.sh"]
+CMD ["/bin/bash", "/start.sh"]
 
 #Expose the required ports
 
