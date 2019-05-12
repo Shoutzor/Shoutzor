@@ -15,6 +15,7 @@ RUN echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selectio
 RUN apt-get update && \
 	apt-get upgrade -y && \
 	apt-get install -y \
+	bash \
 	nano \
 	sudo \
 	curl \
@@ -100,8 +101,8 @@ chown -R shoutzor:shoutzor /usr/src/app
 
 #Copy our start script
 COPY ./start.sh /
-RUN ["chmod", "+x", "/start.sh"]
-CMD /start.sh
+RUN chmod 777 /start.sh
+ENTRYPOINT ["/bin/bash", "/start.sh"]
 
 #Expose the required ports
 
