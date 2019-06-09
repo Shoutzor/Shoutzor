@@ -12,24 +12,32 @@
 		<meta name="mobile-web-app-capable" content="yes">
 		<meta name="HandheldFriendly" content="True">
 		<meta name="MobileOptimized" content="320">
+    <meta name="msapplication-TileColor" content="#2b5797"/>
+    <meta name="theme-color" content="#ffffff"/>
 
-		<link rel="icon" href="./favicon.ico" type="image/x-icon"/>
-		<link rel="shortcut icon" type="image/x-icon" href="./favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/appicon/apple-touch-icon.png"/>
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/appicon/favicon-32x32.png"/>
+    <link rel="icon" type="image/png" sizes="194x194" href="/assets/images/appicon/favicon-194x194.png"/>
+    <link rel="icon" type="image/png" sizes="192x192" href="/assets/images/appicon/android-chrome-192x192.png"/>
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/images/appicon/favicon-16x16.png"/>
+    <link rel="manifest" href="/assets/images/appicon/site.webmanifest"/>
+    <link rel="mask-icon" href="/assets/images/appicon/safari-pinned-tab.svg" color="#5bbad5"/>
 
 		<title>{% block title %}Shoutz0r{% endblock %}</title>
 
-		<link href="./assets/css/dashboard.css" rel="stylesheet" />
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+		<link href="/assets/css/dashboard.css" rel="stylesheet" />
+		<link rel="stylesheet" href="/assets/css/fontawesome.5.9.0.all.min.css">
 		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,300i,400,400i,500,500i,600,600i,700,700i&amp;subset=latin-ext">
 
-		<script src="./assets/js/require.min.js" async></script>
+		<script src="/assets/js/require.min.js" async></script>
 		<script defer>
 			requirejs.config({
-					baseUrl: '.'
+					baseUrl: '/'
 			});
 		</script>
 
-		<script src="./assets/plugins/input-mask/plugin.js" async></script>
+		<script src="/assets/plugins/input-mask/plugin.js" async></script>
+    <script src="/assets/js/dashboard.js"></script>
 	</head>
 
 	<body class="">
@@ -39,7 +47,7 @@
 					<div class="container">
 						<div class="d-flex">
 							<a class="header-brand" href="/">
-								<img src="./demo/brand/tabler.svg" class="header-brand-img" alt="shoutzor logo">
+								<img src="/assets/images/shoutzor-logo-small.png" class="header-brand-img" alt="shoutzor logo">
 							</a>
 							<div class="d-flex order-lg-2 ml-auto">
 								<div class="nav-item d-none d-md-flex">
@@ -49,7 +57,7 @@
 									<a href="#" class="nav-link pr-0 leading-none" data-toggle="dropdown">
 										<span class="avatar" style="background-image: url(./demo/faces/female/25.jpg)"></span>
 										<span class="ml-2 d-none d-lg-block">
-											<span class="text-default">Jane Pearson</span>
+											<span class="text-default">Xorinzor</span>
 											<small class="text-muted d-block mt-1">Administrator</small>
 										</span>
 									</a>
