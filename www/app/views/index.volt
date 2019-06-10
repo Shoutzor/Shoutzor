@@ -25,74 +25,17 @@
 
 		<title>{% block title %}Shoutz0r{% endblock %}</title>
 
-		<link href="/assets/css/dashboard.css" rel="stylesheet" />
-		<link rel="stylesheet" href="/assets/css/fontawesome.5.9.0.all.min.css">
-		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,300i,400,400i,500,500i,600,600i,700,700i&amp;subset=latin-ext">
-
-		<script src="/assets/js/require.min.js" async></script>
-		<script defer>
-			requirejs.config({
-					baseUrl: '/'
-			});
-		</script>
-
-		<script src="/assets/plugins/input-mask/plugin.js" async></script>
-    <script src="/assets/js/dashboard.js"></script>
+    <?php echo $this->assets->outputCss(); ?>
 	</head>
 
 	<body class="">
 		<div class="page">
-			<div class="page-main">
-				<div class="header py-4">
-					<div class="container">
-						<div class="d-flex">
-							<a class="header-brand" href="/">
-								<img src="/assets/images/shoutzor-logo-small.png" class="header-brand-img" alt="shoutzor logo">
-							</a>
-							<div class="d-flex order-lg-2 ml-auto">
-								<div class="nav-item d-none d-md-flex">
-									<a href="/admin" class="btn btn-sm btn-outline-primary" target="_blank">Admin Settings</a>
-								</div>
-								<div class="dropdown">
-									<a href="#" class="nav-link pr-0 leading-none" data-toggle="dropdown">
-										<span class="avatar" style="background-image: url(./demo/faces/female/25.jpg)"></span>
-										<span class="ml-2 d-none d-lg-block">
-											<span class="text-default">Xorinzor</span>
-											<small class="text-muted d-block mt-1">Administrator</small>
-										</span>
-									</a>
-									<div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-										<a class="dropdown-item" href="#">
-											<i class="dropdown-icon fe fe-user"></i> Profile
-										</a>
-										<a class="dropdown-item" href="#">
-											<i class="dropdown-icon fe fe-settings"></i> Settings
-										</a>
-										<a class="dropdown-item" href="#">
-											<i class="dropdown-icon fe fe-log-out"></i> Sign out
-										</a>
-									</div>
-								</div>
-							</div>
-							<a href="#" class="header-toggler d-lg-none ml-3 ml-lg-0" data-toggle="collapse" data-target="#headerMenuCollapse">
-								<span class="header-toggler-icon"></span>
-							</a>
-						</div>
-					</div>
-				</div>
 
-				<?php echo $this->getContent(); ?>
+      <?php echo $this->getContent(); ?>
 
-			</div>
-			<footer class="footer">
-				<div class="container">
-					<div class="row align-items-center">
-						<div class="col-12 col-lg-auto mt-3 mt-lg-0 text-center">
-							{% block footer %}Copyright © <a href="https://shoutzor.jorinvermeulen.com">Shoutz0r</a>, All rights reserved. | Powered by <a href="https://tabler.io/">Tabler</a>{% endblock %}
-						</div>
-					</div>
-				</div>
-			</footer>
 		</div>
+
+    <?php echo $this->assets->outputJs(); ?>
+    <?php echo $this->assets->outputInlineJs(); ?>
 	</body>
 </html>

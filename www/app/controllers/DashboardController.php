@@ -4,7 +4,8 @@ class DashboardController extends ControllerBase
 {
     public function initialize()
     {
-      //$this->view->setTemplateAfter('index');
+      $this->view->setTemplateAfter('common');
+      $this->addBaseAssets();
     }
 
     public function overviewAction()

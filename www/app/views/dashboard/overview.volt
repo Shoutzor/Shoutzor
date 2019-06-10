@@ -6,6 +6,11 @@
   font-weight: 300;
 }
 
+.upvote, .downvote {
+  font-size: 20px;
+  color: #FFF;
+}
+
 #nowplaying {
   position: relative;
   width: 100%;
@@ -58,6 +63,10 @@
   padding-bottom: 0;
   color: #FFF !important;
   text-shadow: 0 0 4px #000;
+}
+
+#nowplaying_requestedby {
+  border-left: 1px solid #FFF;
 }
 </style>
 
