@@ -1,5 +1,7 @@
 <?php
 
+namespace Shoutzor\Controller;
+
 class ErrorController extends ControllerBase
 {
     public function initialize()

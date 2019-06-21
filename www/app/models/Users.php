@@ -1,5 +1,7 @@
 <?php
 
+namespace Shoutzor\Model;
+
 use Phalcon\Mvc\Model;
 use Phalcon\Validation;
 use Phalcon\Validation\Validator\Email as EmailValidator;

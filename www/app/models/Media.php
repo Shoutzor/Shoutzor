@@ -1,12 +1,14 @@
 <?php
 
+namespace Shoutzor\Model;
+
 use Phalcon\Mvc\Model;
 
-class Songs extends Model
+class Media extends Model
 {
 
   protected $id;
-  protected $platform;
+  protected $provider;
   protected $title;
   protected $authors;
 

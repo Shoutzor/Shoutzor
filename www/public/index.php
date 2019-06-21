@@ -1,5 +1,9 @@
 <?php
+// Use composer autoloader to load vendor classes
+require_once '../vendor/autoload.php';
+
 use Phalcon\Di\FactoryDefault;
+use Phalcon\Mvc\Application;
 
 error_reporting(E_ALL);
 
@@ -37,9 +41,9 @@ try {
     /**
      * Handle the request
      */
-    $application = new \Phalcon\Mvc\Application($di);
+    $application = new Application($di);
 
-    echo str_replace(["\n","\r","\t"], '', $application->handle()->getContent());
+    echo $application->handle()->getContent();
 
 } catch (\Exception $e) {
     echo $e->getMessage() . '<br>';

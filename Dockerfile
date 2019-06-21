@@ -90,7 +90,8 @@ sh /install_composer.sh
 
 #Install composer dependencies
 WORKDIR /usr/share/nginx/html/
-RUN composer install && \
+RUN cd /usr/share/nginx/html/ && \
+composer install && \
 chown -R shoutzor:shoutzor /usr/share/nginx/html/vendor
 
 #Copy the NodeJS app files

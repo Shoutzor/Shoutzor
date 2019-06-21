@@ -1,5 +1,9 @@
 {
-    "require": {
-        "phalcon/incubator": "^3.0"
+    "autoload": {
+        "psr-4": {
+            "Shoutzor\\Controller\\": "app/controllers/",
+            "Shoutzor\\Model\\": "app/models/",
+            "Shoutzor\\": "app/lib/"
+        }
     }
 }

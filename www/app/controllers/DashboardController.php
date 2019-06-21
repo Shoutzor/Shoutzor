@@ -1,5 +1,7 @@
 <?php
 
+namespace Shoutzor\Controller;
+
 class DashboardController extends ControllerBase
 {
     public function initialize()
