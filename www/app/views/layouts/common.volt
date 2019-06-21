@@ -45,7 +45,7 @@
   <div class="container">
     <div class="row align-items-center">
       <div class="col-12 col-lg-auto mt-3 mt-lg-0 text-center">
-        {% block footer %}Powered by <a href="https://shoutzor.jorinvermeulen.com">Shoutz0r</a>{% endblock %}
+        {% block footer %}<a href="https://shoutzor.jorinvermeulen.com">Shoutz0r</a>{% endblock %}
       </div>
     </div>
   </div>

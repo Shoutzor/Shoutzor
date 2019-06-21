@@ -9,6 +9,7 @@ use Phalcon\Mvc\Model\Metadata\Memory as MetaDataAdapter;
 use Phalcon\Session\Adapter\Files as SessionAdapter;
 use Phalcon\Flash\Direct as Flash;
 use Phalcon\Events\Manager as EventsManager;
+use Shoutzor\Listener\ErrorListener;
 
 /**
  * Shared configuration service
@@ -63,8 +64,14 @@ $di->setShared('view', function () {
  * Dispatcher use a default namespace
  */
 $di->set('dispatcher', function () {
+    $eventsManager = new EventsManager();
+
+    //Handle any exceptions and routing-errors
+    $eventsManager->attach('dispatch:beforeException', new ErrorListener);
+
     $dispatcher = new Dispatcher();
     $dispatcher->setDefaultNamespace('Shoutzor\Controller');
+    $dispatcher->setEventsManager($eventsManager);
     return $dispatcher;
 });
 

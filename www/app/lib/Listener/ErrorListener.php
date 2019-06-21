@@ -20,7 +20,6 @@ class ErrorListener
 	 */
 	public function beforeException(Event $event, MvcDispatcher $dispatcher, \Exception $exception)
 	{
-		die("hi!");
 		error_log($exception->getMessage() . PHP_EOL . $exception->getTraceAsString());
 		if ($exception instanceof DispatcherException) {
 			switch ($exception->getCode()) {
@@ -29,7 +28,7 @@ class ErrorListener
 					$dispatcher->forward(
 						[
 							'controller' => 'error',
-							'action'     => '404'
+							'action'     => 'show404'
 						]
 					);
 					return false;
@@ -39,7 +38,7 @@ class ErrorListener
 		$dispatcher->forward(
 			[
 				'controller' => 'error',
-				'action'     => '500'
+				'action'     => 'show500'
 			]
 		);
 
