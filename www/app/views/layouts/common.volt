@@ -7,7 +7,7 @@
         </a>
         <div class="d-flex order-lg-2 ml-auto">
           <div class="nav-item d-none d-md-flex">
-            <a href="/admin" class="btn btn-sm btn-outline-primary" target="_blank">Admin Settings</a>
+            <a href="/admin" class="btn btn-sm btn-outline-primary">Admin Settings</a>
           </div>
           <div class="dropdown">
             <a href="#" class="nav-link pr-0 leading-none" data-toggle="dropdown">

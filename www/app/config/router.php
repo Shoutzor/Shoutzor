@@ -4,12 +4,7 @@ $router = $di->getRouter();
 
 // Define your routes here
 
-$router->add(
-  '/',
-  [
-    'controller' => 'dashboard',
-    'action' => 'overview'
-  ]
-);
+$router->addGet('/', 'Dashboard::overview');
+$router->addGet('/admin', 'Admin::overview');
 
 $router->handle();
