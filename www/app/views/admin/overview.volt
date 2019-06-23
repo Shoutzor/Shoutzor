@@ -42,7 +42,38 @@
         </div>
       </div>
     </div>
-    
+
+  </div>
+
+  <div class="row row-cards">
+
+    <div class="col-6 col-sm-4 col-lg-2">
+      <div class="card">
+        <div class="card-body p-3 text-center">
+          <div class="h1 m-0 mt-4">43</div>
+          <div class="text-muted mb-4">Users</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-6 col-sm-4 col-lg-2">
+      <div class="card">
+        <div class="card-body p-3 text-center">
+          <div class="h1 m-0 mt-4">6534</div>
+          <div class="text-muted mb-4">Media Files</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-6 col-sm-4 col-lg-2">
+      <div class="card">
+        <div class="card-body p-3 text-center">
+          <div class="h1 m-0 mt-4">76GB</div>
+          <div class="text-muted mb-4">Remaining Disk Space</div>
+        </div>
+      </div>
+    </div>
+
   </div>
 </div>
 {% endblock %}
