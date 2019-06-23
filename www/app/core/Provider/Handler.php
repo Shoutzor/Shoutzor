@@ -2,7 +2,7 @@
 
 use Phalcon\Models\Media;
 
-interface ProviderHandler {
+interface Handler {
 
   public Media getMedia($id, $attributes = array());
 

@@ -83,22 +83,14 @@ COPY persistence /
 #Copy our website files
 COPY www /usr/share/nginx/html
 
-#Install composer
-COPY ./install_composer.sh /
-RUN chmod +x /install_composer.sh && \
-sh /install_composer.sh
-
-#Install composer dependencies
-WORKDIR /usr/share/nginx/html/
-RUN cd /usr/share/nginx/html/ && \
-composer install && \
-chown -R shoutzor:shoutzor /usr/share/nginx/html/vendor
-
 #Copy the NodeJS app files
 WORKDIR /usr/src/app
 COPY node-app /usr/src/app
 RUN npm install --verbose && \
 chown -R shoutzor:shoutzor /usr/src/app
+
+#make sure all files in the /etc/init.d/ directory are executable (for some reason this isnt the case..)
+RUN chmod -R +x /etc/init.d
 
 #Copy our start script
 COPY ./start.sh /

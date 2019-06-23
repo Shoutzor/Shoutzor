@@ -4,6 +4,6 @@ interface Provider {
 
   public string getId();
 
-  public ProviderHandler getHandler();
+  public Handler getHandler();
 
 }

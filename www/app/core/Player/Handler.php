@@ -2,7 +2,7 @@
 
 use Phalcon\Models\Media;
 
-interface PlayerHandler {
+interface Handler {
 
   public boolean play(Media $media);
 

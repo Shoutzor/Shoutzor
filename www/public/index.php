@@ -1,6 +1,4 @@
 <?php
-// Use composer autoloader to load vendor classes
-require_once '../vendor/autoload.php';
 
 use Phalcon\Di\FactoryDefault;
 use Phalcon\Mvc\Application;

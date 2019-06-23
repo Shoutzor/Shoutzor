@@ -1,9 +1,0 @@
-{
-    "autoload": {
-        "psr-4": {
-            "Shoutzor\\Controller\\": "app/controllers/",
-            "Shoutzor\\Model\\": "app/models/",
-            "Shoutzor\\": "app/lib/"
-        }
-    }
-}

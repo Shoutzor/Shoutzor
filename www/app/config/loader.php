@@ -12,7 +12,7 @@ $loader = new Loader;
 $loader->registerNamespaces([
   'Shoutzor\Controller'   => $config->application->controllersDir,
   'Shoutzor\Model'        => $config->application->modelsDir,
-  'Shoutzor'              => $config->application->libDir
+  'Shoutzor'              => $config->application->appDir . 'core/'
 ]);
 
 $loader->register();
