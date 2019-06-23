@@ -62,9 +62,6 @@ RUN curl -L 'https://phar.phpunit.de/phpunit-7.phar' > /usr/bin/phpunit && \
 RUN usermod -G audio,video,pulse,pulse-access shoutzor && \
 	usermod -G audio,video,pulse,pulse-access www-data
 
-#Install Tizonia (for spotify, etc via command-line)
-RUN curl -kL https://github.com/tizonia/tizonia-openmax-il/raw/master/tools/install.sh | bash -s -- --safe
-
 #Configure PHP-FPM for nginx, as well as enable PHP-FPM on boot
 RUN sed -i 's/listen.owner = www-data/listen.owner = nginx/g' /etc/php/7.2/fpm/pool.d/www.conf && \
 	sed -i 's/listen.group = www-data/listen.group = nginx/g' /etc/php/7.2/fpm/pool.d/www.conf && \
