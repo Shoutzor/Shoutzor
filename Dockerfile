@@ -34,7 +34,9 @@ RUN apt-get update && \
 	alsa-oss \
 	apt-transport-https \
 	zip \
-	unzip
+	unzip \
+	sox \
+	libsox-fmt-all
 
 #Add PHP 7.2, Phalcon and NodeJS PPA
 RUN wget -q https://packages.sury.org/php/apt.gpg -O- | sudo apt-key add - && \

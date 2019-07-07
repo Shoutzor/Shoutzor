@@ -8,11 +8,19 @@ use Shoutzor\Listener\ErrorListener;
 $eventsManager = new EventsManager();
 $loader = new Loader;
 
-//Register our Shoutzor namespaces
+//Register namespaces
 $loader->registerNamespaces([
+  /**
+   * Shoutzor Namespaces
+   */
   'Shoutzor\Controller'   => $config->application->controllersDir,
   'Shoutzor\Model'        => $config->application->modelsDir,
-  'Shoutzor'              => $config->application->appDir . 'core/'
+  'Shoutzor'              => $config->application->appDir . 'core/',
+
+  /**
+   * Library Namespaces
+   */
+  'Intervention\Image'    => $config->application->libDir . 'Intervention/Image'
 ]);
 
 $loader->register();
