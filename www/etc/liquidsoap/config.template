@@ -1,0 +1,55 @@
+#wrapper.liq config system-variables
+wrapperLogFilePath = "%logDirectoryPath%/wrapper.log"
+wrapperLogStdout = %wrapperLogStdout%
+wrapperServerTelnet = %wrapperServerTelnet%
+wrapperServerSocket = %wrapperServerSocket%
+wrapperServerSocketPath = "%socketPath%/wrapper"
+wrapperServerSocketPermissions = %socketPermissions%
+
+#shoutzor.liq config system-variables
+shoutzorLogFilePath = "%logDirectoryPath%/shoutzor.log"
+shoutzorLogStdout = %shoutzorLogStdout%
+shoutzorServerTelnet = %shoutzorServerTelnet%
+shoutzorServerSocket = %shoutzorServerSocket%
+shoutzorServerSocketPath = "%socketPath%/shoutzor"
+shoutzorServerSocketPermissions = %socketPermissions%
+
+#global configuration variables
+wrapperInputListeningMount = "%wrapperInputListeningMount%"
+wrapperInputListeningPort = %wrapperInputListeningPort%
+wrapperInputListeningPassword = "%wrapperInputListeningPassword%"
+wrapperOutputHost = "%wrapperOutputHost%"
+wrapperOutputMount = "%wrapperOutputMount%"
+wrapperOutputPort = %wrapperOutputPort%
+wrapperOutputPassword = "%wrapperOutputPassword%"
+shoutzorUrl = "%shoutzorUrl%"
+
+#encoding format
+#bitrate: encoded data fixed bitrate
+#internal_quality: Lame algorithms internal quality. A value between 0 and 9, 0 being highest quality and 9 the worst.
+encodingFormat = %mp3(
+                    bitrate=%encodingBitrate%,
+                    internal_quality=%encodingQuality%)
+
+#use ignore because of warnings
+ignore(wrapperLogFilePath)
+ignore(wrapperLogStdout)
+ignore(wrapperServerTelnet)
+ignore(wrapperServerSocket)
+ignore(wrapperServerSocketPath)
+ignore(wrapperServerSocketPermissions)
+ignore(shoutzorLogFilePath)
+ignore(shoutzorLogStdout)
+ignore(shoutzorServerTelnet)
+ignore(shoutzorServerSocket)
+ignore(shoutzorServerSocketPath)
+ignore(shoutzorServerSocketPermissions)
+ignore(wrapperInputListeningMount)
+ignore(wrapperInputListeningPort)
+ignore(wrapperInputListeningPassword)
+ignore(wrapperOutputHost)
+ignore(wrapperOutputMount)
+ignore(wrapperOutputPort)
+ignore(wrapperOutputPassword)
+ignore(shoutzorUrl)
+ignore(encodingFormat)

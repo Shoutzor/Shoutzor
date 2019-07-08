@@ -4,20 +4,12 @@ use Symfony\Component\Process\Process;
 
 class AcoustID {
 
-    private $enabled;
     private $appKey;
     private $requirementDir;
 
     public function __construct() {
-        //$config = App::module('shoutzor')->config();
-
-        $this->enabled = $config['acoustid']['enabled'] == 1;
         $this->appKey = $config['acoustid']['appKey'];
         $this->requirementDir = realpath($config['root_path'] . '/../shoutzor-requirements/acoustid');
-    }
-
-    public function isEnabled() {
-        return $this->enabled;
     }
 
     public function getFileFingerprint($file) {
@@ -52,11 +44,6 @@ class AcoustID {
     }
 
     public function lookup($duration, $fingerprint) {
-        //Make sure AcoustID is enabled
-        if($this->isEnabled() === false) {
-            return false;
-        }
-
         $url = 'http://api.acoustid.org/v2/lookup?client=' . $this->appKey;
         $url .= '&meta=compress+recordings+sources+releasegroups&duration=' . $duration;
         $url .= '&fingerprint=' . $fingerprint;
@@ -103,17 +90,16 @@ class AcoustID {
         }
 
         $highestScore = 0;
-        $selectedKey = 0;
+        $selectedKey  = 0;
 
         foreach($data as $key=>$value) {
             if($value->sources > $highestScore) {
-                $selectedKey = $key;
+                $selectedKey  = $key;
                 $highestScore = $value->sources;
             }
         }
 
         $data = $data[$selectedKey];
-
         $info = array();
 
         //Get the media file title
@@ -148,11 +134,6 @@ class AcoustID {
     }
 
     public function getMediaInfo($filename) {
-        //Check if AcoustID is enabled
-        if($this->isEnabled() === false) {
-            return false;
-        }
-
         //Get the fingerprint from the media file
         $data = $this->getFileFingerprint($filename);
 
