@@ -11,3 +11,14 @@ Shoutz0r, but this time even easier to install by using Docker.
 Easily setup a music system on your event! (Mainly intended for LAN-Parties)
 
 Comes with autoDJ to keep the music going, even when no users are requesting songs.
+
+
+**/Persistence/etc** contains configuration files that will override the files in /etc in the docker container.
+
+**/www/etc** contains config files that should be added to the container via volume-share. This will keep an existing shoutzor installation running if you update the docker container, or remove/re-add it.
+
+**/www/public** is what the webserver should be pointing at as it's root-directory
+
+**/www/cache** requires write-permissions, currently 777 (I am aware that's possibly unsafe, this will change in the future)
+
+**/www/app** contains the brains of shoutzor as well as required libraries, etc.
