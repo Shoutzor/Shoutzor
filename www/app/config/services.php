@@ -1,5 +1,6 @@
 <?php
 
+use Phalcon\Config\Adapter\Ini as ConfigIni;
 use Phalcon\Mvc\View;
 use Phalcon\Mvc\Dispatcher;
 use Phalcon\Mvc\View\Engine\Php as PhpEngine;
@@ -9,13 +10,28 @@ use Phalcon\Mvc\Model\Metadata\Memory as MetaDataAdapter;
 use Phalcon\Session\Adapter\Files as SessionAdapter;
 use Phalcon\Flash\Direct as Flash;
 use Phalcon\Events\Manager as EventsManager;
+
 use Shoutzor\Listener\ErrorListener;
+use Shoutzor\Database\Connection as DatabaseConnection;
 
 /**
  * Shared configuration service
  */
 $di->setShared('config', function () {
-    return include APP_PATH . "/config/config.php";
+    //Load the default config
+    $config = include APP_PATH . "/config/config.default.php";
+
+    //Check if a custom config exists and merge it's properties if required.
+    if(file_exists($config->application->etcDir . 'config.ini'))
+    {
+      $config2 = new ConfigIni($config->application->etcDir . 'config.ini');
+      $config->merge($config2);
+
+      //A custom config has been found, set the state of CONFIGURED to TRUE.
+      $config->offsetSet("configured", true);
+    }
+
+    return $config;
 });
 
 /**
@@ -79,24 +95,18 @@ $di->set('dispatcher', function () {
  * Database connection is created based in the parameters defined in the configuration file
  */
 $di->setShared('db', function () {
+    $db = new DatabaseConnection($this->getConfig());
+
     $config = $this->getConfig();
 
-    $class = 'Phalcon\Db\Adapter\Pdo\\' . $config->database->adapter;
-    $params = [
-        'host'     => $config->database->host,
-        'username' => $config->database->username,
-        'password' => $config->database->password,
-        'dbname'   => $config->database->dbname,
-        'charset'  => $config->database->charset
-    ];
-
-    if ($config->database->adapter == 'Postgresql') {
-        unset($params['charset']);
+    if($config->configured === true)
+    {
+      $db->connect();
     }
 
-    $connection = new $class($params);
-
-    return $connection;
+    return $db;
+    //TODO check if this works, if errors occur we will need to return the actual connection
+    //return $db->getConnection();
 });
 
 
