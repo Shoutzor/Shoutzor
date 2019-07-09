@@ -24,25 +24,39 @@ class Album extends Model {
     /** @Column(type="string") */
     public $image;
 
-    public $artists_id;
-    public $media_id;
-
     public function initialize() {
-      $this->belongsTo('artists_id',    Artist::class,  'id');
-      $this->belongsTo('media_id',      Media::class,   'id');
+      $this->hasManyToMany(
+        'id',
+        AlbumArtist::class,
+        'album_id',
+        'artist_id',
+        Artist::class,
+        'id'
+      );
+
+      $this->hasManyToMany(
+        'id',
+        AlbumMedia::class,
+        'album_id',
+        'media_id',
+        Media::class,
+        'id'
+      );
     }
 
+    /**
+     * Returns all media related to this album
+     */
     public function getMedia() {
-        $topTracks = Media::query()
-                        ->select('m.*')
-                        ->from('@shoutzor_media m')
-                        ->leftJoin('@shoutzor_media_album ma', 'ma.album_id = '.$this->id)
-                        ->where('m.id = ma.media_id')
-                        ->orderBy('m.title', 'ASC')
-                        ->related(['artist', 'album'])
-                        ->get();
+      $resultset = $this->modelsManager->createBuilder()
+        ->addFrom(Media::class, 'm')
+        ->leftJoin(AlbumMedia::class, 'am.album_id = :albumId:', 'am')
+        ->where('m.id = am.media_id')
+        ->orderBy('m.title ASC')
+        ->getQuery()
+        ->execute(['albumId' => $this->id]);
 
-        return $topTracks;
+      return array_column($resultset, 'm');
     }
 
     /**
@@ -50,7 +64,7 @@ class Album extends Model {
      */
      public function jsonSerialize() {
          $data = $this->toArray([], []);
-         $data['url'] = App::url('@shoutzor/album/view', ['id' => $this->id]);
+         //$data['url'] = App::url('@shoutzor/album/view', ['id' => $this->id]);
 
          return $data;
      }

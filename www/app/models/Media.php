@@ -40,9 +40,6 @@ class Media extends Model {
     /** @Column(type="string") */
     public $filename;
 
-    public $artists_id;
-    public $albums_id;
-
     /** @Column(type="integer") */
     public $uploader_id;
 
@@ -62,8 +59,24 @@ class Media extends Model {
     public $played_at;
 
     public function initialize() {
-      $this->belongsTo('artists_id',    Artist::class,  'id');
-      $this->belongsTo('albums_id',     Album::class,   'id');
+      $this->hasManyToMany(
+        'id',
+        AlbumMedia::class,
+        'media_id',
+        'album_id',
+        Album::class,
+        'id'
+      );
+
+      $this->hasManyToMany(
+        'id',
+        ArtistMedia::class,
+        'media_id',
+        'artist_id',
+        Artist::class,
+        'id'
+      );
+
       $this->belongsTo('uploader_id',   User::class,    'id');
     }
 
@@ -85,49 +98,48 @@ class Media extends Model {
     }
 
     public static function getHistory() {
-        $history = Media::query()
-                        ->select('m.*, h.played_at as played_at')
-                        ->from('@shoutzor_media m')
-                        ->leftJoin('@shoutzor_history h', 'h.media_id = m.id')
-                        ->where('h.media_id = m.id')
-                        ->orderBy('h.played_at', 'DESC')
-                        ->limit(5)
-                        ->related(['artist', 'album'])
-                        ->get();
+      $resultset = $this->modelsManager->createBuilder()
+                    ->columns([
+                      'm'         => 'm.*',
+                      'played_at' => 'h.played_at'
+                    ])
+                    ->addFrom(Media::class, 'm')
+                    ->leftJoin(History::class, 'h.media_id = m.id', 'h')
+                    ->where('h.media_id = m.id')
+                    ->orderBy('h.played_at DESC')
+                    ->limit(5)
+                    ->getQuery()
+                    ->execute();
 
-        return $history;
-    }
+      //TODO only return one type of instance in the array, ie: only History[]
 
-    public static function getQueued() {
-        $queued = Media::query()
-                        ->select('m.*')
-                        ->from('@shoutzor_media m')
-                        ->leftJoin('@shoutzor_requestlist r', 'r.media_id = m.id')
-                        ->where('r.media_id = m.id')
-                        ->orderBy('r.id', 'ASC')
-                        ->related(['artist', 'album'])
-                        ->get();
-
-        return $queued;
+      return $resultset;
     }
 
     public static function getNowplaying() {
-        $history = Media::query()
-                        ->select('m.*, h.played_at as played_at')
-                        ->from('@shoutzor_media m')
-                        ->leftJoin('@shoutzor_history h', 'h.media_id = m.id')
-                        ->where('h.media_id = m.id')
-                        ->orderBy('h.played_at', 'DESC')
-                        ->limit(1)
-                        ->related(['artist', 'album'])
-                        ->first();
+      $resultset = $this->modelsManager->createBuilder()
+                      ->columns([
+                        'played_at' => 'h.played_at'
+                      ])
+                      ->addFrom(Media::class, 'm')
+                      ->leftJoin(History::class, 'h.media_id = m.id', 'h')
+                      ->where('h.media_id = m.id')
+                      ->orderBy('h.played_at DESC')
+                      ->limit(1)
+                      ->getQuery()
+                      ->execute();
 
-        return $history;
+        return $resultset[0];
     }
 
-    public static function isRecentlyPlayed($id, $canRequestDateTime) {
-        //Check if the media file has been recently played
-        return (History::where('media_id = :id AND played_at > :maxTime', ['id' => $id, 'maxTime' => $canRequestDateTime])->count() == 0) ? false : true;
+    public static function isRecentlyPlayed($id, $maxTimeAgo) {
+      $resultset = $this->modelsManager->createBuilder()
+                    ->addFrom(History::class, 'h')
+                    ->where('media_id = :id: AND played_at > :maxTime:')
+                    ->getQuery()
+                    ->execute(['id' => $id, 'maxTimeAgo' => $maxTimeAgo])
+
+      return count($resultset) > 0;
     }
 
     /**

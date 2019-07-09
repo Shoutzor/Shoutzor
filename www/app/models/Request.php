@@ -27,6 +27,20 @@ class Request extends Model {
       $this->belongsTo('requester_id',  User::class,  'id');
     }
 
+    public static function getQueued() {
+      $resultset = $this->modelsManager->createBuilder()
+                    ->addFrom(Media::class, 'm')
+                    ->leftJoin(Request::class, 'r.media_id = m.id', 'r')
+                    ->where('r.media_id = m.id')
+                    ->orderBy('r.id ASC')
+                    ->getQuery()
+                    ->execute();
+
+      //TODO only return one type of instance in the array, ie: only Request[]
+
+      return $queued;
+    }
+    
     /**
      * {@inheritdoc}
      */

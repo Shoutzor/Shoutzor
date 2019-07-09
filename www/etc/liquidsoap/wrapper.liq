@@ -12,6 +12,7 @@ def blank_handler()
 end
 
 #In case nothing works anymore, say this
+#TODO replace with Silent Wav
 unfallibleSource = single("say: Shoutzor is experiencing technical difficulties, please stand by")
 
 #give control over the channels

@@ -1,5 +1,13 @@
 %include "config.liq"
 
+# !! #################### !! #
+# !! #################### !! #
+
+# !! The entirety shoutzor.liq will be replaced by DarkIce (eventually) !! #
+
+# !! #################### !! #
+# !! #################### !! #
+
 set("log.file.path",                shoutzorLogFilePath)
 set("log.stdout",                   shoutzorLogStdout)
 set("server.telnet",                shoutzorServerTelnet)
