@@ -17,19 +17,14 @@ try {
     $di = new FactoryDefault();
 
     /**
-     * Handle routes
-     */
-    include APP_PATH . '/config/router.php';
-
-    /**
      * Read services
      */
     include APP_PATH . '/config/services.php';
 
     /**
-     * Get config service for use in inline setup below
+     * Handle routes
      */
-    $config = $di->getConfig();
+    include APP_PATH . '/config/router.php';
 
     /**
      * Include Autoloader

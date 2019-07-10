@@ -5,8 +5,9 @@ use Phalcon\Events\Event;
 use Phalcon\Events\Manager as EventsManager;
 use Shoutzor\Listener\ErrorListener;
 
-$eventsManager = new EventsManager();
-$loader = new Loader;
+$config         = $di->getConfig();
+$eventsManager  = new EventsManager();
+$loader         = new Loader();
 
 //Register namespaces
 $loader->registerNamespaces([
