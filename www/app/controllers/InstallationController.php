@@ -13,6 +13,7 @@ class InstallationController extends ControllerBase
   {
     $this->view->pick('installation/databaseConnection');
     $this->view->pick('installation/newAdminUser');
+    
     // $installer = new \Shoutzor\Database\Installer($this->di->get('db'));
     // $installer->createTables();
   }
