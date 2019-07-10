@@ -1,2 +1,5 @@
+# This .gitignore makes sure the cache/volt directory is created, but stays empty.
+# Generated volt templates will be stored here.
+
 *
 !.gitignore

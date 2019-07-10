@@ -104,7 +104,7 @@ class Installer
         new Column('artist_id', [ 'type' => Column::TYPE_INTEGER, 'size' => 10, 'notNull' => true])
       ],
       'indexes' => [
-        new Index("album_artist_index", ['album_id', 'artist_id'])
+        new Index("album_artist_index", ['album_id', 'artist_id'], "UNIQUE")
     ]]);
 
     /*
@@ -117,7 +117,7 @@ class Installer
         new Column('media_id',  [ 'type' => Column::TYPE_INTEGER, 'size' => 10, 'notNull' => true ])
       ],
       'indexes' => [
-        new Index("album_media_index", ['album_id', 'media_id'])
+        new Index("album_media_index", ['album_id', 'media_id'], "UNIQUE")
     ]]);
 
     /*
@@ -130,7 +130,7 @@ class Installer
         new Column('media_id',  [ 'type' => Column::TYPE_INTEGER, 'size' => 10, 'notNull' => true ])
       ],
       'indexes' => [
-        new Index("artist_media_index", ['artist_id', 'media_id'])
+        new Index("artist_media_index", ['artist_id', 'media_id'], "UNIQUE")
     ]]);
   }
 

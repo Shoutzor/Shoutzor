@@ -13,6 +13,17 @@ return new \Phalcon\Config([
         'dbname'      => 'test',
         'charset'     => 'utf8'
     ],
+    'shoutzor'  => [
+      'useFilenameIfUntitled' => true
+    ],
+    'modules' => [
+      'acoustid'  => [
+        'enabled' => true
+      ],
+      'lastfm'  => [
+        'enabled' => true
+      ]
+    ],
     'application' => [
         'appDir'         => APP_PATH . '/',
         'libDir'         => APP_PATH . '/lib/',
