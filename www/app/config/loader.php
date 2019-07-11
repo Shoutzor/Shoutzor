@@ -3,7 +3,6 @@
 use Phalcon\Loader;
 use Phalcon\Events\Event;
 use Phalcon\Events\Manager as EventsManager;
-use Shoutzor\Listener\ErrorListener;
 
 $config         = $di->getConfig();
 $eventsManager  = new EventsManager();

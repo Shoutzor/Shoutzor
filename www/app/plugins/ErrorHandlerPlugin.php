@@ -1,6 +1,6 @@
 <?php
 
-namespace Shoutzor\Listener;
+namespace Shoutzor\Plugin;
 
 use Phalcon\Events\Event;
 use Phalcon\Mvc\User\Plugin;
@@ -8,7 +8,7 @@ use Phalcon\Dispatcher;
 use Phalcon\Mvc\Dispatcher\Exception as DispatcherException;
 use Phalcon\Mvc\Dispatcher as MvcDispatcher;
 
-class ErrorListener
+class ErrorHandlerPlugin
 {
 	/**
 	 * This action is executed before perform any action in the application

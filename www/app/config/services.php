@@ -11,9 +11,9 @@ use Phalcon\Session\Adapter\Files as SessionAdapter;
 use Phalcon\Flash\Direct as Flash;
 use Phalcon\Events\Manager as EventsManager;
 
-use Shoutzor\Listener\ErrorListener;
 use Shoutzor\Database\Connection as DatabaseConnection;
 
+use Shoutzor\Plugin\ErrorHandlerPlugin;
 use Shoutzor\Plugin\SecurityPlugin;
 
 /**
@@ -88,7 +88,7 @@ $di->set('dispatcher', function () {
     $eventsManager->attach('dispatch:beforeExecuteRoute', new SecurityPlugin);
 
     //Handle any exceptions and routing-errors
-    $eventsManager->attach('dispatch:beforeException', new ErrorListener);
+    $eventsManager->attach('dispatch:beforeException', new ErrorHandlerPlugin);
 
     $dispatcher = new Dispatcher();
     $dispatcher->setDefaultNamespace('Shoutzor\Controller');
