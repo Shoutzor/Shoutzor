@@ -38,13 +38,14 @@ class SecurityPlugin extends Plugin
 
     //Private area resources
     $privateResources = [
-      'search'   => ['index']
+      'search'   => ['index'],
+      'account'  => ['index', 'logout']
     ];
 
     //Public area resources
     $publicResources = [
       'dashboard'     => ['index'],
-      'register'      => ['index'],
+      'account'       => ['register', 'login', 'recover'],
       'error'         => ['show401', 'show403', 'show404', 'show500'],
       'installation'  => ['index']
     ];
@@ -57,7 +58,7 @@ class SecurityPlugin extends Plugin
     }
 
     //Register all resources and their actions
-    foreach (array_merge($adminResources, $privateResources, $publicResources) as $resource => $actions) {
+    foreach (array_merge_recursive($adminResources, $privateResources, $publicResources) as $resource => $actions) {
       $acl->addResource(new Resource($resource), $actions);
     }
 

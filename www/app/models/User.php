@@ -16,6 +16,7 @@ class User extends Model
   protected $role;
   protected $verified;
   protected $banned;
+  protected $created;
 
   public function validation()
   {

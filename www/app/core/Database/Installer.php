@@ -95,6 +95,24 @@ class Installer
     ]]);
 
     /*
+     * Create the "user" table
+     */
+    $this->connection->createTable(
+      'user', null, [ 'columns' => [
+        new Column('id',          [ 'type' => Column::TYPE_INTEGER, 'size' => 10, 'notNull' => true, 'autoIncrement' => true, 'primary' => true ]),
+        new Column('username',    [ 'type' => Column::TYPE_VARCHAR, 'size' => 25, 'notNull' => true ]),
+        new Column('email',       [ 'type' => Column::TYPE_VARCHAR, 'size' => 255, 'notNull' => true ]),
+        new Column('verified',    [ 'type' => Column::TYPE_INTEGER, 'size' => 1, 'notNull' => true, 'default' => 0]),
+        new Column('banned',      [ 'type' => Column::TYPE_INTEGER, 'size' => 1, 'notNull' => true, 'default' => 0]),
+        new Column('created',     [ 'type' => Column::TYPE_DATETIME ]),
+      ],
+      'indexes' => [
+        new Index("username_index", ['username']),
+        new Index("verified_index", ['verified']),
+        new Index("banned_index",   ['banned'])
+    ]]);
+
+    /*
      * Create the "album_artist" table
      */
     $this->connection->createTable(
