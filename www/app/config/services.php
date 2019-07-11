@@ -14,6 +14,8 @@ use Phalcon\Events\Manager as EventsManager;
 use Shoutzor\Listener\ErrorListener;
 use Shoutzor\Database\Connection as DatabaseConnection;
 
+use Shoutzor\Plugin\SecurityPlugin;
+
 /**
  * Shared configuration service
  */
@@ -81,6 +83,9 @@ $di->setShared('view', function () {
  */
 $di->set('dispatcher', function () {
     $eventsManager = new EventsManager();
+
+    //Check if the user is allowed to access certain action using the SecurityPlugin
+    $eventsManager->attach('dispatch:beforeExecuteRoute', new SecurityPlugin);
 
     //Handle any exceptions and routing-errors
     $eventsManager->attach('dispatch:beforeException', new ErrorListener);

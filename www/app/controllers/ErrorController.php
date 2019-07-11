@@ -9,6 +9,18 @@ class ErrorController extends ControllerBase
       $this->addBaseAssets(true);
     }
 
+    public function show401Action()
+    {
+      $this->view->pick('error/401');
+      $this->response->setStatusCode(401, "Unauthorized");
+    }
+
+    public function show403Action()
+    {
+      $this->view->pick('error/403');
+      $this->response->setStatusCode(403, "Access Denied");
+    }
+
     public function show404Action()
     {
       $this->view->pick('error/404');

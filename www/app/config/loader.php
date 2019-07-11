@@ -16,6 +16,7 @@ $loader->registerNamespaces([
    */
   'Shoutzor\Controller'   => $config->application->controllersDir,
   'Shoutzor\Model'        => $config->application->modelsDir,
+  'Shoutzor\Plugin'       => $config->application->pluginsDir,
   'Shoutzor'              => $config->application->appDir . 'core',
 
   /**

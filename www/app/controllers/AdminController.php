@@ -10,7 +10,7 @@ class AdminController extends ControllerBase
     $this->addBaseAssets();
   }
 
-  public function overviewAction()
+  public function indexAction()
   {
   }
 }

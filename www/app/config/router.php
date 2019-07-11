@@ -5,10 +5,10 @@ $router = $di->getRouter();
 // Define your routes here
 
 if($di->getConfig()->configured) {
-  $router->addGet('/', 'Dashboard::overview');
-  $router->addGet('/admin', 'Admin::overview');
+  $router->addGet('/', 'Dashboard::index');
+  $router->addGet('/admin', 'Admin::index');
 } else {
-  $router->addGet('/', 'Installation::setup');
+  $router->addGet('/', 'Installation::index');
 }
 
 $router->handle();
