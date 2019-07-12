@@ -5,12 +5,12 @@ $router = $di->getRouter();
 // Define your routes here
 
 if($di->getConfig()->configured) {
-  $router->addGet('/',                'Dashboard::index');
-  $router->addGet('/admin',           'Admin::index');
-  $router->addGet('/account',         'Account::index');
-  $router->addGet('/register',        'Account::register');
-  $router->addGet('/login',           'Account::login');
-  $router->addGet('/restorepassword', 'Account::recover');
+  $router->addGet('/',             'Dashboard::index');
+  $router->addGet('/admin',        'Admin::index');
+  $router->add('/account',         'Account::index')->via(['GET', 'POST']);
+  $router->add('/register',        'Account::register')->via(['GET', 'POST']);
+  $router->add('/login',           'Account::login')->via(['GET', 'POST']);
+  $router->add('/resetpassword',   'Account::recover')->via(['GET', 'POST']);
 } else {
   $router->addGet('/', 'Installation::index');
 }

@@ -20,6 +20,9 @@ class ErrorHandlerPlugin
 	 */
 	public function beforeException(Event $event, MvcDispatcher $dispatcher, \Exception $exception)
 	{
+    echo '<pre>';
+    var_dump($exception->getMessage() . PHP_EOL . $exception->getTraceAsString());
+    die();
 		error_log($exception->getMessage() . PHP_EOL . $exception->getTraceAsString());
 		if ($exception instanceof DispatcherException) {
 			switch ($exception->getCode()) {

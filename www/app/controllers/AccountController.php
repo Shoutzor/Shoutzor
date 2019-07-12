@@ -2,10 +2,15 @@
 
 namespace Shoutzor\Controller;
 
+use Shoutzor\Model\User;
+
+use Shoutzor\Form\Register as RegisterForm;
+
 class AccountController extends ControllerBase
 {
     public function initialize()
     {
+      $this->view->setTemplateBefore('dashboard');
       $this->view->setTemplateAfter('common');
       $this->addBaseAssets();
     }
@@ -42,9 +47,9 @@ class AccountController extends ControllerBase
         {
           $this->flash->error('The provided passwords don\'t match');
           return false;
-        }1
+        }
 
-        $user = new Users();
+        $user = new User();
         $user->username   = $username;
         $user->password   = password_hash($password, PASSWORD_ARGON2I);
         $user->name       = $name;
@@ -70,7 +75,6 @@ class AccountController extends ControllerBase
       }
 
       $this->view->form = $form;
-      }
     }
 
     /**
@@ -82,9 +86,11 @@ class AccountController extends ControllerBase
         $username = $this->request->getPost('username', 'alphanum');
         $password = $this->request->getPost('password');
 
-        $user = Users::findFirst([
-          "username = :username: AND verified = 1",
-          'bind' => ['username' => $username]
+        $user = User::findFirst([
+          'conditions' => "username = :username: AND verified = 1",
+          'bind' => [
+            'username' => $username
+          ]
         ]);
 
         if ($user != false && password_verify($password, $user->password)) {
@@ -123,8 +129,31 @@ class AccountController extends ControllerBase
     /**
      * Recover the password via email
      */
-    public function recoverAction()
+    public function recoverAction($key = '')
     {
-    }
+      if(empty($key))
+      {
+        //TODO Check if the password-reset key matches any requests.
+        //TODO reset the password of the user.
+      }
+      else
+      {
+        if ($this->request->isPost()) {
+          $email = $this->request->getPost('email', 'email');
 
+          $user = User::findFirst([
+            'conditions' => "email = :email: AND banned = 0",
+            'bind' => [
+              'email' => $email
+            ]
+          ]);
+
+          if ($user != false) {
+            //TODO send email
+          }
+
+          $this->flash->success('If an account with this email address exists you will receive an email shortly.');
+        }
+      }
+    }
 }

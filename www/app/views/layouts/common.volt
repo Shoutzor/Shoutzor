@@ -6,9 +6,11 @@
           <img src="/assets/images/shoutzor-logo-small.png" class="header-brand-img" alt="shoutzor logo">
         </a>
         <div class="d-flex order-lg-2 ml-auto">
-          <div class="nav-item d-none d-md-flex">
-            <a href="/admin" class="btn btn-sm btn-outline-primary">Admin Settings</a>
-          </div>
+          {% if auth == true %}
+            <div class="nav-item d-none d-md-flex">
+              <a href="/admin" class="btn btn-sm btn-outline-primary">Admin Settings</a>
+            </div>
+
           <div class="dropdown">
             <a href="#" class="nav-link pr-0 leading-none" data-toggle="dropdown">
               <span class="avatar" style="background-image: url(./demo/faces/female/25.jpg)"></span>
@@ -29,6 +31,12 @@
               </a>
             </div>
           </div>
+          {% else %}
+            <div class="nav-item d-none d-md-flex">
+              {{ link_to('/register', 'Register', 'class': 'btn btn-sm btn-outline-primary mr-2')}}
+              {{ link_to('/login', 'Login', 'class': 'btn btn-sm btn-outline-primary')}}
+            </div>
+          {% endif %}
         </div>
         <a href="#" class="header-toggler d-lg-none ml-3 ml-lg-0" data-toggle="collapse" data-target="#headerMenuCollapse">
           <span class="header-toggler-icon"></span>

@@ -8,7 +8,7 @@ use Phalcon\Mvc\Url as UrlResolver;
 use Phalcon\Mvc\View\Engine\Volt as VoltEngine;
 use Phalcon\Mvc\Model\Metadata\Memory as MetaDataAdapter;
 use Phalcon\Session\Adapter\Files as SessionAdapter;
-use Phalcon\Flash\Direct as Flash;
+use Phalcon\Flash\Session as Flash;
 use Phalcon\Events\Manager as EventsManager;
 
 use Shoutzor\Database\Connection as DatabaseConnection;
@@ -49,36 +49,6 @@ $di->setShared('url', function () {
 });
 
 /**
- * Setting up the view component
- */
-$di->setShared('view', function () {
-    $config = $this->getConfig();
-
-    $view = new View();
-    $view->setDI($this);
-    $view->setViewsDir($config->application->viewsDir);
-
-    $view->registerEngines([
-        '.volt' => function ($view) {
-            $config = $this->getConfig();
-
-            $volt = new VoltEngine($view, $this);
-
-            $volt->setOptions([
-                'compiledPath' => $config->application->cacheDir,
-                'compiledSeparator' => '_'
-            ]);
-
-            return $volt;
-        },
-        '.phtml' => PhpEngine::class
-
-    ]);
-
-    return $view;
-});
-
-/**
  * Dispatcher use a default namespace
  */
 $di->set('dispatcher', function () {
@@ -109,9 +79,7 @@ $di->setShared('db', function () {
       $db->connect();
     }
 
-    return $db;
-    //TODO check if this works, if errors occur we will need to return the actual connection
-    //return $db->getConnection();
+    return $db->getConnection();
 });
 
 
@@ -142,4 +110,41 @@ $di->setShared('session', function () {
     $session->start();
 
     return $session;
+});
+
+/**
+ * Setting up the view component
+ */
+$di->setShared('view', function () {
+    $config = $this->getConfig();
+
+    $view = new View();
+    $view->setDI($this);
+    $view->setViewsDir($config->application->viewsDir);
+
+    $view->registerEngines([
+        '.volt' => function ($view) {
+            $config = $this->getConfig();
+
+            $volt = new VoltEngine($view, $this);
+
+            $volt->setOptions([
+                'compiledPath' => $config->application->cacheDir,
+                'compiledSeparator' => '_'
+            ]);
+
+            return $volt;
+        },
+        '.phtml' => PhpEngine::class
+
+    ]);
+
+    $session = $this->getShared('session');
+    $auth    = $session->get('auth');
+
+    //Set global view variables
+    $view->setVar("auth", ($auth == true));
+    $view->setVar("flash", $this->getShared('flash'));
+
+    return $view;
 });
