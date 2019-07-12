@@ -2,7 +2,7 @@
   <div class="container">
     <div class="row">
       <div class="col col-login mx-auto">
-        <form class="card" action="" method="post">
+        <form class="card" action="/register" method="post">
           <div class="card-body p-6">
             <div class="card-title text-center">Create account</div>
             {{ flash.output() }}

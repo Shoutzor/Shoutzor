@@ -11,6 +11,7 @@ if($di->getConfig()->configured) {
   $router->add('/register',        'Account::register')->via(['GET', 'POST']);
   $router->add('/login',           'Account::login')->via(['GET', 'POST']);
   $router->add('/resetpassword',   'Account::recover')->via(['GET', 'POST']);
+  $router->addGet('/logout',       'Account::logout');
 } else {
   $router->addGet('/', 'Installation::index');
 }

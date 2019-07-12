@@ -21,74 +21,14 @@ class SecurityPlugin extends Plugin
 {
 
   private $role;
-  private $acl;
 
   public function __construct() {
     // Register roles
     $this->role = [
-      'admin' => new Role(RoleLevel::Admin),
-      'user'  => new Role(RoleLevel::User),
-      'guest' => new Role(RoleLevel::Guest)
+      RoleLevel::Admin => new Role(RoleLevel::Admin),
+      RoleLevel::User  => new Role(RoleLevel::User),
+      RoleLevel::Guest => new Role(RoleLevel::Guest)
     ];
-
-    //admin-only area resources
-    $adminResources = [
-      'admin'     => ['index']
-    ];
-
-    //Private area resources
-    $privateResources = [
-      'search'   => ['index'],
-      'account'  => ['index', 'logout']
-    ];
-
-    //Public area resources
-    $publicResources = [
-      'dashboard'     => ['index'],
-      'account'       => ['register', 'login', 'recover'],
-      'error'         => ['show401', 'show403', 'show404', 'show500'],
-      'installation'  => ['index']
-    ];
-
-    $acl = new AclList();
-    $acl->setDefaultAction(Acl::DENY);
-
-    foreach ($this->role as $r) {
-      $acl->addRole($r);
-    }
-
-    //Register all resources and their actions
-    foreach (array_merge_recursive($adminResources, $privateResources, $publicResources) as $resource => $actions) {
-      $acl->addResource(new Resource($resource), $actions);
-    }
-
-    //Inheritance
-    $acl->addInherit($this->role['admin'], $this->role['user']);
-    $acl->addInherit($this->role['user'],  $this->role['guest']);
-
-    //Setup guest permissions
-    foreach ($publicResources as $resource => $actions) {
-      foreach ($actions as $action){
-        $acl->allow($this->role['guest']->getName(), $resource, $action);
-      }
-    }
-
-    //Setup user permissions
-    foreach ($privateResources as $resource => $actions) {
-      foreach ($actions as $action){
-        $acl->allow($this->role['user']->getName(), $resource, $action);
-      }
-    }
-
-    //Setup admin permissions
-    foreach ($privateResources as $resource => $actions) {
-      foreach ($actions as $action){
-        $acl->allow($this->role['admin']->getName(), $resource, $action);
-      }
-    }
-
-    //The acl is stored in session, APC would be useful here too
-    $this->acl = $acl;
   }
 
 	/**
@@ -98,7 +38,70 @@ class SecurityPlugin extends Plugin
 	 */
 	public function getAcl()
 	{
-		return $this->acl;
+    if(!isset($this->persistent->acl))
+    {
+      //admin-only area resources
+      $adminResources = [
+        'admin'     => ['index']
+      ];
+
+      //Private area resources
+      $privateResources = [
+        'search'   => ['index'],
+        'account'  => ['index', 'logout']
+      ];
+
+      //Public area resources
+      $publicResources = [
+        'dashboard'     => ['index'],
+        'account'       => ['register', 'login', 'recover'],
+        'error'         => ['show401', 'show403', 'show404', 'show500'],
+        'installation'  => ['index']
+      ];
+
+      $acl = new AclList();
+      $acl->setDefaultAction(Acl::DENY);
+
+      foreach ($this->role as $r) {
+        $acl->addRole($r);
+      }
+
+      //Register all resources and their actions
+      foreach (array_merge_recursive($adminResources, $privateResources, $publicResources) as $resource => $actions) {
+        $acl->addResource(new Resource($resource), $actions);
+      }
+
+      //Setup guest permissions
+      foreach ($publicResources as $resource => $actions) {
+        foreach ($actions as $action){
+          $acl->allow($this->role[RoleLevel::Guest]->getName(), $resource, $action);
+        }
+      }
+
+      //Setup user permissions
+      foreach ($privateResources as $resource => $actions) {
+        foreach ($actions as $action){
+          $acl->allow($this->role[RoleLevel::User]->getName(), $resource, $action);
+        }
+      }
+
+      //Setup admin permissions
+      foreach ($adminResources as $resource => $actions) {
+        foreach ($actions as $action){
+          $acl->allow($this->role[RoleLevel::Admin]->getName(), $resource, $action);
+        }
+      }
+
+      //Inheritance
+      $acl->addInherit($this->role[RoleLevel::Admin], $this->role[RoleLevel::User]);
+      $acl->addInherit($this->role[RoleLevel::Admin], $this->role[RoleLevel::Guest]);
+      $acl->addInherit($this->role[RoleLevel::User],  $this->role[RoleLevel::Guest]);
+
+      //The acl is stored in session, APC would be useful here too
+      $this->persistent->acl = $acl;
+    }
+
+		return $this->persistent->acl;
 	}
 
 	/**
@@ -116,10 +119,13 @@ class SecurityPlugin extends Plugin
 		$acl        = $this->getAcl();
 
     //TODO determine role via database
-    if (!$auth){
-      $role = $this->role['guest']->getName();
-    } else {
-      $role = $this->role['admin']->getName();
+    if (!$auth)
+    {
+      $r = $this->role[RoleLevel::Guest]->getName();
+    }
+    else
+    {
+      $r = $this->role[$auth->role]->getName();
     }
 
 		if (!$acl->isResource($controller)) {
@@ -130,7 +136,7 @@ class SecurityPlugin extends Plugin
 			return false;
 		}
 
-		$allowed = $acl->isAllowed($role, $controller, $action);
+		$allowed = $acl->isAllowed($r, $controller, $action);
 
 		if (!$allowed) {
 			$dispatcher->forward([

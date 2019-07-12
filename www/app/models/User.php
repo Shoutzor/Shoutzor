@@ -10,13 +10,13 @@ use Phalcon\Validation\Validator\Uniqueness as UniquenessValidator;
 class User extends Model
 {
 
-  protected $id;
-  protected $username;
-  protected $email;
-  protected $role;
-  protected $verified;
-  protected $banned;
-  protected $created;
+  public $id;
+  public $username;
+  public $email;
+  public $role;
+  public $verified;
+  public $banned;
+  public $created;
 
   public function validation()
   {

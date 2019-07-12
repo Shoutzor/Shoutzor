@@ -7,26 +7,25 @@
         </a>
         <div class="d-flex order-lg-2 ml-auto">
           {% if auth == true %}
-            <div class="nav-item d-none d-md-flex">
-              <a href="/admin" class="btn btn-sm btn-outline-primary">Admin Settings</a>
-            </div>
+            {% if auth.role == 2 %}
+              <div class="nav-item d-none d-md-flex">
+                <a href="/admin" class="btn btn-sm btn-outline-primary">Admin Settings</a>
+              </div>
+            {% endif %}
 
           <div class="dropdown">
             <a href="#" class="nav-link pr-0 leading-none" data-toggle="dropdown">
               <span class="avatar" style="background-image: url(./demo/faces/female/25.jpg)"></span>
               <span class="ml-2 d-none d-lg-block">
-                <span class="text-default">Xorinzor</span>
+                <span class="text-default">{{ auth.username }}</span>
                 <small class="text-muted d-block mt-1">Administrator</small>
               </span>
             </a>
             <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-              <a class="dropdown-item" href="#">
+              <a class="dropdown-item" href="/account">
                 <i class="dropdown-icon fe fe-user"></i> Profile
               </a>
-              <a class="dropdown-item" href="#">
-                <i class="dropdown-icon fe fe-settings"></i> Settings
-              </a>
-              <a class="dropdown-item" href="#">
+              <a class="dropdown-item" href="/logout">
                 <i class="dropdown-icon fe fe-log-out"></i> Sign out
               </a>
             </div>

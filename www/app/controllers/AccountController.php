@@ -67,10 +67,7 @@ class AccountController extends ControllerBase
           $this->tag->setDefault('password', '');
           $this->flash->success('You have registered successfully, you can login now.');
 
-          return $this->dispatcher->forward([
-            "controller" => "account",
-            "action"     => "login",
-          ]);
+          return $this->response->redirect('/login');
         }
       }
 
@@ -99,13 +96,11 @@ class AccountController extends ControllerBase
             return;
           }
 
-          $this->_registerSession($user);
-          $this->flash->success('Welcome ' . $user->name);
+          $this->session->set('auth', $user);
 
-          return $this->dispatcher->forward([
-            "controller" => "dashboard",
-            "action"     => "index",
-          ]);
+          $this->flash->success('Welcome ' . $user->username);
+
+          return $this->response->redirect('/');
         }
 
         $this->flash->error('Wrong email/password');
@@ -120,10 +115,7 @@ class AccountController extends ControllerBase
       $this->session->remove('auth');
       $this->flash->success('You have successfully logged-out');
 
-      return $this->dispatcher->forward([
-        "controller" => "account",
-        "action"     => "login",
-      ]);
+      return $this->response->redirect('/login');
     }
 
     /**
