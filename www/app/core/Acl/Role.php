@@ -39,5 +39,4 @@ class Role extends PhalconRole
   {
     return $this->roleLevel;
   }
-
 }

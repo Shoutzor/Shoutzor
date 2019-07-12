@@ -132,12 +132,27 @@ class Media extends Model {
         return $resultset[0];
     }
 
+    /**
+     * Checks if the artist is currently in the request-queue
+     */
+    public static function isRequested($id): bool
+    {
+      $result = Request::findFirst([
+        'constraints' => 'media_id = :media:',
+        'bind' => [
+          'media' => $id
+        ]
+      ]);
+
+      return ($result ?: false);
+    }
+
     public static function isRecentlyPlayed($id, $maxTimeAgo) {
       $resultset = $this->modelsManager->createBuilder()
                     ->addFrom(History::class, 'h')
                     ->where('media_id = :id: AND played_at > :maxTime:')
                     ->getQuery()
-                    ->execute(['id' => $id, 'maxTimeAgo' => $maxTimeAgo])
+                    ->execute(['id' => $id, 'maxTimeAgo' => $maxTimeAgo]);
 
       return count($resultset) > 0;
     }

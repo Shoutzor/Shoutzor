@@ -48,7 +48,8 @@ class SecurityPlugin extends Plugin
       //Private area resources
       $privateResources = [
         'search'   => ['index'],
-        'account'  => ['index', 'logout']
+        'account'  => ['index', 'logout'],
+        'upload'   => ['index']
       ];
 
       //Public area resources
@@ -56,7 +57,8 @@ class SecurityPlugin extends Plugin
         'dashboard'     => ['index'],
         'account'       => ['register', 'login', 'recover'],
         'error'         => ['show401', 'show403', 'show404', 'show500'],
-        'installation'  => ['index']
+        'installation'  => ['index'],
+        'api'           => ['api']
       ];
 
       $acl = new AclList();
@@ -133,6 +135,9 @@ class SecurityPlugin extends Plugin
 				'controller' => 'error',
 				'action'     => 'show404'
 			]);
+
+      unset($this->persistent->acl);
+
 			return false;
 		}
 
@@ -143,11 +148,6 @@ class SecurityPlugin extends Plugin
 				'controller' => 'error',
 				'action'     => 'show401'
 			]);
-
-      //TODO figure out why the phalcon\invo example app has this line of code..
-      //I don't understand why you'd log someone out if they access a page they
-      //don't have access to.
-      //$this->session->destroy();
 
 			return false;
 		}

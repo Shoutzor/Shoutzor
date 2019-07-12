@@ -14,6 +14,9 @@
 					<li class="nav-item">
 						<a href="/" class="nav-link active"><i class="fe fe-home"></i> Dashboard</a>
 					</li>
+          <li class="nav-item">
+						<a href="/uploadmanager" class="nav-link"><i class="fe fe-upload"></i> Upload Manager</a>
+					</li>
 				</ul>
 			</div>
 		</div>

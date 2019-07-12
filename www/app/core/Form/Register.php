@@ -13,20 +13,9 @@ class Register extends Form
     public function initialize($entity = null, $options = null)
     {
         // Name
-        $name = new Text('name');
-        $name->setLabel('Your Full Name');
-        $name->setFilters(['striptags', 'string']);
-        $name->addValidators([
-            new PresenceOf([
-                'message' => 'Name is required'
-            ])
-        ]);
-        $this->add($name);
-
-        // Name
         $name = new Text('username');
         $name->setLabel('Username');
-        $name->setFilters(['alpha']);
+        $name->setFilters(['alphanum']);
         $name->addValidators([
             new PresenceOf([
                 'message' => 'Please enter your desired user name'
@@ -59,8 +48,8 @@ class Register extends Form
         $this->add($password);
 
         // Confirm Password
-        $repeatPassword = new Password('repeatPassword');
-        $repeatPassword->setLabel('Repeat Password');
+        $repeatPassword = new Password('password-repeat');
+        $repeatPassword->setLabel('Password (Repeat)');
         $repeatPassword->addValidators([
             new PresenceOf([
                 'message' => 'Confirmation password is required'

@@ -12,6 +12,8 @@ if($di->getConfig()->configured) {
   $router->add('/login',           'Account::login')->via(['GET', 'POST']);
   $router->add('/resetpassword',   'Account::recover')->via(['GET', 'POST']);
   $router->addGet('/logout',       'Account::logout');
+  $router->add('/uploadmanager',   'Upload::index')->via(['GET']);
+  $router->add('/api',             'Api::api')->via(['GET', 'POST']);
 } else {
   $router->addGet('/', 'Installation::index');
 }
