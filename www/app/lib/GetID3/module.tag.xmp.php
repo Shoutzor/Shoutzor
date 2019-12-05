@@ -564,7 +564,7 @@ $GLOBALS['XMP_tag_captions'] = array(
 	'tiff:PrimaryChromaticities',
 	'tiff:YCbCrCoefficients',
 	'tiff:ReferenceBlackWhite',
-	'tiff:DateTime',
+	'tiff:DateTimeUtil',
 	'tiff:ImageDescription',
 	'tiff:Make',
 	'tiff:Model',

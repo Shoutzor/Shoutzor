@@ -82,6 +82,8 @@ COPY persistence /
 #Copy our website files
 COPY www /usr/share/nginx/html
 
+RUN chmod -R ugo+w /usr/share/nginx/html/cache
+
 #Copy the NodeJS app files
 WORKDIR /usr/src/app
 COPY node-app /usr/src/app

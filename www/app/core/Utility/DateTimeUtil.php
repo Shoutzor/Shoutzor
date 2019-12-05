@@ -2,13 +2,13 @@
 
 namespace Shoutzor\Utility;
 
-use \DateTime as PHPDateTime;
+use \DateTime;
 
-class DateTime {
+ class DateTimeUtil {
 
-  private Date $value;
+  private DateTime $value;
 
-  public __construct(PHPDateTime $input)
+  public function __construct(DateTime $input)
   {
     $this->value = $input;
   }

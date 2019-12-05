@@ -67,7 +67,7 @@ class QueueManager {
     $request->save(array(
       'media_id'      => $media->id,
       'requester_id'  => $requester_id,
-      // 'played_at'     => (new \DateTime())->format('Y-m-d H:i:s')
+      // 'played_at'     => (new \DateTimeUtil())->format('Y-m-d H:i:s')
     ));
   }
 

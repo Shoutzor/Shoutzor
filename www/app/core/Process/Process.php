@@ -4,11 +4,11 @@ namespace Shoutzor\Process;
 
 interface Process {
 
-  public int getPID();
+  public function getPID() : int;
 
-  public void start();
-  public void stop();
+  public function start() : void;
+  public function stop() : void;
 
-  public boolean isRunning();
+  public function isRunning() : bool;
 
 }

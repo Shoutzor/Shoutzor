@@ -140,7 +140,7 @@ class getid3_tiff extends getid3_handler
 					case 271: // Make
 					case 272: // Model
 					case 305: // Software
-					case 306: // DateTime
+					case 306: // DateTimeUtil
 					case 315: // Artist
 					case 316: // HostComputer
 						if (isset($fieldarray['value'])) {
@@ -190,7 +190,7 @@ class getid3_tiff extends getid3_handler
 					case 271: // Make
 					case 272: // Model
 					case 305: // Software
-					case 306: // DateTime
+					case 306: // DateTimeUtil
 					case 315: // Artist
 					case 316: // HostComputer
 						$TIFFcommentName = strtolower($fieldarray['raw']['tag_name']);
@@ -311,7 +311,7 @@ class getid3_tiff extends getid3_handler
 				297 => 'PageNumber',
 				301 => 'TransferFunction',
 				305 => 'Software',
-				306 => 'DateTime',
+				306 => 'DateTimeUtil',
 				315 => 'Artist',
 				316 => 'HostComputer',
 				317 => 'Predictor',
@@ -473,7 +473,7 @@ class getid3_tiff extends getid3_handler
 				37396 => 'SubjectArea',                                // Indicates the location and area of the main subject in the overall scene.
 				37500 => 'MakerNote',                                  // Manufacturer specific information.
 				37510 => 'UserComment',                                // Keywords or comments on the image; complements ImageDescription.
-				37520 => 'SubsecTime',                                 // A tag used to record fractions of seconds for the DateTime tag.
+				37520 => 'SubsecTime',                                 // A tag used to record fractions of seconds for the DateTimeUtil tag.
 				37521 => 'SubsecTimeOriginal',                         // A tag used to record fractions of seconds for the DateTimeOriginal tag.
 				37522 => 'SubsecTimeDigitized',                        // A tag used to record fractions of seconds for the DateTimeDigitized tag.
 				40960 => 'FlashpixVersion',                            // The Flashpix format version supported by a FPXR file.
