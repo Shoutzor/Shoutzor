@@ -2,7 +2,7 @@
 
 namespace Shoutzor\Media;
 
-class Video extends Media
+abstract class Video implements Media
 {
 
 }

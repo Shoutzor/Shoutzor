@@ -2,12 +2,20 @@
 
 namespace Shoutzor\Player\Spotify;
 
-use Shoutzor\Player\Media;
+use Shoutzor\Media\Media;
+use Shoutzor\Media\Spotify\SpotifySong;
 use Shoutzor\Player\Player as IPlayer;
 use Shoutzor\Provider\Provider;
 use Shoutzor\Provider\Spotify\Provider as SpotifyProvider;
 
 class Player implements IPlayer {
+
+    private const SP_SCRIPT = APP_PATH . DS . 'bin' . DS . 'sp' . DS . 'sp.sh';
+    private Media $currentMedia;
+
+    private function runCommand($command) {
+        return exec(self::SP_SCRIPT . ' ' . $command);
+    }
 
     /**
      * @inheritDoc
@@ -46,9 +54,47 @@ class Player implements IPlayer {
     /**
      * @inheritDoc
      */
+    public function getCurrentMedia(): Media
+    {
+        return $this->currentMedia;
+    }
+
+    /**
+     * @inheritDoc
+     */
     public function play(Media $media = null): bool
     {
-        // TODO: Implement play() method.
+        //If the Media object is null, fetch the track from the playlist
+        if(is_null($media)) {
+
+        }
+        //The spotify player supports only it's own media objects, any others will be searched for in the library
+        elseif($media instanceof SpotifySong === false) {
+        }
+        //Valid Media object
+        else {
+            $this->currentMedia = $media;
+        }
+
+        $this->runCommand('open ' . $this->currentMedia->getPlayerSpecificIdentifier());
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function pause(): bool
+    {
+        //Sends the "play/pause" command
+        return $this->runCommand('pause');
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function next(): bool
+    {
+        //Sends the "next" command
+        return $this->runCommand('next');
     }
 
 }

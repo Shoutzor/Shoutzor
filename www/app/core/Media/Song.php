@@ -2,7 +2,7 @@
 
 namespace Shoutzor\Media;
 
-class Song extends Media
+abstract class Song implements Media
 {
 
 }

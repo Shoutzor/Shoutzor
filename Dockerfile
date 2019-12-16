@@ -34,7 +34,7 @@ RUN apt-get update && \
 	libssl-dev \
 	libpulse-dev \
 	libdbus-1-dev \
-	libc6-amd64 \
+	libc6 \
 	libc6-dev \
 	libc6-dbg \
 	alsa-utils \
