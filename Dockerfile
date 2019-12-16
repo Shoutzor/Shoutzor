@@ -29,7 +29,14 @@ RUN apt-get update && \
 	dbus \
 	apt-utils \
 	libasound2 \
+	libasound2-dev \
 	libasound2-plugins \
+	libssl-dev \
+	libpulse-dev \
+	libdbus-1-dev \
+	libc6-amd64 \
+	libc6-dev \
+	libc6-dbg \
 	alsa-utils \
 	alsa-oss \
 	apt-transport-https \
@@ -96,6 +103,8 @@ RUN chmod -R +x /etc/init.d
 #Copy our start script
 COPY ./start.sh /
 RUN chmod 777 /start.sh
+
+#Start the required services
 CMD ["/bin/bash", "/start.sh"]
 
 #Expose the required ports

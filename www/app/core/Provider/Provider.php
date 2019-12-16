@@ -7,12 +7,6 @@ use Phalcon\Models\Media;
 interface Provider {
 
     /**
-     * Returns the Provider Identifier
-     * @return string
-     */
-    public function getId() : string;
-
-    /**
      * Gets a Media by ID
      * @param $id
      * @param array $attributes

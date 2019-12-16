@@ -12,6 +12,11 @@ interface Player {
     public function getName() : string;
 
     /**
+     * Returns the icon of this Player
+     */
+    public function getIcon() : string;
+
+    /**
      * Checks if a Provider is supported by this Player
      * @param Provider $provider
      * @return bool

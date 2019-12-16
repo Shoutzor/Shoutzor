@@ -5,6 +5,7 @@ namespace Shoutzor\Player\Spotify;
 use Shoutzor\Player\Media;
 use Shoutzor\Player\Player as IPlayer;
 use Shoutzor\Provider\Provider;
+use Shoutzor\Provider\Spotify\Provider as SpotifyProvider;
 
 class Player implements IPlayer {
 
@@ -13,7 +14,15 @@ class Player implements IPlayer {
      */
     public function getName(): string
     {
-        // TODO: Implement getName() method.
+        return "Spotify";
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getIcon(): string
+    {
+        return "fa-spotify";
     }
 
     /**
@@ -21,7 +30,7 @@ class Player implements IPlayer {
      */
     public function isProviderSupported(Provider $provider): bool
     {
-        // TODO: Implement isProviderSupported() method.
+        return $provider instanceof SpotifyProvider;
     }
 
     /**
@@ -29,7 +38,9 @@ class Player implements IPlayer {
      */
     public function getProviders(): array
     {
-        // TODO: Implement getProviders() method.
+        return [
+            SpotifyProvider::class
+        ];
     }
 
     /**
@@ -39,4 +50,5 @@ class Player implements IPlayer {
     {
         // TODO: Implement play() method.
     }
+
 }

@@ -19,4 +19,6 @@ sudo PULSE_RUNTIME_PATH=/var/run/pulse -u pulse /usr/bin/darkice &
 #cd /usr/src/app && su -c "npm start" -s /bin/bash shoutzor
 
 #Start nginx in the foreground in order to keep this container running
-/usr/sbin/nginx -g "daemon off;"
+/usr/sbin/nginx -g "daemon off;" &
+
+/usr/share/nginx/html/bin/spotifyd
