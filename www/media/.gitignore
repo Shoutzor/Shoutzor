@@ -1,5 +1,0 @@
-# This .gitignore makes sure the media directory is created, but stays empty.
-# All up/downloaded media files will be stored in this directory (or a different directory if configured.)
-
-*
-!.gitignore
