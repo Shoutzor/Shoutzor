@@ -1,80 +1,154 @@
-<!doctype html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<!doctype html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="en" dir="ltr">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta http-equiv="Content-Language" content="en" />
+    <meta name="msapplication-TileColor" content="#2d89ef">
+    <meta name="theme-color" content="#4188c9">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <link rel="icon" href="./favicon.ico" type="image/x-icon"/>
+    <link rel="shortcut icon" type="image/x-icon" href="./favicon.ico" />
+
+    <title>{{ config('app.name', 'Shoutz0r') }}</title>
+
+    <link rel="dns-prefetch" href="//fonts.gstatic.com">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,300i,400,400i,500,500i,600,600i,700,700i&amp;subset=latin-ext">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}" />
 
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
-
-    <!-- Fonts -->
-    <link rel="dns-prefetch" href="//fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
-
-    <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <script src="{{ asset('js/app.js') }}" async></script>
 </head>
-<body>
-    <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
+
+<body class="">
+<div class="page">
+    <div class="page-main">
+        <div class="header py-4">
             <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
-                    {{ config('app.name', 'Laravel') }}
-                </a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <!-- Left Side Of Navbar -->
-                    <ul class="navbar-nav mr-auto">
-
-                    </ul>
-
-                    <!-- Right Side Of Navbar -->
-                    <ul class="navbar-nav ml-auto">
-                        <!-- Authentication Links -->
-                        @guest
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
-                            </li>
-                            @if (Route::has('register'))
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
-                                </li>
-                            @endif
-                        @else
-                            <li class="nav-item dropdown">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    {{ Auth::user()->name }} <span class="caret"></span>
+                <div class="d-flex">
+                    <a class="header-brand" href="./index.html">
+                        <img src="./demo/brand/tabler.svg" class="header-brand-img" alt="tabler logo">
+                    </a>
+                    <div class="d-flex order-lg-2 ml-auto">
+                        <div class="nav-item d-none d-md-flex">
+                            <a href="https://github.com/tabler/tabler" class="btn btn-sm btn-outline-primary" target="_blank">Admin Settings</a>
+                        </div>
+                        <div class="dropdown d-none d-md-flex">
+                            <a class="nav-link icon" data-toggle="dropdown">
+                                <i class="fe fe-bell"></i>
+                                <span class="nav-unread"></span>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+                                <a href="#" class="dropdown-item d-flex">
+                                    <span class="avatar mr-3 align-self-center" style="background-image: url(demo/faces/male/41.jpg)"></span>
+                                    <div>
+                                        <strong>Nathan</strong> pushed new commit: Fix page load performance issue.
+                                        <div class="small text-muted">10 minutes ago</div>
+                                    </div>
                                 </a>
-
-                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ route('logout') }}"
-                                       onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                        {{ __('Logout') }}
-                                    </a>
-
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                        @csrf
-                                    </form>
-                                </div>
-                            </li>
-                        @endguest
-                    </ul>
+                                <a href="#" class="dropdown-item d-flex">
+                                    <span class="avatar mr-3 align-self-center" style="background-image: url(demo/faces/female/1.jpg)"></span>
+                                    <div>
+                                        <strong>Alice</strong> started new task: Tabler UI design.
+                                        <div class="small text-muted">1 hour ago</div>
+                                    </div>
+                                </a>
+                                <a href="#" class="dropdown-item d-flex">
+                                    <span class="avatar mr-3 align-self-center" style="background-image: url(demo/faces/female/18.jpg)"></span>
+                                    <div>
+                                        <strong>Rose</strong> deployed new version of NodeJS REST Api V3
+                                        <div class="small text-muted">2 hours ago</div>
+                                    </div>
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <a href="#" class="dropdown-item text-center text-muted-dark">Mark all as read</a>
+                            </div>
+                        </div>
+                        <div class="dropdown">
+                            <a href="#" class="nav-link pr-0 leading-none" data-toggle="dropdown">
+                                <span class="avatar" style="background-image: url(./demo/faces/female/25.jpg)"></span>
+                                <span class="ml-2 d-none d-lg-block">
+											<span class="text-default">Jane Pearson</span>
+											<small class="text-muted d-block mt-1">Administrator</small>
+										</span>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+                                <a class="dropdown-item" href="#">
+                                    <i class="dropdown-icon fe fe-user"></i> Profile
+                                </a>
+                                <a class="dropdown-item" href="#">
+                                    <i class="dropdown-icon fe fe-settings"></i> Settings
+                                </a>
+                                <a class="dropdown-item" href="#">
+                                    <span class="float-right"><span class="badge badge-primary">6</span></span>
+                                    <i class="dropdown-icon fe fe-mail"></i> Inbox
+                                </a>
+                                <a class="dropdown-item" href="#">
+                                    <i class="dropdown-icon fe fe-send"></i> Message
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="#">
+                                    <i class="dropdown-icon fe fe-help-circle"></i> Need help?
+                                </a>
+                                <a class="dropdown-item" href="#">
+                                    <i class="dropdown-icon fe fe-log-out"></i> Sign out
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="#" class="header-toggler d-lg-none ml-3 ml-lg-0" data-toggle="collapse" data-target="#headerMenuCollapse">
+                        <span class="header-toggler-icon"></span>
+                    </a>
                 </div>
             </div>
-        </nav>
+        </div>
+        <div class="header collapse d-lg-flex p-0" id="headerMenuCollapse">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-lg-3 ml-auto">
+                        <form class="input-icon my-3 my-lg-0">
+                            <input type="search" class="form-control header-search" placeholder="Search&hellip;" tabindex="1">
+                            <div class="input-icon-addon">
+                                <i class="fe fe-search"></i>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-lg order-lg-first">
+                        <ul class="nav nav-tabs border-0 flex-column flex-lg-row">
+                            <li class="nav-item">
+                                <a href="./index.html" class="nav-link active"><i class="fe fe-home"></i> Dashboard</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-        <main class="py-4">
-            @yield('content')
-        </main>
+        <div class="my-3 my-md-5">
+            <div class="container">
+                @yield('content')
+            </div>
+        </div>
     </div>
+    <footer class="footer">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-12 col-lg-auto mt-3 mt-lg-0 text-center">
+                    <a href="https://github.com/xorinzor/shoutz0r">Shoutz0r</a> | Powered by <a href="https://tabler.io/">Tabler</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+</div>
 </body>
 </html>
