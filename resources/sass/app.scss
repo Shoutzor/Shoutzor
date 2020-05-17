@@ -1,9 +1,14 @@
-// Fonts
-@import url('https://fonts.googleapis.com/css?family=Nunito');
-
 // Variables
 @import 'variables';
+
+//Font-Awesome
+@import '~font-awesome/scss/font-awesome';
 
 // Tabler.io
 @import '~tabler/scss/tabler';
 
+//Customizations for the tabler.io theme
+@import 'tabler-customization';
+
+//Shoutz0r theme
+@import 'custom';
