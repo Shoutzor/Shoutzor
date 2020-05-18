@@ -5,6 +5,12 @@
   */
 
 /*!
+  * vue-router v3.1.6
+  * (c) 2020 Evan You
+  * @license MIT
+  */
+
+/*!
  * Sizzle CSS Selector Engine v2.3.5
  * https://sizzlejs.com/
  *
@@ -13,6 +19,12 @@
  * https://js.foundation/
  *
  * Date: 2020-03-14
+ */
+
+/*!
+ * Vue.js v2.6.11
+ * (c) 2014-2019 Evan You
+ * Released under the MIT License.
  */
 
 /*!

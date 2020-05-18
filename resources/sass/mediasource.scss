@@ -1,0 +1,19 @@
+.stamp.mediasource {
+    font-size: 24px !important;
+
+    &.file {
+        background: $brand-color-none;
+    }
+
+    &.spotify {
+        background: $brand-color-spotify;
+    }
+
+    &.youtube {
+        background: $brand-color-youtube;
+    }
+
+    &.soundcloud {
+        background: $brand-color-soundcloud;
+    }
+}
