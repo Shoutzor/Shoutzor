@@ -1,3 +1,7 @@
 @extends('layouts.app')
 
-<!-- Views are handled by Vue -->
+<?php
+    //===========================
+    //  Views are handled by Vue
+    //===========================
+?>
