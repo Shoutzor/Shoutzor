@@ -1,12 +1,11 @@
-import Vue from "vue";
-import VueRouter from "vue-router";
-
-import DashboardView from "@/views/Dashboard/index";
+import Vue          from "vue";
+import VueRouter    from "vue-router";
 
 Vue.use(VueRouter);
 
-const Foo = { template: '<div>Artist</div>' };
-const Bar = { template: '<div>Search</div>' };
+//Views
+import DashboardView    from "@/views/Dashboard/index";
+import AdminView        from "@/views/Admin/index";
 
 //Routes
 const routes = [
@@ -16,14 +15,19 @@ const routes = [
         component: DashboardView
     },
     {
+        name: 'admin',
+        path: '/admin',
+        component: AdminView
+    },
+    {
         name: 'artist',
         path: '/artist',
-        component: Foo
+        component: DashboardView
     },
     {
         name: 'search',
         path: '/search',
-        component: Bar
+        component: DashboardView
     }
 ];
 

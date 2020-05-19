@@ -10,7 +10,7 @@
                     </li>
                 </ul>
                 <div class="my-2 my-md-0 flex-grow-1 flex-md-grow-0 order-first order-md-last">
-                    <search-small></search-small>
+                    <header-search></header-search>
                 </div>
             </div>
         </div>
@@ -18,12 +18,12 @@
 </template>
 
 <script>
-    import searchSmall from '@/components/search/searchSmall';
+    import HeaderSearch from "./HeaderSearch";
 
     export default {
         name: 'headerMenu',
         components: {
-            searchSmall
+            HeaderSearch
         }
     }
 </script>

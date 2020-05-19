@@ -30,8 +30,10 @@
                 <td>
                     <div>{{ request.track.title }}</div>
                     <div class="small text-muted">
-                        <span v-for="(artist, index) in request.track.artist">
-                            <span v-if="index != 0">, </span>
+                        <span v-for="(artist, index) in request.track.artist"
+                              :key="artist.id"
+                        >
+                            <template v-if="index != 0">, </template>
                             <router-link
                                 :to="{ name:'artist', params:{ id: artist.id } }"
                             >{{artist.name}}</router-link>
@@ -90,7 +92,7 @@
                             title: 'Livin la vida loca',
                             artist: [
                                 { id: 0, name: 'Eddie Murphy'},
-                                { id: 0, name: 'Antonio Banderas'}
+                                { id: 1, name: 'Antonio Banderas'}
                             ],
                             duration: 120,
                             source: 'soundcloud',
@@ -115,3 +117,32 @@
         }
     }
 </script>
+
+
+<style scoped lang="scss">
+    .coming-up {
+        thead td {
+            border-bottom: 1px solid rgb(226, 227, 227);
+        }
+    }
+
+    .stamp.mediasource {
+        font-size: 24px !important;
+
+        &.file {
+            background: $brand-color-none;
+        }
+
+        &.spotify {
+            background: $brand-color-spotify;
+        }
+
+        &.youtube {
+            background: $brand-color-youtube;
+        }
+
+        &.soundcloud {
+            background: $brand-color-soundcloud;
+        }
+    }
+</style>

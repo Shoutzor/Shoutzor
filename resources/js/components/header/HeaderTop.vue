@@ -15,7 +15,7 @@
                         >Admin panel</router-link>
                 </div>
 
-                <notifications></notifications>
+                <header-notifications></header-notifications>
 
                 <div class="nav-item dropdown">
                     <a href="#" class="nav-link d-flex lh-1 text-reset p-0" data-toggle="dropdown">
@@ -36,7 +36,7 @@
 </template>
 
 <script>
-    import notifications from './notifications';
+    import notifications from './HeaderNotifications';
 
     export default {
         name: 'headerTop',
