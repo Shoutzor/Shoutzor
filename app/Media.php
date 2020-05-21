@@ -12,8 +12,7 @@ class Media extends Model
      * @var string
      */
     protected $table = 'media';
-
-
+    public $timestamps = false;
 
     public function albums() {
         return $this->belongsToMany('App\Album');

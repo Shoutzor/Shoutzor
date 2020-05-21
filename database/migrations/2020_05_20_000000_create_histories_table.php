@@ -14,7 +14,7 @@ class CreateHistoriesTable extends Migration
     public function up()
     {
         Schema::create('histories', function (Blueprint $table) {
-            $table->id();
+            $table->increments('id');
             $table->timestamp('played_at');
         });
     }

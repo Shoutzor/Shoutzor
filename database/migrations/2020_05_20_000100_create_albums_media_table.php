@@ -14,10 +14,10 @@ class CreateAlbumsMediaTable extends Migration
     public function up()
     {
         Schema::create('albums_media', function (Blueprint $table) {
-            $table->integer('album_id');
-            $table->foreign('album_id')->references('id')->on('album')->cascadeOnDelete();
+            $table->integer('album_id')->unsigned();
+            $table->foreign('album_id')->references('id')->on('albums')->cascadeOnDelete();
 
-            $table->integer('media_id');
+            $table->integer('media_id')->unsigned();
             $table->foreign('media_id')->references('id')->on('media')->cascadeOnDelete();
 
             $table->unique(['album_id', 'media_id']);
