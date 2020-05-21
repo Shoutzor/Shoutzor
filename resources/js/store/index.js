@@ -1,14 +1,10 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import media from './modules/media';
+import VuexORM from '@vuex-orm/core'
+import database from '@/database'
 
 Vue.use(Vuex);
 
-const debug = process.env.NODE_ENV !== 'production';
-
 export default new Vuex.Store({
-    modules: {
-        media
-    },
-    strict: debug
+    plugins: [VuexORM.install(database)]
 })

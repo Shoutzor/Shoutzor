@@ -8,12 +8,13 @@ export default class Request extends Model {
 
     static fields () {
         return {
-            id: this.uid(),
-            media_id: this.number(0),
+            id: this.number(null),
+            media_id: this.number(null),
             user_id: this.number(null).nullable(),
-            media: this.hasOne(Media, 'id', 'media_id'),
-            user: this.hasOne(User, 'id', 'user_id'),
-            requested_at: this.attr()
+            media: this.belongsTo(Media, 'id', 'media_id'),
+            user: this.belongsTo(User, 'id', 'user_id'),
+            playtime: this.attr(null),
+            requested_at: this.attr(null)
         }
     }
 }

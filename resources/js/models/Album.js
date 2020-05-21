@@ -9,7 +9,7 @@ export default class Artist extends Model {
 
     static fields () {
         return {
-            id: this.uid(),
+            id: this.number(null),
             title: this.string(''),
             summary: this.string(''),
             image: this.string(''),
