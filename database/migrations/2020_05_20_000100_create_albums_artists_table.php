@@ -15,10 +15,12 @@ class CreateAlbumsArtistsTable extends Migration
     {
         Schema::create('albums_artists', function (Blueprint $table) {
             $table->integer('album_id');
-            $table->foreign('album_id')->references('id')->on('albums');
+            $table->foreign('album_id')->references('id')->on('albums')->cascadeOnDelete();
 
             $table->integer('artist_id');
-            $table->foreign('artist_id')->references('id')->on('artists');
+            $table->foreign('artist_id')->references('id')->on('artists')->cascadeOnDelete();
+
+            $table->unique(['album_id', 'artist_id']);
         });
     }
 

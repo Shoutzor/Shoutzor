@@ -15,10 +15,12 @@ class CreateArtistsMediaTable extends Migration
     {
         Schema::create('artists_media', function (Blueprint $table) {
             $table->integer('artist_id');
-            $table->foreign('artist_id')->references('id')->on('artists');
+            $table->foreign('artist_id')->references('id')->on('artists')->cascadeOnDelete();
 
             $table->integer('media_id');
-            $table->foreign('media_id')->references('id')->on('media');
+            $table->foreign('media_id')->references('id')->on('media')->cascadeOnDelete();
+
+            $table->unique(['artist_id', 'media_id']);
         });
     }
 
