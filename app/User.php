@@ -10,16 +10,6 @@ class User extends Authenticatable
 {
     use Notifiable;
 
-    /*
-      public $id;
-      public $username;
-      public $email;
-      public $role;
-      public $verified;
-      public $banned;
-      public $created;
-    */
-
     /**
      * The attributes that are mass assignable.
      *

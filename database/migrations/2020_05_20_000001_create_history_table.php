@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateHistoriesTable extends Migration
+class CreateHistoryTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,13 @@ class CreateHistoriesTable extends Migration
      */
     public function up()
     {
-        Schema::create('histories', function (Blueprint $table) {
+        Schema::create('history', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('media_id')->unsigned();
-            $table->integer('user_id')->unsigned()->nullable();
+            $table->foreignId('user_id')->nullable()->constrained('users', 'id')->cascadeOnDelete();
             $table->timestamps();
 
             $table->foreign('media_id')->references('id')->on('media')->cascadeOnDelete();
-            $table->foreign('user_id')->references('id')->on('users')->cascadeOnDelete();
         });
     }
 
@@ -31,6 +30,6 @@ class CreateHistoriesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('histories');
+        Schema::dropIfExists('history');
     }
 }

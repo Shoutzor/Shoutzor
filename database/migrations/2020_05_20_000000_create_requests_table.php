@@ -16,11 +16,11 @@ class CreateRequestsTable extends Migration
         Schema::create('requests', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('media_id')->unsigned();
-            $table->integer('user_id')->unsigned()->nullable();
+            $table->foreignId('user_id')->nullable()->constrained('users', 'id')->cascadeOnDelete();
             $table->timestamps();
 
             $table->foreign('media_id')->references('id')->on('media')->cascadeOnDelete();
-            $table->foreign('user_id')->references('id')->on('users')->cascadeOnDelete();
+
         });
     }
 

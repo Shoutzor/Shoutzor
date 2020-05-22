@@ -7,10 +7,8 @@ export default class MediaSource extends Model {
 
     static fields () {
         return {
-            id: this.uid(),
             name: this.string(''),
-            icon: this.attr([]),
-            media: this.hasMany(Media, 'source_id', 'id')
+            icon: this.attr([])
         }
     }
 }
