@@ -9,7 +9,7 @@ export default class MediaSource extends Model {
         return {
             id: this.uid(),
             name: this.string(''),
-            icon: this.string(''),
+            icon: this.attr([]),
             media: this.hasMany(Media, 'source_id', 'id')
         }
     }

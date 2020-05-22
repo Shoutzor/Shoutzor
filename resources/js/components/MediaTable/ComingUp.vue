@@ -29,8 +29,8 @@
                 </td>
                 <td>
                     <div>{{ request.media.title }}</div>
-                    <div class="small text-muted">
-                        <span v-for="(artist, index) in request.media.artist"
+                    <div class="small text-muted" v-if="request.media.artists !== null">
+                        <span v-for="(artist, index) in request.media.artists"
                               :key="artist.id"
                         >
                             <template v-if="index != 0">, </template>
@@ -41,7 +41,8 @@
                     </div>
                 </td>
                 <td>
-                    <div>{{ request.user }}</div>
+                    <div v-if="request.user !== null">{{ request.user }}</div>
+                    <div v-if="request.user === null">AutoDJ</div>
                 </td>
                 <td>
                     <div>{{ request.media.duration }}</div>
@@ -57,37 +58,29 @@
 <script>
 
     import Request from '@/models/Request';
-    import Artist from '@/models/Artist';
-    import Media from '@/models/Media';
-    import MediaSource from '@/models/MediaSource';
-    import User from '@/models/User';
 
     export default {
         components: {
-            Request,
-            Artist,
-            Media,
-            MediaSource,
-            User
+            Request
         },
 
         computed: {
             queue() {
-                return Request.query().with("media").get()
+                return Request.query().with(["media.artists|source", "user"]).get();
             }
         },
 
         mounted() {
             Request.insertOrUpdate({
                 data: {
-                    user: 'xorinzor',
+                    user_id: null,
                     playtime: '15:33',
                     media_id: 1,
                     media: {
                         id: 1,
                         title: 'Back in Black',
-                        artist: [
-                            {id: 0, name: 'ACDC', summary: "", image: ""}
+                        artists: [
+                            {id: 1, name: 'ACDC', summary: "", image: ""}
                         ],
                         duration: 120,
                         source_id: 1,

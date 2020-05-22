@@ -1,5 +1,5 @@
 <template>
-    <div class="col-sm-12 nowplaying">
+    <div class="col-sm-12 nowplaying" v-if="currentMedia">
         <div class="track-background">
             <img class="album-image" v-bind:src="albumImage" />
             <div class="album-overlay"></div>
@@ -7,9 +7,9 @@
         <div class="track-content card card-aside">
             <img class="album-image card-aside-column" v-bind:src="albumImage" alt="album image" />
             <div class="track-info card-body d-flex flex-column mt-auto">
-                <h3 style="font-size:20px;margin-bottom:1px;">{{ trackTitle }}</h3>
-                <p class="mb-2" style="font-size:18px;">
-                    <span v-for="(artist, index) in trackArtist"
+                <h3 style="font-size:20px;margin-bottom:1px;" v-if="currentMedia.media !== null">{{ currentMedia.media.title }}</h3>
+                <p class="mb-2" style="font-size:18px;" v-if="currentMedia.media.artists !== null">
+                    <span v-for="(artist, index) in currentMedia.media.artists"
                           :key="artist.id"
                     >
                         <template v-if="index != 0">, </template>
@@ -30,7 +30,8 @@
 
                     <div class="requested-by pl-3">
                         <small class="text-muted">Requested by</small>
-                        <div>{{ requester }}</div>
+                        <div v-if="currentMedia.user !== null">{{ currentMedia.user.name}}</div>
+                        <div v-if="currentMedia.user === null">AutoDJ</div>
                     </div>
                 </div>
             </div>
@@ -39,17 +40,47 @@
 </template>
 
 <script>
+    import History from '@/models/History';
+
     export default {
         data() {
             return {
-                albumImage: '/images/album_temp_bg.jpg',
-                trackTitle: 'Ghosts n\' Stuff',
-                trackArtist: [
-                    { id: 0, name: 'Deadmau5' },
-                    { id: 1, name: 'Test' }
-                ],
-                requester: 'Someone'
+                albumImage: '/images/album_temp_bg.jpg'
+            };
+        },
+
+        components: {
+            History
+        },
+
+        computed: {
+            currentMedia() {
+                return History.query().with(["media.artists|albums", "user"]).get()[0];
             }
+        },
+
+        mounted() {
+            History.insertOrUpdate({
+                data: {
+                    user_id: null,
+                    media_id: 2,
+                    media: {
+                        id: 2,
+                        title: 'Ghosts \'n stuff',
+                        artists: [
+                            {id: 2, name: 'Deadmau5', summary: "", image: ""}
+                        ],
+                        duration: 164,
+                        source_id: 1,
+                        source: {
+                            id: 1,
+                            name: 'file',
+                            icon: ['fas', 'music']
+                        }
+                    },
+                    played_at: '2020-04-05 9:50'
+                }
+            });
         }
     }
 </script>
