@@ -16,4 +16,18 @@ export default class History extends Model {
             played_at: this.attr()
         }
     }
+
+    static apiConfig = {
+        actions: {
+            fetch: {
+                method: 'get',
+                url: '/api/history'
+            },
+
+            fetchNowPlaying: {
+                method: 'get',
+                url: '/api/history/last'
+            }
+        }
+    }
 }

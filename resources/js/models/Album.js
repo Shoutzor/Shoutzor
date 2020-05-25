@@ -17,4 +17,12 @@ export default class Artist extends Model {
             media: this.belongsToMany(Media, AlbumMedia, 'album_id', 'media_id')
         }
     }
+
+    static apiConfig = {
+        actions: {
+            fetchById (id) {
+                return this.get('/api/album/${id}')
+            }
+        }
+    }
 }

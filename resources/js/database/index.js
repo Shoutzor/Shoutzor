@@ -1,4 +1,4 @@
-import { Database } from '@vuex-orm/core'
+import VuexORM from '@vuex-orm/core'
 
 import Album from '@/models/Album'
 import AlbumArtist from '@/models/AlbumArtist'
@@ -11,7 +11,7 @@ import User from '@/models/User'
 import Request from '@/models/Request'
 import History from '@/models/History'
 
-const database = new Database()
+const database = new VuexORM.Database()
 
 database.register(Album)
 database.register(AlbumArtist)

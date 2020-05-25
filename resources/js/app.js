@@ -9,6 +9,7 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 //Configure the FontAwesome component
 library.add(fab);
 library.add(fas);
+
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 
 //Recursively scan and add all Vue components

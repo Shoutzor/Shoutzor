@@ -49,38 +49,12 @@
             };
         },
 
-        components: {
-            History
-        },
-
         computed: {
-            currentMedia() {
-                return History.query().with(["media.artists|albums", "user"]).get()[0];
-            }
+            currentMedia: () => History.query().with(["media.artists|albums", "user"]).last()
         },
 
-        mounted() {
-            History.insertOrUpdate({
-                data: {
-                    user_id: null,
-                    media_id: 2,
-                    media: {
-                        id: 2,
-                        title: 'Ghosts \'n stuff',
-                        artists: [
-                            {id: 2, name: 'Deadmau5', summary: "", image: ""}
-                        ],
-                        duration: 164,
-                        source_id: 1,
-                        source: {
-                            id: 1,
-                            name: 'file',
-                            icon: ['fas', 'music']
-                        }
-                    },
-                    played_at: '2020-04-05 9:50'
-                }
-            });
+        created() {
+            History.api().fetchNowPlaying();
         }
     }
 </script>

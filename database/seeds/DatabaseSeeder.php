@@ -60,7 +60,7 @@ class DatabaseSeeder extends Seeder
         // Every Album will get 2 Artists assigned to it
         //
         for ($i = 0; $i < 10; $i++) {
-            DB::table('albums_artists')->insert([
+            DB::table('album_artist')->insert([
                 ['album_id' => $albums[$i], 'artist_id' => $artists[$i * 2]],
                 ['album_id' => $albums[$i], 'artist_id' => $artists[$i * 2 + 1]]
             ]);
@@ -97,7 +97,7 @@ class DatabaseSeeder extends Seeder
         // Every Media will get a single Album
         //
         for ($i = 0; $i < 10; $i++) {
-            DB::table('albums_media')->insert([
+            DB::table('album_media')->insert([
                 'album_id' => $albums[$i],
                 'media_id' => $tracks[$i]
             ]);
@@ -109,7 +109,7 @@ class DatabaseSeeder extends Seeder
         // Every Album will get 2 Artists assigned to it
         //
         for ($i = 0; $i < 10; $i++) {
-            DB::table('artists_media')->insert([
+            DB::table('artist_media')->insert([
                 ['artist_id' => $artists[$i*2], 'media_id' => $tracks[$i]],
                 ['artist_id' => $artists[$i*2+1], 'media_id' => $tracks[$i]]
             ]);

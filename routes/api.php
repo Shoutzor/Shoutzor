@@ -25,4 +25,7 @@ Route::group(['middleware' => 'auth'], function () {
 });
 
 Route::get('album', 'AlbumApiController@get');
+Route::get('artist', 'ArtistApiController@get');
 Route::get('request', 'RequestApiController@index');
+Route::get('history', 'HistoryApiController@index');
+Route::get('history/last', 'HistoryApiController@last');

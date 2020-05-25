@@ -14,85 +14,77 @@
             <th>Est. Time played</th>
         </tr>
         </thead>
-        <tbody>
+        <tbody v-if="queue && queue.length > 0">
             <tr v-for="request in queue">
                 <td class="text-center">
-                    <span
-                        class="stamp mediasource stamp-md bg-blue text-white mr-3"
-                        :class="request.media.source.name"
-                    >
-                        <font-awesome-icon
-                            class="mediasource-icon"
-                            :icon="request.media.source.icon"
-                        ></font-awesome-icon>
-                    </span>
+                        <span
+                            v-if="request.media.source"
+                            class="stamp mediasource stamp-md bg-blue text-white mr-3"
+                            :class="request.media.source.name"
+                        >
+                            <font-awesome-icon
+                                class="mediasource-icon"
+                                :icon="request.media.source.icon"
+                            ></font-awesome-icon>
+                        </span>
+                        <span
+                            v-else
+                            class="stamp mediasource unknown stamp-md bg-blue text-white mr-3"
+                        >
+                            <font-awesome-icon
+                                class="mediasource-icon"
+                                :icon="['fas', 'question']"
+                            ></font-awesome-icon>
+                        </span>
                 </td>
                 <td>
                     <div>{{ request.media.title }}</div>
                     <div class="small text-muted" v-if="request.media.artists !== null">
-                        <span v-for="(artist, index) in request.media.artists"
-                              :key="artist.id"
-                        >
-                            <template v-if="index != 0">, </template>
-                            <router-link
-                                :to="{ name:'artist', params:{ id: artist.id } }"
-                            >{{artist.name}}</router-link>
-                        </span>
+                            <span v-for="(artist, index) in request.media.artists"
+                                  :key="artist.id"
+                            >
+                                <template v-if="index != 0">, </template>
+                                <router-link
+                                    :to="{ name:'artist', params:{ id: artist.id } }"
+                                >{{artist.name}}</router-link>
+                            </span>
                     </div>
                 </td>
                 <td>
-                    <div v-if="request.user !== null">{{ request.user }}</div>
+                    <div v-if="request.user !== null">{{ request.user.name }}</div>
                     <div v-if="request.user === null">AutoDJ</div>
                 </td>
                 <td>
-                    <div>{{ request.media.duration }}</div>
+                    <date-time :time="request.media.duration"></date-time>
                 </td>
                 <td>
                     <div>{{ request.playtime }}</div>
                 </td>
             </tr>
         </tbody>
+        <tbody v-else>
+            <tr>
+                <td colspan="5">No songs in queue</td>
+            </tr>
+        </tbody>
     </table>
 </template>
 
 <script>
-
     import Request from '@/models/Request';
+    import DateTime from "../date/DateTime";
 
     export default {
         components: {
-            Request
+            DateTime
         },
 
         computed: {
-            queue() {
-                return Request.query().with(["media.artists|source", "user"]).get();
-            }
+            queue: () => Request.query().with(["media.artists|source", "user"]).get()
         },
 
-        mounted() {
-            Request.insertOrUpdate({
-                data: {
-                    user_id: null,
-                    playtime: '15:33',
-                    media_id: 1,
-                    media: {
-                        id: 1,
-                        title: 'Back in Black',
-                        artists: [
-                            {id: 1, name: 'ACDC', summary: "", image: ""}
-                        ],
-                        duration: 120,
-                        source_id: 1,
-                        source: {
-                            id: 1,
-                            name: 'file',
-                            icon: ['fas', 'music']
-                        }
-                    },
-                    requested_at: '2020-04-05 10:00'
-                }
-            });
+        created() {
+            Request.api().fetch();
         }
     }
 </script>

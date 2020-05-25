@@ -17,7 +17,7 @@ class CreateHistoryTable extends Migration
             $table->increments('id');
             $table->integer('media_id')->unsigned();
             $table->foreignId('user_id')->nullable()->constrained('users', 'id')->cascadeOnDelete();
-            $table->timestamps();
+            $table->timestamp('played_at')->useCurrent();
 
             $table->foreign('media_id')->references('id')->on('media')->cascadeOnDelete();
         });

@@ -9,7 +9,7 @@ use Illuminate\Http\Request as HttpRequest;
 class RequestApiController extends Controller {
 
     public function index() {
-        $requests = Request::all();
+        $requests = Request::with(['Media', 'Media.Artists', 'User'])->get();
 
         return response()->json($requests, 200);
     }

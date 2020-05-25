@@ -10,10 +10,10 @@ class Request extends Model
     const UPDATED_AT = null;
 
     public function media() {
-        return $this->hasOne('App\Media');
+        return $this->belongsTo('App\Media');
     }
 
     public function user() {
-        return $this->hasOne('App\User');
+        return $this->belongsTo('App\User');
     }
 }

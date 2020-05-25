@@ -1,10 +1,16 @@
+import axios from 'axios'
 import Vue from 'vue';
 import Vuex from 'vuex';
 import VuexORM from '@vuex-orm/core'
-import database from '@/database'
+import VuexORMAxios from '@vuex-orm/plugin-axios'
+import database from '../database'
 
 Vue.use(Vuex);
+VuexORM.use(VuexORMAxios, { axios });
+
+const debug = process.env.NODE_ENV !== 'production'
 
 export default new Vuex.Store({
+    strict: debug,
     plugins: [VuexORM.install(database)]
 })
