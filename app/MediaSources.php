@@ -29,11 +29,11 @@ class MediaSources {
      * @throws Exception if a MediaSource with the same identifier field already exists
      */
     public static function addSource(MediaSource $source) : void {
-        if(array_key_exists($source->identifier, self::$sources)) {
-            throw new Exception("A MediaSource with the identifier: '".$source->identifier."' already exists!");
+        if(array_key_exists($source::identifier, self::$sources)) {
+            throw new Exception("A MediaSource with the identifier: '".$source::identifier."' already exists!");
         }
 
-        self::$sources[] = $source;
+        self::$sources[$source::identifier] = $source;
     }
 
     /**

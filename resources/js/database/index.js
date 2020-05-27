@@ -6,7 +6,6 @@ import AlbumMedia from '@/models/AlbumMedia'
 import Artist from '@/models/Artist'
 import ArtistMedia from '@/models/ArtistMedia'
 import Media from '@/models/Media'
-import MediaSource from '@/models/MediaSource'
 import User from '@/models/User'
 import Request from '@/models/Request'
 import History from '@/models/History'
@@ -19,7 +18,6 @@ database.register(AlbumMedia)
 database.register(Artist)
 database.register(ArtistMedia)
 database.register(Media)
-database.register(MediaSource)
 database.register(User)
 database.register(Request)
 database.register(History)

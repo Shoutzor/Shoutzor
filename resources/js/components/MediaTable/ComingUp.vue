@@ -20,7 +20,7 @@
                         <span
                             v-if="request.media.source"
                             class="stamp mediasource stamp-md bg-blue text-white mr-3"
-                            :class="request.media.source.name"
+                            :class="request.media.source.identifier"
                         >
                             <font-awesome-icon
                                 class="mediasource-icon"
@@ -80,7 +80,7 @@
         },
 
         computed: {
-            queue: () => Request.query().with(["media.artists|source", "user"]).get()
+            queue: () => Request.query().with(["media.artists", "user"]).get()
         },
 
         created() {

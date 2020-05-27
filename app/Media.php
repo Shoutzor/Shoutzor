@@ -14,8 +14,8 @@ class Media extends Model
     protected $table = 'media';
     public $timestamps = false;
 
-    public function mediasource() : ?MediaSource {
-        return MediaSources::getInstance()->getSource($this->source);
+    public function getSourceAttribute() : ?MediaSource {
+        return MediaSources::getInstance()->getSource($this->attributes['source']);
     }
 
     public function albums() {

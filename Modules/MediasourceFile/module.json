@@ -1,0 +1,13 @@
+{
+    "name": "MediasourceFile",
+    "alias": "mediasourcefile",
+    "description": "",
+    "keywords": [],
+    "order": 0,
+    "providers": [
+        "Modules\\MediasourceFile\\Providers\\MediasourceFileServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}
