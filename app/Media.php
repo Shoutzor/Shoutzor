@@ -14,6 +14,10 @@ class Media extends Model
     protected $table = 'media';
     public $timestamps = false;
 
+    public function mediasource() : ?MediaSource {
+        return MediaSources::getInstance()->getSource($this->source);
+    }
+
     public function albums() {
         return $this->belongsToMany('App\Album');
     }

@@ -2,13 +2,14 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Contracts\Support\Arrayable;
+use Illuminate\Contracts\Support\Jsonable;
 
-class MediaSource
+class MediaSource implements Arrayable, Jsonable
 {
     /**
      * The identifier of the MediaSource, ie: file, youtube, spotify, etc.
-     * Once defined this should not be changed as this will be used for the index.
+     * Once defined this should not be changed as this will be used in the database.
      * @var string
      */
     public string $identifier;
@@ -18,5 +19,18 @@ class MediaSource
      * this array will be passed to the font-awesome-icon component
      * @var array
      */
-    public array $icon;
+    public array $icon = ['fas', 'question'];
+
+    public function toArray()
+    {
+        return [
+            'identifier' => $this->identifier,
+            'icon'       => $this->icon
+        ];
+    }
+
+    public function toJson($options = 0)
+    {
+        return json_encode($this->toArray());
+    }
 }

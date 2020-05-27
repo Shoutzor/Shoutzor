@@ -18,6 +18,7 @@ class CreateMediaTable extends Migration
             $table->string('title');
             $table->string('filename');
             $table->string('crc', 32);
+            $table->string('source');
             $table->smallInteger('duration')->unsigned();
         });
     }
