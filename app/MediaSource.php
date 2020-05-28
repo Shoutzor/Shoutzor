@@ -9,13 +9,12 @@ abstract class MediaSource implements Arrayable, Jsonable
 {
     /**
      * The identifier of the MediaSource, ie: file, youtube, spotify, etc.
-     * Once defined this should not be changed as this will be used in the database.
      * @var string
      */
     const identifier = 'invalid';
 
     /**
-     * The fontawesome icon that should be displayed for this source in the coming-up component
+     * The fontawesome icon that should be displayed for this source in the media-results component
      * this array will be passed to the font-awesome-icon component
      * @var array
      */

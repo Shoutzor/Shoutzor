@@ -88,7 +88,7 @@ class DatabaseSeeder extends Seeder
                 'filename' => 'example.mp3',
                 'crc' => 'invalid_crc_placeholder_hash',
                 'duration' => $faker->numberBetween(30, 500),
-                'source' => 'file'
+                'is_video' => false
             ]);
         }
 

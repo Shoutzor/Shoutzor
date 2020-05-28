@@ -1,45 +1,40 @@
 <template>
-    <table class="coming-up table table-outline table-vcenter text-nowrap card-table">
+    <table class="media-results table table-outline table-vcenter text-nowrap card-table">
         <thead>
-        <tr>
-            <td colspan="5" class="bg-light">
-                <div class="small text-muted">Coming up</div>
-            </td>
-        </tr>
         <tr>
             <th class="text-center w-1"></th>
             <th>Media</th>
-            <th>Requested by</th>
             <th>Duration</th>
-            <th>Est. Time played</th>
+            <th>Actions</th>
         </tr>
         </thead>
         <tbody v-if="queue && queue.length > 0">
-            <tr v-for="request in queue">
+            <tr v-for="media in results">
                 <td class="text-center">
                         <span
-                            v-if="request.media.is_video === true"
-                            class="stamp mediatype video stamp-md bg-orange text-white mr-3"
+                            v-if="media.source"
+                            class="stamp mediasource stamp-md text-white mr-3"
+                            :class="media.source.identifier"
                         >
                             <font-awesome-icon
                                 class="mediasource-icon"
-                                :icon="['fas', 'film']"
+                                :icon="media.source.icon"
                             ></font-awesome-icon>
                         </span>
                         <span
                             v-else
-                            class="stamp mediatype audio stamp-md bg-azure text-white mr-3"
+                            class="stamp mediasource unknown stamp-md text-white mr-3"
                         >
                             <font-awesome-icon
                                 class="mediasource-icon"
-                                :icon="['fas', 'music']"
+                                :icon="['fas', 'question']"
                             ></font-awesome-icon>
                         </span>
                 </td>
                 <td>
-                    <div>{{ request.media.title }}</div>
-                    <div class="small text-muted" v-if="request.media.artists !== null">
-                            <span v-for="(artist, index) in request.media.artists"
+                    <div>{{ media.title }}</div>
+                    <div class="small text-muted" v-if="media.artists !== null">
+                            <span v-for="(artist, index) in media.artists"
                                   :key="artist.id"
                             >
                                 <template v-if="index != 0">, </template>
@@ -50,53 +45,58 @@
                     </div>
                 </td>
                 <td>
-                    <div v-if="request.user !== null">{{ request.user.name }}</div>
-                    <div v-if="request.user === null">AutoDJ</div>
+                    <date-time :time="media.duration"></date-time>
                 </td>
                 <td>
-                    <date-time :time="request.media.duration"></date-time>
-                </td>
-                <td>
-                    <div>{{ request.playtime }}</div>
+                    <p>request button placeholder</p>
                 </td>
             </tr>
         </tbody>
         <tbody v-else>
             <tr>
-                <td colspan="5">No songs in queue</td>
+                <td colspan="5">No results</td>
             </tr>
         </tbody>
     </table>
 </template>
 
 <script>
-    import Request from '@/models/Request';
-    import DateTime from "../date/DateTime";
-
     export default {
-        components: {
-            DateTime
-        },
-
         computed: {
-            queue: () => Request.query().with(["media.artists", "user"]).get()
+            queue: () => Media.query().with(["artists", "user"]).get()
         },
 
         created() {
-            Request.api().fetch();
+            //Search query is probably done by the container of the component?
         }
     }
 </script>
 
 
 <style scoped lang="scss">
-    .coming-up {
+    .media-results {
         thead td {
             border-bottom: 1px solid rgb(226, 227, 227);
         }
     }
 
-    .stamp.mediatype {
+    .stamp.mediasource {
         font-size: 24px !important;
+
+        &.file {
+            background: $brand-color-none;
+        }
+
+        &.spotify {
+            background: $brand-color-spotify;
+        }
+
+        &.youtube {
+            background: $brand-color-youtube;
+        }
+
+        &.soundcloud {
+            background: $brand-color-soundcloud;
+        }
     }
 </style>
