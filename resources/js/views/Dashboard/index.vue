@@ -1,10 +1,18 @@
 <template>
-    <div class="row row-cards">
-        <div class="col-sm-12">
-            <div class="card mediaplayer">
-                <div class="table-responsive">
+    <div>
+        <div class="row row-cards">
+            <div class="col-sm-12">
+                <div class="card">
                     <now-playing></now-playing>
-                    <coming-up></coming-up>
+                </div>
+            </div>
+        </div>
+        <div class="row row-cards">
+            <div class="col-sm-12">
+                <div class="card mediaplayer">
+                    <div class="table-responsive">
+                        <coming-up></coming-up>
+                    </div>
                 </div>
             </div>
         </div>

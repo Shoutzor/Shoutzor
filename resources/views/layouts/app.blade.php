@@ -30,25 +30,17 @@
         <script src="{{ asset('js/app.js') }}" async></script>
     </head>
 
-    <body class="antialiased">
-        <div id="app" class="page">
+    <body class="antialiased theme-dark fixed-header">
+        <div id="app">
             <header-top></header-top>
-
             <header-menu></header-menu>
 
-            <div class="content">
-                <div class="container-xl">
-                    <router-view></router-view>
-                </div>
-                <footer class="footer">
-                    <div class="container">
-                        <div class="row align-items-center">
-                            <div class="col-12 col-lg-auto mt-3 mt-lg-0 text-center">
-                                Powered by <a href="https://github.com/xorinzor/shoutz0r">Shoutz0r</a>
-                            </div>
-                        </div>
+            <div class="page">
+                <div class="content">
+                    <div class="container-xl">
+                        <router-view></router-view>
                     </div>
-                </footer>
+                </div>
             </div>
         </div>
     </body>

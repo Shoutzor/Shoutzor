@@ -1,5 +1,17 @@
-// Tabler.io
-@import '~tabler/scss/tabler';
-
 // Variables
 @import 'variables';
+
+//
+// Tabler.io
+//
+@import '~tabler/scss/tabler';
+
+//
+// Tabler mixin overrides
+//
+@import 'overrides/mixins/scrollbar'; //Improved scrollbar cross-browser styling
+
+//
+// Custom Theme
+//
+@import 'custom-theme/theme';

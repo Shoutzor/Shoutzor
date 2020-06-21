@@ -1,20 +1,52 @@
 <template>
-    <div class="navbar-expand-md">
-        <div class="navbar collapse navbar-collapse navbar-light" id="navbar-menu">
-            <div class="container-xl">
+    <aside class="navbar navbar-vertical navbar-expand-lg" id="navbar-left">
+        <div class="container">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-left-menu">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbar-left-menu">
+                <span class="navbar-text pt-lg-3">
+                        test
+                            </span>
                 <ul class="navbar-nav">
                     <li class="nav-item active">
-                        <a class="nav-link" href="./index.html" >
+                        <router-link
+                            :to="{name: 'home'}"
+                            class="nav-link"
+                        >
                             <span class="nav-link-title">Home</span>
-                        </a>
+                        </router-link>
+                    </li>
+                    <li class="nav-item">
+                        <router-link
+                            :to="{name: 'home'}"
+                            class="nav-link"
+                        >
+                            <span class="nav-link-title">History</span>
+                        </router-link>
+                    </li>
+                    <li class="nav-item">
+                        <router-link
+                            :to="{name: 'home'}"
+                            class="nav-link"
+                        >
+                            <span class="nav-link-title">Most Played</span>
+                        </router-link>
+                    </li>
+                    <li class="nav-item">
+                        <router-link
+                            :to="{name: 'home'}"
+                            class="nav-link"
+                        >
+                            <span class="nav-link-title">Upload manager</span>
+                        </router-link>
                     </li>
                 </ul>
-                <div class="my-2 my-md-0 flex-grow-1 flex-md-grow-0 order-first order-md-last">
-                    <header-search></header-search>
-                </div>
+
+                <p class="navbar-text text-gray-dark">Powered by <a href="https://github.com/xorinzor/shoutz0r" class="text-gray-dark">Shoutz0r</a></p>
             </div>
         </div>
-    </div>
+    </aside>
 </template>
 
 <script>

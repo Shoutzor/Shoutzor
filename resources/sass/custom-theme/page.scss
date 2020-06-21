@@ -1,0 +1,12 @@
+.page {
+    margin-top: $navbar-height;
+    //min-height: 1px;
+}
+
+body {
+    @include scrollbar;
+
+    &.theme-dark {
+        @include scrollbar(true);
+    }
+}

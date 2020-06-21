@@ -2,11 +2,6 @@
     <table class="coming-up table table-outline table-vcenter text-nowrap card-table">
         <thead>
         <tr>
-            <td colspan="5" class="bg-light">
-                <div class="small text-muted">Coming up</div>
-            </td>
-        </tr>
-        <tr>
             <th class="text-center w-1"></th>
             <th>Media</th>
             <th>Requested by</th>
