@@ -1,6 +1,8 @@
 'use strict';
 
-import {CountUp} from 'countup.js';
+import Dropdown from 'bootstrap/js/dist/dropdown';
+import Tooltip from 'bootstrap/js/dist/tooltip';
+import Popover from 'bootstrap/js/dist/popover';
 import noUiSlider from 'nouislider';
 
 (function () {
@@ -11,7 +13,7 @@ import noUiSlider from 'nouislider';
 	let dropdownElementList = [].slice.call(document.querySelectorAll('[data-toggle="dropdown"]'));
 	dropdownElementList.map(function (dropdownToggleEl) {
 		let options = {};
-		return new bootstrap.Dropdown(dropdownToggleEl, options);
+		return new Dropdown(dropdownToggleEl, options);
 	});
 
 	/**
@@ -25,7 +27,7 @@ import noUiSlider from 'nouislider';
 			html: true,
 			placement: 'auto'
 		};
-		return new bootstrap.Tooltip(tooltipTriggerEl, options);
+		return new Tooltip(tooltipTriggerEl, options);
 	});
 
 	/**
@@ -39,7 +41,7 @@ import noUiSlider from 'nouislider';
 			html: true,
 			placement: 'auto'
 		};
-		return new bootstrap.Popover(popoverTriggerEl, options);
+		return new Popover(popoverTriggerEl, options);
 	});
 
   /**
@@ -56,23 +58,6 @@ import noUiSlider from 'nouislider';
 		if (options['js-name']) {
 			window[options['js-name']] = slider;
 		}
-	});
-
-	/**
-	 * CountUp - animations that display numerical data in a more interesting way.
-	 * @link https://inorganik.github.io/countUp.js/
-	 */
-	let countupTriggerList = [].slice.call(document.querySelectorAll("[data-countup]"));
-	countupTriggerList.map(function (countupTriggerEl) {
-		let options = {};
-		if (countupTriggerEl.getAttribute("data-countup")) {
-			options = JSON.parse(countupTriggerEl.getAttribute("data-countup"));
-		}
-		let countUp = new CountUp(countupTriggerEl, +countupTriggerEl.innerText, options);
-		if (countUp.error) {
-		  console.error('CountUp: ' + countUp.error);
-		}
-		return countUp.start();
 	});
 
 })();

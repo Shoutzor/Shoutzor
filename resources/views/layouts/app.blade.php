@@ -32,16 +32,7 @@
 
     <body class="antialiased theme-dark fixed-header">
         <div id="app">
-            <header-top></header-top>
-            <header-menu></header-menu>
-
-            <div class="page">
-                <div class="content">
-                    <div class="container-xl">
-                        <router-view></router-view>
-                    </div>
-                </div>
-            </div>
+            <app></app>
         </div>
     </body>
 </html>

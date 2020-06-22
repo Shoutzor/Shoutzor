@@ -1,12 +1,15 @@
+#main-content {
+    padding-left: $sidebar-width;
+    padding-top: $navbar-height;
+    max-height: 100%;
+    overflow: hidden;
+}
+
 .page {
-    margin-top: $navbar-height;
+    padding-bottom: $navbar-height;
     min-height: 1px;
 }
 
 body {
-    @include scrollbar;
-
-    &.theme-dark {
-        @include scrollbar(true);
-    }
+    overflow: hidden;
 }
