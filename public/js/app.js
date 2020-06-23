@@ -21772,6 +21772,27 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -32454,7 +32475,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, ".container[data-v-6e7694b3] {\n  display: flex;\n  height: 100%;\n}\n.simplebar-main[data-v-6e7694b3] {\n  width: 100%;\n  height: 100%;\n}", ""]);
+exports.push([module.i, ".container[data-v-6e7694b3] {\n  display: flex;\n  margin-left: initial;\n}\n@media (min-width: 63.98rem) {\n.container[data-v-6e7694b3] {\n    height: 100%;\n    margin-left: auto;\n}\n}\n.simplebar-main[data-v-6e7694b3] {\n  width: 100%;\n  height: 100%;\n}", ""]);
 
 // exports
 
@@ -71182,9 +71203,7 @@ var render = function() {
               },
               [
                 _c("span", { staticClass: "navbar-text pt-lg-3" }, [
-                  _vm._v(
-                    "\n                        test\n                            "
-                  )
+                  _vm._v("Music zone")
                 ]),
                 _vm._v(" "),
                 _c("ul", { staticClass: "navbar-nav" }, [
@@ -71199,8 +71218,19 @@ var render = function() {
                           attrs: { to: { name: "home" } }
                         },
                         [
+                          _c(
+                            "span",
+                            { staticClass: "nav-link-icon" },
+                            [
+                              _c("font-awesome-icon", {
+                                attrs: { icon: ["fa", "podcast"] }
+                              })
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
                           _c("span", { staticClass: "nav-link-title" }, [
-                            _vm._v("Home")
+                            _vm._v("Dashboard")
                           ])
                         ]
                       )
@@ -71219,6 +71249,17 @@ var render = function() {
                           attrs: { to: { name: "home" } }
                         },
                         [
+                          _c(
+                            "span",
+                            { staticClass: "nav-link-icon" },
+                            [
+                              _c("font-awesome-icon", {
+                                attrs: { icon: ["fa", "history"] }
+                              })
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
                           _c("span", { staticClass: "nav-link-title" }, [
                             _vm._v("History")
                           ])
@@ -71239,6 +71280,17 @@ var render = function() {
                           attrs: { to: { name: "home" } }
                         },
                         [
+                          _c(
+                            "span",
+                            { staticClass: "nav-link-icon" },
+                            [
+                              _c("font-awesome-icon", {
+                                attrs: { icon: ["fa", "star"] }
+                              })
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
                           _c("span", { staticClass: "nav-link-title" }, [
                             _vm._v("Most Played")
                           ])
@@ -71246,8 +71298,14 @@ var render = function() {
                       )
                     ],
                     1
-                  ),
-                  _vm._v(" "),
+                  )
+                ]),
+                _vm._v(" "),
+                _c("span", { staticClass: "navbar-text pt-lg-3" }, [
+                  _vm._v("Your zone")
+                ]),
+                _vm._v(" "),
+                _c("ul", { staticClass: "navbar-nav" }, [
                   _c(
                     "li",
                     { staticClass: "nav-item" },
@@ -71259,6 +71317,17 @@ var render = function() {
                           attrs: { to: { name: "home" } }
                         },
                         [
+                          _c(
+                            "span",
+                            { staticClass: "nav-link-icon" },
+                            [
+                              _c("font-awesome-icon", {
+                                attrs: { icon: ["fas", "upload"] }
+                              })
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
                           _c("span", { staticClass: "nav-link-title" }, [
                             _vm._v("Upload manager")
                           ])
@@ -71269,17 +71338,21 @@ var render = function() {
                   )
                 ]),
                 _vm._v(" "),
-                _c("p", { staticClass: "navbar-text text-gray-dark" }, [
-                  _vm._v("Powered by "),
-                  _c(
-                    "a",
-                    {
-                      staticClass: "text-gray-dark",
-                      attrs: { href: "https://github.com/xorinzor/shoutz0r" }
-                    },
-                    [_vm._v("Shoutz0r")]
-                  )
-                ])
+                _c(
+                  "p",
+                  { staticClass: "navbar-text align-bottom text-gray-dark" },
+                  [
+                    _vm._v("Powered by "),
+                    _c(
+                      "a",
+                      {
+                        staticClass: "text-gray-dark",
+                        attrs: { href: "https://github.com/xorinzor/shoutz0r" }
+                      },
+                      [_vm._v("Shoutz0r")]
+                    )
+                  ]
+                )
               ]
             )
           ])

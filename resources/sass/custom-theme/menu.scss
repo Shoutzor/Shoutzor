@@ -43,8 +43,35 @@
     -webkit-box-shadow: 0px 1px 4px 0px rgba(0,0,0,0.1);
     -moz-box-shadow: 0px 1px 4px 0px rgba(0,0,0,0.1);
     box-shadow: 0px 1px 4px 0px rgba(0,0,0,0.1);
+
     @media (min-width: 48rem) {
         top: $navbar-height;
+
+        .navbar-nav {
+            flex-grow: 0;
+        }
+
+        .align-bottom {
+            margin-top: auto;
+        }
+    }
+
+    .nav-link-icon {
+        width: 2.25rem;
+        height: initial;
+        font-size: 1.3rem;
+        margin: 5px 0;
+    }
+
+    .navbar-text {
+        color: #FFF;
+        font-weight: bold;
+    }
+
+    @media (max-width: 63.98rem) {
+        #navbar-left-menu {
+            padding-top: $navbar-height;
+        }
     }
 }
 

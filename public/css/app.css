@@ -17552,6 +17552,32 @@ span.flatpickr-weekday {
   #navbar-left {
     top: 3.5rem;
   }
+
+  #navbar-left .navbar-nav {
+    flex-grow: 0;
+  }
+
+  #navbar-left .align-bottom {
+    margin-top: auto;
+  }
+}
+
+#navbar-left .nav-link-icon {
+  width: 2.25rem;
+  height: initial;
+  font-size: 1.3rem;
+  margin: 5px 0;
+}
+
+#navbar-left .navbar-text {
+  color: #FFF;
+  font-weight: bold;
+}
+
+@media (max-width: 63.98rem) {
+  #navbar-left #navbar-left-menu {
+    padding-top: 3.5rem;
+  }
 }
 
 .theme-dark #navbar-top {
@@ -17572,10 +17598,15 @@ span.flatpickr-weekday {
 }
 
 #main-content {
-  padding-left: 15rem;
-  padding-top: 3.5rem;
   max-height: 100%;
   overflow: hidden;
+}
+
+@media (min-width: 48rem) {
+  #main-content {
+    padding-left: 15rem;
+    padding-top: 3.5rem;
+  }
 }
 
 .page {

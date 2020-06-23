@@ -1,6 +1,9 @@
 #main-content {
-    padding-left: $sidebar-width;
-    padding-top: $navbar-height;
+    @media (min-width: 48rem) {
+        padding-left: $sidebar-width;
+        padding-top: $navbar-height;
+    }
+
     max-height: 100%;
     overflow: hidden;
 }

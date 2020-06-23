@@ -6,16 +6,19 @@
                         <span class="navbar-toggler-icon"></span>
                     </button>
                     <div class="collapse navbar-collapse" id="navbar-left-menu">
-                        <span class="navbar-text pt-lg-3">
-                                test
-                                    </span>
+                        <span class="navbar-text pt-lg-3">Music zone</span>
                         <ul class="navbar-nav">
                             <li class="nav-item active">
                                 <router-link
                                     :to="{name: 'home'}"
                                     class="nav-link"
                                 >
-                                    <span class="nav-link-title">Home</span>
+                                    <span class="nav-link-icon">
+                                        <font-awesome-icon
+                                            :icon="['fa', 'podcast']"
+                                        ></font-awesome-icon>
+                                    </span>
+                                    <span class="nav-link-title">Dashboard</span>
                                 </router-link>
                             </li>
                             <li class="nav-item">
@@ -23,6 +26,11 @@
                                     :to="{name: 'home'}"
                                     class="nav-link"
                                 >
+                                    <span class="nav-link-icon">
+                                        <font-awesome-icon
+                                            :icon="['fa', 'history']"
+                                        ></font-awesome-icon>
+                                    </span>
                                     <span class="nav-link-title">History</span>
                                 </router-link>
                             </li>
@@ -31,20 +39,33 @@
                                     :to="{name: 'home'}"
                                     class="nav-link"
                                 >
+                                    <span class="nav-link-icon">
+                                        <font-awesome-icon
+                                            :icon="['fa', 'star']"
+                                        ></font-awesome-icon>
+                                    </span>
                                     <span class="nav-link-title">Most Played</span>
                                 </router-link>
                             </li>
+                        </ul>
+                        <span class="navbar-text pt-lg-3">Your zone</span>
+                        <ul class="navbar-nav">
                             <li class="nav-item">
                                 <router-link
                                     :to="{name: 'home'}"
                                     class="nav-link"
                                 >
+                                    <span class="nav-link-icon">
+                                        <font-awesome-icon
+                                            :icon="['fas', 'upload']"
+                                        ></font-awesome-icon>
+                                    </span>
                                     <span class="nav-link-title">Upload manager</span>
                                 </router-link>
                             </li>
                         </ul>
 
-                        <p class="navbar-text text-gray-dark">Powered by <a href="https://github.com/xorinzor/shoutz0r" class="text-gray-dark">Shoutz0r</a></p>
+                        <p class="navbar-text align-bottom text-gray-dark">Powered by <a href="https://github.com/xorinzor/shoutz0r" class="text-gray-dark">Shoutz0r</a></p>
                     </div>
                 </div>
             </simplebar>
@@ -67,7 +88,12 @@
 <style scoped lang="scss">
     .container {
         display: flex;
-        height: 100%;
+        margin-left: initial;
+
+        @media (min-width: 63.98rem) {
+            height: 100%;
+            margin-left: auto;
+        }
     }
 
     .simplebar-main {
