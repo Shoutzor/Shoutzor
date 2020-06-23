@@ -86,16 +86,6 @@
 </script>
 
 <style scoped lang="scss">
-    .container {
-        display: flex;
-        margin-left: initial;
-
-        @media (min-width: 63.98rem) {
-            height: 100%;
-            margin-left: auto;
-        }
-    }
-
     .simplebar-main {
         width: 100%;
         height: 100%;

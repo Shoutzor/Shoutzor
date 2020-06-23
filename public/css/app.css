@@ -17548,6 +17548,18 @@ span.flatpickr-weekday {
   box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.1);
 }
 
+#navbar-left .container {
+  display: flex;
+  margin-left: initial;
+}
+
+@media (min-width: 64rem) {
+  #navbar-left .container {
+    height: 100%;
+    margin-left: auto;
+  }
+}
+
 @media (min-width: 48rem) {
   #navbar-left {
     top: 3.5rem;
@@ -17574,7 +17586,7 @@ span.flatpickr-weekday {
   font-weight: bold;
 }
 
-@media (max-width: 63.98rem) {
+@media (max-width: 64rem) {
   #navbar-left #navbar-left-menu {
     padding-top: 3.5rem;
   }

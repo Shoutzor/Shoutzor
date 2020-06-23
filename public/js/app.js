@@ -32475,7 +32475,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, ".container[data-v-6e7694b3] {\n  display: flex;\n  margin-left: initial;\n}\n@media (min-width: 63.98rem) {\n.container[data-v-6e7694b3] {\n    height: 100%;\n    margin-left: auto;\n}\n}\n.simplebar-main[data-v-6e7694b3] {\n  width: 100%;\n  height: 100%;\n}", ""]);
+exports.push([module.i, ".simplebar-main[data-v-6e7694b3] {\n  width: 100%;\n  height: 100%;\n}", ""]);
 
 // exports
 
