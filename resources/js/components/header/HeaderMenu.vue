@@ -1,6 +1,6 @@
 <template>
         <aside class="navbar navbar-vertical navbar-expand-lg" id="navbar-left">
-            <simplebar data-simplebar-auto-hide="true" class="simplebar-main">
+            <simplebar data-simplebar-auto-hide="true" class="simplebar-menu">
                 <div class="container">
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-left-menu">
                         <span class="navbar-toggler-icon"></span>
@@ -86,7 +86,7 @@
 </script>
 
 <style scoped lang="scss">
-    .simplebar-main {
+    .simplebar-menu {
         width: 100%;
         height: 100%;
     }

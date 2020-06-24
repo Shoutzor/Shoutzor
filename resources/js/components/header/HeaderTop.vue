@@ -34,9 +34,38 @@
 </template>
 
 <script>
+    import $ from 'jquery';
+    import { VueBus } from 'vue-bus';
+
     export default {
         name: 'headerTop',
         components: {
+        },
+        created() {
+            this.$bus.on('main-content-scroll', this.handleScroll);
+        },
+        beforeDestroy() {
+            this.$bus.off('main-content-scroll', this.handleScroll);
+        },
+        methods: {
+            handleScroll(event) {
+                var navbar = document.querySelector('#navbar-top');
+
+                if (event.scrollY > 0) {
+                    if (!navbar.classList.contains('showShadow')) {
+                        navbar.classList.add('showShadow');
+                    }
+                } else if (navbar.classList.contains('showShadow')) {
+                    navbar.classList.remove('showShadow');
+                }
+            }
         }
     }
 </script>
+
+<style scoped lang="scss">
+    .simplebar-main {
+        width: 100%;
+        height: 100%;
+    }
+</style>

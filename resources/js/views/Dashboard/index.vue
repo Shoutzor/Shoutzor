@@ -9,6 +9,7 @@
         </div>
         <div class="row row-cards">
             <div class="col-sm-12">
+                <h2>Coming up</h2>
                 <div class="card mediaplayer">
                     <div class="table-responsive">
                         <coming-up></coming-up>

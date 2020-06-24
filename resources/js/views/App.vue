@@ -1,10 +1,10 @@
 <template>
     <div>
-        <header-top></header-top>
+        <header-top v-on:scroll.native="handleScroll"></header-top>
         <header-menu></header-menu>
 
         <div id="main-content">
-            <simplebar data-simplebar-auto-hide="true" class="simplebar-main">
+            <simplebar data-simplebar-auto-hide="true" class="simplebar-main" ref="scroll">
                 <div class="page">
                     <div class="content">
                         <div class="container-xl">
@@ -19,11 +19,20 @@
 
 <script>
     import simplebar from 'simplebar-vue';
+    import { VueBus } from 'vue-bus';
 
     export default {
         name: "App",
         components: {
             simplebar
+        },
+        mounted() {
+            this.$refs.scroll.scrollElement.addEventListener("scroll", this.onContentScroll);
+        },
+        methods: {
+            onContentScroll(event) {
+                this.$bus.emit('main-content-scroll', { scrollY: event.target.scrollTop });
+            }
         }
     }
 </script>
