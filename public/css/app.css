@@ -17488,7 +17488,7 @@ span.flatpickr-weekday {
   width: 100%;
   z-index: 999;
   background: #f8fafc;
-  box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.2);
+  transition: box-shadow 0.2s ease-in-out;
 }
 
 @media (min-width: 48rem) {
@@ -17541,6 +17541,10 @@ span.flatpickr-weekday {
 #navbar-top .container-xl .navbar-brand img {
   -webkit-filter: none;
   filter: none;
+}
+
+#navbar-top.showShadow {
+  box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.2);
 }
 
 #navbar-left {
