@@ -9,8 +9,9 @@
 }
 
 .page {
+    background: url("/images/bg.png") transparent repeat-x;
     padding-bottom: $navbar-height;
-    min-height: 1px;
+    min-height: 600px;
 }
 
 body {

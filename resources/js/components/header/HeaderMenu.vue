@@ -10,7 +10,7 @@
                         <ul class="navbar-nav">
                             <li class="nav-item active">
                                 <router-link
-                                    :to="{name: 'home'}"
+                                    :to="{name: 'dashboard'}"
                                     class="nav-link"
                                 >
                                     <span class="nav-link-icon">
