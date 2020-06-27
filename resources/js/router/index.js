@@ -4,8 +4,8 @@ import VueRouter    from "vue-router";
 Vue.use(VueRouter);
 
 //Views
-import DashboardView    from "@/views/Dashboard/index";
-import AdminView        from "@/views/Admin/index";
+import DashboardView    from "@js/views/Dashboard/index";
+import AdminView        from "@js/views/Admin/index";
 
 //Routes
 const routes = [

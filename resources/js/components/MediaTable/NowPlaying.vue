@@ -40,12 +40,12 @@
 </template>
 
 <script>
-    import History from '@/models/History';
+    import History from '@js/models/History';
 
     export default {
         data() {
             return {
-                albumImage: '/images/album_temp_bg.jpg'
+                albumImage: '@static/images/album_temp_bg.jpg'
             };
         },
 
@@ -88,7 +88,7 @@
                 background-color: rgba(0, 0, 0, 0.1);
                 background-repeat: repeat;
                 background-position: 0px 0px;
-                background-image: url('/images/nowplaying_overlay.png');
+                background-image: url('~@static/images/nowplaying_overlay.png');
             }
         }
 

@@ -65,7 +65,7 @@
 </template>
 
 <script>
-    import Request from '@/models/Request';
+    import Request from '@js/models/Request';
     import DateTime from "../date/DateTime";
 
     export default {

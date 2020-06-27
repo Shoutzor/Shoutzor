@@ -12,10 +12,11 @@ mix.webpackConfig({
         ],
     },
     resolve: {
-        extensions: ['.js', '.vue', '.json'],
+        extensions: ['.js', '.vue', '.json', '.scss', '.sass', '.css'],
         alias: {
             'vue$': 'vue/dist/vue.esm.js',
-            '@': __dirname + '/resources/js'
+            '@js': __dirname + '/resources/js',
+            '@static': __dirname + '/resources/static'
         },
     },
 })
