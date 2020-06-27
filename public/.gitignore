@@ -1,0 +1,13 @@
+#Ignore everything
+*
+
+#Except these files
+!.gitignore
+!.htaccess
+!browserconfig.xml
+!favicon.ico
+!index.php
+!robots.txt
+
+#And these directories
+!storage

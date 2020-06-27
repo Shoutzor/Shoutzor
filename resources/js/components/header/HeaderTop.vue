@@ -2,7 +2,7 @@
     <header class="navbar navbar-expand-lg" id="navbar-top">
         <div class="container-fluid">
             <a href="." class="navbar-brand navbar-brand-autodark d-none-navbar-horizontal pr-0">
-                <img src="/images/shoutzor-logo-header.png" alt="Shoutz0r logo" class="navbar-brand-image">
+                <img src="../../../static/images/shoutzor-logo-header.png" alt="Shoutz0r logo" class="navbar-brand-image">
             </a>
             <div class="my-2 my-md-0">
                 <header-search></header-search>

@@ -1,6 +1,16 @@
 const mix = require('laravel-mix');
 
 mix.webpackConfig({
+    module: {
+        rules: [
+            {
+                test:  /\.css$/i,
+                use : [{
+                    loader: 'css-loader',
+                }],
+            },
+        ],
+    },
     resolve: {
         extensions: ['.js', '.vue', '.json'],
         alias: {
@@ -26,3 +36,7 @@ mix.sass('resources/sass/app.scss', 'public/css')
     .options({
         globalVueStyles: __dirname + '/resources/sass/_variables.scss'
     });
+
+if (mix.inProduction()) {
+    mix.version();
+}
