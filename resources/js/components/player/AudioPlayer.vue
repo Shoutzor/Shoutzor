@@ -12,10 +12,27 @@
             </div>
         </div>
         <div class="media-control">
-            <div id="playbutton">
+            <div id="media-controls">
                 <font-awesome-icon
-                    :icon="['fas', 'play']"
+                    class="upvote"
+                    :icon="['fas', 'thumbs-up']"
                 ></font-awesome-icon>
+                <div id="playbutton">
+                    <font-awesome-icon
+                        :icon="['fas', 'play']"
+                    ></font-awesome-icon>
+                </div>
+                <font-awesome-icon
+                    class="downvote"
+                    :icon="['fas', 'thumbs-down']"
+                ></font-awesome-icon>
+            </div>
+            <div id="media-progress">
+                <span>01:45</span>
+                <div class="progress">
+                    <div class="progress-bar bg-blue" style="width: 42%" role="progressbar" aria-valuenow="42" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+                <span>4:31</span>
             </div>
         </div>
         <div class="volume-control">
@@ -64,6 +81,10 @@
             align-items: center;
         }
 
+        #media-controls {
+            margin-top: 0.2rem;
+        }
+
         .media-info {
             padding-left: 10px;
             justify-content: flex-start;
@@ -75,18 +96,51 @@
 
         .media-control {
             justify-content: center;
+            flex-direction: column;
+            max-width: 500px;
+
+            & > div {
+                display: flex;
+                align-items: center;
+                flex-direction: row;
+            }
 
             #playbutton {
-                width: 2.5rem;
-                height: 2.5rem;
-                background: $green;
+                width: 2.75rem;
+                height: 2.75rem;
+                border: 1px solid $gray;
                 border-radius: 50%;
                 text-align: center;
 
                 & > svg {
-                    width: 1.5rem;
-                    height: 1.5rem;
-                    margin-top: 0.5rem;
+                    width: 1.25rem;
+                    height: 1.25rem;
+                    margin: 0.75rem;
+                }
+            }
+
+            .upvote {
+                margin-right: 1rem;
+                width: 1.2rem;
+                height: 1.2rem;
+            }
+
+            .downvote {
+                margin-left: 1rem;
+                width: 1.2rem;
+                height: 1.2rem;
+            }
+
+            #media-progress {
+                width: 100%;
+
+                .progress {
+                    margin: 0 0.5rem;
+                    height: 0.35rem;
+                }
+
+                & > span {
+                    font-size: 0.75rem;
                 }
             }
         }

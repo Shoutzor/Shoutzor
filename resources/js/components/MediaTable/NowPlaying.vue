@@ -11,15 +11,6 @@
                 <artist-list class="mb-2" style="font-size:18px;" :artists="currentMedia.media.artists"></artist-list>
 
                 <div class="d-flex align-items-center mt-auto">
-                    <font-awesome-icon
-                        class="upvote"
-                        :icon="['fas', 'thumbs-up']"
-                    ></font-awesome-icon>
-                    <font-awesome-icon
-                        class="downvote"
-                        :icon="['fas', 'thumbs-down']"
-                    ></font-awesome-icon>
-
                     <div class="requested-by pl-3">
                         <small class="text-muted">Requested by</small>
                         <div v-if="currentMedia.user !== null">{{ currentMedia.user.name}}</div>
@@ -47,7 +38,7 @@
     }
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
     .nowplaying {
         position: relative;
         width: 100%;
@@ -110,7 +101,7 @@
                     }
                 }
 
-                a, .upvote, .downvote {
+                a.artist, .upvote, .downvote {
                     color: #fff;
 
                     &:hover {

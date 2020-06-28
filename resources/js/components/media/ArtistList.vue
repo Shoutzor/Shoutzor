@@ -5,6 +5,7 @@
         >
             <template v-if="index != 0">, </template>
             <router-link
+                class="artist"
                 :to="{ name:'artist', params:{ id: artist.id } }"
             >{{artist.name}}</router-link>
         </span>
