@@ -18,5 +18,3 @@ Docker container can be found at [xorinzor/shoutz0r-docker](https://github.com/x
 
 The Shoutzor environment should now be ready for use.
 When developing, make sure to run `npm run watch` as well in order to update the compiled JS and CSS files.
-
-When committing make sure to run `npm run production` first.
