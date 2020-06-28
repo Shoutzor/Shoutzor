@@ -16,6 +16,7 @@
         "@fortawesome/vue-fontawesome": "^0.1.9",
         "@vuex-orm/core": "^0.36.3",
         "@vuex-orm/plugin-axios": "^0.9.3",
+        "autoprefixer": "^9.8.4",
         "axios": "^0.19",
         "bootstrap": "^4.5.0",
         "cross-env": "^7.0",
@@ -34,12 +35,12 @@
         "vue": "^2.5.17",
         "vue-router": "^3.1.6",
         "vue-template-compiler": "^2.6.10",
-        "vuex": "^3.4.0"
-    },
-    "dependencies": {
-        "@babel/plugin-proposal-class-properties": "^7.8.3",
-        "autoprefixer": "^9.8.4",
+        "vuex": "^3.4.0",
+        "veeno": "0.0.4",
         "postcss": "^7.0.32",
         "vue-bus": "^1.2.1"
+    },
+    "dependencies": {
+        "@babel/plugin-proposal-class-properties": "^7.8.3"
     }
 }

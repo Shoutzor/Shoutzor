@@ -3,7 +3,6 @@
 import Dropdown from 'bootstrap/js/dist/dropdown';
 import Tooltip from 'bootstrap/js/dist/tooltip';
 import Popover from 'bootstrap/js/dist/popover';
-import noUiSlider from 'nouislider';
 
 (function () {
 	/**
@@ -43,21 +42,4 @@ import noUiSlider from 'nouislider';
 		};
 		return new Popover(popoverTriggerEl, options);
 	});
-
-  /**
-	* noUiSlider - range slider with full touch support.
-	* @link https://refreshless.com/nouislider/
-	*/
-	let sliderTriggerList = [].slice.call(document.querySelectorAll("[data-slider]"));
-	sliderTriggerList.map(function (sliderTriggerEl) {
-		let options = {};
-		if (sliderTriggerEl.getAttribute("data-slider")) {
-			options = JSON.parse(sliderTriggerEl.getAttribute("data-slider"));
-		}
-		let slider = noUiSlider.create(sliderTriggerEl, options);
-		if (options['js-name']) {
-			window[options['js-name']] = slider;
-		}
-	});
-
 })();
