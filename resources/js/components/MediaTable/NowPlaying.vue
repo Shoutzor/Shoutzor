@@ -45,7 +45,7 @@
     export default {
         data() {
             return {
-                albumImage: '@static/images/album_temp_bg.jpg'
+                albumImage: require('@static/images/album_temp_bg.jpg')
             };
         },
 

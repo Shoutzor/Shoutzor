@@ -1,5 +1,13 @@
-// Variables
+//
+// Our Variables
+//
 @import 'variables';
+
+//
+// Custom Theme
+//
+@import 'custom-theme/theme';
+
 
 //
 // Tabler.io
@@ -11,7 +19,3 @@
 //
 @import 'overrides/mixins/scrollbar'; //Improved scrollbar cross-browser styling
 
-//
-// Custom Theme
-//
-@import 'custom-theme/theme';

@@ -14,6 +14,8 @@
                 </div>
             </simplebar>
         </div>
+
+        <audio-player></audio-player>
     </div>
 </template>
 
@@ -27,11 +29,13 @@
             simplebar
         },
         mounted() {
+            //Add a listener for when the user scrolls through the main content section, that emits a scroll event
+            //for other components to hook into
             this.$refs.scroll.scrollElement.addEventListener("scroll", this.onContentScroll);
         },
         methods: {
             onContentScroll(event) {
-                this.$bus.emit('main-content-scroll', { scrollY: event.target.scrollTop });
+                this.$bus.emit('main-content-scroll', { scrollX: event.target.scrollLeft, scrollY: event.target.scrollTop });
             }
         }
     }

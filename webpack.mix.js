@@ -16,6 +16,7 @@ mix.webpackConfig({
         alias: {
             'vue$': 'vue/dist/vue.esm.js',
             '@js': __dirname + '/resources/js',
+            '@sass': __dirname + '/resources/sass',
             '@static': __dirname + '/resources/static'
         },
     },

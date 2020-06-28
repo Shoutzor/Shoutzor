@@ -64,8 +64,6 @@
                                 </router-link>
                             </li>
                         </ul>
-
-                        <p class="navbar-text align-bottom text-gray-dark">Powered by <a href="https://github.com/xorinzor/shoutz0r" class="text-gray-dark">Shoutz0r</a></p>
                     </div>
                 </div>
             </simplebar>
@@ -85,9 +83,56 @@
     }
 </script>
 
-<style scoped lang="scss">
-    .simplebar-menu {
-        width: 100%;
-        height: 100%;
+<style lang="scss">
+    #navbar-left {
+        background: $light-mix;
+        -webkit-box-shadow: 0px 1px 4px 0px rgba(0,0,0,0.1);
+        -moz-box-shadow: 0px 1px 4px 0px rgba(0,0,0,0.1);
+        box-shadow: 0px 1px 4px 0px rgba(0,0,0,0.1);
+
+        .container {
+            display: flex;
+            margin-left: initial;
+
+            @media (min-width: map-get($grid-breakpoints, lg)) {
+                height: 100%;
+                margin-left: auto;
+            }
+        }
+
+        @media (min-width: map-get($grid-breakpoints, md)) {
+            top: $navbar-height;
+
+            .navbar-nav {
+                flex-grow: 0;
+            }
+
+            .align-bottom {
+                margin-top: auto;
+            }
+        }
+
+        .nav-link-icon {
+            width: 2.25rem;
+            height: initial;
+            font-size: 1.3rem;
+            margin: 5px 0;
+        }
+
+        .navbar-text {
+            color: #FFF;
+            font-weight: bold;
+        }
+
+        @media (max-width: map-get($grid-breakpoints, lg)) {
+            #navbar-left-menu {
+                padding-top: $navbar-height;
+            }
+        }
+
+        .simplebar-menu {
+            width: 100%;
+            height: 100%;
+        }
     }
 </style>

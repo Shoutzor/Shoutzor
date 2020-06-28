@@ -34,9 +34,6 @@
 </template>
 
 <script>
-    import $ from 'jquery';
-    import { VueBus } from 'vue-bus';
-
     export default {
         name: 'headerTop',
         components: {
@@ -63,9 +60,46 @@
     }
 </script>
 
-<style scoped lang="scss">
-    .simplebar-main {
+<style lang="scss">
+    #navbar-top {
         width: 100%;
-        height: 100%;
+        z-index: 999;
+        background: $body-bg;
+        transition: box-shadow 0.2s ease;
+        @media (min-width: map-get($grid-breakpoints, md)) {
+            position: fixed;
+            top: 0;
+            height: $navbar-height;
+        }
+
+        .container-fluid {
+            @media (min-width: map-get($grid-breakpoints, md)) {
+                padding-left: 0;
+            }
+
+            .navbar-brand {
+                -webkit-filter: none;
+                filter: none;
+                @media (min-width: map-get($grid-breakpoints, md)) {
+                    display: flex;
+                    justify-content: center;
+                    width: $sidebar-width;
+                    height: $navbar-height;
+                    margin: 0;
+                    padding: 0;
+                }
+
+                img {
+                    -webkit-filter: brightness(0) invert(1);
+                    filter: brightness(0) invert(1);
+                }
+            }
+        }
+
+        &.showShadow {
+            -webkit-box-shadow: 0px 1px 4px 0px rgba(0,0,0,0.2);
+            -moz-box-shadow: 0px 1px 4px 0px rgba(0,0,0,0.2);
+            box-shadow: 0px 1px 4px 0px rgba(0,0,0,0.2);
+        }
     }
 </style>
