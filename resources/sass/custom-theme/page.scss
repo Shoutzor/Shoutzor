@@ -1,16 +1,16 @@
 #main-content {
+    max-height: 100%;
+    overflow: hidden;
+    padding-bottom: $player-height;
     @media (min-width: 48rem) {
         padding-left: $sidebar-width;
         padding-top: $navbar-height;
     }
-
-    max-height: 100%;
-    overflow: hidden;
 }
 
 .page {
     background: url("~@static/images/bg.png") transparent repeat-x;
-    padding-bottom: $navbar-height;
+    padding-bottom: calc(#{$navbar-height} + #{$player-height});
     min-height: 600px;
 }
 

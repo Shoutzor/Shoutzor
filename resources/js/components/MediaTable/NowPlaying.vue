@@ -8,16 +8,8 @@
             <img class="album-image card-aside-column" v-bind:src="albumImage" alt="album image" />
             <div class="track-info card-body d-flex flex-column mt-auto">
                 <h3 style="font-size:20px;margin-bottom:1px;" v-if="currentMedia.media !== null">{{ currentMedia.media.title }}</h3>
-                <p class="mb-2" style="font-size:18px;" v-if="currentMedia.media.artists !== null">
-                    <span v-for="(artist, index) in currentMedia.media.artists"
-                          :key="artist.id"
-                    >
-                        <template v-if="index != 0">, </template>
-                        <router-link
-                            :to="{ name:'artist', params:{ id: artist.id } }"
-                        >{{artist.name}}</router-link>
-                    </span>
-                </p>
+                <artist-list class="mb-2" style="font-size:18px;" :artists="currentMedia.media.artists"></artist-list>
+
                 <div class="d-flex align-items-center mt-auto">
                     <font-awesome-icon
                         class="upvote"
@@ -51,10 +43,6 @@
 
         computed: {
             currentMedia: () => History.query().with(["media.artists|albums", "user"]).last()
-        },
-
-        created() {
-            History.api().fetchNowPlaying();
         }
     }
 </script>

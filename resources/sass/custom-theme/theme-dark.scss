@@ -15,4 +15,9 @@
     #navbar-left {
         background: $dark;
     }
+
+    #audio-player {
+        background: #454b50;
+        border-top: 1px solid darken($dark, 1%);
+    }
 }

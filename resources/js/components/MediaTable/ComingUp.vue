@@ -33,16 +33,7 @@
                 </td>
                 <td>
                     <div>{{ request.media.title }}</div>
-                    <div class="small text-muted" v-if="request.media.artists !== null">
-                            <span v-for="(artist, index) in request.media.artists"
-                                  :key="artist.id"
-                            >
-                                <template v-if="index != 0">, </template>
-                                <router-link
-                                    :to="{ name:'artist', params:{ id: artist.id } }"
-                                >{{artist.name}}</router-link>
-                            </span>
-                    </div>
+                    <artist-list class="small text-muted" :artists="request.media.artists"></artist-list>
                 </td>
                 <td>
                     <div v-if="request.user !== null">{{ request.user.name }}</div>
