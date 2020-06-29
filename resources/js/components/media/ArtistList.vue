@@ -17,3 +17,9 @@
         props: ['artists']
     }
 </script>
+
+<style lang="scss">
+    a.artist {
+        color: inherit;
+    }
+</style>

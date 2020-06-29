@@ -31,7 +31,7 @@
     </head>
 
     <body class="antialiased theme-dark fixed-header">
-        <div id="app">
+        <div id="shoutzor">
             <app></app>
         </div>
     </body>

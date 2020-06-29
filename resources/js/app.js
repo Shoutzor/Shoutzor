@@ -26,9 +26,8 @@ const app = new Vue({
     components: { App },
     router,
     store
-}).$mount('#app');
+}).$mount('#shoutzor');
 
 //Load other components
 require('./bootstrap');
-require('./tabler');
 require('./theme');

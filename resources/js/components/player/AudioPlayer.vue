@@ -49,21 +49,13 @@
                     data-toggle="dropdown"
                     :icon="['fas', 'volume-up']"
                 ></font-awesome-icon>
-                <div class="dropdown-menu show" style="display:block;height:200px;-ms-flex: none;box-sizing: default;
-    -webkit-box-flex: 0;
-    flex: none;">
-                    <veeno
-                        id="volume-slider"
-                        vertical
-                        connect
-                        rtl
-                        tooltips
-                        :step="1"
-                        :handles="100"
-                        :range = "{
-                            'min': 0,
-                            'max': 100
-                    }"></veeno>
+                <div class="dropdown-menu" v-on:click.stop>
+                    <vue-slider
+                        v-model="volume"
+                        direction="btt"
+                        v-bind:min="0"
+                        v-bind:max="100"
+                    ></vue-slider>
                 </div>
             </div>
         </div>
@@ -71,15 +63,16 @@
 </template>
 
 <script>
-    import veeno from 'veeno';
     import History from '@js/models/History';
+    import VueSlider from 'vue-slider-component'
 
     export default {
         components: {
-            veeno
+            VueSlider
         },
         data() {
             return {
+                volume: 100,
                 albumImage: require('@static/images/album_temp_bg.jpg')
             };
         },
@@ -95,6 +88,8 @@
 </script>
 
 <style lang="scss">
+    @import '~vue-slider-component/theme/default.css';
+
     #audio-player {
         width: 100%;
         height: $player-height;
@@ -179,6 +174,10 @@
         .volume-control {
             justify-content: flex-end;
 
+            a {
+                color: inherit;
+            }
+
             & > * {
                 margin-right: 1.5rem;
             }
@@ -191,33 +190,7 @@
             .dropdown-menu {
                 min-width: 22px;
                 max-width: 22px;
-
-                &.show {
-                    display: block;
-                    justify-content: center;
-                }
-
-                #volume-slider {
-                    .noUi-base {
-                        width: 0.75rem;
-                        margin: 0 auto;
-                    }
-
-                    .noUi-origin {
-                        height: 100%;
-
-                        .noUi-handle {
-                            border: 0;
-                            margin-left: -2px;
-
-                            .noUi-tooltip {
-                                position: relative;
-                                left: -50px;
-                                top: -5px;
-                            }
-                        }
-                    }
-                }
+                height: 140px;
             }
         }
     }
