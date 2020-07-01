@@ -1,9 +1,13 @@
 <template>
     <header class="navbar navbar-expand-lg" id="navbar-top">
         <div class="container-fluid">
-            <a href="." class="navbar-brand navbar-brand-autodark d-none-navbar-horizontal pr-0">
+            <router-link
+                :to="{name: 'dashboard'}"
+                class="navbar-brand navbar-brand-autodark d-none-navbar-horizontal pr-0"
+            >
                 <img src="@static/images/shoutzor-logo-header.png" alt="Shoutz0r logo" class="navbar-brand-image">
-            </a>
+            </router-link>
+
             <div class="my-2 my-md-0">
                 <header-search></header-search>
             </div>
@@ -23,9 +27,19 @@
                         </div>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right">
-                        <a class="dropdown-item" href="#">Profile</a>
+                        <router-link
+                            :to="{name: 'profile'}"
+                            class="dropdown-item"
+                        >
+                            Profile
+                        </router-link>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">Logout</a>
+                        <router-link
+                            :to="{name: 'profile'}"
+                            class="dropdown-item"
+                        >
+                            Logout
+                        </router-link>
                     </div>
                 </div>
             </div>

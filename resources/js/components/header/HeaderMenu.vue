@@ -23,7 +23,7 @@
                             </li>
                             <li class="nav-item">
                                 <router-link
-                                    :to="{name: 'home'}"
+                                    :to="{name: 'history'}"
                                     class="nav-link"
                                 >
                                     <span class="nav-link-icon">
@@ -36,7 +36,7 @@
                             </li>
                             <li class="nav-item">
                                 <router-link
-                                    :to="{name: 'home'}"
+                                    :to="{name: 'popular'}"
                                     class="nav-link"
                                 >
                                     <span class="nav-link-icon">
@@ -52,7 +52,7 @@
                         <ul class="navbar-nav">
                             <li class="nav-item">
                                 <router-link
-                                    :to="{name: 'home'}"
+                                    :to="{name: 'upload'}"
                                     class="nav-link"
                                 >
                                     <span class="nav-link-icon">

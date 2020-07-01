@@ -108,7 +108,8 @@
         }
 
         #media-controls {
-            margin-top: 0.2rem;
+            margin-top: 0.5rem;
+            margin-bottom: 0.1rem;
         }
 
         .media-info {
@@ -132,15 +133,15 @@
             }
 
             #playbutton {
-                width: 2.75rem;
-                height: 2.75rem;
+                width: 2.5rem;
+                height: 2.5rem;
                 border: 1px solid $gray;
                 border-radius: 50%;
                 text-align: center;
 
                 & > svg {
-                    width: 1.25rem;
-                    height: 1.25rem;
+                    width: 1rem;
+                    height: 1rem;
                     margin: 0.75rem;
                 }
             }
