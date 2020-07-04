@@ -29,13 +29,32 @@
             simplebar
         },
         mounted() {
-            //Add a listener for when the user scrolls through the main content section, that emits a scroll event
-            //for other components to hook into
+            //Add a scroll-event for when the user scrolls through the main content section
             this.$refs.scroll.scrollElement.addEventListener("scroll", this.onContentScroll);
+
+            //Add file-drag events
+            document.addEventListener('dragover', this.onDragOver);
+            document.addEventListener('dragleave', this.onDragLeave);
+            document.addEventListener('drop', this.onDrop);
         },
         methods: {
             onContentScroll(event) {
                 this.$bus.emit('main-content-scroll', { scrollX: event.target.scrollLeft, scrollY: event.target.scrollTop });
+            },
+
+            onDragOver(event) {
+                event.preventDefault();
+                this.$bus.emit('dragover', event);
+            },
+
+            onDragLeave(event) {
+                event.preventDefault();
+                this.$bus.emit('dragleave', event);
+            },
+
+            onDrop(event) {
+                event.preventDefault();
+                this.$bus.emit('drop', event);
             }
         }
     }

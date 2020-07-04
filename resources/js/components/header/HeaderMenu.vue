@@ -8,7 +8,7 @@
                     <div class="collapse navbar-collapse" id="navbar-left-menu">
                         <span class="navbar-text pt-lg-3">Music zone</span>
                         <ul class="navbar-nav">
-                            <li class="nav-item active">
+                            <li class="nav-item">
                                 <router-link
                                     :to="{name: 'dashboard'}"
                                     class="nav-link"
@@ -110,6 +110,11 @@
             .align-bottom {
                 margin-top: auto;
             }
+        }
+
+
+        a.nav-link.router-link-exact-active {
+            color: #fff !important;
         }
 
         .nav-link-icon {
