@@ -3,11 +3,7 @@
         <div class="row row-cards">
             <div class="col-sm-12">
                 <upload-area></upload-area>
-
-                <h1 class="mt-6">Upload manager</h1>
-                <keep-alive>
-                    <upload-manager></upload-manager>
-                </keep-alive>
+                <upload-overview class="mt-4"></upload-overview>
             </div>
         </div>
     </div>

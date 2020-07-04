@@ -16,12 +16,12 @@
         </div>
 
         <audio-player></audio-player>
+        <upload-manager></upload-manager>
     </div>
 </template>
 
 <script>
     import simplebar from 'simplebar-vue';
-    import { VueBus } from 'vue-bus';
 
     export default {
         name: "App",

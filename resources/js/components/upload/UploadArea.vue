@@ -8,7 +8,7 @@
             <input class="box_file" type="file" name="files[]" id="file" data-multiple-caption="{count} files selected" multiple />
             <label for="file">
                 <strong>Choose a file</strong>
-                <span class="box_dragndrop"> or drag it here</span>.
+                <span class="box_dragndrop"> or drag it here</span>
             </label>
         </div>
     </form>
@@ -51,6 +51,10 @@
             onDrop(e) {
                 console.log("drop", e);
                 e.preventDefault();
+                var dt = e.dataTransfer;
+                if (dt.types && (dt.types.indexOf ? dt.types.indexOf('Files') !== -1 : dt.types.contains('Files'))) {
+                    this.$bus.emit('upload-file', e);
+                }
             }
         }
     }
