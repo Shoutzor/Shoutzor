@@ -9,7 +9,7 @@ import Media from '@js/models/Media'
 import User from '@js/models/User'
 import Request from '@js/models/Request'
 import History from '@js/models/History'
-import Upload from '@js/models/Upload'
+import Task from '@js/models/Task'
 
 const database = new VuexORM.Database()
 
@@ -22,6 +22,6 @@ database.register(Media)
 database.register(User)
 database.register(Request)
 database.register(History)
-database.register(Upload)
+database.register(Task)
 
 export default database

@@ -3,8 +3,8 @@ import { Model } from '@vuex-orm/core';
 import Media from "./Media";
 import User from "./User";
 
-export default class Upload extends Model {
-    static entity = 'upload'
+export default class Task extends Model {
+    static entity = 'task'
 
     static fields () {
         return {

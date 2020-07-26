@@ -3,7 +3,8 @@
         <div class="row row-cards">
             <div class="col-sm-12">
                 <upload-area></upload-area>
-                <upload-overview class="mt-4"></upload-overview>
+                <upload-progress></upload-progress>
+                <task-overview class="mt-4"></task-overview>
             </div>
         </div>
     </div>

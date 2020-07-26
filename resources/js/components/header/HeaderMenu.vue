@@ -60,7 +60,7 @@
                                             :icon="['fas', 'upload']"
                                         ></font-awesome-icon>
                                     </span>
-                                    <span class="nav-link-title">Upload manager</span>
+                                    <span class="nav-link-title">Task manager</span>
                                 </router-link>
                             </li>
                         </ul>
