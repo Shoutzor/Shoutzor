@@ -3,10 +3,18 @@
         <div class="card-body">
             <div class="h1 mb-3" v-if="status.totalFiles - 1 > 0">Uploading files, {{ status.totalFiles - 1 }} pending</div>
             <div v-if="status.currentFile !== null">
-                <div class="uploadInfo d-flex mb-2">
-                    <div><strong>Uploading:</strong> {{ status.currentFile }}</div>
-                    <div><strong>Progress:</strong> {{ status.progress }}%</div>
-                </div>
+                <table class="table table-borderless card-table upload-info mb-2">
+                    <tbody>
+                        <tr>
+                            <td><strong>Uploading:</strong></td>
+                            <td>{{ status.currentFile }}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Progress:</strong></td>
+                            <td>{{ status.progress }}%</td>
+                        </tr>
+                    </tbody>
+                </table>
                 <div class="progress progress-sm">
                     <div class="progress-bar bg-blue" :style="cssVars" role="progressbar" :aria-valuenow="status.progress" aria-valuemin="0" aria-valuemax="100">
                         <span class="sr-only">{{ status.progress }}% Complete</span>
@@ -36,6 +44,7 @@
         methods: {
             uploadStatusUpdate(statusUpdate) {
                 this.status = statusUpdate;
+                console.log(this.status);
             }
         },
 
@@ -55,7 +64,7 @@
         width: var(--width);
     }
 
-    .uploadInfo {
+    .upload-info {
         flex-direction: column;
 
         strong {
