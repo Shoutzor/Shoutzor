@@ -45,10 +45,7 @@
         },
 
         methods: {
-            uploadFiles(e) {
-                //Set alias variable
-                var addedFiles = e.dataTransfer.files;
-
+            uploadFiles(addedFiles) {
                 //Check if there's anything to upload
                 if (addedFiles.length === 0) {
                     return;
