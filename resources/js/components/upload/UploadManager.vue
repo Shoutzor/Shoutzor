@@ -97,6 +97,9 @@
                     )
                 })
                 .finally(() => {
+                    //We're finished with all queued files
+                    this.isUploading = false;
+
                     //Update status variables
                     this.updateStatusVariables();
 
@@ -104,9 +107,6 @@
                     if(this.files.length > 0) {
                         //Start the upload of the next file.
                         this.uploadNextFile();
-                    } else {
-                        //We're finished with all queued files
-                        this.isUploading = false;
                     }
                 });
             },
@@ -114,6 +114,7 @@
             updateStatusVariables() {
                 this.status.progress = 0;
                 this.status.currentFile = null;
+                this.status.totalFiles = this.files.length;
             },
 
             parseError(error) {
