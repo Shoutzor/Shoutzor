@@ -24,6 +24,7 @@ Route::group(['middleware' => 'auth'], function () {
     });
 });
 
+Route::post('upload', 'UploadApiController@store');
 Route::get('album', 'AlbumApiController@get');
 Route::get('artist', 'ArtistApiController@get');
 Route::get('request', 'RequestApiController@index');
