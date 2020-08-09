@@ -118,10 +118,24 @@
             },
 
             parseError(error) {
-                //If the status code is 413, the payload is too large
-                if(error.status === 413) {
+                var code = error.status;
+
+                //401: Unauthorized
+                if(code === 401) {
+                    return {
+                        message: "You need to be logged in to upload files"
+                    };
+                }
+                //413: the payload is too large
+                else if(code === 413) {
                     return {
                         message: "The file is too large"
+                    };
+                }
+                //500: internal server error
+                else if(code === 500) {
+                    return {
+                        message: "An error occured while uploading, please try again later"
                     };
                 }
 
