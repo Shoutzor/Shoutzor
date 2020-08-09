@@ -10,4 +10,4 @@
 !robots.txt
 
 #And these directories
-!storage
+#!storage
