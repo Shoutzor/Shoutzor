@@ -2,6 +2,8 @@
 
 namespace App\Jobs;
 
+use App\Processors\MediaProcessor;
+use App\Upload;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -12,7 +14,7 @@ class ProcessUpload implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    protected $file;
+    protected $upload;
 
     /**
      * Create a new job instance.
@@ -20,9 +22,9 @@ class ProcessUpload implements ShouldQueue
      * @param  Upload  $podcast
      * @return void
      */
-    public function __construct(Upload $file)
+    public function __construct(Upload $upload)
     {
-        $this->file = $file;
+        $this->upload = $upload;
     }
 
     /**
@@ -33,18 +35,22 @@ class ProcessUpload implements ShouldQueue
      */
     public function handle(MediaProcessor $processor)
     {
-        // Process uploaded podcast...
+        //Update the status
+        $this->upload->status = Upload::STATUS_PROCESSING;
+        $this->upload->save();
+
+        $processor->parse($this->upload);
     }
 
     /**
      * Handle a job failure.
      *
-     * @param  \Exception  $exception
      * @return void
      */
-    public function failed(Exception $exception)
+    public function failed()
     {
-        // Send user notification of failure, etc...
+        $this->upload->status = Upload::STATUS_FAILED;
+        $this->upload->save();
     }
 
     /**

@@ -38,8 +38,8 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function albums()
+    public function uploads()
     {
-        return $this->hasMany(Album::class);
+        return $this->hasMany(Upload::class);
     }
 }
