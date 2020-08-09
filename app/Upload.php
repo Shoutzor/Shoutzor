@@ -10,6 +10,8 @@ class Upload extends Model
     const STATUS_PROCESSING = 1;
     const STATUS_FAILED     = 2;
 
+    const QUEUE_NAME = 'uploads';
+
     public $timestamps = false;
 
     public function user() {

@@ -1,5 +1,7 @@
 <?php
 
+use App\Upload;
+
 return [
 
     /*
@@ -13,7 +15,8 @@ return [
     |
     */
 
-    'default' => env('QUEUE_CONNECTION', 'sync'),
+    'default'           => env('QUEUE_CONNECTION', 'database'),
+    Upload::QUEUE_NAME  => env('QUEUE_CONNECTION', 'database_' . Upload::QUEUE_NAME),
 
     /*
     |--------------------------------------------------------------------------
@@ -38,6 +41,13 @@ return [
             'driver' => 'database',
             'table' => 'jobs',
             'queue' => 'default',
+            'retry_after' => 90,
+        ],
+
+        'database_' . Upload::QUEUE_NAME => [
+            'driver' => 'database',
+            'table' => 'jobs',
+            'queue' => Upload::QUEUE_NAME,
             'retry_after' => 90,
         ],
 
@@ -85,5 +95,4 @@ return [
         'database' => env('DB_CONNECTION', 'mysql'),
         'table' => 'failed_jobs',
     ],
-
 ];

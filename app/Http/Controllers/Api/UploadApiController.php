@@ -41,7 +41,7 @@ class UploadApiController extends Controller {
         $upload->save();
 
         //Queue the job for processing
-        ProcessUpload::dispatch($upload)->onQueue('uploads');
+        ProcessUpload::dispatch($upload)->onConnection('database_' . Upload::QUEUE_NAME)->onQueue(Upload::QUEUE_NAME);
     }
 
 }

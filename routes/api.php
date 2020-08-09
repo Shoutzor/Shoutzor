@@ -21,10 +21,10 @@ Route::group(['middleware' => 'auth'], function () {
     Route::group(['middleware' => 'auth:api'], function () {
         Route::get('logout', 'AuthApiController@logout');
         Route::get('user', 'AuthApiController@user');
-        Route::post('upload', 'UploadApiController@store');
     });
 });
 
+Route::post('upload', 'UploadApiController@store');
 Route::get('album', 'AlbumApiController@get');
 Route::get('artist', 'ArtistApiController@get');
 Route::get('request', 'RequestApiController@index');
