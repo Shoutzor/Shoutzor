@@ -11,15 +11,16 @@
             <div class="my-2 my-md-0">
                 <header-search></header-search>
             </div>
+
             <div class="navbar-nav flex-row order-md-last">
-                <div class="nav-item d-md-flex mr-3">
+                <div class="nav-item d-md-flex mr-3" v-if="isAuthenticated === true">
                     <router-link
                         :to="{name: 'admin'}"
                         class="btn btn-sm btn-outline-primary"
                         >Admin panel</router-link>
                 </div>
 
-                <div class="nav-item dropdown">
+                <div class="nav-item dropdown" v-if="isAuthenticated === true">
                     <a href="#" class="nav-link d-flex lh-1 text-reset p-0" data-toggle="dropdown">
                         <div class="d-xl-block pl-2">
                             <div>Xorinzor</div>
@@ -42,6 +43,25 @@
                         </router-link>
                     </div>
                 </div>
+                <div class="nav-item dropdown" v-else>
+                    <a href="#" class="nav-link d-flex lh-1 text-reset p-0" data-toggle="dropdown">
+                        <div class="d-xl-block pr-2">
+                            <div>Login / Register</div>
+                        </div>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right auth-dropdown">
+                        <form id="auth-login-form">
+                            <input class="form-control" type="text" name="email" placeholder="your@email.com" />
+                            <input class="form-control"  type="password" name="password" placeholder="password" />
+                            <button type="submit" class="btn btn-primary mt-2">Login</button>
+                        </form>
+
+                        <div class="dropdown-divider"></div>
+
+                        <button type="button" class="btn btn-secondary">Register</button>
+
+                    </div>
+                </div>
             </div>
         </div>
     </header>
@@ -50,13 +70,19 @@
 <script>
     export default {
         name: 'headerTop',
-        components: {
+        data() {
+            return {
+                isAuthenticated: false,
+                user: null
+            }
         },
         created() {
             this.$bus.on('main-content-scroll', this.handleScroll);
+            this.$bus.on('auth-status', this.handleScroll);
         },
         beforeDestroy() {
             this.$bus.off('main-content-scroll', this.handleScroll);
+            this.$bus.off('auth-status', this.handleScroll);
         },
         methods: {
             handleScroll(event) {
@@ -69,6 +95,10 @@
                 } else if (navbar.classList.contains('showShadow')) {
                     navbar.classList.remove('showShadow');
                 }
+            },
+
+            handleAuthStatus(event) {
+
             }
         }
     }
@@ -114,6 +144,14 @@
             -webkit-box-shadow: 0px 1px 4px 0px rgba(0,0,0,0.2);
             -moz-box-shadow: 0px 1px 4px 0px rgba(0,0,0,0.2);
             box-shadow: 0px 1px 4px 0px rgba(0,0,0,0.2);
+        }
+
+        .auth-dropdown {
+            padding: 5px;
+
+            button {
+                width: 100%;
+            }
         }
     }
 </style>

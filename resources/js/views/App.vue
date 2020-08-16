@@ -15,6 +15,7 @@
             </simplebar>
         </div>
 
+        <authentication-manager></authentication-manager>
         <audio-player></audio-player>
         <upload-manager></upload-manager>
     </div>
