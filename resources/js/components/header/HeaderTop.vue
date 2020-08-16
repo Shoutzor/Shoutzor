@@ -78,11 +78,11 @@
         },
         created() {
             this.$bus.on('main-content-scroll', this.handleScroll);
-            this.$bus.on('auth-status', this.handleScroll);
+            this.$bus.on('auth-status', this.handleAuthStatus);
         },
         beforeDestroy() {
             this.$bus.off('main-content-scroll', this.handleScroll);
-            this.$bus.off('auth-status', this.handleScroll);
+            this.$bus.off('auth-status', this.handleAuthStatus);
         },
         methods: {
             handleScroll(event) {
@@ -98,7 +98,8 @@
             },
 
             handleAuthStatus(event) {
-
+                this.isAuthenticated = event.isAuthenticated;
+                this.user = event.user;
             }
         }
     }
