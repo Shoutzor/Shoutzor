@@ -24,7 +24,7 @@ class DatabaseSeeder extends Seeder
         $users = [];
         for ($i = 0; $i < 50; $i++) {
             $users[] = DB::table('users')->insertGetId([
-                'name' => $faker->userName,
+                'username' => $faker->userName,
                 'email' => $faker->safeEmail,
                 'password' => Hash::make($faker->password),
             ]);

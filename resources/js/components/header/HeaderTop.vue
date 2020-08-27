@@ -23,7 +23,7 @@
                 <div class="nav-item dropdown" v-if="isAuthenticated === true">
                     <a href="#" class="nav-link d-flex lh-1 text-reset p-0" data-toggle="dropdown">
                         <div class="d-xl-block pl-2">
-                            <div>Xorinzor</div>
+                            <div>{{ user.username }}</div>
                             <div class="mt-1 small text-muted">Administrator</div>
                         </div>
                     </a>
@@ -49,18 +49,8 @@
                             <div>Login / Register</div>
                         </div>
                     </a>
-                    <div class="dropdown-menu dropdown-menu-right auth-dropdown">
-                        <form id="auth-login-form">
-                            <input class="form-control" type="text" name="email" placeholder="your@email.com" />
-                            <input class="form-control"  type="password" name="password" placeholder="password" />
-                            <button type="submit" class="btn btn-primary mt-2">Login</button>
-                        </form>
 
-                        <div class="dropdown-divider"></div>
-
-                        <button type="button" class="btn btn-secondary">Register</button>
-
-                    </div>
+                    <header-login></header-login>
                 </div>
             </div>
         </div>
@@ -145,14 +135,6 @@
             -webkit-box-shadow: 0px 1px 4px 0px rgba(0,0,0,0.2);
             -moz-box-shadow: 0px 1px 4px 0px rgba(0,0,0,0.2);
             box-shadow: 0px 1px 4px 0px rgba(0,0,0,0.2);
-        }
-
-        .auth-dropdown {
-            padding: 5px;
-
-            button {
-                width: 100%;
-            }
         }
     }
 </style>
