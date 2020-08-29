@@ -13,17 +13,19 @@ class UploadApiController extends Controller {
     public function store(Request $request) {
         //Check if a file has been provided with the request
         if($request->hasFile('media') !== true) {
-            return;
+            return response()->json(['error' => 'No file with name media uploaded'], 400);
         }
 
         //Check if there are any errors with the file upload
         if($request->file('media')->isValid() !== true) {
-            return;
+            return response()->json(['error' => 'The uploaded file did not upload correctly'], 400);
         }
 
         //Get the name and extension of the file
         $name   = $request->file('media')->getClientOriginalName();
         $ext    = $request->file('media')->extension();
+
+        //TODO check if the file is a valid media file.
 
         //Set the new destination and name for the file
         $destination = 'temp/upload';
@@ -31,6 +33,8 @@ class UploadApiController extends Controller {
 
         //Move the file to a temporary directory while it's awaiting processing.
         $request->file('media')->storeAs($destination, $newName);
+
+        //TODO sanitize the uploaded file. ie: remove all metadata to prevent possible exploits.
 
         //Store the upload in the database for use in the Job
         $upload = new Upload();
@@ -42,6 +46,8 @@ class UploadApiController extends Controller {
 
         //Queue the job for processing
         ProcessUpload::dispatch($upload)->onConnection('database_' . Upload::QUEUE_NAME)->onQueue(Upload::QUEUE_NAME);
+
+        return response()->json(['message' => 'Upload added to queue for processing'], 200);
     }
 
 }

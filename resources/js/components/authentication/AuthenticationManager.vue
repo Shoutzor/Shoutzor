@@ -24,6 +24,22 @@ export default {
     created() {
         this.$bus.on('auth-login', this.login);
         this.$bus.on('auth-logout', this.logout);
+
+        //Append the API-Token to each API-call (if authenticated)
+        axios.interceptors.request.use((request) => {
+            let cookie = this.getApiToken();
+
+            if(cookie !== null){
+                request.headers = {
+                    Authorization: 'Bearer ' + cookie,
+                    Accept: 'application/json'
+                }
+            }
+
+            return request;
+        }, function(error) {
+            return Promise.reject(error);
+        });
     },
 
     mounted() {
@@ -36,54 +52,66 @@ export default {
     },
 
     methods: {
-        checkAuthentication() {
-            this.api_token = (document.cookie.match(/^(?:.*;)?\s*token\s*=\s*([^;]+)(?:.*)?$/)||[,null])[1];
+        getApiToken() {
+            return (document.cookie.match(/^(?:.*;)?\s*token\s*=\s*([^;]+)(?:.*)?$/)||[,null])[1];
+        },
 
-            console.log("api token: ", this.api_token);
+        checkAuthentication() {
+            this.api_token = this.getApiToken();
 
             //If the cookie exists, get the user information
             if(this.api_token !== null) {
-                let user = this.user;
-                let isAuthenticated = this.isAuthenticated;
-
                 this.getUser((result) => {
-                    user = result.user;
-
-                    if(result.success === true) {
-                        isAuthenticated = true;
-                    }
+                    this.isAuthenticated = (result.success === true);
                 });
             }
         },
 
         getUser(callback) {
-            axios.get('/api/auth/user?api_token=' + this.api_token, {
+            axios.get('/api/auth/user', {
             }).then(res => {
-                console.log("API Success:", res.response, res.response.status);
+                this.user = res.data;
+
                 callback({
-                    success: true,
-                    user: res.data
+                    success: true
                 });
             }).catch(err => {
-                console.log("API Error:", err.response, err.response.status);
+                switch(err.response.status) {
+                    case 401:
+                        this.deleteSessionData();
+                        break;
 
-                //TODO handle errors someway proper. not every error indicates that the user doesn't exist anymore
+                    default:
+                        //Any other errors are probably server errors.
+                }
 
                 callback({
-                    success: false,
-                    user: null
+                    success: false
                 });
             });
         },
 
         setAuthorizationCookie(data) {
+            /*
+            Disabling this for now. Ideally a environment variable is set to allow the webmaster to enforce HTTPS
+            Locally hosted LAN-environments won't be able to properly support HTTPS, which would, despite being
+            very insecure, break the authentication system from shoutz0r entirely.
+
             if('https:' !== document.location.protocol) {
                 console.error("Shoutz0r could not create the access_token cookie since HTTPS is required for this.");
             }
+            */
 
             let d = new Date(data.expires_at);
             let expires = "expires=" + d.toUTCString();
-            document.cookie = "token=" + data.access_token + ";" + expires + ";path=/;secure";
+            document.cookie = "token=" + data.access_token + ";" + expires + ";path=/;SameSite=Lax";
+        },
+
+        removeAuthorizationCookie() {
+            this.setAuthorizationCookie({
+                expires_at: 0,
+                access_token: ''
+            });
         },
 
         login(data) {
@@ -127,10 +155,6 @@ export default {
                 password: data.password,
                 remember_me: data.remember_me
             }).then(res => {
-                console.log("API Success:");
-                console.log(res);
-                console.log(res.data);
-
                 this.setAuthorizationCookie(res.data);
                 this.checkAuthentication();
 
@@ -159,7 +183,15 @@ export default {
         },
 
         logout(callback) {
+            //TODO call logout route on the server to invalidate the access_token
+            this.deleteSessionData();
+        },
 
+        deleteSessionData() {
+            this.user = null;
+            this.api_token = null;
+            this.removeAuthorizationCookie();
+            this.isAuthenticated = false;
         }
     }
 }
