@@ -12,9 +12,9 @@ Docker container can be found at [xorinzor/shoutz0r-docker](https://github.com/x
 
 
 ### To setup:
-
-1. Run `php artisan passport:keys`
-2. Run `php artisan migrate` (and optionally for dev `php artisan db:seed`)
+1. Run `php artisan migrate:fresh`
+2. Run `php artisan db:seed` (and optionally for dev `php artisan db:seed --class=DevelopmentSeeder`)
+3. Run `php artisan passport:install --force`
 
 The Shoutzor environment should now be ready for use.
 When developing, make sure to run `npm run watch` as well in order to update the compiled JS and CSS files.
