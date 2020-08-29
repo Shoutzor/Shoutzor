@@ -51,16 +51,15 @@ class AuthApiController extends Controller
     public function login(Request $request)
     {
         $request->validate([
-            'email' => 'required|string|email',
+            'username' => 'required|string',
             'password' => 'required|string',
-            'remember_me' => 'boolean'
         ]);
 
-        $credentials = request(['email', 'password']);
+        $credentials = request(['username', 'password']);
 
         if(!Auth::attempt($credentials)) {
             return response()->json([
-                'message' => 'Unauthorized'
+                'message' => 'Invalid login'
             ], 401);
         }
 
@@ -69,7 +68,7 @@ class AuthApiController extends Controller
         $token = $tokenResult->token;
 
         if ($request->remember_me) {
-            $token->expires_at = Carbon::now()->addWeeks(1);
+            $token->expires_at = Carbon::now()->addMonths(1);
         }
 
         $token->save();
@@ -79,7 +78,7 @@ class AuthApiController extends Controller
             'token_type' => 'Bearer',
             'expires_at' => Carbon::parse(
                 $tokenResult->token->expires_at
-            )->toDateTimeString()
+            )->toISOString()
         ]);
     }
 

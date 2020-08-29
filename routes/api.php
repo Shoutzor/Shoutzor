@@ -14,14 +14,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::group(['middleware' => 'auth'], function () {
-    Route::post('login', 'AuthApiController@login');
-    Route::post('register', 'AuthApiController@register');
 
-    Route::group(['middleware' => 'auth:api'], function () {
-        Route::get('logout', 'AuthApiController@logout');
-        Route::get('user', 'AuthApiController@user');
-    });
+Route::post('auth/login', 'AuthApiController@login');
+Route::post('auth/register', 'AuthApiController@register');
+
+Route::group(['middleware' => 'auth:api'], function () {
+    Route::get('auth/logout', 'AuthApiController@logout');
+    Route::get('auth/user', 'AuthApiController@user');
+    Route::post('upload', 'UploadApiController@store');
 });
 
 Route::get('album', 'AlbumApiController@get');

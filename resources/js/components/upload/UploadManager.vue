@@ -1,8 +1,6 @@
 <template></template>
 
 <script>
-    import UploadService from "@js/services/UploadFilesService";
-
     export default {
         data(){
             return {
@@ -68,6 +66,8 @@
                 //Grab the first file from the stack
                 var currentFile = this.files.shift();
 
+                //TODO check if file is a valid media format
+
                 //Update status variables
                 this.updateStatusVariables();
 
@@ -75,11 +75,20 @@
                 this.isUploading = true;
                 this.status.currentFile = currentFile.name;
 
+                let formData = new FormData();
+                formData.append("media", currentFile);
+
                 //Upload the file
-                UploadService.upload(currentFile, event => {
-                    this.status.progress = Math.round((100 * event.loaded) / event.total);
+                axios.post("/api/upload", formData, {
+                    headers: {
+                        "Content-Type": "multipart/form-data"
+                    },
+                    onUploadProgress: () => {
+                        this.status.progress = Math.round((100 * event.loaded) / event.total);
+                    }
                 })
                 .then(response => {
+                    console.log("upload response: ", response);
                     //On success?
                     //this.message = response.data.message;
                 })
@@ -118,10 +127,24 @@
             },
 
             parseError(error) {
-                //If the status code is 413, the payload is too large
-                if(error.status === 413) {
+                var code = error.status;
+
+                //401: Unauthorized
+                if(code === 401) {
+                    return {
+                        message: "You need to be logged in to upload files"
+                    };
+                }
+                //413: the payload is too large
+                else if(code === 413) {
                     return {
                         message: "The file is too large"
+                    };
+                }
+                //500: internal server error
+                else if(code === 500) {
+                    return {
+                        message: "An error occured while uploading, please try again later"
                     };
                 }
 

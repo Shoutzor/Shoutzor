@@ -17,7 +17,7 @@
         "@vuex-orm/core": "^0.36.3",
         "@vuex-orm/plugin-axios": "^0.9.3",
         "autoprefixer": "^9.8.4",
-        "axios": "^0.19",
+        "axios": "^0.19.2",
         "bootstrap": "^4.5.0",
         "cross-env": "^7.0",
         "css-loader": "^3.6.0",
