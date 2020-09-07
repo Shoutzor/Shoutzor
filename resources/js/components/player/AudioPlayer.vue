@@ -18,8 +18,12 @@
                     :icon="['fas', 'thumbs-up']"
                 ></font-awesome-icon>
                 <div id="playbutton">
-                    <font-awesome-icon
+                    <font-awesome-icon v-if="status === PlayerState.Stopped" @click="handlePlayButtonClick"
                         :icon="['fas', 'play']"
+                    ></font-awesome-icon>
+                    <div v-if="status === PlayerState.Loading" class="spinner-border" role="status"></div>
+                    <font-awesome-icon v-if="status === PlayerState.Playing"  @click="handlePlayButtonClick"
+                        :icon="['fas', 'stop']"
                     ></font-awesome-icon>
                 </div>
                 <font-awesome-icon
@@ -38,6 +42,7 @@
         <div class="volume-control">
             <router-link
                 :to="{name: 'tv'}"
+                v-if="hasVideo === true"
             >
                 <font-awesome-icon
                     :icon="['fas', 'tv']"
@@ -59,12 +64,21 @@
                 </div>
             </div>
         </div>
+
+        <video id="audioPlayerSource"></video>
     </div>
 </template>
 
 <script>
     import History from '@js/models/History';
     import VueSlider from 'vue-slider-component'
+    import dashjs from 'dashjs';
+
+    const PlayerState = Object.freeze({
+        Stopped: 0,
+        Loading: 1,
+        Playing: 2
+    });
 
     export default {
         components: {
@@ -73,7 +87,12 @@
         data() {
             return {
                 volume: 100,
-                albumImage: require('@static/images/album_temp_bg.jpg')
+                albumImage: require('@static/images/album_temp_bg.jpg'),
+                player: null,
+                url: "https://dash.akamaized.net/envivio/EnvivioDash3/manifest.mpd",
+                status: PlayerState.Stopped,
+                hasVideo: false,
+                PlayerState
             };
         },
 
@@ -83,12 +102,98 @@
 
         created() {
             History.api().fetchNowPlaying();
+        },
+
+        mounted() {
+            //Initialize the player object on component load
+            this.initializePlayer();
+
+            //
+            // Event handlers
+            //
+
+            //Loading
+            this.player.on(dashjs.MediaPlayer.events["STREAM_INITIALIZING"], this.handlePlayerEvent);
+            this.player.on(dashjs.MediaPlayer.events["PLAYBACK_WAITING"], this.handlePlayerEvent);
+            this.player.on(dashjs.MediaPlayer.events["PLAYBACK_STALLED"], this.handlePlayerEvent);
+
+            //Playing
+            this.player.on(dashjs.MediaPlayer.events["PLAYBACK_PLAYING"], this.handlePlayerEvent);
+
+            //Stopped
+            this.player.on(dashjs.MediaPlayer.events["PLAYBACK_ERROR"], this.handlePlayerEvent);
+            this.player.on(dashjs.MediaPlayer.events["PLAYBACK_ENDED"], this.handlePlayerEvent);
+            this.player.on(dashjs.MediaPlayer.events["PLAYBACK_PAUSED"], (e) => {
+                this.stop();
+                this.handlePlayerEvent(e);
+            });
+        },
+
+        methods: {
+            initializePlayer() {
+                this.player = dashjs.MediaPlayer().create();
+                this.player.initialize(document.querySelector("#audioPlayerSource"), null, false);
+            },
+
+            handlePlayerEvent(e) {
+                //Loading
+                if(
+                    e.type === dashjs.MediaPlayer.events["STREAM_INITIALIZING"] ||
+                    e.type === dashjs.MediaPlayer.events["PLAYBACK_WAITING"] ||
+                    e.type === dashjs.MediaPlayer.events["PLAYBACK_STALLED"]
+                ) {
+                    this.status = PlayerState.Loading;
+                }
+                //Playing
+                else if(e.type === dashjs.MediaPlayer.events["PLAYBACK_PLAYING"]) {
+                    this.status = PlayerState.Playing;
+                }
+                //Stopped
+                else if(
+                    e.type === dashjs.MediaPlayer.events["PLAYBACK_ERROR"] ||
+                    e.type === dashjs.MediaPlayer.events["PLAYBACK_ENDED"] ||
+                    e.type === dashjs.MediaPlayer.events["PLAYBACK_PAUSED"]
+                ) {
+                    this.status = PlayerState.Stopped;
+                }
+                //Unknown event?
+                else {
+                    console.error("Unknown event got passed tot the playerEventHandler, please report this (with a screenshot) to the shoutz0r github", e);
+                }
+            },
+
+            // Handle the play/stop button click event
+            handlePlayButtonClick() {
+                if(this.status === PlayerState.Stopped) {
+                    this.play();
+                } else {
+                    this.stop();
+                }
+            },
+
+            // Load & start playback
+            play() {
+                this.player.attachSource(this.url);
+                this.player.play();
+                this.status = PlayerState.Loading;
+            },
+
+            // Stop playback & unload
+            stop() {
+                this.player.pause();
+                this.player.attachSource(null);
+                this.status = PlayerState.Stopped;
+            }
         }
     }
 </script>
 
 <style lang="scss">
     @import '~vue-slider-component/theme/default.css';
+
+    #audioPlayerSource {
+        display: none;
+    }
 
     #audio-player {
         width: 100%;
@@ -143,6 +248,10 @@
                     width: 1rem;
                     height: 1rem;
                     margin: 0.75rem;
+                }
+
+                .spinner-border {
+                    margin-top: 7px;
                 }
             }
 
