@@ -32,11 +32,6 @@ const routes = [
         component: UploadView
     },
     {
-        name: 'tv',
-        path: '/tv',
-        component: DashboardView
-    },
-    {
         name: 'profile',
         path: '/profile',
         component: UserSettingsView

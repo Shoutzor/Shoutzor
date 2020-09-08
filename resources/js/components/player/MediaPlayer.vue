@@ -39,17 +39,15 @@
                 <span>4:31</span>
             </div>
         </div>
-        <div class="volume-control">
-            <router-link
-                :to="{name: 'tv'}"
-                v-if="hasVideo === true"
-            >
-                <font-awesome-icon
-                    :icon="['fas', 'tv']"
-                ></font-awesome-icon>
-            </router-link>
+        <div class="extra-control">
+            <font-awesome-icon
+                v-if="hasVideo === true && status !== PlayerState.Stopped"
+                :icon="['fas', 'tv']"
+                id="video-control"
+                @click="handleVideoButtonClick"
+            ></font-awesome-icon>
 
-            <div class="btn-group dropup">
+            <div id="volume-control" class="btn-group dropup">
                 <font-awesome-icon
                     data-toggle="dropdown"
                     :icon="['fas', 'volume-up']"
@@ -60,12 +58,13 @@
                         direction="btt"
                         v-bind:min="0"
                         v-bind:max="100"
+                        @change="handleVolumeChange"
                     ></vue-slider>
                 </div>
             </div>
         </div>
 
-        <video id="audioPlayerSource"></video>
+        <video id="mediaPlayerSource"></video>
     </div>
 </template>
 
@@ -91,6 +90,7 @@
                 player: null,
                 url: "https://dash.akamaized.net/envivio/EnvivioDash3/manifest.mpd",
                 status: PlayerState.Stopped,
+                showingVideo: false,
                 hasVideo: false,
                 PlayerState
             };
@@ -112,6 +112,9 @@
             // Event handlers
             //
 
+            //Pre-buffering
+            this.player.on(dashjs.MediaPlayer.events["STREAM_INITIALIZED"], this.preBufferSetup);
+
             //Loading
             this.player.on(dashjs.MediaPlayer.events["STREAM_INITIALIZING"], this.handlePlayerEvent);
             this.player.on(dashjs.MediaPlayer.events["PLAYBACK_WAITING"], this.handlePlayerEvent);
@@ -121,6 +124,7 @@
             this.player.on(dashjs.MediaPlayer.events["PLAYBACK_PLAYING"], this.handlePlayerEvent);
 
             //Stopped
+            this.player.on(dashjs.MediaPlayer.events["ERROR"], this.handlePlayerEvent);
             this.player.on(dashjs.MediaPlayer.events["PLAYBACK_ERROR"], this.handlePlayerEvent);
             this.player.on(dashjs.MediaPlayer.events["PLAYBACK_ENDED"], this.handlePlayerEvent);
             this.player.on(dashjs.MediaPlayer.events["PLAYBACK_PAUSED"], (e) => {
@@ -132,7 +136,16 @@
         methods: {
             initializePlayer() {
                 this.player = dashjs.MediaPlayer().create();
-                this.player.initialize(document.querySelector("#audioPlayerSource"), null, false);
+                this.player.initialize(document.querySelector("#mediaPlayerSource"), null, false);
+            },
+
+            preBufferSetup() {
+                if(this.player.getTracksFor("video").length > 0) {
+                    this.hasVideo = true;
+                    this.setLowVideoQuality();
+                } else {
+                    this.hasVideo = false;
+                }
             },
 
             handlePlayerEvent(e) {
@@ -150,6 +163,7 @@
                 }
                 //Stopped
                 else if(
+                    e.type === dashjs.MediaPlayer.events["ERROR"] ||
                     e.type === dashjs.MediaPlayer.events["PLAYBACK_ERROR"] ||
                     e.type === dashjs.MediaPlayer.events["PLAYBACK_ENDED"] ||
                     e.type === dashjs.MediaPlayer.events["PLAYBACK_PAUSED"]
@@ -171,6 +185,53 @@
                 }
             },
 
+            // Handle showing / hiding the video stream (if available)
+            handleVideoButtonClick() {
+                // Showing the video, so hide it
+                if(this.showingVideo === true) {
+                    this.hideVideo();
+                }
+                // Not showing the video yet, show it
+                else {
+                    this.showVideo();
+                }
+            },
+
+            // Handle changes from the volume slider
+            handleVolumeChange(volume) {
+                if(volume > 0) {
+                    //Convert the int to a double
+                    volume = volume / 100;
+                }
+
+                this.player.setVolume(volume);
+            },
+
+            // Display the video stream
+            showVideo() {
+                document.querySelector("#mediaPlayerSource").classList.add("visible");
+                document.querySelector("#video-control").classList.add("active");
+                this.showingVideo = true;
+                this.setHighVideoQuality();
+            },
+
+            // Hide the video stream
+            hideVideo() {
+                document.querySelector("#mediaPlayerSource").classList.remove("visible");
+                document.querySelector("#video-control").classList.remove("active");
+                this.showingVideo = false;
+                this.setLowVideoQuality();
+            },
+
+            setLowVideoQuality() {
+                this.player.updateSettings({ 'streaming': { 'abr': { 'autoSwitchBitrate': { 'video': false } } } });
+                this.player.setQualityFor("video", 0);
+            },
+
+            setHighVideoQuality() {
+                this.player.updateSettings({ 'streaming': { 'abr': { 'autoSwitchBitrate': { 'video': true } } } });
+            },
+
             // Load & start playback
             play() {
                 this.player.attachSource(this.url);
@@ -180,6 +241,7 @@
 
             // Stop playback & unload
             stop() {
+                this.hideVideo();
                 this.player.pause();
                 this.player.attachSource(null);
                 this.status = PlayerState.Stopped;
@@ -191,8 +253,18 @@
 <style lang="scss">
     @import '~vue-slider-component/theme/default.css';
 
-    #audioPlayerSource {
+    #mediaPlayerSource {
         display: none;
+
+        &.visible {
+            display: block;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: calc(100% - #{$player-height});
+            background: #000;
+        }
     }
 
     #audio-player {
@@ -281,7 +353,7 @@
             }
         }
 
-        .volume-control {
+        .extra-control {
             justify-content: flex-end;
 
             a {
@@ -297,10 +369,18 @@
                 height: 1.25rem;
             }
 
-            .dropdown-menu {
-                min-width: 22px;
-                max-width: 22px;
-                height: 140px;
+            #video-control {
+                &.active {
+                    color: $green;
+                }
+            }
+
+            #volume-control {
+                .dropdown-menu {
+                    min-width: 22px;
+                    max-width: 22px;
+                    height: 140px;
+                }
             }
         }
     }
