@@ -16,7 +16,7 @@
         </div>
 
         <authentication-manager></authentication-manager>
-        <audio-player></audio-player>
+        <media-player></media-player>
         <upload-manager></upload-manager>
     </div>
 </template>
