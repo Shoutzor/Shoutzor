@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Events\Internal\UploadAddedEvent;
 use App\Http\Controllers\Controller;
 use App\Jobs\ProcessUpload;
 use App\Upload;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 
 class UploadApiController extends Controller {
 
@@ -45,7 +46,11 @@ class UploadApiController extends Controller {
         $upload->save();
 
         //Queue the job for processing
+        //TODO move within an EventListener
         ProcessUpload::dispatch($upload)->onConnection('database_' . Upload::QUEUE_NAME)->onQueue(Upload::QUEUE_NAME);
+
+        //Send the event that an upload has been added
+        app(EventDispatcher::class)->dispatch(new UploadAddedEvent($upload));
 
         return response()->json(['message' => 'Upload added to queue for processing'], 200);
     }
