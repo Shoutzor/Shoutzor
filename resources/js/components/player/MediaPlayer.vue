@@ -16,6 +16,7 @@
                 <font-awesome-icon
                     class="upvote"
                     :icon="['fas', 'thumbs-up']"
+                    v-if="isAuthenticated === true"
                 ></font-awesome-icon>
                 <div id="playbutton">
                     <font-awesome-icon v-if="status === PlayerState.Stopped" @click="handlePlayButtonClick"
@@ -29,6 +30,7 @@
                 <font-awesome-icon
                     class="downvote"
                     :icon="['fas', 'thumbs-down']"
+                    v-if="isAuthenticated === true"
                 ></font-awesome-icon>
             </div>
             <div id="media-progress">
@@ -92,6 +94,8 @@
                 status: PlayerState.Stopped,
                 showingVideo: false,
                 hasVideo: false,
+                isAuthenticated: false,
+                user: null,
                 PlayerState
             };
         },
@@ -102,6 +106,12 @@
 
         created() {
             History.api().fetchNowPlaying();
+
+            this.$bus.on('auth-status', this.handleAuthStatus);
+        },
+
+        beforeDestroy() {
+            this.$bus.off('auth-status', this.handleAuthStatus);
         },
 
         mounted() {
@@ -134,6 +144,11 @@
         },
 
         methods: {
+            handleAuthStatus(event) {
+                this.isAuthenticated = event.isAuthenticated;
+                this.user = event.user;
+            },
+
             initializePlayer() {
                 this.player = dashjs.MediaPlayer().create();
                 this.player.initialize(document.querySelector("#mediaPlayerSource"), null, false);
