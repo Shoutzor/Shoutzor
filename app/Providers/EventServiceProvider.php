@@ -18,6 +18,18 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
+
+        // Upload events
+        'App\Events\UploadAdded' => [],
+        'App\Events\UploadProcessing' => [],
+        'App\Events\UploadFinished' => [],
+
+        // Media events
+        'App\Events\MediaAdded' => [],
+        'App\Events\MediaPlaying' => [],
+
+        // Request events
+        'App\Events\RequestAdded' => []
     ];
 
     /**
