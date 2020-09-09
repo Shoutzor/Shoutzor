@@ -2,7 +2,7 @@
 
 namespace App\Jobs;
 
-use App\Processors\MediaProcessor;
+use App\Processors\UploadProcessor;
 use App\Upload;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -30,10 +30,10 @@ class ProcessUpload implements ShouldQueue
     /**
      * Execute the job.
      *
-     * @param  MediaProcessor  $processor
+     * @param  UploadProcessor  $processor
      * @return void
      */
-    public function handle(MediaProcessor $processor)
+    public function handle(UploadProcessor $processor)
     {
         //Update the status
         $this->upload->status = Upload::STATUS_PROCESSING;

@@ -1,0 +1,25 @@
+{
+    "name": "nwidart/shoutzoracoustid",
+    "description": "",
+    "authors": [
+        {
+            "name": "Nicolas Widart",
+            "email": "n.widart@gmail.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Modules\\ShoutzorAcoustId\\Providers\\ShoutzorAcoustIdServiceProvider"
+            ],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\ShoutzorAcoustId\\": ""
+        }
+    }
+}

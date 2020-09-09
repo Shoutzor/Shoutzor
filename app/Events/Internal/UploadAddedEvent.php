@@ -6,9 +6,9 @@ use App\Upload;
 use Symfony\Contracts\EventDispatcher\Event;
 
 /**
- * Class UploadProcessingEvent
+ * Class UploadAddedEvent
  * @package App\Events
- * Gets called when an upload from the queue is ready for processing
+ * Gets called when a file has been uploaded, the file wont be parsed until UploadProcessingEvent is called
  */
 class UploadAddedEvent extends Event
 {

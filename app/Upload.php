@@ -11,6 +11,7 @@ class Upload extends Model
     const STATUS_FAILED     = 2;
 
     const QUEUE_NAME = 'uploads';
+    const STORAGE_PATH = 'temp/upload/';
 
     public $timestamps = false;
 

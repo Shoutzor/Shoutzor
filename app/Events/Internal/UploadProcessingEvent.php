@@ -2,6 +2,7 @@
 
 namespace App\Events\Internal;
 
+use App\Media;
 use App\Upload;
 use Symfony\Contracts\EventDispatcher\Event;
 
@@ -15,12 +16,27 @@ class UploadProcessingEvent extends Event
     public const NAME = 'upload.processing';
 
     protected $upload;
+    protected $media;
+    protected $valid = true;
 
-    public function __construct(Upload $upload) {
+    public function __construct(Upload $upload, Media $media) {
         $this->upload = $upload;
+        $this->media = $media;
     }
 
     public function getUpload() : Upload {
         return $this->upload;
+    }
+
+    public function getMedia() : Media {
+        return $this->media;
+    }
+
+    public function setInvalid() {
+        $this->valid = false;
+    }
+
+    public function isValid() : bool {
+        return $this->valid;
     }
 }

@@ -6,9 +6,9 @@ use App\Upload;
 use Symfony\Contracts\EventDispatcher\Event;
 
 /**
- * Class UploadProcessingEvent
+ * Class MediaAddedEvent
  * @package App\Events
- * Gets called when an upload from the queue is ready for processing
+ * Gets called when a media object gets added to Shoutz0r
  */
 class MediaAddedEvent extends Event
 {

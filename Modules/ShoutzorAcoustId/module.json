@@ -1,0 +1,14 @@
+{
+    "name": "ShoutzorAcoustId",
+    "alias": "shoutzoracoustid",
+    "description": "Uses AcoustId for identifying audio files",
+    "keywords": [],
+    "order": 0,
+    "providers": [
+        "Modules\\ShoutzorAcoustId\\Providers\\ShoutzorAcoustIdServiceProvider",
+        "Modules\\ShoutzorAcoustId\\Providers\\EventServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}
