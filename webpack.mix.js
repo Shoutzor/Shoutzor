@@ -39,6 +39,8 @@ mix.sass('resources/sass/app.scss', 'public/css')
         globalVueStyles: __dirname + '/resources/sass/_variables.scss'
     });
 
+mix.copy('resources/static/images/shoutzor-logo-large.png', 'public/images');
+
 if (mix.inProduction()) {
     mix.version();
 }
