@@ -15,9 +15,9 @@ class UploadProcessingEvent extends Event
 {
     public const NAME = 'upload.processing';
 
-    protected $upload;
-    protected $media;
-    protected $valid = true;
+    protected Upload $upload;
+    protected Media $media;
+    protected bool $valid = true;
 
     public function __construct(Upload $upload, Media $media) {
         $this->upload = $upload;

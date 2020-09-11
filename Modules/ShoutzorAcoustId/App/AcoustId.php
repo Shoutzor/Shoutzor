@@ -2,17 +2,24 @@
 
 namespace Modules\ShoutzorAcoustId\App;
 
+use App\Media;
+use App\Upload;
+use Symfony\Component\Process\Process;
+
 class AcoustId {
 
+    private string $fpcalc_bin;
+    private Media $media;
+    private Upload $upload;
+
     public function __construct() {
+        $this->fpcalc_bin = module_path('ShoutzorAcoustId') . '/Resources/bin/fpcalc';
     }
 
-    public function getFileFingerprint($file) {
+    public function getFileFingerprint() {
         $returnCode = 0;
 
-        //TODO find a way of neatly getting the module resources path
-
-        $process = new Process(Module::getAssetsPath() . '/fpcalc ' . escapeshellarg($file));
+        $process = new Process([$this->fpcalc_bin, escapeshellarg($this->media->filename)]);
         $process->run();
 
         //The return code is not 0 (success), return false
@@ -22,19 +29,20 @@ class AcoustId {
 
         $output = explode("\n", $process->getoutput());
         $result = array();
+
         foreach($output as $item) {
-            if(empty($item)) continue;
+            if(empty($item)) {
+                continue;
+            }
 
             $temp = explode("=", $item);
-
             $result[strtolower($temp[0])] = $temp[1];
         }
-
 
         return $result;
     }
 
-    public function lookup($duration, $fingerprint) {
+    public function parseFingerprint($duration, $fingerprint) {
         $url = 'http://api.acoustid.org/v2/lookup?client=' . config('ShoutzorAcoustId.appkey');
         $url .= '&meta=compress+recordings+sources+releasegroups&duration=' . $duration;
         $url .= '&fingerprint=' . $fingerprint;
@@ -79,65 +87,67 @@ class AcoustId {
             return false;
         }
 
-        $highestScore = 0;
-        $selectedKey = 0;
+        $highestScore   = 0;
+        $selectedKey    = 0;
 
         //Grab the highest scoring result from the resultset
         foreach($data as $key=>$value) {
             if($value->sources > $highestScore) {
-                $selectedKey = $key;
-                $highestScore = $value->sources;
+                $selectedKey    = $key;
+                $highestScore   = $value->sources;
             }
         }
 
         $data = $data[$selectedKey];
-        $info = array();
 
-        //Get the media file title
-        $info['title'] = isset($data->title) ? $data->title : false; //False means no-data for this tag.
+        //Set the media title
+        if(isset($data->title)) {
+            $this->media->title = $data->title;
+        }
 
         //Get the media file artists
         if(isset($data->artists)) {
-            $info['artist'] = array();
             foreach($data->artists as $artist) {
-                $info['artist'][] = $artist->name;
+                //@todo Emit ArtistCreateEvent
             }
-        } else {
-            //False means no-data for this tag.
-            $info['artist'] = false;
         }
 
         //Get the media file albums
         //Make sure the group exists in the first element (best-match)
         if(isset($data->releasegroups)) {
-            $info['album'] = array();
             foreach($data->releasegroups as $release) {
-                if(!isset($release->type)) continue;
-                if(strtolower($release->type) !== "album") continue;
-                $info['album'][] = $release->title;
+                if(!isset($release->type)) {
+                    continue;
+                }
+
+                if(strtolower($release->type) !== "album") {
+                    continue;
+                }
+
+                //@todo Emit AlbumCreateEvent
             }
-        } else {
-            //False means no-data for this tag.
-            $info['album'] = false;
         }
 
-        return $info;
+        return true;
     }
 
-    public function getMediaInfo($filename) {
-        //Get the fingerprint from the media file
-        $data = $this->getFileFingerprint($filename);
+    public function parse(Upload $upload, Media $media) {
+        $this->upload   = $upload;
+        $this->media    = $media;
 
-        //Errorchecking
-        if($data === false || count($data) == 0) {
+        //Get the fingerprint from the media file
+        $fingerprint = $this->getFileFingerprint();
+
+        //Error checking
+        if($fingerprint === false || count($fingerprint) == 0) {
             return false;
         }
 
         //Get matching information for the provided fingerprint
-        $data = $this->lookup($data['duration'], $data['fingerprint']);
+        $data = $this->parseFingerprint($fingerprint['duration'], $fingerprint['fingerprint']);
 
         //Return the results
-        return $data;
+        return true;
     }
 
 }

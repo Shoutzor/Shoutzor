@@ -3,9 +3,13 @@
 namespace Modules\ShoutzorAcoustId\Listeners;
 
 use App\Events\Internal\UploadProcessingEvent;
+use Modules\ShoutzorAcoustId\App\AcoustId;
 
 class UploadListener
 {
+
+    private AcoustId $acoustId;
+
     /**
      * Create the event listener.
      *
@@ -13,7 +17,7 @@ class UploadListener
      */
     public function __construct()
     {
-        //
+        $this->acoustId = new AcoustId();
     }
 
     /**
@@ -24,6 +28,6 @@ class UploadListener
      */
     public function handle(UploadProcessingEvent $event)
     {
-        //
+        $this->acoustId->parse($event->getUpload(), $event->getMedia());
     }
 }
