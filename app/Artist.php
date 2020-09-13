@@ -2,7 +2,9 @@
 
 namespace App;
 
+use App\Events\Internal\ArtistCreateEvent;
 use Illuminate\Database\Eloquent\Model;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 
 class Artist extends Model
 {
@@ -15,4 +17,13 @@ class Artist extends Model
         return $this->belongsToMany('App\Media');
     }
 
+    public static function create(Artist $artist) {
+        $event = new ArtistCreateEvent($artist);
+        app(EventDispatcher::class)->dispatch($event);
+
+        //Check if the artist already exists
+        if($event->exists() === false) {
+            $artist->save();
+        }
+    }
 }

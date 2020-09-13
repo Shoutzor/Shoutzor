@@ -2,27 +2,27 @@
 
 namespace App\Events\Internal;
 
-use App\Artist;
+use App\Album;
 use Symfony\Contracts\EventDispatcher\Event;
 
 /**
- * Class ArtistCreateEvent
+ * Class AlbumCreateEvent
  * @package App\Events
- * Gets called when an artist gets added to Shoutz0r
+ * Gets called when an album gets added to Shoutz0r
  */
-class ArtistCreateEvent extends Event
+class AlbumCreateEvent extends Event
 {
     public const NAME = 'artist.create';
 
-    protected $artist;
+    protected $album;
     protected $exists = false;
 
-    public function __construct(Artist $artist) {
-        $this->artist = $artist;
+    public function __construct(Album $album) {
+        $this->album = $album;
     }
 
-    public function getArtist() : Artist {
-        return $this->artist;
+    public function getAlbum() : Album {
+        return $this->album;
     }
 
     public function setExists() : void {

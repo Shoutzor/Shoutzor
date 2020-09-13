@@ -15,7 +15,7 @@ class AcoustId {
 
     public function __construct($appKey) {
         $this->appKey       = $appKey;
-        $this->fpcalc_bin   = module_path('ShoutzorAcoustId') . '/Resources/bin/fpcalc';
+        $this->fpcalc_bin   = __DIR__ . '../../resources/bin/fpcalc';
     }
 
     public function getFileFingerprint() {
