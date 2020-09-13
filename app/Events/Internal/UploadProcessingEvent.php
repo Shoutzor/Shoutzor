@@ -32,10 +32,17 @@ class UploadProcessingEvent extends Event
         return $this->media;
     }
 
+    /**
+     * Marks the upload as invalid
+     */
     public function setInvalid() {
         $this->valid = false;
     }
 
+    /**
+     * Returns whether the upload is valid or not
+     * @return bool
+     */
     public function isValid() : bool {
         return $this->valid;
     }

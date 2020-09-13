@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\ShoutzorAcoustId\App;
+namespace Shoutz0r\AcoustId\Lib;
 
 use App\Media;
 use App\Upload;
@@ -8,12 +8,14 @@ use Symfony\Component\Process\Process;
 
 class AcoustId {
 
+    private string $appKey;
     private string $fpcalc_bin;
     private Media $media;
     private Upload $upload;
 
-    public function __construct() {
-        $this->fpcalc_bin = module_path('ShoutzorAcoustId') . '/Resources/bin/fpcalc';
+    public function __construct($appKey) {
+        $this->appKey       = $appKey;
+        $this->fpcalc_bin   = module_path('ShoutzorAcoustId') . '/Resources/bin/fpcalc';
     }
 
     public function getFileFingerprint() {
@@ -43,7 +45,7 @@ class AcoustId {
     }
 
     public function parseFingerprint($duration, $fingerprint) {
-        $url = 'http://api.acoustid.org/v2/lookup?client=' . config('ShoutzorAcoustId.appkey');
+        $url = 'http://api.acoustid.org/v2/lookup?client=' . $this->appKey;
         $url .= '&meta=compress+recordings+sources+releasegroups&duration=' . $duration;
         $url .= '&fingerprint=' . $fingerprint;
 

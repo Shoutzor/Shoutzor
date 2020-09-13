@@ -29,9 +29,9 @@ class InternalEventServiceProvider extends ServiceProvider
     public function boot()
     {
         //TODO automatically load subscribers and listeners
-/*        foreach (glob(app_path() . '/Listeners/Internal/*.php') as $helpersfilename)
-        {
-            require_once($helpersfilename);
-        }*/
+        /*        foreach (glob(app_path() . '/Listeners/Internal/*.php') as $helpersfilename)
+                {
+                    require_once($helpersfilename);
+                }*/
     }
 }

@@ -41,8 +41,6 @@ $app->singleton(
     App\Exceptions\Handler::class
 );
 
-$app->register(\Nwidart\Modules\LumenModulesServiceProvider::class);
-
 /*
 |--------------------------------------------------------------------------
 | Return The Application
