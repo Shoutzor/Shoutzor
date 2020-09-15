@@ -1,6 +1,10 @@
 <?php
 
 return [
-    'shoutzor.lastfm.apikey'  => env('SHOUTZOR_LASTFM_APPKEY', ''),
-    'shoutzor.lastfm.secret'  => env('SHOUTZOR_LASTFM_SECRET', ''),
+    'shoutzor' => [
+        'lastfm' => [
+            'apikey'  => env('SHOUTZOR_LASTFM_APPKEY', ''),
+            'secret'  => env('SHOUTZOR_LASTFM_SECRET', ''),
+        ]
+    ]
 ];

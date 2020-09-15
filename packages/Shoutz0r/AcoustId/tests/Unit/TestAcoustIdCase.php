@@ -1,8 +1,11 @@
 <?php
 
-use Shoutz0r\AcoustId\Lib\AcoustId;
+namespace Shoutz0r\AcoustId\tests\Unit;
 
-class TestAcoustIdCase extends Orchestra\Testbench\TestCase
+use Shoutz0r\AcoustId\Lib\AcoustId;
+use Orchestra\Testbench\TestCase;
+
+class TestAcoustIdCase extends TestCase
 {
     private AcoustId $acoustId;
 

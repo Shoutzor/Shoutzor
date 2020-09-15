@@ -1,9 +1,9 @@
 <?php
 
-namespace Shoutz0r\AcoustId\Providers;
+namespace Shoutz0r\AcoustId;
 
 use Illuminate\Support\ServiceProvider;
-use Shoutz0r\AcoustId\Listeners\UploadSubscriber;
+use Shoutz0r\AcoustId\Subscribers\UploadSubscriber;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 
 class PackageServiceProvider extends ServiceProvider
@@ -16,7 +16,7 @@ class PackageServiceProvider extends ServiceProvider
      */
     public function register()
     {
-
+        $this->registerConfig();
     }
 
     /**
@@ -26,8 +26,6 @@ class PackageServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->registerConfig();
-
         //Register our event subscriber
         app(EventDispatcher::class)->addSubscriber(new UploadSubscriber());
     }
@@ -40,7 +38,7 @@ class PackageServiceProvider extends ServiceProvider
     protected function registerConfig()
     {
         $this->publishes([
-            __DIR__ . '/../../config/config.php' => config_path('package.php')
+            __DIR__.'/config/config.php' => config_path('shoutzor_acoustid.php')
         ], 'config');
     }
 }

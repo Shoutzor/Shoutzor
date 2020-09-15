@@ -12,20 +12,10 @@
         "homepage": "https://github.com/xorinzor/Shoutz0r-webui/",
         "role": "Developer"
     }],
-    "autoload": {
-        "psr-4": {
-            "Shoutz0r\\LastFM\\": "src/"
-        }
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "Shoutz0r\\LastFM\\Tests\\": "tests/"
-        }
-    },
     "extra": {
         "laravel": {
             "providers": [
-                "Shoutz0r\\LastFM\\Providers\\PackageServiceProvider"
+                "Shoutz0r\\AcoustId\\PackageServiceProvider"
             ]
         }
     }

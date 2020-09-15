@@ -1,9 +1,9 @@
 <?php
 
-namespace Shoutz0r\LastFM\Providers;
+namespace Shoutz0r\LastFM;
 
 use Illuminate\Support\ServiceProvider;
-use Shoutz0r\LastFM\Listeners\UploadSubscriber;
+use Shoutz0r\LastFM\Subscribers\UploadSubscriber;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 
 class PackageServiceProvider extends ServiceProvider
@@ -39,7 +39,7 @@ class PackageServiceProvider extends ServiceProvider
     protected function registerConfig()
     {
         $this->publishes([
-            __DIR__ . '/../../config/config.php' => config_path('package.php')
+            __DIR__.'/config/config.php' => config_path('shoutzor_lastfm.php')
         ], 'config');
     }
 }

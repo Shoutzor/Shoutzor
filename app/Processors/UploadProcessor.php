@@ -26,6 +26,10 @@ class UploadProcessor {
         $event = new UploadProcessingEvent($upload, $media);
         app(EventDispatcher::class)->dispatch($event);
 
+        var_dump(app(EventDispatcher::class));
+
+        die("passed event processing");
+
         // Check if the resulting media object is valid
         if($media->isValid() === false) {
             // Resulting media object is invalid, marking the upload event as invalid

@@ -1,12 +1,24 @@
 <?php
 
-namespace Shoutz0r\LastFM\Listeners;
+namespace Shoutz0r\AcoustId\Subscribers;
 
 use App\Events\Internal\UploadProcessingEvent;
+use Shoutz0r\AcoustId\Lib\AcoustId;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class UploadSubscriber implements EventSubscriberInterface
 {
+    private AcoustId $acoustId;
+
+    /**
+     * Create the event subscriber.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->acoustId = new AcoustId(config('packages.shoutzor.acoustid.apikey', ''));
+    }
 
     public static function getSubscribedEvents()
     {
@@ -25,5 +37,6 @@ class UploadSubscriber implements EventSubscriberInterface
      */
     public function onProcessUpload(UploadProcessingEvent $event)
     {
+        $this->acoustId->parse($event->getUpload(), $event->getMedia());
     }
 }

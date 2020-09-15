@@ -16,6 +16,10 @@ class Media extends Model
 
     const STORAGE_PATH = 'media/';
 
+    protected $fillable = [
+        'title', 'filename', 'crc', 'duration', 'is_video'
+    ];
+
     public function albums() {
         return $this->belongsToMany('App\Album');
     }
@@ -25,12 +29,13 @@ class Media extends Model
     }
 
     public function isValid() : bool {
-        return Validator::make($this, [
+        return false;
+/*        return Validator::make($this, [
             'title'     => 'required|max:255',
             'filename'  => 'required|unique',
             'crc'       => 'required|unique',
             'duration'  => 'required|digits|gt:0',
             'is_video'  => 'required|boolean'
-        ])->passes();
+        ])->passes();*/
     }
 }

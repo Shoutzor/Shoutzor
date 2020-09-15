@@ -48,7 +48,8 @@ class UploadApiController extends Controller {
         app(EventDispatcher::class)->dispatch(new UploadAddedEvent($upload));
 
         //Add the Upload as a job to the Queue for processing
-        ProcessUpload::dispatch($upload)->onConnection('database_' . Upload::QUEUE_NAME)->onQueue(Upload::QUEUE_NAME);
+        //ProcessUpload::dispatch($upload)->onConnection('database_' . Upload::QUEUE_NAME)->onQueue(Upload::QUEUE_NAME);
+        ProcessUpload::dispatch($upload)->onQueue(Upload::QUEUE_NAME);
 
         return response()->json(['message' => 'Upload queued for processing'], 200);
     }

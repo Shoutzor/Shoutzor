@@ -13,7 +13,7 @@ class AcoustId {
     private Media $media;
     private Upload $upload;
 
-    public function __construct($appKey) {
+    public function __construct(string $appKey) {
         $this->appKey       = $appKey;
         $this->fpcalc_bin   = __DIR__ . '../../resources/bin/fpcalc';
     }
@@ -134,6 +134,8 @@ class AcoustId {
     }
 
     public function parse(Upload $upload, Media $media) {
+        die("parsing!");
+
         $this->upload   = $upload;
         $this->media    = $media;
 

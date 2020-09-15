@@ -23,6 +23,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        $this->app->register('Shoutz0r\AcoustId\PackageServiceProvider');
+        $this->app->register('Shoutz0r\LastFM\PackageServiceProvider');
     }
 }
