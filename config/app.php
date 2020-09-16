@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Laravel'),
+    'name' => env('APP_NAME', 'Shoutz0r'),
 
     /*
     |--------------------------------------------------------------------------
@@ -170,9 +170,11 @@ return [
          * Application Service Providers...
          */
         App\Providers\AppServiceProvider::class,
+        App\Providers\InternalEventServiceProvider::class,
         App\Providers\AuthServiceProvider::class,
         // App\Providers\BroadcastServiceProvider::class,
-        App\Providers\EventServiceProvider::class,
+        App\Providers\BroadcastEventServiceProvider::class,
+        App\Providers\InternalEventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
     ],

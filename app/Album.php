@@ -2,7 +2,9 @@
 
 namespace App;
 
+use App\Events\Internal\AlbumCreateEvent;
 use Illuminate\Database\Eloquent\Model;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 
 class Album extends Model
 {
@@ -19,5 +21,15 @@ class Album extends Model
 
     public function media() {
         return $this->belongsToMany('App\Media');
+    }
+
+    public static function create(Album $album) {
+        $event = new AlbumCreateEvent($album);
+        app(EventDispatcher::class)->dispatch($event);
+
+        //Check if the album already exists
+        if($event->exists() === false) {
+            $album->save();
+        }
     }
 }

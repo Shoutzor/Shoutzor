@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Events\Internal\UploadAddedEvent;
 use App\Http\Controllers\Controller;
 use App\Jobs\ProcessUpload;
 use App\Upload;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 
 class UploadApiController extends Controller {
 
@@ -27,12 +28,11 @@ class UploadApiController extends Controller {
 
         //TODO check if the file is a valid media file.
 
-        //Set the new destination and name for the file
-        $destination = 'temp/upload';
+        //Set the new  name for the file
         $newName     = time().$name.'.'.$ext;
 
         //Move the file to a temporary directory while it's awaiting processing.
-        $request->file('media')->storeAs($destination, $newName);
+        $request->file('media')->storeAs(Upload::STORAGE_PATH, $newName);
 
         //TODO sanitize the uploaded file. ie: remove all metadata to prevent possible exploits.
 
@@ -44,10 +44,14 @@ class UploadApiController extends Controller {
         $upload->status     = Upload::STATUS_QUEUED;
         $upload->save();
 
-        //Queue the job for processing
-        ProcessUpload::dispatch($upload)->onConnection('database_' . Upload::QUEUE_NAME)->onQueue(Upload::QUEUE_NAME);
+        //Send the event that an upload has been added
+        app(EventDispatcher::class)->dispatch(new UploadAddedEvent($upload));
 
-        return response()->json(['message' => 'Upload added to queue for processing'], 200);
+        //Add the Upload as a job to the Queue for processing
+        //ProcessUpload::dispatch($upload)->onConnection('database_' . Upload::QUEUE_NAME)->onQueue(Upload::QUEUE_NAME);
+        ProcessUpload::dispatch($upload)->onQueue(Upload::QUEUE_NAME);
+
+        return response()->json(['message' => 'Upload queued for processing'], 200);
     }
 
 }

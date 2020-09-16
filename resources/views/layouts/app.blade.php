@@ -31,8 +31,61 @@
     </head>
 
     <body class="antialiased theme-dark fixed-header">
-        <div id="shoutzor">
+        <div id="shoutzor" v-cloak>
             <app></app>
+
+            <div id="app-loader">
+                <img src="{{ asset('images/shoutzor-logo-large.png') }}" alt="Shoutz0r logo">
+                <div class="spinner-border mt-5 text-gray" role="status"></div>
+            </div>
         </div>
+
+        <style type="text/css">
+            #shoutzor:not([v-cloak]) > #app-loader {
+                -webkit-animation: fadeinout 1s linear forwards;
+                animation: fadeinout 1s linear forwards;
+            }
+
+            #app-loader {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: black;
+                z-index: 99999;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+            }
+
+            #app-loader img {
+                display: block;
+                max-width: 25%;
+                max-height: 25%;
+            }
+
+            #app-loader .spinner-border {
+                display: block;
+                width: 6rem;
+                height: 6rem;
+            }
+
+            @keyframes fadeinout {
+                0% {
+                    opacity: 1;
+                }
+
+                50% {
+                    opacity: 1;
+                }
+
+                100% {
+                    opacity: 0;
+                    z-index: -1;
+                }
+            }
+        </style>
     </body>
 </html>

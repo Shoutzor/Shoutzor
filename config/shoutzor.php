@@ -10,17 +10,8 @@ return [
     'userRequestDelay'      => 10,
     'mediaRequestDelay'     => 60,
     'artistRequestDelay'    => 30,
-    
+
     'modules' => [
-      'acoustid'  => [
-        'enabled' => true,
-        'appKey'  => 'not-set'
-      ],
-      'lastfm'  => [
-        'enabled' => true,
-        'apiKey'  => 'not-set',
-        'secret'  => 'not-set'
-      ],
       'liquidsoap' => [
         'pidFileDirectory' =>'/usr/local/var/run/liquidsoap/',
         'logDirectoryPath' => '/tmp/shoutzor',
