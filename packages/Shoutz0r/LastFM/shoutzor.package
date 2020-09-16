@@ -1,6 +1,7 @@
 {
     "name": "Shouzt0r/LastFM",
     "description": "Enables LastFM for getting details on artists and albums for songs on Shoutz0r",
+    "version": "1.0",
     "type": "project",
     "license": "GPL-3.0-only",
     "authors": [{
@@ -11,12 +12,5 @@
         "name": "Jorin Vermeulen",
         "homepage": "https://github.com/xorinzor/Shoutz0r-webui/",
         "role": "Developer"
-    }],
-    "extra": {
-        "laravel": {
-            "providers": [
-                "Shoutz0r\\AcoustId\\PackageServiceProvider"
-            ]
-        }
-    }
+    }]
 }

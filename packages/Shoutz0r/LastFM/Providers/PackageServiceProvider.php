@@ -1,14 +1,13 @@
 <?php
 
-namespace Shoutz0r\AcoustId;
+namespace Shoutz0r\LastFM\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use Shoutz0r\AcoustId\Subscribers\UploadSubscriber;
+use Shoutz0r\LastFM\Subscribers\UploadSubscriber;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 
 class PackageServiceProvider extends ServiceProvider
 {
-
     /**
      * Register the service provider.
      *
@@ -38,7 +37,7 @@ class PackageServiceProvider extends ServiceProvider
     protected function registerConfig()
     {
         $this->publishes([
-            __DIR__.'/config/config.php' => config_path('shoutzor_acoustid.php')
+            __DIR__.'/config/config.php' => config_path('shoutzor_lastfm.php')
         ], 'config');
     }
 }

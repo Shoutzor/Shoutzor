@@ -1,6 +1,7 @@
 {
     "name": "Shoutz0r/AcoustId",
     "description": "Enables AcoustId for identifying audio files on Shoutz0r",
+    "version": "1.0",
     "type": "project",
     "license": "GPL-3.0-only",
     "authors": [{
@@ -11,12 +12,5 @@
         "name": "Jorin Vermeulen",
         "homepage": "https://github.com/xorinzor/Shoutz0r-webui/",
         "role": "Developer"
-    }],
-    "extra": {
-        "laravel": {
-            "providers": [
-                "Shoutz0r\\AcoustId\\PackageServiceProvider"
-            ]
-        }
-    }
+    }]
 }
