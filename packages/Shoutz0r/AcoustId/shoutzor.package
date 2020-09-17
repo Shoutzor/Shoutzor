@@ -4,6 +4,7 @@
     "version": "1.0",
     "type": "project",
     "license": "GPL-3.0-only",
+    "enabled": true,
     "authors": [{
         "name": "Lukáš Lalinský",
         "homepage": "https://acoustid.org/",

@@ -2,33 +2,35 @@
 
 namespace App\Packages;
 
+use \Illuminate\Contracts\Foundation\Application;
+
 abstract class PackageLoader {
 
     /**
      * The application instance.
      *
-     * @var \Illuminate\Contracts\Foundation\Application
+     * @var Application
      */
-    protected $app;
+    protected Application $app;
 
     /**
      * Contains the package's composer.json properties
      *
      * @var object
      */
-    protected $composerProperties;
+    protected object $composerProperties;
 
     protected function parseComposer() : void {
         $this->composerProperties = json_decode(__DIR__ . "/composer.json");
     }
 
     /**
-     * Create a new service provider instance.
+     * Create a new package loader instance
      *
-     * @param  \Illuminate\Contracts\Foundation\Application  $app
+     * @param Application $app
      * @return void
      */
-    public function __construct($app) {
+    public function __construct(Application $app) {
         $this->app = $app;
 
         //Parse the Package composer properties
@@ -81,10 +83,19 @@ abstract class PackageLoader {
     }
 
     /**
+     * Returns the package license from the composer.json file
+     *
+     * @return bool
+     */
+    public function getEnabled() : bool {
+        return (!isset($this->composerProperties->enabled) ? false : $this->composerProperties->enabled);
+    }
+
+    /**
      * Gets called when an package is enabled, this allows to register the packages providers
      *
      * @return void
      */
-    abstract public function onEnable();
+    abstract public function onEnable() : void;
 
 }
