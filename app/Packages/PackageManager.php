@@ -39,19 +39,32 @@ class PackageManager {
     /**
      * Create a new package manager instance.
      *
-     * @param  string  $path
+     * @param  string  $pkg
      * @return boolean
      */
-    public function checkPackage(string $path) : bool {
+    public function checkPackage(string $pkg) : bool {
+        //Decode the json shoutzor.package file
+        $pkgData = json_decode($pkg);
 
+        //Validate that the name, version and namespace fields exist
+        //These are the minimum required fields for a Shoutz0r package
+        if(
+            array_key_exists("name", $pkgData) &&
+            array_key_exists("version", $pkgData) &&
+            array_key_exists("namespace", $pkgData)
+        ) {
+            //Package is valid
+            return true;
+        }
+
+        //Package is invalid
+        return false;
     }
 
     /**
      * Creates the PackageLoader instance from the provided package
      */
-    protected function loadPackage(string $path) : PackageLoader {
-
-
+    protected function loadPackage(string $pkg) : PackageLoader {
 
     }
 
@@ -65,13 +78,10 @@ class PackageManager {
 
         //Check all installed packages
         foreach(glob($pkg_pattern) as $pkg) {
-            //Location of the package
-            $pkg_path = dirname($pkg);
-
             //Validate the package
-            if($this->checkPackage($pkg_path) === true) {
+            if($this->checkPackage($pkg) === true) {
                 //Get the instance from the package's PackageLoader
-                $p = $this->loadPackage($pkg_path);
+                $p = $this->loadPackage($pkg);
 
                 //Add the package to the internal registry
                 $this->packages[$p->getName()] = (object) [

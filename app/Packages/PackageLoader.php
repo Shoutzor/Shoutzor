@@ -83,19 +83,24 @@ abstract class PackageLoader {
     }
 
     /**
-     * Returns the package license from the composer.json file
+     * Gets called when an package is loaded, this allows to register the packages providers
      *
-     * @return bool
+     * @return void
      */
-    public function getEnabled() : bool {
-        return (!isset($this->composerProperties->enabled) ? false : $this->composerProperties->enabled);
-    }
+    abstract public function onLoad() : void;
 
     /**
-     * Gets called when an package is enabled, this allows to register the packages providers
+     * Gets called when an package is enabled
      *
      * @return void
      */
     abstract public function onEnable() : void;
+
+    /**
+     * Gets called when an package is disabled
+     *
+     * @return void
+     */
+    abstract public function onDisable() : void;
 
 }

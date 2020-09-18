@@ -1,10 +1,9 @@
 {
-    "name": "Shoutz0r/AcoustId",
+    "name": "AcoustId",
     "description": "Enables AcoustId for identifying audio files on Shoutz0r",
+    "namespace": "Shoutz0r\AcoustId",
     "version": "1.0",
-    "type": "project",
     "license": "GPL-3.0-only",
-    "enabled": true,
     "authors": [{
         "name": "Lukáš Lalinský",
         "homepage": "https://acoustid.org/",
