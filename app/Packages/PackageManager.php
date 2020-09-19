@@ -2,6 +2,8 @@
 
 namespace App\Packages;
 
+use App\Autoload\ClassMapGenerator;
+use \Exception;
 use \Illuminate\Contracts\Foundation\Application;
 
 /**
@@ -64,7 +66,7 @@ class PackageManager {
     /**
      * Creates the PackageLoader instance from the provided package
      */
-    protected function loadPackage(string $pkg) : PackageLoader {
+    protected function getPackageInstance(string $pkg) : PackageLoader {
 
     }
 
@@ -72,32 +74,52 @@ class PackageManager {
      * Loads the packages that are installed, this does not register them in the laravel app yet
      * TODO handle (soft/hard) dependencies
      */
-    public function loadPackages() : void {
+    public function loadEnabledPackages() : void
+    {
+        $autoloadPkgs = include(storage_path('app/autoload_packages.php'));
+
+        foreach($autoloadPkgs as $pkgClass) {
+            try {
+                //Instantiate the autoloaded package
+                $pkg = new $pkgClass($this->app);
+
+                //Call the onLoad method to activate the package
+                $pkg->onLoad();
+
+                //Add the package to our internal registry of loaded packages
+                $this->packages[] = $pkg;
+            } catch(Exception $e) {
+                //Catch any potential errors from a package
+                echo "error";
+            }
+        }
+    }
+
+    public function fetchPackages() : array {
         $pkg_root_path  = base_path('packages');
         $pkg_pattern    = $pkg_root_path . '*/*/shoutzor.package';
+
+        $pkgs = [];
 
         //Check all installed packages
         foreach(glob($pkg_pattern) as $pkg) {
             //Validate the package
             if($this->checkPackage($pkg) === true) {
-                //Get the instance from the package's PackageLoader
-                $p = $this->loadPackage($pkg);
-
-                //Add the package to the internal registry
-                $this->packages[$p->getName()] = (object) [
-                    'enabled' => $p->getEnabled(),
-                    'loader' => $p
-                ];
+                //Get the instance from the package's PackageLoader and add it to the resultset
+                $pkgs[] = $this->getPackageInstance($pkg);
             } else {
                 //Log an error about the package being invalid
+                echo "pkg invalid";
             }
         }
+
+        return $pkgs;
     }
 
     /**
-     * Registers the packages marked as "enabled" in the laravel app
+     * Activate the packages marked as "enabled", in the laravel app
      */
-    public function registerEnabledPackages() : void {
+    public function activateEnabledPackages() : void {
         //Loop over all registered packages
         foreach($this->packages as $name=>$pkg) {
 
@@ -110,4 +132,10 @@ class PackageManager {
         }
     }
 
+    /**
+     * Updates the autoloader classmap
+     */
+    public function updateAutoloader() {
+        ClassMapGenerator::generate(base_path('packages'), storage_path('app/autoload_packages.php'));
+    }
 }
