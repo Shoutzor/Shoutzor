@@ -4,6 +4,7 @@ namespace App\Packages;
 
 use App\Autoload\ClassMapGenerator;
 use \Exception;
+use Facade\Ignition\Support\Packagist\Package;
 use \Illuminate\Contracts\Foundation\Application;
 
 /**
@@ -29,13 +30,39 @@ class PackageManager {
     private array $packages = [];
 
     /**
+     * the classMap array used by the autoloader
+     * @var array
+     */
+    private array $classMap = [];
+
+    /**
      * Create a new package manager instance.
      *
      * @param Application $app
      * @return void
      */
     public function __construct(Application $app) {
-        $this->app = $app;
+        $this->app      = $app;
+        $pkgsClassmap   = storage_path('app/packages_classmap.php');
+
+        // Check if a classmap file exists
+        if(file_exists($pkgsClassmap)) {
+            $this->classMap = include $pkgsClassmap;
+        }
+
+        //Register our autoloader method for package files
+        spl_autoload_register([$this, 'loadClass'], true, false);
+    }
+
+    /**
+     * Autoloader method for loading class files from packages
+     *
+     * @param string $class the class to load
+     */
+    public function loadClass(string $class) : void {
+        if(array_key_exists($this->classMap, $class)) {
+            include $this->classMap[$class];
+        }
     }
 
     /**
@@ -64,37 +91,32 @@ class PackageManager {
     }
 
     /**
-     * Creates the PackageLoader instance from the provided package
+     * Creates the PackageLoader instance from the provided package.
+     * This does not activate the package yet.
+     *
+     * @param string $pkg the path to the shoutzor.package file
+     * @return PackageLoader the instance of the package's PackageLoader class
      */
     protected function getPackageInstance(string $pkg) : PackageLoader {
+        $path = explode(dirname($pkg), "/");
+        $cnt = count($path);
 
+        $namespace = $path[$cnt - 2] . '\\' . $path[$cnt - 1] . '\\PackageLoader';
+
+        if(class_exists($namespace) === false) {
+            //TODO implement exception (and handling of the exception)
+            echo "couldn't find class, error in autoloader?";
+        }
+
+        return new $namespace();
     }
 
     /**
-     * Loads the packages that are installed, this does not register them in the laravel app yet
-     * TODO handle (soft/hard) dependencies
+     * Finds and returns an array of all valid packages that are installed.
+     * This method does not check whether packages are enabled or not.
+     *
+     * @return array
      */
-    public function loadEnabledPackages() : void
-    {
-        $autoloadPkgs = include(storage_path('app/autoload_packages.php'));
-
-        foreach($autoloadPkgs as $pkgClass) {
-            try {
-                //Instantiate the autoloaded package
-                $pkg = new $pkgClass($this->app);
-
-                //Call the onLoad method to activate the package
-                $pkg->onLoad();
-
-                //Add the package to our internal registry of loaded packages
-                $this->packages[] = $pkg;
-            } catch(Exception $e) {
-                //Catch any potential errors from a package
-                echo "error";
-            }
-        }
-    }
-
     public function fetchPackages() : array {
         $pkg_root_path  = base_path('packages');
         $pkg_pattern    = $pkg_root_path . '*/*/shoutzor.package';
@@ -133,9 +155,10 @@ class PackageManager {
     }
 
     /**
-     * Updates the autoloader classmap
+     * Updates the autoloader classmap when called.
+     * This should only be called when packages are installed, removed, or updated.
      */
-    public function updateAutoloader() {
-        ClassMapGenerator::generate(base_path('packages'), storage_path('app/autoload_packages.php'));
+    public function updateAutoloader() : void {
+        ClassMapGenerator::generate(base_path('packages'), storage_path('app/packages_classmap.php'));
     }
 }
