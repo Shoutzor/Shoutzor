@@ -1,14 +1,15 @@
 import { Model } from '@vuex-orm/core';
 
-import Media from "./Media";
-import User from "./User";
 
-export default class Request extends Model {
-    static entity = 'requests'
+export default class Package extends Model {
+    static entity = 'packages'
 
     static fields () {
         return {
+            id: this.string(''),
             name: this.string(''),
+            author: this.string(''),
+            website: this.string(''),
             description: this.string(''),
             version: this.string(''),
             license: this.string(''),
@@ -24,13 +25,4 @@ export default class Request extends Model {
             }
         }
     }
-
-/*    static afterWhere (requests) {
-        requests.forEach((request) => {
-           //Fetch dependencies
-            console.log(request);
-        });
-
-        return requests;
-    }*/
 }

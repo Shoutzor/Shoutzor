@@ -22,6 +22,7 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::get('auth/logout', 'AuthApiController@logout');
     Route::get('auth/user', 'AuthApiController@user');
     Route::post('upload', 'UploadApiController@store');
+    Route::get('package', 'PackageApiController@installed');
 });
 
 Route::get('album', 'AlbumApiController@get');

@@ -3,6 +3,7 @@
 namespace App\Packages;
 
 use App\Autoload\ClassMapGenerator;
+use App\Helpers\Filesystem;
 use Exception;
 use \Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\Facades\Log;
@@ -73,7 +74,7 @@ class PackageManager {
      * @param string $class the class to load
      */
     public function loadClass(string $class) : void {
-        if(array_key_exists($this->classMap, $class)) {
+        if(array_key_exists($class, $this->classMap)) {
             include $this->classMap[$class];
         }
     }
@@ -85,15 +86,15 @@ class PackageManager {
      * @return boolean
      */
     public function checkPackage(string $pkg) : bool {
-        //Decode the json shoutzor.package file
-        $pkgData = json_decode($pkg);
+        $pkgData = json_decode(file_get_contents($pkg), true);
 
         //Validate that the name, version and namespace fields exist
         //These are the minimum required fields for a Shoutz0r package
         if(
+            array_key_exists("id", $pkgData) &&
             array_key_exists("name", $pkgData) &&
-            array_key_exists("version", $pkgData) &&
-            array_key_exists("namespace", $pkgData)
+            array_key_exists("author", $pkgData) &&
+            array_key_exists("version", $pkgData)
         ) {
             //Package is valid
             return true;
@@ -113,12 +114,14 @@ class PackageManager {
      * @throws Exception
      */
     protected function getPackageInstance(string $pkg, bool $isClass = false) : PackageLoader {
+        $pkgPath = dirname($pkg);
+
         //If $pkg contains the namespace already, $isClass will be set to True
         if($isClass === false) {
-            $path = explode(dirname($pkg), "/");
+            $path = explode("/", $pkgPath);
             $cnt = count($path);
 
-            $pkg = $path[$cnt - 2] . '\\' . $path[$cnt - 1] . '\\PackageLoader';
+            $pkg = $path[$cnt - 2] . '\\' . $path[$cnt - 1] . '\\Main';
         }
 
         //Check if the package already exists in our registry
@@ -133,7 +136,7 @@ class PackageManager {
         }
 
         //Create the package instance
-        $pkgInstance = new $pkg();
+        $pkgInstance = new $pkg($this->app, $pkgPath);
 
         //Register the package in our registry
         $this->packages[$pkg] = $pkgInstance;
@@ -150,15 +153,18 @@ class PackageManager {
      */
     public function fetchPackages() : array {
         $pkg_root_path  = base_path('packages');
-        $pkg_pattern    = $pkg_root_path . '*/*/shoutzor.package';
+        $pkg_pattern    = $pkg_root_path . '/*/*/shoutzor.package';
 
         //Check all installed packages
         foreach(glob($pkg_pattern) as $pkg) {
+            $pkg = Filesystem::correctDS($pkg);
+
             try {
                 //Validate the package
                 if($this->checkPackage($pkg) === true) {
                     //Get the instance from the package's PackageLoader and add it to the resultset
-                    $this->getPackageInstance($pkg);
+                    $p = $this->getPackageInstance($pkg);
+                    $p->onDiscover();
                     continue;
                 }
             } catch(Exception $e) {

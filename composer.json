@@ -9,6 +9,7 @@
     "license": "GPL-3.0-only",
     "require": {
         "php": "^7.4",
+        "ext-curl": "*",
         "ext-json": "*",
         "fideloper/proxy": "^4.2",
         "fruitcake/laravel-cors": "^1.0",
@@ -18,7 +19,7 @@
         "laravel/tinker": "^2.0",
         "laravel/ui": "^2.0",
         "symfony/event-dispatcher": "^5.1",
-        "ext-curl": "*"
+        "symfony/finder": "^5.1"
     },
     "require-dev": {
         "facade/ignition": "^2.0",

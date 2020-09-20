@@ -1,4 +1,6 @@
 {
+    "id": "com.shoutzor.acoustid",
+    "icon": "icon.svg",
     "name": "AcoustId",
     "author": "Shoutz0r",
     "website": "",

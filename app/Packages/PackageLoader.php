@@ -2,6 +2,7 @@
 
 namespace App\Packages;
 
+use App\Helpers\Filesystem;
 use \Illuminate\Contracts\Foundation\Application;
 
 abstract class PackageLoader {
@@ -14,14 +15,21 @@ abstract class PackageLoader {
     protected Application $app;
 
     /**
-     * Contains the package's composer.json properties
+     * The package path
+     *
+     * @var string
+     */
+    protected string $pkgPath;
+
+    /**
+     * Contains the package's shoutzor.package properties
      *
      * @var object
      */
-    protected object $composerProperties;
+    protected object $pkgProperties;
 
     protected function parseComposer() : void {
-        $this->composerProperties = json_decode(__DIR__ . "/composer.json");
+        $this->pkgProperties = json_decode(file_get_contents($this->pkgPath . "/shoutzor.package"));
     }
 
     /**
@@ -30,15 +38,32 @@ abstract class PackageLoader {
      * @param Application $app
      * @return void
      */
-    public function __construct(Application $app) {
-        $this->app = $app;
+    public function __construct(Application $app, string $pkgPath) {
+        $this->app      = $app;
+        $this->pkgPath  = $pkgPath;
 
         //Parse the Package composer properties
         $this->parseComposer();
     }
 
     /**
-     * Returns the package name from the composer.json file
+     * Returns the package ID from the shoutzor.package file
+     * @return string
+     */
+    public function getId() : string {
+        return $this->getProperty('id', '');
+    }
+
+    /**
+     * Returns the package icon from the shoutzor.package file
+     * @return string
+     */
+    public function getIcon() : string {
+        return $this->getProperty('icon', '');
+    }
+
+    /**
+     * Returns the package name from the shoutzor.package file
      *
      * @return string
      */
@@ -47,7 +72,7 @@ abstract class PackageLoader {
     }
 
     /**
-     * Returns the package author from the composer.json file
+     * Returns the package author from the shoutzor.package file
      *
      * @return string
      */
@@ -56,7 +81,7 @@ abstract class PackageLoader {
     }
 
     /**
-     * Returns the package website from the composer.json file
+     * Returns the package website from the shoutzor.package file
      *
      * @return string
      */
@@ -65,7 +90,7 @@ abstract class PackageLoader {
     }
 
     /**
-     * Returns the package description from the composer.json file
+     * Returns the package description from the shoutzor.package file
      *
      * @return string
      */
@@ -74,7 +99,7 @@ abstract class PackageLoader {
     }
 
     /**
-     * Returns the package version from the composer.json file
+     * Returns the package version from the shoutzor.package file
      *
      * @return string
      */
@@ -83,7 +108,7 @@ abstract class PackageLoader {
     }
 
     /**
-     * Returns the package license from the composer.json file
+     * Returns the package license from the shoutzor.package file
      *
      * @return string
      */
@@ -98,11 +123,33 @@ abstract class PackageLoader {
      * @return mixed|null
      */
     public function getProperty(string $key, $default = null) {
-        if(property_exists($this->composerProperties, $key)) {
-            return $this->composerProperties->{$key};
+        if(property_exists($this->pkgProperties, $key)) {
+            return $this->pkgProperties->{$key};
         }
 
         return $default;
+    }
+
+    /**
+     * Gets called when the package is discovered. This does not load or enable the package yet.
+     * This method allows for creating config files before the package is enabled.
+     * Additionally, this method creates a symbolic link to the package's resources/static/public directory (if existing)
+     *
+     * @return void
+     */
+    public function onDiscover() : void {
+        $publicAssetPath = $this->pkgPath . '/resources/static/public';
+
+        //If a public asset path exists, create a symlink to it so we can use those assets in the front-end
+        if(file_exists($publicAssetPath)) {
+            //TODO figure out why symlink is not returning anything
+            var_dump(
+                symlink(
+                    $publicAssetPath,
+                    Filesystem::correctDS(base_path('public/packages/' . $this->getId() . '/'))
+                )
+            );
+        }
     }
 
     /**
@@ -125,5 +172,13 @@ abstract class PackageLoader {
      * @return void
      */
     abstract public function onDisable() : void;
+
+    /**
+     * Gets called when an package is updated
+     *
+     * @param string $versionFrom the version the package was at, before updating
+     * @return void
+     */
+    abstract public function onUpdate(string $versionFrom) : void;
 
 }

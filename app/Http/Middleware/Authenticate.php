@@ -14,11 +14,6 @@ class Authenticate extends Middleware
      */
     protected function redirectTo($request)
     {
-        if (!$request->wantsJson()) {
-            return redirect()->guest(route('auth/login'));
-        }
-
         return response()->json(['message' => 'Invalid API token'], 401);
-
     }
 }

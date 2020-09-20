@@ -4,10 +4,11 @@ import VueRouter    from "vue-router";
 Vue.use(VueRouter);
 
 //Views
-import DashboardView    from "@js/views/main/dashboard";
-import UploadView       from "@js/views/main/upload";
-import UserSettingsView from "@js/views/user/settings";
-import AdminView        from "@js/views/admin/index";
+import DashboardView        from "@js/views/main/dashboard";
+import UploadView           from "@js/views/main/upload";
+import UserSettingsView     from "@js/views/user/settings";
+import AdminView            from "@js/views/admin/index";
+import AdminPackagesView    from "@js/views/admin/packages";
 
 //Routes
 const routes = [
@@ -44,7 +45,7 @@ const routes = [
     {
         name: 'admin-packages',
         path: '/admin/packages',
-        component: AdminView
+        component: AdminPackagesView
     },
     {
         name: 'artist',

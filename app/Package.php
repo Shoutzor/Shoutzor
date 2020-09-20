@@ -39,6 +39,22 @@ class Package extends Model
     }
 
     /**
+     * Convert the model instance to an array.
+     *
+     * @return array
+     */
+    public function toArray()
+    {
+        $result = [];
+
+        foreach($this->fillable as $key) {
+            $result[$key] = $this->{$key};
+        }
+
+        return $result;
+    }
+
+    /**
      * Get an attribute from the package for the model
      *
      * @param  string  $key
@@ -53,14 +69,24 @@ class Package extends Model
     }
 
     /**
-     * Since this is effectively read-only from the package file, this method is unused
+     * DISABLED - Since this is effectively read-only from the package file, this method is unused
      *
-     * @param string $key
+     * @param $key
      * @param mixed $value
      * @return void
      * @throws Exception
      */
-    public function __set(string $key, $value) {
+    public function __set($key, $value) {
+        throw new Exception("Not implemented");
+    }
+
+    /**
+     * DISABLED - Not a SQL Table Model
+     *
+     * @return void
+     * @throws Exception
+     */
+    public function getConnection() {
         throw new Exception("Not implemented");
     }
 

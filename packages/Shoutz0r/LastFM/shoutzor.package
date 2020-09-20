@@ -1,4 +1,6 @@
 {
+    "id": "com.shoutzor.lastfm",
+    "icon": "icon.svg",
     "name": "LastFM",
     "author": "Shoutz0r",
     "website": "",

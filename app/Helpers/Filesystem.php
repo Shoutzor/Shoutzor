@@ -2,36 +2,41 @@
 
 namespace App\Helpers;
 
-use RecursiveDirectoryIterator;
-use RecursiveIteratorIterator;
+use \Exception;
+use Symfony\Component\Finder\Finder;
 
 class Filesystem {
     /**
      * Find all files recursively in a directory
      *
      * @param string $path the directory to scan
-     * @param array $validExtensions the extensions of files to allow
+     * @param string $filter the extensions of files to allow, can be regex
      * @return array the files that have been found
+     * @throws Exception
      */
-    public static function findFiles(string $path, array $validExtensions = []) : array {
+    public static function findFiles(string $path, string $filter = '') : array {
         $files = [];
 
         //If the path is a directory, iterate through it
         if(is_dir($path)) {
-            $it = new RecursiveDirectoryIterator($path);
+            $it = Finder::create()
+                ->files()
+                ->in($path);
 
-            foreach(new RecursiveIteratorIterator($it) as $file)
+            if($filter !== '') {
+                $it->name($filter);
+            }
+
+            $it->getIterator();
+
+            foreach($it as $file)
             {
-                if (self::hasFileExtension($file, $validExtensions)) {
-                    $files[] = $file;
-                }
+                $files[] = $file;
             }
         }
         //If the path is a file, check if it is a valid extension
-        else if(is_file($path)) {
-            if(self::hasFileExtension($path, $validExtensions)) {
-                $files[] = $path;
-            }
+        else {
+            throw new Exception("Provided path is not a directory");
         }
 
         return $files;
@@ -65,5 +70,15 @@ class Filesystem {
         $fileExt = self::getFileExtension($filename);
 
         return in_array($fileExt, $validExtensions);
+    }
+
+    /**
+     * Corrects the Directory Separators of a path to unix style
+     *
+     * @param string $path
+     * @return string
+     */
+    public static function correctDS(string $path) : string {
+        return str_replace('\\', '/', $path);
     }
 }
