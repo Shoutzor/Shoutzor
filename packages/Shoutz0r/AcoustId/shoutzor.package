@@ -4,14 +4,5 @@
     "website": "",
     "description": "Enables AcoustId for identifying audio files on Shoutz0r",
     "version": "1.0",
-    "license": "GPL-3.0-only",
-    "credits": [{
-        "name": "Lukáš Lalinský",
-        "homepage": "https://acoustid.org/",
-        "role": "Developer"
-    },{
-        "name": "Jorin Vermeulen",
-        "homepage": "https://github.com/xorinzor/Shoutz0r-webui/",
-        "role": "Developer"
-    }]
+    "license": "GPL-3.0-only"
 }

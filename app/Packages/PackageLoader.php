@@ -92,15 +92,6 @@ abstract class PackageLoader {
     }
 
     /**
-     * Returns the package credits from the composer.json file
-     *
-     * @return array
-     */
-    public function getCredits() : array {
-        return $this->getProperty('credits', []);
-    }
-
-    /**
      * Returns the request property's value. If it doesn't exist, the default value will be returned
      * @param string $key
      * @param null $default

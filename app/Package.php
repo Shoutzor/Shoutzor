@@ -23,7 +23,6 @@ class Package extends Model
         'description',
         'version',
         'license',
-        'credits',
         'enabled'
     ];
 
