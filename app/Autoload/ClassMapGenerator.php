@@ -12,7 +12,10 @@ class ClassMapGenerator {
      * @param string $file the target file for the classmap to be written to
      */
     public static function generate(string $directory, string $file) {
-        file_put_contents($file, self::createMap($directory));
+        file_put_contents(
+            $file,
+            self::createMap($directory)
+        );
     }
 
     /**
@@ -36,6 +39,17 @@ class ClassMapGenerator {
             $classes[$fqcn] = $file;
         }
 
+        // Return the code output
+        return self::createFile($classes);
+    }
+
+    /**
+     * Generates a classmap using the input array
+     *
+     * @param array $map
+     * @return string
+     */
+    public static function createFile(array $map) {
         //Get the current timestamp
         $timestamp = date("d-m-Y H:m:s");
 
@@ -50,7 +64,7 @@ return %s;
 CODE;
 
         // Return the code output
-        return sprintf($code, var_export($classes, true));
+        return sprintf($code, var_export($map, true));
     }
 
 

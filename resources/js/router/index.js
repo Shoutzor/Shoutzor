@@ -42,6 +42,11 @@ const routes = [
         component: AdminView
     },
     {
+        name: 'admin-packages',
+        path: '/admin/packages',
+        component: AdminView
+    },
+    {
         name: 'artist',
         path: '/artist',
         component: DashboardView

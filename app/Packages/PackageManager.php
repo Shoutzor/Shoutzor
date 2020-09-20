@@ -3,9 +3,9 @@
 namespace App\Packages;
 
 use App\Autoload\ClassMapGenerator;
-use \Exception;
-use Facade\Ignition\Support\Packagist\Package;
+use Exception;
 use \Illuminate\Contracts\Foundation\Application;
+use Illuminate\Support\Facades\Log;
 
 /**
  * The PackageManager handles the loading and registering of all Shoutz0r packages
@@ -30,6 +30,13 @@ class PackageManager {
     private array $packages = [];
 
     /**
+     * The internal package registry of loaded packages
+     *
+     * @var array
+     */
+    private array $enabledPackages = [];
+
+    /**
      * the classMap array used by the autoloader
      * @var array
      */
@@ -44,10 +51,16 @@ class PackageManager {
     public function __construct(Application $app) {
         $this->app      = $app;
         $pkgsClassmap   = storage_path('app/packages_classmap.php');
+        $pkgsEnabled    = storage_path('app/packages_enabled.php');
 
         // Check if a classmap file exists
         if(file_exists($pkgsClassmap)) {
             $this->classMap = include $pkgsClassmap;
+        }
+
+        // Check if the file for enabled packages exists
+        if(file_exists($pkgsEnabled)) {
+            $this->enabledPackages = include $pkgsEnabled;
         }
 
         //Register our autoloader method for package files
@@ -95,20 +108,38 @@ class PackageManager {
      * This does not activate the package yet.
      *
      * @param string $pkg the path to the shoutzor.package file
+     * @param bool $isClass if true, assumes $pkg contains the package FQCN
      * @return PackageLoader the instance of the package's PackageLoader class
+     * @throws Exception
      */
-    protected function getPackageInstance(string $pkg) : PackageLoader {
-        $path = explode(dirname($pkg), "/");
-        $cnt = count($path);
+    protected function getPackageInstance(string $pkg, bool $isClass = false) : PackageLoader {
+        //If $pkg contains the namespace already, $isClass will be set to True
+        if($isClass === false) {
+            $path = explode(dirname($pkg), "/");
+            $cnt = count($path);
 
-        $namespace = $path[$cnt - 2] . '\\' . $path[$cnt - 1] . '\\PackageLoader';
-
-        if(class_exists($namespace) === false) {
-            //TODO implement exception (and handling of the exception)
-            echo "couldn't find class, error in autoloader?";
+            $pkg = $path[$cnt - 2] . '\\' . $path[$cnt - 1] . '\\PackageLoader';
         }
 
-        return new $namespace();
+        //Check if the package already exists in our registry
+        if(array_key_exists($pkg, $this->packages)) {
+            return $this->packages[$pkg];
+        }
+
+        //Check if the class exists before attempting to create an instance of it.
+        if(class_exists($pkg) === false) {
+            //TODO implement exception (and handling of the exception)
+            throw new Exception("could not find PackageLoader class");
+        }
+
+        //Create the package instance
+        $pkgInstance = new $pkg();
+
+        //Register the package in our registry
+        $this->packages[$pkg] = $pkgInstance;
+
+        //Return the package instance
+        return $pkgInstance;
     }
 
     /**
@@ -121,36 +152,39 @@ class PackageManager {
         $pkg_root_path  = base_path('packages');
         $pkg_pattern    = $pkg_root_path . '*/*/shoutzor.package';
 
-        $pkgs = [];
-
         //Check all installed packages
         foreach(glob($pkg_pattern) as $pkg) {
-            //Validate the package
-            if($this->checkPackage($pkg) === true) {
-                //Get the instance from the package's PackageLoader and add it to the resultset
-                $pkgs[] = $this->getPackageInstance($pkg);
-            } else {
+            try {
+                //Validate the package
+                if($this->checkPackage($pkg) === true) {
+                    //Get the instance from the package's PackageLoader and add it to the resultset
+                    $this->getPackageInstance($pkg);
+                    continue;
+                }
+            } catch(Exception $e) {
                 //Log an error about the package being invalid
-                echo "pkg invalid";
+                Log::error("Tried loading an invalid package: " . $pkg);
+                Log::error("Reason: "  . $e->getMessage());
+            } finally {
+                //Log an error about the package being invalid
+                Log::error("Tried loading an invalid package: " . $pkg);
             }
         }
 
-        return $pkgs;
+        return $this->packages;
     }
 
     /**
      * Activate the packages marked as "enabled", in the laravel app
      */
     public function activateEnabledPackages() : void {
-        //Loop over all registered packages
-        foreach($this->packages as $name=>$pkg) {
+        //Loop over all enabled packages
+        foreach($this->enabledPackages as $pkgClass) {
+            //Create the package instance
+            $pkg = $this->getPackageInstance($pkgClass, true);
 
-            //Check if the package is enabled
-            if($pkg->enabled === true) {
-
-                //Call the onEnable method from the package
-                $pkg->onEnable();
-            }
+            //Call the onLoad method from the package
+            $pkg->onLoad();
         }
     }
 
@@ -158,7 +192,65 @@ class PackageManager {
      * Updates the autoloader classmap when called.
      * This should only be called when packages are installed, removed, or updated.
      */
-    public function updateAutoloader() : void {
-        ClassMapGenerator::generate(base_path('packages'), storage_path('app/packages_classmap.php'));
+    public function updateClassmap() : void {
+        ClassMapGenerator::generate(
+            base_path('packages'),
+            storage_path('app/packages_classmap.php')
+        );
+    }
+
+    /**
+     * Checks if the provided package is enabled or not
+     *
+     * @param PackageLoader $package
+     * @return bool
+     */
+    public function isEnabled(PackageLoader $package) : bool {
+        if(in_array(get_class($package), $this->enabledPackages)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Enables a package
+     * Do not forget to call updateEnabledPackagesList to make this permanent
+     *
+     * @param PackageLoader $package
+     */
+    public function enablePackage(PackageLoader $package) : void {
+        $this->enabledPackages[] = $package;
+        $package->onEnable();
+    }
+
+    /**
+     * Disables a package (if it is enabled)
+     * Do not forget to call updateEnabledPackagesList to make this permanent
+     *
+     * @param PackageLoader $package
+     */
+    public function disablePackage(PackageLoader $package) : void {
+        if (($key = array_search($package, $this->enabledPackages)) !== false) {
+            unset($this->enabledPackages[$key]);
+            $package->onDisable();
+        }
+    }
+
+    /**
+     * Updates the list of enabled packages
+     */
+    public function updateEnabledPackagesList() : void {
+        $map = array_map(
+            function($pkg) {
+                return get_class($pkg);
+            },
+            $this->enabledPackages
+        );
+
+        file_put_contents(
+            storage_path('app/packages_enabled.php'),
+            ClassMapGenerator::createFile($map)
+        );
     }
 }
