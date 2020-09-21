@@ -7,6 +7,7 @@ export default class Package extends Model {
     static fields () {
         return {
             id: this.string(''),
+            icon: this.string(''),
             name: this.string(''),
             author: this.string(''),
             website: this.string(''),

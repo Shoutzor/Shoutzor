@@ -17,7 +17,9 @@ class Package extends Model
     protected PackageLoader $package;
 
     protected $fillable = [
+        'id',
         'name',
+        'icon',
         'author',
         'website',
         'description',

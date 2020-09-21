@@ -6,7 +6,7 @@
                  v-for="pkg in packages">
                 <div class="row row-sm align-items-center">
                     <div class="col-auto">
-                        <img :src="pkg.logo" class="rounded" alt="package logo" width="48" height="48">
+                        <img :src="'/packages/' + pkg.id + '/' + pkg.icon" class="rounded" alt="package logo" width="48" height="48">
                     </div>
                     <div class="col">
                         {{pkg.name}}

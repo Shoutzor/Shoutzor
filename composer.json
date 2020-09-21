@@ -19,6 +19,7 @@
         "laravel/tinker": "^2.0",
         "laravel/ui": "^2.0",
         "symfony/event-dispatcher": "^5.1",
+        "symfony/filesystem": "^5.1",
         "symfony/finder": "^5.1"
     },
     "require-dev": {

@@ -2,8 +2,10 @@
 
 namespace App\Packages;
 
-use App\Helpers\Filesystem;
+use App\Helpers\Filesystem as FilesystemHelper;
 use \Illuminate\Contracts\Foundation\Application;
+use Illuminate\Support\Facades\Log;
+use Symfony\Component\Filesystem\Filesystem;
 
 abstract class PackageLoader {
 
@@ -138,17 +140,19 @@ abstract class PackageLoader {
      * @return void
      */
     public function onDiscover() : void {
-        $publicAssetPath = $this->pkgPath . '/resources/static/public';
+        $publicAssetPath    = $this->pkgPath . '/resources/static/public';
+        $symlinkPath        = FilesystemHelper::correctDS(public_path('packages/' . $this->getId() . '/'));
 
         //If a public asset path exists, create a symlink to it so we can use those assets in the front-end
-        if(file_exists($publicAssetPath)) {
-            //TODO figure out why symlink is not returning anything
-            var_dump(
+        if(file_exists($publicAssetPath) && file_exists($symlinkPath) === false) {
+            try {
                 symlink(
                     $publicAssetPath,
-                    Filesystem::correctDS(base_path('public/packages/' . $this->getId() . '/'))
-                )
-            );
+                    $symlinkPath
+                );
+            } catch(\Exception $e) {
+                Log::error("Could not create package symlink, error: " . $e->getMessage());
+            }
         }
     }
 
