@@ -141,7 +141,7 @@ abstract class PackageLoader {
      */
     public function onDiscover() : void {
         $publicAssetPath    = $this->pkgPath . '/resources/static/public';
-        $symlinkPath        = FilesystemHelper::correctDS(public_path('packages/' . $this->getId() . '/'));
+        $symlinkPath        = FilesystemHelper::correctDS(storage_path('app/public/packages/' . $this->getId() . '/'));
 
         //If a public asset path exists, create a symlink to it so we can use those assets in the front-end
         if(file_exists($publicAssetPath) && file_exists($symlinkPath) === false) {
