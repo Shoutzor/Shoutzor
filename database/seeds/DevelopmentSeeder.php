@@ -8,6 +8,7 @@ class DevelopmentSeeder extends Seeder
      * Seed the application's database.
      *
      * @return void
+     * @throws Exception
      */
     public function run()
     {
@@ -15,14 +16,27 @@ class DevelopmentSeeder extends Seeder
         $faker->addProvider(new \Mmo\Faker\PicsumProvider($faker));
         $faker->addProvider(new \RauweBieten\PhpFakerMusic\Dance($faker));
 
-        $albumImageLocation = public_path('storage' . DIRECTORY_SEPARATOR . 'album' . DIRECTORY_SEPARATOR);
-        $artistImageLocation = public_path('storage' . DIRECTORY_SEPARATOR . 'artist' . DIRECTORY_SEPARATOR);
+        $albumImageLocation = storage_path('app/public/album');
+        $artistImageLocation = storage_path('app/public/artist');
+
+        if(!is_writable($albumImageLocation)) {
+            throw new Exception("Directory is not writeable: " . $albumImageLocation);
+        }
+
+        if(!is_writable($artistImageLocation)) {
+            throw new Exception("Directory is not writeable: " . $artistImageLocation);
+        }
 
         //
         // User
         //
         $users = [];
+
+        echo "Creating (50) users..\n";
+
         for ($i = 0; $i < 50; $i++) {
+            echo "Creating user $i/50..\n";
+
             $users[] = DB::table('users')->insertGetId([
                 'username' => $faker->userName,
                 'email' => $faker->safeEmail,
@@ -34,7 +48,11 @@ class DevelopmentSeeder extends Seeder
         // Artist
         //
         $artists = [];
+        echo "Creating (20) artists..\n";
+
         for ($i = 0; $i < 20; $i++) {
+            echo "Creating artist $i/20..\n";
+
             $artists[] = DB::table('artists')->insertGetId([
                 'name' => $faker->musicDanceArtist(),
                 'summary' => $faker->realText(200, 2),
@@ -46,7 +64,10 @@ class DevelopmentSeeder extends Seeder
         // Album
         //
         $albums = [];
+        echo "Creating (10) albums..";
+
         for ($i = 0; $i < 10; $i++) {
+            echo "Creating album $i/10..\n";
             $albums[] = DB::table('albums')->insertGetId([
                 'title' => $faker->musicDanceAlbum(),
                 'summary' => $faker->realText(200, 2),
@@ -82,7 +103,10 @@ class DevelopmentSeeder extends Seeder
             "Baba O'Riley"
         ];
         $tracks = [];
+        echo "Creating (10) media items..\n";
+
         for ($i = 0; $i < 10; $i++) {
+            echo "Creating media $i/10..\n";
             $tracks[] = DB::table('media')->insertGetId([
                 'title' => $trackTitles[$i],
                 'filename' => 'example.mp3',
