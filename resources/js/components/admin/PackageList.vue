@@ -10,19 +10,20 @@
                     </div>
                     <div class="col">
                         {{pkg.name}}
+                        <span class="badge bg-gray-lt">Version {{pkg.version}}</span>
+                        <span class="badge bg-orange-lt">Update Available</span>
                         <div class="text-muted">
                             {{pkg.description}}
                         </div>
                     </div>
                     <div class="col-auto">
-                        <a href="#" class="link-secondary">
+                        <a href="#" class="btn btn-outline-warning">
                             Update
                         </a>
                     </div>
                     <div class="col-auto">
-                        <a href="#" class="link-secondary">
-                            Enable
-                        </a>
+                        <a v-if="pkg.enabled" href="#" class="btn btn-danger">Disable</a>
+                        <a v-else href="#" class="btn btn-outline-success">Enable</a>
                     </div>
                 </div>
             </div>
