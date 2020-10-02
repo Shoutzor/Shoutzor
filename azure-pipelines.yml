@@ -26,16 +26,17 @@ steps:
     curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
     sudo apt-get install -y build-essential debconf-utils screen nodejs mysql-server
     sudo apt-get install -y unzip xvfb autogen autoconf libtool pkg-config nasm
-    sudo mysql -uroot -proot -e "use mysql; update user set authentication_string=PASSWORD('laravel') where User='root'; update user set plugin='mysql_native_password';FLUSH PRIVILEGES;"
-    sudo mysql -u root -plaravel -e 'create database laravel;'
   displayName: 'Installing System Dependencies'
 
 - script: |
-    mysql --version
-  displayName: 'MySQL Version'
+    sudo apt-get install -y mysql-server
+    sudo mysql -uroot -proot -e "use mysql; update user set authentication_string=PASSWORD('laravel') where User='root'; update user set plugin='mysql_native_password';FLUSH PRIVILEGES;"
+    sudo mysql -uroot -plaravel -e 'create database laravel;'
+    mysql -version
+  displayName: 'Install MySQL'
 
 - script: |
-    cp .env.travis .env
+    cp .env.example .env
   displayName: 'Environment Setup'
 
 - script: |
