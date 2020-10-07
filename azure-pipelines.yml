@@ -30,9 +30,7 @@ steps:
 
 - script: |
     sudo apt-get install -y mysql-server
-    sudo systemctl status mysql.service
     sudo systemctl start mysql.service
-    sudo service mysql start
     sudo mysql -uroot -proot -e "use mysql; update user set authentication_string=PASSWORD('laravel') where User='root'; update user set plugin='mysql_native_password';FLUSH PRIVILEGES;"
     sudo mysql -uroot -plaravel -e 'create database laravel;'
   displayName: 'Install MySQL'
@@ -48,10 +46,10 @@ steps:
   displayName: 'Installing Package Dependencies'
 
 - script: |
-    php artisan key:generate
+    php artisan key:generate --force
     php artisan passport:install --force
-    php artisan migrate:fresh
-    php artisan db:seed
+    php artisan migrate:fresh --force
+    php artisan db:seed --force
   displayName: 'Running Migrations'
 
 - script: |
