@@ -35,7 +35,6 @@ steps:
     sudo service mysql start
     sudo mysql -uroot -proot -e "use mysql; update user set authentication_string=PASSWORD('laravel') where User='root'; update user set plugin='mysql_native_password';FLUSH PRIVILEGES;"
     sudo mysql -uroot -plaravel -e 'create database laravel;'
-    mysql -version
   displayName: 'Install MySQL'
 
 - script: |
