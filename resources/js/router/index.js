@@ -8,7 +8,9 @@ import DashboardView        from "@js/views/main/dashboard";
 import UploadView           from "@js/views/main/upload";
 import UserSettingsView     from "@js/views/user/settings";
 import AdminView            from "@js/views/admin/index";
-import AdminPackagesView    from "@js/views/admin/packages";
+import AdminDashboard       from "@js/views/admin/dashboard";
+import AdminPackages        from "@js/views/admin/packages";
+import AdminMarketplace     from "@js/views/admin/marketplace";
 
 //Routes
 const routes = [
@@ -40,12 +42,24 @@ const routes = [
     {
         name: 'admin',
         path: '/admin',
-        component: AdminView
-    },
-    {
-        name: 'admin-packages',
-        path: '/admin/packages',
-        component: AdminPackagesView
+        component: AdminView,
+        children: [
+            {
+                name: 'admin-dashboard',
+                path: 'dashboard',
+                component: AdminDashboard
+            },
+            {
+                name: 'admin-packages',
+                path: 'packages',
+                component: AdminPackages
+            },
+            {
+                name: 'admin-marketplace',
+                path: 'marketplace',
+                component: AdminMarketplace
+            }
+        ]
     },
     {
         name: 'artist',

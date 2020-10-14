@@ -5,7 +5,7 @@
                 <div class="container-xl">
                     <ul class="navbar-nav">
                         <router-link
-                            :to="{name: 'admin'}"
+                            :to="{name: 'admin-dashboard'}"
                             v-slot="{ href, navigate, isExactActive }">
                             <li :class="['nav-item', isExactActive && 'active']">
                                 <a :href="href"
