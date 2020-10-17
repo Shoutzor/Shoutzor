@@ -15,7 +15,7 @@
             <div class="navbar-nav flex-row order-md-last">
                 <div class="nav-item d-md-flex mr-3" v-if="isAuthenticated === true">
                     <router-link
-                        :to="{name: 'admin'}"
+                        :to="{name: 'admin-dashboard'}"
                         class="btn btn-sm btn-outline-primary"
                         >Admin panel</router-link>
                 </div>

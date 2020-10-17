@@ -25,6 +25,7 @@ class PackageManager {
 
     /**
      * The internal package registry
+     * array format: [shoutzor.package filepath] => packageLoaderInstance
      *
      * @var array
      */
@@ -32,6 +33,7 @@ class PackageManager {
 
     /**
      * The internal package registry of loaded packages
+     * array format: [packageId] => packageLoader_Class_FQDN
      *
      * @var array
      */
@@ -39,6 +41,8 @@ class PackageManager {
 
     /**
      * the classMap array used by the autoloader
+     * array format: [class_FQDN] => filepath
+     *
      * @var array
      */
     private array $classMap = [];
@@ -197,6 +201,8 @@ class PackageManager {
     /**
      * Updates the autoloader classmap when called.
      * This should only be called when packages are installed, removed, or updated.
+     * @TODO Until a proper marketplace / online interface is added to install / uninstall plugins, this should pretty
+     * much be called with any interaction.
      */
     public function updateClassmap() : void {
         ClassMapGenerator::generate(
@@ -212,7 +218,7 @@ class PackageManager {
      * @return bool
      */
     public function isEnabled(PackageLoader $package) : bool {
-        if(in_array(get_class($package), $this->enabledPackages)) {
+        if(array_key_exists($package->getId(), $this->enabledPackages)) {
             return true;
         }
 
@@ -226,7 +232,7 @@ class PackageManager {
      * @param PackageLoader $package
      */
     public function enablePackage(PackageLoader $package) : void {
-        $this->enabledPackages[] = $package;
+        $this->enabledPackages[$package->getId()] = get_class($package);
         $package->onEnable();
     }
 
@@ -237,8 +243,8 @@ class PackageManager {
      * @param PackageLoader $package
      */
     public function disablePackage(PackageLoader $package) : void {
-        if (($key = array_search($package, $this->enabledPackages)) !== false) {
-            unset($this->enabledPackages[$key]);
+        if (array_key_exists($package->getId(), $this->enabledPackages)) {
+            unset($this->enabledPackages[$package->getId()]);
             $package->onDisable();
         }
     }
@@ -248,8 +254,8 @@ class PackageManager {
      */
     public function updateEnabledPackagesList() : void {
         $map = array_map(
-            function($pkg) {
-                return get_class($pkg);
+            function($pkgClassName) {
+                return '"' . $pkgClassName . '"';
             },
             $this->enabledPackages
         );
@@ -258,5 +264,25 @@ class PackageManager {
             storage_path('app/packages_enabled.php'),
             ClassMapGenerator::createFile($map)
         );
+    }
+
+    /**
+     * Finds a package by it's ID
+     * @param string $id
+     * @return PackageLoader|null
+     */
+    public function findPackageById(string $id) : ?PackageLoader {
+        $packages = $this->fetchPackages();
+
+        $p = null;
+
+        //Find the package we're looking for.
+        foreach($packages as $pkg) {
+            if($pkg->getId() === $id) {
+                $p = $pkg;
+            }
+        }
+
+        return $p;
     }
 }

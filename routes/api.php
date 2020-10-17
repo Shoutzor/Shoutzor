@@ -23,6 +23,8 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::get('auth/user', 'AuthApiController@user');
     Route::post('upload', 'UploadApiController@store');
     Route::get('package', 'PackageApiController@installed');
+    Route::post('package/enable', 'PackageApiController@enable');
+    Route::post('package/disable', 'PackageApiController@disable');
 });
 
 Route::get('album', 'AlbumApiController@get');

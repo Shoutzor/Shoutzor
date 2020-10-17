@@ -10,7 +10,6 @@ import UserSettingsView     from "@js/views/user/settings";
 import AdminView            from "@js/views/admin/index";
 import AdminDashboard       from "@js/views/admin/dashboard";
 import AdminPackages        from "@js/views/admin/packages";
-import AdminMarketplace     from "@js/views/admin/marketplace";
 
 //Routes
 const routes = [
@@ -53,11 +52,6 @@ const routes = [
                 name: 'admin-packages',
                 path: 'packages',
                 component: AdminPackages
-            },
-            {
-                name: 'admin-marketplace',
-                path: 'marketplace',
-                component: AdminMarketplace
             }
         ]
     },

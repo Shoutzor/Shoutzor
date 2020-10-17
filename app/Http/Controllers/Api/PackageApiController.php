@@ -20,7 +20,11 @@ class PackageApiController extends Controller {
             'id' => 'string'
         ]);
 
+        //@todo this can be removed once the package marketplace is implemented
+        //At which point, manual installation of packages via the filesystem is no longer supported
+        //(but can still be manually installed via the admin UI)
         $this->pm->updateClassmap();
+
         $packages = $this->pm->fetchPackages();
         $result = [];
 
@@ -41,6 +45,70 @@ class PackageApiController extends Controller {
         }
 
         return response()->json($result, 200);
+    }
+
+    /**
+     * Enable a package
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function enable(Request $request) {
+        $request->validate([
+            'id' => 'string'
+        ]);
+
+        //@todo this can be removed once the package marketplace is implemented
+        //At which point, manual installation of packages via the filesystem is no longer supported
+        //(but can still be manually installed via the admin UI)
+        $this->pm->updateClassmap();
+
+        //Find the package via it's ID
+        $pkg = $this->pm->findPackageById($request->id);
+
+        //Check if the package was found
+        if(is_null($pkg) === false) {
+            //Enable the package
+            $this->pm->enablePackage($pkg);
+            $this->pm->updateEnabledPackagesList();
+
+            //Return the success response
+            return response()->json(new Package($pkg), 200);
+        }
+
+        //Return the failed response
+        return response()->json(['message' => 'Package not found'], 400);
+    }
+
+    /**
+     * Disable a package
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function disable(Request $request) {
+        $request->validate([
+            'id' => 'string'
+        ]);
+
+        //@todo this can be removed once the package marketplace is implemented
+        //At which point, manual installation of packages via the filesystem is no longer supported
+        //(but can still be manually installed via the admin UI)
+        $this->pm->updateClassmap();
+
+        //Find the package via it's ID
+        $pkg = $this->pm->findPackageById($request->id);
+
+        //Check if the package was found
+        if(is_null($pkg) === false) {
+            //Disable the package
+            $this->pm->disablePackage($pkg);
+            $this->pm->updateEnabledPackagesList();
+
+            //Return the success response
+            return response()->json(new Package($pkg), 200);
+        }
+
+        //Return the failed response
+        return response()->json(['message' => 'Package not found'], 400);
     }
 
 }
