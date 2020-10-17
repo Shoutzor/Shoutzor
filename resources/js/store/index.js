@@ -6,7 +6,10 @@ import VuexORMAxios from '@vuex-orm/plugin-axios'
 import database from '@js/database'
 
 Vue.use(Vuex);
-VuexORM.use(VuexORMAxios, { axios });
+
+VuexORM.use(VuexORMAxios, {
+    axios
+});
 
 const debug = process.env.NODE_ENV !== 'production'
 

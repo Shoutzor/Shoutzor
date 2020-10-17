@@ -30,6 +30,7 @@ class Media extends Model
 
     public function isValid() : bool {
         return false;
+        //TODO implement validation method
 /*        return Validator::make($this, [
             'title'     => 'required|max:255',
             'filename'  => 'required|unique',

@@ -66,7 +66,7 @@
             queue: () => Media.query().with(["artists", "user"]).get()
         },
 
-        created() {
+        mounted() {
             //Search query is probably done by the container of the component?
         }
     }

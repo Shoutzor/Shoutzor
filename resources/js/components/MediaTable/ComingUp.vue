@@ -68,7 +68,7 @@
             queue: () => Request.query().with(["media.artists", "user"]).get()
         },
 
-        created() {
+        mounted() {
             Request.api().fetch();
         }
     }

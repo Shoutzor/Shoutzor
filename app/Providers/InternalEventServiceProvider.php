@@ -18,7 +18,7 @@ class InternalEventServiceProvider extends ServiceProvider
     public function register()
     {
         $this->dispatcher = new EventDispatcher();
-        $this->app->instance('Symfony\Component\EventDispatcher\EventDispatcher', $this->dispatcher);
+        $this->app->instance(EventDispatcher::class, $this->dispatcher);
     }
 
     /**
@@ -28,10 +28,5 @@ class InternalEventServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //TODO automatically load subscribers and listeners
-        /*        foreach (glob(app_path() . '/Listeners/Internal/*.php') as $helpersfilename)
-                {
-                    require_once($helpersfilename);
-                }*/
     }
 }

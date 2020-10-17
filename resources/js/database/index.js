@@ -6,6 +6,7 @@ import AlbumMedia from '@js/models/AlbumMedia'
 import Artist from '@js/models/Artist'
 import ArtistMedia from '@js/models/ArtistMedia'
 import Media from '@js/models/Media'
+import Package from '@js/models/Package'
 import User from '@js/models/User'
 import Request from '@js/models/Request'
 import History from '@js/models/History'
@@ -19,6 +20,7 @@ database.register(AlbumMedia)
 database.register(Artist)
 database.register(ArtistMedia)
 database.register(Media)
+database.register(Package)
 database.register(User)
 database.register(Request)
 database.register(History)
