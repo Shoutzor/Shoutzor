@@ -18,19 +18,24 @@ use Illuminate\Support\Facades\Route;
 Route::post('auth/login', 'AuthApiController@login');
 Route::post('auth/register', 'AuthApiController@register');
 
-Route::group(['middleware' => ['can:view website']], function() {
+Route::group(['middleware' => ['can:website.view']], function() {
     Route::group(['middleware' => 'auth:api'], function () {
         Route::get('auth/logout', 'AuthApiController@logout');
         Route::get('auth/user', 'AuthApiController@user');
         Route::post('upload', 'UploadApiController@store')->middleware('can:upload');
 
         //Admin
-        Route::group(['middleware' => 'can:view admin'], function() {
+        Route::group(['middleware' => 'can:admin.view'], function() {
             //Admin - Packages
-            Route::group(['middleware' => 'can:manage packages'], function () {
+            Route::group(['middleware' => 'can:admin.packages'], function() {
                 Route::get('package', 'PackageApiController@installed');
                 Route::post('package/enable', 'PackageApiController@enable');
                 Route::post('package/disable', 'PackageApiController@disable');
+            });
+
+            Route::group(['middleware' => 'can:admin.permissions'], function() {
+                Route::get('permission', 'PermissionApiController@get');
+                Route::get('role', 'RoleApiController@get');
             });
         });
     });
