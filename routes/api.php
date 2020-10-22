@@ -18,17 +18,26 @@ use Illuminate\Support\Facades\Route;
 Route::post('auth/login', 'AuthApiController@login');
 Route::post('auth/register', 'AuthApiController@register');
 
-Route::group(['middleware' => 'auth:api'], function () {
-    Route::get('auth/logout', 'AuthApiController@logout');
-    Route::get('auth/user', 'AuthApiController@user');
-    Route::post('upload', 'UploadApiController@store');
-    Route::get('package', 'PackageApiController@installed');
-    Route::post('package/enable', 'PackageApiController@enable');
-    Route::post('package/disable', 'PackageApiController@disable');
-});
+Route::group(['middleware' => ['can:view website']], function() {
+    Route::group(['middleware' => 'auth:api'], function () {
+        Route::get('auth/logout', 'AuthApiController@logout');
+        Route::get('auth/user', 'AuthApiController@user');
+        Route::post('upload', 'UploadApiController@store')->middleware('can:upload');
 
-Route::get('album', 'AlbumApiController@get');
-Route::get('artist', 'ArtistApiController@get');
-Route::get('request', 'RequestApiController@index');
-Route::get('history', 'HistoryApiController@index');
-Route::get('history/last', 'HistoryApiController@last');
+        //Admin
+        Route::group(['middleware' => 'can:view admin'], function() {
+            //Admin - Packages
+            Route::group(['middleware' => 'can:manage packages'], function () {
+                Route::get('package', 'PackageApiController@installed');
+                Route::post('package/enable', 'PackageApiController@enable');
+                Route::post('package/disable', 'PackageApiController@disable');
+            });
+        });
+    });
+
+    Route::get('album', 'AlbumApiController@get');
+    Route::get('artist', 'ArtistApiController@get');
+    Route::get('request', 'RequestApiController@index');
+    Route::get('history', 'HistoryApiController@index');
+    Route::get('history/last', 'HistoryApiController@last');
+});
