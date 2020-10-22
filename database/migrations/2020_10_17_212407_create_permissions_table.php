@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AlterPermissionTables extends Migration
+class CreatePermissionsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -19,12 +19,11 @@ class AlterPermissionTables extends Migration
             throw new \Exception('Error: config/permission.php not loaded. Run [php artisan config:clear] and try again.');
         }
 
-        Schema::table($tableNames['permissions'], function (Blueprint $table) {
-            $table->string('description');
-        });
-
-        Schema::table($tableNames['roles'], function (Blueprint $table) {
-            $table->string('description');
+        Schema::create($tableNames['permissions'], function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->string('name');
+            $table->string('guard_name');
+            $table->timestamps();
         });
     }
 
@@ -41,12 +40,6 @@ class AlterPermissionTables extends Migration
             throw new \Exception('Error: config/permission.php not found and defaults could not be merged. Please publish the package configuration before proceeding, or drop the tables manually.');
         }
 
-        Schema::table($tableNames['permissions'], function (Blueprint $table) {
-            $table->dropColumn('description');
-        });
-
-        Schema::create($tableNames['roles'], function (Blueprint $table) {
-            $table->dropColumn('description');
-        });
+        Schema::drop($tableNames['permissions']);
     }
 }
