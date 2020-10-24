@@ -4,12 +4,14 @@ import VueRouter    from "vue-router";
 Vue.use(VueRouter);
 
 //Views
-import DashboardView        from "@js/views/main/dashboard";
-import UploadView           from "@js/views/main/upload";
-import UserSettingsView     from "@js/views/user/settings";
-import AdminView            from "@js/views/admin/index";
-import AdminDashboard       from "@js/views/admin/dashboard";
-import AdminPackages        from "@js/views/admin/packages";
+import DashboardView            from "@js/views/main/dashboard";
+import UploadView               from "@js/views/main/upload";
+import UserSettingsView         from "@js/views/user/settings";
+import AdminView                from "@js/views/admin/index";
+import AdminDashboard           from "@js/views/admin/dashboard";
+import AdminUsers               from "@js/views/admin/users";
+import AdminRoles               from "@js/views/admin/roles";
+import AdminPackages            from "@js/views/admin/packages";
 
 //Routes
 const routes = [
@@ -47,6 +49,16 @@ const routes = [
                 name: 'admin-dashboard',
                 path: 'dashboard',
                 component: AdminDashboard
+            },
+            {
+                name: 'admin-users',
+                path: 'users',
+                component: AdminUsers
+            },
+            {
+                name: 'admin-roles',
+                path: 'roles',
+                component: AdminRoles
             },
             {
                 name: 'admin-packages',

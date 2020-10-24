@@ -24,6 +24,44 @@
                             </li>
                         </router-link>
                         <router-link
+                            :to="{name: 'admin-users'}"
+                            v-slot="{ href, navigate, isExactActive }">
+                            <li :class="['nav-item', isExactActive && 'active']">
+                                <a :href="href"
+                                   @click="navigate"
+                                   class="nav-link">
+                                    <span class="nav-link-icon d-md-none d-lg-inline-block">
+                                        <font-awesome-icon
+                                            :icon="['fa', 'user']"
+                                            class="icon"
+                                        ></font-awesome-icon>
+                                    </span>
+                                    <span class="nav-link-title">
+                                      Users
+                                    </span>
+                                </a>
+                            </li>
+                        </router-link>
+                        <router-link
+                            :to="{name: 'admin-roles'}"
+                            v-slot="{ href, navigate, isExactActive }">
+                            <li :class="['nav-item', isExactActive && 'active']">
+                                <a :href="href"
+                                   @click="navigate"
+                                   class="nav-link">
+                                    <span class="nav-link-icon d-md-none d-lg-inline-block">
+                                        <font-awesome-icon
+                                            :icon="['fa', 'key']"
+                                            class="icon"
+                                        ></font-awesome-icon>
+                                    </span>
+                                    <span class="nav-link-title">
+                                      Roles
+                                    </span>
+                                </a>
+                            </li>
+                        </router-link>
+                        <router-link
                             :to="{name: 'admin-packages'}"
                             v-slot="{ href, navigate, isExactActive }">
                             <li :class="['nav-item', isExactActive && 'active']">
