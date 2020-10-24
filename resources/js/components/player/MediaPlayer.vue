@@ -1,13 +1,26 @@
 <template>
     <div id="audio-player">
-        <div class="media-info" v-if="currentMedia">
-            <div class="row row-sm align-items-center" v-if="currentMedia.media !== null">
+        <div class="media-info">
+            <div class="row row-sm align-items-center" v-if="currentMedia && currentMedia.media !== null">
                 <div class="col-auto">
                     <img v-bind:src="albumImage" class="rounded" width="48" height="48">
                 </div>
                 <div class="col">
                     <span class="track-title">{{ currentMedia.media.title }}</span>
                     <artist-list class="text-muted" :artists="currentMedia.media.artists"></artist-list>
+                </div>
+            </div>
+            <div class="row row-sm align-items-center" v-else>
+                <div class="col-auto">
+                    <font-awesome-icon
+                        class="rounded border"
+                        :icon="['fas', 'question']"
+                        width="48"
+                        height="48"
+                    ></font-awesome-icon>
+                </div>
+                <div class="col">
+                    <span class="track-title">Unknown</span>
                 </div>
             </div>
         </div>
