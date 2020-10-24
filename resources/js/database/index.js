@@ -11,6 +11,8 @@ import User from '@js/models/User'
 import Request from '@js/models/Request'
 import History from '@js/models/History'
 import Task from '@js/models/Task'
+import Permission from '@js/models/Permission'
+import Role from '@js/models/Role'
 
 const database = new VuexORM.Database()
 
@@ -25,5 +27,7 @@ database.register(User)
 database.register(Request)
 database.register(History)
 database.register(Task)
+database.register(Permission)
+database.register(Role)
 
 export default database
