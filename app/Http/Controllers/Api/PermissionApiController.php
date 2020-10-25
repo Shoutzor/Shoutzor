@@ -4,21 +4,18 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\User;
+use Illuminate\Http\JsonResponse;
 use Spatie\Permission\Models\Permission;
 use Illuminate\Http\Request;
 
 class PermissionApiController extends Controller {
     /**
      * Returns a single or all permissions
-     * @param Request $request (optional) contains the ID of the permission to get
-     * @return \Illuminate\Http\JsonResponse an array of permissions
+     * @param int|null $id
+     * @return JsonResponse an array of permissions
      */
-    public function get(Request $request) {
-        $request->validate([
-            'id' => 'required|numeric'
-        ]);
-
-        $permission = Permission::findById($request->id);
+    public function get(int $id = null) {
+        $permission = Permission::findById($id);
 
         if (!$permission) {
             $permissions = Permission::all();
@@ -37,21 +34,19 @@ class PermissionApiController extends Controller {
      * Role will return only the permissions inherited from roles
      * Direct will return only the permissions directly assigned to the user
      * @param Request $request
+     * @param int|null $id
+     * @param string $type
+     * @return JsonResponse an array of permissions
      */
-    public function user(Request $request) {
-        $request->validate([
-            'id' => 'numeric',
-            'type' => 'string'
-        ]);
-
-        if($request->id) {
+    public function user(Request $request, int $id = null, string $type = "all") {
+        if($id) {
             if($request->user()->can('admin.permissions.permission.get') === false) {
                 return response()->json([
                     'message' => 'You do not have the admin.permissions.permission.get permission'
                 ], 403);
             }
 
-            $user = User::find($request->id);
+            $user = User::find($id);
 
             if(!$user) {
                 return response()->json([
@@ -62,12 +57,11 @@ class PermissionApiController extends Controller {
             $user = $request->user();
         }
 
-        $type = 'all';
-        if(!$request->type) {
-            $type = $request->type;
-        }
-
         switch($type) {
+            case "all":
+                $permissions = $user->getAllPermissions();
+                break;
+
             case "direct":
                 $permissions = $user->getDirectPermissions();
                 break;
@@ -77,7 +71,9 @@ class PermissionApiController extends Controller {
                 break;
 
             default:
-                $permissions = $user->getAllPermissions();
+                return response()->json([
+                    'message' => 'Invalid type provided'
+                ], 400);
         }
 
         return response()->json($permissions, 200);

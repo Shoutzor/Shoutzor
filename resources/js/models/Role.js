@@ -10,4 +10,18 @@ export default class Role extends Model {
             name: this.string('')
         }
     }
+
+    static apiConfig = {
+        actions: {
+            fetchAll() {
+                return this.get('/api/role/get')
+            },
+            fetchById(id) {
+                return this.get('/api/role/get/${id}')
+            },
+            fetchForUser() {
+                return this.get('/api/role/user')
+            }
+        }
+    }
 }

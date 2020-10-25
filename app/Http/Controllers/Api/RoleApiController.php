@@ -8,18 +8,13 @@ use Spatie\Permission\Models\Role;
 use Illuminate\Http\Request;
 
 class RoleApiController extends Controller {
-
     /**
      * Returns a single or all roles, requires the permission: admin.permissions.role.get
-     * @param Request $request (optional) contains the ID of the role to get
+     * @param int|null $id
      * @return \Illuminate\Http\JsonResponse an array of roles
      */
-    public function get(Request $request) {
-        $request->validate([
-            'id' => 'required|numeric'
-        ]);
-
-        $role = Role::findById($request->id);
+    public function get(int $id = null) {
+        $role = ($id) ? Role::findById($id) : null;
 
         if (!$role) {
             $roles = Role::all();
@@ -35,19 +30,15 @@ class RoleApiController extends Controller {
      * Requesting the roles of other users requires the permission: admin.permissions.role.get
      * @param Request $request
      */
-    public function user(Request $request) {
-        $request->validate([
-            'id' => 'numeric'
-        ]);
-
-        if($request->id) {
+    public function user(Request $request, int $id = null) {
+        if($id) {
             if($request->user()->can('admin.permissions.role.get') === false) {
                 return response()->json([
                     'message' => 'You do not have the admin.permissions.role.get permission'
                 ], 403);
             }
 
-            $user = User::find($request->id);
+            $user = User::find($id);
 
             if(!$user) {
                 return response()->json([
