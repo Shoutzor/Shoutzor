@@ -13,17 +13,17 @@
             </div>
 
             <div class="navbar-nav flex-row order-md-last">
-                <div class="nav-item d-md-flex mr-3" v-if="isAuthenticated === true">
+                <div class="nav-item d-md-flex mr-3" v-if="$isAuthenticated">
                     <router-link
                         :to="{name: 'admin-dashboard'}"
                         class="btn btn-sm btn-outline-primary"
                         >Admin panel</router-link>
                 </div>
 
-                <div class="nav-item dropdown" v-if="isAuthenticated === true">
+                <div class="nav-item dropdown" v-if="$isAuthenticated">
                     <a href="#" class="nav-link d-flex lh-1 text-reset p-0" data-toggle="dropdown">
                         <div class="d-xl-block pl-2">
-                            <div>{{ user.username }}</div>
+                            <div>{{ $getUser().username }}</div>
                             <div class="mt-1 small text-muted">Administrator</div>
                         </div>
                     </a>

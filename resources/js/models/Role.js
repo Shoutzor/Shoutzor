@@ -1,4 +1,6 @@
 import { Model } from '@vuex-orm/core';
+import Permission from "./Permission";
+import RolePermission from "./RolePermission";
 
 
 export default class Role extends Model {
@@ -7,7 +9,8 @@ export default class Role extends Model {
     static fields () {
         return {
             id: this.string(''),
-            name: this.string('')
+            name: this.string(''),
+            permissions: this.belongsToMany(Permission, RolePermission, 'role_id', 'permission_id')
         }
     }
 

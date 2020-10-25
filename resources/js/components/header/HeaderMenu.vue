@@ -48,8 +48,8 @@
                                 </router-link>
                             </li>
                         </ul>
-                        <span class="navbar-text pt-lg-3" v-if="isAuthenticated === true">Your zone</span>
-                        <ul class="navbar-nav" v-if="isAuthenticated === true">
+                        <span class="navbar-text pt-lg-3" v-if="$isAuthenticated">Your zone</span>
+                        <ul class="navbar-nav" v-if="$isAuthenticated">
                             <li class="nav-item">
                                 <router-link
                                     :to="{name: 'upload'}"

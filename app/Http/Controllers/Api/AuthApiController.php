@@ -84,8 +84,8 @@ class AuthApiController extends Controller
 
     /**
      * Logout user (Revoke the token)
-     *
-     * @return [string] message
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse [string] message
      */
     public function logout(Request $request)
     {
@@ -97,8 +97,8 @@ class AuthApiController extends Controller
 
     /**
      * Get the authenticated User
-     *
-     * @return [json] user object
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse [json] user object
      */
     public function user(Request $request)
     {

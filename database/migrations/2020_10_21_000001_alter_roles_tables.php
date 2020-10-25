@@ -20,7 +20,7 @@ class AlterPermissionsTables extends Migration
         }
 
         Schema::table($tableNames['roles'], function (Blueprint $table) {
-            $table->string('description');
+            $table->string('description')->default('');
         });
     }
 

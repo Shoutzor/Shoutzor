@@ -1,5 +1,6 @@
 <?php
 
+use App\User;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Exceptions\PermissionAlreadyExists;
 use Spatie\Permission\Exceptions\RoleAlreadyExists;
@@ -18,31 +19,59 @@ class PermissionSeeder extends Seeder
         /*
          * Create roles (if not existing)
          */
-        $guest =    $this->createRole('guest');
-        $user =     $this->createRole('user');
-        $admin =    $this->createRole('admin');
+        $guest =    $this->createRole('guest', 'this role is applied to unauthenticated users');
+        $user =     $this->createRole('user', 'this is the default role for regular users');
+        $admin =    $this->createRole('admin', 'this is a special role for administrators');
 
         /*
          * Create permissions (if not existing)
          */
 
-        //(dis)allows visiting the website (ie: require login)
-        $this->createPermission('view website', [$guest, $user, $admin]);
+        $this->createPermission(
+            'website.access',
+            '(dis)allows visiting the website (ie: require login)',
+            [$guest, $user, $admin]
+        );
 
-        //(dis)allows searching
-        $this->createPermission('search', [$guest, $user, $admin]);
+        $this->createPermission(
+            'website.search',
+            '(dis)allows searching',
+            [$guest, $user, $admin]
+        );
 
-        //(dis)allows uploading media
-        $this->createPermission('upload', [$user, $admin]);
+        $this->createPermission('website.upload',
+            '(dis)allows uploading media',
+            [$user, $admin]
+        );
 
-        //(dis)allows requests
-        $this->createPermission('request', [$user, $admin]);
+        $this->createPermission('website.request',
+            '(dis)allows requests',
+            [$user, $admin]
+        );
 
-        //(dis)allows accessing the admin panel and sub-pages
-        $this->createPermission('view admin', [$admin]);
+        $this->createPermission('admin.access',
+            '(dis)allows accessing the admin panel and sub-pages',
+            [$admin]
+        );
 
-        //(dis)allows managing shoutzor packages
-        $this->createPermission('manage packages', [$admin]);
+        $this->createPermission('admin.packages',
+            '(dis)allows managing shoutzor packages',
+            [$admin]
+        );
+
+        $this->createPermission('admin.permissions.permission.get',
+            '(dis)allows managing shoutzor permissions',
+            [$admin]
+        );
+
+        $this->createPermission('admin.permissions.role.get',
+            '(dis)allows managing shoutzor roles',
+            [$admin]
+        );
+
+        $user = User::where('username', 'admin')->first();
+        $user->assignRole('user');
+        $user->assignRole('admin');
     }
 
     /**
@@ -50,13 +79,13 @@ class PermissionSeeder extends Seeder
      * @param string $name the name of the permission
      * @param array $roles the roles to assign this permission to by default
      */
-    private function createPermission(string $name, array $roles = []) {
+    private function createPermission(string $name, string $description, array $roles = []) {
         try {
-            $perm = Permission::create(['name' => $name]);
+            $perm = Permission::create(['name' => $name, 'description' => $description]);
 
             //Assign the permission for the provided roles
             foreach($roles as $role) {
-                $role->assignPermission($perm);
+                $role->givePermissionTo($perm);
             }
         }
         catch(PermissionAlreadyExists $e) {
@@ -68,9 +97,9 @@ class PermissionSeeder extends Seeder
      * Create a role if it doesn't exist yet
      * @param string $name the name of the role
      */
-    private function createRole(string $name) {
+    private function createRole(string $name, string $description) {
         try {
-            return Role::create(['name' => $name]);
+            return Role::create(['name' => $name, 'description' => $description]);
         }
         catch(RoleAlreadyExists $e) {
             //Ignore

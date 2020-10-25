@@ -49,7 +49,16 @@ class RoleApiController extends Controller {
             $user = $request->user();
         }
 
-        $roles = $user->getRoleNames();
+        if($user) {
+            $roles = $user->getRoleNames();
+        }
+        //Guest user
+        else {
+            $role = Role::findByName('guest');
+
+            //Check if the guest role could be found
+            $roles = ($role) ? [$role] : [];
+        }
 
         return response()->json($roles, 200);
     }

@@ -6,6 +6,8 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 
 class User extends Authenticatable
 {
@@ -41,5 +43,15 @@ class User extends Authenticatable
     public function uploads()
     {
         return $this->hasMany(Upload::class);
+    }
+
+    public function permissions()
+    {
+        return $this->hasMany(Permission::class);
+    }
+
+    public function roles()
+    {
+        return $this->hasMany(Role::class);
     }
 }

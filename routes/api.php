@@ -15,18 +15,28 @@ use Illuminate\Support\Facades\Route;
 */
 
 
+/*
+ * --------------------------------------------------------------------------
+ * These routes are always available
+ * --------------------------------------------------------------------------
+ */
 Route::post('auth/login',       'AuthApiController@login');
 Route::post('auth/register',    'AuthApiController@register');
+Route::get('role/user',         'RoleApiController@user');
+Route::get('permission/user',   'PermissionApiController@user');
 
+/*
+ * --------------------------------------------------------------------------
+ * Routes within this group require to be authenticated
+ * --------------------------------------------------------------------------
+ */
 Route::group(['middleware' => 'auth:api'], function () {
     Route::get('auth/logout',   'AuthApiController@logout');
     Route::get('auth/user',     'AuthApiController@user');
 
     Route::get('permission/get/{id?}',  'PermissionApiController@get')->middleware('can:admin.permissions.permission.get')->where('id', '[0-9]+');
-    Route::get('permission/user',       'PermissionApiController@user')->where('id', '[0-9]+');
     Route::get('permission/user/{id?}', 'PermissionApiController@user')->middleware('can:admin.permissions.permission.get')->where('id', '[0-9]+');
     Route::get('role/get/{id?}',        'RoleApiController@get')->middleware('can:admin.permissions.role.get')->where('id', '[0-9]+');
-    Route::get('role/user',             'RoleApiController@user');
 
     //Admin
     Route::group(['middleware' => 'can:admin.access'], function() {
@@ -39,11 +49,16 @@ Route::group(['middleware' => 'auth:api'], function () {
     });
 });
 
+/*
+ * --------------------------------------------------------------------------
+ * Routes within this group require the website.access permission
+ * --------------------------------------------------------------------------
+ */
 Route::group(['middleware' => ['can:website.access']], function() {
-    Route::get('album',         'AlbumApiController@get');
-    Route::get('artist',        'ArtistApiController@get');
-    Route::get('request',       'RequestApiController@index');
-    Route::get('history',       'HistoryApiController@index');
-    Route::get('history/last',  'HistoryApiController@last');
-    Route::post('upload',       'UploadApiController@store')->middleware('can:upload');
+    Route::get('album/get/{id}',    'AlbumApiController@get')->where('id', '[0-9]+');
+    Route::get('artist/get/{id}',   'ArtistApiController@get')->where('id', '[0-9]+');
+    Route::get('request',           'RequestApiController@index');
+    Route::get('history',           'HistoryApiController@index');
+    Route::get('history/last',      'HistoryApiController@last');
+    Route::post('upload',           'UploadApiController@store')->middleware('can:upload');
 });

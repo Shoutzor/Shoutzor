@@ -8,8 +8,21 @@ export default class Permission extends Model {
         return {
             id: this.string(''),
             name: this.string(''),
-            description: this.string(''),
-            enabled: this.boolean(false)
+            description: this.string('')
+        }
+    }
+
+    static apiConfig = {
+        actions: {
+            fetchAll() {
+                return this.get('/api/permission/get')
+            },
+            fetchById(id) {
+                return this.get('/api/permission/get/${id}')
+            },
+            fetchForUser() {
+                return this.get('/api/permission/user')
+            }
         }
     }
 }

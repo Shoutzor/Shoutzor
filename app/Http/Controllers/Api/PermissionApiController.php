@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\User;
+use Illuminate\Auth\Access\Response;
 use Illuminate\Http\JsonResponse;
 use Spatie\Permission\Models\Permission;
 use Illuminate\Http\Request;
+use Spatie\Permission\Models\Role;
 
 class PermissionApiController extends Controller {
     /**
@@ -57,23 +59,35 @@ class PermissionApiController extends Controller {
             $user = $request->user();
         }
 
-        switch($type) {
-            case "all":
-                $permissions = $user->getAllPermissions();
-                break;
+        if($user) {
+            switch ($type) {
+                case "all":
+                    $permissions = $user->getAllPermissions();
+                    break;
 
-            case "direct":
-                $permissions = $user->getDirectPermissions();
-                break;
+                case "direct":
+                    $permissions = $user->getDirectPermissions();
+                    break;
 
-            case "role":
-                $permissions = $user->getPermissionsViaRoles();
-                break;
+                case "role":
+                    $permissions = $user->getPermissionsViaRoles();
+                    break;
 
-            default:
-                return response()->json([
-                    'message' => 'Invalid type provided'
-                ], 400);
+                default:
+                    return response()->json([
+                        'message' => 'Invalid type provided'
+                    ], 400);
+            }
+        }
+        //Guest user
+        else {
+            $role = Role::findByName('guest');
+            $permissions = [];
+
+            //Check if the guest role could be found
+            if($role) {
+                $permissions = $role->permissions;
+            }
         }
 
         return response()->json($permissions, 200);

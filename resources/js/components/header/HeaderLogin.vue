@@ -34,10 +34,8 @@ export default {
         }
     },
     created() {
-        //this.$bus.on('auth-status', this.handleAuthStatus);
     },
     beforeDestroy() {
-        //this.$bus.off('auth-status', this.handleAuthStatus);
         this.errors = [];
         this.username = null;
         this.password = null;
@@ -60,24 +58,15 @@ export default {
                 return;
             }
 
-            this.$bus.emit("auth-login", {
-                username: this.username,
-                password: this.password,
-                remember_me: this.remember_me,
-                callback: this.loginEventHandler
-            });
-        },
-
-        loginEventHandler: function(result) {
-            if(result.success === false) {
-                // Display error message
-                this.errors.push("invalid");
-                this.error_message = result.message;
-            } else {
+            this.$login(this.username, this.password, this.remember_me).then(function(result){
                 // Login success, Clear the form
                 this.username = null;
                 this.password = null;
-            }
+            }).catch(function(error){
+                // Display error message
+                this.errors.push("invalid");
+                this.error_message = result.message;
+            });
         }
     }
 }
