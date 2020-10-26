@@ -1,9 +1,84 @@
-<script>
 import axios from 'axios';
 import Permission from "@js/models/Permission";
 import Role from "@js/models/Role";
 
+import { AUTH_REQUEST, AUTH_SUCCESS, AUTH_FAILED, AUTH_LOGOUT } from "@js/store/mutation-types";
+
+const state = () => ({
+    token: localStorage.getItem('user-token') || '',
+    status: '',
+    user: {}
+});
+
+const mutations = {
+    [AUTH_REQUEST](state) {
+        state.status = 'loading';
+    },
+    [AUTH_SUCCESS](state, token) {
+        state.status = 'success';
+        state.token = token;
+        state.user = user;
+    },
+    [AUTH_FAILED](state) {
+        state.status = 'error';
+    },
+    [AUTH_LOGOUT](state) {
+        state.status = '';
+        state.token = '';
+        state.user = {};
+    }
+};
+
+const getters = {
+    isAuthenticated: state => !!state.token,
+    authStatus: state => state.status,
+    getUser: state => state.user
+};
+
+const actions = {
+    login({commit, dispatch}, login) {
+        return new Promise((resolve, reject) => { // The Promise used for router redirect in login
+            commit([AUTH_REQUEST]);
+            axios({url: '/api/auth/login', login, method: 'POST' })
+            .then(resp => {
+                const token = resp.data.token
+                const user  = resp.data.user
+
+                localStorage.setItem('token', token);
+                axios.defaults.headers.common['Authorization'] = token
+                commit([AUTH_SUCCESS], token, user);
+
+                resolve(resp);
+            })
+            .catch(err => {
+                commit([AUTH_FAILED], err);
+                localStorage.removeItem('token'); // if the request fails, remove any possible user token if possible
+                reject(err);
+            });
+        });
+    },
+
+    logout({commit}){
+        return new Promise((resolve, reject) => {
+            commit([AUTH_LOGOUT])
+            localStorage.removeItem('token')
+            delete axios.defaults.headers.common['Authorization']
+            resolve()
+        })
+    }
+};
+
 export default {
+    namespaced: true,
+    mutations,
+    getters,
+    actions
+};
+
+/* ===============================
+ * Original code (to convert)
+ */
+const somethign = {
     data(){
         return {
             isAuthenticated: false,
@@ -27,7 +102,9 @@ export default {
         }
     },
 
-    created() {
+    beforeRouteEnter() {
+        console.log("======== CREATED =========");
+
         //Populate the store with all Permissions
         Permission.api().fetchForUser();
 
@@ -58,6 +135,7 @@ export default {
     methods: {
         $can(permissionName) {
             if (typeof permissionName === 'string' || permissionName instanceof String) {
+                console.log("CAN: ", this.permissions.includes(permissionName));
                 return this.permissions.includes(permissionName);
             } else {
                 console.error("Provided permission-name was not a string");
@@ -66,10 +144,12 @@ export default {
         },
 
         $isAuthenticated() {
+            console.log("ISAUTHENTICATED: ", this.isAuthenticated);
             return this.isAuthenticated;
         },
 
         $getUser() {
+            console.log("USER: ", this.user);
             return this.user;
         },
 
@@ -249,4 +329,3 @@ export default {
         },
     }
 }
-</script>

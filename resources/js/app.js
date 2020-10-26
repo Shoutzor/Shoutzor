@@ -3,14 +3,13 @@ import VueBus from 'vue-bus';
 import router from "./router";
 import store from "./store";
 import App from "@js/views/App";
-import AuthenticationManager from "@js/mixins/AuthenticationManager";
+import Auth from "@js/mixins/Auth";
 
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { fab } from '@fortawesome/free-brands-svg-icons';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
-Vue.mixin(AuthenticationManager);
 Vue.use(VueBus);
 
 //Configure the FontAwesome component
@@ -28,7 +27,10 @@ const app = new Vue({
     components: { App },
     router,
     store
-}).$mount('#shoutzor');
+});
+
+Vue.mixin(Auth);
+app.$mount('#shoutzor');
 
 //Load other components
 require('./bootstrap');

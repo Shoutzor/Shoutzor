@@ -1,5 +1,6 @@
 import Vue          from "vue";
 import VueRouter    from "vue-router";
+import store        from "@js/store/index";
 
 Vue.use(VueRouter);
 
@@ -33,17 +34,20 @@ const routes = [
     {
         name: 'upload',
         path: '/upload',
-        component: UploadView
+        component: UploadView,
+        meta: { requiresAuth: true }
     },
     {
         name: 'profile',
         path: '/profile',
-        component: UserSettingsView
+        component: UserSettingsView,
+        meta: { requiresAuth: true }
     },
     {
         name: 'admin',
         path: '/admin',
         component: AdminView,
+        meta: { requiresAuth: true },
         children: [
             {
                 name: 'admin-dashboard',
@@ -81,6 +85,19 @@ const routes = [
 
 const router = new VueRouter({
     routes // short for `routes: routes`
+});
+
+//Authentication check
+router.beforeEach((to, from, next) => {
+    if(to.matched.some(record => record.meta.requiresAuth)) {
+        if(store.getters.isAuthenticated) {
+            next()
+            return
+        }
+        next('/')
+    } else {
+        next()
+    }
 });
 
 export default router;
