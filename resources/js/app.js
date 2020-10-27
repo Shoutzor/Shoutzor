@@ -3,14 +3,11 @@ import VueBus from 'vue-bus';
 import router from "./router";
 import store from "./store";
 import App from "@js/views/App";
-import Auth from "@js/mixins/Auth";
 
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { fab } from '@fortawesome/free-brands-svg-icons';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-
-Vue.use(VueBus);
 
 //Configure the FontAwesome component
 library.add(fab);
@@ -29,7 +26,7 @@ const app = new Vue({
     store
 });
 
-Vue.mixin(Auth);
+Vue.use(VueBus);
 app.$mount('#shoutzor');
 
 //Load other components

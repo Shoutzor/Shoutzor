@@ -1,20 +1,18 @@
 import axios from 'axios';
-import Permission from "@js/models/Permission";
-import Role from "@js/models/Role";
-
+import User from "@js/models/User";
 import { AUTH_REQUEST, AUTH_SUCCESS, AUTH_FAILED, AUTH_LOGOUT } from "@js/store/mutation-types";
 
 const state = () => ({
-    token: localStorage.getItem('user-token') || '',
+    token: localStorage.getItem('token') || '',
     status: '',
-    user: {}
+    user: null
 });
 
 const mutations = {
     [AUTH_REQUEST](state) {
         state.status = 'loading';
     },
-    [AUTH_SUCCESS](state, token) {
+    [AUTH_SUCCESS](state, token, user) {
         state.status = 'success';
         state.token = token;
         state.user = user;
@@ -25,51 +23,74 @@ const mutations = {
     [AUTH_LOGOUT](state) {
         state.status = '';
         state.token = '';
-        state.user = {};
+        state.user = null;
     }
 };
 
 const getters = {
     isAuthenticated: state => !!state.token,
     authStatus: state => state.status,
-    getUser: state => state.user
+    getUser: state => state.currentUser
+/*    isAuthenticated: state => {
+        console.log(state.token);
+        return !!state.token
+    },
+    authStatus: state => {
+        console.log(state.status)
+        return state.status
+    },
+    getUser: state => {
+        console.log(state.user);
+        return state.user
+    }*/
 };
 
 const actions = {
     login({commit, dispatch}, login) {
         return new Promise((resolve, reject) => { // The Promise used for router redirect in login
-            commit([AUTH_REQUEST]);
-            axios({url: '/api/auth/login', login, method: 'POST' })
-            .then(resp => {
-                const token = resp.data.token
-                const user  = resp.data.user
+            commit(AUTH_REQUEST);
+
+            // Set our request options
+            let options = {
+                dataKey: 'user'
+            };
+
+            // Merge our login information to pass along in the body parameters
+            Object.assign(options, login);
+
+            // Make the request
+            User.api().post('/api/auth/login', options)
+            .then((resp) => {
+                console.log(resp);
+
+                const token = resp.response.data.token;
 
                 localStorage.setItem('token', token);
-                axios.defaults.headers.common['Authorization'] = token
-                commit([AUTH_SUCCESS], token, user);
+                axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
+                commit(AUTH_SUCCESS, token, resp.entities.users[0]);
 
                 resolve(resp);
             })
-            .catch(err => {
-                commit([AUTH_FAILED], err);
+            .catch((err) => {
+                commit(AUTH_FAILED, err.message);
                 localStorage.removeItem('token'); // if the request fails, remove any possible user token if possible
-                reject(err);
+                reject(err.message);
             });
         });
     },
 
     logout({commit}){
         return new Promise((resolve, reject) => {
-            commit([AUTH_LOGOUT])
-            localStorage.removeItem('token')
-            delete axios.defaults.headers.common['Authorization']
-            resolve()
-        })
+            commit(AUTH_LOGOUT);
+            localStorage.removeItem('token');
+            delete axios.defaults.headers.common['Authorization'];
+            resolve();
+        });
     }
 };
 
 export default {
-    namespaced: true,
+//    namespaced: true,
     mutations,
     getters,
     actions
@@ -78,7 +99,7 @@ export default {
 /* ===============================
  * Original code (to convert)
  */
-const somethign = {
+/*const somethign = {
     data(){
         return {
             isAuthenticated: false,
@@ -299,7 +320,7 @@ const somethign = {
         },
 
         setAuthorizationCookie(data) {
-            /*
+            /!*
             Disabling this for now. Ideally an environment variable is set to allow the webmaster to enforce HTTPS.
             Locally hosted LAN-environments won't be able to properly support HTTPS, which would, despite being
             very insecure, break the authentication system from shoutz0r entirely.
@@ -307,7 +328,7 @@ const somethign = {
             if('https:' !== document.location.protocol) {
                 console.error("Shoutz0r could not create the access_token cookie since HTTPS is required for this.");
             }
-            */
+            *!/
 
             let d = new Date(data.expires_at);
             let expires = "expires=" + d.toUTCString();
@@ -328,4 +349,4 @@ const somethign = {
             this.isAuthenticated = false;
         },
     }
-}
+}*/

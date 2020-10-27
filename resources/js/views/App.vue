@@ -28,6 +28,16 @@
         components: {
             simplebar
         },
+        created: function () {
+            this.$http.interceptors.response.use(undefined, function (err) {
+                return new Promise(function (resolve, reject) {
+                    if (err.status === 401 && err.config && !err.config.__isRetryRequest) {
+                        this.$store.dispatch('logout');
+                    }
+                    throw err;
+                });
+            });
+        },
         mounted() {
             //Add a scroll-event for when the user scrolls through the main content section
             this.$refs.scroll.scrollElement.addEventListener("scroll", this.onContentScroll);

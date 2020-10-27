@@ -4,7 +4,7 @@
             {{ error_message }}
         </div>
 
-        <form id="auth-login-form" class="mb-0" @submit.prevent="handleLogin">
+        <form id="auth-login-form" class="mb-0" @submit.prevent="login">
             <input v-bind:class="[errors.includes('username') ? 'is-invalid' : '', 'form-control']" type="text" v-model="username" name="username" placeholder="Username" />
             <input v-bind:class="[errors.includes('password') ? 'is-invalid' : '', 'form-control', 'mt-1']"  type="password" v-model="password" name="password" placeholder="Password" />
             <label class="form-check mt-1" data-children-count="1">
@@ -33,15 +33,13 @@ export default {
             error_message: ""
         }
     },
-    created() {
-    },
     beforeDestroy() {
         this.errors = [];
         this.username = null;
         this.password = null;
     },
     methods: {
-        handleLogin: function(e) {
+        login: function(e) {
             this.errors = [];
 
             //Check username
@@ -58,14 +56,24 @@ export default {
                 return;
             }
 
-            this.$login(this.username, this.password, this.remember_me).then(function(result){
+            let email = this.email
+            let password = this.password
+
+            this.$store.dispatch('login', {
+                username: this.username,
+                password: this.password,
+                remember_me: this.remember_me
+            })
+            .then(() => {
                 // Login success, Clear the form
                 this.username = null;
                 this.password = null;
-            }).catch(function(error){
+            })
+            .catch(err => {
                 // Display error message
                 this.errors.push("invalid");
-                this.error_message = result.message;
+                console.log(err);
+                this.error_message = err;
             });
         }
     }
