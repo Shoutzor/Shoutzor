@@ -8,7 +8,7 @@ export default class Role extends Model {
 
     static fields () {
         return {
-            id: this.string(''),
+            id: this.number(''),
             name: this.string(''),
             permissions: this.belongsToMany(Permission, RolePermission, 'role_id', 'permission_id')
         }

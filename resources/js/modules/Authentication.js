@@ -21,6 +21,7 @@ const moduleAuthentication = {
             state.authenticated = true;
         },
         [AUTH_FAILED](state) {
+            state.token = '';
             state.status = 'error';
             state.authenticated = false;
         },
@@ -36,18 +37,6 @@ const moduleAuthentication = {
         isAuthenticated: state => state.authenticated,
         authStatus: state => state.status,
         getUser: state => state.user
-        /*    isAuthenticated: state => {
-                console.log(state.token);
-                return !!state.token
-            },
-            authStatus: state => {
-                console.log(state.status)
-                return state.status
-            },
-            getUser: state => {
-                console.log(state.user);
-                return state.user
-            }*/
     },
 
     actions: {
@@ -78,8 +67,10 @@ const moduleAuthentication = {
                         resolve(resp);
                     })
                     .catch((err) => {
+                        // if the request fails, remove any possible user token if possible
+                        localStorage.removeItem('token');
+
                         commit(AUTH_FAILED, err.message);
-                        localStorage.removeItem('token'); // if the request fails, remove any possible user token if possible
                         reject(err.message);
                     });
             });

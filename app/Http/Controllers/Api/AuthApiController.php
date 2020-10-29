@@ -79,7 +79,7 @@ class AuthApiController extends Controller
             'expires_at'    => Carbon::parse(
                 $tokenResult->token->expires_at
             )->toISOString(),
-            'user'  => $user
+            'user'  => User::with(['permissions', 'roles.permissions'])->find(Auth::id())
         ]);
     }
 

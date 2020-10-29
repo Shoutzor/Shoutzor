@@ -8,10 +8,12 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
+use Spatie\Permission\Traits\HasPermissions;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, Notifiable;
+    use HasApiTokens, Notifiable, HasRoles, HasPermissions;
 
     /**
      * The attributes that are mass assignable.
@@ -43,15 +45,5 @@ class User extends Authenticatable
     public function uploads()
     {
         return $this->hasMany(Upload::class);
-    }
-
-    public function permissions()
-    {
-        return $this->hasMany(Permission::class);
-    }
-
-    public function roles()
-    {
-        return $this->hasMany(Role::class);
     }
 }

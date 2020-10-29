@@ -1,7 +1,7 @@
 import { Model } from '@vuex-orm/core';
 
 export default class RolePermission extends Model {
-    static entity = 'role_permission'
+    static entity = 'role_permission';
 
     static primaryKey = ['role_id', 'permission_id'];
 
