@@ -71,13 +71,15 @@
 </template>
 
 <script>
-    import {mapState} from 'vuex';
+    import {mapGetters} from 'vuex';
     import simplebar from 'simplebar-vue';
     import HeaderSearch from "./HeaderSearch";
 
     export default {
         name: 'headerMenu',
-        computed: mapState(['isAuthenticated']),
+        computed: mapGetters({
+            isAuthenticated: 'isAuthenticated'
+        }),
         components: {
             HeaderSearch,
             simplebar

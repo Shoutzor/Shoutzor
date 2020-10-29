@@ -23,7 +23,7 @@
                 <div class="nav-item dropdown" v-if="isAuthenticated">
                     <a href="#" class="nav-link d-flex lh-1 text-reset p-0" data-toggle="dropdown">
                         <div class="d-xl-block pl-2">
-                            <div>{{ this.$store.getters.getUser }}</div>
+                            <div>{{ user.username }}</div>
                             <div class="mt-1 small text-muted">Administrator</div>
                         </div>
                     </a>
@@ -45,11 +45,14 @@
 </template>
 
 <script>
-    import {mapState} from 'vuex';
+    import {mapGetters} from 'vuex';
 
     export default {
         name: 'headerTop',
-        computed: mapState(['isAuthenticated', 'user']),
+        computed: mapGetters({
+            isAuthenticated: 'isAuthenticated',
+            user: 'getUser'
+        }),
         created() {
             this.$bus.on('main-content-scroll', this.handleScroll);
         },

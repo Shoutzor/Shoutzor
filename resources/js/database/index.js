@@ -17,23 +17,23 @@ import RolePermission from "@js/models/RolePermission";
 import UserPermission from "@js/models/UserPermission";
 import UserRole from "@js/models/UserRole";
 
-const database = new VuexORM.Database()
+const database = new VuexORM.Database();
 
-database.register(Album)
-database.register(AlbumArtist)
-database.register(AlbumMedia)
-database.register(Artist)
-database.register(ArtistMedia)
-database.register(Media)
-database.register(Package)
-database.register(History)
-database.register(Task)
-database.register(Permission)
-database.register(Role)
-database.register(User)
+database.register(Album);
+database.register(AlbumArtist);
+database.register(AlbumMedia);
+database.register(Artist);
+database.register(ArtistMedia);
+database.register(Media);
+database.register(Package);
+database.register(History);
+database.register(Task);
+database.register(Permission);
+database.register(Role);
+database.register(User);
 database.register(RolePermission);
 database.register(UserPermission);
 database.register(UserRole);
-database.register(Request)
+database.register(Request);
 
 export default database

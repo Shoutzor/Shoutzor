@@ -10,7 +10,7 @@ export default class User extends Model {
     static fields () {
         return {
             id: this.uid(),
-            name: this.string(''),
+            username: this.string(''),
             email: this.string(''),
             email_verified_at: this.attr(null).nullable(),
             permissions: this.belongsToMany(Permission, UserPermission, 'user_id', 'permission_id'),

@@ -4,7 +4,7 @@ import Vuex from 'vuex';
 import VuexORM from '@vuex-orm/core'
 import VuexORMAxios from '@vuex-orm/plugin-axios'
 import database from '@js/database'
-import Authentication from "@js/modules/Authentication";
+import moduleAuthentication from "@js/modules/Authentication";
 
 Vue.use(Vuex);
 
@@ -21,7 +21,7 @@ const store = new Vuex.Store({
     strict: debug,
     plugins: [VuexORM.install(database)],
     modules: {
-        Authentication: Authentication
+        moduleAuthentication
     }
 });
 
