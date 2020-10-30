@@ -50,29 +50,33 @@ const moduleAuthentication = {
                 };
 
                 // Make the request
-                User.api().post('/api/auth/login', login, config)
-                    .then((resp) => {
-                        const token = resp.response.data.token;
-                        const user = resp.entities.users[0];
+                User.api().post(
+                    '/api/auth/login',
+                    login,
+                    config
+                ).then((resp) => {
+                    const token = resp.response.data.token;
+                    const user = resp.entities.users[0];
 
-                        console.log(resp, user);
+                    //Vuex-ORM Axios plugin doesn't yet support (eagerLoading) relations, therefor this is a dirty fix.
+                    const userModel = User.query().withAll().whereId(user.id).first();
 
-                        localStorage.setItem('token', token);
-                        axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
-                        commit(AUTH_SUCCESS, {
-                            token,
-                            user
-                        });
-
-                        resolve(resp);
-                    })
-                    .catch((err) => {
-                        // if the request fails, remove any possible user token if possible
-                        localStorage.removeItem('token');
-
-                        commit(AUTH_FAILED, err.message);
-                        reject(err.message);
+                    localStorage.setItem('token', token);
+                    axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
+                    commit(AUTH_SUCCESS, {
+                        token,
+                        user: userModel
                     });
+
+                    resolve(resp);
+                })
+                .catch((err) => {
+                    // if the request fails, remove any possible user token if possible
+                    localStorage.removeItem('token');
+
+                    commit(AUTH_FAILED, err.message);
+                    reject(err.message);
+                });
             });
         },
 
