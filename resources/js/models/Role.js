@@ -15,6 +15,19 @@ export default class Role extends Model {
         }
     }
 
+    /**
+     * Checks if a role has the permission
+     * @param permissionName
+     */
+    can(permissionName) {
+        //Check permissions
+        let check = this.permissions.some(function(p) {
+            return p.name === permissionName;
+        });
+
+        return !!check;
+    }
+
     static apiConfig = {
         actions: {
             fetchAll() {

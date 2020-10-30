@@ -36,7 +36,17 @@ const moduleAuthentication = {
     getters: {
         isAuthenticated: state => state.authenticated,
         authStatus: state => state.status,
-        getUser: state => state.user
+        getUser: state => state.user,
+        can: state => (permissionName) => {
+            console.log("permissions check", permissionName, state);
+
+            if(state.authenticated) {
+                return state.user.can(permissionName);
+            }
+
+            //TODO implement Guest user state
+            return false;
+        }
     },
 
     actions: {
@@ -59,7 +69,7 @@ const moduleAuthentication = {
                     const user = resp.entities.users[0];
 
                     //Vuex-ORM Axios plugin doesn't yet support (eagerLoading) relations, therefor this is a dirty fix.
-                    const userModel = User.query().withAll().whereId(user.id).first();
+                    const userModel = User.query().with(['roles.permissions', 'permissions']).whereId(user.id).first();
 
                     localStorage.setItem('token', token);
                     axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;

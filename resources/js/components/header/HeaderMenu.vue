@@ -50,7 +50,7 @@
                         </ul>
                         <span class="navbar-text pt-lg-3" v-if="isAuthenticated">Your zone</span>
                         <ul class="navbar-nav" v-if="isAuthenticated">
-                            <li class="nav-item">
+                            <li class="nav-item" v-if="can('website.upload')">
                                 <router-link
                                     :to="{name: 'upload'}"
                                     class="nav-link"
@@ -78,7 +78,8 @@
     export default {
         name: 'headerMenu',
         computed: mapGetters({
-            isAuthenticated: 'isAuthenticated'
+            isAuthenticated: 'isAuthenticated',
+            can: 'can'
         }),
         components: {
             HeaderSearch,

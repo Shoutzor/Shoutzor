@@ -18,6 +18,28 @@ export default class User extends Model {
         }
     }
 
+    /**
+     * Checks if a user has the permission
+     * @param permissionName
+     */
+    can(permissionName) {
+        //Check permissions
+        let check = this.permissions.some(function(p) {
+            return p.name === permissionName;
+        });
+
+        if(check) {
+            return true;
+        }
+
+        //Check roles
+        check = this.roles.some(function(role) {
+            return role.can(permissionName);
+        });
+
+        return !!check;
+    }
+
     static apiConfig = {
         actions: {
             fetchCurrent() {

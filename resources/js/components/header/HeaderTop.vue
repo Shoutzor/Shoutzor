@@ -13,7 +13,7 @@
             </div>
 
             <div class="navbar-nav flex-row order-md-last">
-                <div class="nav-item d-md-flex mr-3" v-if="isAuthenticated">
+                <div class="nav-item d-md-flex mr-3" v-if="isAuthenticated && can('admin.access')">
                     <router-link
                         :to="{name: 'admin-dashboard'}"
                         class="btn btn-sm btn-outline-primary"
@@ -51,7 +51,8 @@
         name: 'headerTop',
         computed: mapGetters({
             isAuthenticated: 'isAuthenticated',
-            user: 'getUser'
+            user: 'getUser',
+            can: 'can'
         }),
         created() {
             this.$bus.on('main-content-scroll', this.handleScroll);
