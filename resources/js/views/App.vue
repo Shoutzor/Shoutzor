@@ -28,24 +28,23 @@
         components: {
             simplebar
         },
-        created: function () {
-            this.$http.interceptors.response.use(undefined, function (err) {
-                return new Promise(function (resolve, reject) {
-                    if (err.status === 401 && err.config && !err.config.__isRetryRequest) {
-                        this.$store.dispatch('logout');
-                    }
-                    throw err;
-                });
-            });
-        },
         mounted() {
-            //Add a scroll-event for when the user scrolls through the main content section
+            //Add a scroll-event listener for when the user scrolls through the main content section
             this.$refs.scroll.scrollElement.addEventListener("scroll", this.onContentScroll);
 
-            //Add file-drag events
+            //Add file-drag event listeners
             document.addEventListener('dragover', this.onDragOver);
             document.addEventListener('dragleave', this.onDragLeave);
             document.addEventListener('drop', this.onDrop);
+        },
+        beforeDestroy() {
+            //Remove the scroll event listener
+            this.$refs.scroll.scrollElement.removeEventListener("scroll", this.onContentScroll);
+
+            //Remove file-drag event listeners
+            document.removeEventListener('dragover', this.onDragOver);
+            document.removeEventListener('dragleave', this.onDragLeave);
+            document.removeEventListener('drop', this.onDrop);
         },
         methods: {
             onContentScroll(event) {

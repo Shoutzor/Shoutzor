@@ -38,8 +38,6 @@ const moduleAuthentication = {
         authStatus: state => state.status,
         getUser: state => state.user,
         can: state => (permissionName) => {
-            console.log("permissions check", permissionName, state);
-
             if(state.authenticated) {
                 return state.user.can(permissionName);
             }
