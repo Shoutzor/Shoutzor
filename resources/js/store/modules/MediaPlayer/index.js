@@ -41,8 +41,6 @@ const index = {
     actions: {
         play({commit, dispatch}, url) {
             return new Promise((resolve, reject) => {
-                console.log(url);
-
                 Player.attachSource(url);
                 Player.play();
 
