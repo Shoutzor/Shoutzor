@@ -6,7 +6,7 @@ import VuexORMAxios from '@vuex-orm/plugin-axios'
 import database from '@js/database'
 import Player from '@js/store/modules/MediaPlayer/Player';
 import moduleAuthentication from "@js/store/modules/Authentication";
-import moduleMediaPlayer from "@js/store/modules/MediaPlayer/moduleMediaplayer";
+import moduleMediaPlayer from "@js/store/modules/MediaPlayer";
 
 Vue.use(Vuex);
 

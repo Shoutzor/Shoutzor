@@ -3,7 +3,7 @@ import PlayerState from './PlayerState';
 import dashjs from "dashjs";
 import Player from "./Player";
 
-const moduleMediaPlayer = {
+const index = {
     namespaced: true,
 
     state: () => ({
@@ -93,4 +93,4 @@ const moduleMediaPlayer = {
     }
 }
 
-export default moduleMediaPlayer;
+export default index;
