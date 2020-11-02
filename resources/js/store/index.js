@@ -29,7 +29,7 @@ VuexORM.use(VuexORMAxios, {
 
 const debug = process.env.NODE_ENV !== 'production'
 
-const index = new Vuex.Store({
+const store = new Vuex.Store({
     strict: debug,
     plugins: [VuexORM.install(database)],
     modules: {
@@ -38,4 +38,4 @@ const index = new Vuex.Store({
     }
 });
 
-export default index;
+export default store;

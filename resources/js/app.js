@@ -1,7 +1,7 @@
 import Vue from "vue";
 import VueBus from 'vue-bus';
 import router from "./router";
-import index from "./store";
+import store from "./store";
 import App from "@js/views/App";
 
 import { library } from '@fortawesome/fontawesome-svg-core';
@@ -23,7 +23,7 @@ files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(
 const app = new Vue({
     components: { App },
     router,
-    store: index
+    store
 });
 
 Vue.use(VueBus);

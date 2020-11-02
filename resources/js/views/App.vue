@@ -1,77 +1,29 @@
 <template>
-    <div>
-        <header-top v-on:scroll.native="handleScroll"></header-top>
-        <header-menu></header-menu>
-
-        <div id="main-content">
-            <simplebar data-simplebar-auto-hide="true" class="simplebar-main" ref="scroll">
-                <div class="page">
-                    <div class="content">
-                        <div class="container-xl">
-                            <router-view></router-view>
-                        </div>
-                    </div>
-                </div>
-            </simplebar>
-        </div>
-
-        <media-player></media-player>
-        <upload-manager></upload-manager>
-    </div>
+    <shoutzor v-if="can('website.access')"></shoutzor>
+    <login-screen v-else></login-screen>
 </template>
 
 <script>
-    import simplebar from 'simplebar-vue';
+import {mapGetters} from 'vuex';
+import Shoutzor from "./Shoutzor";
+import LoginScreen from "../components/login/LoginScreen";
 
-    export default {
-        name: "App",
-        components: {
-            simplebar
-        },
-        mounted() {
-            //Add a scroll-event listener for when the user scrolls through the main content section
-            this.$refs.scroll.scrollElement.addEventListener("scroll", this.onContentScroll);
-
-            //Add file-drag event listeners
-            document.addEventListener('dragover', this.onDragOver);
-            document.addEventListener('dragleave', this.onDragLeave);
-            document.addEventListener('drop', this.onDrop);
-        },
-        beforeDestroy() {
-            //Remove the scroll event listener
-            this.$refs.scroll.scrollElement.removeEventListener("scroll", this.onContentScroll);
-
-            //Remove file-drag event listeners
-            document.removeEventListener('dragover', this.onDragOver);
-            document.removeEventListener('dragleave', this.onDragLeave);
-            document.removeEventListener('drop', this.onDrop);
-        },
-        methods: {
-            onContentScroll(event) {
-                this.$bus.emit('main-content-scroll', { scrollX: event.target.scrollLeft, scrollY: event.target.scrollTop });
-            },
-
-            onDragOver(event) {
-                event.preventDefault();
-                this.$bus.emit('dragover', event);
-            },
-
-            onDragLeave(event) {
-                event.preventDefault();
-                this.$bus.emit('dragleave', event);
-            },
-
-            onDrop(event) {
-                event.preventDefault();
-                this.$bus.emit('drop', event);
-            }
-        }
-    }
+export default {
+    name: "App",
+    components: {
+        LoginScreen,
+        Shoutzor
+    },
+    computed: mapGetters({
+        isAuthenticated: 'isAuthenticated',
+        can: 'can'
+    })
+}
 </script>
 
 <style scoped lang="scss">
-    .simplebar-main {
-        width: 100%;
-        height: 100%;
-    }
+.simplebar-main {
+    width: 100%;
+    height: 100%;
+}
 </style>
