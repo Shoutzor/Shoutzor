@@ -79,11 +79,19 @@ const moduleAuthentication = {
                     resolve(resp);
                 })
                 .catch((err) => {
+                    let msg = '';
+
+                    try {
+                        msg = err.response.data.message;
+                    } catch(e) {
+                        //Fallback to default error message
+                        msg = err.message;
+                    }
+
                     // if the request fails, remove any possible user token if possible
                     localStorage.removeItem('token');
-
-                    commit(AUTH_FAILED, err.message);
-                    reject(err.message);
+                    commit(AUTH_FAILED, msg);
+                    reject(msg);
                 });
             });
         },

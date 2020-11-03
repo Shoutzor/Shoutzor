@@ -1,6 +1,6 @@
 <template>
     <div id="loginform">
-        <div v-if="errors.includes('invalid')" class="alert alert-danger mb-1" role="alert">
+        <div v-if="errors.includes('invalid')" class="alert alert-danger mb-2" role="alert">
             {{ error_message }}
         </div>
 
