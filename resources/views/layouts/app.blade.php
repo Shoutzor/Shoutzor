@@ -42,8 +42,8 @@
 
         <style type="text/css">
             #shoutzor:not([v-cloak]) > #app-loader {
-                -webkit-animation: fadeinout 1s linear forwards;
-                animation: fadeinout 1s linear forwards;
+                -webkit-animation: fadeinout 0.5s linear forwards;
+                animation: fadeinout 0.5s linear forwards;
             }
 
             #app-loader {

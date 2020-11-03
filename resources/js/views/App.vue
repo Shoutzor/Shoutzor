@@ -5,8 +5,8 @@
 
 <script>
 import {mapGetters} from 'vuex';
-import Shoutzor from "./Shoutzor";
-import LoginScreen from "../components/login/LoginScreen";
+import Shoutzor from "@js/views/Shoutzor";
+import LoginScreen from "@js/components/login/LoginScreen";
 
 export default {
     name: "App",
