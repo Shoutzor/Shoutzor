@@ -15,7 +15,6 @@ export default {
         Shoutzor
     },
     computed: mapGetters({
-        isAuthenticated: 'isAuthenticated',
         can: 'can'
     })
 }

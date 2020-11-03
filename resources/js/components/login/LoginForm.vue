@@ -11,7 +11,8 @@
                 <input v-model="remember_me" class="form-check-input" type="checkbox" />
                 <span class="form-check-label">Remember me</span>
             </label>
-            <button type="submit" class="btn btn-primary mt-2">Login</button>
+            <button v-if="loading === false" type="submit" class="btn btn-primary mt-2">Login</button>
+            <button v-if="loading === true" type="submit" class="btn btn-primary mt-2"><div class="spinner-border" role="status"></div></button>
         </form>
     </div>
 </template>
@@ -26,13 +27,15 @@ export default {
             password: null,
             remember_me: false,
             errors: [],
-            error_message: ""
+            error_message: "",
+            loading: false
         }
     },
     beforeDestroy() {
         this.errors = [];
         this.username = null;
         this.password = null;
+        this.loading = false;
     },
     methods: {
         login: function(e) {
@@ -52,25 +55,29 @@ export default {
                 return;
             }
 
-            let email = this.email
-            let password = this.password
+            let email = this.email;
+            let password = this.password;
+
+            this.loading = true;
 
             this.$store.dispatch('login', {
                 username: this.username,
                 password: this.password,
                 remember_me: this.remember_me
             })
-                .then(() => {
-                    // Login success, Clear the form
-                    this.username = null;
-                    this.password = null;
-                })
-                .catch(err => {
-                    // Display error message
-                    this.errors.push("invalid");
-                    console.log(err);
-                    this.error_message = err;
-                });
+            .then(() => {
+                // Login success, Clear the form
+                this.username = null;
+                this.password = null;
+                this.loading = false;
+            })
+            .catch(err => {
+                // Display error message
+                this.errors.push("invalid");
+                console.log(err);
+                this.error_message = err;
+                this.loading = false;
+            });
         }
     }
 }
