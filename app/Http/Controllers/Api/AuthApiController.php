@@ -59,7 +59,7 @@ class AuthApiController extends Controller
 
         if(!Auth::attempt($credentials)) {
             return response()->json([
-                'message' => 'Invalid login'
+                'message' => 'Invalid login credentials provided'
             ], 401);
         }
 
@@ -85,8 +85,7 @@ class AuthApiController extends Controller
             'token_type'    => 'Bearer',
             'expires_at'    => Carbon::parse(
                 $tokenResult->token->expires_at
-            )->toISOString(),
-            'user'  => User::with(['permissions', 'roles.permissions'])->find(Auth::id())
+            )->toISOString()
         ]);
     }
 
@@ -110,6 +109,6 @@ class AuthApiController extends Controller
      */
     public function user(Request $request)
     {
-        return response()->json($request->user(), 200);
+        return response()->json(User::with(['permissions', 'roles.permissions'])->find(Auth::id()), 200);
     }
 }

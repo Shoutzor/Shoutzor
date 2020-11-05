@@ -7,6 +7,7 @@
 import {mapGetters} from 'vuex';
 import Shoutzor from "@js/views/Shoutzor";
 import LoginScreen from "@js/components/login/LoginScreen";
+import store from "@js/store/index";
 
 export default {
     name: "App",
@@ -15,8 +16,15 @@ export default {
         Shoutzor
     },
     computed: mapGetters({
-        can: 'can'
-    })
+        can: 'can',
+        hasToken: 'hasToken'
+    }),
+    created() {
+        //Resume an existing loginsession if the user has a valid token
+        if(this.hasToken) {
+            store.dispatch('resumeSession');
+        }
+    }
 }
 </script>
 

@@ -1,6 +1,7 @@
 import axios from 'axios';
 import User from "@js/models/User";
 import { AUTH_REQUEST, AUTH_SUCCESS, AUTH_FAILED, AUTH_LOGOUT } from "@js/store/mutation-types";
+import store from "@js/store/index";
 
 const moduleAuthentication = {
     state: () => ({
@@ -37,6 +38,7 @@ const moduleAuthentication = {
         isAuthenticated: state => state.authenticated,
         authStatus: state => state.status,
         getUser: state => state.user,
+        hasToken: state => !!state.token,
         can: state => (permissionName) => {
             if(state.authenticated) {
                 return state.user.can(permissionName);
@@ -52,37 +54,34 @@ const moduleAuthentication = {
             return new Promise((resolve, reject) => { // The Promise used for router redirect in login
                 commit(AUTH_REQUEST);
 
-                // Set our request config
-                let config = {
-                    dataKey: 'user'
-                };
-
                 // Make the request
-                User.api().post(
+                axios.post(
                     '/api/auth/login',
-                    login,
-                    config
+                    login
                 ).then((resp) => {
-                    const token = resp.response.data.token;
-                    const user = resp.entities.users[0];
-
-                    //Vuex-ORM Axios plugin doesn't yet support (eagerLoading) relations, therefor this is a dirty fix.
-                    const userModel = User.query().with(['roles.permissions', 'permissions']).whereId(user.id).first();
+                    const token = resp.data.token;
 
                     localStorage.setItem('token', token);
                     axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
-                    commit(AUTH_SUCCESS, {
-                        token,
-                        user: userModel
-                    });
 
-                    resolve(resp);
-                })
-                .catch((err) => {
+                    store.dispatch('fetchUserInformation').then((resp) => {
+                        commit(AUTH_SUCCESS, {
+                            token,
+                            user: resp
+                        });
+
+                        resolve(true);
+                    }).catch((err) => {
+                        let msg = "Could not fetch user information, got error:" + err;
+                        localStorage.removeItem('token');
+                        commit(AUTH_FAILED, msg);
+                        reject(msg);
+                    });
+                }).catch((err) => {
                     let msg = '';
 
                     try {
-                        msg = err.response.data.message;
+                        msg = err.data.message;
                     } catch(e) {
                         //Fallback to default error message
                         msg = err.message;
@@ -96,12 +95,60 @@ const moduleAuthentication = {
             });
         },
 
-        logout({commit}){
+        logout({commit}) {
             return new Promise((resolve, reject) => {
                 commit(AUTH_LOGOUT);
                 localStorage.removeItem('token');
                 delete axios.defaults.headers.common['Authorization'];
                 resolve();
+            });
+        },
+
+        fetchUserInformation({commit}) {
+            return new Promise((resolve, reject) => {
+                // Make the request
+                User.api().get('/api/auth/user').then((resp) => {
+                    const user = resp.entities.users[0];
+
+                    //Vuex-ORM Axios plugin doesn't yet support (eagerLoading) relations, therefor this is a dirty fix.
+                    const userModel = User.query().with(['roles.permissions', 'permissions']).whereId(user.id).first();
+
+                    resolve(userModel);
+                }).catch((err) => {
+                    let msg = '';
+
+                    try {
+                        msg = err.response.data.message;
+                    } catch(e) {
+                        //Fallback to default error message
+                        msg = err.message;
+                    }
+
+                    reject(msg);
+                });
+            });
+        },
+
+        resumeSession({commit}) {
+            return new Promise((resolve, reject) => { // The Promise used for router redirect in login
+                commit(AUTH_REQUEST);
+
+                let token = localStorage.getItem('token');
+                axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
+
+                store.dispatch('fetchUserInformation').then((resp) => {
+                    commit(AUTH_SUCCESS, {
+                        token: token,
+                        user: resp
+                    });
+
+                    resolve(true);
+                }).catch((err) => {
+                    let msg = "Could not fetch user information, got error:" + err;
+                    localStorage.removeItem('token');
+                    commit(AUTH_FAILED, msg);
+                    reject(msg);
+                });
             });
         }
     }
