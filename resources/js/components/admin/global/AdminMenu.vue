@@ -43,7 +43,7 @@
                             </li>
                         </router-link>
                         <router-link
-                            :to="{name: 'admin-roles'}"
+                            :to="{name: 'admin-roles-list'}"
                             v-slot="{ href, navigate, isExactActive }">
                             <li :class="['nav-item', isExactActive && 'active']">
                                 <a :href="href"

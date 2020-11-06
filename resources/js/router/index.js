@@ -12,6 +12,8 @@ import AdminView                from "@js/views/admin/index";
 import AdminDashboard           from "@js/views/admin/dashboard";
 import AdminUsers               from "@js/views/admin/users";
 import AdminRoles               from "@js/views/admin/roles";
+import AdminRolesList           from "@js/views/admin/roles/list";
+import AdminRolesEdit           from "@js/views/admin/roles/edit";
 import AdminPackages            from "@js/views/admin/packages";
 
 //Routes
@@ -62,7 +64,20 @@ const routes = [
             {
                 name: 'admin-roles',
                 path: 'roles',
-                component: AdminRoles
+                component: AdminRoles,
+                children: [
+                    {
+                        name: 'admin-roles-list',
+                        path: 'list',
+                        component: AdminRolesList
+                    },
+                    {
+                        name: 'admin-roles-edit',
+                        path: 'edit/:roleId',
+                        component: AdminRolesEdit,
+                        props: ({params}) => ({roleId: Number.parseInt(params.roleId, 10) || null})
+                    }
+                ]
             },
             {
                 name: 'admin-packages',

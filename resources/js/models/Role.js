@@ -5,12 +5,13 @@ import RolePermission from "./RolePermission";
 
 export default class Role extends Model {
     static entity = 'roles';
-    static eagerLoad = ['permissions'];
 
     static fields () {
         return {
             id: this.number(null),
             name: this.string(''),
+            description: this.string(''),
+            protected: this.boolean(false),
             permissions: this.belongsToMany(Permission, RolePermission, 'role_id', 'permission_id')
         }
     }
