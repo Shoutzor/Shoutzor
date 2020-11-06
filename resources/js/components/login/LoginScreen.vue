@@ -7,11 +7,12 @@
             <div class="card card-md">
                 <div class="card-body">
                     <h2 class="mb-3 text-center">Login to your account</h2>
-                    <login-form v-if="hasToken === false"></login-form>
+
                     <div v-if="hasToken === true" class="text-center">
                         <p>Loading user information</p>
                         <div class="spinner-border" role="status"></div>
                     </div>
+                    <login-form v-else></login-form>
                 </div>
             </div>
             <div class="text-center text-muted">

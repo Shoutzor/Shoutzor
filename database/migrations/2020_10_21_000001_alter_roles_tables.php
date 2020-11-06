@@ -21,6 +21,7 @@ class AlterRolesTables extends Migration
 
         Schema::table($tableNames['roles'], function (Blueprint $table) {
             $table->string('description')->default('');
+            $table->boolean('protected')->default(false);
         });
     }
 
@@ -39,6 +40,7 @@ class AlterRolesTables extends Migration
 
         Schema::create($tableNames['roles'], function (Blueprint $table) {
             $table->dropColumn('description');
+            $table->dropColumn('protected');
         });
     }
 }
