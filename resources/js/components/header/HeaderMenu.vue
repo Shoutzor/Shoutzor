@@ -48,9 +48,9 @@
                                 </router-link>
                             </li>
                         </ul>
-                        <span class="navbar-text pt-lg-3" v-if="isAuthenticated === true">Your zone</span>
-                        <ul class="navbar-nav" v-if="isAuthenticated === true">
-                            <li class="nav-item">
+                        <span class="navbar-text pt-lg-3" v-if="isAuthenticated">Your zone</span>
+                        <ul class="navbar-nav" v-if="isAuthenticated">
+                            <li class="nav-item" v-if="can('website.upload')">
                                 <router-link
                                     :to="{name: 'upload'}"
                                     class="nav-link"
@@ -71,31 +71,19 @@
 </template>
 
 <script>
+    import {mapGetters} from 'vuex';
     import simplebar from 'simplebar-vue';
     import HeaderSearch from "./HeaderSearch";
 
     export default {
         name: 'headerMenu',
+        computed: mapGetters({
+            isAuthenticated: 'isAuthenticated',
+            can: 'can'
+        }),
         components: {
             HeaderSearch,
             simplebar
-        },
-        data() {
-            return {
-                isAuthenticated: false
-            };
-        },
-        created() {
-            this.$bus.on('auth-status', this.handleAuthStatus);
-        },
-        beforeDestroy() {
-            this.$bus.off('auth-status', this.handleAuthStatus);
-        },
-
-        methods: {
-            handleAuthStatus(event) {
-                this.isAuthenticated = event.isAuthenticated;
-            }
         }
     }
 </script>

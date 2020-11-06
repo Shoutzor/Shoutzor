@@ -175,6 +175,10 @@ class PackageManager {
                 //Log an error about the package being invalid
                 Log::error("Tried loading an invalid package: " . $pkg);
                 Log::error("Reason: "  . $e->getMessage());
+
+                ob_start();
+                var_dump($e);
+                Log::error(ob_end_flush());
             } finally {
                 //Log an error about the package being invalid
                 Log::error("Tried loading an invalid package: " . $pkg);

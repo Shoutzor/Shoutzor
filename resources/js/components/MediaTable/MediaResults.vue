@@ -72,7 +72,6 @@
     }
 </script>
 
-
 <style scoped lang="scss">
     .media-results {
         thead td {

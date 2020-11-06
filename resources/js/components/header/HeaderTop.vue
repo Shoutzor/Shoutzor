@@ -13,35 +13,22 @@
             </div>
 
             <div class="navbar-nav flex-row order-md-last">
-                <div class="nav-item d-md-flex mr-3" v-if="isAuthenticated === true">
+                <div class="nav-item d-md-flex mr-3" v-if="isAuthenticated && can('admin.access')">
                     <router-link
                         :to="{name: 'admin-dashboard'}"
                         class="btn btn-sm btn-outline-primary"
                         >Admin panel</router-link>
                 </div>
 
-                <div class="nav-item dropdown" v-if="isAuthenticated === true">
+                <div class="nav-item dropdown" v-if="isAuthenticated">
                     <a href="#" class="nav-link d-flex lh-1 text-reset p-0" data-toggle="dropdown">
                         <div class="d-xl-block pl-2">
                             <div>{{ user.username }}</div>
                             <div class="mt-1 small text-muted">Administrator</div>
                         </div>
                     </a>
-                    <div class="dropdown-menu dropdown-menu-right">
-                        <router-link
-                            :to="{name: 'profile'}"
-                            class="dropdown-item"
-                        >
-                            Profile
-                        </router-link>
-                        <div class="dropdown-divider"></div>
-                        <router-link
-                            :to="{name: 'profile'}"
-                            class="dropdown-item"
-                        >
-                            Logout
-                        </router-link>
-                    </div>
+
+                    <header-user></header-user>
                 </div>
                 <div class="nav-item dropdown" v-else>
                     <a href="#" class="nav-link d-flex lh-1 text-reset p-0" data-toggle="dropdown">
@@ -58,21 +45,20 @@
 </template>
 
 <script>
+    import {mapGetters} from 'vuex';
+
     export default {
         name: 'headerTop',
-        data() {
-            return {
-                isAuthenticated: false,
-                user: null
-            }
-        },
+        computed: mapGetters({
+            isAuthenticated: 'isAuthenticated',
+            user: 'getUser',
+            can: 'can'
+        }),
         created() {
             this.$bus.on('main-content-scroll', this.handleScroll);
-            this.$bus.on('auth-status', this.handleAuthStatus);
         },
         beforeDestroy() {
             this.$bus.off('main-content-scroll', this.handleScroll);
-            this.$bus.off('auth-status', this.handleAuthStatus);
         },
         methods: {
             handleScroll(event) {
@@ -85,11 +71,6 @@
                 } else if (navbar.classList.contains('showShadow')) {
                     navbar.classList.remove('showShadow');
                 }
-            },
-
-            handleAuthStatus(event) {
-                this.isAuthenticated = event.isAuthenticated;
-                this.user = event.user;
             }
         }
     }

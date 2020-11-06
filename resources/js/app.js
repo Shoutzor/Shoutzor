@@ -9,8 +9,6 @@ import { fab } from '@fortawesome/free-brands-svg-icons';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
-Vue.use(VueBus);
-
 //Configure the FontAwesome component
 library.add(fab);
 library.add(fas);
@@ -26,7 +24,10 @@ const app = new Vue({
     components: { App },
     router,
     store
-}).$mount('#shoutzor');
+});
+
+Vue.use(VueBus);
+app.$mount('#shoutzor');
 
 //Load other components
 require('./bootstrap');

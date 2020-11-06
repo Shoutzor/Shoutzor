@@ -8,16 +8,12 @@ use Illuminate\Http\Request;
 
 class ArtistApiController extends Controller {
 
-    public function get(Request $request) {
-        $request->validate([
-            'id' => 'required|numeric'
-        ]);
-
-        $artist = Artist::find($request->id);
+    public function get(Request $request, int $id) {
+        $artist = Artist::find($id);
 
         if (!$artist) {
             return response()->json([
-                'message' => 'Album with id ' . $request->id . ' not found'
+                'message' => 'Album with id ' . $id . ' not found'
             ], 404);
         }
 

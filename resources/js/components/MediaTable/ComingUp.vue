@@ -69,6 +69,7 @@
         },
 
         mounted() {
+            //TODO move this to somewhere central
             Request.api().fetch();
         }
     }

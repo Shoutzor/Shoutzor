@@ -1,69 +1,50 @@
 <template>
-    <div>
-        <header-top v-on:scroll.native="handleScroll"></header-top>
-        <header-menu></header-menu>
-
-        <div id="main-content">
-            <simplebar data-simplebar-auto-hide="true" class="simplebar-main" ref="scroll">
-                <div class="page">
-                    <div class="content">
-                        <div class="container-xl">
-                            <router-view></router-view>
-                        </div>
-                    </div>
-                </div>
-            </simplebar>
-        </div>
-
-        <authentication-manager></authentication-manager>
-        <media-player></media-player>
-        <upload-manager></upload-manager>
-    </div>
+    <shoutzor v-if="loaded && can('website.access')"></shoutzor>
+    <login-screen v-else-if="loaded && can('website.access') === false"></login-screen>
+    <load-screen v-else></load-screen>
 </template>
 
 <script>
-    import simplebar from 'simplebar-vue';
+import {mapGetters} from 'vuex';
+import Shoutzor from "@js/views/Shoutzor";
+import LoginScreen from "@js/components/login/LoginScreen";
+import store from "@js/store/index";
+import LoadScreen from "../components/loader/LoadScreen";
 
-    export default {
-        name: "App",
-        components: {
-            simplebar
-        },
-        mounted() {
-            //Add a scroll-event for when the user scrolls through the main content section
-            this.$refs.scroll.scrollElement.addEventListener("scroll", this.onContentScroll);
-
-            //Add file-drag events
-            document.addEventListener('dragover', this.onDragOver);
-            document.addEventListener('dragleave', this.onDragLeave);
-            document.addEventListener('drop', this.onDrop);
-        },
-        methods: {
-            onContentScroll(event) {
-                this.$bus.emit('main-content-scroll', { scrollX: event.target.scrollLeft, scrollY: event.target.scrollTop });
-            },
-
-            onDragOver(event) {
-                event.preventDefault();
-                this.$bus.emit('dragover', event);
-            },
-
-            onDragLeave(event) {
-                event.preventDefault();
-                this.$bus.emit('dragleave', event);
-            },
-
-            onDrop(event) {
-                event.preventDefault();
-                this.$bus.emit('drop', event);
-            }
+export default {
+    name: "App",
+    components: {
+        LoadScreen,
+        LoginScreen,
+        Shoutzor
+    },
+    computed: mapGetters({
+        can: 'can',
+        hasToken: 'hasToken'
+    }),
+    data() {
+        return {
+            loaded: false
         }
+    },
+    created() {
+        //Resume an existing loginsession if the user has a valid token
+        const resumeSession = (this.hasToken) ? store.dispatch('resumeSession') : null;
+
+        // Update the guest role
+        const updateGuestRole = store.dispatch('updateGuestRole');
+
+        //Wait for both updates to finish loading
+        Promise.all([resumeSession, updateGuestRole]).finally(() => {
+            this.loaded = true;
+        })
     }
+}
 </script>
 
 <style scoped lang="scss">
-    .simplebar-main {
-        width: 100%;
-        height: 100%;
-    }
+.simplebar-main {
+    width: 100%;
+    height: 100%;
+}
 </style>

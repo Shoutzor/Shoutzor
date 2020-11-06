@@ -1,7 +1,7 @@
 <template>
     <div id="audio-player">
-        <div class="media-info" v-if="currentMedia">
-            <div class="row row-sm align-items-center" v-if="currentMedia.media !== null">
+        <div class="media-info">
+            <div class="row row-sm align-items-center" v-if="currentMedia && currentMedia.media !== null">
                 <div class="col-auto">
                     <img v-bind:src="albumImage" class="rounded" width="48" height="48">
                 </div>
@@ -10,27 +10,40 @@
                     <artist-list class="text-muted" :artists="currentMedia.media.artists"></artist-list>
                 </div>
             </div>
+            <div class="row row-sm align-items-center" v-else>
+                <div class="col-auto">
+                    <font-awesome-icon
+                        class="rounded border"
+                        :icon="['fas', 'question']"
+                        width="48"
+                        height="48"
+                    ></font-awesome-icon>
+                </div>
+                <div class="col">
+                    <span class="track-title">Unknown</span>
+                </div>
+            </div>
         </div>
         <div class="media-control">
             <div id="media-controls">
                 <font-awesome-icon
                     class="upvote"
                     :icon="['fas', 'thumbs-up']"
-                    v-if="isAuthenticated === true"
+                    v-if="isAuthenticated"
                 ></font-awesome-icon>
                 <div id="playbutton">
-                    <font-awesome-icon v-if="status === PlayerState.Stopped" @click="handlePlayButtonClick"
+                    <font-awesome-icon v-if="playerStatus === PlayerState.STOPPED" @click="play"
                         :icon="['fas', 'play']"
                     ></font-awesome-icon>
-                    <div v-if="status === PlayerState.Loading" class="spinner-border" role="status"></div>
-                    <font-awesome-icon v-if="status === PlayerState.Playing"  @click="handlePlayButtonClick"
+                    <div v-if="playerStatus === PlayerState.LOADING" class="spinner-border" role="status"></div>
+                    <font-awesome-icon v-if="playerStatus === PlayerState.PLAYING"  @click="stop"
                         :icon="['fas', 'stop']"
                     ></font-awesome-icon>
                 </div>
                 <font-awesome-icon
                     class="downvote"
                     :icon="['fas', 'thumbs-down']"
-                    v-if="isAuthenticated === true"
+                    v-if="isAuthenticated"
                 ></font-awesome-icon>
             </div>
             <div id="media-progress">
@@ -43,7 +56,7 @@
         </div>
         <div class="extra-control">
             <font-awesome-icon
-                v-if="hasVideo === true && status !== PlayerState.Stopped"
+                v-if="hasVideo && playerStatus !== PlayerState.STOPPED"
                 :icon="['fas', 'tv']"
                 id="video-control"
                 @click="handleVideoButtonClick"
@@ -72,14 +85,9 @@
 
 <script>
     import History from '@js/models/History';
-    import VueSlider from 'vue-slider-component'
-    import dashjs from 'dashjs';
-
-    const PlayerState = Object.freeze({
-        Stopped: 0,
-        Loading: 1,
-        Playing: 2
-    });
+    import VueSlider from 'vue-slider-component';
+    import PlayerState from "@js/store/modules/MediaPlayer/PlayerState";
+    import {mapGetters} from "vuex";
 
     export default {
         components: {
@@ -89,115 +97,47 @@
             return {
                 volume: 100,
                 albumImage: require('@static/images/album_temp_bg.jpg'),
-                player: null,
                 url: "https://dash.akamaized.net/envivio/EnvivioDash3/manifest.mpd",
-                status: PlayerState.Stopped,
                 showingVideo: false,
-                hasVideo: false,
-                isAuthenticated: false,
-                user: null,
-                PlayerState
+                PlayerState: PlayerState
             };
         },
 
         computed: {
-            currentMedia: () => History.query().with(["media.artists|albums", "user"]).last()
-        },
-
-        created() {
-            History.api().fetchNowPlaying();
-
-            this.$bus.on('auth-status', this.handleAuthStatus);
-        },
-
-        beforeDestroy() {
-            this.$bus.off('auth-status', this.handleAuthStatus);
+            currentMedia: () => History.query().with(["media.artists|albums", "user"]).last(),
+            ...mapGetters({
+                isAuthenticated: 'isAuthenticated',
+                playerStatus: 'MediaPlayer/getPlayerState',
+                hasVideo: 'MediaPlayer/hasVideo'
+            }),
         },
 
         mounted() {
-            //Initialize the player object on component load
-            this.initializePlayer();
+            //Initialize
+            this.$player.initialize(document.querySelector("#mediaPlayerSource"), null, false);
 
-            //
-            // Event handlers
-            //
-
-            //Pre-buffering
-            this.player.on(dashjs.MediaPlayer.events["STREAM_INITIALIZED"], this.preBufferSetup);
-
-            //Loading
-            this.player.on(dashjs.MediaPlayer.events["STREAM_INITIALIZING"], this.handlePlayerEvent);
-            this.player.on(dashjs.MediaPlayer.events["PLAYBACK_WAITING"], this.handlePlayerEvent);
-            this.player.on(dashjs.MediaPlayer.events["PLAYBACK_STALLED"], this.handlePlayerEvent);
-
-            //Playing
-            this.player.on(dashjs.MediaPlayer.events["PLAYBACK_PLAYING"], this.handlePlayerEvent);
-
-            //Stopped
-            this.player.on(dashjs.MediaPlayer.events["ERROR"], this.handlePlayerEvent);
-            this.player.on(dashjs.MediaPlayer.events["PLAYBACK_ERROR"], this.handlePlayerEvent);
-            this.player.on(dashjs.MediaPlayer.events["PLAYBACK_ENDED"], this.handlePlayerEvent);
-            this.player.on(dashjs.MediaPlayer.events["PLAYBACK_PAUSED"], (e) => {
-                this.stop();
-                this.handlePlayerEvent(e);
-            });
+            //Load history
+            History.api().fetchNowPlaying();
         },
 
         methods: {
-            handleAuthStatus(event) {
-                this.isAuthenticated = event.isAuthenticated;
-                this.user = event.user;
+            play() {
+                this.$store.dispatch('MediaPlayer/play', this.url);
             },
 
-            initializePlayer() {
-                this.player = dashjs.MediaPlayer().create();
-                this.player.initialize(document.querySelector("#mediaPlayerSource"), null, false);
+            stop() {
+                this.hideVideo();
+                this.$store.dispatch('MediaPlayer/stop');
             },
 
-            preBufferSetup() {
-                if(this.player.getTracksFor("video").length > 0) {
-                    this.hasVideo = true;
-                    this.setLowVideoQuality();
-                } else {
-                    this.hasVideo = false;
+            // Handle changes from the volume slider
+            handleVolumeChange(volume) {
+                if(volume > 0) {
+                    //Convert the int to a double
+                    volume = volume / 100;
                 }
-            },
 
-            handlePlayerEvent(e) {
-                //Loading
-                if(
-                    e.type === dashjs.MediaPlayer.events["STREAM_INITIALIZING"] ||
-                    e.type === dashjs.MediaPlayer.events["PLAYBACK_WAITING"] ||
-                    e.type === dashjs.MediaPlayer.events["PLAYBACK_STALLED"]
-                ) {
-                    this.status = PlayerState.Loading;
-                }
-                //Playing
-                else if(e.type === dashjs.MediaPlayer.events["PLAYBACK_PLAYING"]) {
-                    this.status = PlayerState.Playing;
-                }
-                //Stopped
-                else if(
-                    e.type === dashjs.MediaPlayer.events["ERROR"] ||
-                    e.type === dashjs.MediaPlayer.events["PLAYBACK_ERROR"] ||
-                    e.type === dashjs.MediaPlayer.events["PLAYBACK_ENDED"] ||
-                    e.type === dashjs.MediaPlayer.events["PLAYBACK_PAUSED"]
-                ) {
-                    this.status = PlayerState.Stopped;
-                }
-                //Unknown event?
-                else {
-                    console.error("Unknown event got passed tot the playerEventHandler, please report this (with a screenshot) to the shoutz0r github", e);
-                }
-            },
-
-            // Handle the play/stop button click event
-            handlePlayButtonClick() {
-                if(this.status === PlayerState.Stopped) {
-                    this.play();
-                } else {
-                    this.stop();
-                }
+                this.$player.setVolume(volume);
             },
 
             // Handle showing / hiding the video stream (if available)
@@ -210,16 +150,6 @@
                 else {
                     this.showVideo();
                 }
-            },
-
-            // Handle changes from the volume slider
-            handleVolumeChange(volume) {
-                if(volume > 0) {
-                    //Convert the int to a double
-                    volume = volume / 100;
-                }
-
-                this.player.setVolume(volume);
             },
 
             // Display the video stream
@@ -239,27 +169,12 @@
             },
 
             setLowVideoQuality() {
-                this.player.updateSettings({ 'streaming': { 'abr': { 'autoSwitchBitrate': { 'video': false } } } });
-                this.player.setQualityFor("video", 0);
+                this.$player.updateSettings({ 'streaming': { 'abr': { 'autoSwitchBitrate': { 'video': false } } } });
+                this.$player.setQualityFor("video", 0);
             },
 
             setHighVideoQuality() {
-                this.player.updateSettings({ 'streaming': { 'abr': { 'autoSwitchBitrate': { 'video': true } } } });
-            },
-
-            // Load & start playback
-            play() {
-                this.player.attachSource(this.url);
-                this.player.play();
-                this.status = PlayerState.Loading;
-            },
-
-            // Stop playback & unload
-            stop() {
-                this.hideVideo();
-                this.player.pause();
-                this.player.attachSource(null);
-                this.status = PlayerState.Stopped;
+                this.$player.updateSettings({ 'streaming': { 'abr': { 'autoSwitchBitrate': { 'video': true } } } });
             }
         }
     }

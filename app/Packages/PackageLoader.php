@@ -6,6 +6,7 @@ use App\Helpers\Filesystem as FilesystemHelper;
 use \Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\Facades\Log;
 use Symfony\Component\Filesystem\Filesystem;
+use function PHPUnit\Framework\directoryExists;
 
 abstract class PackageLoader {
 
@@ -142,6 +143,14 @@ abstract class PackageLoader {
     public function onDiscover() : void {
         $publicAssetPath    = $this->pkgPath . '/resources/static/public';
         $symlinkPath        = FilesystemHelper::correctDS(storage_path('app/public/packages/' . $this->getId() . '/'));
+
+        //Check if the directory exists, if not: create it
+        if(directoryExists(storage_path('app/public/packages')) === false) {
+            Log::info("Directory " . storage_path('app/public/packages') . " does not exist yet, creating it.");
+            mkdir(storage_path('app/public/packages'), 0777, true);
+        } else {
+            Log::info("directory exists: " . storage_path('app/public/packages'));
+        }
 
         //If a public asset path exists, create a symlink to it so we can use those assets in the front-end
         if(file_exists($publicAssetPath) && file_exists($symlinkPath) === false) {

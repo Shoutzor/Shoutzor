@@ -59,7 +59,14 @@ class AuthApiController extends Controller
 
         if(!Auth::attempt($credentials)) {
             return response()->json([
-                'message' => 'Invalid login'
+                'message' => 'Invalid login credentials provided'
+            ], 401);
+        }
+
+        //Check if the user is allowed to access the website
+        if($request->user()->can('website.access') === false) {
+            return response()->json([
+                'message' => 'This account does not have the required permission to access the website.'
             ], 401);
         }
 
@@ -74,9 +81,9 @@ class AuthApiController extends Controller
         $token->save();
 
         return response()->json([
-            'access_token' => $tokenResult->accessToken,
-            'token_type' => 'Bearer',
-            'expires_at' => Carbon::parse(
+            'token'         => $tokenResult->accessToken,
+            'token_type'    => 'Bearer',
+            'expires_at'    => Carbon::parse(
                 $tokenResult->token->expires_at
             )->toISOString()
         ]);
@@ -84,8 +91,8 @@ class AuthApiController extends Controller
 
     /**
      * Logout user (Revoke the token)
-     *
-     * @return [string] message
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse [string] message
      */
     public function logout(Request $request)
     {
@@ -97,11 +104,11 @@ class AuthApiController extends Controller
 
     /**
      * Get the authenticated User
-     *
-     * @return [json] user object
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse [json] user object
      */
     public function user(Request $request)
     {
-        return response()->json($request->user(), 200);
+        return response()->json(User::with(['permissions', 'roles.permissions'])->find(Auth::id()), 200);
     }
 }
