@@ -22,7 +22,7 @@ use Illuminate\Support\Facades\Route;
  */
 Route::post('auth/login',       'AuthApiController@login');
 Route::post('auth/register',    'AuthApiController@register');
-Route::get('role/user',         'RoleApiController@user');
+Route::get('role/guest',         'RoleApiController@guest');
 Route::get('permission/user',   'PermissionApiController@user');
 
 /*
@@ -33,6 +33,7 @@ Route::get('permission/user',   'PermissionApiController@user');
 Route::group(['middleware' => 'auth:api'], function () {
     Route::get('auth/logout',   'AuthApiController@logout');
     Route::get('auth/user',     'AuthApiController@user');
+    Route::get('role/user',         'RoleApiController@user');
 
     Route::get('permission/get/{id?}',  'PermissionApiController@get')->middleware('can:admin.permissions.permission.get')->where('id', '[0-9]+');
     Route::get('permission/user/{id?}', 'PermissionApiController@user')->middleware('can:admin.permissions.permission.get')->where('id', '[0-9]+');

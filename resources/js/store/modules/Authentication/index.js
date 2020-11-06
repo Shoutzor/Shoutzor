@@ -1,6 +1,7 @@
 import axios from 'axios';
 import User from "@js/models/User";
-import { AUTH_REQUEST, AUTH_SUCCESS, AUTH_FAILED, AUTH_LOGOUT } from "@js/store/mutation-types";
+import Role from "@js/models/Role";
+import { AUTH_GUEST, AUTH_REQUEST, AUTH_SUCCESS, AUTH_FAILED, AUTH_LOGOUT } from "@js/store/mutation-types";
 import store from "@js/store/index";
 
 const moduleAuthentication = {
@@ -8,7 +9,8 @@ const moduleAuthentication = {
         token: localStorage.getItem('token') || '',
         status: '',
         user: null,
-        authenticated: false
+        authenticated: false,
+        guestRole: null
     }),
 
     mutations: {
@@ -31,6 +33,9 @@ const moduleAuthentication = {
             state.token = '';
             state.user = null;
             state.authenticated = false;
+        },
+        [AUTH_GUEST](state, { guestRole }) {
+            state.guestRole = guestRole;
         }
     },
 
@@ -40,11 +45,17 @@ const moduleAuthentication = {
         getUser: state => state.user,
         hasToken: state => !!state.token,
         can: state => (permissionName) => {
+            // Check if the user is authenticated, and if so, if he has the required permission
             if(state.authenticated) {
                 return state.user.can(permissionName);
             }
 
-            //TODO implement Guest user state
+            // Check if the guest-role exists, and if so, check if it has the required permission
+            if(state.guestRole) {
+                return state.guestRole.can(permissionName);
+            }
+
+            // No matching situations, return false by default.
             return false;
         }
     },
@@ -147,6 +158,34 @@ const moduleAuthentication = {
                     let msg = "Could not fetch user information, got error:" + err;
                     localStorage.removeItem('token');
                     commit(AUTH_FAILED, msg);
+                    reject(msg);
+                });
+            });
+        },
+
+        updateGuestRole({commit}) {
+            return new Promise((resolve, reject) => {
+                Role.api().get('/api/role/guest').then((resp) => {
+                    console.log(resp);
+                    const role = resp.entities.roles[0];
+
+                    const guestModel = Role.query().with('permissions').whereId(role.id).first();
+
+                    commit(AUTH_GUEST, {
+                        guestRole: guestModel
+                    });
+
+                    resolve(true);
+                }).catch((err) => {
+                    let msg = '';
+
+                    try {
+                        msg = err.response.data.message;
+                    } catch(e) {
+                        //Fallback to default error message
+                        msg = err.message;
+                    }
+
                     reject(msg);
                 });
             });

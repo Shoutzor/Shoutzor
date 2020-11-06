@@ -1,6 +1,7 @@
 <template>
-    <shoutzor v-if="can('website.access')"></shoutzor>
-    <login-screen v-else></login-screen>
+    <shoutzor v-if="loaded && can('website.access')"></shoutzor>
+    <login-screen v-else-if="loaded && can('website.access') === false"></login-screen>
+    <load-screen v-else></load-screen>
 </template>
 
 <script>
@@ -8,10 +9,12 @@ import {mapGetters} from 'vuex';
 import Shoutzor from "@js/views/Shoutzor";
 import LoginScreen from "@js/components/login/LoginScreen";
 import store from "@js/store/index";
+import LoadScreen from "../components/loader/LoadScreen";
 
 export default {
     name: "App",
     components: {
+        LoadScreen,
         LoginScreen,
         Shoutzor
     },
@@ -19,11 +22,22 @@ export default {
         can: 'can',
         hasToken: 'hasToken'
     }),
+    data() {
+        return {
+            loaded: false
+        }
+    },
     created() {
         //Resume an existing loginsession if the user has a valid token
-        if(this.hasToken) {
-            store.dispatch('resumeSession');
-        }
+        const resumeSession = (this.hasToken) ? store.dispatch('resumeSession') : null;
+
+        // Update the guest role
+        const updateGuestRole = store.dispatch('updateGuestRole');
+
+        //Wait for both updates to finish loading
+        Promise.all([resumeSession, updateGuestRole]).finally(() => {
+            this.loaded = true;
+        })
     }
 }
 </script>

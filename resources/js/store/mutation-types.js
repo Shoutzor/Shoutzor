@@ -1,5 +1,4 @@
-export const APP_LOADING = 'APP_LOADING';
-export const APP_LOADED = 'APP_LOADED';
+export const AUTH_GUEST = 'AUTH_GUEST';
 export const AUTH_REQUEST = 'AUTH_REQUEST';
 export const AUTH_SUCCESS = 'AUTH_SUCCESS';
 export const AUTH_FAILED = 'AUTH_FAILED';

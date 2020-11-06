@@ -62,4 +62,12 @@ class RoleApiController extends Controller {
 
         return response()->json($roles, 200);
     }
+
+    /**
+     * Returns the guest role and it's permissions
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function guest() {
+        return response()->json(Role::with('permissions')->where('name', 'guest')->get(), 200);
+    }
 }
