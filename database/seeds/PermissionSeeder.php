@@ -19,7 +19,7 @@ class PermissionSeeder extends Seeder
         /*
          * Create roles (if not existing)
          */
-        $guest =    $this->createRole('guest', 'this role is applied to unauthenticated users');
+        $guest =    $this->createRole('guest', 'this role is applied to unauthenticated users', true);
         $user =     $this->createRole('user', 'this is the default role for regular users');
         $admin =    $this->createRole('admin', 'this is a special role for administrators');
 
@@ -97,9 +97,9 @@ class PermissionSeeder extends Seeder
      * Create a role if it doesn't exist yet
      * @param string $name the name of the role
      */
-    private function createRole(string $name, string $description) {
+    private function createRole(string $name, string $description, bool $protected = false) {
         try {
-            return Role::create(['name' => $name, 'description' => $description]);
+            return Role::create(['name' => $name, 'description' => $description, 'protected' => $protected]);
         }
         catch(RoleAlreadyExists $e) {
             //Ignore
