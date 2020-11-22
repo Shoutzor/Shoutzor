@@ -24,7 +24,7 @@ steps:
 
 - script: |
     curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
-    sudo apt-get install -y build-essential debconf-utils screen nodejs
+    sudo apt-get install -y build-essential debconf-utils screen
     sudo apt-get install -y unzip xvfb autogen autoconf libtool pkg-config nasm
   displayName: 'Installing System Dependencies'
 
@@ -51,15 +51,6 @@ steps:
     php artisan migrate:fresh --force
     php artisan db:seed --force
   displayName: 'Running Migrations'
-
-- script: |
-    sudo npm i -g npm
-    sudo chown -R vsts:vsts ~/.npm
-    sudo chown -R vsts:vsts ~/.config
-    npm install
-    npm run prod
-    node -v
-  displayName: 'Generating build assets'
 
 - script: |
     vendor/bin/phpunit --log-junit tests/Results/TEST-phpunit-junit.xml
