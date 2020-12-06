@@ -16,7 +16,7 @@ Built using the Laravel Framework and Vue components.
 4. Optionally: for development run `php artisan db:seed --class=DevelopmentSeeder`
 5. Run `php artisan passport:install --force`
 
-The Shoutzor environment should now be ready for use.
+The Shoutzor environment should now be ready for use.\
 When developing, make sure to run `npm run watch` as well in order to update the compiled JS and CSS files.
 
 ### Thanks
