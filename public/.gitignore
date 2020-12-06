@@ -4,7 +4,6 @@
 #Except these files
 !.gitignore
 !.htaccess
-!browserconfig.xml
 !favicon.ico
 !index.php
 !robots.txt
