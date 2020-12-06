@@ -2,7 +2,7 @@
 
 [![License](https://img.shields.io/github/license/xorinzor/shoutz0r.svg?style=flat)](https://www.gnu.org/licenses/gpl-3.0.en.html)
 
-Shoutz0r - Easily setup a music system on your event! (Such as LAN-Parties!)
+Shoutz0r - Easily setup a music system on your event! (Such as LAN-Parties!)\
 Comes with autoDJ to keep the music going when no song requests have been added by users.
 
 Docker container can be found at [xorinzor/shoutz0r-docker](https://github.com/xorinzor/shoutz0r-docker)
