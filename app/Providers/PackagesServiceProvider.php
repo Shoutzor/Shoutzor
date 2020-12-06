@@ -10,7 +10,7 @@ class PackagesServiceProvider extends ServiceProvider
     private PackageManager $pm;
 
     /**
-     * Register any application services.
+     * Load the packagemanager and the registered packages.
      *
      * @return void
      */
@@ -20,18 +20,18 @@ class PackagesServiceProvider extends ServiceProvider
         $this->pm = new PackageManager($this->app);
         $this->app->instance(PackageManager::class, $this->pm);
 
-        //Load all installed packages, this does not initialize them yet
+        //Load all installed packages, this does not activate them yet
         $this->pm->loadPackages();
     }
 
     /**
-     * Bootstrap any application services.
+     * Load enabled packages.
      *
      * @return void
      */
     public function boot()
     {
-        //Register all enabled packages
+        //Activate all enabled packages
         $this->pm->registerEnabledPackages();
     }
 }

@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Api;
 
 use App\History;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request as HttpRequest;
 
 class HistoryApiController extends Controller {
 

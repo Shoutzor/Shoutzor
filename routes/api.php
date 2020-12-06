@@ -33,7 +33,8 @@ Route::get('permission/user',   'PermissionApiController@user');
 Route::group(['middleware' => 'auth:api'], function () {
     Route::get('auth/logout',   'AuthApiController@logout');
     Route::get('auth/user',     'AuthApiController@user');
-    Route::get('role/user',         'RoleApiController@user');
+    Route::get('role/user',     'RoleApiController@user');
+    Route::post('upload',       'UploadApiController@store')->middleware('can:upload');
 
     Route::get('permission/get/{id?}',  'PermissionApiController@get')->middleware('can:admin.permissions.permission.get')->where('id', '[0-9]+');
     Route::get('permission/user/{id?}', 'PermissionApiController@user')->middleware('can:admin.permissions.permission.get')->where('id', '[0-9]+');
@@ -61,5 +62,4 @@ Route::group(['middleware' => ['can:website.access']], function() {
     Route::get('request',           'RequestApiController@index');
     Route::get('history',           'HistoryApiController@index');
     Route::get('history/last',      'HistoryApiController@last');
-    Route::post('upload',           'UploadApiController@store')->middleware('can:upload');
 });
