@@ -49,17 +49,17 @@ Route::group(['middleware' => 'auth:api'], function () {
             Route::post('package/disable',  'PackageApiController@disable');
         });
     });
-});
 
-/*
- * --------------------------------------------------------------------------
- * Routes within this group require the website.access permission
- * --------------------------------------------------------------------------
- */
-Route::group(['middleware' => ['can:website.access']], function() {
-    Route::get('album/get/{id}',    'AlbumApiController@get')->where('id', '[0-9]+');
-    Route::get('artist/get/{id}',   'ArtistApiController@get')->where('id', '[0-9]+');
-    Route::get('request',           'RequestApiController@index');
-    Route::get('history',           'HistoryApiController@index');
-    Route::get('history/last',      'HistoryApiController@last');
+    /*
+    * --------------------------------------------------------------------------
+    * Routes within this group require the website.access permission
+    * --------------------------------------------------------------------------
+    */
+    Route::group(['middleware' => 'can:website.access'], function() {
+        Route::get('album/get/{id}',    'AlbumApiController@get')->where('id', '[0-9]+');
+        Route::get('artist/get/{id}',   'ArtistApiController@get')->where('id', '[0-9]+');
+        Route::get('request',           'RequestApiController@index');
+        Route::get('history',           'HistoryApiController@index');
+        Route::get('history/last',      'HistoryApiController@last');
+    });
 });
