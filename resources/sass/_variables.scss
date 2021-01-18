@@ -1,0 +1,55 @@
+// Body
+$body-bg: #f8fafc;
+
+// Typography
+$font-family-sans-serif: 'Ubuntu', sans-serif;
+$font-size-base: 0.9rem;
+$line-height-base: 1.6;
+
+//The Tabler function for using @import is busted, somehow a newline will be added in the import statement, breaking it.
+//Aside of this, I want to load this font using async, as to not block the rendering. Therefor I am disabling this var.
+$google-font: false;
+
+// Colors
+$blue: #467fcf;
+$indigo: #6574cd;
+$purple: #a55eea;
+$pink: #f66d9b;
+$red: #cd201f;
+$orange: #fd9644;
+$yellow: #f1c40f;
+$green: #5eba00;
+$teal: #2bcbba;
+$cyan: #17a2b8;
+$white: #fff;
+$gray: #868e96;
+$gray-dark: #343a40;
+$azure: #45aaf2;
+$lime: #7bd235;
+$primary: #467fcf;
+$secondary: #868e96;
+$success: #5eba00;
+$info: #45aaf2;
+$warning: #f1c40f;
+$danger: #cd201f;
+$light: #f8f9fa;
+$dark: #343a40;
+
+$text-muted-opacity: 0.53;
+
+//Brand colors
+$brand-color-none: #467fcf;
+$brand-color-spotify: #1DB954;
+$brand-color-soundcloud: #FF7700;
+$brand-color-youtube: #FF0000;
+
+//Element sizes
+$navbar-height: 3.5rem;
+$sidebar-width: 15rem;
+$player-height: 4.5rem;
+
+//
+// Other variable files, these MUST come last
+//
+@import "~@tabler/core/src/scss/variables";
+@import "~@tabler/core/src/scss/bootstrap-config";
