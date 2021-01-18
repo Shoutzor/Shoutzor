@@ -10,3 +10,5 @@ Homestead.yaml
 npm-debug.log
 yarn-error.log
 .rnd
+mix-manifest.json
+package-lock.json

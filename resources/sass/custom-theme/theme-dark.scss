@@ -1,0 +1,23 @@
+.theme-dark {
+    #navbar-top {
+        background: $dark-mode-darken;
+
+        .navbar-brand {
+            background: $dark;
+
+            img {
+                -webkit-filter: brightness(0) invert(1);
+                filter: brightness(0) invert(1);
+            }
+        }
+    }
+
+    #navbar-left {
+        background: $dark;
+    }
+
+    #audio-player {
+        background: #454b50;
+        border-top: 1px solid darken($dark, 1%);
+    }
+}
