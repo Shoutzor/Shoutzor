@@ -59,7 +59,7 @@ Route::group(['middleware' => 'auth:api'], function () {
     * Routes within this group require the website.access permission
     * --------------------------------------------------------------------------
     */
-        Route::group(['middleware' => 'can:website.access'], function() {
+        Route::group(['middleware' => 'can:admin.access'], function() {
             Route::get('album/get/{id}',    'AlbumApiController@get')->where('id', '[0-9]+');
             Route::get('artist/get/{id}',   'ArtistApiController@get')->where('id', '[0-9]+');
             Route::get('request',           'RequestApiController@index');

@@ -42,7 +42,7 @@ class PermissionApiController extends Controller {
      */
     public function user(Request $request, int $id = null, string $type = "all") {
         if($id) {
-            if($request->user()->can('admin.permissions.permission.get') === false) {
+            if($request->user()->hasPermissionTo('admin.permissions.permission.get') === false) {
                 return response()->json([
                     'message' => 'You do not have the admin.permissions.permission.get permission'
                 ], 403);

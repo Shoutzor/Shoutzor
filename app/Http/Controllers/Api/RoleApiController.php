@@ -32,7 +32,7 @@ class RoleApiController extends Controller {
      */
     public function user(Request $request, int $id = null) {
         if($id) {
-            if($request->user()->can('admin.permissions.role.get') === false) {
+            if($request->user()->hasPermissionTo('admin.permissions.role.get') === false) {
                 return response()->json([
                     'message' => 'You do not have the admin.permissions.role.get permission'
                 ], 403);
