@@ -16,15 +16,15 @@ class DevelopmentSeeder extends Seeder
         $faker->addProvider(new \Mmo\Faker\PicsumProvider($faker));
         $faker->addProvider(new \RauweBieten\PhpFakerMusic\Dance($faker));
 
+        $publicStorageLocation = storage_path('app/public');
         $albumImageLocation = storage_path('app/public/album');
         $artistImageLocation = storage_path('app/public/artist');
 
-        if(!is_writable($albumImageLocation)) {
-            throw new Exception("Directory is not writeable: " . $albumImageLocation);
-        }
-
-        if(!is_writable($artistImageLocation)) {
-            throw new Exception("Directory is not writeable: " . $artistImageLocation);
+        if(file_exists($publicStorageLocation) && is_writeable($publicStorageLocation)) {
+            mkdir($albumImageLocation);
+            mkdir($artistImageLocation);
+        } else {
+            throw new Exception("Directory is not writeable: " . $publicStorageLocation);
         }
 
         //

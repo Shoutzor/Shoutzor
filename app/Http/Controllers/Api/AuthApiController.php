@@ -63,14 +63,15 @@ class AuthApiController extends Controller
             ], 401);
         }
 
+        $user = $request->user();
+
         //Check if the user is allowed to access the website
-        if($request->user()->can('website.access') === false) {
+        if($user->hasPermissionTo('website.access') === false) {
             return response()->json([
                 'message' => 'This account does not have the required permission to access the website.'
             ], 401);
         }
 
-        $user = $request->user();
         $tokenResult = $user->createToken('Personal Access Token');
         $token = $tokenResult->token;
 

@@ -24,6 +24,8 @@ Route::post('auth/login',       'AuthApiController@login');
 Route::post('auth/register',    'AuthApiController@register');
 Route::get('role/guest',         'RoleApiController@guest');
 Route::get('permission/user',   'PermissionApiController@user');
+Route::get('permission/get/{id?}',  'PermissionApiController@get')->middleware('can:admin.permissions.permission.get')->where('id', '[0-9]+');
+Route::get('role/get/{id?}',        'RoleApiController@get')->middleware('can:admin.permissions.role.get')->where('id', '[0-9]+');
 
 /*
  * --------------------------------------------------------------------------
@@ -36,11 +38,13 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::get('role/user',     'RoleApiController@user');
     Route::post('upload',       'UploadApiController@store')->middleware('can:upload');
 
-    Route::get('permission/get/{id?}',  'PermissionApiController@get')->middleware('can:admin.permissions.permission.get')->where('id', '[0-9]+');
     Route::get('permission/user/{id?}', 'PermissionApiController@user')->middleware('can:admin.permissions.permission.get')->where('id', '[0-9]+');
-    Route::get('role/get/{id?}',        'RoleApiController@get')->middleware('can:admin.permissions.role.get')->where('id', '[0-9]+');
 
-    //Admin
+    /*
+    * --------------------------------------------------------------------------
+    * Routes within this group require the website.access permission
+    * --------------------------------------------------------------------------
+    */
     Route::group(['middleware' => 'can:admin.access'], function() {
         //Admin - Packages
         Route::group(['middleware' => 'can:admin.packages'], function() {
@@ -55,11 +59,11 @@ Route::group(['middleware' => 'auth:api'], function () {
     * Routes within this group require the website.access permission
     * --------------------------------------------------------------------------
     */
-    Route::group(['middleware' => 'can:website.access'], function() {
-        Route::get('album/get/{id}',    'AlbumApiController@get')->where('id', '[0-9]+');
-        Route::get('artist/get/{id}',   'ArtistApiController@get')->where('id', '[0-9]+');
-        Route::get('request',           'RequestApiController@index');
-        Route::get('history',           'HistoryApiController@index');
-        Route::get('history/last',      'HistoryApiController@last');
-    });
+        Route::group(['middleware' => 'can:website.access'], function() {
+            Route::get('album/get/{id}',    'AlbumApiController@get')->where('id', '[0-9]+');
+            Route::get('artist/get/{id}',   'ArtistApiController@get')->where('id', '[0-9]+');
+            Route::get('request',           'RequestApiController@index');
+            Route::get('history',           'HistoryApiController@index');
+            Route::get('history/last',      'HistoryApiController@last');
+        });
 });
