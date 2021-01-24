@@ -2,9 +2,11 @@
 
 namespace App\Providers;
 
+use Illuminate\Auth\Access\Response;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
 use Laravel\Passport\Passport;
+use Spatie\Permission\Models\Role;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -25,6 +27,25 @@ class AuthServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->registerPolicies();
+
+        Gate::after(function ($user, $ability, $result, $arguments) {
+            die();
+            if(!$user) {
+                $role = Role::findByName('guest');
+
+                //Check if the guest role could be found
+                if($role) {
+                    //Check if the guest role has the permission
+                    if($role->hasPermissionTo($ability)) {
+                        //Permit the request
+                        //Response::allow();
+                        return true;
+                    }
+                }
+            }
+
+            return $result;
+        });
 
         Passport::routes();
 
