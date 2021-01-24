@@ -21,8 +21,13 @@ class DevelopmentSeeder extends Seeder
         $artistImageLocation = storage_path('app/public/artist');
 
         if(file_exists($publicStorageLocation) && is_writeable($publicStorageLocation)) {
-            mkdir($albumImageLocation);
-            mkdir($artistImageLocation);
+            if(!file_exists($albumImageLocation)) {
+                mkdir($albumImageLocation);
+            }
+
+            if(!file_exists($artistImageLocation)) {
+                mkdir($artistImageLocation);
+            }
         } else {
             throw new Exception("Directory is not writeable: " . $publicStorageLocation);
         }
