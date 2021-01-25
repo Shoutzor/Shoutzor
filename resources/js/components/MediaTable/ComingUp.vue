@@ -14,7 +14,7 @@
                 <td class="text-center">
                         <span
                             v-if="request.media.is_video === true"
-                            class="stamp mediatype video stamp-md bg-orange text-white mr-3"
+                            class="avatar mediatype video bg-orange-lt mr-3"
                         >
                             <font-awesome-icon
                                 class="mediasource-icon"
@@ -23,7 +23,7 @@
                         </span>
                         <span
                             v-else
-                            class="stamp mediatype audio stamp-md bg-azure text-white mr-3"
+                            class="avatar mediatype audio bg-azure-lt mr-3"
                         >
                             <font-awesome-icon
                                 class="mediasource-icon"
@@ -83,7 +83,7 @@
         }
     }
 
-    .stamp.mediatype {
+    .avatar.mediatype {
         font-size: 24px !important;
     }
 </style>
