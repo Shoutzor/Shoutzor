@@ -6,15 +6,14 @@
                     <ul class="navbar-nav">
                         <router-link
                             :to="{name: 'admin-dashboard'}"
-                            v-slot="{ href, navigate, isExactActive }">
+                            v-slot="{ href, navigate, isExactActive }"
+                        >
                             <li :class="['nav-item', isExactActive && 'active']">
                                 <a :href="href"
                                    @click="navigate"
                                    class="nav-link">
                                     <span class="nav-link-icon d-md-none d-lg-inline-block">
-                                        <chart-bar-icon
-                                            class="icon"
-                                        ></chart-bar-icon>
+                                        <chart-bar-icon class="icon"></chart-bar-icon>
                                     </span>
                                     <span class="nav-link-title">
                                       Dashboard
@@ -24,15 +23,14 @@
                         </router-link>
                         <router-link
                             :to="{name: 'admin-users'}"
-                            v-slot="{ href, navigate, isExactActive }">
+                            v-slot="{ href, navigate, isExactActive }"
+                        >
                             <li :class="['nav-item', isExactActive && 'active']">
                                 <a :href="href"
                                    @click="navigate"
                                    class="nav-link">
                                     <span class="nav-link-icon d-md-none d-lg-inline-block">
-                                        <users-icon
-                                            class="icon"
-                                        ></users-icon>
+                                        <users-icon class="icon"></users-icon>
                                     </span>
                                     <span class="nav-link-title">
                                       Users
@@ -42,15 +40,14 @@
                         </router-link>
                         <router-link
                             :to="{name: 'admin-roles-list'}"
-                            v-slot="{ href, navigate, isExactActive }">
+                            v-slot="{ href, navigate, isExactActive }"
+                        >
                             <li :class="['nav-item', isExactActive && 'active']">
                                 <a :href="href"
                                    @click="navigate"
                                    class="nav-link">
                                     <span class="nav-link-icon d-md-none d-lg-inline-block">
-                                        <key-icon
-                                            class="icon"
-                                        ></key-icon>
+                                        <key-icon class="icon"></key-icon>
                                     </span>
                                     <span class="nav-link-title">
                                       Roles
@@ -60,15 +57,14 @@
                         </router-link>
                         <router-link
                             :to="{name: 'admin-packages'}"
-                            v-slot="{ href, navigate, isExactActive }">
+                            v-slot="{ href, navigate, isExactActive }"
+                        >
                             <li :class="['nav-item', isExactActive && 'active']">
                                 <a :href="href"
                                    @click="navigate"
                                    class="nav-link">
                                     <span class="nav-link-icon d-md-none d-lg-inline-block">
-                                        <ThreedCubeSphereIcon
-                                            class="icon"
-                                        ></ThreedCubeSphereIcon>
+                                        <ThreedCubeSphereIcon class="icon"></ThreedCubeSphereIcon>
                                     </span>
                                     <span class="nav-link-title">
                                       Packages

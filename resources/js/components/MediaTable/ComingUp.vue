@@ -11,22 +11,18 @@
         </thead>
         <tbody v-if="queue && queue.length > 0">
             <tr v-for="request in queue">
-                <td class="text-center">
+                <td class="text-center mediatype-column">
                         <span
                             v-if="request.media.is_video === true"
-                            class="avatar mediatype video bg-orange-lt mr-3"
+                            class="avatar mediatype video bg-orange-lt"
                         >
-                            <movie-icon
-                                class="mediasource-icon"
-                            ></movie-icon>
+                            <movie-icon class="mediasource-icon"></movie-icon>
                         </span>
                         <span
                             v-else
-                            class="avatar mediatype audio bg-azure-lt mr-3"
+                            class="avatar mediatype audio bg-azure-lt"
                         >
-                            <music-icon
-                                class="mediasource-icon"
-                            ></music-icon>
+                            <music-icon class="mediasource-icon"></music-icon>
                         </span>
                 </td>
                 <td>
@@ -78,6 +74,10 @@
     .coming-up {
         thead td {
             border-bottom: 1px solid rgb(226, 227, 227);
+        }
+
+        .mediatype-column {
+            width: 50px;
         }
     }
 
