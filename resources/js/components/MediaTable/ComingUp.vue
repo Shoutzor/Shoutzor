@@ -14,21 +14,19 @@
                 <td class="text-center">
                         <span
                             v-if="request.media.is_video === true"
-                            class="stamp mediatype video stamp-md bg-orange text-white mr-3"
+                            class="avatar mediatype video bg-orange-lt mr-3"
                         >
-                            <font-awesome-icon
+                            <movie-icon
                                 class="mediasource-icon"
-                                :icon="['fas', 'film']"
-                            ></font-awesome-icon>
+                            ></movie-icon>
                         </span>
                         <span
                             v-else
-                            class="stamp mediatype audio stamp-md bg-azure text-white mr-3"
+                            class="avatar mediatype audio bg-azure-lt mr-3"
                         >
-                            <font-awesome-icon
+                            <music-icon
                                 class="mediasource-icon"
-                                :icon="['fas', 'music']"
-                            ></font-awesome-icon>
+                            ></music-icon>
                         </span>
                 </td>
                 <td>
@@ -36,8 +34,8 @@
                     <artist-list class="small text-muted" :artists="request.media.artists"></artist-list>
                 </td>
                 <td>
-                    <div v-if="request.user !== null">{{ request.user.name }}</div>
-                    <div v-if="request.user === null">AutoDJ</div>
+                    <div v-if="request.user !== null">{{ request.user.username }}</div>
+                    <div v-else>AutoDJ</div>
                 </td>
                 <td>
                     <date-time :time="request.media.duration"></date-time>
@@ -83,7 +81,7 @@
         }
     }
 
-    .stamp.mediatype {
+    .avatar.mediatype {
         font-size: 24px !important;
     }
 </style>

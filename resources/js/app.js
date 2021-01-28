@@ -3,17 +3,7 @@ import VueBus from 'vue-bus';
 import router from "./router";
 import store from "./store";
 import App from "@js/views/App";
-
-import { library } from '@fortawesome/fontawesome-svg-core';
-import { fab } from '@fortawesome/free-brands-svg-icons';
-import { fas } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-
-//Configure the FontAwesome component
-library.add(fab);
-library.add(fas);
-
-Vue.component('font-awesome-icon', FontAwesomeIcon);
+import VueTablerIcons  from 'vue-tabler-icons';
 
 //Recursively scan and add all Vue components
 const files = require.context('./', true, /\.vue$/i);
@@ -26,6 +16,7 @@ const app = new Vue({
     store
 });
 
+Vue.use(VueTablerIcons);
 Vue.use(VueBus);
 app.$mount('#shoutzor');
 

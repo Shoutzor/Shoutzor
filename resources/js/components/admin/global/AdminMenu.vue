@@ -12,10 +12,9 @@
                                    @click="navigate"
                                    class="nav-link">
                                     <span class="nav-link-icon d-md-none d-lg-inline-block">
-                                        <font-awesome-icon
-                                            :icon="['fa', 'chart-bar']"
+                                        <chart-bar-icon
                                             class="icon"
-                                        ></font-awesome-icon>
+                                        ></chart-bar-icon>
                                     </span>
                                     <span class="nav-link-title">
                                       Dashboard
@@ -31,10 +30,9 @@
                                    @click="navigate"
                                    class="nav-link">
                                     <span class="nav-link-icon d-md-none d-lg-inline-block">
-                                        <font-awesome-icon
-                                            :icon="['fa', 'user']"
+                                        <users-icon
                                             class="icon"
-                                        ></font-awesome-icon>
+                                        ></users-icon>
                                     </span>
                                     <span class="nav-link-title">
                                       Users
@@ -50,10 +48,9 @@
                                    @click="navigate"
                                    class="nav-link">
                                     <span class="nav-link-icon d-md-none d-lg-inline-block">
-                                        <font-awesome-icon
-                                            :icon="['fa', 'key']"
+                                        <key-icon
                                             class="icon"
-                                        ></font-awesome-icon>
+                                        ></key-icon>
                                     </span>
                                     <span class="nav-link-title">
                                       Roles
@@ -69,10 +66,9 @@
                                    @click="navigate"
                                    class="nav-link">
                                     <span class="nav-link-icon d-md-none d-lg-inline-block">
-                                        <font-awesome-icon
-                                            :icon="['fa', 'cubes']"
+                                        <ThreedCubeSphereIcon
                                             class="icon"
-                                        ></font-awesome-icon>
+                                        ></ThreedCubeSphereIcon>
                                     </span>
                                     <span class="nav-link-title">
                                       Packages

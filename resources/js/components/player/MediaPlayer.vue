@@ -12,39 +12,40 @@
             </div>
             <div class="row row-sm align-items-center" v-else>
                 <div class="col-auto">
-                    <font-awesome-icon
+                    <question-mark-icon
                         class="rounded border"
-                        :icon="['fas', 'question']"
                         width="48"
                         height="48"
-                    ></font-awesome-icon>
+                    ></question-mark-icon>
                 </div>
                 <div class="col">
-                    <span class="track-title">Unknown</span>
+                    <span class="track-title">Now playing: Unavailable</span>
                 </div>
             </div>
         </div>
         <div class="media-control">
             <div id="media-controls">
-                <font-awesome-icon
+                <thumb-up-icon
                     class="upvote"
-                    :icon="['fas', 'thumbs-up']"
                     v-if="isAuthenticated"
-                ></font-awesome-icon>
+                ></thumb-up-icon>
                 <div id="playbutton">
-                    <font-awesome-icon v-if="playerStatus === PlayerState.STOPPED" @click="play"
-                        :icon="['fas', 'play']"
-                    ></font-awesome-icon>
+                    <player-play-icon
+                        v-if="playerStatus === PlayerState.STOPPED"
+                        @click="play"
+                    ></player-play-icon>
+
                     <div v-if="playerStatus === PlayerState.LOADING" class="spinner-border" role="status"></div>
-                    <font-awesome-icon v-if="playerStatus === PlayerState.PLAYING"  @click="stop"
-                        :icon="['fas', 'stop']"
-                    ></font-awesome-icon>
+
+                    <player-stop-icon
+                        v-if="playerStatus === PlayerState.PLAYING"
+                        @click="stop"
+                    ></player-stop-icon>
                 </div>
-                <font-awesome-icon
+                <thumb-down-icon
                     class="downvote"
-                    :icon="['fas', 'thumbs-down']"
                     v-if="isAuthenticated"
-                ></font-awesome-icon>
+                ></thumb-down-icon>
             </div>
             <div id="media-progress">
                 <span>01:45</span>
@@ -55,18 +56,18 @@
             </div>
         </div>
         <div class="extra-control">
-            <font-awesome-icon
+            <device-tv-icon
                 v-if="hasVideo && playerStatus !== PlayerState.STOPPED"
-                :icon="['fas', 'tv']"
                 id="video-control"
                 @click="handleVideoButtonClick"
-            ></font-awesome-icon>
+            >
+            </device-tv-icon>
+
 
             <div id="volume-control" class="btn-group dropup">
-                <font-awesome-icon
+                <volume-icon
                     data-toggle="dropdown"
-                    :icon="['fas', 'volume-up']"
-                ></font-awesome-icon>
+                ></volume-icon>
                 <div class="dropdown-menu" v-on:click.stop>
                     <vue-slider
                         v-model="volume"
@@ -247,9 +248,9 @@
                 text-align: center;
 
                 & > svg {
-                    width: 1rem;
-                    height: 1rem;
-                    margin: 0.75rem;
+                    width: 1.5rem;
+                    height: 1.5rem;
+                    margin: 0.45rem;
                 }
 
                 .spinner-border {

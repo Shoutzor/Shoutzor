@@ -14,9 +14,7 @@
                                     class="nav-link"
                                 >
                                     <span class="nav-link-icon">
-                                        <font-awesome-icon
-                                            :icon="['fa', 'podcast']"
-                                        ></font-awesome-icon>
+                                        <home-icon></home-icon>
                                     </span>
                                     <span class="nav-link-title">Dashboard</span>
                                 </router-link>
@@ -27,9 +25,7 @@
                                     class="nav-link"
                                 >
                                     <span class="nav-link-icon">
-                                        <font-awesome-icon
-                                            :icon="['fa', 'history']"
-                                        ></font-awesome-icon>
+                                        <history-icon></history-icon>
                                     </span>
                                     <span class="nav-link-title">History</span>
                                 </router-link>
@@ -40,9 +36,7 @@
                                     class="nav-link"
                                 >
                                     <span class="nav-link-icon">
-                                        <font-awesome-icon
-                                            :icon="['fa', 'star']"
-                                        ></font-awesome-icon>
+                                        <star-icon></star-icon>
                                     </span>
                                     <span class="nav-link-title">Most Played</span>
                                 </router-link>
@@ -56,9 +50,7 @@
                                     class="nav-link"
                                 >
                                     <span class="nav-link-icon">
-                                        <font-awesome-icon
-                                            :icon="['fas', 'upload']"
-                                        ></font-awesome-icon>
+                                        <cloud-upload-icon></cloud-upload-icon>
                                     </span>
                                     <span class="nav-link-title">Upload manager</span>
                                 </router-link>
@@ -123,10 +115,10 @@
         }
 
         .nav-link-icon {
-            width: 2.25rem;
+            width: 1.5rem;
             height: initial;
             font-size: 1.3rem;
-            margin: 5px 0;
+            margin: 5px 7px 5px 0;
         }
 
         .navbar-text {
