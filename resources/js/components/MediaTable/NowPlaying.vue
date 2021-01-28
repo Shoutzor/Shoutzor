@@ -7,8 +7,8 @@
         <div class="track-content card card-aside">
             <img class="album-image card-aside-column" v-bind:src="albumImage" alt="album image" />
             <div class="track-info card-body d-flex flex-column mt-auto">
-                <h3 style="font-size:20px;margin-bottom:1px;" v-if="currentMedia.media !== null">{{ currentMedia.media.title }}</h3>
-                <artist-list class="mb-2" style="font-size:18px;" :artists="currentMedia.media.artists"></artist-list>
+                <h3 v-if="currentMedia.media !== null">{{ currentMedia.media.title }}</h3>
+                <artist-list class="mb-2" :artists="currentMedia.media.artists"></artist-list>
 
                 <div class="d-flex align-items-center mt-auto">
                     <div class="requested-by pl-3">
@@ -92,6 +92,15 @@
                 padding-bottom: 0;
                 color: #FFF;
                 text-shadow: 0 0 4px #000;
+
+                h3 {
+                    font-size: 1.4rem;
+                    margin-bottom:1px;
+                }
+
+                .artists {
+                    font-size: 1rem;
+                }
 
                 .requested-by {
                     border-left: 1px solid #FFF;
