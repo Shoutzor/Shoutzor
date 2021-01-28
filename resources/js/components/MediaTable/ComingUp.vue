@@ -35,7 +35,7 @@
                 </td>
                 <td>
                     <div v-if="request.user !== null">{{ request.user.username }}</div>
-                    <div v-if="request.user === null">AutoDJ</div>
+                    <div v-else>AutoDJ</div>
                 </td>
                 <td>
                     <date-time :time="request.media.duration"></date-time>
