@@ -16,19 +16,17 @@
                             v-if="request.media.is_video === true"
                             class="avatar mediatype video bg-orange-lt mr-3"
                         >
-                            <font-awesome-icon
+                            <movie-icon
                                 class="mediasource-icon"
-                                :icon="['fas', 'film']"
-                            ></font-awesome-icon>
+                            ></movie-icon>
                         </span>
                         <span
                             v-else
                             class="avatar mediatype audio bg-azure-lt mr-3"
                         >
-                            <font-awesome-icon
+                            <music-icon
                                 class="mediasource-icon"
-                                :icon="['fas', 'music']"
-                            ></font-awesome-icon>
+                            ></music-icon>
                         </span>
                 </td>
                 <td>
