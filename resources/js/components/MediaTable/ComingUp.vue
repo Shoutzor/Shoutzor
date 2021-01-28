@@ -34,7 +34,7 @@
                     <artist-list class="small text-muted" :artists="request.media.artists"></artist-list>
                 </td>
                 <td>
-                    <div v-if="request.user !== null">{{ request.user.name }}</div>
+                    <div v-if="request.user !== null">{{ request.user.username }}</div>
                     <div v-if="request.user === null">AutoDJ</div>
                 </td>
                 <td>
