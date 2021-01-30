@@ -59,7 +59,7 @@
         },
 
         computed: {
-            queue: () => Request.query().with(["media.artists", "user"]).get()
+            queue: () => Request.query().with(["media.artists", "user"]).where((r) => { return r.played_at === null; }).get()
         }
     }
 </script>

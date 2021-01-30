@@ -105,7 +105,7 @@
         },
 
         computed: {
-            currentMedia: () => Request.query().with(["media.artists|albums", "user"]).last(),
+            currentMedia: () => Request.query().with(["media.artists|albums", "user"]).where((r) => { return r.played_at !== null; }).last(),
             ...mapGetters({
                 isAuthenticated: 'isAuthenticated',
                 playerStatus: 'MediaPlayer/getPlayerState',

@@ -7,7 +7,7 @@
         let date = new Date(seconds * 1000).toISOString().substr(11, 8);
 
         if(date.substring(0, 6) === "00:00:") {
-            date = date.substring(6, date.length);
+            date = date.substring(3, date.length);
         } else if(date.substring(0, 3) === "00:") {
             date = date.substring(3, date.length);
         }
