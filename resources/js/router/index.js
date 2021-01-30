@@ -6,6 +6,7 @@ Vue.use(VueRouter);
 
 //Views
 import DashboardView            from "@js/views/main/dashboard";
+import HistoryView            from "@js/views/main/history";
 import UploadView               from "@js/views/main/upload";
 import UserSettingsView         from "@js/views/user/settings";
 import AdminView                from "@js/views/admin/index";
@@ -26,7 +27,7 @@ const routes = [
     {
         name: 'history',
         path: '/history',
-        component: DashboardView
+        component: HistoryView
     },
     {
         name: 'popular',

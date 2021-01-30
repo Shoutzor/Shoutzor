@@ -85,7 +85,7 @@
 </template>
 
 <script>
-    import History from '@js/models/History';
+    import Request from '@js/models/Request';
     import VueSlider from 'vue-slider-component';
     import PlayerState from "@js/store/modules/MediaPlayer/PlayerState";
     import {mapGetters} from "vuex";
@@ -105,7 +105,7 @@
         },
 
         computed: {
-            currentMedia: () => History.query().with(["media.artists|albums", "user"]).last(),
+            currentMedia: () => Request.query().where((r) => { return r.played_at !== null; }).with(["media.artists|albums", "user"]).last(),
             ...mapGetters({
                 isAuthenticated: 'isAuthenticated',
                 playerStatus: 'MediaPlayer/getPlayerState',
@@ -116,9 +116,6 @@
         mounted() {
             //Initialize
             this.$player.initialize(document.querySelector("#mediaPlayerSource"), null, false);
-
-            //Load history
-            History.api().fetchNowPlaying();
         },
 
         methods: {

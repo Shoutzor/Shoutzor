@@ -18,6 +18,7 @@ class CreateRequestsTable extends Migration
             $table->integer('media_id')->unsigned();
             $table->foreignId('user_id')->nullable()->constrained('users', 'id')->cascadeOnDelete();
             $table->timestamp('requested_at')->useCurrent();
+            $table->timestamp('played_at')->nullable()->default(null);
 
             $table->foreign('media_id')->references('id')->on('media')->cascadeOnDelete();
 

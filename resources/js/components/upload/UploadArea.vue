@@ -1,10 +1,7 @@
 <template>
     <form class="upload-area" v-on:drop="onDrop" method="post" action="" enctype="multipart/form-data">
         <div class="box_input">
-            <font-awesome-icon
-                class="box_icon"
-                :icon="['fas', 'file-upload']"
-            ></font-awesome-icon>
+            <file-upload-icon class="box_icon"></file-upload-icon>
             <input class="box_file" type="file" name="files[]" id="file" @change="onFileSelect" data-multiple-caption="{count} files selected" multiple />
             <label for="file">
                 <strong>Choose a file</strong>
@@ -83,6 +80,7 @@
                 height: 50px;
                 display: block;
                 margin-bottom: 10px;
+                stroke-width: 1;
             }
 
             .box_file {

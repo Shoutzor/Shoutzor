@@ -2,17 +2,10 @@
     <div>
         <div class="row row-cards">
             <div class="col-sm-12">
-                <div class="card">
-                    <now-playing></now-playing>
-                </div>
-            </div>
-        </div>
-        <div class="row row-cards">
-            <div class="col-sm-12">
-                <h2 class="comingup-header">Coming up</h2>
+                <h2 class="comingup-header">History</h2>
                 <div class="card mediaplayer">
                     <div class="table-responsive">
-                        <coming-up></coming-up>
+                        <requests-history></requests-history>
                     </div>
                 </div>
             </div>
@@ -21,12 +14,12 @@
 </template>
 
 <script>
-    import ComingUp from "@js/components/MediaTable/ComingUp";
+    import RequestsHistory from "@js/components/MediaTable/RequestsHistory";
 
     export default {
         name: "dashboard-view",
         components: {
-            ComingUp
+            RequestsHistory
         }
     };
 </script>

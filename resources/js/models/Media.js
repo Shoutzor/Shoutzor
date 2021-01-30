@@ -14,7 +14,7 @@ export default class Media extends Model {
             title: this.string('Untitled'),
             filename: this.string(''),
             crc: this.string(''),
-            duration: this.number(null),
+            duration: this.number(0),
             is_video: this.boolean(false),
             source: this.attr([]),
             albums: this.belongsToMany(Album, AlbumMedia, 'media_id', 'album_id'),

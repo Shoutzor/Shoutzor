@@ -6,11 +6,11 @@
             <th>Media</th>
             <th>Requested by</th>
             <th>Duration</th>
-            <th>Est. Time played</th>
+            <th>Time played</th>
         </tr>
         </thead>
-        <tbody v-if="queue && queue.length > 0">
-            <tr v-for="request in queueWithPlaytime">
+        <tbody v-if="history && history.length > 0">
+            <tr v-for="request in historyFormatted">
                 <td class="text-center mediatype-column">
                         <span
                             v-if="request.media.is_video === true"
@@ -37,7 +37,7 @@
                     <beautified-time :time="request.media.duration"></beautified-time>
                 </td>
                 <td>
-                    <div>{{ request.playtime }}</div>
+                    <div>{{ request.played_at }}</div>
                 </td>
             </tr>
         </tbody>
@@ -50,43 +50,23 @@
 </template>
 
 <script>
+    import moment from "moment";
     import Request from "@js/models/Request";
     import BeautifiedTime from "@js/components/date/BeautifiedTime";
-    import moment from "moment";
 
     export default {
         components: {
             BeautifiedTime
         },
         computed: {
-            lastPlayed: () => Request.query().where((r) => {
+            history: () => Request.query().where((r) => {
                 return r.played_at !== null;
-            }).orderBy('played_at', 'desc').limit(1).with(["media"]).first(),
-            queue: () => Request.query().where((r) => {
-                return r.played_at === null;
-            }).orderBy('requested_at', 'asc').with(["media.artists", "user"]).get(),
+            }).orderBy('played_at', 'desc').with(["media.artists", "user"]).get(),
 
-            queueWithPlaytime: function () {
-                let lastPlayedDate;
-                let now = moment();
-
-                //Check if something has been played yet
-                if (this.lastPlayed === null) {
-                    lastPlayedDate = now;
-                } else {
-                    //Calculate the end-time of the song that has been played last
-                    lastPlayedDate = moment(this.lastPlayed.played_at).add(this.lastPlayed.media.duration, 'seconds');
-
-                    //If the end-time is in the past, fast-forward to this point in time.
-                    if(lastPlayedDate.isBefore()) {
-                        lastPlayedDate = now;
-                    }
-                }
-
-                return this.queue.filter(function (item) {
-                    item.playtime = lastPlayedDate.format("hh:mm:ss");
-                    lastPlayedDate.add(item.media.duration, 'seconds');
-                    return item;
+            historyFormatted: function() {
+                return this.history.filter(function(request) {
+                    request.played_at = moment(request.played_at).format("hh:mm:ss DD-MM-YYYY");
+                    return request;
                 });
             }
         }

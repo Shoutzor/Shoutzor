@@ -5,6 +5,7 @@
 </template>
 
 <script>
+import Vue from "vue";
 import {mapGetters} from 'vuex';
 import Shoutzor from "@js/views/Shoutzor";
 import LoginScreen from "@js/components/login/LoginScreen";
@@ -27,6 +28,10 @@ export default {
             loaded: false
         }
     },
+
+    /**
+     * @emits app.ready when the Shoutzor views have finished initializing
+     */
     created() {
         //Resume an existing loginsession if the user has a valid token
         const resumeSession = (this.hasToken) ? store.dispatch('resumeSession') : null;
@@ -37,6 +42,7 @@ export default {
         //Wait for both updates to finish loading
         Promise.all([resumeSession, updateGuestRole]).finally(() => {
             this.loaded = true;
+            Vue.bus.emit('app.ready');
         })
     }
 }
