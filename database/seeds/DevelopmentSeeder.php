@@ -161,5 +161,19 @@ class DevelopmentSeeder extends Seeder
             'media_id' => $tracks[4]
         ]);
 
+        //Create a request that has been played 3 minutes ago
+        DB::table('requests')->insert([
+            'user_id' => $users[1],
+            'media_id' => $tracks[4],
+            'played_at' => \Carbon\Carbon::now()->addMinutes(-3)
+        ]);
+
+        //Create a request that has been played just now
+        DB::table('requests')->insert([
+            'user_id' => null,
+            'media_id' => $tracks[2],
+            'played_at' => \Carbon\Carbon::now()
+        ]);
+
     }
 }
