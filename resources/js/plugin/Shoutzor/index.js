@@ -28,6 +28,7 @@ var Shoutzor = {
 
     /**
      * When this method is called, new data is fetched from the API
+     * @emits app.data.update this event is emitted when Shoutzor has finished loading new data from the API
      */
     updateData: function() {
         let requestData = Request.api().fetch();

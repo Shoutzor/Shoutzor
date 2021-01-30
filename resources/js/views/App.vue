@@ -28,6 +28,10 @@ export default {
             loaded: false
         }
     },
+
+    /**
+     * @emits app.ready when the Shoutzor views have finished initializing
+     */
     created() {
         //Resume an existing loginsession if the user has a valid token
         const resumeSession = (this.hasToken) ? store.dispatch('resumeSession') : null;
