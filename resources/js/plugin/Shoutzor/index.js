@@ -11,6 +11,11 @@ var Shoutzor = {
         });
     },
 
+    /**
+     * This method is called when the app.ready event is detected
+     * effectively, the Shoutzor plugin is initialized here.
+     * @param self
+     */
     onReady: function(self) {
         // Fetch initial data
         self.updateData();
@@ -21,8 +26,16 @@ var Shoutzor = {
         });
     },
 
+    /**
+     * When this method is called, new data is fetched from the API
+     */
     updateData: function() {
-        Request.api().fetch();
+        let requestData = Request.api().fetch();
+
+        // Emit event to notify that the data has been updated once the promises are resolved
+        Promise.all([requestData]).finally(() => {
+            Vue.bus.emit("app.data.update");
+        })
     }
 };
 
