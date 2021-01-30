@@ -33,7 +33,7 @@
         },
 
         computed: {
-            currentMedia: () => Request.query().with(["media.artists|albums", "user"]).where((r) => { return r.played_at !== null; }).last()
+            currentMedia: () => Request.query().where((r) => { return r.played_at !== null; }).with(["media.artists|albums", "user"]).last()
         }
     }
 </script>
