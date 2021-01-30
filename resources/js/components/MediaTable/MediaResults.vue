@@ -64,10 +64,6 @@
     export default {
         computed: {
             queue: () => Media.query().with(["artists", "user"]).get()
-        },
-
-        mounted() {
-            //Search query is probably done by the container of the component?
         }
     }
 </script>

@@ -5,6 +5,7 @@
 </template>
 
 <script>
+import Vue from "vue";
 import {mapGetters} from 'vuex';
 import Shoutzor from "@js/views/Shoutzor";
 import LoginScreen from "@js/components/login/LoginScreen";
@@ -37,6 +38,7 @@ export default {
         //Wait for both updates to finish loading
         Promise.all([resumeSession, updateGuestRole]).finally(() => {
             this.loaded = true;
+            Vue.bus.emit('app.ready');
         })
     }
 }

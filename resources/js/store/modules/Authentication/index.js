@@ -162,7 +162,6 @@ const moduleAuthentication = {
                         token: token,
                         user: resp
                     });
-
                     resolve(true);
                 }).catch((err) => {
                     let msg = "Could not fetch user information, got error:" + err;
@@ -176,14 +175,12 @@ const moduleAuthentication = {
         updateGuestRole({commit}) {
             return new Promise((resolve, reject) => {
                 Role.api().get('/api/role/guest').then((resp) => {
-                    const role = resp.entities.roles[0];
-
+                    const role       = resp.entities.roles[0];
                     const guestModel = Role.query().with('permissions').whereId(role.id).first();
 
                     commit(AUTH_GUEST, {
                         guestRole: guestModel
                     });
-
                     resolve(true);
                 }).catch((err) => {
                     let msg = '';
