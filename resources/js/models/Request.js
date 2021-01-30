@@ -13,7 +13,6 @@ export default class Request extends Model {
             user_id: this.number(null).nullable(),
             media: this.belongsTo(Media, 'media_id'),
             user: this.belongsTo(User, 'user_id'),
-            playtime: this.attr(null),
             requested_at: this.attr(null),
             played_at: this.attr(null)
         }

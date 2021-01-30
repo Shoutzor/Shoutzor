@@ -6,11 +6,11 @@
             <th>Media</th>
             <th>Requested by</th>
             <th>Duration</th>
-            <th>Est. Time played</th>
+            <th>Time played</th>
         </tr>
         </thead>
-        <tbody v-if="requests && requests.length > 0">
-            <tr v-for="request in requests">
+        <tbody v-if="history && history.length > 0">
+            <tr v-for="request in historyFormatted">
                 <td class="text-center mediatype-column">
                         <span
                             v-if="request.media.is_video === true"
@@ -34,7 +34,7 @@
                     <div v-else>AutoDJ</div>
                 </td>
                 <td>
-                    <date-time :time="request.media.duration"></date-time>
+                    <beautified-time :time="request.media.duration"></beautified-time>
                 </td>
                 <td>
                     <div>{{ request.played_at }}</div>
@@ -50,15 +50,25 @@
 </template>
 
 <script>
-     import DateTime from "@js/components/date/DateTime";
+    import moment from "moment";
+    import Request from "@js/models/Request";
+    import BeautifiedTime from "@js/components/date/BeautifiedTime";
 
     export default {
         components: {
-            DateTime
+            BeautifiedTime
         },
+        computed: {
+            history: () => Request.query().where((r) => {
+                return r.played_at !== null;
+            }).orderBy('played_at', 'desc').with(["media.artists", "user"]).get(),
 
-        props: {
-            requests: Array
+            historyFormatted: function() {
+                return this.history.filter(function(request) {
+                    request.played_at = moment(request.played_at).format("hh:mm:ss DD-MM-YYYY");
+                    return request;
+                });
+            }
         }
     }
 </script>

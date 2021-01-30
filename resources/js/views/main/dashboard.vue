@@ -12,9 +12,7 @@
                 <h2 class="comingup-header">Coming up</h2>
                 <div class="card mediaplayer">
                     <div class="table-responsive">
-                        <requests-table
-                            :requests="queue"
-                        ></requests-table>
+                        <coming-up></coming-up>
                     </div>
                 </div>
             </div>
@@ -23,16 +21,12 @@
 </template>
 
 <script>
-    import Request from '@js/models/Request';
-    import RequestsTable from "@js/components/MediaTable/RequestsTable";
+    import ComingUp from "@js/components/MediaTable/ComingUp";
 
     export default {
         name: "dashboard-view",
         components: {
-            RequestsTable
-        },
-        computed: {
-            queue: () => Request.query().where((r) => { return r.played_at === null; }).orderBy('requested_at', 'asc').with(["media.artists", "user"]).get()
+            ComingUp
         }
     };
 </script>

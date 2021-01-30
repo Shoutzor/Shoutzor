@@ -5,9 +5,7 @@
                 <h2 class="comingup-header">History</h2>
                 <div class="card mediaplayer">
                     <div class="table-responsive">
-                        <requests-table
-                            :requests="history"
-                        ></requests-table>
+                        <requests-history></requests-history>
                     </div>
                 </div>
             </div>
@@ -16,16 +14,12 @@
 </template>
 
 <script>
-import Request from '@js/models/Request';
-    import RequestsTable from "@js/components/MediaTable/RequestsTable";
+    import RequestsHistory from "@js/components/MediaTable/RequestsHistory";
 
     export default {
         name: "dashboard-view",
         components: {
-            RequestsTable
-        },
-        computed: {
-            history: () => Request.query().where((r) => { return r.played_at !== null; }).orderBy('played_at','desc').with(["media.artists", "user"]).get()
+            RequestsHistory
         }
     };
 </script>
