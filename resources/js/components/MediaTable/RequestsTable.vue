@@ -37,7 +37,7 @@
                     <date-time :time="request.media.duration"></date-time>
                 </td>
                 <td>
-                    <div>{{ request.playtime }}</div>
+                    <div>{{ request.played_at }}</div>
                 </td>
             </tr>
         </tbody>

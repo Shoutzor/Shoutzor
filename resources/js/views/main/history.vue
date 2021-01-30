@@ -25,7 +25,7 @@ import Request from '@js/models/Request';
             RequestsTable
         },
         computed: {
-            history: () => Request.query().where((r) => { return r.played_at !== null; }).with(["media.artists", "user"]).get()
+            history: () => Request.query().where((r) => { return r.played_at !== null; }).orderBy('played_at','desc').with(["media.artists", "user"]).get()
         }
     };
 </script>
