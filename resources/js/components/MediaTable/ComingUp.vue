@@ -60,11 +60,6 @@
 
         computed: {
             queue: () => Request.query().with(["media.artists", "user"]).get()
-        },
-
-        mounted() {
-            //TODO move this to somewhere central
-            Request.api().fetch();
         }
     }
 </script>

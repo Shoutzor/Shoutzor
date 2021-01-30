@@ -9,16 +9,16 @@ Docker container can be found at [xorinzor/shoutz0r-docker](https://github.com/x
 
 Built using the Laravel Framework and Vue components.
 
-### To setup:
-1. Run `php artisan migrate:fresh`
-2. Run `php artisan db:seed` 
-3. Run `php artisan db:seed --class=PermissionSeeder`
-4. Optionally: for development run `php artisan db:seed --class=DevelopmentSeeder`
-5. Run `php artisan passport:install --force`
+### To setup from source:
+0. Open a terminal and navigate to the directory where these project files reside
+1. Run `php artisan migrate:fresh --seed`
+2. Optionally: for development run `php artisan db:seed --class=DevelopmentSeeder`
+3. Run `php artisan passport:install --force`
+4. If you're going to work on the front-end, make sure to run `npm run watch`.
+If not, a simple `npm run dev` will suffice.
 
-The Shoutzor environment should now be ready for use.\
-When developing, make sure to run `npm run watch` as well in order to update the compiled JS and CSS files.
+The Shoutz0r app should now be ready for use!
 
-### Thanks
+### Thanks to
 
 [JetBrains](https://www.jetbrains.com/?from=Shoutz0r)

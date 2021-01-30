@@ -1,20 +1,21 @@
 <?php
 
 use App\User;
-use Illuminate\Database\Seeder;
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Exceptions\PermissionAlreadyExists;
 use Spatie\Permission\Exceptions\RoleAlreadyExists;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 
-class PermissionSeeder extends Seeder
+class FillPermissions extends Migration
 {
     /**
-     * Seed the application's database.
+     * Run the migrations.
      *
      * @return void
      */
-    public function run()
+    public function up()
     {
         /*
          * Create roles (if not existing)
@@ -72,6 +73,19 @@ class PermissionSeeder extends Seeder
         $user = User::where('username', 'admin')->first();
         $user->assignRole('user');
         $user->assignRole('admin');
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        $tableNames = config('permission.table_names');
+
+        DB::table($tableNames['permissions'])->delete();
+        DB::table($tableNames['roles'])->delete();
     }
 
     /**
