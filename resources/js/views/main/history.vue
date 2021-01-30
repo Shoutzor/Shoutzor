@@ -2,18 +2,11 @@
     <div>
         <div class="row row-cards">
             <div class="col-sm-12">
-                <div class="card">
-                    <now-playing></now-playing>
-                </div>
-            </div>
-        </div>
-        <div class="row row-cards">
-            <div class="col-sm-12">
-                <h2 class="comingup-header">Coming up</h2>
+                <h2 class="comingup-header">History</h2>
                 <div class="card mediaplayer">
                     <div class="table-responsive">
                         <requests-table
-                            :requests="queue"
+                            :requests="history"
                         ></requests-table>
                     </div>
                 </div>
@@ -23,7 +16,7 @@
 </template>
 
 <script>
-    import Request from '@js/models/Request';
+import Request from '@js/models/Request';
     import RequestsTable from "@js/components/MediaTable/RequestsTable";
 
     export default {
@@ -32,7 +25,7 @@
             RequestsTable
         },
         computed: {
-            queue: () => Request.query().where((r) => { return r.played_at === null; }).with(["media.artists", "user"]).get()
+            history: () => Request.query().where((r) => { return r.played_at !== null; }).with(["media.artists", "user"]).get()
         }
     };
 </script>

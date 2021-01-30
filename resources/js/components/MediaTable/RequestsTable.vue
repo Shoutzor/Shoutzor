@@ -1,16 +1,16 @@
 <template>
-    <table class="coming-up table table-outline table-vcenter text-nowrap card-table">
+    <table class="table table-outline table-vcenter text-nowrap card-table">
         <thead>
         <tr>
-            <th class="text-center w-1"></th>
+            <th class="text-center"></th>
             <th>Media</th>
             <th>Requested by</th>
             <th>Duration</th>
             <th>Est. Time played</th>
         </tr>
         </thead>
-        <tbody v-if="queue && queue.length > 0">
-            <tr v-for="request in queue">
+        <tbody v-if="requests && requests.length > 0">
+            <tr v-for="request in requests">
                 <td class="text-center mediatype-column">
                         <span
                             v-if="request.media.is_video === true"
@@ -50,33 +50,32 @@
 </template>
 
 <script>
-    import Request from '@js/models/Request';
-    import DateTime from "../date/DateTime";
+     import DateTime from "@js/components/date/DateTime";
 
     export default {
         components: {
             DateTime
         },
 
-        computed: {
-            queue: () => Request.query().where((r) => { return r.played_at === null; }).with(["media.artists", "user"]).get()
+        props: {
+            requests: Array
         }
     }
 </script>
 
 
 <style scoped lang="scss">
-    .coming-up {
+    .table {
         thead td {
             border-bottom: 1px solid rgb(226, 227, 227);
         }
 
         .mediatype-column {
             width: 50px;
-        }
-    }
 
-    .avatar.mediatype {
-        font-size: 24px !important;
+            .avatar.mediatype {
+                font-size: 24px !important;
+            }
+        }
     }
 </style>
