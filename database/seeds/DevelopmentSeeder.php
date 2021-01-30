@@ -161,20 +161,5 @@ class DevelopmentSeeder extends Seeder
             'media_id' => $tracks[4]
         ]);
 
-        //
-        // History
-        //
-        for ($i = 5; $i < 9; $i++) {
-            DB::table('history')->insert([
-                'user_id' => $users[$i],
-                'media_id' => $tracks[$i]
-            ]);
-        }
-
-        //Also create an AutoDJ history item
-        DB::table('history')->insert([
-            'user_id' => null,
-            'media_id' => $tracks[9]
-        ]);
     }
 }

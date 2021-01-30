@@ -14,7 +14,8 @@ export default class Request extends Model {
             media: this.belongsTo(Media, 'media_id'),
             user: this.belongsTo(User, 'user_id'),
             playtime: this.attr(null),
-            requested_at: this.attr(null)
+            requested_at: this.attr(null),
+            played_at: this.attr(null)
         }
     }
 

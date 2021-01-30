@@ -23,7 +23,7 @@
 </template>
 
 <script>
-    import History from '@js/models/History';
+    import Request from '@js/models/Request';
 
     export default {
         data() {
@@ -33,7 +33,7 @@
         },
 
         computed: {
-            currentMedia: () => History.query().with(["media.artists|albums", "user"]).last()
+            currentMedia: () => Request.query().with(["media.artists|albums", "user"]).last()
         }
     }
 </script>

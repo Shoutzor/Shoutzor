@@ -1,5 +1,4 @@
 import Request from '@js/models/Request';
-import History from '@js/models/History';
 
 var Shoutzor = {
     install: function(Vue, options) {
