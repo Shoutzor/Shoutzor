@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import Request from '@js/models/Request';
 
+var updateDataHandle = null;
 var Shoutzor = {
     install: function(Vue, options) {
         // Call the onReady method when the app reports it's ready
@@ -29,12 +30,21 @@ var Shoutzor = {
      * @emits app.data.update this event is emitted when Shoutzor has finished loading new data from the API
      */
     updateData: function() {
-        let requestData = Request.api().fetch();
+        //When the updateData method is called, reset the timeout.
+        window.clearTimeout(updateDataHandle);
+
+        //Fetch the (new) data
+        var requestData = Request.api().fetch();
 
         // Emit event to notify that the data has been updated once the promises are resolved
         Promise.all([requestData]).finally(() => {
             Vue.bus.emit("app.data.update");
-        })
+
+            //Set the new timeout to update the data again
+            updateDataHandle = window.setTimeout(() => {
+                this.updateData();
+            }, 5000);
+        });
     }
 };
 
