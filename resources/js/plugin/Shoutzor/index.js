@@ -3,11 +3,9 @@ import Request from '@js/models/Request';
 
 var Shoutzor = {
     install: function(Vue, options) {
-        let self = this;
-
         // Call the onReady method when the app reports it's ready
-        Vue.bus.on('app.ready', function(data) {
-            self.onReady(self);
+        Vue.bus.on('app.ready', (data) => {
+            this.onReady();
         });
     },
 
@@ -16,13 +14,13 @@ var Shoutzor = {
      * effectively, the Shoutzor plugin is initialized here.
      * @param self
      */
-    onReady: function(self) {
+    onReady: function() {
         // Fetch initial data
-        self.updateData();
+        this.updateData();
 
         // Update data upon authentication state change
-        Vue.bus.on('auth.state', function(data){
-            self.updateData();
+        Vue.bus.on('auth.state', (data) => {
+            this.updateData();
         });
     },
 
