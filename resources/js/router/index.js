@@ -5,17 +5,18 @@ import store        from "@js/store/index";
 Vue.use(VueRouter);
 
 //Views
-import DashboardView            from "@js/views/main/dashboard";
-import HistoryView            from "@js/views/main/history";
-import UploadView               from "@js/views/main/upload";
-import UserSettingsView         from "@js/views/user/settings";
-import AdminView                from "@js/views/admin/index";
-import AdminDashboard           from "@js/views/admin/dashboard";
-import AdminUsers               from "@js/views/admin/users";
-import AdminRoles               from "@js/views/admin/roles";
-import AdminRolesList           from "@js/views/admin/roles/list";
-import AdminRolesEdit           from "@js/views/admin/roles/edit";
-import AdminPackages            from "@js/views/admin/packages";
+import DashboardView    from "@js/views/main/dashboard";
+import HistoryView      from "@js/views/main/history";
+import UploadView       from "@js/views/main/upload";
+import SearchView       from "@js/views/main/search";
+import UserSettingsView from "@js/views/user/settings";
+import AdminView        from "@js/views/admin/index";
+import AdminDashboard   from "@js/views/admin/dashboard";
+import AdminUsers       from "@js/views/admin/users";
+import AdminRoles       from "@js/views/admin/roles";
+import AdminRolesList   from "@js/views/admin/roles/list";
+import AdminRolesEdit   from "@js/views/admin/roles/edit";
+import AdminPackages    from "@js/views/admin/packages";
 
 //Routes
 const routes = [
@@ -41,6 +42,16 @@ const routes = [
         meta: { requiresAuth: true }
     },
     {
+        name: 'artist',
+        path: '/artist',
+        component: DashboardView
+    },
+    {
+        name: 'search',
+        path: '/search',
+        component: SearchView
+    },
+    {
         name: 'profile',
         path: '/profile',
         component: UserSettingsView,
@@ -50,7 +61,10 @@ const routes = [
         name: 'admin',
         path: '/admin',
         component: AdminView,
-        meta: { requiresAuth: true },
+        meta: {
+            requiresAuth: true,
+            requiresPermission: 'admin.access'
+        },
         children: [
             {
                 name: 'admin-dashboard',
@@ -76,7 +90,9 @@ const routes = [
                         name: 'admin-roles-edit',
                         path: 'edit/:roleId',
                         component: AdminRolesEdit,
-                        props: ({params}) => ({roleId: Number.parseInt(params.roleId, 10) || null})
+                        props: ({params}) => ({
+                            roleId: Number.parseInt(params.roleId, 10) || null
+                        })
                     }
                 ]
             },
@@ -86,16 +102,6 @@ const routes = [
                 component: AdminPackages
             }
         ]
-    },
-    {
-        name: 'artist',
-        path: '/artist',
-        component: DashboardView
-    },
-    {
-        name: 'search',
-        path: '/search',
-        component: DashboardView
     }
 ];
 
