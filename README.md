@@ -10,6 +10,9 @@ Docker container can be found at [xorinzor/shoutz0r-docker](https://github.com/x
 Built using the Laravel Framework and Vue components.
 
 ### To setup from source:
+For deployment, checkout the masterbranch.\
+If you want to work on Shoutz0r, make sure to use the development branch.
+
 0. Open a terminal and navigate to the directory where these project files reside
 1. Run `php artisan migrate:fresh --seed`
 2. Run `php artisan passport:install --force`
