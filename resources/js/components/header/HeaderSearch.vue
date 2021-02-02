@@ -1,5 +1,5 @@
-<template>
-    <form action="../search" method="get">
+r<template>
+    <form v-on:submit.prevent="searchAction">
         <div class="input-icon">
             <span class="input-icon-addon">
                 <search-icon
@@ -9,7 +9,7 @@
                     viewBox="0 0 24 24"
                 ></search-icon>
             </span>
-            <input type="text" class="form-control" placeholder="Search…">
+            <input v-model="q" type="text" class="form-control" placeholder="Search…">
         </div>
     </form>
 </template>
@@ -19,7 +19,13 @@
         name: 'HeaderSearch',
         data() {
             return {
-
+                q: ''
+            }
+        },
+        methods: {
+            searchAction: function() {
+                this.$router.push({ path: 'search', query: { q: this.q }});
+                this.q = '';
             }
         }
     }
