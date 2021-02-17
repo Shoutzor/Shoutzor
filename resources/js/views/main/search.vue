@@ -12,7 +12,29 @@
                         <div class="card searchresult">
                             <div class="row row-0">
                                 <div class="col-sm-1">
-                                    <img src="images/album_temp_bg.jpg" class="previewimage object-cover" alt="Search result image">
+                                    <span class="object-cover">
+                                        <img src="images/album_temp_bg.jpg" class="previewimage" alt="Search result image">
+                                    </span>
+                                </div>
+                                <div class="col">
+                                    <div class="card-body searchresult-content">
+                                        <h3 class="card-title">Ghosts 'n stuff</h3>
+                                        <span><a class="artist" href="#">deadmau5</a></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="card searchresult">
+                            <div class="row row-0">
+                                <div class="col-sm-1">
+                                    <span class="object-cover">
+                                        <img src="https://i.ytimg.com/vi/qv1aEfLgiWM/default.jpg" class="previewimage" alt="Search result image">
+                                    </span>
                                 </div>
                                 <div class="col">
                                     <div class="card-body searchresult-content">
@@ -97,12 +119,23 @@
 
         .searchresult {
             .object-cover {
-                width: 100%;
-                height: 100%;
-                min-height: inherit;
+                display : flex;
+                align-items : center;
+                max-width: 96px;
+                min-width: 96px;
+                max-height: 96px;
+                min-height: 96px;
 
-                &.previewimage {
+                &.avatar svg {
+                    width: 2rem;
+                    height: 2rem;
+                }
+
+                .previewimage {
+                    min-height: 0;
                     height: auto;
+                    width: 100%;
+                    max-width: inherit;
                 }
             }
 
