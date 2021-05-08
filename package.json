@@ -42,6 +42,7 @@
         "vuex": "^3.6.2"
     },
     "dependencies": {
+        "@vue/babel-helper-vue-jsx-merge-props": "^1.2.1",
         "moment": "^2.29.1",
         "vuex-search": "^2.2.5"
     }
