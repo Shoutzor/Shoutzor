@@ -1,11 +1,11 @@
 <template>
     <div class="col-sm-12 nowplaying" v-if="currentMedia">
         <div class="track-background">
-            <img class="album-image" v-bind:src="albumImage" />
+            <img class="album-image" v-bind:src="currentMedia.media | getAlbumImage" />
             <div class="album-overlay"></div>
         </div>
         <div class="track-content card card-aside">
-            <img class="album-image card-aside-column" v-bind:src="albumImage" alt="album image" />
+            <img class="album-image card-aside-column" v-bind:src="currentMedia.media | getAlbumImage" alt="album image" />
             <div class="track-info card-body d-flex flex-column mt-auto">
                 <h3 v-if="currentMedia.media !== null">{{ currentMedia.media.title }}</h3>
                 <artist-list class="mb-2" :artists="currentMedia.media.artists"></artist-list>
@@ -28,12 +28,31 @@
     export default {
         data() {
             return {
-                albumImage: require('@static/images/album_temp_bg.jpg')
+                albumImage: require('@static/images/album_temp_bg.jpg'),
             };
         },
-
         computed: {
-            currentMedia: () => Request.query().where((r) => { return r.played_at !== null; }).with(["media.artists|albums", "user"]).last()
+            currentMedia: () => Request.query()
+                        .where((r) => { return r.played_at !== null; })
+                        .with(["media.artists|albums", "user"])
+                        .last()
+        },
+        filters: {
+            getAlbumImage: function(media) {
+                let defaultImage = require('@static/images/album_cover_placeholder.jpg');
+
+                if(media.albums === null || media.albums.length === 0) {
+                    return defaultImage;
+                }
+
+                let albumImage = media.albums[0].albumImage;
+
+                if(albumImage === '') {
+                    return defaultImage;
+                }
+
+                return albumImage;
+            }
         }
     }
 </script>

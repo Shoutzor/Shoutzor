@@ -1,6 +1,6 @@
 import { Model } from '@vuex-orm/core';
 
-import Album from "./Artist";
+import Album from "./Album";
 import AlbumMedia from "./AlbumMedia";
 import Artist from "./Artist";
 import ArtistMedia from "./ArtistMedia";

@@ -1,11 +1,12 @@
 import { Model } from '@vuex-orm/core';
 
 import Media from './Media';
+import Artist from './Artist';
 import AlbumArtist from './AlbumArtist';
 import AlbumMedia from './AlbumMedia';
 
-export default class Artist extends Model {
-    static entity = 'artists';
+export default class Album extends Model {
+    static entity = 'albums';
 
     static fields () {
         return {

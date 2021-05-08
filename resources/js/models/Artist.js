@@ -11,7 +11,7 @@ export default class Artist extends Model {
             id: this.uid(),
             name: this.string(''),
             summary: this.string(''),
-            image: this.string(''),
+            image: this.string('@static/images/artist_placeholder.png'),
             media: this.belongsToMany(Media, ArtistMedia, 'artist_id', 'media_id')
         }
     }
