@@ -21,11 +21,13 @@
 </template>
 
 <script>
+    import NowPlaying from "@js/components/MediaTable/NowPlaying";
     import ComingUp from "@js/components/MediaTable/ComingUp";
 
     export default {
         name: "dashboard-view",
         components: {
+            NowPlaying,
             ComingUp
         }
     };
