@@ -16,7 +16,7 @@ mix.webpackConfig({
         alias: {
             'vue$': 'vue/dist/vue.esm.js',
             '@js': __dirname + '/resources/js',
-            '@sass': __dirname + '/resources/sass',
+            '@scss': __dirname + '/resources/scss',
             '@static': __dirname + '/resources/static'
         },
     },
@@ -33,10 +33,10 @@ mix.webpackConfig({
  |
  */
 
-mix.sass('resources/sass/app.scss', 'public/css')
+mix.sass('resources/scss/app.scss', 'public/css')
     .js('resources/js/app.js',  'public/js')
     .options({
-        globalVueStyles: __dirname + '/resources/sass/_variables.scss'
+        globalVueStyles: __dirname + '/resources/scss/_variables.scss'
     });
 
 mix.copy('resources/static/images/shoutzor-logo-large.png', 'public/images');
