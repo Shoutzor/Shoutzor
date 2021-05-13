@@ -8,7 +8,7 @@
             <img class="album-image card-aside-column" v-bind:src="currentMedia.media | getAlbumImage" alt="album image" />
             <div class="track-info card-body d-flex flex-column mt-auto">
                 <h3 v-if="currentMedia.media !== null">{{ currentMedia.media.title }}</h3>
-                <artist-list class="mb-2" :artists="currentMedia.media.artists"></artist-list>
+                <artist-list :artists="currentMedia.media.artists"></artist-list>
 
                 <div class="d-flex align-items-center mt-auto">
                     <div class="requested-by pl-3">
@@ -61,7 +61,7 @@
     .nowplaying {
         position: relative;
         width: 100%;
-        height: 250px;
+        height: 240px;
         overflow: hidden;
 
         .track-background {
@@ -72,11 +72,6 @@
                 min-width: 100%;
                 top: -115%;
                 filter: blur(2px);
-
-                @media (max-width: 47.98rem) {
-                    min-width: 200%;
-                    left: -50%;
-                }
             }
 
             .album-overlay {
@@ -95,20 +90,21 @@
             background: transparent;
             border: 0;
             box-shadow: none;
-            top: 22px;
-            left: 22px;
+            bottom: 8px;
+            left: 10px;
             flex-direction: row;
 
             .album-image {
-                min-width: 200px;
-                max-width: 200px;
-                min-height: 200px;
-                max-height: 200px;
+                $imageSize: 200px;
+                min-width: $imageSize;
+                max-width: $imageSize;
+                min-height: $imageSize;
+                max-height: $imageSize;
                 box-shadow: 0 0 2px #000;
             }
 
             .track-info {
-                padding-bottom: 0;
+                padding: 0.5rem 0.5rem 0.1rem 0.5rem;
                 color: #FFF;
                 text-shadow: 0 0 4px #000;
 
@@ -119,10 +115,12 @@
 
                 .artists {
                     font-size: 1rem;
+                    margin-bottom: 0.2rem;
                 }
 
                 .requested-by {
                     border-left: 1px solid #FFF;
+                    padding-left: 5px;
 
                     .text-muted {
                         color: #929394 !important;
@@ -139,6 +137,30 @@
 
                 .downvote {
                     margin: 0 10px;
+                }
+            }
+        }
+
+        @media (max-width: 991.98px) {
+            height: 150px;
+
+            .track-background > .album-image {
+                min-width: 150%;
+                left: -25%;
+            }
+
+            .track-content {
+                .album-image {
+                    $imageSize: 100px;
+                    min-width: $imageSize;
+                    max-width: $imageSize;
+                    min-height: $imageSize;
+                    max-height: $imageSize;
+                }
+
+                .track-info {
+                    padding: 0 0 0 0.5rem;
+                    margin-top: -5px !important;
                 }
             }
         }
