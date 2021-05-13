@@ -1,6 +1,6 @@
 import {Model} from '@vuex-orm/core';
 
-export default class ArtistArtist extends Model {
+export default class AlbumArtist extends Model {
     static entity = 'albums_artists'
 
     static primaryKey = ['album_id', 'artist_id'];

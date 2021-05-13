@@ -40,7 +40,7 @@ export default {
                 return defaultImage;
             }
 
-            let albumImage = media.albums[0].albumImage;
+            let albumImage = media.albums[0].image;
 
             if(albumImage === '') {
                 return defaultImage;
