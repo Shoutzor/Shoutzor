@@ -1,4 +1,3 @@
-r
 <template>
     <form v-on:submit.prevent="searchAction">
         <div class="input-icon">

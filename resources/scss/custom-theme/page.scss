@@ -3,7 +3,7 @@
     overflow: hidden;
     padding-bottom: $player-height;
 
-    @media (min-width: map-get($grid-breakpoints, md)) {
+    @media (min-width: map-get($grid-breakpoints, lg)) {
         padding-left: $sidebar-width;
         padding-top: $navbar-height;
     }
