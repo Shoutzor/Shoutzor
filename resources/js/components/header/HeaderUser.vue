@@ -20,9 +20,9 @@ export default {
     methods: {
         logout: function() {
             this.$store.dispatch('logout')
-            .then(() => {
-                // Do nothing
-            });
+                .then(() => {
+                    // Do nothing
+                });
         }
     }
 }

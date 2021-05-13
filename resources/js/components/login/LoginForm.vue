@@ -62,22 +62,22 @@ export default {
             this.loading = true;
 
             this.$store.dispatch('login', {
-                username: this.username,
-                password: this.password,
-                remember_me: this.remember_me
-            })
-            .then(() => {
-                // Login success, Clear the form
-                this.username = null;
-                this.password = null;
-                this.loading = false;
-            })
-            .catch(err => {
-                // Display error message
-                this.errors.push("invalid");
-                this.error_message = err;
-                this.loading = false;
-            });
+                    username: this.username,
+                    password: this.password,
+                    remember_me: this.remember_me
+                })
+                .then(() => {
+                    // Login success, Clear the form
+                    this.username = null;
+                    this.password = null;
+                    this.loading = false;
+                })
+                .catch(err => {
+                    // Display error message
+                    this.errors.push("invalid");
+                    this.error_message = err;
+                    this.loading = false;
+                });
         }
     }
 }

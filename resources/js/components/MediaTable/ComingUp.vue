@@ -59,12 +59,21 @@ export default {
         BeautifiedTime
     },
     computed: {
-        lastPlayed: () => Request.query().where((r) => {
-            return r.played_at !== null;
-        }).orderBy('played_at', 'desc').limit(1).with(["media"]).first(),
-        queue: () => Request.query().where((r) => {
-            return r.played_at === null;
-        }).orderBy('requested_at', 'asc').with(["media.artists", "user"]).get(),
+        lastPlayed: () => Request.query()
+            .where((r) => {
+                return r.played_at !== null;
+            })
+            .orderBy('played_at', 'desc')
+            .limit(1)
+            .with(["media"])
+            .first(),
+        queue: () => Request.query()
+            .where((r) => {
+                return r.played_at === null;
+            })
+            .orderBy('requested_at', 'asc')
+            .with(["media.artists", "user"])
+            .get(),
 
         queueWithPlaytime: function() {
             let lastPlayedDate;

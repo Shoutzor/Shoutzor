@@ -26,16 +26,11 @@
 import Request from '@js/models/Request';
 
 export default {
-    data() {
-        return {
-            albumImage: require('@static/images/album_temp_bg.jpg')
-        };
-    },
     computed: {
         currentMedia: () => Request.query()
-        .where((r) => { return r.played_at !== null; })
-        .with(["media.artists|albums", "user"])
-        .last()
+            .where((r) => { return r.played_at !== null; })
+            .with(["media.artists|albums", "user"])
+            .last()
     },
     filters: {
         getAlbumImage: function(media) {

@@ -104,7 +104,10 @@ export default {
     },
 
     computed: {
-        currentMedia: () => Request.query().where((r) => { return r.played_at !== null; }).with(["media.artists|albums", "user"]).last(), ...mapGetters({
+        currentMedia: () => Request.query()
+            .where((r) => { return r.played_at !== null; })
+            .with(["media.artists|albums", "user"])
+            .last(), ...mapGetters({
             isAuthenticated: 'isAuthenticated',
             playerStatus: 'MediaPlayer/getPlayerState',
             hasVideo: 'MediaPlayer/hasVideo'

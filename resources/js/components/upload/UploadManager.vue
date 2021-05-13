@@ -81,39 +81,39 @@ export default {
 
             //Upload the file
             axios.post("/api/upload", formData, {
-                headers: {
-                    "Content-Type": "multipart/form-data"
-                },
-                onUploadProgress: () => {
-                    this.status.progress = Math.round((100 * event.loaded) / event.total);
-                }
-            })
-            .then(response => {
-                console.log("upload response: ", response);
-                //On success?
-                //this.message = response.data.message;
-            })
-            .catch(error => {
-                //Add the file to the failed uploads list to inform the user
-                this.status.failedFiles.push(Object.assign({
-                        filename: currentFile.name,
-                        message: ""
-                    }, //Parse the error response to create appropriate status output
-                    this.parseError(error.response)))
-            })
-            .finally(() => {
-                //We're finished with all queued files
-                this.isUploading = false;
+                    headers: {
+                        "Content-Type": "multipart/form-data"
+                    },
+                    onUploadProgress: () => {
+                        this.status.progress = Math.round((100 * event.loaded) / event.total);
+                    }
+                })
+                .then(response => {
+                    console.log("upload response: ", response);
+                    //On success?
+                    //this.message = response.data.message;
+                })
+                .catch(error => {
+                    //Add the file to the failed uploads list to inform the user
+                    this.status.failedFiles.push(Object.assign({
+                            filename: currentFile.name,
+                            message: ""
+                        }, //Parse the error response to create appropriate status output
+                        this.parseError(error.response)))
+                })
+                .finally(() => {
+                    //We're finished with all queued files
+                    this.isUploading = false;
 
-                //Update status variables
-                this.updateStatusVariables();
+                    //Update status variables
+                    this.updateStatusVariables();
 
-                //Check if there are any remaining files to upload
-                if(this.files.length > 0) {
-                    //Start the upload of the next file.
-                    this.uploadNextFile();
-                }
-            });
+                    //Check if there are any remaining files to upload
+                    if(this.files.length > 0) {
+                        //Start the upload of the next file.
+                        this.uploadNextFile();
+                    }
+                });
         },
 
         updateStatusVariables() {
