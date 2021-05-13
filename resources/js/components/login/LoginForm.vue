@@ -21,16 +21,24 @@
 
 <script>
 export default {
-    name: 'LoginForm', data() {
+    name: 'LoginForm',
+    data() {
         return {
-            username: null, password: null, remember_me: false, errors: [], error_message: "", loading: false
+            username: null,
+            password: null,
+            remember_me: false,
+            errors: [],
+            error_message: "",
+            loading: false
         }
-    }, beforeDestroy() {
+    },
+    beforeDestroy() {
         this.errors = [];
         this.username = null;
         this.password = null;
         this.loading = false;
-    }, methods: {
+    },
+    methods: {
         login: function(e) {
             this.errors = [];
 
@@ -54,20 +62,22 @@ export default {
             this.loading = true;
 
             this.$store.dispatch('login', {
-                username: this.username, password: this.password, remember_me: this.remember_me
-            })
-            .then(() => {
-                // Login success, Clear the form
-                this.username = null;
-                this.password = null;
-                this.loading = false;
-            })
-            .catch(err => {
-                // Display error message
-                this.errors.push("invalid");
-                this.error_message = err;
-                this.loading = false;
-            });
+                    username: this.username,
+                    password: this.password,
+                    remember_me: this.remember_me
+                })
+                .then(() => {
+                    // Login success, Clear the form
+                    this.username = null;
+                    this.password = null;
+                    this.loading = false;
+                })
+                .catch(err => {
+                    // Display error message
+                    this.errors.push("invalid");
+                    this.error_message = err;
+                    this.loading = false;
+                });
         }
     }
 }

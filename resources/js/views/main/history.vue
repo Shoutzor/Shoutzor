@@ -17,7 +17,8 @@
 import RequestsHistory from "@js/components/MediaTable/RequestsHistory";
 
 export default {
-    name: "dashboard-view", components: {
+    name: "dashboard-view",
+    components: {
         RequestsHistory
     }
 };

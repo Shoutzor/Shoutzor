@@ -8,11 +8,7 @@
                 <img alt="Shoutz0r logo" class="navbar-brand-image" src="@static/images/shoutzor-logo-header.png">
             </router-link>
 
-            <div class="my-2 my-md-0">
-                <header-search></header-search>
-            </div>
-
-            <div class="navbar-nav flex-row order-md-last">
+            <div class="navbar-nav flex-row">
                 <div v-if="isAuthenticated && can('admin.access')" class="nav-item d-md-flex adminpanel-button">
                     <router-link
                         :to="{name: 'admin-dashboard'}"
@@ -39,6 +35,14 @@
                     <header-login></header-login>
                 </div>
             </div>
+
+            <div class="header-search-container my-md-0">
+                <header-search></header-search>
+
+                <button class="navbar-toggler" data-target="#navbar-left-menu" data-toggle="collapse" type="button">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            </div>
         </div>
     </header>
 </template>
@@ -47,13 +51,19 @@
 import {mapGetters} from 'vuex';
 
 export default {
-    name: 'headerTop', computed: mapGetters({
-        isAuthenticated: 'isAuthenticated', user: 'getUser', can: 'can'
-    }), created() {
+    name: 'headerTop',
+    computed: mapGetters({
+        isAuthenticated: 'isAuthenticated',
+        user: 'getUser',
+        can: 'can'
+    }),
+    created() {
         this.$bus.on('main-content-scroll', this.handleScroll);
-    }, beforeDestroy() {
+    },
+    beforeDestroy() {
         this.$bus.off('main-content-scroll', this.handleScroll);
-    }, methods: {
+    },
+    methods: {
         handleScroll(event) {
             var navbar = document.querySelector('#navbar-top');
 
@@ -79,15 +89,34 @@ export default {
     background: $body-bg;
     transition: box-shadow 0.2s ease;
 
-    @media (min-width: map-get($grid-breakpoints, md)) {
+    @media (min-width: map-get($grid-breakpoints, lg)) {
         position: fixed;
         top: 0;
         height: $navbar-height;
     }
 
     .container-fluid {
-        @media (min-width: map-get($grid-breakpoints, md)) {
+        @media (min-width: map-get($grid-breakpoints, lg)) {
             padding-left: 0;
+        }
+
+        .header-search-container {
+            display: flex;
+            position: absolute;
+            left: 50%;
+            width: $header-search-width;
+            margin-left: -$header-search-width / 2;
+
+            @media (max-width: map-get($grid-breakpoints, lg)) {
+                position: relative;
+                left: 0;
+                width: 100%;
+                margin-left: 0;
+            }
+
+            form {
+                flex-grow: 1;
+            }
         }
 
         .adminpanel-button {
@@ -99,7 +128,7 @@ export default {
             -webkit-filter: none;
             filter: none;
 
-            @media (min-width: map-get($grid-breakpoints, md)) {
+            @media (min-width: map-get($grid-breakpoints, lg)) {
                 display: flex;
                 justify-content: center;
                 width: $sidebar-width;

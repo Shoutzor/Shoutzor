@@ -57,7 +57,8 @@ import BeautifiedTime from "@js/components/date/BeautifiedTime";
 export default {
     components: {
         BeautifiedTime
-    }, computed: {
+    },
+    computed: {
         history: () => Request.query().where((r) => {
             return r.played_at !== null;
         }).orderBy('played_at', 'desc').with(["media.artists", "user"]).get(),

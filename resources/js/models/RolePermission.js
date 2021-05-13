@@ -7,7 +7,8 @@ export default class RolePermission extends Model {
 
     static fields() {
         return {
-            role_id: this.number(null), permission_id: this.number(null)
+            role_id: this.number(null),
+            permission_id: this.number(null)
         }
     }
 }

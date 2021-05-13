@@ -12,7 +12,8 @@
 import LoginForm from "@js/components/login/LoginForm";
 
 export default {
-    name: 'headerTop', components: {LoginForm}
+    name: 'headerTop',
+    components: {LoginForm}
 }
 </script>
 

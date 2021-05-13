@@ -34,7 +34,7 @@ class getid3_apetag extends getid3_handler {
         $info = &$this->getid3->info;
 
         if(!getid3_lib::intValueSupported($info['filesize'])) {
-            $this->warning('Unable to check for APEtags because file is larger than ' . round(PHP_INT_MAX / 1073741824) . 'GB');
+            $this->warning('Unable to check for APEtags because file is larger than '.round(PHP_INT_MAX / 1073741824).'GB');
             return false;
         }
 
@@ -85,7 +85,7 @@ class getid3_apetag extends getid3_handler {
         $this->fseek($thisfile_ape['tag_offset_end'] - $apetagheadersize);
         $APEfooterData = $this->fread(32);
         if(!($thisfile_ape['footer'] = $this->parseAPEheaderFooter($APEfooterData))) {
-            $this->error('Error parsing APE footer at offset ' . $thisfile_ape['tag_offset_end']);
+            $this->error('Error parsing APE footer at offset '.$thisfile_ape['tag_offset_end']);
             return false;
         }
 
@@ -119,7 +119,7 @@ class getid3_apetag extends getid3_handler {
                 $offset += $apetagheadersize;
             }
             else {
-                $this->error('Error parsing APE header at offset ' . $thisfile_ape['tag_offset_start']);
+                $this->error('Error parsing APE header at offset '.$thisfile_ape['tag_offset_start']);
                 return false;
             }
         }
@@ -134,7 +134,7 @@ class getid3_apetag extends getid3_handler {
             $item_flags = getid3_lib::LittleEndian2Int(substr($APEtagData, $offset, 4));
             $offset += 4;
             if(strstr(substr($APEtagData, $offset), "\x00") === false) {
-                $this->error('Cannot find null-byte (0x00) separator between ItemKey #' . $i . ' and value. ItemKey starts ' . $offset . ' bytes into the APE tag, at file offset ' . ($thisfile_ape['tag_offset_start'] + $offset));
+                $this->error('Cannot find null-byte (0x00) separator between ItemKey #'.$i.' and value. ItemKey starts '.$offset.' bytes into the APE tag, at file offset '.($thisfile_ape['tag_offset_start'] + $offset));
                 return false;
             }
             $ItemKeyLength = strpos($APEtagData, "\x00", $offset) - $offset;
@@ -170,7 +170,7 @@ class getid3_apetag extends getid3_handler {
                         $thisfile_replaygain['track']['originator'] = 'unspecified';
                     }
                     else {
-                        $this->warning('MP3gainTrackGain value in APEtag appears invalid: "' . $thisfile_ape_items_current['data'][0] . '"');
+                        $this->warning('MP3gainTrackGain value in APEtag appears invalid: "'.$thisfile_ape_items_current['data'][0].'"');
                     }
                     break;
 
@@ -179,11 +179,11 @@ class getid3_apetag extends getid3_handler {
                         $thisfile_replaygain['track']['peak'] = (float)str_replace(',', '.', $matches[1]); // float casting will see "0,95" as zero!
                         $thisfile_replaygain['track']['originator'] = 'unspecified';
                         if($thisfile_replaygain['track']['peak'] <= 0) {
-                            $this->warning('ReplayGain Track peak from APEtag appears invalid: ' . $thisfile_replaygain['track']['peak'] . ' (original value = "' . $thisfile_ape_items_current['data'][0] . '")');
+                            $this->warning('ReplayGain Track peak from APEtag appears invalid: '.$thisfile_replaygain['track']['peak'].' (original value = "'.$thisfile_ape_items_current['data'][0].'")');
                         }
                     }
                     else {
-                        $this->warning('MP3gainTrackPeak value in APEtag appears invalid: "' . $thisfile_ape_items_current['data'][0] . '"');
+                        $this->warning('MP3gainTrackPeak value in APEtag appears invalid: "'.$thisfile_ape_items_current['data'][0].'"');
                     }
                     break;
 
@@ -193,7 +193,7 @@ class getid3_apetag extends getid3_handler {
                         $thisfile_replaygain['album']['originator'] = 'unspecified';
                     }
                     else {
-                        $this->warning('MP3gainAlbumGain value in APEtag appears invalid: "' . $thisfile_ape_items_current['data'][0] . '"');
+                        $this->warning('MP3gainAlbumGain value in APEtag appears invalid: "'.$thisfile_ape_items_current['data'][0].'"');
                     }
                     break;
 
@@ -202,11 +202,11 @@ class getid3_apetag extends getid3_handler {
                         $thisfile_replaygain['album']['peak'] = (float)str_replace(',', '.', $matches[1]); // float casting will see "0,95" as zero!
                         $thisfile_replaygain['album']['originator'] = 'unspecified';
                         if($thisfile_replaygain['album']['peak'] <= 0) {
-                            $this->warning('ReplayGain Album peak from APEtag appears invalid: ' . $thisfile_replaygain['album']['peak'] . ' (original value = "' . $thisfile_ape_items_current['data'][0] . '")');
+                            $this->warning('ReplayGain Album peak from APEtag appears invalid: '.$thisfile_replaygain['album']['peak'].' (original value = "'.$thisfile_ape_items_current['data'][0].'")');
                         }
                     }
                     else {
-                        $this->warning('MP3gainAlbumPeak value in APEtag appears invalid: "' . $thisfile_ape_items_current['data'][0] . '"');
+                        $this->warning('MP3gainAlbumPeak value in APEtag appears invalid: "'.$thisfile_ape_items_current['data'][0].'"');
                     }
                     break;
 
@@ -218,7 +218,7 @@ class getid3_apetag extends getid3_handler {
                         $thisfile_replaygain['mp3gain']['undo_wrap'] = (($mp3gain_undo_wrap == 'Y') ? true : false);
                     }
                     else {
-                        $this->warning('MP3gainUndo value in APEtag appears invalid: "' . $thisfile_ape_items_current['data'][0] . '"');
+                        $this->warning('MP3gainUndo value in APEtag appears invalid: "'.$thisfile_ape_items_current['data'][0].'"');
                     }
                     break;
 
@@ -229,7 +229,7 @@ class getid3_apetag extends getid3_handler {
                         $thisfile_replaygain['mp3gain']['globalgain_track_max'] = intval($mp3gain_globalgain_max);
                     }
                     else {
-                        $this->warning('MP3gainMinMax value in APEtag appears invalid: "' . $thisfile_ape_items_current['data'][0] . '"');
+                        $this->warning('MP3gainMinMax value in APEtag appears invalid: "'.$thisfile_ape_items_current['data'][0].'"');
                     }
                     break;
 
@@ -240,7 +240,7 @@ class getid3_apetag extends getid3_handler {
                         $thisfile_replaygain['mp3gain']['globalgain_album_max'] = intval($mp3gain_globalgain_album_max);
                     }
                     else {
-                        $this->warning('MP3gainAlbumMinMax value in APEtag appears invalid: "' . $thisfile_ape_items_current['data'][0] . '"');
+                        $this->warning('MP3gainAlbumMinMax value in APEtag appears invalid: "'.$thisfile_ape_items_current['data'][0].'"');
                     }
                     break;
 
@@ -275,11 +275,11 @@ class getid3_apetag extends getid3_handler {
                 case 'cover art (studio)':
                     // list of possible cover arts from http://taglib-sharp.sourcearchive.com/documentation/2.0.3.0-2/Ape_2Tag_8cs-source.html
                     if(is_array($thisfile_ape_items_current['data'])) {
-                        $this->warning('APEtag "' . $item_key . '" should be flagged as Binary data, but was incorrectly flagged as UTF-8');
+                        $this->warning('APEtag "'.$item_key.'" should be flagged as Binary data, but was incorrectly flagged as UTF-8');
                         $thisfile_ape_items_current['data'] = implode("\x00", $thisfile_ape_items_current['data']);
                     }
                     list($thisfile_ape_items_current['filename'], $thisfile_ape_items_current['data']) = explode("\x00", $thisfile_ape_items_current['data'], 2);
-                    $thisfile_ape_items_current['data_offset'] = $thisfile_ape_items_current['offset'] + strlen($thisfile_ape_items_current['filename'] . "\x00");
+                    $thisfile_ape_items_current['data_offset'] = $thisfile_ape_items_current['offset'] + strlen($thisfile_ape_items_current['filename']."\x00");
                     $thisfile_ape_items_current['data_length'] = strlen($thisfile_ape_items_current['data']);
 
                     do {
@@ -287,7 +287,7 @@ class getid3_apetag extends getid3_handler {
                         $imageinfo = array();
                         $imagechunkcheck = getid3_lib::GetDataImageSize($thisfile_ape_items_current['data'], $imageinfo);
                         if(($imagechunkcheck === false) || !isset($imagechunkcheck[2])) {
-                            $this->warning('APEtag "' . $item_key . '" contains invalid image data');
+                            $this->warning('APEtag "'.$item_key.'" contains invalid image data');
                             break;
                         }
                         $thisfile_ape_items_current['image_mime'] = image_type_to_mime_type($imagechunkcheck[2]);
@@ -303,7 +303,7 @@ class getid3_apetag extends getid3_handler {
                         elseif(is_int($this->inline_attachments)) {
                             if($this->inline_attachments < $thisfile_ape_items_current['data_length']) {
                                 // too big, skip
-                                $this->warning('attachment at ' . $thisfile_ape_items_current['offset'] . ' is too large to process inline (' . number_format($thisfile_ape_items_current['data_length']) . ' bytes)');
+                                $this->warning('attachment at '.$thisfile_ape_items_current['offset'].' is too large to process inline ('.number_format($thisfile_ape_items_current['data_length']).' bytes)');
                                 unset($thisfile_ape_items_current['data']);
                                 break;
                             }
@@ -312,19 +312,19 @@ class getid3_apetag extends getid3_handler {
                             $this->inline_attachments = rtrim(str_replace(array('/', '\\'), DIRECTORY_SEPARATOR, $this->inline_attachments), DIRECTORY_SEPARATOR);
                             if(!is_dir($this->inline_attachments) || !getID3::is_writable($this->inline_attachments)) {
                                 // cannot write, skip
-                                $this->warning('attachment at ' . $thisfile_ape_items_current['offset'] . ' cannot be saved to "' . $this->inline_attachments . '" (not writable)');
+                                $this->warning('attachment at '.$thisfile_ape_items_current['offset'].' cannot be saved to "'.$this->inline_attachments.'" (not writable)');
                                 unset($thisfile_ape_items_current['data']);
                                 break;
                             }
                         }
                         // if we get this far, must be OK
                         if(is_string($this->inline_attachments)) {
-                            $destination_filename = $this->inline_attachments . DIRECTORY_SEPARATOR . md5($info['filenamepath']) . '_' . $thisfile_ape_items_current['data_offset'];
+                            $destination_filename = $this->inline_attachments.DIRECTORY_SEPARATOR.md5($info['filenamepath']).'_'.$thisfile_ape_items_current['data_offset'];
                             if(!file_exists($destination_filename) || getID3::is_writable($destination_filename)) {
                                 file_put_contents($destination_filename, $thisfile_ape_items_current['data']);
                             }
                             else {
-                                $this->warning('attachment at ' . $thisfile_ape_items_current['offset'] . ' cannot be saved to "' . $destination_filename . '" (not writable)');
+                                $this->warning('attachment at '.$thisfile_ape_items_current['offset'].' cannot be saved to "'.$destination_filename.'" (not writable)');
                             }
                             $thisfile_ape_items_current['data_filename'] = $destination_filename;
                             unset($thisfile_ape_items_current['data']);

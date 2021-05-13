@@ -7,7 +7,8 @@ export default class UserPermission extends Model {
 
     static fields() {
         return {
-            user_id: this.number(null), permission_id: this.number(null)
+            user_id: this.number(null),
+            permission_id: this.number(null)
         }
     }
 }

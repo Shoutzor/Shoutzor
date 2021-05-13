@@ -243,7 +243,7 @@ class getid3_aac extends getid3_handler {
             }
             $info['playtime_seconds'] = (($info['avdataend'] - $info['avdataoffset']) * 8) / $info['audio']['bitrate'];
 
-            $info['audio']['encoder_options'] = $info['aac']['header_type'] . ' ' . $info['aac']['header']['profile'];
+            $info['audio']['encoder_options'] = $info['aac']['header_type'].' '.$info['aac']['header']['profile'];
 
             return true;
 
@@ -252,7 +252,7 @@ class getid3_aac extends getid3_handler {
 
             unset($info['fileformat']);
             unset($info['aac']);
-            $this->error('AAC-ADIF synch not found at offset ' . $info['avdataoffset'] . ' (expected "ADIF", found "' . substr($AACheader, 0, 4) . '" instead)');
+            $this->error('AAC-ADIF synch not found at offset '.$info['avdataoffset'].' (expected "ADIF", found "'.substr($AACheader, 0, 4).'" instead)');
             return false;
 
         }
@@ -399,7 +399,7 @@ class getid3_aac extends getid3_handler {
             // or MaxFramesToScan frames have been scanned
 
             if(!getid3_lib::intValueSupported($byteoffset)) {
-                $this->warning('Unable to parse AAC file beyond ' . $this->ftell() . ' (PHP does not support file operations beyond ' . round(PHP_INT_MAX / 1073741824) . 'GB)');
+                $this->warning('Unable to parse AAC file beyond '.$this->ftell().' (PHP does not support file operations beyond '.round(PHP_INT_MAX / 1073741824).'GB)');
                 return false;
             }
             $this->fseek($byteoffset);
@@ -408,7 +408,7 @@ class getid3_aac extends getid3_handler {
             $substring = $this->fread(9); // header is 7 bytes (or 9 if CRC is present)
             $substringlength = strlen($substring);
             if($substringlength != 9) {
-                $this->error('Failed to read 7 bytes at offset ' . ($this->ftell() - $substringlength) . ' (only read ' . $substringlength . ' bytes)');
+                $this->error('Failed to read 7 bytes at offset '.($this->ftell() - $substringlength).' (only read '.$substringlength.' bytes)');
                 return false;
             }
             // this would be easier with 64-bit math, but split it up to allow for 32-bit:
@@ -418,7 +418,7 @@ class getid3_aac extends getid3_handler {
 
             $info['aac']['header']['raw']['syncword'] = ($header1 & 0xFFF0) >> 4;
             if($info['aac']['header']['raw']['syncword'] != 0x0FFF) {
-                $this->error('Synch pattern (0x0FFF) not found at offset ' . ($this->ftell() - $substringlength) . ' (found 0x0' . strtoupper(dechex($info['aac']['header']['raw']['syncword'])) . ' instead)');
+                $this->error('Synch pattern (0x0FFF) not found at offset '.($this->ftell() - $substringlength).' (found 0x0'.strtoupper(dechex($info['aac']['header']['raw']['syncword'])).' instead)');
                 //if ($info['fileformat'] == 'aac') {
                 //	return true;
                 //}
@@ -460,7 +460,7 @@ class getid3_aac extends getid3_handler {
                 }
 
                 if($info['aac']['header']['raw']['mpeg_layer'] != 0) {
-                    $this->warning('Layer error - expected "0", found "' . $info['aac']['header']['raw']['mpeg_layer'] . '" instead');
+                    $this->warning('Layer error - expected "0", found "'.$info['aac']['header']['raw']['mpeg_layer'].'" instead');
                 }
                 if($info['aac']['header']['sample_frequency'] == 0) {
                     $this->error('Corrupt AAC file: sample_frequency == zero');
@@ -524,7 +524,7 @@ class getid3_aac extends getid3_handler {
                 $info['audio']['bitrate'] = (($info['avdataend'] - $info['avdataoffset']) * 8) / $info['playtime_seconds'];
                 ksort($info['aac']['bitrate_distribution']);
 
-                $info['audio']['encoder_options'] = $info['aac']['header_type'] . ' ' . $info['aac']['header']['profile'];
+                $info['audio']['encoder_options'] = $info['aac']['header_type'].' '.$info['aac']['header']['profile'];
 
                 return true;
 

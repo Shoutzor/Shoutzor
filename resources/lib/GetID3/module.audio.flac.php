@@ -14,7 +14,7 @@
 //                                                            ///
 /////////////////////////////////////////////////////////////////
 
-getid3_lib::IncludeDependency(GETID3_INCLUDEPATH . 'module.audio.ogg.php', __FILE__, true);
+getid3_lib::IncludeDependency(GETID3_INCLUDEPATH.'module.audio.ogg.php', __FILE__, true);
 
 /**
  * @tutorial http://flac.sourceforge.net/format.html
@@ -31,7 +31,7 @@ class getid3_flac extends getid3_handler {
         $this->fseek($info['avdataoffset']);
         $StreamMarker = $this->fread(4);
         if($StreamMarker != self::syncword) {
-            return $this->error('Expecting "' . getid3_lib::PrintHexBytes(self::syncword) . '" at offset ' . $info['avdataoffset'] . ', found "' . getid3_lib::PrintHexBytes($StreamMarker) . '"');
+            return $this->error('Expecting "'.getid3_lib::PrintHexBytes(self::syncword).'" at offset '.$info['avdataoffset'].', found "'.getid3_lib::PrintHexBytes($StreamMarker).'"');
         }
         $info['fileformat'] = 'flac';
         $info['audio']['dataformat'] = 'flac';
@@ -57,16 +57,16 @@ class getid3_flac extends getid3_handler {
             $BlockTypeText = self::metaBlockTypeLookup($BlockType);
 
             if(($BlockOffset + 4 + $BlockLength) > $info['avdataend']) {
-                $this->warning('METADATA_BLOCK_HEADER.BLOCK_TYPE (' . $BlockTypeText . ') at offset ' . $BlockOffset . ' extends beyond end of file');
+                $this->warning('METADATA_BLOCK_HEADER.BLOCK_TYPE ('.$BlockTypeText.') at offset '.$BlockOffset.' extends beyond end of file');
                 break;
             }
             if($BlockLength < 1) {
                 if($BlockTypeText != 'reserved') {
                     // probably supposed to be zero-length
-                    $this->warning('METADATA_BLOCK_HEADER.BLOCK_LENGTH (' . $BlockTypeText . ') at offset ' . $BlockOffset . ' is zero bytes');
+                    $this->warning('METADATA_BLOCK_HEADER.BLOCK_LENGTH ('.$BlockTypeText.') at offset '.$BlockOffset.' is zero bytes');
                     continue;
                 }
-                $this->error('METADATA_BLOCK_HEADER.BLOCK_LENGTH (' . $BlockLength . ') at offset ' . $BlockOffset . ' is invalid');
+                $this->error('METADATA_BLOCK_HEADER.BLOCK_LENGTH ('.$BlockLength.') at offset '.$BlockOffset.' is invalid');
                 break;
             }
 
@@ -124,7 +124,7 @@ class getid3_flac extends getid3_handler {
                     break;
 
                 default:
-                    $this->warning('Unhandled METADATA_BLOCK_HEADER.BLOCK_TYPE (' . $BlockType . ') at offset ' . $BlockOffset);
+                    $this->warning('Unhandled METADATA_BLOCK_HEADER.BLOCK_TYPE ('.$BlockType.') at offset '.$BlockOffset);
             }
 
             unset($info['flac'][$BlockTypeText]['raw']);
@@ -460,7 +460,7 @@ class getid3_flac extends getid3_handler {
             $picture['data'] = $this->fread($picture['datalength']);
         }
         else {
-            $picture['data'] = $this->saveAttachment(str_replace('/', '_', $picture['picturetype']) . '_' . $this->ftell(), $this->ftell(), $picture['datalength'], $picture['image_mime']);
+            $picture['data'] = $this->saveAttachment(str_replace('/', '_', $picture['picturetype']).'_'.$this->ftell(), $this->ftell(), $picture['datalength'], $picture['image_mime']);
         }
 
         $info['flac']['PICTURE'][] = $picture;

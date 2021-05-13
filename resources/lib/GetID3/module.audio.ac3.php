@@ -69,7 +69,7 @@ class getid3_ac3 extends getid3_handler {
         if($this->AC3header['syncinfo'] !== self::syncword) {
             if(!$this->isDependencyFor('matroska')) {
                 unset($info['fileformat'], $info['ac3']);
-                return $this->error('Expecting "' . dechex(self::syncword) . '" at offset ' . $info['avdataoffset'] . ', found "' . dechex($this->AC3header['syncinfo']) . '"');
+                return $this->error('Expecting "'.dechex(self::syncword).'" at offset '.$info['avdataoffset'].', found "'.dechex($this->AC3header['syncinfo']).'"');
             }
         }
 
@@ -83,7 +83,7 @@ class getid3_ac3 extends getid3_handler {
             $thisfile_ac3_raw_bsi['fscod'] = $this->readHeaderBSI(2);   // 5.4.1.3
             $thisfile_ac3_raw_bsi['frmsizecod'] = $this->readHeaderBSI(6);   // 5.4.1.4
             if($thisfile_ac3_raw_bsi['frmsizecod'] > 37) { // binary: 100101 - see Table 5.18 Frame Size Code Table (1 word = 16 bits)
-                $this->warning('Unexpected ac3.bsi.frmsizecod value: ' . $thisfile_ac3_raw_bsi['frmsizecod'] . ', bitrate not set correctly');
+                $this->warning('Unexpected ac3.bsi.frmsizecod value: '.$thisfile_ac3_raw_bsi['frmsizecod'].', bitrate not set correctly');
             }
 
             $thisfile_ac3_raw_bsi['bsid'] = $this->readHeaderBSI(5); // we already know this from pre-parsing the version identifier, but re-read it to let the bitstream flow as intended
@@ -130,12 +130,12 @@ class getid3_ac3 extends getid3_handler {
                 $thisfile_ac3_raw_bsi['mixlevel'] = $this->readHeaderBSI(5);             // 5.4.2.14 mixlevel: Mixing Level, 5 Bits
                 $thisfile_ac3_raw_bsi['roomtyp'] = $this->readHeaderBSI(2);             // 5.4.2.15 roomtyp: Room Type, 2 Bits
 
-                $thisfile_ac3['mixing_level'] = (80 + $thisfile_ac3_raw_bsi['mixlevel']) . 'dB';
+                $thisfile_ac3['mixing_level'] = (80 + $thisfile_ac3_raw_bsi['mixlevel']).'dB';
                 $thisfile_ac3['room_type'] = self::roomTypeLookup($thisfile_ac3_raw_bsi['roomtyp']);
             }
 
             $thisfile_ac3_raw_bsi['dialnorm2'] = $this->readHeaderBSI(5);                // 5.4.2.16 dialnorm2: Dialogue Normalization, ch2, 5 Bits
-            $thisfile_ac3['dialogue_normalization2'] = '-' . $thisfile_ac3_raw_bsi['dialnorm2'] . 'dB';  // This indicates how far the average dialogue level is below digital 100 percent. Valid values are 1-31. The value of 0 is reserved. The values of 1 to 31 are interpreted as -1 dB to -31 dB with respect to digital 100 percent.
+            $thisfile_ac3['dialogue_normalization2'] = '-'.$thisfile_ac3_raw_bsi['dialnorm2'].'dB';  // This indicates how far the average dialogue level is below digital 100 percent. Valid values are 1-31. The value of 0 is reserved. The values of 1 to 31 are interpreted as -1 dB to -31 dB with respect to digital 100 percent.
 
             $thisfile_ac3_raw_bsi['flags']['compr2'] = (bool)$this->readHeaderBSI(1);       // 5.4.2.17 compr2e: Compression Gain Word Exists, ch2, 1 Bit
             if($thisfile_ac3_raw_bsi['flags']['compr2']) {
@@ -153,7 +153,7 @@ class getid3_ac3 extends getid3_handler {
                 $thisfile_ac3_raw_bsi['mixlevel2'] = $this->readHeaderBSI(5);            // 5.4.2.22 mixlevel2: Mixing Level, ch2, 5 Bits
                 $thisfile_ac3_raw_bsi['roomtyp2'] = $this->readHeaderBSI(2);            // 5.4.2.23 roomtyp2: Room Type, ch2, 2 Bits
 
-                $thisfile_ac3['mixing_level2'] = (80 + $thisfile_ac3_raw_bsi['mixlevel2']) . 'dB';
+                $thisfile_ac3['mixing_level2'] = (80 + $thisfile_ac3_raw_bsi['mixlevel2']).'dB';
                 $thisfile_ac3['room_type2'] = self::roomTypeLookup($thisfile_ac3_raw_bsi['roomtyp2']);
             }
 
@@ -190,7 +190,7 @@ class getid3_ac3 extends getid3_handler {
         }
         elseif($thisfile_ac3_raw_bsi['bsid'] <= 16) { // E-AC3
 
-            $this->error('E-AC3 parsing is incomplete and experimental in this version of getID3 (' . $this->getid3->version() . '). Notably the bitrate calculations are wrong -- value might (or not) be correct, but it is not calculated correctly. Email info@getid3.org if you know how to calculate EAC3 bitrate correctly.');
+            $this->error('E-AC3 parsing is incomplete and experimental in this version of getID3 ('.$this->getid3->version().'). Notably the bitrate calculations are wrong -- value might (or not) be correct, but it is not calculated correctly. Email info@getid3.org if you know how to calculate EAC3 bitrate correctly.');
             $info['audio']['dataformat'] = 'eac3';
 
             $thisfile_ac3_raw_bsi['strmtyp'] = $this->readHeaderBSI(2);
@@ -389,8 +389,8 @@ class getid3_ac3 extends getid3_handler {
                         }
                         else {
                             for($blk = 0; $blk < $thisfile_ac3_raw_bsi['numblkscod']; $blk++) {
-                                $thisfile_ac3_raw_bsi['flags']['blkmixcfginfo' . $blk] = (bool)$this->readHeaderBSI(1);
-                                if($thisfile_ac3_raw_bsi['flags']['blkmixcfginfo' . $blk]) { // mixing configuration information
+                                $thisfile_ac3_raw_bsi['flags']['blkmixcfginfo'.$blk] = (bool)$this->readHeaderBSI(1);
+                                if($thisfile_ac3_raw_bsi['flags']['blkmixcfginfo'.$blk]) { // mixing configuration information
                                     $thisfile_ac3_raw_bsi['blkmixcfginfo'][$blk] = $this->readHeaderBSI(5);
                                 }
                             }
@@ -451,7 +451,7 @@ class getid3_ac3 extends getid3_handler {
         }
         else {
 
-            $this->error('Bit stream identification is version ' . $thisfile_ac3_raw_bsi['bsid'] . ', but getID3() only understands up to version 16. Please submit a support ticket with a sample file.');
+            $this->error('Bit stream identification is version '.$thisfile_ac3_raw_bsi['bsid'].', but getID3() only understands up to version 16. Please submit a support ticket with a sample file.');
             unset($info['ac3']);
             return false;
 
@@ -467,7 +467,7 @@ class getid3_ac3 extends getid3_handler {
             $info['audio']['sample_rate'] = $thisfile_ac3['sample_rate'];
         }
         else {
-            $this->warning('Unexpected ac3.bsi.fscod value: ' . $thisfile_ac3_raw_bsi['fscod']);
+            $this->warning('Unexpected ac3.bsi.fscod value: '.$thisfile_ac3_raw_bsi['fscod']);
         }
         if(isset($thisfile_ac3_raw_bsi['frmsizecod'])) {
             $thisfile_ac3['frame_length'] = self::frameSizeLookup($thisfile_ac3_raw_bsi['frmsizecod'], $thisfile_ac3_raw_bsi['fscod']);
@@ -510,7 +510,7 @@ class getid3_ac3 extends getid3_handler {
         }
 
         $thisfile_ac3['channels_enabled'] = self::channelsEnabledLookup($thisfile_ac3_raw_bsi['acmod'], $thisfile_ac3_raw_bsi['flags']['lfeon']);
-        $thisfile_ac3['dialogue_normalization'] = '-' . $thisfile_ac3_raw_bsi['dialnorm'] . 'dB';
+        $thisfile_ac3['dialogue_normalization'] = '-'.$thisfile_ac3_raw_bsi['dialnorm'].'dB';
 
         return true;
     }

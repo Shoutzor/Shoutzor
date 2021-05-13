@@ -20,7 +20,7 @@ class ImageServiceProviderLaravel4 extends ServiceProvider {
             $app = $this->app;
 
             // load imagecache config
-            $app['config']->package('intervention/imagecache', __DIR__ . '/../../../../imagecache/src/config', 'imagecache');
+            $app['config']->package('intervention/imagecache', __DIR__.'/../../../../imagecache/src/config', 'imagecache');
             $config = $app['config'];
 
             // create dynamic manipulation route
@@ -30,7 +30,7 @@ class ImageServiceProviderLaravel4 extends ServiceProvider {
                 $config->set('imagecache::templates.original', null);
 
                 // setup image manipulator route
-                $app['router']->get($config->get('imagecache::route') . '/{template}/{filename}', ['as' => 'imagecache', function($template, $filename) use ($app, $config) {
+                $app['router']->get($config->get('imagecache::route').'/{template}/{filename}', ['as' => 'imagecache', function($template, $filename) use ($app, $config) {
 
                     // disable session cookies for image route
                     $app['config']->set('session.driver', 'array');
@@ -38,7 +38,7 @@ class ImageServiceProviderLaravel4 extends ServiceProvider {
                     // find file
                     foreach($config->get('imagecache::paths') as $path) {
                         // don't allow '..' in filenames
-                        $image_path = $path . '/' . str_replace('..', '', $filename);
+                        $image_path = $path.'/'.str_replace('..', '', $filename);
                         if(file_exists($image_path) && is_file($image_path)) {
                             break;
                         }
@@ -83,7 +83,7 @@ class ImageServiceProviderLaravel4 extends ServiceProvider {
                     $mime = finfo_buffer(finfo_open(FILEINFO_MIME_TYPE), $content);
 
                     // return http response
-                    return new IlluminateResponse($content, 200, ['Content-Type' => $mime, 'Cache-Control' => 'max-age=' . ($config->get('imagecache::lifetime') * 60) . ', public', 'Etag' => md5($content)]);
+                    return new IlluminateResponse($content, 200, ['Content-Type' => $mime, 'Cache-Control' => 'max-age='.($config->get('imagecache::lifetime') * 60).', public', 'Etag' => md5($content)]);
 
                 }])->where(['template' => join('|', array_keys($config->get('imagecache::templates'))), 'filename' => '[ \w\\.\\/\\-]+']);
             }

@@ -1,7 +1,7 @@
 <template>
     <div id="audio-player">
         <div class="media-info">
-            <div v-if="currentMedia && currentMedia.media !== null" class="row row-sm align-items-center">
+            <div v-if="currentMedia && currentMedia.media !== null" class="row row-sm align-items-center ps-2">
                 <div class="col-auto">
                     <img class="rounded" height="48" v-bind:src="albumImage" width="48">
                 </div>
@@ -92,7 +92,8 @@ import {mapGetters} from "vuex";
 export default {
     components: {
         VueSlider
-    }, data() {
+    },
+    data() {
         return {
             volume: 100,
             albumImage: require('@static/images/album_temp_bg.jpg'),
@@ -103,11 +104,14 @@ export default {
     },
 
     computed: {
-        currentMedia: () => Request.query().where((r) => { return r.played_at !== null; }).with(["media.artists|albums", "user"]).last(), ...mapGetters({
+        currentMedia: () => Request.query()
+            .where((r) => { return r.played_at !== null; })
+            .with(["media.artists|albums", "user"])
+            .last(), ...mapGetters({
             isAuthenticated: 'isAuthenticated',
             playerStatus: 'MediaPlayer/getPlayerState',
             hasVideo: 'MediaPlayer/hasVideo'
-        }),
+        })
     },
 
     mounted() {
@@ -215,7 +219,6 @@ export default {
     }
 
     .media-info {
-        padding-left: 1rem;
         justify-content: flex-start;
 
         .artists {

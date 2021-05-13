@@ -2,9 +2,6 @@
     <aside id="navbar-left" class="navbar navbar-vertical navbar-expand-lg">
         <simplebar class="simplebar-menu" data-simplebar-auto-hide="true">
             <div class="container">
-                <button class="navbar-toggler" data-target="#navbar-left-menu" data-toggle="collapse" type="button">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
                 <div id="navbar-left-menu" class="collapse navbar-collapse">
                     <span class="navbar-text pt-lg-3">Music zone</span>
                     <ul class="navbar-nav">
@@ -68,10 +65,14 @@ import simplebar from 'simplebar-vue';
 import HeaderSearch from "./HeaderSearch";
 
 export default {
-    name: 'headerMenu', computed: mapGetters({
-        isAuthenticated: 'isAuthenticated', can: 'can'
-    }), components: {
-        HeaderSearch, simplebar
+    name: 'headerMenu',
+    computed: mapGetters({
+        isAuthenticated: 'isAuthenticated',
+        can: 'can'
+    }),
+    components: {
+        HeaderSearch,
+        simplebar
     }
 }
 </script>
@@ -82,26 +83,35 @@ export default {
     -webkit-box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.1);
     -moz-box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.1);
     box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.1);
+    top: $navbar-height;
+
+    .align-bottom {
+        margin-top: auto;
+    }
 
     .container {
         display: flex;
         margin-left: initial;
+        height: auto;
 
-        @media (min-width: map-get($grid-breakpoints, lg)) {
-            height: 100%;
-            margin-left: auto;
-        }
-    }
+        #navbar-left-menu {
+            padding-top: 0;
 
-    @media (min-width: map-get($grid-breakpoints, md)) {
-        top: $navbar-height;
+            .navbar-text {
+                color: #FFF;
+                font-weight: bold;
+            }
 
-        .navbar-nav {
-            flex-grow: 0;
-        }
+            .navbar-nav {
+                flex-grow: 0;
 
-        .align-bottom {
-            margin-top: auto;
+                .nav-link-icon {
+                    width: 1.5rem;
+                    height: initial;
+                    font-size: 1.3rem;
+                    margin: 5px 7px 5px 0;
+                }
+            }
         }
     }
 
@@ -109,27 +119,22 @@ export default {
         color: #fff !important;
     }
 
-    .nav-link-icon {
-        width: 1.5rem;
-        height: initial;
-        font-size: 1.3rem;
-        margin: 5px 7px 5px 0;
-    }
-
-    .navbar-text {
-        color: #FFF;
-        font-weight: bold;
-    }
-
-    @media (max-width: map-get($grid-breakpoints, lg)) {
-        #navbar-left-menu {
-            padding-top: $navbar-height;
-        }
-    }
-
     .simplebar-menu {
         width: 100%;
         height: 100%;
+    }
+
+    @media (max-width: map-get($grid-breakpoints, lg)) {
+        top: 0;
+        min-height: 0;
+        padding-top: 0;
+        padding-bottom: 0;
+
+        .container {
+            #navbar-left-menu {
+                padding-top: 0.5rem;
+            }
+        }
     }
 }
 </style>

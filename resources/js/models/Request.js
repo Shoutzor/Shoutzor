@@ -8,7 +8,8 @@ export default class Request extends Model {
     static apiConfig = {
         actions: {
             fetch: {
-                method: 'get', url: '/api/request'
+                method: 'get',
+                url: '/api/request'
             }
         }
     }

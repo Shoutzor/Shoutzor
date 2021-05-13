@@ -16,12 +16,13 @@
 
 <script>
 export default {
-    name: 'headerUser', methods: {
+    name: 'headerUser',
+    methods: {
         logout: function() {
             this.$store.dispatch('logout')
-            .then(() => {
-                // Do nothing
-            });
+                .then(() => {
+                    // Do nothing
+                });
         }
     }
 }

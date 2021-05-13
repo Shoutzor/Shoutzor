@@ -193,9 +193,9 @@ abstract class AbstractColor {
 
         if(preg_match($hexPattern, $value, $matches)) {
             $result = [];
-            $result[0] = strlen($matches[1]) == '1' ? hexdec($matches[1] . $matches[1]) : hexdec($matches[1]);
-            $result[1] = strlen($matches[2]) == '1' ? hexdec($matches[2] . $matches[2]) : hexdec($matches[2]);
-            $result[2] = strlen($matches[3]) == '1' ? hexdec($matches[3] . $matches[3]) : hexdec($matches[3]);
+            $result[0] = strlen($matches[1]) == '1' ? hexdec($matches[1].$matches[1]) : hexdec($matches[1]);
+            $result[1] = strlen($matches[2]) == '1' ? hexdec($matches[2].$matches[2]) : hexdec($matches[2]);
+            $result[2] = strlen($matches[3]) == '1' ? hexdec($matches[3].$matches[3]) : hexdec($matches[3]);
             $result[3] = 1;
         }
         elseif(preg_match($rgbPattern, $value, $matches)) {

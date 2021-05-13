@@ -7,36 +7,53 @@ import Vue from "vue";
 
 const moduleAuthentication = {
     state: () => ({
-        token: localStorage.getItem('token') || '', status: '', user: null, authenticated: false, guestRole: null
+        token: localStorage.getItem('token') || '',
+        status: '',
+        user: null,
+        authenticated: false,
+        guestRole: null
     }),
 
     mutations: {
         [AUTH_REQUEST](state) {
             state.status = 'loading';
-        }, [AUTH_SUCCESS](state, {token, user}) {
+        },
+        [AUTH_SUCCESS](state, {
+            token,
+            user
+        }) {
             state.status = 'success';
             state.token = token;
             state.user = user;
             state.authenticated = true;
 
             // Emit an auth.state event to indicate our authenticated-state has changed
-            Vue.bus.emit('auth.state', {authenticated: state.authenticated, user: state.user});
-        }, [AUTH_FAILED](state) {
+            Vue.bus.emit('auth.state', {
+                authenticated: state.authenticated,
+                user: state.user
+            });
+        },
+        [AUTH_FAILED](state) {
             state.token = '';
             state.status = 'error';
             state.authenticated = false;
 
             // Emit event
             Vue.bus.emit('auth.fail');
-        }, [AUTH_LOGOUT](state) {
+        },
+        [AUTH_LOGOUT](state) {
             state.status = '';
             state.token = '';
             state.user = null;
             state.authenticated = false;
 
             // Emit an auth.state event to indicate our authenticated-state has changed
-            Vue.bus.emit('auth.state', {authenticated: state.authenticated, user: state.user});
-        }, [AUTH_GUEST](state, {guestRole}) {
+            Vue.bus.emit('auth.state', {
+                authenticated: state.authenticated,
+                user: state.user
+            });
+        },
+        [AUTH_GUEST](state, {guestRole}) {
             state.guestRole = guestRole;
         }
     },
@@ -63,7 +80,10 @@ const moduleAuthentication = {
     },
 
     actions: {
-        login({commit, dispatch}, login) {
+        login({
+            commit,
+            dispatch
+        }, login) {
             return new Promise((resolve, reject) => { // The Promise used for router redirect in login
                 commit(AUTH_REQUEST);
 
@@ -76,7 +96,8 @@ const moduleAuthentication = {
 
                     store.dispatch('fetchUserInformation').then((resp) => {
                         commit(AUTH_SUCCESS, {
-                            token, user: resp
+                            token,
+                            user: resp
                         });
 
                         resolve(true);
@@ -149,7 +170,8 @@ const moduleAuthentication = {
 
                 store.dispatch('fetchUserInformation').then((resp) => {
                     commit(AUTH_SUCCESS, {
-                        token: token, user: resp
+                        token: token,
+                        user: resp
                     });
                     resolve(true);
                 }).catch((err) => {

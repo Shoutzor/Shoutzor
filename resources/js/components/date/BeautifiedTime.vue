@@ -32,7 +32,8 @@ function formatTime(seconds) {
 }
 
 export default {
-    props: ['time'], data: function() {
+    props: ['time'],
+    data: function() {
         return {
             displayTime: formatTime(this.time)
         }

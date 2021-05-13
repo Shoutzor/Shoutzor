@@ -5,7 +5,8 @@ export default class Package extends Model {
     static apiConfig = {
         actions: {
             fetch: {
-                method: 'get', url: '/api/package'
+                method: 'get',
+                url: '/api/package'
             }
         }
     }

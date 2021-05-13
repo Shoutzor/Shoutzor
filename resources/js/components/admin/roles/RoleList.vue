@@ -20,7 +20,8 @@
 import RoleListItem from "./RoleListItem";
 
 export default {
-    components: {RoleListItem}, props: ['roles']
+    components: {RoleListItem},
+    props: ['roles']
 }
 </script>
 

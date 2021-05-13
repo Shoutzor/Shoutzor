@@ -7,10 +7,11 @@ import AlbumMedia from './AlbumMedia';
 
 export default class Album extends Model {
     static entity = 'albums';
+
     static apiConfig = {
         actions: {
             fetchById(id) {
-                return this.get('/api/album/${id}')
+                return this.get('/api/album/get/${id}');
             }
         }
     }

@@ -30,8 +30,11 @@ VuexORM.use(VuexORMAxios, {
 const debug = process.env.NODE_ENV !== 'production'
 
 const store = new Vuex.Store({
-    strict: debug, plugins: [VuexORM.install(database)], modules: {
-        'Authentication': moduleAuthentication, 'MediaPlayer': moduleMediaPlayer
+    strict: debug,
+    plugins: [VuexORM.install(database)],
+    modules: {
+        'Authentication': moduleAuthentication,
+        'MediaPlayer': moduleMediaPlayer
     }
 });
 

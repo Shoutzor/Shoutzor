@@ -7,7 +7,8 @@ export default class UserRole extends Model {
 
     static fields() {
         return {
-            user_id: this.number(null), role_id: this.number(null)
+            user_id: this.number(null),
+            role_id: this.number(null)
         }
     }
 }

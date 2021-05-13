@@ -45,15 +45,21 @@ import Permission from "@js/models/Permission";
 import PermissionList from "../../../components/admin/permissions/PermissionList";
 
 export default {
-    name: "admin-roles", components: {PermissionList}, props: {
+    name: "admin-roles",
+    components: {PermissionList},
+    props: {
         roleId: {
-            type: Number, default: null
+            type: Number,
+            default: null
         }
-    }, data() {
+    },
+    data() {
         return {
-            role: null, allPermissions: null
+            role: null,
+            allPermissions: null
         }
-    }, created() {
+    },
+    created() {
         this.role = Role.query().with('permissions').whereId(this.roleId).first();
         this.allPermissions = Permission.all();
     }

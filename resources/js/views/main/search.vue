@@ -97,8 +97,10 @@ import ComingUp from "@js/components/MediaTable/ComingUp";
 import ArtistList from "../../components/media/ArtistList";
 
 export default {
-    name: "search-view", components: {
-        ArtistList, ComingUp
+    name: "search-view",
+    components: {
+        ArtistList,
+        ComingUp
     }
 };
 </script>
