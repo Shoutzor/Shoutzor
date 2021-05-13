@@ -8,7 +8,7 @@
                 <img alt="Shoutz0r logo" class="navbar-brand-image" src="@static/images/shoutzor-logo-header.png">
             </router-link>
 
-            <div class="my-2 my-md-0">
+            <div class="header-search-container my-md-0">
                 <header-search></header-search>
             </div>
 
@@ -94,6 +94,13 @@ export default {
     .container-fluid {
         @media (min-width: map-get($grid-breakpoints, md)) {
             padding-left: 0;
+        }
+
+        .header-search-container {
+            position: absolute;
+            left: 50%;
+            width: $header-search-width;
+            margin-left: -$header-search-width / 2;
         }
 
         .adminpanel-button {

@@ -1,7 +1,7 @@
 <template>
     <div id="audio-player">
         <div class="media-info">
-            <div v-if="currentMedia && currentMedia.media !== null" class="row row-sm align-items-center">
+            <div v-if="currentMedia && currentMedia.media !== null" class="row row-sm align-items-center ps-2">
                 <div class="col-auto">
                     <img class="rounded" height="48" v-bind:src="albumImage" width="48">
                 </div>
@@ -219,7 +219,6 @@ export default {
     }
 
     .media-info {
-        padding-left: 1rem;
         justify-content: flex-start;
 
         .artists {
