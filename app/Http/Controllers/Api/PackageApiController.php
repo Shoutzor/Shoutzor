@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Package;
 use App\Http\Controllers\Controller;
+use App\Package;
 use App\Packages\PackageManager;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class PackageApiController extends Controller {
@@ -16,9 +17,7 @@ class PackageApiController extends Controller {
     }
 
     public function installed(Request $request) {
-        $request->validate([
-            'id' => 'string'
-        ]);
+        $request->validate(['id' => 'string']);
 
         //@todo this can be removed once the package marketplace is implemented
         //At which point, manual installation of packages via the filesystem is no longer supported
@@ -32,13 +31,13 @@ class PackageApiController extends Controller {
             foreach($packages as $pkg) {
                 if($request->id === $pkg->getId()) {
                     $result[] = new Package($pkg);
-                } else {
-                    return response()->json([
-                        'message' => 'Package with id ' . $request->id . ' not found'
-                    ], 404);
+                }
+                else {
+                    return response()->json(['message' => 'Package with id '.$request->id.' not found'], 404);
                 }
             }
-        } else {
+        }
+        else {
             foreach($packages as $pkg) {
                 $result[] = new Package($pkg);
             }
@@ -49,13 +48,12 @@ class PackageApiController extends Controller {
 
     /**
      * Enable a package
+     *
      * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function enable(Request $request) {
-        $request->validate([
-            'id' => 'string'
-        ]);
+        $request->validate(['id' => 'string']);
 
         //@todo this can be removed once the package marketplace is implemented
         //At which point, manual installation of packages via the filesystem is no longer supported
@@ -81,13 +79,12 @@ class PackageApiController extends Controller {
 
     /**
      * Disable a package
+     *
      * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function disable(Request $request) {
-        $request->validate([
-            'id' => 'string'
-        ]);
+        $request->validate(['id' => 'string']);
 
         //@todo this can be removed once the package marketplace is implemented
         //At which point, manual installation of packages via the filesystem is no longer supported

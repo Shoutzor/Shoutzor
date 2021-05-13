@@ -2,12 +2,12 @@
 
 namespace Intervention\Image\Imagick\Shapes;
 
+use ImagickDraw;
 use Intervention\Image\AbstractShape;
 use Intervention\Image\Image;
 use Intervention\Image\Imagick\Color;
 
-class RectangleShape extends AbstractShape
-{
+class RectangleShape extends AbstractShape {
     /**
      * X-Coordinate of top-left point
      *
@@ -44,8 +44,7 @@ class RectangleShape extends AbstractShape
      * @param int $x2
      * @param int $y2
      */
-    public function __construct($x1 = null, $y1 = null, $x2 = null, $y2 = null)
-    {
+    public function __construct($x1 = null, $y1 = null, $x2 = null, $y2 = null) {
         $this->x1 = is_numeric($x1) ? intval($x1) : $this->x1;
         $this->y1 = is_numeric($y1) ? intval($y1) : $this->y1;
         $this->x2 = is_numeric($x2) ? intval($x2) : $this->x2;
@@ -55,21 +54,20 @@ class RectangleShape extends AbstractShape
     /**
      * Draw rectangle to given image at certain position
      *
-     * @param  Image   $image
-     * @param  int     $x
-     * @param  int     $y
+     * @param Image $image
+     * @param int   $x
+     * @param int   $y
      * @return boolean
      */
-    public function applyToImage(Image $image, $x = 0, $y = 0)
-    {
-        $rectangle = new \ImagickDraw;
+    public function applyToImage(Image $image, $x = 0, $y = 0) {
+        $rectangle = new ImagickDraw;
 
         // set background
         $bgcolor = new Color($this->background);
         $rectangle->setFillColor($bgcolor->getPixel());
 
         // set border
-        if ($this->hasBorder()) {
+        if($this->hasBorder()) {
             $border_color = new Color($this->border_color);
             $rectangle->setStrokeWidth($this->border_width);
             $rectangle->setStrokeColor($border_color->getPixel());

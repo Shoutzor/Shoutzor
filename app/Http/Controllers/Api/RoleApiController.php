@@ -4,21 +4,24 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\User;
-use Spatie\Permission\Models\Role;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Spatie\Permission\Models\Role;
 
 class RoleApiController extends Controller {
     /**
      * Returns a single or all roles, requires the permission: admin.permissions.role.get
+     *
      * @param int|null $id
-     * @return \Illuminate\Http\JsonResponse an array of roles
+     * @return JsonResponse an array of roles
      */
     public function get(int $id = null) {
         $role = ($id) ? Role::findById($id) : null;
 
-        if (!$role) {
+        if(!$role) {
             $roles = Role::all();
-        } else {
+        }
+        else {
             $roles = [$role];
         }
 
@@ -28,24 +31,22 @@ class RoleApiController extends Controller {
     /**
      * Returns the roles of the requested, or authenticated user
      * Requesting the roles of other users requires the permission: admin.permissions.role.get
+     *
      * @param Request $request
      */
     public function user(Request $request, int $id = null) {
         if($id) {
             if($request->user()->hasPermissionTo('admin.permissions.role.get') === false) {
-                return response()->json([
-                    'message' => 'You do not have the admin.permissions.role.get permission'
-                ], 403);
+                return response()->json(['message' => 'You do not have the admin.permissions.role.get permission'], 403);
             }
 
             $user = User::find($id);
 
             if(!$user) {
-                return response()->json([
-                    'message' => 'No user with this ID could be found'
-                ], 404);
+                return response()->json(['message' => 'No user with this ID could be found'], 404);
             }
-        } else {
+        }
+        else {
             $user = $request->user();
         }
 
@@ -65,7 +66,8 @@ class RoleApiController extends Controller {
 
     /**
      * Returns the guest role and it's permissions
-     * @return \Illuminate\Http\JsonResponse
+     *
+     * @return JsonResponse
      */
     public function guest() {
         return response()->json(Role::with('permissions')->where('name', 'guest')->get(), 200);

@@ -2,7 +2,6 @@
 
 namespace Intervention\Image\Exception;
 
-class NotReadableException extends ImageException
-{
+class NotReadableException extends ImageException {
     # nothing to override
 }

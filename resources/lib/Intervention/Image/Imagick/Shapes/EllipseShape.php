@@ -2,12 +2,12 @@
 
 namespace Intervention\Image\Imagick\Shapes;
 
+use ImagickDraw;
 use Intervention\Image\AbstractShape;
 use Intervention\Image\Image;
 use Intervention\Image\Imagick\Color;
 
-class EllipseShape extends AbstractShape
-{
+class EllipseShape extends AbstractShape {
     /**
      * Width of ellipse in pixels
      *
@@ -28,8 +28,7 @@ class EllipseShape extends AbstractShape
      * @param int $width
      * @param int $height
      */
-    public function __construct($width = null, $height = null)
-    {
+    public function __construct($width = null, $height = null) {
         $this->width = is_numeric($width) ? intval($width) : $this->width;
         $this->height = is_numeric($height) ? intval($height) : $this->height;
     }
@@ -37,21 +36,20 @@ class EllipseShape extends AbstractShape
     /**
      * Draw ellipse instance on given image
      *
-     * @param  Image   $image
-     * @param  int     $x
-     * @param  int     $y
+     * @param Image $image
+     * @param int   $x
+     * @param int   $y
      * @return boolean
      */
-    public function applyToImage(Image $image, $x = 0, $y = 0)
-    {
-        $circle = new \ImagickDraw;
+    public function applyToImage(Image $image, $x = 0, $y = 0) {
+        $circle = new ImagickDraw;
 
         // set background
         $bgcolor = new Color($this->background);
         $circle->setFillColor($bgcolor->getPixel());
 
         // set border
-        if ($this->hasBorder()) {
+        if($this->hasBorder()) {
             $border_color = new Color($this->border_color);
             $circle->setStrokeWidth($this->border_width);
             $circle->setStrokeColor($border_color->getPixel());

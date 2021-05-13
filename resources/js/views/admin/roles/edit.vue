@@ -9,24 +9,24 @@
                         <div class="form-group mb-3">
                             <label class="form-label">Role name</label>
                             <div>
-                                <input type="text" class="form-control" placeholder="Role name" autocomplete="off" :value="role.name" :disabled="role.protected">
+                                <input :disabled="role.protected" :value="role.name" autocomplete="off" class="form-control" placeholder="Role name" type="text">
                                 <small class="form-hint">The name of the role</small>
                             </div>
                         </div>
                         <div class="form-group mb-3">
                             <label class="form-label">Role Description</label>
                             <div>
-                                <textarea class="form-control" :value="role.description" :disabled="role.protected"></textarea>
+                                <textarea :disabled="role.protected" :value="role.description" class="form-control"></textarea>
                                 <small class="form-hint">A description for the role, used for administrative purposes only.</small>
                             </div>
                         </div>
                         <div class="form-group mb-3">
                             <permission-list
-                                :permissions="allPermissions"
-                                :hasPermissions="role.permissions"></permission-list>
+                                :hasPermissions="role.permissions"
+                                :permissions="allPermissions"></permission-list>
                         </div>
                         <div class="form-footer">
-                            <button type="button" class="btn btn-primary">Save</button>
+                            <button class="btn btn-primary" type="button">Save</button>
                         </div>
                     </form>
                 </div>
@@ -45,21 +45,15 @@ import Permission from "@js/models/Permission";
 import PermissionList from "../../../components/admin/permissions/PermissionList";
 
 export default {
-    name: "admin-roles",
-    components: {PermissionList},
-    props: {
+    name: "admin-roles", components: {PermissionList}, props: {
         roleId: {
-            type: Number,
-            default: null
+            type: Number, default: null
         }
-    },
-    data() {
+    }, data() {
         return {
-            role: null,
-            allPermissions: null
+            role: null, allPermissions: null
         }
-    },
-    created() {
+    }, created() {
         this.role = Role.query().with('permissions').whereId(this.roleId).first();
         this.allPermissions = Permission.all();
     }

@@ -1,4 +1,4 @@
-import { Model } from '@vuex-orm/core';
+import {Model} from '@vuex-orm/core';
 import Permission from "./Permission";
 import Role from "./Role";
 import UserPermission from "./UserPermission";
@@ -6,8 +6,19 @@ import UserRole from "./UserRole";
 
 export default class User extends Model {
     static entity = 'users';
+    static apiConfig = {
+        actions: {
+            fetchCurrent() {
+                return this.get('/api/role/get')
+            }, fetchById(id) {
+                return this.get('/api/role/get/${id}')
+            }, fetchForUser() {
+                return this.get('/api/role/user')
+            }
+        }
+    }
 
-    static fields () {
+    static fields() {
         return {
             id: this.uid(),
             username: this.string(''),
@@ -38,19 +49,5 @@ export default class User extends Model {
         });
 
         return !!check;
-    }
-
-    static apiConfig = {
-        actions: {
-            fetchCurrent() {
-                return this.get('/api/role/get')
-            },
-            fetchById(id) {
-                return this.get('/api/role/get/${id}')
-            },
-            fetchForUser() {
-                return this.get('/api/role/user')
-            }
-        }
     }
 }

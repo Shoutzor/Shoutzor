@@ -7,14 +7,12 @@ use Illuminate\Auth\Access\Response;
 use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Models\Role;
 
-class Authorize extends \Illuminate\Auth\Middleware\Authorize
-{
+class Authorize extends \Illuminate\Auth\Middleware\Authorize {
     /**
      * Since the spatie/laravel-permission package doesn't allow natively to assign a role to a guest user
      * this piece of middleware will intercept the request and execute the check manually.
      */
-    public function handle($request, Closure $next, $ability, ...$models)
-    {
+    public function handle($request, Closure $next, $ability, ...$models) {
         $user = Auth::guard('api')->user();
 
         // Check if the user is authenticated
@@ -31,15 +29,14 @@ class Authorize extends \Illuminate\Auth\Middleware\Authorize
                     return $next($request);
                 }
             }
-        } else {
+        }
+        else {
             if($user->hasPermissionTo($ability)) {
                 Response::allow();
                 return $next($request);
             }
         }
 
-        return response()->json([
-            "message" => "You do not have the required permissions"
-        ], 403);
+        return response()->json(["message" => "You do not have the required permissions"], 403);
     }
 }

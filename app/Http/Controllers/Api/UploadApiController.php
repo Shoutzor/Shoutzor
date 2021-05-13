@@ -23,13 +23,13 @@ class UploadApiController extends Controller {
         }
 
         //Get the name and extension of the file
-        $name   = $request->file('media')->getClientOriginalName();
-        $ext    = $request->file('media')->extension();
+        $name = $request->file('media')->getClientOriginalName();
+        $ext = $request->file('media')->extension();
 
         //TODO check if the file is a valid media file.
 
         //Set the new  name for the file
-        $newName     = time().$name.'.'.$ext;
+        $newName = time().$name.'.'.$ext;
 
         //Move the file to a temporary directory while it's awaiting processing.
         $request->file('media')->storeAs(Upload::STORAGE_PATH, $newName);
@@ -38,10 +38,10 @@ class UploadApiController extends Controller {
 
         //Store the upload in the database for use in the Job
         $upload = new Upload();
-        $upload->filename   = $newName;
+        $upload->filename = $newName;
         //$upload->user_id    = $request->user()->id;
-        $upload->user_id    = 1;
-        $upload->status     = Upload::STATUS_QUEUED;
+        $upload->user_id = 1;
+        $upload->status = Upload::STATUS_QUEUED;
         $upload->save();
 
         //Send the event that an upload has been added

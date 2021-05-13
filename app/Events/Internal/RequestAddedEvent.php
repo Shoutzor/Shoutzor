@@ -7,11 +7,11 @@ use Symfony\Contracts\EventDispatcher\Event;
 
 /**
  * Class RequestAddedEvent
+ *
  * @package App\Events
  * Gets called when a request is added to the Queue
  */
-class RequestAddedEvent extends Event
-{
+class RequestAddedEvent extends Event {
     public const NAME = 'request.added';
 
     protected $upload;
@@ -20,7 +20,7 @@ class RequestAddedEvent extends Event
         $this->upload = $upload;
     }
 
-    public function getUpload() : Upload {
+    public function getUpload(): Upload {
         return $this->upload;
     }
 }

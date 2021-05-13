@@ -9,7 +9,7 @@
 </template>
 
 <script>
-    export default {
-        name: "admin-view"
-    };
+export default {
+    name: "admin-view"
+};
 </script>

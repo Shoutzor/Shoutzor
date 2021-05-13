@@ -7,11 +7,11 @@ use Symfony\Contracts\EventDispatcher\Event;
 
 /**
  * Class ArtistCreateEvent
+ *
  * @package App\Events
  * Gets called when an artist gets added to Shoutz0r
  */
-class ArtistCreateEvent extends Event
-{
+class ArtistCreateEvent extends Event {
     public const NAME = 'artist.create';
 
     protected $artist;
@@ -21,15 +21,15 @@ class ArtistCreateEvent extends Event
         $this->artist = $artist;
     }
 
-    public function getArtist() : Artist {
+    public function getArtist(): Artist {
         return $this->artist;
     }
 
-    public function setExists() : void {
+    public function setExists(): void {
         $this->exists = true;
     }
 
-    public function exists() : bool {
+    public function exists(): bool {
         return $this->exists;
     }
 }

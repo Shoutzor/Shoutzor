@@ -6,22 +6,13 @@ use App\Events\Internal\AlbumCreateEvent;
 use Illuminate\Database\Eloquent\Model;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 
-class Album extends Model
-{
+class Album extends Model {
     /**
      * Indicates if the model should be timestamped.
      *
      * @var bool
      */
     public $timestamps = false;
-
-    public function artists() {
-        return $this->belongsToMany('App\Artist');
-    }
-
-    public function media() {
-        return $this->belongsToMany('App\Media');
-    }
 
     public static function create(Album $album) {
         $event = new AlbumCreateEvent($album);
@@ -31,5 +22,13 @@ class Album extends Model
         if($event->exists() === false) {
             $album->save();
         }
+    }
+
+    public function artists() {
+        return $this->belongsToMany('App\Artist');
+    }
+
+    public function media() {
+        return $this->belongsToMany('App\Media');
     }
 }

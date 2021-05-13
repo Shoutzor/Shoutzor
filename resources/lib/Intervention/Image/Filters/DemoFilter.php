@@ -4,8 +4,7 @@ namespace Intervention\Image\Filters;
 
 use Intervention\Image\Image;
 
-class DemoFilter implements FilterInterface
-{
+class DemoFilter implements FilterInterface {
     /**
      * Default size of filter effects
      */
@@ -23,19 +22,17 @@ class DemoFilter implements FilterInterface
      *
      * @param int $size
      */
-    public function __construct($size = null)
-    {
+    public function __construct($size = null) {
         $this->size = is_numeric($size) ? intval($size) : self::DEFAULT_SIZE;
     }
 
     /**
      * Applies filter effects to given image
      *
-     * @param  \Intervention\Image\Image $image
-     * @return \Intervention\Image\Image
+     * @param Image $image
+     * @return Image
      */
-    public function applyFilter(Image $image)
-    {
+    public function applyFilter(Image $image) {
         $image->pixelate($this->size);
         $image->greyscale();
 

@@ -14,20 +14,18 @@
 //                                                            ///
 /////////////////////////////////////////////////////////////////
 
+class getid3_par2 extends getid3_handler {
+    /**
+     * @return bool
+     */
+    public function Analyze() {
+        $info = &$this->getid3->info;
 
-class getid3_par2 extends getid3_handler
-{
-	/**
-	 * @return bool
-	 */
-	public function Analyze() {
-		$info = &$this->getid3->info;
+        $info['fileformat'] = 'par2';
 
-		$info['fileformat'] = 'par2';
+        $this->error('PAR2 parsing not enabled in this version of getID3()');
+        return false;
 
-		$this->error('PAR2 parsing not enabled in this version of getID3()');
-		return false;
-
-	}
+    }
 
 }

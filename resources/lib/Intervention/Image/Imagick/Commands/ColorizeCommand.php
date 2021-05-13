@@ -2,18 +2,18 @@
 
 namespace Intervention\Image\Imagick\Commands;
 
+use Imagick;
 use Intervention\Image\Commands\AbstractCommand;
+use Intervention\Image\Image;
 
-class ColorizeCommand extends AbstractCommand
-{
+class ColorizeCommand extends AbstractCommand {
     /**
      * Changes balance of different RGB color channels
      *
-     * @param  \Intervention\Image\Image $image
+     * @param Image $image
      * @return boolean
      */
-    public function execute($image)
-    {
+    public function execute($image) {
         $red = $this->argument(0)->between(-100, 100)->required()->value();
         $green = $this->argument(1)->between(-100, 100)->required()->value();
         $blue = $this->argument(2)->between(-100, 100)->required()->value();
@@ -26,19 +26,19 @@ class ColorizeCommand extends AbstractCommand
         $qrange = $image->getCore()->getQuantumRange();
 
         // apply
-        $image->getCore()->levelImage(0, $red, $qrange['quantumRangeLong'], \Imagick::CHANNEL_RED);
-        $image->getCore()->levelImage(0, $green, $qrange['quantumRangeLong'], \Imagick::CHANNEL_GREEN);
-        $image->getCore()->levelImage(0, $blue, $qrange['quantumRangeLong'], \Imagick::CHANNEL_BLUE);
+        $image->getCore()->levelImage(0, $red, $qrange['quantumRangeLong'], Imagick::CHANNEL_RED);
+        $image->getCore()->levelImage(0, $green, $qrange['quantumRangeLong'], Imagick::CHANNEL_GREEN);
+        $image->getCore()->levelImage(0, $blue, $qrange['quantumRangeLong'], Imagick::CHANNEL_BLUE);
 
         return true;
     }
 
-    private function normalizeLevel($level)
-    {
-        if ($level > 0) {
-            return $level/5;
-        } else {
-            return ($level+100)/100;
+    private function normalizeLevel($level) {
+        if($level > 0) {
+            return $level / 5;
+        }
+        else {
+            return ($level + 100) / 100;
         }
     }
 }

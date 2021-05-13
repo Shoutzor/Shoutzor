@@ -3,19 +3,19 @@
 namespace Intervention\Image\Gd\Commands;
 
 use Intervention\Image\Commands\AbstractCommand;
+use Intervention\Image\Exception\NotReadableException;
 use Intervention\Image\Gd\Color;
 use Intervention\Image\Gd\Decoder;
+use Intervention\Image\Image;
 
-class FillCommand extends AbstractCommand
-{
+class FillCommand extends AbstractCommand {
     /**
      * Fills image with color or pattern
      *
-     * @param  \Intervention\Image\Image $image
+     * @param Image $image
      * @return boolean
      */
-    public function execute($image)
-    {
+    public function execute($image) {
         $filling = $this->argument(0)->value();
         $x = $this->argument(1)->type('digit')->value();
         $y = $this->argument(2)->type('digit')->value();
@@ -32,7 +32,8 @@ class FillCommand extends AbstractCommand
             imagesettile($image->getCore(), $tile->getCore());
             $filling = IMG_COLOR_TILED;
 
-        } catch (\Intervention\Image\Exception\NotReadableException $e) {
+        }
+        catch(NotReadableException $e) {
 
             // set solid color filling
             $color = new Color($filling);
@@ -41,7 +42,7 @@ class FillCommand extends AbstractCommand
 
         imagealphablending($resource, true);
 
-        if (is_int($x) && is_int($y)) {
+        if(is_int($x) && is_int($y)) {
 
             // resource should be visible through transparency
             $base = $image->getDriver()->newImage($width, $height)->getCore();
@@ -57,7 +58,8 @@ class FillCommand extends AbstractCommand
             $image->setCore($base);
             imagedestroy($resource);
 
-        } else {
+        }
+        else {
             // fill whole image otherwise
             imagefilledrectangle($resource, 0, 0, $width - 1, $height - 1, $filling);
         }

@@ -1,50 +1,42 @@
 import axios from 'axios';
 import User from "@js/models/User";
 import Role from "@js/models/Role";
-import { AUTH_GUEST, AUTH_REQUEST, AUTH_SUCCESS, AUTH_FAILED, AUTH_LOGOUT } from "@js/store/mutation-types";
+import {AUTH_FAILED, AUTH_GUEST, AUTH_LOGOUT, AUTH_REQUEST, AUTH_SUCCESS} from "@js/store/mutation-types";
 import store from "@js/store/index";
 import Vue from "vue";
 
 const moduleAuthentication = {
     state: () => ({
-        token: localStorage.getItem('token') || '',
-        status: '',
-        user: null,
-        authenticated: false,
-        guestRole: null
+        token: localStorage.getItem('token') || '', status: '', user: null, authenticated: false, guestRole: null
     }),
 
     mutations: {
         [AUTH_REQUEST](state) {
             state.status = 'loading';
-        },
-        [AUTH_SUCCESS](state, { token, user }) {
+        }, [AUTH_SUCCESS](state, {token, user}) {
             state.status = 'success';
             state.token = token;
             state.user = user;
             state.authenticated = true;
 
             // Emit an auth.state event to indicate our authenticated-state has changed
-            Vue.bus.emit('auth.state', { authenticated: state.authenticated, user: state.user });
-        },
-        [AUTH_FAILED](state) {
+            Vue.bus.emit('auth.state', {authenticated: state.authenticated, user: state.user});
+        }, [AUTH_FAILED](state) {
             state.token = '';
             state.status = 'error';
             state.authenticated = false;
 
             // Emit event
             Vue.bus.emit('auth.fail');
-        },
-        [AUTH_LOGOUT](state) {
+        }, [AUTH_LOGOUT](state) {
             state.status = '';
             state.token = '';
             state.user = null;
             state.authenticated = false;
 
             // Emit an auth.state event to indicate our authenticated-state has changed
-            Vue.bus.emit('auth.state', { authenticated: state.authenticated, user: state.user });
-        },
-        [AUTH_GUEST](state, { guestRole }) {
+            Vue.bus.emit('auth.state', {authenticated: state.authenticated, user: state.user});
+        }, [AUTH_GUEST](state, {guestRole}) {
             state.guestRole = guestRole;
         }
     },
@@ -76,10 +68,7 @@ const moduleAuthentication = {
                 commit(AUTH_REQUEST);
 
                 // Make the request
-                axios.post(
-                    '/api/auth/login',
-                    login
-                ).then((resp) => {
+                axios.post('/api/auth/login', login).then((resp) => {
                     const token = resp.data.token;
 
                     localStorage.setItem('token', token);
@@ -87,8 +76,7 @@ const moduleAuthentication = {
 
                     store.dispatch('fetchUserInformation').then((resp) => {
                         commit(AUTH_SUCCESS, {
-                            token,
-                            user: resp
+                            token, user: resp
                         });
 
                         resolve(true);
@@ -103,7 +91,8 @@ const moduleAuthentication = {
 
                     try {
                         msg = err.data.message;
-                    } catch(e) {
+                    }
+                    catch(e) {
                         //Fallback to default error message
                         msg = err.message;
                     }
@@ -140,7 +129,8 @@ const moduleAuthentication = {
 
                     try {
                         msg = err.response.data.message;
-                    } catch(e) {
+                    }
+                    catch(e) {
                         //Fallback to default error message
                         msg = err.message;
                     }
@@ -159,8 +149,7 @@ const moduleAuthentication = {
 
                 store.dispatch('fetchUserInformation').then((resp) => {
                     commit(AUTH_SUCCESS, {
-                        token: token,
-                        user: resp
+                        token: token, user: resp
                     });
                     resolve(true);
                 }).catch((err) => {
@@ -175,7 +164,7 @@ const moduleAuthentication = {
         updateGuestRole({commit}) {
             return new Promise((resolve, reject) => {
                 Role.api().get('/api/role/guest').then((resp) => {
-                    const role       = resp.entities.roles[0];
+                    const role = resp.entities.roles[0];
                     const guestModel = Role.query().with('permissions').whereId(role.id).first();
 
                     commit(AUTH_GUEST, {
@@ -187,7 +176,8 @@ const moduleAuthentication = {
 
                     try {
                         msg = err.response.data.message;
-                    } catch(e) {
+                    }
+                    catch(e) {
                         //Fallback to default error message
                         msg = err.message;
                     }

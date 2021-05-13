@@ -13,7 +13,7 @@
                             <div class="row row-0">
                                 <div class="col-sm-1">
                                     <span class="object-cover">
-                                        <img src="images/album_temp_bg.jpg" class="previewimage" alt="Search result image">
+                                        <img alt="Search result image" class="previewimage" src="images/album_temp_bg.jpg">
                                     </span>
                                 </div>
                                 <div class="col">
@@ -33,7 +33,7 @@
                             <div class="row row-0">
                                 <div class="col-sm-1">
                                     <span class="object-cover">
-                                        <img src="https://i.ytimg.com/vi/qv1aEfLgiWM/default.jpg" class="previewimage" alt="Search result image">
+                                        <img alt="Search result image" class="previewimage" src="https://i.ytimg.com/vi/qv1aEfLgiWM/default.jpg">
                                     </span>
                                 </div>
                                 <div class="col">
@@ -93,55 +93,53 @@
 </template>
 
 <script>
-    import ComingUp from "@js/components/MediaTable/ComingUp";
-    import ArtistList from "../../components/media/ArtistList";
+import ComingUp from "@js/components/MediaTable/ComingUp";
+import ArtistList from "../../components/media/ArtistList";
 
-    export default {
-        name: "search-view",
-        components: {
-            ArtistList,
-            ComingUp
-        }
-    };
+export default {
+    name: "search-view", components: {
+        ArtistList, ComingUp
+    }
+};
 </script>
 
-<style scoped lang="scss">
-    .search-header {
-        margin: 0 0 0.5rem;
-        opacity: 0.25;
-        font-size: 2rem;
+<style lang="scss" scoped>
+.search-header {
+    margin: 0 0 0.5rem;
+    opacity: 0.25;
+    font-size: 2rem;
+}
+
+.searchresults {
+    & > .row {
+        margin-bottom: 5px;
     }
 
-    .searchresults {
-        & > .row {
-            margin-bottom: 5px;
+    .searchresult {
+        .object-cover {
+            display: flex;
+            align-items: center;
+            max-width: 96px;
+            min-width: 96px;
+            max-height: 96px;
+            min-height: 96px;
+
+            &.avatar svg {
+                width: 2rem;
+                height: 2rem;
+            }
+
+            .previewimage {
+                min-height: 0;
+                height: auto;
+                width: 100%;
+                max-width: inherit;
+            }
         }
 
-        .searchresult {
-            .object-cover {
-                display : flex;
-                align-items : center;
-                max-width: 96px;
-                min-width: 96px;
-                max-height: 96px;
-                min-height: 96px;
-
-                &.avatar svg {
-                    width: 2rem;
-                    height: 2rem;
-                }
-
-                .previewimage {
-                    min-height: 0;
-                    height: auto;
-                    width: 100%;
-                    max-width: inherit;
-                }
-            }
-
-            .searchresult-content h3 {
-                flex-grow: 1;
-            }
+        .searchresult-content h3 {
+            flex-grow: 1;
         }
     }
+}
 </style>

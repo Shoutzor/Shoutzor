@@ -13,17 +13,11 @@ import store from "@js/store/index";
 import LoadScreen from "../components/loader/LoadScreen";
 
 export default {
-    name: "App",
-    components: {
-        LoadScreen,
-        LoginScreen,
-        Shoutzor
-    },
-    computed: mapGetters({
-        can: 'can',
-        hasToken: 'hasToken'
-    }),
-    data() {
+    name: "App", components: {
+        LoadScreen, LoginScreen, Shoutzor
+    }, computed: mapGetters({
+        can: 'can', hasToken: 'hasToken'
+    }), data() {
         return {
             loaded: false
         }
@@ -48,7 +42,7 @@ export default {
 }
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 .simplebar-main {
     width: 100%;
     height: 100%;

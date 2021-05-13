@@ -3,18 +3,17 @@
 namespace Intervention\Image\Imagick\Commands;
 
 use Intervention\Image\Commands\AbstractCommand;
+use Intervention\Image\Image;
 use Intervention\Image\Imagick\Color;
 
-class RotateCommand extends AbstractCommand
-{
+class RotateCommand extends AbstractCommand {
     /**
      * Rotates image counter clockwise
      *
-     * @param  \Intervention\Image\Image $image
+     * @param Image $image
      * @return boolean
      */
-    public function execute($image)
-    {
+    public function execute($image) {
         $angle = $this->argument(0)->type('numeric')->required()->value();
         $color = $this->argument(1)->value();
         $color = new Color($color);

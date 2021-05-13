@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Request;
 use App\Http\Controllers\Controller;
+use App\Request;
 
 class RequestApiController extends Controller {
 

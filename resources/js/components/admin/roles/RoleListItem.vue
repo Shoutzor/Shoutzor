@@ -38,7 +38,7 @@
 </template>
 
 <script>
-    export default {
-        props: ['role']
-    }
+export default {
+    props: ['role']
+}
 </script>

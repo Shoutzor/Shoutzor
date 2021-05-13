@@ -7,11 +7,11 @@ use Symfony\Contracts\EventDispatcher\Event;
 
 /**
  * Class MediaAddedEvent
+ *
  * @package App\Events
  * Gets called when a media object gets added to Shoutz0r
  */
-class MediaAddedEvent extends Event
-{
+class MediaAddedEvent extends Event {
     public const NAME = 'media.added';
 
     protected $upload;
@@ -20,7 +20,7 @@ class MediaAddedEvent extends Event
         $this->upload = $upload;
     }
 
-    public function getUpload() : Upload {
+    public function getUpload(): Upload {
         return $this->upload;
     }
 }

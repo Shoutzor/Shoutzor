@@ -2,13 +2,15 @@
 
 namespace Soundasleep;
 
-class Html2TextException extends \Exception {
+use Exception;
 
-	var $more_info;
+class Html2TextException extends Exception {
 
-	public function __construct($message = "", $more_info = "") {
-		parent::__construct($message);
-		$this->more_info = $more_info;
-	}
+    var $more_info;
+
+    public function __construct($message = "", $more_info = "") {
+        parent::__construct($message);
+        $this->more_info = $more_info;
+    }
 
 }

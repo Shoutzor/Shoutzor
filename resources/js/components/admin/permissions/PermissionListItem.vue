@@ -1,7 +1,7 @@
 <template>
     <div class="list-item">
         <div>
-            <input class="form-check-input" type="checkbox" :checked="hasPermission">
+            <input :checked="hasPermission" class="form-check-input" type="checkbox">
         </div>
         <div class="text-truncate">
             <span class="text-body d-block">{{ permission.name }}</span>
@@ -11,7 +11,7 @@
 </template>
 
 <script>
-    export default {
-        props: ['permission', 'hasPermission']
-    }
+export default {
+    props: ['permission', 'hasPermission']
+}
 </script>

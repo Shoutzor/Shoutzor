@@ -1,4 +1,4 @@
-import { Model } from '@vuex-orm/core';
+import {Model} from '@vuex-orm/core';
 
 import Media from './Media';
 import Artist from './Artist';
@@ -7,8 +7,15 @@ import AlbumMedia from './AlbumMedia';
 
 export default class Album extends Model {
     static entity = 'albums';
+    static apiConfig = {
+        actions: {
+            fetchById(id) {
+                return this.get('/api/album/${id}')
+            }
+        }
+    }
 
-    static fields () {
+    static fields() {
         return {
             id: this.number(null),
             title: this.string(''),
@@ -16,14 +23,6 @@ export default class Album extends Model {
             image: this.string(''),
             artists: this.belongsToMany(Artist, AlbumArtist, 'album_id', 'artist_id'),
             media: this.belongsToMany(Media, AlbumMedia, 'album_id', 'media_id')
-        }
-    }
-
-    static apiConfig = {
-        actions: {
-            fetchById (id) {
-                return this.get('/api/album/${id}')
-            }
         }
     }
 }

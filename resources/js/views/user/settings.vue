@@ -9,7 +9,7 @@
 </template>
 
 <script>
-    export default {
-        name: "user-settings-view"
-    };
+export default {
+    name: "user-settings-view"
+};
 </script>

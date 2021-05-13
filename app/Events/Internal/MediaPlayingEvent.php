@@ -7,11 +7,11 @@ use Symfony\Contracts\EventDispatcher\Event;
 
 /**
  * Class MediaPlayingEvent
+ *
  * @package App\Events
  * Gets called when a media object started playing on Shoutz0r
  */
-class MediaPlayingEvent extends Event
-{
+class MediaPlayingEvent extends Event {
     public const NAME = 'media.playing';
 
     protected $upload;
@@ -20,7 +20,7 @@ class MediaPlayingEvent extends Event
         $this->upload = $upload;
     }
 
-    public function getUpload() : Upload {
+    public function getUpload(): Upload {
         return $this->upload;
     }
 }

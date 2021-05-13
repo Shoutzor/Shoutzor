@@ -2,31 +2,29 @@
 
 namespace Intervention\Image\Gd;
 
+use Imagick;
+use Intervention\Image\AbstractDecoder;
 use Intervention\Image\Exception\NotReadableException;
 use Intervention\Image\Exception\NotSupportedException;
 use Intervention\Image\Image;
 
-class Decoder extends \Intervention\Image\AbstractDecoder
-{
+class Decoder extends AbstractDecoder {
     /**
      * Initiates new image from path in filesystem
      *
-     * @param  string $path
-     * @return \Intervention\Image\Image
+     * @param string $path
+     * @return Image
      */
-    public function initFromPath($path)
-    {
-        if ( ! file_exists($path)) {
-            throw new NotReadableException(
-                "Unable to find file ({$path})."
-            );
+    public function initFromPath($path) {
+        if(!file_exists($path)) {
+            throw new NotReadableException("Unable to find file ({$path}).");
         }
 
         // get mime type of file
         $mime = finfo_file(finfo_open(FILEINFO_MIME_TYPE), $path);
 
         // define core
-        switch (strtolower($mime)) {
+        switch(strtolower($mime)) {
             case 'image/png':
             case 'image/x-png':
                 $core = @imagecreatefrompng($path);
@@ -36,8 +34,8 @@ class Decoder extends \Intervention\Image\AbstractDecoder
             case 'image/jpeg':
             case 'image/pjpeg':
                 $core = @imagecreatefromjpeg($path);
-                if (!$core) {
-                    $core= @imagecreatefromstring(file_get_contents($path));
+                if(!$core) {
+                    $core = @imagecreatefromstring(file_get_contents($path));
                 }
                 break;
 
@@ -47,24 +45,18 @@ class Decoder extends \Intervention\Image\AbstractDecoder
 
             case 'image/webp':
             case 'image/x-webp':
-                if ( ! function_exists('imagecreatefromwebp')) {
-                    throw new NotReadableException(
-                        "Unsupported image type. GD/PHP installation does not support WebP format."
-                    );
+                if(!function_exists('imagecreatefromwebp')) {
+                    throw new NotReadableException("Unsupported image type. GD/PHP installation does not support WebP format.");
                 }
                 $core = @imagecreatefromwebp($path);
                 break;
 
             default:
-                throw new NotReadableException(
-                    "Unsupported image type. GD driver is only able to decode JPG, PNG, GIF or WebP files."
-                );
+                throw new NotReadableException("Unsupported image type. GD driver is only able to decode JPG, PNG, GIF or WebP files.");
         }
 
-        if (empty($core)) {
-            throw new NotReadableException(
-                "Unable to decode image from file ({$path})."
-            );
+        if(empty($core)) {
+            throw new NotReadableException("Unable to decode image from file ({$path}).");
         }
 
         $this->gdResourceToTruecolor($core);
@@ -78,59 +70,12 @@ class Decoder extends \Intervention\Image\AbstractDecoder
     }
 
     /**
-     * Initiates new image from GD resource
-     *
-     * @param  Resource $resource
-     * @return \Intervention\Image\Image
-     */
-    public function initFromGdResource($resource)
-    {
-        return new Image(new Driver, $resource);
-    }
-
-    /**
-     * Initiates new image from Imagick object
-     *
-     * @param  Imagick $object
-     * @return \Intervention\Image\Image
-     */
-    public function initFromImagick(\Imagick $object)
-    {
-        throw new NotSupportedException(
-            "Gd driver is unable to init from Imagick object."
-        );
-    }
-
-    /**
-     * Initiates new image from binary data
-     *
-     * @param  string $data
-     * @return \Intervention\Image\Image
-     */
-    public function initFromBinary($binary)
-    {
-        $resource = @imagecreatefromstring($binary);
-
-        if ($resource === false) {
-             throw new NotReadableException(
-                "Unable to init from given binary data."
-            );
-        }
-
-        $image = $this->initFromGdResource($resource);
-        $image->mime = finfo_buffer(finfo_open(FILEINFO_MIME_TYPE), $binary);
-
-        return $image;
-    }
-
-    /**
      * Transform GD resource into Truecolor version
      *
-     * @param  resource $resource
+     * @param resource $resource
      * @return bool
      */
-    public function gdResourceToTruecolor(&$resource)
-    {
+    public function gdResourceToTruecolor(&$resource) {
         $width = imagesx($resource);
         $height = imagesy($resource);
 
@@ -151,5 +96,44 @@ class Decoder extends \Intervention\Image\AbstractDecoder
         $resource = $canvas;
 
         return true;
+    }
+
+    /**
+     * Initiates new image from GD resource
+     *
+     * @param Resource $resource
+     * @return Image
+     */
+    public function initFromGdResource($resource) {
+        return new Image(new Driver, $resource);
+    }
+
+    /**
+     * Initiates new image from Imagick object
+     *
+     * @param Imagick $object
+     * @return Image
+     */
+    public function initFromImagick(Imagick $object) {
+        throw new NotSupportedException("Gd driver is unable to init from Imagick object.");
+    }
+
+    /**
+     * Initiates new image from binary data
+     *
+     * @param string $data
+     * @return Image
+     */
+    public function initFromBinary($binary) {
+        $resource = @imagecreatefromstring($binary);
+
+        if($resource === false) {
+            throw new NotReadableException("Unable to init from given binary data.");
+        }
+
+        $image = $this->initFromGdResource($resource);
+        $image->mime = finfo_buffer(finfo_open(FILEINFO_MIME_TYPE), $binary);
+
+        return $image;
     }
 }

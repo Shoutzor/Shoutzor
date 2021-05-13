@@ -8,11 +8,11 @@ use Symfony\Contracts\EventDispatcher\Event;
 
 /**
  * Class UploadProcessingEvent
+ *
  * @package App\Events
  * Gets called when an upload from the queue is ready for processing
  */
-class UploadProcessingEvent extends Event
-{
+class UploadProcessingEvent extends Event {
     public const NAME = 'upload.processing';
 
     protected Upload $upload;
@@ -24,11 +24,11 @@ class UploadProcessingEvent extends Event
         $this->media = $media;
     }
 
-    public function getUpload() : Upload {
+    public function getUpload(): Upload {
         return $this->upload;
     }
 
-    public function getMedia() : Media {
+    public function getMedia(): Media {
         return $this->media;
     }
 
@@ -41,9 +41,10 @@ class UploadProcessingEvent extends Event
 
     /**
      * Returns whether the upload is valid or not
+     *
      * @return bool
      */
-    public function isValid() : bool {
+    public function isValid(): bool {
         return $this->valid;
     }
 }

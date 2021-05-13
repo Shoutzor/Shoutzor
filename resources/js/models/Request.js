@@ -1,12 +1,19 @@
-import { Model } from '@vuex-orm/core';
+import {Model} from '@vuex-orm/core';
 
 import Media from "./Media";
 import User from "./User";
 
 export default class Request extends Model {
     static entity = 'requests'
+    static apiConfig = {
+        actions: {
+            fetch: {
+                method: 'get', url: '/api/request'
+            }
+        }
+    }
 
-    static fields () {
+    static fields() {
         return {
             id: this.number(null),
             media_id: this.number(null),
@@ -18,21 +25,12 @@ export default class Request extends Model {
         }
     }
 
-    static apiConfig = {
-        actions: {
-            fetch: {
-                method: 'get',
-                url: '/api/request'
-            }
-        }
-    }
+    /*    static afterWhere (requests) {
+     requests.forEach((request) => {
+     //Fetch dependencies
+     console.log(request);
+     });
 
-/*    static afterWhere (requests) {
-        requests.forEach((request) => {
-           //Fetch dependencies
-            console.log(request);
-        });
-
-        return requests;
-    }*/
+     return requests;
+     }*/
 }

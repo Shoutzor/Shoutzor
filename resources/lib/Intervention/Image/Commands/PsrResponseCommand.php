@@ -3,9 +3,9 @@
 namespace Intervention\Image\Commands;
 
 use GuzzleHttp\Psr7\Response;
+use Intervention\Image\Image;
 
-class PsrResponseCommand extends AbstractCommand
-{
+class PsrResponseCommand extends AbstractCommand {
     /**
      * Builds PSR7 compatible response. May replace "response" command in
      * some future.
@@ -15,30 +15,19 @@ class PsrResponseCommand extends AbstractCommand
      * streams and more "clean" streaming, however drivers has to be updated
      * first.
      *
-     * @param  \Intervention\Image\Image $image
+     * @param Image $image
      * @return boolean
      */
-    public function execute($image)
-    {
+    public function execute($image) {
         $format = $this->argument(0)->value();
         $quality = $this->argument(1)->between(0, 100)->value();
 
         //Encoded property will be populated at this moment
         $stream = $image->stream($format, $quality);
 
-        $mimetype = finfo_buffer(
-            finfo_open(FILEINFO_MIME_TYPE),
-            $image->getEncoded()
-        );
+        $mimetype = finfo_buffer(finfo_open(FILEINFO_MIME_TYPE), $image->getEncoded());
 
-        $this->setOutput(new Response(
-            200,
-            [
-                'Content-Type'   => $mimetype,
-                'Content-Length' => strlen($image->getEncoded())
-            ],
-            $stream
-        ));
+        $this->setOutput(new Response(200, ['Content-Type' => $mimetype, 'Content-Length' => strlen($image->getEncoded())], $stream));
 
         return true;
     }

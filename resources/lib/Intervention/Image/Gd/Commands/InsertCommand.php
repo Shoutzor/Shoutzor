@@ -3,17 +3,16 @@
 namespace Intervention\Image\Gd\Commands;
 
 use Intervention\Image\Commands\AbstractCommand;
+use Intervention\Image\Image;
 
-class InsertCommand extends AbstractCommand
-{
+class InsertCommand extends AbstractCommand {
     /**
      * Insert another image into given image
      *
-     * @param  \Intervention\Image\Image $image
+     * @param Image $image
      * @return boolean
      */
-    public function execute($image)
-    {
+    public function execute($image) {
         $source = $this->argument(0)->required()->value();
         $position = $this->argument(1)->type('string')->value();
         $x = $this->argument(2)->type('digit')->value(0);

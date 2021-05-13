@@ -4,16 +4,14 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateAlbumMediaTable extends Migration
-{
+class CreateAlbumMediaTable extends Migration {
     /**
      * Run the migrations.
      *
      * @return void
      */
-    public function up()
-    {
-        Schema::create('album_media', function (Blueprint $table) {
+    public function up() {
+        Schema::create('album_media', function(Blueprint $table) {
             $table->integer('album_id')->unsigned();
             $table->integer('media_id')->unsigned();
 
@@ -28,8 +26,7 @@ class CreateAlbumMediaTable extends Migration
      *
      * @return void
      */
-    public function down()
-    {
+    public function down() {
         Schema::dropIfExists('album_media');
     }
 }

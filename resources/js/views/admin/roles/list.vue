@@ -12,11 +12,9 @@ import RoleList from "@js/components/admin/roles/RoleList";
 import Role from "@js/models/Role";
 
 export default {
-    name: "admin-roles",
-    components: {
+    name: "admin-roles", components: {
         RoleList
-    },
-    computed: {
+    }, computed: {
         roles: () => Role.all()
     },
 

@@ -2,10 +2,9 @@
 
 namespace Intervention\Image\Commands;
 
-use Intervention\Image\Commands\Argument;
+use Intervention\Image\Image;
 
-abstract class AbstractCommand
-{
+abstract class AbstractCommand {
     /**
      * Arguments of command
      *
@@ -21,31 +20,29 @@ abstract class AbstractCommand
     protected $output;
 
     /**
+     * Creates new command instance
+     *
+     * @param array $arguments
+     */
+    public function __construct($arguments) {
+        $this->arguments = $arguments;
+    }
+
+    /**
      * Executes current command on given image
      *
-     * @param  \Intervention\Image\Image $image
+     * @param Image $image
      * @return mixed
      */
     abstract public function execute($image);
 
     /**
-     * Creates new command instance
-     *
-     * @param array $arguments
-     */
-    public function __construct($arguments)
-    {
-        $this->arguments = $arguments;
-    }
-
-    /**
      * Creates new argument instance from given argument key
      *
-     * @param  int $key
-     * @return \Intervention\Image\Commands\Argument
+     * @param int $key
+     * @return Argument
      */
-    public function argument($key)
-    {
+    public function argument($key) {
         return new Argument($this, $key);
     }
 
@@ -54,19 +51,8 @@ abstract class AbstractCommand
      *
      * @return mixed
      */
-    public function getOutput()
-    {
+    public function getOutput() {
         return $this->output ? $this->output : null;
-    }
-
-    /**
-     * Determines if current instance has output data
-     *
-     * @return boolean
-     */
-    public function hasOutput()
-    {
-        return ! is_null($this->output);
     }
 
     /**
@@ -74,8 +60,16 @@ abstract class AbstractCommand
      *
      * @param mixed $value
      */
-    public function setOutput($value)
-    {
+    public function setOutput($value) {
         $this->output = $value;
+    }
+
+    /**
+     * Determines if current instance has output data
+     *
+     * @return boolean
+     */
+    public function hasOutput() {
+        return !is_null($this->output);
     }
 }

@@ -2,33 +2,28 @@
 
 namespace App\Providers;
 
-use Illuminate\Auth\Access\Response;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
 use Laravel\Passport\Passport;
 use Spatie\Permission\Models\Role;
 
-class AuthServiceProvider extends ServiceProvider
-{
+class AuthServiceProvider extends ServiceProvider {
     /**
      * The policy mappings for the application.
      *
      * @var array
      */
-    protected $policies = [
-        'App\Model' => 'App\Policies\ModelPolicy',
-    ];
+    protected $policies = ['App\Model' => 'App\Policies\ModelPolicy',];
 
     /**
      * Register any authentication / authorization services.
      *
      * @return void
      */
-    public function boot()
-    {
+    public function boot() {
         $this->registerPolicies();
 
-        Gate::after(function ($user, $ability, $result, $arguments) {
+        Gate::after(function($user, $ability, $result, $arguments) {
             die();
             if(!$user) {
                 $role = Role::findByName('guest');

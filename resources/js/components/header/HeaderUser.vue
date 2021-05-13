@@ -7,18 +7,17 @@
             Profile
         </router-link>
         <div class="dropdown-divider"></div>
-        <a @click.prevent="logout"
-            href="#"
-            class="dropdown-item"
+        <a class="dropdown-item"
+           href="#"
+           @click.prevent="logout"
         >Logout</a>
     </div>
 </template>
 
 <script>
 export default {
-    name: 'headerUser',
-    methods: {
-        logout: function () {
+    name: 'headerUser', methods: {
+        logout: function() {
             this.$store.dispatch('logout')
             .then(() => {
                 // Do nothing
