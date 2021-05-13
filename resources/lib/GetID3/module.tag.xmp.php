@@ -90,7 +90,7 @@ class Image_XMP {
             // If we find an APP1 header,
             if(strcmp($jpeg_header_data[$i]['SegName'], 'APP1') == 0) {
                 // And if it has the Adobe XMP/RDF label (http://ns.adobe.com/xap/1.0/\x00) ,
-                if(strncmp($jpeg_header_data[$i]['SegData'], 'http://ns.adobe.com/xap/1.0/'."\x00", 29) == 0) {
+                if(strncmp($jpeg_header_data[$i]['SegData'], 'http://ns.adobe.com/xap/1.0/' . "\x00", 29) == 0) {
                     // Found a XMP/RDF block
                     // Return the XMP text
                     $xmp_data = substr($jpeg_header_data[$i]['SegData'], 29);
@@ -129,7 +129,7 @@ class Image_XMP {
         // Check that the first two characters are 0xFF 0xD8  (SOI - Start of image)
         if($data != "\xFF\xD8") {
             // No SOI (FF D8) at start of file - This probably isn't a JPEG file - close file and return;
-            echo '<p>This probably is not a JPEG file</p>'."\n";
+            echo '<p>This probably is not a JPEG file</p>' . "\n";
             fclose($filehnd);
             return false;
         }

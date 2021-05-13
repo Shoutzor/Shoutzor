@@ -29,7 +29,7 @@ class UploadApiController extends Controller {
         //TODO check if the file is a valid media file.
 
         //Set the new  name for the file
-        $newName = time().$name.'.'.$ext;
+        $newName = time() . $name . '.' . $ext;
 
         //Move the file to a temporary directory while it's awaiting processing.
         $request->file('media')->storeAs(Upload::STORAGE_PATH, $newName);

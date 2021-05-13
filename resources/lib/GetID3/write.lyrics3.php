@@ -85,7 +85,7 @@ class getid3_write_lyrics3 {
 
             }
             else {
-                $this->errors[] = 'Cannot fopen('.$this->filename.', "a+b")';
+                $this->errors[] = 'Cannot fopen(' . $this->filename . ', "a+b")';
                 return false;
             }
         }

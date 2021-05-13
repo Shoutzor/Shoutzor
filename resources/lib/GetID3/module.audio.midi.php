@@ -42,7 +42,7 @@ class getid3_midi extends getid3_handler {
         $offset = 0;
         $MIDIheaderID = substr($MIDIdata, $offset, 4); // 'MThd'
         if($MIDIheaderID != GETID3_MIDI_MAGIC_MTHD) {
-            $this->error('Expecting "'.getid3_lib::PrintHexBytes(GETID3_MIDI_MAGIC_MTHD).'" at offset '.$info['avdataoffset'].', found "'.getid3_lib::PrintHexBytes($MIDIheaderID).'"');
+            $this->error('Expecting "' . getid3_lib::PrintHexBytes(GETID3_MIDI_MAGIC_MTHD) . '" at offset ' . $info['avdataoffset'] . ', found "' . getid3_lib::PrintHexBytes($MIDIheaderID) . '"');
             unset($info['fileformat']);
             return false;
         }
@@ -62,8 +62,8 @@ class getid3_midi extends getid3_handler {
                     $MIDIdata .= $buffer;
                 }
                 else {
-                    $this->warning('only processed '.($i - 1).' of '.$thisfile_midi_raw['tracks'].' tracks');
-                    $this->error('Unabled to read more file data at '.$this->ftell().' (trying to seek to : '.$offset.'), was expecting at least 8 more bytes');
+                    $this->warning('only processed ' . ($i - 1) . ' of ' . $thisfile_midi_raw['tracks'] . ' tracks');
+                    $this->error('Unabled to read more file data at ' . $this->ftell() . ' (trying to seek to : ' . $offset . '), was expecting at least 8 more bytes');
                     return false;
                 }
             }
@@ -77,7 +77,7 @@ class getid3_midi extends getid3_handler {
                 $offset += $tracksize;
             }
             else {
-                $this->error('Expecting "'.getid3_lib::PrintHexBytes(GETID3_MIDI_MAGIC_MTRK).'" at '.($offset - 4).', found "'.getid3_lib::PrintHexBytes($trackID).'" instead');
+                $this->error('Expecting "' . getid3_lib::PrintHexBytes(GETID3_MIDI_MAGIC_MTRK) . '" at ' . ($offset - 4) . ', found "' . getid3_lib::PrintHexBytes($trackID) . '" instead');
                 return false;
             }
         }
@@ -224,7 +224,7 @@ class getid3_midi extends getid3_handler {
                                 if(!isset($thisfile_midi['lyrics'])) {
                                     $thisfile_midi['lyrics'] = '';
                                 }
-                                $thisfile_midi['lyrics'] .= $text_lyrics."\n";
+                                $thisfile_midi['lyrics'] .= $text_lyrics . "\n";
                                 break;
 
                             case 0x06: // Text: marker
@@ -261,7 +261,7 @@ class getid3_midi extends getid3_handler {
                                 //$thisfile_midi_raw['events'][$tracknumber][$eventid]['timesig_numerator']   = $timesig_numerator;
                                 //$thisfile_midi_raw['events'][$tracknumber][$eventid]['timesig_denominator'] = $timesig_denominator;
                                 //$thisfile_midi_raw['events'][$tracknumber][$eventid]['timesig_text']        = $timesig_numerator.'/'.$timesig_denominator;
-                                $thisfile_midi['timesignature'][] = $timesig_numerator.'/'.$timesig_denominator;
+                                $thisfile_midi['timesignature'][] = $timesig_numerator . '/' . $timesig_denominator;
                                 break;
 
                             case 0x59: // Keysignature
@@ -279,7 +279,7 @@ class getid3_midi extends getid3_handler {
                                 //$thisfile_midi_raw['events'][$tracknumber][$eventid]['keysig_text']   = $keysigs[$keysig_sharpsflats].' '.($thisfile_midi_raw['events'][$tracknumber][$eventid]['keysig_minor'] ? 'minor' : 'major');
 
                                 // $keysigs[$keysig_sharpsflats] gets an int key (correct) - $keysigs["$keysig_sharpsflats"] gets a string key (incorrect)
-                                $thisfile_midi['keysignature'][] = $keysigs[$keysig_sharpsflats].' '.((bool)$keysig_majorminor ? 'minor' : 'major');
+                                $thisfile_midi['keysignature'][] = $keysigs[$keysig_sharpsflats] . ' ' . ((bool)$keysig_majorminor ? 'minor' : 'major');
                                 break;
 
                             case 0x7F: // Sequencer specific information
@@ -287,14 +287,14 @@ class getid3_midi extends getid3_handler {
                                 break;
 
                             default:
-                                $this->warning('Unhandled META Event Command: '.$METAeventCommand);
+                                $this->warning('Unhandled META Event Command: ' . $METAeventCommand);
                                 break;
                         }
 
                     }
                     else {
 
-                        $this->warning('Unhandled MIDI Event ID: '.$MIDIevents[$tracknumber][$eventid]['eventid'].' + Channel ID: '.$MIDIevents[$tracknumber][$eventid]['channel']);
+                        $this->warning('Unhandled MIDI Event ID: ' . $MIDIevents[$tracknumber][$eventid]['eventid'] . ' + Channel ID: ' . $MIDIevents[$tracknumber][$eventid]['channel']);
 
                     }
                 }

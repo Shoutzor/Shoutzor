@@ -32,7 +32,7 @@ class getid3_tta extends getid3_handler {
         $info['tta']['magic'] = substr($ttaheader, 0, 3);
         $magic = 'TTA';
         if($info['tta']['magic'] != $magic) {
-            $this->error('Expecting "'.getid3_lib::PrintHexBytes($magic).'" at offset '.$info['avdataoffset'].', found "'.getid3_lib::PrintHexBytes($info['tta']['magic']).'"');
+            $this->error('Expecting "' . getid3_lib::PrintHexBytes($magic) . '" at offset ' . $info['avdataoffset'] . ', found "' . getid3_lib::PrintHexBytes($info['tta']['magic']) . '"');
             unset($info['fileformat']);
             unset($info['audio']);
             unset($info['tta']);
@@ -53,7 +53,7 @@ class getid3_tta extends getid3_handler {
                 $info['tta']['sample_rate'] = getid3_lib::LittleEndian2Int(substr($ttaheader, 8, 4));
                 $info['tta']['samples_per_channel'] = getid3_lib::LittleEndian2Int(substr($ttaheader, 12, 4));
 
-                $info['audio']['encoder_options'] = '-e'.$info['tta']['compression_level'];
+                $info['audio']['encoder_options'] = '-e' . $info['tta']['compression_level'];
                 $info['playtime_seconds'] = $info['tta']['samples_per_channel'] / $info['tta']['sample_rate'];
                 break;
 
@@ -69,7 +69,7 @@ class getid3_tta extends getid3_handler {
                 $info['tta']['sample_rate'] = getid3_lib::LittleEndian2Int(substr($ttaheader, 12, 4));
                 $info['tta']['data_length'] = getid3_lib::LittleEndian2Int(substr($ttaheader, 16, 4));
 
-                $info['audio']['encoder_options'] = '-e'.$info['tta']['compression_level'];
+                $info['audio']['encoder_options'] = '-e' . $info['tta']['compression_level'];
                 $info['playtime_seconds'] = $info['tta']['data_length'] / $info['tta']['sample_rate'];
                 break;
 
@@ -90,12 +90,12 @@ class getid3_tta extends getid3_handler {
                 break;
 
             default:
-                $this->error('This version of getID3() ['.$this->getid3->version().'] only knows how to handle TTA v1 and v2 - it may not work correctly with this file which appears to be TTA v'.$ttaheader{3});
+                $this->error('This version of getID3() [' . $this->getid3->version() . '] only knows how to handle TTA v1 and v2 - it may not work correctly with this file which appears to be TTA v' . $ttaheader{3});
                 return false;
                 break;
         }
 
-        $info['audio']['encoder'] = 'TTA v'.$info['tta']['major_version'];
+        $info['audio']['encoder'] = 'TTA v' . $info['tta']['major_version'];
         $info['audio']['bits_per_sample'] = $info['tta']['bits_per_sample'];
         $info['audio']['sample_rate'] = $info['tta']['sample_rate'];
         $info['audio']['channels'] = $info['tta']['channels'];

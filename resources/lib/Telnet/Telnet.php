@@ -139,7 +139,7 @@ class Telnet {
                 if(empty($prompt)) {
                     return self::TELNET_OK;
                 }
-                throw new Exception("Couldn't find the requested : '".$prompt."', it was not in the data returned from server: ".$this->buffer);
+                throw new Exception("Couldn't find the requested : '" . $prompt . "', it was not in the data returned from server: " . $this->buffer);
             }
             // Interpreted As Command
             if($c == $this->IAC) {
@@ -189,15 +189,15 @@ class Telnet {
         if($c != $this->IAC) {
             if(($c == $this->DO) || ($c == $this->DONT)) {
                 $opt = $this->getc();
-                fwrite($this->socket, $this->IAC.$this->WONT.$opt);
+                fwrite($this->socket, $this->IAC . $this->WONT . $opt);
             }
             else {
                 if(($c == $this->WILL) || ($c == $this->WONT)) {
                     $opt = $this->getc();
-                    fwrite($this->socket, $this->IAC.$this->DONT.$opt);
+                    fwrite($this->socket, $this->IAC . $this->DONT . $opt);
                 }
                 else {
-                    throw new Exception('Error: unknown control character '.ord($c));
+                    throw new Exception('Error: unknown control character ' . ord($c));
                 }
             }
         }

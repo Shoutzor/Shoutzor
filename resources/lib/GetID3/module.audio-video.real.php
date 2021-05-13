@@ -14,7 +14,7 @@
 //                                                            ///
 /////////////////////////////////////////////////////////////////
 
-getid3_lib::IncludeDependency(GETID3_INCLUDEPATH.'module.audio-video.riff.php', __FILE__, true);
+getid3_lib::IncludeDependency(GETID3_INCLUDEPATH . 'module.audio-video.riff.php', __FILE__, true);
 
 class getid3_real extends getid3_handler {
     /**
@@ -34,7 +34,7 @@ class getid3_real extends getid3_handler {
             $ChunkName = substr($ChunkData, 0, 4);
             $ChunkSize = getid3_lib::BigEndian2Int(substr($ChunkData, 4, 4));
 
-            if($ChunkName == '.ra'."\xFD") {
+            if($ChunkName == '.ra' . "\xFD") {
                 $ChunkData .= $this->fread($ChunkSize - 8);
                 if($this->ParseOldRAheader(substr($ChunkData, 0, 128), $info['real']['old_ra_header'])) {
                     $info['audio']['dataformat'] = 'real';
@@ -68,7 +68,7 @@ class getid3_real extends getid3_handler {
             $thisfile_real_chunks_currentchunk['offset'] = $this->ftell() - 8;
             $thisfile_real_chunks_currentchunk['length'] = $ChunkSize;
             if(($thisfile_real_chunks_currentchunk['offset'] + $thisfile_real_chunks_currentchunk['length']) > $info['avdataend']) {
-                $this->warning('Chunk "'.$thisfile_real_chunks_currentchunk['name'].'" at offset '.$thisfile_real_chunks_currentchunk['offset'].' claims to be '.$thisfile_real_chunks_currentchunk['length'].' bytes long, which is beyond end of file');
+                $this->warning('Chunk "' . $thisfile_real_chunks_currentchunk['name'] . '" at offset ' . $thisfile_real_chunks_currentchunk['offset'] . ' claims to be ' . $thisfile_real_chunks_currentchunk['length'] . ' bytes long, which is beyond end of file');
                 return false;
             }
 
@@ -353,7 +353,7 @@ class getid3_real extends getid3_handler {
                     break;
 
                 default:
-                    $this->warning('Unhandled RealMedia chunk "'.$ChunkName.'" at offset '.$thisfile_real_chunks_currentchunk['offset']);
+                    $this->warning('Unhandled RealMedia chunk "' . $ChunkName . '" at offset ' . $thisfile_real_chunks_currentchunk['offset']);
                     break;
             }
             $ChunkCounter++;
@@ -380,7 +380,7 @@ class getid3_real extends getid3_handler {
 
         $ParsedArray = array();
         $ParsedArray['magic'] = substr($OldRAheaderData, 0, 4);
-        if($ParsedArray['magic'] != '.ra'."\xFD") {
+        if($ParsedArray['magic'] != '.ra' . "\xFD") {
             return false;
         }
         $ParsedArray['version1'] = getid3_lib::BigEndian2Int(substr($OldRAheaderData, 4, 2));

@@ -14,7 +14,7 @@
 //                                                            ///
 /////////////////////////////////////////////////////////////////
 
-getid3_lib::IncludeDependency(GETID3_INCLUDEPATH.'module.audio-video.riff.php', __FILE__, true);
+getid3_lib::IncludeDependency(GETID3_INCLUDEPATH . 'module.audio-video.riff.php', __FILE__, true);
 
 class getid3_lpac extends getid3_handler {
     /**
@@ -27,7 +27,7 @@ class getid3_lpac extends getid3_handler {
         $LPACheader = $this->fread(14);
         $StreamMarker = substr($LPACheader, 0, 4);
         if($StreamMarker != 'LPAC') {
-            $this->error('Expected "LPAC" at offset '.$info['avdataoffset'].', found "'.$StreamMarker.'"');
+            $this->error('Expected "LPAC" at offset ' . $info['avdataoffset'] . ', found "' . $StreamMarker . '"');
             return false;
         }
         $info['avdataoffset'] += 14;
@@ -61,7 +61,7 @@ class getid3_lpac extends getid3_handler {
         $info['lpac']['max_prediction_order'] = ($flags['parameters'] & 0x0000003F);
 
         if($info['lpac']['flags']['fast_compress'] && ($info['lpac']['max_prediction_order'] != 3)) {
-            $this->warning('max_prediction_order expected to be "3" if fast_compress is true, actual value is "'.$info['lpac']['max_prediction_order'].'"');
+            $this->warning('max_prediction_order expected to be "3" if fast_compress is true, actual value is "' . $info['lpac']['max_prediction_order'] . '"');
         }
         switch($info['lpac']['file_version']) {
             case 6:
@@ -69,7 +69,7 @@ class getid3_lpac extends getid3_handler {
                     $this->warning('adaptive_quantization expected to be false in LPAC file stucture v6, actually true');
                 }
                 if($info['lpac']['quantization'] != 20) {
-                    $this->warning('Quantization expected to be 20 in LPAC file stucture v6, actually '.$info['lpac']['flags']['Q']);
+                    $this->warning('Quantization expected to be 20 in LPAC file stucture v6, actually ' . $info['lpac']['flags']['Q']);
                 }
                 break;
 

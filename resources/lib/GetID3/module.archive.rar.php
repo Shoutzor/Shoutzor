@@ -40,7 +40,7 @@ class getid3_rar extends getid3_handler {
                     return true;
                 }
                 else {
-                    $this->error('failed to rar_open('.$info['filename'].')');
+                    $this->error('failed to rar_open(' . $info['filename'] . ')');
                 }
             }
             else {

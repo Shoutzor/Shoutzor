@@ -43,7 +43,7 @@ class getid3_swf extends getid3_handler {
                 break;
 
             default:
-                $this->error('Expecting "FWS" or "CWS" at offset '.$info['avdataoffset'].', found "'.getid3_lib::PrintHexBytes($info['swf']['header']['signature']).'"');
+                $this->error('Expecting "FWS" or "CWS" at offset ' . $info['avdataoffset'] . ', found "' . getid3_lib::PrintHexBytes($info['swf']['header']['signature']) . '"');
                 unset($info['swf']);
                 unset($info['fileformat']);
                 return false;
@@ -56,10 +56,10 @@ class getid3_swf extends getid3_handler {
             $SWFHead = substr($SWFfileData, 0, 8);
             $SWFfileData = substr($SWFfileData, 8);
             if($decompressed = @gzuncompress($SWFfileData)) {
-                $SWFfileData = $SWFHead.$decompressed;
+                $SWFfileData = $SWFHead . $decompressed;
             }
             else {
-                $this->error('Error decompressing compressed SWF data ('.strlen($SWFfileData).' bytes compressed, should be '.($info['swf']['header']['length'] - 8).' bytes uncompressed)');
+                $this->error('Error decompressing compressed SWF data (' . strlen($SWFfileData) . ' bytes compressed, should be ' . ($info['swf']['header']['length'] - 8) . ' bytes uncompressed)');
                 return false;
             }
         }

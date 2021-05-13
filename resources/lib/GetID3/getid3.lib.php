@@ -27,7 +27,7 @@ class getid3_lib {
                 $returnstring .= str_pad(dechex(ord($string{$i})), 2, '0', STR_PAD_LEFT);
             }
             else {
-                $returnstring .= ' '.(preg_match("#[\x20-\x7E]#", $string{$i}) ? $string{$i} : '¤');
+                $returnstring .= ' ' . (preg_match("#[\x20-\x7E]#", $string{$i}) ? $string{$i} : '¤');
             }
             if($spaces) {
                 $returnstring .= ' ';
@@ -105,7 +105,7 @@ class getid3_lib {
         $exponentbitstring = str_pad(decbin($biasedexponent), $exponentbits, '0', STR_PAD_LEFT);
         $fractionbitstring = str_pad(substr($normalizedbinary['normalized'], 2), $fractionbits, '0', STR_PAD_RIGHT);
 
-        return self::BigEndian2String(self::Bin2Dec($signbit.$exponentbitstring.$fractionbitstring), $bits % 8, false);
+        return self::BigEndian2String(self::Bin2Dec($signbit . $exponentbitstring . $fractionbitstring), $bits % 8, false);
     }
 
     /**
@@ -118,22 +118,22 @@ class getid3_lib {
      */
     public static function NormalizeBinaryPoint($binarypointnumber, $maxbits = 52) {
         if(strpos($binarypointnumber, '.') === false) {
-            $binarypointnumber = '0.'.$binarypointnumber;
+            $binarypointnumber = '0.' . $binarypointnumber;
         }
         elseif($binarypointnumber{0} == '.') {
-            $binarypointnumber = '0'.$binarypointnumber;
+            $binarypointnumber = '0' . $binarypointnumber;
         }
         $exponent = 0;
         while(($binarypointnumber{0} != '1') || (substr($binarypointnumber, 1, 1) != '.')) {
             if(substr($binarypointnumber, 1, 1) == '.') {
                 $exponent--;
-                $binarypointnumber = substr($binarypointnumber, 2, 1).'.'.substr($binarypointnumber, 3);
+                $binarypointnumber = substr($binarypointnumber, 2, 1) . '.' . substr($binarypointnumber, 3);
             }
             else {
                 $pointpos = strpos($binarypointnumber, '.');
                 $exponent += ($pointpos - 1);
                 $binarypointnumber = str_replace('.', '', $binarypointnumber);
-                $binarypointnumber = $binarypointnumber{0}.'.'.substr($binarypointnumber, 1);
+                $binarypointnumber = $binarypointnumber{0} . '.' . substr($binarypointnumber, 1);
             }
         }
         $binarypointnumber = str_pad(substr($binarypointnumber, 0, $maxbits + 2), $maxbits + 2, '0', STR_PAD_RIGHT);
@@ -157,7 +157,7 @@ class getid3_lib {
             $pointbitstring .= (string)self::trunc($floatpart);
             $floatpart -= self::trunc($floatpart);
         }
-        $binarypointnumber = decbin($intpart).'.'.$pointbitstring;
+        $binarypointnumber = decbin($intpart) . '.' . $pointbitstring;
         return $binarypointnumber;
     }
 
@@ -222,13 +222,13 @@ class getid3_lib {
         $intstring = '';
         if($signed) {
             if($minbytes > PHP_INT_SIZE) {
-                throw new Exception('ERROR: Cannot have signed integers larger than '.(8 * PHP_INT_SIZE).'-bits in self::BigEndian2String()');
+                throw new Exception('ERROR: Cannot have signed integers larger than ' . (8 * PHP_INT_SIZE) . '-bits in self::BigEndian2String()');
             }
             $number = $number & (0x80 << (8 * ($minbytes - 1)));
         }
         while($number != 0) {
             $quotient = ($number / ($maskbyte + 1));
-            $intstring = chr(ceil(($quotient - floor($quotient)) * $maskbyte)).$intstring;
+            $intstring = chr(ceil(($quotient - floor($quotient)) * $maskbyte)) . $intstring;
             $number = floor($quotient);
         }
         return str_pad($intstring, $minbytes, "\x00", STR_PAD_LEFT);
@@ -397,7 +397,7 @@ class getid3_lib {
      */
     public static function DecimalBinary2Float($binarynumerator) {
         $numerator = self::Bin2Dec($binarynumerator);
-        $denominator = self::Bin2Dec('1'.str_repeat('0', strlen($binarynumerator)));
+        $denominator = self::Bin2Dec('1' . str_repeat('0', strlen($binarynumerator)));
         return ($numerator / $denominator);
     }
 
@@ -423,7 +423,7 @@ class getid3_lib {
         $bytes[] = $number;
         $binstring = '';
         for($i = 0; $i < count($bytes); $i++) {
-            $binstring = (($i == count($bytes) - 1) ? decbin($bytes[$i]) : str_pad(decbin($bytes[$i]), 8, '0', STR_PAD_LEFT)).$binstring;
+            $binstring = (($i == count($bytes) - 1) ? decbin($bytes[$i]) : str_pad(decbin($bytes[$i]), 8, '0', STR_PAD_LEFT)) . $binstring;
         }
         return $binstring;
     }
@@ -438,7 +438,7 @@ class getid3_lib {
         $string = '';
         $binstringreversed = strrev($binstring);
         for($i = 0; $i < strlen($binstringreversed); $i += 8) {
-            $string = chr(self::Bin2Dec(strrev(substr($binstringreversed, $i, 8)))).$string;
+            $string = chr(self::Bin2Dec(strrev(substr($binstringreversed, $i, 8)))) . $string;
         }
         return $string;
     }
@@ -556,7 +556,7 @@ class getid3_lib {
         $H = (int)floor($seconds / 3600);
         $M = (int)floor(($seconds - (3600 * $H)) / 60);
         $S = (int)round($seconds - (3600 * $H) - (60 * $M));
-        return $sign.($H ? $H.':' : '').($H ? str_pad($M, 2, '0', STR_PAD_LEFT) : intval($M)).':'.str_pad($S, 2, 0, STR_PAD_LEFT);
+        return $sign . ($H ? $H . ':' : '') . ($H ? str_pad($M, 2, '0', STR_PAD_LEFT) : intval($M)) . ':' . str_pad($S, 2, 0, STR_PAD_LEFT);
     }
 
     /**
@@ -611,7 +611,7 @@ class getid3_lib {
                 }
             }
             else {
-                throw new Exception('ERROR: Cannot have signed integers larger than '.(8 * PHP_INT_SIZE).'-bits ('.strlen($byteword).') in self::BigEndian2Int()');
+                throw new Exception('ERROR: Cannot have signed integers larger than ' . (8 * PHP_INT_SIZE) . '-bits (' . strlen($byteword) . ') in self::BigEndian2Int()');
             }
         }
         return self::CastAsInt($intvalue);
@@ -773,7 +773,7 @@ class getid3_lib {
                 break;
 
             default:
-                throw new Exception('Invalid algorithm ('.$algorithm.') in self::hash_data()');
+                throw new Exception('Invalid algorithm (' . $algorithm . ') in self::hash_data()');
                 break;
         }
         $size = $end - $offset;
@@ -788,20 +788,20 @@ class getid3_lib {
 
                 $RequiredFiles = array('cygwin1.dll', 'head.exe', 'tail.exe', $windows_call);
                 foreach($RequiredFiles as $required_file) {
-                    if(!is_readable(GETID3_HELPERAPPSDIR.$required_file)) {
+                    if(!is_readable(GETID3_HELPERAPPSDIR . $required_file)) {
                         // helper apps not available - fall back to old method
                         break 2;
                     }
                 }
-                $commandline = GETID3_HELPERAPPSDIR.'head.exe -c '.$end.' '.escapeshellarg(str_replace('/', DIRECTORY_SEPARATOR, $file)).' | ';
-                $commandline .= GETID3_HELPERAPPSDIR.'tail.exe -c '.$size.' | ';
-                $commandline .= GETID3_HELPERAPPSDIR.$windows_call;
+                $commandline = GETID3_HELPERAPPSDIR . 'head.exe -c ' . $end . ' ' . escapeshellarg(str_replace('/', DIRECTORY_SEPARATOR, $file)) . ' | ';
+                $commandline .= GETID3_HELPERAPPSDIR . 'tail.exe -c ' . $size . ' | ';
+                $commandline .= GETID3_HELPERAPPSDIR . $windows_call;
 
             }
             else {
 
-                $commandline = 'head -c'.$end.' '.escapeshellarg($file).' | ';
-                $commandline .= 'tail -c'.$size.' | ';
+                $commandline = 'head -c' . $end . ' ' . escapeshellarg($file) . ' | ';
+                $commandline .= 'tail -c' . $size . ' | ';
                 $commandline .= $unix_call;
 
             }
@@ -814,7 +814,7 @@ class getid3_lib {
 
         if(empty($tempdir)) {
             // yes this is ugly, feel free to suggest a better way
-            require_once(dirname(__FILE__).'/getid3.php');
+            require_once(dirname(__FILE__) . '/getid3.php');
             $getid3_temp = new getID3();
             $tempdir = $getid3_temp->tempdir;
             unset($getid3_temp);
@@ -834,7 +834,7 @@ class getid3_lib {
             $result = $hash_function($data_filename);
         }
         catch(Exception $e) {
-            throw new Exception('self::CopyFileParts() failed in getid_lib::hash_data(): '.$e->getMessage());
+            throw new Exception('self::CopyFileParts() failed in getid_lib::hash_data(): ' . $e->getMessage());
         }
         unlink($data_filename);
         return $result;
@@ -851,7 +851,7 @@ class getid3_lib {
      */
     public static function CopyFileParts($filename_source, $filename_dest, $offset, $length) {
         if(!self::intValueSupported($offset + $length)) {
-            throw new Exception('cannot copy file portion, it extends beyond the '.round(PHP_INT_MAX / 1073741824).'GB limit');
+            throw new Exception('cannot copy file portion, it extends beyond the ' . round(PHP_INT_MAX / 1073741824) . 'GB limit');
         }
         if(is_readable($filename_source) && is_file($filename_source) && ($fp_src = fopen($filename_source, 'rb'))) {
             if(($fp_dest = fopen($filename_dest, 'wb'))) {
@@ -866,15 +866,15 @@ class getid3_lib {
                 }
                 else {
                     fclose($fp_src);
-                    throw new Exception('failed to seek to offset '.$offset.' in '.$filename_source);
+                    throw new Exception('failed to seek to offset ' . $offset . ' in ' . $filename_source);
                 }
             }
             else {
-                throw new Exception('failed to create file for writing '.$filename_dest);
+                throw new Exception('failed to create file for writing ' . $filename_dest);
             }
         }
         else {
-            throw new Exception('failed to open file for reading '.$filename_source);
+            throw new Exception('failed to open file for reading ' . $filename_source);
         }
     }
 
@@ -947,7 +947,7 @@ class getid3_lib {
             $newcharstring .= "\xFE\xFF";
         }
         for($i = 0; $i < strlen($string); $i++) {
-            $newcharstring .= "\x00".$string{$i};
+            $newcharstring .= "\x00" . $string{$i};
         }
         return $newcharstring;
     }
@@ -977,7 +977,7 @@ class getid3_lib {
             $newcharstring .= "\xFF\xFE";
         }
         for($i = 0; $i < strlen($string); $i++) {
-            $newcharstring .= $string{$i}."\x00";
+            $newcharstring .= $string{$i} . "\x00";
         }
         return $newcharstring;
     }
@@ -1072,7 +1072,7 @@ class getid3_lib {
                 $offset += 1;
             }
             if($charval !== false) {
-                $newcharstring .= (($charval < 65536) ? self::BigEndian2String($charval, 2) : "\x00".'?');
+                $newcharstring .= (($charval < 65536) ? self::BigEndian2String($charval, 2) : "\x00" . '?');
             }
         }
         return $newcharstring;
@@ -1131,7 +1131,7 @@ class getid3_lib {
                 $offset += 1;
             }
             if($charval !== false) {
-                $newcharstring .= (($charval < 65536) ? self::LittleEndian2String($charval, 2) : '?'."\x00");
+                $newcharstring .= (($charval < 65536) ? self::LittleEndian2String($charval, 2) : '?' . "\x00");
             }
         }
         return $newcharstring;
@@ -1148,11 +1148,11 @@ class getid3_lib {
         $intstring = '';
         while($number > 0) {
             if($synchsafe) {
-                $intstring = $intstring.chr($number & 127);
+                $intstring = $intstring . chr($number & 127);
                 $number >>= 7;
             }
             else {
-                $intstring = $intstring.chr($number & 255);
+                $intstring = $intstring . chr($number & 255);
                 $number >>= 8;
             }
         }
@@ -1303,7 +1303,7 @@ class getid3_lib {
         if(function_exists('mb_convert_encoding')) {
             if((strtoupper($in_charset) == 'UTF-16') && (substr($string, 0, 2) != "\xFE\xFF") && (substr($string, 0, 2) != "\xFF\xFE")) {
                 // if BOM missing, mb_convert_encoding will mishandle the conversion, assume UTF-16BE and prepend appropriate BOM
-                $string = "\xFF\xFE".$string;
+                $string = "\xFF\xFE" . $string;
             }
             if((strtoupper($in_charset) == 'UTF-16') && (strtoupper($out_charset) == 'UTF-8')) {
                 if(($string == "\xFF\xFE") || ($string == "\xFE\xFF")) {
@@ -1324,7 +1324,7 @@ class getid3_lib {
             // iconv() available
         }
         elseif(function_exists('iconv')) {
-            if($converted_string = @iconv($in_charset, $out_charset.'//TRANSLIT', $string)) {
+            if($converted_string = @iconv($in_charset, $out_charset . '//TRANSLIT', $string)) {
                 switch($out_charset) {
                     case 'ISO-8859-1':
                         $converted_string = rtrim($converted_string, "\x00");
@@ -1360,7 +1360,7 @@ class getid3_lib {
             $ConversionFunction = $ConversionFunctionList[strtoupper($in_charset)][strtoupper($out_charset)];
             return self::$ConversionFunction($string);
         }
-        throw new Exception('PHP does not has mb_convert_encoding() or iconv() support - cannot convert from '.$in_charset.' to '.$out_charset);
+        throw new Exception('PHP does not has mb_convert_encoding() or iconv() support - cannot convert from ' . $in_charset . ' to ' . $out_charset);
     }
 
     /**
@@ -1452,7 +1452,7 @@ class getid3_lib {
                         $HTMLstring .= htmlentities(chr($charval));
                     }
                     else {
-                        $HTMLstring .= '&#'.$charval.';';
+                        $HTMLstring .= '&#' . $charval . ';';
                     }
                 }
                 break;
@@ -1464,7 +1464,7 @@ class getid3_lib {
                         $HTMLstring .= chr($charval);
                     }
                     else {
-                        $HTMLstring .= '&#'.$charval.';';
+                        $HTMLstring .= '&#' . $charval . ';';
                     }
                 }
                 break;
@@ -1476,13 +1476,13 @@ class getid3_lib {
                         $HTMLstring .= chr($charval);
                     }
                     else {
-                        $HTMLstring .= '&#'.$charval.';';
+                        $HTMLstring .= '&#' . $charval . ';';
                     }
                 }
                 break;
 
             default:
-                $HTMLstring = 'ERROR: Character set "'.$charset.'" not supported in MultiByteCharString2HTML()';
+                $HTMLstring = 'ERROR: Character set "' . $charset . '" not supported in MultiByteCharString2HTML()';
                 break;
         }
         return $HTMLstring;
@@ -1581,7 +1581,7 @@ class getid3_lib {
             }
 
             // yes this is ugly, feel free to suggest a better way
-            if(include_once(dirname(__FILE__).'/getid3.php')) {
+            if(include_once(dirname(__FILE__) . '/getid3.php')) {
                 if($getid3_temp = new getID3()) {
                     if($getid3_temp_tempdir = $getid3_temp->tempdir) {
                         $tempdir = $getid3_temp_tempdir;
@@ -1782,11 +1782,11 @@ class getid3_lib {
                 return true;
             }
             else {
-                $diemessage = basename($sourcefile).' depends on '.$filename.', which has errors';
+                $diemessage = basename($sourcefile) . ' depends on ' . $filename . ', which has errors';
             }
         }
         else {
-            $diemessage = basename($sourcefile).' depends on '.$filename.', which is missing';
+            $diemessage = basename($sourcefile) . ' depends on ' . $filename . ', which is missing';
         }
         if($DieOnFailure) {
             throw new Exception($diemessage);
@@ -1822,11 +1822,11 @@ class getid3_lib {
                 unset($filesystem, $file);
             }
             else {
-                $commandline = 'for %I in ('.escapeshellarg($path).') do @echo %~zI';
+                $commandline = 'for %I in (' . escapeshellarg($path) . ') do @echo %~zI';
             }
         }
         else {
-            $commandline = 'ls -l '.escapeshellarg($path).' | awk \'{print $5}\'';
+            $commandline = 'ls -l ' . escapeshellarg($path) . ' | awk \'{print $5}\'';
         }
         if(isset($commandline)) {
             $output = trim(`$commandline`);
@@ -1879,7 +1879,7 @@ class getid3_lib {
      */
     public static function mb_basename($path, $suffix = null) {
         $splited = preg_split('#/#', rtrim($path, '/ '));
-        return substr(basename('X'.$splited[count($splited) - 1], $suffix), 1);
+        return substr(basename('X' . $splited[count($splited) - 1], $suffix), 1);
     }
 
 }

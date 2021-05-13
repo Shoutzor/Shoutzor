@@ -195,7 +195,7 @@ abstract class AbstractDecoder {
      */
     public function initFromUrl($url) {
 
-        $options = ['http' => ['method' => "GET", 'header' => "Accept-language: en\r\n"."User-Agent: Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.2 (KHTML, like Gecko) Chrome/22.0.1216.0 Safari/537.2\r\n"]];
+        $options = ['http' => ['method' => "GET", 'header' => "Accept-language: en\r\n" . "User-Agent: Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.2 (KHTML, like Gecko) Chrome/22.0.1216.0 Safari/537.2\r\n"]];
 
         $context = stream_context_create($options);
 
@@ -203,7 +203,7 @@ abstract class AbstractDecoder {
             return $this->initFromBinary($data);
         }
 
-        throw new NotReadableException("Unable to init from given url (".$url.").");
+        throw new NotReadableException("Unable to init from given url (" . $url . ").");
     }
 
     /**

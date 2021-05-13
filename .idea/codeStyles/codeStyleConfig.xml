@@ -16,7 +16,7 @@
   <PHPCodeStyleSettings>
     <option name="ALIGN_PHPDOC_PARAM_NAMES" value="true" />
     <option name="ALIGN_PHPDOC_COMMENTS" value="true" />
-    <option name="CONCAT_SPACES" value="false" />
+    <option name="CONCAT_SPACES" value="true" />
     <option name="PHPDOC_BLANK_LINE_BEFORE_TAGS" value="true" />
     <option name="PHPDOC_WRAP_LONG_LINES" value="true" />
     <option name="GROUP_USE_WRAP" value="2" />

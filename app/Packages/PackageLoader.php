@@ -46,7 +46,7 @@ abstract class PackageLoader {
     }
 
     protected function parseComposer(): void {
-        $this->pkgProperties = json_decode(file_get_contents($this->pkgPath."/shoutzor.package"));
+        $this->pkgProperties = json_decode(file_get_contents($this->pkgPath . "/shoutzor.package"));
     }
 
     /**
@@ -136,16 +136,16 @@ abstract class PackageLoader {
      * @return void
      */
     public function onDiscover(): void {
-        $publicAssetPath = $this->pkgPath.'/resources/static/public';
-        $symlinkPath = FilesystemHelper::correctDS(storage_path('app/public/packages/'.$this->getId().'/'));
+        $publicAssetPath = $this->pkgPath . '/resources/static/public';
+        $symlinkPath = FilesystemHelper::correctDS(storage_path('app/public/packages/' . $this->getId() . '/'));
 
         //Check if the directory exists, if not: create it
         if(directoryExists(storage_path('app/public/packages')) === false) {
-            Log::info("Directory ".storage_path('app/public/packages')." does not exist yet, creating it.");
+            Log::info("Directory " . storage_path('app/public/packages') . " does not exist yet, creating it.");
             mkdir(storage_path('app/public/packages'), 0777, true);
         }
         else {
-            Log::info("directory exists: ".storage_path('app/public/packages'));
+            Log::info("directory exists: " . storage_path('app/public/packages'));
         }
 
         //If a public asset path exists, create a symlink to it so we can use those assets in the front-end
@@ -154,7 +154,7 @@ abstract class PackageLoader {
                 symlink($publicAssetPath, $symlinkPath);
             }
             catch(Exception $e) {
-                Log::error("Could not create package symlink, error: ".$e->getMessage());
+                Log::error("Could not create package symlink, error: " . $e->getMessage());
             }
         }
     }

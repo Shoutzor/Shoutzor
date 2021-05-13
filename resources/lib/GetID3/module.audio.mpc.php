@@ -53,7 +53,7 @@ class getid3_mpc extends getid3_handler {
         }
         else {
 
-            $this->error('Expecting "MP+" or "MPCK" at offset '.$info['avdataoffset'].', found "'.getid3_lib::PrintHexBytes(substr($MPCheaderData, 0, 4)).'"');
+            $this->error('Expecting "MP+" or "MPCK" at offset ' . $info['avdataoffset'] . ', found "' . getid3_lib::PrintHexBytes(substr($MPCheaderData, 0, 4)) . '"');
             unset($info['fileformat']);
             unset($info['mpc']);
             return false;
@@ -87,13 +87,13 @@ class getid3_mpc extends getid3_handler {
             $thisPacket['key'] = substr($MPCheaderData, 0, $keyNameSize);
             $thisPacket['key_name'] = $this->MPCsv8PacketName($thisPacket['key']);
             if($thisPacket['key'] == $thisPacket['key_name']) {
-                $this->error('Found unexpected key value "'.$thisPacket['key'].'" at offset '.$thisPacket['offset']);
+                $this->error('Found unexpected key value "' . $thisPacket['key'] . '" at offset ' . $thisPacket['offset']);
                 return false;
             }
             $packetLength = 0;
             $thisPacket['packet_size'] = $this->SV8variableLengthInteger(substr($MPCheaderData, $keyNameSize), $packetLength); // includes keyname and packet_size field
             if($thisPacket['packet_size'] === false) {
-                $this->error('Did not find expected packet length within '.$maxHandledPacketLength.' bytes at offset '.($thisPacket['offset'] + $keyNameSize));
+                $this->error('Did not find expected packet length within ' . $maxHandledPacketLength . ' bytes at offset ' . ($thisPacket['offset'] + $keyNameSize));
                 return false;
             }
             $packet_offset += $packetLength;
@@ -185,9 +185,9 @@ class getid3_mpc extends getid3_handler {
                     $packet_offset += 1;
                     $thisPacket['version_build'] = getid3_lib::BigEndian2Int(substr($MPCheaderData, $packet_offset, 1));
                     $packet_offset += 1;
-                    $thisPacket['version'] = $thisPacket['version_major'].'.'.$thisPacket['version_minor'].'.'.$thisPacket['version_build'];
+                    $thisPacket['version'] = $thisPacket['version_major'] . '.' . $thisPacket['version_minor'] . '.' . $thisPacket['version_build'];
 
-                    $info['audio']['encoder'] = 'MPC v'.$thisPacket['version'].' ('.(($thisPacket['version_minor'] % 2) ? 'unstable' : 'stable').')';
+                    $info['audio']['encoder'] = 'MPC v' . $thisPacket['version'] . ' (' . (($thisPacket['version_minor'] % 2) ? 'unstable' : 'stable') . ')';
                     $thisfile_mpc_header['encoder_version'] = $info['audio']['encoder'];
                     //$thisfile_mpc_header['quality']         = (float) ($thisPacket['quality'] / 1.5875); // values can range from 0.000 to 15.875, mapped to qualities of 0.0 to 10.0
                     $thisfile_mpc_header['quality'] = (float)($thisPacket['quality'] - 5); // values can range from 0.000 to 15.875, of which 0..4 are "reserved/experimental", and 5..15 are mapped to qualities of 0.0 to 10.0
@@ -207,7 +207,7 @@ class getid3_mpc extends getid3_handler {
                     break;
 
                 default:
-                    $this->error('Found unhandled key type "'.$thisPacket['key'].'" at offset '.$thisPacket['offset']);
+                    $this->error('Found unhandled key type "' . $thisPacket['key'] . '" at offset ' . $thisPacket['offset']);
                     return false;
                     break;
             }
@@ -298,7 +298,7 @@ class getid3_mpc extends getid3_handler {
         $offset += 4;
 
         if($thisfile_mpc_header['stream_version_major'] != 7) {
-            $this->error('Only Musepack SV7 supported (this file claims to be v'.$thisfile_mpc_header['stream_version_major'].')');
+            $this->error('Only Musepack SV7 supported (this file claims to be v' . $thisfile_mpc_header['stream_version_major'] . ')');
             return false;
         }
 
@@ -440,12 +440,12 @@ class getid3_mpc extends getid3_handler {
         elseif(($encoderversion % 2) == 0) {
 
             // beta version
-            return number_format($encoderversion / 100, 2).' beta';
+            return number_format($encoderversion / 100, 2) . ' beta';
 
         }
 
         // alpha version
-        return number_format($encoderversion / 100, 2).' alpha';
+        return number_format($encoderversion / 100, 2) . ' alpha';
     }
 
     /**
@@ -498,14 +498,14 @@ class getid3_mpc extends getid3_handler {
                 break;
 
             default:
-                $info['error'] = 'Expecting 4, 5 or 6 in version field, found '.$thisfile_mpc_header['stream_version_major'].' instead';
+                $info['error'] = 'Expecting 4, 5 or 6 in version field, found ' . $thisfile_mpc_header['stream_version_major'] . ' instead';
                 unset($info['mpc']);
                 return false;
                 break;
         }
 
         if(($thisfile_mpc_header['stream_version_major'] > 4) && ($thisfile_mpc_header['block_size'] != 1)) {
-            $this->warning('Block size expected to be 1, actual value found: '.$thisfile_mpc_header['block_size']);
+            $this->warning('Block size expected to be 1, actual value found: ' . $thisfile_mpc_header['block_size']);
         }
 
         $thisfile_mpc_header['sample_rate'] = 44100; // AB: used by all files up to SV7
@@ -521,7 +521,7 @@ class getid3_mpc extends getid3_handler {
 
         $info['mpc']['bitrate'] = ($info['avdataend'] - $info['avdataoffset']) * 8 * 44100 / $thisfile_mpc_header['frame_count'] / 1152;
         $info['audio']['bitrate'] = $info['mpc']['bitrate'];
-        $info['audio']['encoder'] = 'SV'.$thisfile_mpc_header['stream_version_major'];
+        $info['audio']['encoder'] = 'SV' . $thisfile_mpc_header['stream_version_major'];
 
         return true;
     }

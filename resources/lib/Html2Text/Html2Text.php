@@ -116,7 +116,7 @@ class Html2Text {
             // If we do not do this, PHP will insert a paragraph tag around
             // the first block of text for some reason which can mess up
             // the newlines. See pre.html test for an example.
-            $html = '<body>'.$html.'</body>';
+            $html = '<body>' . $html . '</body>';
         }
 
         if($ignore_error) {
@@ -142,7 +142,7 @@ class Html2Text {
         if($node instanceof DOMText) {
             // Replace whitespace characters with a space (equivilant to \s)
             if($in_pre) {
-                $text = "\n".trim(static::renderText($node->wholeText), "\n\r\t ")."\n";
+                $text = "\n" . trim(static::renderText($node->wholeText), "\n\r\t ") . "\n";
 
                 // Remove trailing whitespace only
                 $text = preg_replace("/[ \t]*\n/im", "\n", $text);
@@ -156,7 +156,7 @@ class Html2Text {
                 $text = preg_replace("/[\\t\\n\\f\\r ]+/im", " ", $text);
 
                 if(!static::isWhitespace($text) && ($prevName == 'p' || $prevName == 'div')) {
-                    return "\n".$text;
+                    return "\n" . $text;
                 }
                 return $text;
             }
@@ -177,7 +177,7 @@ class Html2Text {
                 if($prevName != null) {
                     $prefix = "\n";
                 }
-                return $prefix."---------------------------------------------------------------\n";
+                return $prefix . "---------------------------------------------------------------\n";
 
             case "style":
             case "head":
@@ -387,10 +387,10 @@ class Html2Text {
 
             case "img":
                 if($node->getAttribute("title")) {
-                    $output = "[".$node->getAttribute("title")."]";
+                    $output = "[" . $node->getAttribute("title") . "]";
                 }
                 elseif($node->getAttribute("alt")) {
-                    $output = "[".$node->getAttribute("alt")."]";
+                    $output = "[" . $node->getAttribute("alt") . "]";
                 }
                 else {
                     $output = "";
@@ -406,7 +406,7 @@ class Html2Text {
                 $output = static::processWhitespaceNewlines($output);
 
                 // add leading newline
-                $output = "\n".$output;
+                $output = "\n" . $output;
 
                 // prepend '> ' at the beginning of all lines
                 $output = preg_replace("/\n/im", "\n> ", $output);
@@ -415,7 +415,7 @@ class Html2Text {
                 $output = preg_replace("/\n> >/im", "\n>>", $output);
 
                 // add another leading newline and trailing newlines
-                $output = "\n".$output."\n\n";
+                $output = "\n" . $output . "\n\n";
                 break;
             default:
                 // do nothing

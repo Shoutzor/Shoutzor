@@ -67,8 +67,8 @@ class Response {
         }
         else {
 
-            header('Content-Type: '.$mime);
-            header('Content-Length: '.$length);
+            header('Content-Type: ' . $mime);
+            header('Content-Length: ' . $length);
             $response = $data;
         }
 

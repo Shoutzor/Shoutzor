@@ -72,7 +72,7 @@ class getid3_tar extends getid3_handler {
                 break;
             }
             if($prefix) {
-                $name = $prefix.'/'.$name;
+                $name = $prefix . '/' . $name;
             }
             if((preg_match('#/$#', $name)) && !$name) {
                 $typeflag = 5;
@@ -159,7 +159,7 @@ class getid3_tar extends getid3_handler {
         $s = sprintf('%1s', $type);
         $s .= sprintf('%1s%1s%1s', $owner['read'], $owner['write'], $owner['execute']);
         $s .= sprintf('%1s%1s%1s', $group['read'], $group['write'], $group['execute']);
-        $s .= sprintf('%1s%1s%1s'."\n", $world['read'], $world['write'], $world['execute']);
+        $s .= sprintf('%1s%1s%1s' . "\n", $world['read'], $world['write'], $world['execute']);
         return $s;
     }
 

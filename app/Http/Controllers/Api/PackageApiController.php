@@ -33,7 +33,7 @@ class PackageApiController extends Controller {
                     $result[] = new Package($pkg);
                 }
                 else {
-                    return response()->json(['message' => 'Package with id '.$request->id.' not found'], 404);
+                    return response()->json(['message' => 'Package with id ' . $request->id . ' not found'], 404);
                 }
             }
         }

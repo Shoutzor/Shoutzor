@@ -33,7 +33,7 @@ class ClassMapGenerator {
                 continue;
             }
 
-            $classes[$fqcn] = 'base_path("packages") . "/'.Filesystem::correctDS($file->getRelativePathname()).'"';
+            $classes[$fqcn] = 'base_path("packages") . "/' . Filesystem::correctDS($file->getRelativePathname()) . '"';
         }
 
         // Return the code output
@@ -55,7 +55,7 @@ class ClassMapGenerator {
             if($tokens[$i][0] === T_NAMESPACE) {
                 for($j = $i + 1; $j < count($tokens); $j++) {
                     if($tokens[$j][0] === T_STRING) {
-                        $namespace .= $tokens[$j][1].'\\';
+                        $namespace .= $tokens[$j][1] . '\\';
                     }
                     else {
                         if($tokens[$j] === '{' || $tokens[$j] === ';') {
@@ -90,7 +90,7 @@ class ClassMapGenerator {
             return '';
         }
 
-        return $namespace.$class;
+        return $namespace . $class;
     }
 
     /**

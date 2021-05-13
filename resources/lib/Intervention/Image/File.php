@@ -79,7 +79,7 @@ class File {
      */
     public function basePath() {
         if($this->dirname && $this->basename) {
-            return ($this->dirname.'/'.$this->basename);
+            return ($this->dirname . '/' . $this->basename);
         }
 
         return null;

@@ -39,7 +39,7 @@ class getid3_gif extends getid3_handler {
 
         $magic = 'GIF';
         if($info['gif']['header']['raw']['identifier'] != $magic) {
-            $this->error('Expecting "'.getid3_lib::PrintHexBytes($magic).'" at offset '.$info['avdataoffset'].', found "'.getid3_lib::PrintHexBytes($info['gif']['header']['raw']['identifier']).'"');
+            $this->error('Expecting "' . getid3_lib::PrintHexBytes($magic) . '" at offset ' . $info['avdataoffset'] . ', found "' . getid3_lib::PrintHexBytes($info['gif']['header']['raw']['identifier']) . '"');
             unset($info['fileformat']);
             unset($info['gif']);
             return false;
@@ -158,7 +158,7 @@ class getid3_gif extends getid3_handler {
 
                 case '!':
                     // GIF Extension Block
-                    $ExtensionBlockData = $NextBlockTest.$this->fread(2);
+                    $ExtensionBlockData = $NextBlockTest . $this->fread(2);
                     $ExtensionBlock = array();
                     $ExtensionBlock['function_code'] = getid3_lib::LittleEndian2Int(substr($ExtensionBlockData, 1, 1));
                     $ExtensionBlock['byte_length'] = getid3_lib::LittleEndian2Int(substr($ExtensionBlockData, 2, 1));
@@ -171,7 +171,7 @@ class getid3_gif extends getid3_handler {
                             $info['gif']['animation']['loop_count'] = getid3_lib::LittleEndian2Int(substr($ExtensionBlock['data'], 13, 2));
                         }
                         else {
-                            $this->warning('Expecting 03 01 at offset '.($this->ftell() - 4).', found "'.getid3_lib::PrintHexBytes(substr($ExtensionBlock['data'], 11, 2)).'"');
+                            $this->warning('Expecting 03 01 at offset ' . ($this->ftell() - 4) . ', found "' . getid3_lib::PrintHexBytes(substr($ExtensionBlock['data'], 11, 2)) . '"');
                         }
                     }
 
@@ -202,7 +202,7 @@ class getid3_gif extends getid3_handler {
     public function GetLSBits($bits) {
         static $bitbuffer = '';
         while(strlen($bitbuffer) < $bits) {
-            $bitbuffer = str_pad(decbin(ord($this->fread(1))), 8, '0', STR_PAD_LEFT).$bitbuffer;
+            $bitbuffer = str_pad(decbin(ord($this->fread(1))), 8, '0', STR_PAD_LEFT) . $bitbuffer;
         }
         $value = bindec(substr($bitbuffer, 0 - $bits));
         $bitbuffer = substr($bitbuffer, 0, 0 - $bits);

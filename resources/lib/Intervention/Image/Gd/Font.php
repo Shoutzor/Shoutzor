@@ -29,7 +29,7 @@ class Font extends AbstractFont {
                 $valign = is_null($this->valign) ? 'bottom' : strtolower($this->valign);
 
                 // correction on position depending on v/h alignment
-                switch($align.'-'.$valign) {
+                switch($align . '-' . $valign) {
 
                     case 'center-top':
                         $posx = $posx - round(($box[6] + $box[4]) / 2);

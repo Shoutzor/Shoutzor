@@ -67,21 +67,21 @@ class getid3_write_vorbiscomment {
 
             foreach($this->tag_data as $key => $value) {
                 foreach($value as $commentdata) {
-                    fwrite($fpcomments, $this->CleanVorbisCommentName($key).'='.$commentdata."\n");
+                    fwrite($fpcomments, $this->CleanVorbisCommentName($key) . '=' . $commentdata . "\n");
                 }
             }
             fclose($fpcomments);
 
         }
         else {
-            $this->errors[] = 'failed to open temporary tags file "'.$tempcommentsfilename.'", tags not written';
+            $this->errors[] = 'failed to open temporary tags file "' . $tempcommentsfilename . '", tags not written';
             return false;
         }
 
         $oldignoreuserabort = ignore_user_abort(true);
         if(GETID3_OS_ISWINDOWS) {
 
-            if(file_exists(GETID3_HELPERAPPSDIR.'vorbiscomment.exe')) {
+            if(file_exists(GETID3_HELPERAPPSDIR . 'vorbiscomment.exe')) {
                 //$commandline = '"'.GETID3_HELPERAPPSDIR.'vorbiscomment.exe" -w --raw -c "'.$tempcommentsfilename.'" "'.str_replace('/', '\\', $this->filename).'"';
                 //  vorbiscomment works fine if you copy-paste the above commandline into a command prompt,
                 //  but refuses to work with `backtick` if there are "doublequotes" present around BOTH
@@ -94,7 +94,7 @@ class getid3_write_vorbiscomment {
                 clearstatcache();
                 $timestampbeforewriting = filemtime($this->filename);
 
-                $commandline = GETID3_HELPERAPPSDIR.'vorbiscomment.exe -w --raw -c "'.$tempcommentsfilename.'" "'.$this->filename.'" 2>&1';
+                $commandline = GETID3_HELPERAPPSDIR . 'vorbiscomment.exe -w --raw -c "' . $tempcommentsfilename . '" "' . $this->filename . '" 2>&1';
                 $VorbiscommentError = `$commandline`;
 
                 if(empty($VorbiscommentError)) {
@@ -105,13 +105,13 @@ class getid3_write_vorbiscomment {
                 }
             }
             else {
-                $VorbiscommentError = 'vorbiscomment.exe not found in '.GETID3_HELPERAPPSDIR;
+                $VorbiscommentError = 'vorbiscomment.exe not found in ' . GETID3_HELPERAPPSDIR;
             }
 
         }
         else {
 
-            $commandline = 'vorbiscomment -w --raw -c "'.$tempcommentsfilename.'" "'.$this->filename.'" 2>&1';
+            $commandline = 'vorbiscomment -w --raw -c "' . $tempcommentsfilename . '" "' . $this->filename . '" 2>&1';
             $VorbiscommentError = `$commandline`;
 
         }
@@ -122,7 +122,7 @@ class getid3_write_vorbiscomment {
 
         if(!empty($VorbiscommentError)) {
 
-            $this->errors[] = 'system call to vorbiscomment failed with message: '."\n\n".$VorbiscommentError;
+            $this->errors[] = 'system call to vorbiscomment failed with message: ' . "\n\n" . $VorbiscommentError;
             return false;
 
         }

@@ -68,10 +68,10 @@ class getid3_write_metaflac {
                     $picture_typeid = (!empty($picturedetails['picturetypeid']) ? $this->ID3v2toFLACpictureTypes($picturedetails['picturetypeid']) : 3); // default to "3:Cover (front)"
                     $picture_mimetype = (!empty($picturedetails['mime']) ? $picturedetails['mime'] : ''); // should be auto-detected
                     $picture_width_height_depth = '';
-                    $this->pictures[] = $picture_typeid.'|'.$picture_mimetype.'|'.preg_replace('#[^\x20-\x7B\x7D-\x7F]#', '', $picturedetails['description']).'|'.$picture_width_height_depth.'|'.$temppicturefilename;
+                    $this->pictures[] = $picture_typeid . '|' . $picture_mimetype . '|' . preg_replace('#[^\x20-\x7B\x7D-\x7F]#', '', $picturedetails['description']) . '|' . $picture_width_height_depth . '|' . $temppicturefilename;
                 }
                 else {
-                    $this->errors[] = 'failed to open temporary tags file, tags not written - fopen("'.$temppicturefilename.'", "wb")';
+                    $this->errors[] = 'failed to open temporary tags file, tags not written - fopen("' . $temppicturefilename . '", "wb")';
                     return false;
                 }
             }
@@ -84,21 +84,21 @@ class getid3_write_metaflac {
         if(getID3::is_writable($tempcommentsfilename) && is_file($tempcommentsfilename) && ($fpcomments = fopen($tempcommentsfilename, 'wb'))) {
             foreach($this->tag_data as $key => $value) {
                 foreach($value as $commentdata) {
-                    fwrite($fpcomments, $this->CleanmetaflacName($key).'='.$commentdata."\n");
+                    fwrite($fpcomments, $this->CleanmetaflacName($key) . '=' . $commentdata . "\n");
                 }
             }
             fclose($fpcomments);
 
         }
         else {
-            $this->errors[] = 'failed to open temporary tags file, tags not written - fopen("'.$tempcommentsfilename.'", "wb")';
+            $this->errors[] = 'failed to open temporary tags file, tags not written - fopen("' . $tempcommentsfilename . '", "wb")';
             return false;
         }
 
         $oldignoreuserabort = ignore_user_abort(true);
         if(GETID3_OS_ISWINDOWS) {
 
-            if(file_exists(GETID3_HELPERAPPSDIR.'metaflac.exe')) {
+            if(file_exists(GETID3_HELPERAPPSDIR . 'metaflac.exe')) {
                 //$commandline = '"'.GETID3_HELPERAPPSDIR.'metaflac.exe" --no-utf8-convert --remove-all-tags --import-tags-from="'.$tempcommentsfilename.'" "'.str_replace('/', '\\', $this->filename).'"';
                 //  metaflac works fine if you copy-paste the above commandline into a command prompt,
                 //  but refuses to work with `backtick` if there are "doublequotes" present around BOTH
@@ -111,11 +111,11 @@ class getid3_write_metaflac {
                 clearstatcache();
                 $timestampbeforewriting = filemtime($this->filename);
 
-                $commandline = GETID3_HELPERAPPSDIR.'metaflac.exe --no-utf8-convert --remove-all-tags --import-tags-from='.escapeshellarg($tempcommentsfilename);
+                $commandline = GETID3_HELPERAPPSDIR . 'metaflac.exe --no-utf8-convert --remove-all-tags --import-tags-from=' . escapeshellarg($tempcommentsfilename);
                 foreach($this->pictures as $picturecommand) {
-                    $commandline .= ' --import-picture-from='.escapeshellarg($picturecommand);
+                    $commandline .= ' --import-picture-from=' . escapeshellarg($picturecommand);
                 }
-                $commandline .= ' '.escapeshellarg($this->filename).' 2>&1';
+                $commandline .= ' ' . escapeshellarg($this->filename) . ' 2>&1';
                 $metaflacError = `$commandline`;
 
                 if(empty($metaflacError)) {
@@ -126,18 +126,18 @@ class getid3_write_metaflac {
                 }
             }
             else {
-                $metaflacError = 'metaflac.exe not found in '.GETID3_HELPERAPPSDIR;
+                $metaflacError = 'metaflac.exe not found in ' . GETID3_HELPERAPPSDIR;
             }
 
         }
         else {
 
             // It's simpler on *nix
-            $commandline = 'metaflac --no-utf8-convert --remove-all-tags --import-tags-from='.escapeshellarg($tempcommentsfilename);
+            $commandline = 'metaflac --no-utf8-convert --remove-all-tags --import-tags-from=' . escapeshellarg($tempcommentsfilename);
             foreach($this->pictures as $picturecommand) {
-                $commandline .= ' --import-picture-from='.escapeshellarg($picturecommand);
+                $commandline .= ' --import-picture-from=' . escapeshellarg($picturecommand);
             }
-            $commandline .= ' '.escapeshellarg($this->filename).' 2>&1';
+            $commandline .= ' ' . escapeshellarg($this->filename) . ' 2>&1';
             $metaflacError = `$commandline`;
 
         }
@@ -150,7 +150,7 @@ class getid3_write_metaflac {
 
         if(!empty($metaflacError)) {
 
-            $this->errors[] = 'System call to metaflac failed with this message returned: '."\n\n".$metaflacError;
+            $this->errors[] = 'System call to metaflac failed with this message returned: ' . "\n\n" . $metaflacError;
             return false;
 
         }
@@ -200,12 +200,12 @@ class getid3_write_metaflac {
         $oldignoreuserabort = ignore_user_abort(true);
         if(GETID3_OS_ISWINDOWS) {
 
-            if(file_exists(GETID3_HELPERAPPSDIR.'metaflac.exe')) {
+            if(file_exists(GETID3_HELPERAPPSDIR . 'metaflac.exe')) {
                 // To at least see if there was a problem, compare file modification timestamps before and after writing
                 clearstatcache();
                 $timestampbeforewriting = filemtime($this->filename);
 
-                $commandline = GETID3_HELPERAPPSDIR.'metaflac.exe --remove-all-tags "'.$this->filename.'" 2>&1';
+                $commandline = GETID3_HELPERAPPSDIR . 'metaflac.exe --remove-all-tags "' . $this->filename . '" 2>&1';
                 $metaflacError = `$commandline`;
 
                 if(empty($metaflacError)) {
@@ -216,14 +216,14 @@ class getid3_write_metaflac {
                 }
             }
             else {
-                $metaflacError = 'metaflac.exe not found in '.GETID3_HELPERAPPSDIR;
+                $metaflacError = 'metaflac.exe not found in ' . GETID3_HELPERAPPSDIR;
             }
 
         }
         else {
 
             // It's simpler on *nix
-            $commandline = 'metaflac --remove-all-tags "'.$this->filename.'" 2>&1';
+            $commandline = 'metaflac --remove-all-tags "' . $this->filename . '" 2>&1';
             $metaflacError = `$commandline`;
 
         }
@@ -231,7 +231,7 @@ class getid3_write_metaflac {
         ignore_user_abort($oldignoreuserabort);
 
         if(!empty($metaflacError)) {
-            $this->errors[] = 'System call to metaflac failed with this message returned: '."\n\n".$metaflacError;
+            $this->errors[] = 'System call to metaflac failed with this message returned: ' . "\n\n" . $metaflacError;
             return false;
         }
         return true;
