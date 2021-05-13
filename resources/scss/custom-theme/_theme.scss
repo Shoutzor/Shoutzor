@@ -1,11 +1,11 @@
 //Include the perfect-scrollbar module
-@import '~simplebar/dist/simplebar';
+@import "~simplebar/dist/simplebar";
 
 //Include general styling;
-@import 'general';
+@import "general";
 
 //Styling for the header and side menu
-@import 'theme-dark';
+@import "theme-dark";
 
 //Styling for the page's main content section
-@import 'page';
+@import "page";

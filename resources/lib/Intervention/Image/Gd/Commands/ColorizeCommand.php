@@ -3,17 +3,16 @@
 namespace Intervention\Image\Gd\Commands;
 
 use Intervention\Image\Commands\AbstractCommand;
+use Intervention\Image\Image;
 
-class ColorizeCommand extends AbstractCommand
-{
+class ColorizeCommand extends AbstractCommand {
     /**
      * Changes balance of different RGB color channels
      *
-     * @param  \Intervention\Image\Image $image
+     * @param Image $image
      * @return boolean
      */
-    public function execute($image)
-    {
+    public function execute($image) {
         $red = $this->argument(0)->between(-100, 100)->required()->value();
         $green = $this->argument(1)->between(-100, 100)->required()->value();
         $blue = $this->argument(2)->between(-100, 100)->required()->value();

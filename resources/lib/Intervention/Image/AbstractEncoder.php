@@ -5,8 +5,7 @@ namespace Intervention\Image;
 use Intervention\Image\Exception\InvalidArgumentException;
 use Intervention\Image\Exception\NotSupportedException;
 
-abstract class AbstractEncoder
-{
+abstract class AbstractEncoder {
     /**
      * Buffer of encode result data
      *
@@ -34,71 +33,21 @@ abstract class AbstractEncoder
      * @var int
      */
     public $quality;
-    
-    /**
-     * Processes and returns encoded image as JPEG string
-     *
-     * @return string
-     */
-    abstract protected function processJpeg();
-
-    /**
-     * Processes and returns encoded image as PNG string
-     *
-     * @return string
-     */
-    abstract protected function processPng();
-
-    /**
-     * Processes and returns encoded image as GIF string
-     *
-     * @return string
-     */
-    abstract protected function processGif();
-
-    /**
-     * Processes and returns encoded image as TIFF string
-     *
-     * @return string
-     */
-    abstract protected function processTiff();
-
-    /**
-     * Processes and returns encoded image as BMP string
-     *
-     * @return string
-     */
-    abstract protected function processBmp();
-
-    /**
-     * Processes and returns encoded image as ICO string
-     *
-     * @return string
-     */
-    abstract protected function processIco();
-
-    /**
-     * Processes and returns image as WebP encoded string
-     *
-     * @return string
-     */
-    abstract protected function processWebp();
 
     /**
      * Process a given image
      *
-     * @param  Image   $image
-     * @param  string  $format
-     * @param  int     $quality
+     * @param Image  $image
+     * @param string $format
+     * @param int    $quality
      * @return Image
      */
-    public function process(Image $image, $format = null, $quality = null)
-    {
+    public function process(Image $image, $format = null, $quality = null) {
         $this->setImage($image);
         $this->setFormat($format);
         $this->setQuality($quality);
 
-        switch (strtolower($this->format)) {
+        switch(strtolower($this->format)) {
 
             case 'data-url':
                 $this->result = $this->processDataUrl();
@@ -168,11 +117,9 @@ abstract class AbstractEncoder
             case 'image/x-webp':
                 $this->result = $this->processWebp();
                 break;
-                
+
             default:
-                throw new NotSupportedException(
-                    "Encoding format ({$format}) is not supported."
-                );
+                throw new NotSupportedException("Encoding format ({$format}) is not supported.");
         }
 
         $this->setImage(null);
@@ -181,27 +128,11 @@ abstract class AbstractEncoder
     }
 
     /**
-     * Processes and returns encoded image as data-url string
-     *
-     * @return string
-     */
-    protected function processDataUrl()
-    {
-        $mime = $this->image->mime ? $this->image->mime : 'image/png';
-
-        return sprintf('data:%s;base64,%s',
-            $mime,
-            base64_encode($this->process($this->image, $mime, $this->quality))
-        );
-    }
-
-    /**
      * Sets image to process
      *
      * @param Image $image
      */
-    protected function setImage($image)
-    {
+    protected function setImage($image) {
         $this->image = $image;
     }
 
@@ -210,9 +141,8 @@ abstract class AbstractEncoder
      *
      * @param string $format
      */
-    protected function setFormat($format = null)
-    {
-        if ($format == '' && $this->image instanceof Image) {
+    protected function setFormat($format = null) {
+        if($format == '' && $this->image instanceof Image) {
             $format = $this->image->mime;
         }
 
@@ -226,19 +156,76 @@ abstract class AbstractEncoder
      *
      * @param int $quality
      */
-    protected function setQuality($quality)
-    {
+    protected function setQuality($quality) {
         $quality = is_null($quality) ? 90 : $quality;
         $quality = $quality === 0 ? 1 : $quality;
 
-        if ($quality < 0 || $quality > 100) {
-            throw new InvalidArgumentException(
-                'Quality must range from 0 to 100.'
-            );
+        if($quality < 0 || $quality > 100) {
+            throw new InvalidArgumentException('Quality must range from 0 to 100.');
         }
 
         $this->quality = intval($quality);
 
         return $this;
     }
+
+    /**
+     * Processes and returns encoded image as data-url string
+     *
+     * @return string
+     */
+    protected function processDataUrl() {
+        $mime = $this->image->mime ? $this->image->mime : 'image/png';
+
+        return sprintf('data:%s;base64,%s', $mime, base64_encode($this->process($this->image, $mime, $this->quality)));
+    }
+
+    /**
+     * Processes and returns encoded image as GIF string
+     *
+     * @return string
+     */
+    abstract protected function processGif();
+
+    /**
+     * Processes and returns encoded image as PNG string
+     *
+     * @return string
+     */
+    abstract protected function processPng();
+
+    /**
+     * Processes and returns encoded image as JPEG string
+     *
+     * @return string
+     */
+    abstract protected function processJpeg();
+
+    /**
+     * Processes and returns encoded image as TIFF string
+     *
+     * @return string
+     */
+    abstract protected function processTiff();
+
+    /**
+     * Processes and returns encoded image as BMP string
+     *
+     * @return string
+     */
+    abstract protected function processBmp();
+
+    /**
+     * Processes and returns encoded image as ICO string
+     *
+     * @return string
+     */
+    abstract protected function processIco();
+
+    /**
+     * Processes and returns image as WebP encoded string
+     *
+     * @return string
+     */
+    abstract protected function processWebp();
 }

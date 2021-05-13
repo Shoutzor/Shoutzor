@@ -12,7 +12,7 @@
 </template>
 
 <script>
-    export default {
-        name: "upload-view"
-    };
+export default {
+    name: "upload-view"
+};
 </script>

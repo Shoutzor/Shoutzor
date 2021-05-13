@@ -21,22 +21,20 @@
 </template>
 
 <script>
-    import NowPlaying from "@js/components/MediaTable/NowPlaying";
-    import ComingUp from "@js/components/MediaTable/ComingUp";
+import NowPlaying from "@js/components/MediaTable/NowPlaying";
+import ComingUp from "@js/components/MediaTable/ComingUp";
 
-    export default {
-        name: "dashboard-view",
-        components: {
-            NowPlaying,
-            ComingUp
-        }
-    };
+export default {
+    name: "dashboard-view", components: {
+        NowPlaying, ComingUp
+    }
+};
 </script>
 
-<style scoped lang="scss">
-    .comingup-header {
-        margin: 1rem 0 0.5rem;
-        opacity: 0.25;
-        font-size: 2rem;
-    }
+<style lang="scss" scoped>
+.comingup-header {
+    margin: 1rem 0 0.5rem;
+    opacity: 0.25;
+    font-size: 2rem;
+}
 </style>

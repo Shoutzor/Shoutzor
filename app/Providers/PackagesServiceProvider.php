@@ -5,8 +5,7 @@ namespace App\Providers;
 use App\Packages\PackageManager;
 use Illuminate\Support\ServiceProvider;
 
-class PackagesServiceProvider extends ServiceProvider
-{
+class PackagesServiceProvider extends ServiceProvider {
     private PackageManager $pm;
 
     /**
@@ -14,8 +13,7 @@ class PackagesServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function register()
-    {
+    public function register() {
         //Register our PackageManager
         $this->pm = new PackageManager($this->app);
         $this->app->instance(PackageManager::class, $this->pm);
@@ -29,8 +27,7 @@ class PackagesServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
-    {
+    public function boot() {
         //Activate all enabled packages
         $this->pm->registerEnabledPackages();
     }

@@ -5,28 +5,19 @@ namespace App;
 use App\Packages\PackageLoader;
 use App\Packages\PackageManager;
 use Exception;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 
-class Package extends Model
-{
+class Package extends Model {
     //This model doesn't utilize an SQL table
-    protected $table    = '';
-    public $timestamps  = false;
+    public $timestamps = false;
+    protected $table = '';
 
     //Stores the instance of the related package
     protected PackageLoader $package;
 
-    protected $fillable = [
-        'id',
-        'name',
-        'icon',
-        'author',
-        'website',
-        'description',
-        'version',
-        'license',
-        'enabled'
-    ];
+    protected $fillable = ['id', 'name', 'icon', 'author', 'website', 'description', 'version', 'license', 'enabled'];
 
     /**
      * Create a new Package Model instance
@@ -41,12 +32,22 @@ class Package extends Model
     }
 
     /**
+     * DISABLED - Not a SQL Table Model
+     *
+     * @param array|Collection|int|string $ids
+     * @return int|void
+     * @throws Exception
+     */
+    public static function destroy($ids) {
+        throw new Exception("Not implemented");
+    }
+
+    /**
      * Convert the model instance to an array.
      *
      * @return array
      */
-    public function toArray()
-    {
+    public function toArray() {
         $result = [];
 
         foreach($this->fillable as $key) {
@@ -59,13 +60,14 @@ class Package extends Model
     /**
      * Get an attribute from the package for the model
      *
-     * @param  string  $key
+     * @param string $key
      * @return mixed
      */
     public function getAttribute($key) {
         if($key === 'enabled') {
             return app(PackageManager::class)->isEnabled($this->package);
-        } else {
+        }
+        else {
             return $this->package->getProperty($key, null);
         }
     }
@@ -73,7 +75,7 @@ class Package extends Model
     /**
      * DISABLED - Since this is effectively read-only from the package file, this method is unused
      *
-     * @param $key
+     * @param       $key
      * @param mixed $value
      * @return void
      * @throws Exception
@@ -95,17 +97,6 @@ class Package extends Model
     /**
      * DISABLED - Not a SQL Table Model
      *
-     * @param array|\Illuminate\Support\Collection|int|string $ids
-     * @return int|void
-     * @throws Exception
-     */
-    public static function destroy($ids) {
-        throw new Exception("Not implemented");
-    }
-
-    /**
-     * DISABLED - Not a SQL Table Model
-     *
      * @return bool|void|null
      * @throws Exception
      */
@@ -117,7 +108,7 @@ class Package extends Model
      * DISABLED - Not a SQL Table Model
      *
      * @param \Illuminate\Database\Query\Builder $query
-     * @return Package|\Illuminate\Database\Eloquent\Builder|void
+     * @return Package|Builder|void
      * @throws Exception
      */
     public function newEloquentBuilder($query) {

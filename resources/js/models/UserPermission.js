@@ -1,14 +1,13 @@
-import { Model } from '@vuex-orm/core';
+import {Model} from '@vuex-orm/core';
 
 export default class UserPermission extends Model {
     static entity = 'user_permission'
 
     static primaryKey = ['user_id', 'permission_id'];
 
-    static fields () {
+    static fields() {
         return {
-            user_id: this.number(null),
-            permission_id: this.number(null)
+            user_id: this.number(null), permission_id: this.number(null)
         }
     }
 }

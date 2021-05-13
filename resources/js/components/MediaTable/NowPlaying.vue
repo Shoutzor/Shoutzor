@@ -1,19 +1,19 @@
 <template>
-    <div class="col-sm-12 nowplaying" v-if="currentMedia">
+    <div v-if="currentMedia" class="col-sm-12 nowplaying">
         <div class="track-background">
             <img class="album-image" v-bind:src="currentMedia.media | getAlbumImage" />
             <div class="album-overlay"></div>
         </div>
         <div class="track-content card card-aside">
-            <img class="album-image card-aside-column" v-bind:src="currentMedia.media | getAlbumImage" alt="album image" />
+            <img alt="album image" class="album-image card-aside-column" v-bind:src="currentMedia.media | getAlbumImage" />
             <div class="track-info card-body d-flex flex-column mt-auto">
                 <h3 v-if="currentMedia.media !== null">{{ currentMedia.media.title }}</h3>
-                <artist-list class="mb-2" :artists="currentMedia.media.artists"></artist-list>
+                <artist-list :artists="currentMedia.media.artists"></artist-list>
 
                 <div class="d-flex align-items-center mt-auto">
                     <div class="requested-by pl-3">
                         <small class="text-muted">Requested by</small>
-                        <div v-if="currentMedia.user !== null">{{ currentMedia.user.name}}</div>
+                        <div v-if="currentMedia.user !== null">{{ currentMedia.user.name }}</div>
                         <div v-if="currentMedia.user === null">AutoDJ</div>
                     </div>
                 </div>
@@ -23,124 +23,144 @@
 </template>
 
 <script>
-    import Request from '@js/models/Request';
+import Request from '@js/models/Request';
 
-    export default {
-        data() {
-            return {
-                albumImage: require('@static/images/album_temp_bg.jpg'),
-            };
-        },
-        computed: {
-            currentMedia: () => Request.query()
-                        .where((r) => { return r.played_at !== null; })
-                        .with(["media.artists|albums", "user"])
-                        .last()
-        },
-        filters: {
-            getAlbumImage: function(media) {
-                let defaultImage = require('@static/images/album_cover_placeholder.jpg');
+export default {
+    data() {
+        return {
+            albumImage: require('@static/images/album_temp_bg.jpg'),
+        };
+    }, computed: {
+        currentMedia: () => Request.query()
+        .where((r) => { return r.played_at !== null; })
+        .with(["media.artists|albums", "user"])
+        .last()
+    }, filters: {
+        getAlbumImage: function(media) {
+            let defaultImage = require('@static/images/album_cover_placeholder.jpg');
 
-                if(media.albums === null || media.albums.length === 0) {
-                    return defaultImage;
-                }
-
-                let albumImage = media.albums[0].albumImage;
-
-                if(albumImage === '') {
-                    return defaultImage;
-                }
-
-                return albumImage;
+            if(media.albums === null || media.albums.length === 0) {
+                return defaultImage;
             }
+
+            let albumImage = media.albums[0].albumImage;
+
+            if(albumImage === '') {
+                return defaultImage;
+            }
+
+            return albumImage;
         }
     }
+}
 </script>
 
 <style lang="scss">
-    .nowplaying {
-        position: relative;
-        width: 100%;
-        height: 250px;
-        overflow: hidden;
+.nowplaying {
+    position: relative;
+    width: 100%;
+    height: 240px;
+    overflow: hidden;
 
-        .track-background {
-            z-index: -9999;
+    .track-background {
+        z-index: -9999;
 
-            .album-image {
-                position: absolute;
-                min-width: 100%;
-                top: -115%;
-                filter: blur(2px);
-
-                @media (max-width: 47.98rem) {
-                    min-width: 200%;
-                    left: -50%;
-                }
-            }
-
-            .album-overlay {
-                position: absolute;
-                width: 100%;
-                height: 100%;
-                background-color: rgba(0, 0, 0, 0.1);
-                background-repeat: repeat;
-                background-position: 0px 0px;
-                background-image: url('~@static/images/nowplaying_overlay.png');
-            }
+        .album-image {
+            position: absolute;
+            min-width: 100%;
+            top: -115%;
+            filter: blur(2px);
         }
 
-        .track-content {
+        .album-overlay {
             position: absolute;
-            background: transparent;
-            border: 0;
-            box-shadow: none;
-            top: 22px;
-            left: 22px;
-            flex-direction: row;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.1);
+            background-repeat: repeat;
+            background-position: 0px 0px;
+            background-image: url("~@static/images/nowplaying_overlay.png");
+        }
+    }
 
-            .album-image {
-                min-width: 200px;
-                max-width: 200px;
-                min-height: 200px;
-                max-height: 200px;
-                box-shadow: 0 0 2px #000;
+    .track-content {
+        position: absolute;
+        background: transparent;
+        border: 0;
+        box-shadow: none;
+        bottom: 8px;
+        left: 10px;
+        flex-direction: row;
+
+        .album-image {
+            $imageSize: 200px;
+            min-width: $imageSize;
+            max-width: $imageSize;
+            min-height: $imageSize;
+            max-height: $imageSize;
+            box-shadow: 0 0 2px #000;
+        }
+
+        .track-info {
+            padding: 0.5rem 0.5rem 0.1rem 0.5rem;
+            color: #FFF;
+            text-shadow: 0 0 4px #000;
+
+            h3 {
+                font-size: 1.4rem;
+                margin-bottom: 1px;
             }
 
-            .track-info {
-                padding-bottom: 0;
-                color: #FFF;
-                text-shadow: 0 0 4px #000;
+            .artists {
+                font-size: 1rem;
+                margin-bottom: 0.2rem;
+            }
 
-                h3 {
-                    font-size: 1.4rem;
-                    margin-bottom:1px;
+            .requested-by {
+                border-left: 1px solid #FFF;
+                padding-left: 5px;
+
+                .text-muted {
+                    color: #929394 !important;
                 }
+            }
 
-                .artists {
-                    font-size: 1rem;
+            a.artist, .upvote, .downvote {
+                color: #fff;
+
+                &:hover {
+                    color: $gray;
                 }
+            }
 
-                .requested-by {
-                    border-left: 1px solid #FFF;
-
-                    .text-muted {
-                        color: #929394 !important;
-                    }
-                }
-
-                a.artist, .upvote, .downvote {
-                    color: #fff;
-
-                    &:hover {
-                        color: $gray;
-                    }
-                }
-
-                .downvote {
-                    margin: 0 10px;
-                }
+            .downvote {
+                margin: 0 10px;
             }
         }
     }
+
+    @media (max-width: map-get($grid-breakpoints, lg)) {
+        height: 150px;
+
+        .track-background > .album-image {
+            min-width: 150%;
+            left: -25%;
+        }
+
+        .track-content {
+            .album-image {
+                $imageSize: 100px;
+                min-width: $imageSize;
+                max-width: $imageSize;
+                min-height: $imageSize;
+                max-height: $imageSize;
+            }
+
+            .track-info {
+                padding: 0 0 0 0.5rem;
+                margin-top: -5px !important;
+            }
+        }
+    }
+}
 </style>

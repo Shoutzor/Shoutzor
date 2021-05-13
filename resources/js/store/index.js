@@ -12,9 +12,9 @@ Vue.use(Vuex);
 
 Vue.prototype.$http = axios;
 axios.defaults.headers.common['Accept'] = 'application/json';
-axios.interceptors.response.use(undefined, function (err) {
-    return new Promise(function (resolve, reject) {
-        if (err.status === 401 && err.config && !err.config.__isRetryRequest) {
+axios.interceptors.response.use(undefined, function(err) {
+    return new Promise(function(resolve, reject) {
+        if(err.status === 401 && err.config && !err.config.__isRetryRequest) {
             this.$store.dispatch('logout');
         }
         throw err;
@@ -30,11 +30,8 @@ VuexORM.use(VuexORMAxios, {
 const debug = process.env.NODE_ENV !== 'production'
 
 const store = new Vuex.Store({
-    strict: debug,
-    plugins: [VuexORM.install(database)],
-    modules: {
-        'Authentication':   moduleAuthentication,
-        'MediaPlayer':      moduleMediaPlayer
+    strict: debug, plugins: [VuexORM.install(database)], modules: {
+        'Authentication': moduleAuthentication, 'MediaPlayer': moduleMediaPlayer
     }
 });
 

@@ -14,8 +14,29 @@ class AcoustId {
     private Upload $upload;
 
     public function __construct(string $appKey) {
-        $this->appKey       = $appKey;
-        $this->fpcalc_bin   = __DIR__ . '../../resources/bin/fpcalc';
+        $this->appKey = $appKey;
+        $this->fpcalc_bin = __DIR__.'../../resources/bin/fpcalc';
+    }
+
+    public function parse(Upload $upload, Media $media) {
+        die("parsing!");
+
+        $this->upload = $upload;
+        $this->media = $media;
+
+        //Get the fingerprint from the media file
+        $fingerprint = $this->getFileFingerprint();
+
+        //Error checking
+        if($fingerprint === false || count($fingerprint) == 0) {
+            return false;
+        }
+
+        //Get matching information for the provided fingerprint
+        $data = $this->parseFingerprint($fingerprint['duration'], $fingerprint['fingerprint']);
+
+        //Return the results
+        return true;
     }
 
     public function getFileFingerprint() {
@@ -45,9 +66,9 @@ class AcoustId {
     }
 
     public function parseFingerprint($duration, $fingerprint) {
-        $url = 'http://api.acoustid.org/v2/lookup?client=' . $this->appKey;
-        $url .= '&meta=compress+recordings+sources+releasegroups&duration=' . $duration;
-        $url .= '&fingerprint=' . $fingerprint;
+        $url = 'http://api.acoustid.org/v2/lookup?client='.$this->appKey;
+        $url .= '&meta=compress+recordings+sources+releasegroups&duration='.$duration;
+        $url .= '&fingerprint='.$fingerprint;
 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
@@ -89,14 +110,14 @@ class AcoustId {
             return false;
         }
 
-        $highestScore   = 0;
-        $selectedKey    = 0;
+        $highestScore = 0;
+        $selectedKey = 0;
 
         //Grab the highest scoring result from the resultset
-        foreach($data as $key=>$value) {
+        foreach($data as $key => $value) {
             if($value->sources > $highestScore) {
-                $selectedKey    = $key;
-                $highestScore   = $value->sources;
+                $selectedKey = $key;
+                $highestScore = $value->sources;
             }
         }
 
@@ -130,27 +151,6 @@ class AcoustId {
             }
         }
 
-        return true;
-    }
-
-    public function parse(Upload $upload, Media $media) {
-        die("parsing!");
-
-        $this->upload   = $upload;
-        $this->media    = $media;
-
-        //Get the fingerprint from the media file
-        $fingerprint = $this->getFileFingerprint();
-
-        //Error checking
-        if($fingerprint === false || count($fingerprint) == 0) {
-            return false;
-        }
-
-        //Get matching information for the provided fingerprint
-        $data = $this->parseFingerprint($fingerprint['duration'], $fingerprint['fingerprint']);
-
-        //Return the results
         return true;
     }
 

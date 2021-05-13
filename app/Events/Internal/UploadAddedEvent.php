@@ -7,11 +7,11 @@ use Symfony\Contracts\EventDispatcher\Event;
 
 /**
  * Class UploadAddedEvent
+ *
  * @package App\Events
  * Gets called when a file has been uploaded, the file wont be parsed until UploadProcessingEvent is called
  */
-class UploadAddedEvent extends Event
-{
+class UploadAddedEvent extends Event {
     public const NAME = 'upload.added';
 
     protected $upload;
@@ -20,7 +20,7 @@ class UploadAddedEvent extends Event
         $this->upload = $upload;
     }
 
-    public function getUpload() : Upload {
+    public function getUpload(): Upload {
         return $this->upload;
     }
 }

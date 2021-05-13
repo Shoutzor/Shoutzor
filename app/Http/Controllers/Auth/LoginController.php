@@ -6,8 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
-class LoginController extends Controller
-{
+class LoginController extends Controller {
     /*
     |--------------------------------------------------------------------------
     | Login Controller
@@ -33,8 +32,7 @@ class LoginController extends Controller
      *
      * @return void
      */
-    public function __construct()
-    {
+    public function __construct() {
         $this->middleware('guest')->except('logout');
         $this->username = $this->findUsername();
     }
@@ -44,8 +42,7 @@ class LoginController extends Controller
      *
      * @return string
      */
-    public function findUsername()
-    {
+    public function findUsername() {
         $login = request()->input('login');
 
         $fieldType = filter_var($login, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
@@ -60,8 +57,7 @@ class LoginController extends Controller
      *
      * @return string
      */
-    public function username()
-    {
+    public function username() {
         return $this->username;
     }
 }

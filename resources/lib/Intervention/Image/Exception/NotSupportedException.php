@@ -2,7 +2,6 @@
 
 namespace Intervention\Image\Exception;
 
-class NotSupportedException extends ImageException
-{
+class NotSupportedException extends ImageException {
     # nothing to override
 }

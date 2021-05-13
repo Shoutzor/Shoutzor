@@ -1,17 +1,17 @@
 <template>
     <div class="navbar-expand-md">
-        <div class="collapse navbar-collapse" id="navbar-menu">
+        <div id="navbar-menu" class="collapse navbar-collapse">
             <div class="navbar navbar-light">
                 <div class="container-xl">
                     <ul class="navbar-nav">
                         <router-link
-                            :to="{name: 'admin-dashboard'}"
                             v-slot="{ href, navigate, isExactActive }"
+                            :to="{name: 'admin-dashboard'}"
                         >
                             <li :class="['nav-item', isExactActive && 'active']">
                                 <a :href="href"
-                                   @click="navigate"
-                                   class="nav-link">
+                                   class="nav-link"
+                                   @click="navigate">
                                     <span class="nav-link-icon d-md-none d-lg-inline-block">
                                         <chart-bar-icon class="icon"></chart-bar-icon>
                                     </span>
@@ -22,13 +22,13 @@
                             </li>
                         </router-link>
                         <router-link
-                            :to="{name: 'admin-users'}"
                             v-slot="{ href, navigate, isExactActive }"
+                            :to="{name: 'admin-users'}"
                         >
                             <li :class="['nav-item', isExactActive && 'active']">
                                 <a :href="href"
-                                   @click="navigate"
-                                   class="nav-link">
+                                   class="nav-link"
+                                   @click="navigate">
                                     <span class="nav-link-icon d-md-none d-lg-inline-block">
                                         <users-icon class="icon"></users-icon>
                                     </span>
@@ -39,13 +39,13 @@
                             </li>
                         </router-link>
                         <router-link
-                            :to="{name: 'admin-roles-list'}"
                             v-slot="{ href, navigate, isExactActive }"
+                            :to="{name: 'admin-roles-list'}"
                         >
                             <li :class="['nav-item', isExactActive && 'active']">
                                 <a :href="href"
-                                   @click="navigate"
-                                   class="nav-link">
+                                   class="nav-link"
+                                   @click="navigate">
                                     <span class="nav-link-icon d-md-none d-lg-inline-block">
                                         <key-icon class="icon"></key-icon>
                                     </span>
@@ -56,13 +56,13 @@
                             </li>
                         </router-link>
                         <router-link
-                            :to="{name: 'admin-packages'}"
                             v-slot="{ href, navigate, isExactActive }"
+                            :to="{name: 'admin-packages'}"
                         >
                             <li :class="['nav-item', isExactActive && 'active']">
                                 <a :href="href"
-                                   @click="navigate"
-                                   class="nav-link">
+                                   class="nav-link"
+                                   @click="navigate">
                                     <span class="nav-link-icon d-md-none d-lg-inline-block">
                                         <ThreedCubeSphereIcon class="icon"></ThreedCubeSphereIcon>
                                     </span>

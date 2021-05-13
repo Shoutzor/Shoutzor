@@ -3,17 +3,16 @@
 namespace Intervention\Image\Gd\Commands;
 
 use Intervention\Image\Commands\AbstractCommand;
+use Intervention\Image\Image;
 
-class OpacityCommand extends AbstractCommand
-{
+class OpacityCommand extends AbstractCommand {
     /**
      * Defines opacity of an image
      *
-     * @param  \Intervention\Image\Image $image
+     * @param Image $image
      * @return boolean
      */
-    public function execute($image)
-    {
+    public function execute($image) {
         $transparency = $this->argument(0)->between(0, 100)->required()->value();
 
         // get size of image

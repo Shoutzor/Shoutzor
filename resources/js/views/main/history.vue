@@ -14,20 +14,19 @@
 </template>
 
 <script>
-    import RequestsHistory from "@js/components/MediaTable/RequestsHistory";
+import RequestsHistory from "@js/components/MediaTable/RequestsHistory";
 
-    export default {
-        name: "dashboard-view",
-        components: {
-            RequestsHistory
-        }
-    };
+export default {
+    name: "dashboard-view", components: {
+        RequestsHistory
+    }
+};
 </script>
 
-<style scoped lang="scss">
-    .comingup-header {
-        margin: 1rem 0 0.5rem;
-        opacity: 0.25;
-        font-size: 2rem;
-    }
+<style lang="scss" scoped>
+.comingup-header {
+    margin: 1rem 0 0.5rem;
+    opacity: 0.25;
+    font-size: 2rem;
+}
 </style>

@@ -5,8 +5,7 @@ namespace Intervention\Image\Gd;
 use Intervention\Image\AbstractColor;
 use Intervention\Image\Exception\NotSupportedException;
 
-class Color extends AbstractColor
-{
+class Color extends AbstractColor {
     /**
      * RGB Red value of current color instance
      *
@@ -38,11 +37,10 @@ class Color extends AbstractColor
     /**
      * Initiates color object from integer
      *
-     * @param  int $value
-     * @return \Intervention\Image\AbstractColor
+     * @param int $value
+     * @return AbstractColor
      */
-    public function initFromInteger($value)
-    {
+    public function initFromInteger($value) {
         $this->a = ($value >> 24) & 0xFF;
         $this->r = ($value >> 16) & 0xFF;
         $this->g = ($value >> 8) & 0xFF;
@@ -52,20 +50,20 @@ class Color extends AbstractColor
     /**
      * Initiates color object from given array
      *
-     * @param  array $value
-     * @return \Intervention\Image\AbstractColor
+     * @param array $value
+     * @return AbstractColor
      */
-    public function initFromArray($array)
-    {
+    public function initFromArray($array) {
         $array = array_values($array);
 
-        if (count($array) == 4) {
+        if(count($array) == 4) {
 
             // color array with alpha value
             list($r, $g, $b, $a) = $array;
             $this->a = $this->alpha2gd($a);
 
-        } elseif (count($array) == 3) {
+        }
+        elseif(count($array) == 3) {
 
             // color array without alpha value
             list($r, $g, $b) = $array;
@@ -79,14 +77,29 @@ class Color extends AbstractColor
     }
 
     /**
+     * Convert rgba alpha (0-1) value to gd value (0-127)
+     *
+     * @param float $input
+     * @return int
+     */
+    private function alpha2gd($input) {
+        $oldMin = 0;
+        $oldMax = 1;
+
+        $newMin = 127;
+        $newMax = 0;
+
+        return ceil(((($input - $oldMin) * ($newMax - $newMin)) / ($oldMax - $oldMin)) + $newMin);
+    }
+
+    /**
      * Initiates color object from given string
      *
-     * @param  string $value
-     * @return \Intervention\Image\AbstractColor
+     * @param string $value
+     * @return AbstractColor
      */
-    public function initFromString($value)
-    {
-        if ($color = $this->rgbaFromString($value)) {
+    public function initFromString($value) {
+        if($color = $this->rgbaFromString($value)) {
             $this->r = $color[0];
             $this->g = $color[1];
             $this->b = $color[2];
@@ -97,13 +110,12 @@ class Color extends AbstractColor
     /**
      * Initiates color object from given R, G and B values
      *
-     * @param  int $r
-     * @param  int $g
-     * @param  int $b
-     * @return \Intervention\Image\AbstractColor
+     * @param int $r
+     * @param int $g
+     * @param int $b
+     * @return AbstractColor
      */
-    public function initFromRgb($r, $g, $b)
-    {
+    public function initFromRgb($r, $g, $b) {
         $this->r = intval($r);
         $this->g = intval($g);
         $this->b = intval($b);
@@ -113,14 +125,13 @@ class Color extends AbstractColor
     /**
      * Initiates color object from given R, G, B and A values
      *
-     * @param  int     $r
-     * @param  int     $g
-     * @param  int     $b
-     * @param  float   $a
-     * @return \Intervention\Image\AbstractColor
+     * @param int   $r
+     * @param int   $g
+     * @param int   $b
+     * @param float $a
+     * @return AbstractColor
      */
-    public function initFromRgba($r, $g, $b, $a = 1)
-    {
+    public function initFromRgba($r, $g, $b, $a = 1) {
         $this->r = intval($r);
         $this->g = intval($g);
         $this->b = intval($b);
@@ -130,14 +141,11 @@ class Color extends AbstractColor
     /**
      * Initiates color object from given ImagickPixel object
      *
-     * @param  ImagickPixel $value
-     * @return \Intervention\Image\AbstractColor
+     * @param ImagickPixel $value
+     * @return AbstractColor
      */
-    public function initFromObject($value)
-    {
-        throw new NotSupportedException(
-            "GD colors cannot init from ImagickPixel objects."
-        );
+    public function initFromObject($value) {
+        throw new NotSupportedException("GD colors cannot init from ImagickPixel objects.");
     }
 
     /**
@@ -145,19 +153,17 @@ class Color extends AbstractColor
      *
      * @return int
      */
-    public function getInt()
-    {
+    public function getInt() {
         return ($this->a << 24) + ($this->r << 16) + ($this->g << 8) + $this->b;
     }
 
     /**
      * Calculates hexadecimal value of current color instance
      *
-     * @param  string $prefix
+     * @param string $prefix
      * @return string
      */
-    public function getHex($prefix = '')
-    {
+    public function getHex($prefix = '') {
         return sprintf('%s%02x%02x%02x', $prefix, $this->r, $this->g, $this->b);
     }
 
@@ -166,8 +172,7 @@ class Color extends AbstractColor
      *
      * @return array
      */
-    public function getArray()
-    {
+    public function getArray() {
         return [$this->r, $this->g, $this->b, round(1 - $this->a / 127, 2)];
     }
 
@@ -176,52 +181,23 @@ class Color extends AbstractColor
      *
      * @return string
      */
-    public function getRgba()
-    {
+    public function getRgba() {
         return sprintf('rgba(%d, %d, %d, %.2F)', $this->r, $this->g, $this->b, round(1 - $this->a / 127, 2));
     }
 
     /**
      * Determines if current color is different from given color
      *
-     * @param  AbstractColor $color
-     * @param  int       $tolerance
+     * @param AbstractColor $color
+     * @param int           $tolerance
      * @return boolean
      */
-    public function differs(AbstractColor $color, $tolerance = 0)
-    {
+    public function differs(AbstractColor $color, $tolerance = 0) {
         $color_tolerance = round($tolerance * 2.55);
         $alpha_tolerance = round($tolerance * 1.27);
 
-        $delta = [
-            'r' => abs($color->r - $this->r),
-            'g' => abs($color->g - $this->g),
-            'b' => abs($color->b - $this->b),
-            'a' => abs($color->a - $this->a)
-        ];
+        $delta = ['r' => abs($color->r - $this->r), 'g' => abs($color->g - $this->g), 'b' => abs($color->b - $this->b), 'a' => abs($color->a - $this->a)];
 
-        return (
-            $delta['r'] > $color_tolerance or
-            $delta['g'] > $color_tolerance or
-            $delta['b'] > $color_tolerance or
-            $delta['a'] > $alpha_tolerance
-        );
-    }
-
-    /**
-     * Convert rgba alpha (0-1) value to gd value (0-127)
-     *
-     * @param  float $input
-     * @return int
-     */
-    private function alpha2gd($input)
-    {
-        $oldMin = 0;
-        $oldMax = 1;
-
-        $newMin = 127;
-        $newMax = 0;
-
-        return ceil(((($input- $oldMin) * ($newMax - $newMin)) / ($oldMax - $oldMin)) + $newMin);
+        return ($delta['r'] > $color_tolerance or $delta['g'] > $color_tolerance or $delta['b'] > $color_tolerance or $delta['a'] > $alpha_tolerance);
     }
 }

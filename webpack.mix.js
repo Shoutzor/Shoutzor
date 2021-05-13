@@ -2,21 +2,16 @@ const mix = require('laravel-mix');
 
 mix.webpackConfig({
     module: {
-        rules: [
-            {
-                test:  /\.css$/i,
-                use : [{
-                    loader: 'css-loader',
-                }],
-            },
-        ],
-    },
-    resolve: {
-        extensions: ['.js', '.vue', '.json', '.scss', '.sass', '.css'],
-        alias: {
+        rules: [{
+            test: /\.css$/i, use: [{
+                loader: 'css-loader',
+            }],
+        },],
+    }, resolve: {
+        extensions: ['.js', '.vue', '.json', '.scss', '.sass', '.css'], alias: {
             'vue$': 'vue/dist/vue.esm.js',
             '@js': __dirname + '/resources/js',
-            '@sass': __dirname + '/resources/sass',
+            '@scss': __dirname + '/resources/scss',
             '@static': __dirname + '/resources/static'
         },
     },
@@ -33,15 +28,15 @@ mix.webpackConfig({
  |
  */
 
-mix.sass('resources/sass/app.scss', 'public/css')
-    .js('resources/js/app.js',  'public/js')
-    .options({
-        globalVueStyles: __dirname + '/resources/sass/_variables.scss'
-    });
+mix.sass('resources/scss/app.scss', 'public/css')
+.js('resources/js/app.js', 'public/js')
+.options({
+    globalVueStyles: __dirname + '/resources/scss/_variables.scss'
+});
 
 mix.copy('resources/static/images/shoutzor-logo-large.png', 'public/images');
 mix.copy('resources/static/images/appicon', 'public/images/appicon');
 
-if (mix.inProduction()) {
+if(mix.inProduction()) {
     mix.version();
 }

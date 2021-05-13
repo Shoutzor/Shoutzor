@@ -2,18 +2,18 @@
 
 namespace Intervention\Image\Imagick\Commands;
 
+use Imagick;
 use Intervention\Image\Commands\AbstractCommand;
+use Intervention\Image\Image;
 
-class InsertCommand extends AbstractCommand
-{
+class InsertCommand extends AbstractCommand {
     /**
      * Insert another image into given image
      *
-     * @param  \Intervention\Image\Image $image
+     * @param Image $image
      * @return boolean
      */
-    public function execute($image)
-    {
+    public function execute($image) {
         $source = $this->argument(0)->required()->value();
         $position = $this->argument(1)->type('string')->value();
         $x = $this->argument(2)->type('digit')->value(0);
@@ -28,6 +28,6 @@ class InsertCommand extends AbstractCommand
         $target = $image_size->relativePosition($watermark_size);
 
         // insert image at position
-        return $image->getCore()->compositeImage($watermark->getCore(), \Imagick::COMPOSITE_DEFAULT, $target->x, $target->y);
+        return $image->getCore()->compositeImage($watermark->getCore(), Imagick::COMPOSITE_DEFAULT, $target->x, $target->y);
     }
 }

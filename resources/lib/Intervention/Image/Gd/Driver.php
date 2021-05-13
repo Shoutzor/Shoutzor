@@ -2,23 +2,20 @@
 
 namespace Intervention\Image\Gd;
 
+use Intervention\Image\AbstractDriver;
 use Intervention\Image\Exception\NotSupportedException;
 use Intervention\Image\Image;
 
-class Driver extends \Intervention\Image\AbstractDriver
-{
+class Driver extends AbstractDriver {
     /**
      * Creates new instance of driver
      *
      * @param Decoder $decoder
      * @param Encoder $encoder
      */
-    public function __construct(Decoder $decoder = null, Encoder $encoder = null)
-    {
-        if ( ! $this->coreAvailable()) {
-            throw new NotSupportedException(
-                "GD Library extension not available with this PHP installation."
-            );
+    public function __construct(Decoder $decoder = null, Encoder $encoder = null) {
+        if(!$this->coreAvailable()) {
+            throw new NotSupportedException("GD Library extension not available with this PHP installation.");
         }
 
         $this->decoder = $decoder ? $decoder : new Decoder;
@@ -26,15 +23,23 @@ class Driver extends \Intervention\Image\AbstractDriver
     }
 
     /**
+     * Checks if core module installation is available
+     *
+     * @return boolean
+     */
+    protected function coreAvailable() {
+        return (extension_loaded('gd') && function_exists('gd_info'));
+    }
+
+    /**
      * Creates new image instance
      *
-     * @param  int     $width
-     * @param  int     $height
-     * @param  mixed   $background
-     * @return \Intervention\Image\Image
+     * @param int   $width
+     * @param int   $height
+     * @param mixed $background
+     * @return Image
      */
-    public function newImage($width, $height, $background = null)
-    {
+    public function newImage($width, $height, $background = null) {
         // create empty resource
         $core = imagecreatetruecolor($width, $height);
         $image = new Image(new static, $core);
@@ -49,22 +54,11 @@ class Driver extends \Intervention\Image\AbstractDriver
     /**
      * Reads given string into color object
      *
-     * @param  string $value
+     * @param string $value
      * @return AbstractColor
      */
-    public function parseColor($value)
-    {
+    public function parseColor($value) {
         return new Color($value);
-    }
-
-    /**
-     * Checks if core module installation is available
-     *
-     * @return boolean
-     */
-    protected function coreAvailable()
-    {
-        return (extension_loaded('gd') && function_exists('gd_info'));
     }
 
     /**
@@ -72,8 +66,7 @@ class Driver extends \Intervention\Image\AbstractDriver
      *
      * @return mixed
      */
-    public function cloneCore($core)
-    {
+    public function cloneCore($core) {
         $width = imagesx($core);
         $height = imagesy($core);
         $clone = imagecreatetruecolor($width, $height);
@@ -81,7 +74,7 @@ class Driver extends \Intervention\Image\AbstractDriver
         imagesavealpha($clone, true);
         $transparency = imagecolorallocatealpha($clone, 0, 0, 0, 127);
         imagefill($clone, 0, 0, $transparency);
-        
+
         imagecopy($clone, $core, 0, 0, 0, 0, $width, $height);
 
         return $clone;

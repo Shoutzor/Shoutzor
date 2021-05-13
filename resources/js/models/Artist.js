@@ -1,4 +1,4 @@
-import { Model } from '@vuex-orm/core';
+import {Model} from '@vuex-orm/core';
 
 import Media from './Media';
 import ArtistMedia from './ArtistMedia';
@@ -6,7 +6,7 @@ import ArtistMedia from './ArtistMedia';
 export default class Artist extends Model {
     static entity = 'artists';
 
-    static fields () {
+    static fields() {
         return {
             id: this.uid(),
             name: this.string(''),

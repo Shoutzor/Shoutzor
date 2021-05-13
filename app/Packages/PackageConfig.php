@@ -48,5 +48,4 @@ class PackageConfig {
         return null;
     }
 
-
 }

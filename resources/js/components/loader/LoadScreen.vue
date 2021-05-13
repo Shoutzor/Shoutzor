@@ -2,7 +2,7 @@
     <div id="wrapper">
         <div id="container" class="container-tight py-6">
             <div class="text-center mb-4">
-                <img src="@static/images/shoutzor-logo-header.png" id="logo" alt="Shoutz0r logo">
+                <img id="logo" alt="Shoutz0r logo" src="@static/images/shoutzor-logo-header.png">
             </div>
             <div class="card card-md">
                 <div class="card-body">
@@ -25,19 +25,19 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-    #wrapper {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        height: 100%;
-    }
+#wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
 
-    #container {
-        flex: none;
-        height: initial;
-    }
+#container {
+    flex: none;
+    height: initial;
+}
 
-    #logo {
-        filter: brightness(0) invert(1);
-    }
+#logo {
+    filter: brightness(0) invert(1);
+}
 </style>

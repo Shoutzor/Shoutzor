@@ -4,8 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Request extends Model
-{
+class Request extends Model {
     const CREATED_AT = 'requested_at';
     const UPDATED_AT = 'played_at';
 

@@ -5,39 +5,32 @@
         </div>
 
         <form id="auth-login-form" class="mb-0" @submit.prevent="login">
-            <input v-bind:class="[errors.includes('username') ? 'is-invalid' : '', 'form-control']" type="text" v-model="username" name="username" placeholder="Username" />
-            <input v-bind:class="[errors.includes('password') ? 'is-invalid' : '', 'form-control', 'mt-1']"  type="password" v-model="password" name="password" placeholder="Password" />
+            <input v-model="username" name="username" placeholder="Username" type="text" v-bind:class="[errors.includes('username') ? 'is-invalid' : '', 'form-control']" />
+            <input v-model="password" name="password" placeholder="Password" type="password" v-bind:class="[errors.includes('password') ? 'is-invalid' : '', 'form-control', 'mt-1']" />
             <label class="form-check mt-1" data-children-count="1">
                 <input v-model="remember_me" class="form-check-input" type="checkbox" />
                 <span class="form-check-label">Remember me</span>
             </label>
-            <button v-if="loading === false" type="submit" class="btn btn-primary mt-2">Login</button>
-            <button v-if="loading === true" type="submit" class="btn btn-primary mt-2"><div class="spinner-border" role="status"></div></button>
+            <button v-if="loading === false" class="btn btn-primary mt-2" type="submit">Login</button>
+            <button v-if="loading === true" class="btn btn-primary mt-2" type="submit">
+                <div class="spinner-border" role="status"></div>
+            </button>
         </form>
     </div>
 </template>
 
-
 <script>
 export default {
-    name: 'LoginForm',
-    data() {
+    name: 'LoginForm', data() {
         return {
-            username: null,
-            password: null,
-            remember_me: false,
-            errors: [],
-            error_message: "",
-            loading: false
+            username: null, password: null, remember_me: false, errors: [], error_message: "", loading: false
         }
-    },
-    beforeDestroy() {
+    }, beforeDestroy() {
         this.errors = [];
         this.username = null;
         this.password = null;
         this.loading = false;
-    },
-    methods: {
+    }, methods: {
         login: function(e) {
             this.errors = [];
 
@@ -61,9 +54,7 @@ export default {
             this.loading = true;
 
             this.$store.dispatch('login', {
-                username: this.username,
-                password: this.password,
-                remember_me: this.remember_me
+                username: this.username, password: this.password, remember_me: this.remember_me
             })
             .then(() => {
                 // Login success, Clear the form
@@ -83,11 +74,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-    button {
-        width: 100%;
-    }
+button {
+    width: 100%;
+}
 
-    .form-control.is-invalid {
-        border-color: red !important;
-    }
+.form-control.is-invalid {
+    border-color: red !important;
+}
 </style>

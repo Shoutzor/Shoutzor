@@ -2,34 +2,33 @@
 
 namespace Intervention\Image\Imagick;
 
+use Imagick;
+use ImagickDraw;
 use Intervention\Image\AbstractFont;
 use Intervention\Image\Exception\RuntimeException;
 use Intervention\Image\Image;
 
-class Font extends AbstractFont
-{
+class Font extends AbstractFont {
     /**
      * Draws font to given image at given position
      *
-     * @param  Image   $image
-     * @param  int     $posx
-     * @param  int     $posy
+     * @param Image $image
+     * @param int   $posx
+     * @param int   $posy
      * @return void
      */
-    public function applyToImage(Image $image, $posx = 0, $posy = 0)
-    {
+    public function applyToImage(Image $image, $posx = 0, $posy = 0) {
         // build draw object
-        $draw = new \ImagickDraw();
+        $draw = new ImagickDraw();
         $draw->setStrokeAntialias(true);
         $draw->setTextAntialias(true);
 
         // set font file
-        if ($this->hasApplicableFontFile()) {
+        if($this->hasApplicableFontFile()) {
             $draw->setFont($this->file);
-        } else {
-            throw new RuntimeException(
-                "Font file must be provided to apply text to image."
-            );
+        }
+        else {
+            throw new RuntimeException("Font file must be provided to apply text to image.");
         }
 
         // parse text color
@@ -39,78 +38,77 @@ class Font extends AbstractFont
         $draw->setFillColor($color->getPixel());
 
         // align horizontal
-        switch (strtolower($this->align)) {
+        switch(strtolower($this->align)) {
             case 'center':
-                $align = \Imagick::ALIGN_CENTER;
+                $align = Imagick::ALIGN_CENTER;
                 break;
 
             case 'right':
-                $align = \Imagick::ALIGN_RIGHT;
+                $align = Imagick::ALIGN_RIGHT;
                 break;
 
             default:
-                $align = \Imagick::ALIGN_LEFT;
+                $align = Imagick::ALIGN_LEFT;
                 break;
         }
 
         $draw->setTextAlignment($align);
 
         // align vertical
-        if (strtolower($this->valign) != 'bottom') {
+        if(strtolower($this->valign) != 'bottom') {
 
             // corrections on y-position
-            switch (strtolower($this->valign)) {
+            switch(strtolower($this->valign)) {
                 case 'center':
                 case 'middle':
-                // calculate box size
-                $dimensions = $image->getCore()->queryFontMetrics($draw, $this->text);
-                $posy = $posy + $dimensions['textHeight'] * 0.65 / 2;
-                break;
+                    // calculate box size
+                    $dimensions = $image->getCore()->queryFontMetrics($draw, $this->text);
+                    $posy = $posy + $dimensions['textHeight'] * 0.65 / 2;
+                    break;
 
                 case 'top':
-                // calculate box size
-                $dimensions = $image->getCore()->queryFontMetrics($draw, $this->text, false);
-                $posy = $posy + $dimensions['textHeight'] * 0.65;
-                break;
+                    // calculate box size
+                    $dimensions = $image->getCore()->queryFontMetrics($draw, $this->text, false);
+                    $posy = $posy + $dimensions['textHeight'] * 0.65;
+                    break;
             }
         }
 
         // apply to image
         $image->getCore()->annotateImage($draw, $posx, $posy, $this->angle * (-1), $this->text);
     }
-    
+
     /**
      * Calculates bounding box of current font setting
      *
      * @return array
      */
-    public function getBoxSize()
-    {
+    public function getBoxSize() {
         $box = [];
 
         // build draw object
-        $draw = new \ImagickDraw();
+        $draw = new ImagickDraw();
         $draw->setStrokeAntialias(true);
         $draw->setTextAntialias(true);
 
         // set font file
-        if ($this->hasApplicableFontFile()) {
+        if($this->hasApplicableFontFile()) {
             $draw->setFont($this->file);
-        } else {
-            throw new RuntimeException(
-                "Font file must be provided to apply text to image."
-            );
+        }
+        else {
+            throw new RuntimeException("Font file must be provided to apply text to image.");
         }
 
         $draw->setFontSize($this->size);
 
-        $dimensions = (new \Imagick())->queryFontMetrics($draw, $this->text);
+        $dimensions = (new Imagick())->queryFontMetrics($draw, $this->text);
 
-        if (strlen($this->text) == 0) {
+        if(strlen($this->text) == 0) {
             // no text -> no boxsize
             $box['width'] = 0;
             $box['height'] = 0;
-        } else {
+        }
+        else {
             // get boxsize
             $box['width'] = intval(abs($dimensions['textWidth']));
             $box['height'] = intval(abs($dimensions['textHeight']));

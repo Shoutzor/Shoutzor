@@ -14,13 +14,7 @@ class UploadProcessor {
 
     public function parse(Upload $upload) {
         //Create the initial media object to be passed along
-        $media = new Media([
-            'title' => '',
-            'filename' => Storage::get(Upload::STORAGE_PATH . $upload->filename),
-            'crc' => 'invalid',
-            'duration' => 0,
-            'is_video' => false
-        ]);
+        $media = new Media(['title' => '', 'filename' => Storage::get(Upload::STORAGE_PATH . $upload->filename), 'crc' => 'invalid', 'duration' => 0, 'is_video' => false]);
 
         //Send the event that an upload has been added
         $event = new UploadProcessingEvent($upload, $media);

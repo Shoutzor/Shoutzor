@@ -3,18 +3,17 @@
 namespace Intervention\Image\Imagick\Commands;
 
 use Intervention\Image\Commands\AbstractCommand;
+use Intervention\Image\Image;
 use Intervention\Image\Size;
 
-class FitCommand extends AbstractCommand
-{
+class FitCommand extends AbstractCommand {
     /**
      * Crops and resized an image at the same time
      *
-     * @param  \Intervention\Image\Image $image
+     * @param Image $image
      * @return boolean
      */
-    public function execute($image)
-    {
+    public function execute($image) {
         $width = $this->argument(0)->type('digit')->required()->value();
         $height = $this->argument(1)->type('digit')->value($width);
         $constraints = $this->argument(2)->type('closure')->value();
@@ -26,16 +25,11 @@ class FitCommand extends AbstractCommand
         $resized = $resized->resize($width, $height, $constraints);
 
         // crop image
-        $image->getCore()->cropImage(
-            $cropped->width,
-            $cropped->height,
-            $cropped->pivot->x,
-            $cropped->pivot->y
-        );
+        $image->getCore()->cropImage($cropped->width, $cropped->height, $cropped->pivot->x, $cropped->pivot->y);
 
         // resize image
         $image->getCore()->scaleImage($resized->getWidth(), $resized->getHeight());
-        $image->getCore()->setImagePage(0,0,0,0);
+        $image->getCore()->setImagePage(0, 0, 0, 0);
 
         return true;
     }
