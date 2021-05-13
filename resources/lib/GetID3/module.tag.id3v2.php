@@ -14,7 +14,7 @@
 //                                                            ///
 /////////////////////////////////////////////////////////////////
 
-getid3_lib::IncludeDependency(GETID3_INCLUDEPATH . 'module.tag.id3v1.php', __FILE__, true);
+getid3_lib::IncludeDependency(GETID3_INCLUDEPATH.'module.tag.id3v1.php', __FILE__, true);
 
 class getid3_id3v2 extends getid3_handler {
     public $StartingOffset = 0;
@@ -72,7 +72,7 @@ class getid3_id3v2 extends getid3_handler {
 
         if($id3v2_majorversion > 4) { // this script probably won't correctly parse ID3v2.5.x and above (if it ever exists)
 
-            $this->error('this script only parses up to ID3v2.4.x - this tag is ID3v2.' . $id3v2_majorversion . '.' . $thisfile_id3v2['minorversion']);
+            $this->error('this script only parses up to ID3v2.4.x - this tag is ID3v2.'.$id3v2_majorversion.'.'.$thisfile_id3v2['minorversion']);
             return false;
 
         }
@@ -238,7 +238,7 @@ class getid3_id3v2 extends getid3_handler {
                     }
 
                     if($thisfile_id3v2['exthead']['length'] != $extended_header_offset) {
-                        $this->warning('ID3v2.4 extended header length mismatch (expecting ' . intval($thisfile_id3v2['exthead']['length']) . ', found ' . intval($extended_header_offset) . ')');
+                        $this->warning('ID3v2.4 extended header length mismatch (expecting '.intval($thisfile_id3v2['exthead']['length']).', found '.intval($extended_header_offset).')');
                     }
                 }
 
@@ -256,7 +256,7 @@ class getid3_id3v2 extends getid3_handler {
                         if($framedata{$i} != "\x00") {
                             $thisfile_id3v2['padding']['valid'] = false;
                             $thisfile_id3v2['padding']['errorpos'] = $thisfile_id3v2['padding']['start'] + $i;
-                            $this->warning('Invalid ID3v2 padding found at offset ' . $thisfile_id3v2['padding']['errorpos'] . ' (the remaining ' . ($thisfile_id3v2['padding']['length'] - $i) . ' bytes are considered invalid)');
+                            $this->warning('Invalid ID3v2 padding found at offset '.$thisfile_id3v2['padding']['errorpos'].' (the remaining '.($thisfile_id3v2['padding']['length'] - $i).' bytes are considered invalid)');
                             break;
                         }
                     }
@@ -300,7 +300,7 @@ class getid3_id3v2 extends getid3_handler {
                         if($this->IsValidID3v2FrameName($nextFrameID, $id3v2_majorversion)) {
                             // next frame is OK
                         }
-                        elseif(($frame_name == "\x00" . 'MP3') || ($frame_name == "\x00\x00" . 'MP') || ($frame_name == ' MP3') || ($frame_name == 'MP3e')) {
+                        elseif(($frame_name == "\x00".'MP3') || ($frame_name == "\x00\x00".'MP') || ($frame_name == ' MP3') || ($frame_name == 'MP3e')) {
                             // MP3ext known broken frames - "ok" for the purposes of this test
                         }
                         elseif(($id3v2_majorversion == 4) && ($this->IsValidID3v2FrameName(substr($framedata, getid3_lib::BigEndian2Int(substr($frame_header, 4, 4), 0), 4), 3))) {
@@ -325,7 +325,7 @@ class getid3_id3v2 extends getid3_handler {
                         if($framedata{$i} != "\x00") {
                             $thisfile_id3v2['padding']['valid'] = false;
                             $thisfile_id3v2['padding']['errorpos'] = $thisfile_id3v2['padding']['start'] + $i;
-                            $this->warning('Invalid ID3v2 padding found at offset ' . $thisfile_id3v2['padding']['errorpos'] . ' (the remaining ' . ($thisfile_id3v2['padding']['length'] - $i) . ' bytes are considered invalid)');
+                            $this->warning('Invalid ID3v2 padding found at offset '.$thisfile_id3v2['padding']['errorpos'].' (the remaining '.($thisfile_id3v2['padding']['length'] - $i).' bytes are considered invalid)');
                             break;
                         }
                     }
@@ -333,7 +333,7 @@ class getid3_id3v2 extends getid3_handler {
                 }
 
                 if($iTunesBrokenFrameNameFixed = self::ID3v22iTunesBrokenFrameName($frame_name)) {
-                    $this->warning('error parsing "' . $frame_name . '" (' . $framedataoffset . ' bytes into the ID3v2.' . $id3v2_majorversion . ' tag). (ERROR: IsValidID3v2FrameName("' . str_replace("\x00", ' ', $frame_name) . '", ' . $id3v2_majorversion . '))). [Note: this particular error has been known to happen with tags edited by iTunes (versions "X v2.0.3", "v3.0.1", "v7.0.0.70" are known-guilty, probably others too)]. Translated frame name from "' . str_replace("\x00", ' ', $frame_name) . '" to "' . $iTunesBrokenFrameNameFixed . '" for parsing.');
+                    $this->warning('error parsing "'.$frame_name.'" ('.$framedataoffset.' bytes into the ID3v2.'.$id3v2_majorversion.' tag). (ERROR: IsValidID3v2FrameName("'.str_replace("\x00", ' ', $frame_name).'", '.$id3v2_majorversion.'))). [Note: this particular error has been known to happen with tags edited by iTunes (versions "X v2.0.3", "v3.0.1", "v7.0.0.70" are known-guilty, probably others too)]. Translated frame name from "'.str_replace("\x00", ' ', $frame_name).'" to "'.$iTunesBrokenFrameNameFixed.'" for parsing.');
                     $frame_name = $iTunesBrokenFrameNameFixed;
                 }
                 if(($frame_size <= strlen($framedata)) && ($this->IsValidID3v2FrameName($frame_name, $id3v2_majorversion))) {
@@ -389,30 +389,30 @@ class getid3_id3v2 extends getid3_handler {
                     if(!$this->IsValidID3v2FrameName($frame_name, $id3v2_majorversion)) {
 
                         switch($frame_name) {
-                            case "\x00\x00" . 'MP':
-                            case "\x00" . 'MP3':
+                            case "\x00\x00".'MP':
+                            case "\x00".'MP3':
                             case ' MP3':
                             case 'MP3e':
-                            case "\x00" . 'MP':
+                            case "\x00".'MP':
                             case ' MP':
                             case 'MP3':
-                                $this->warning('error parsing "' . $frame_name . '" (' . $framedataoffset . ' bytes into the ID3v2.' . $id3v2_majorversion . ' tag). (ERROR: !IsValidID3v2FrameName("' . str_replace("\x00", ' ', $frame_name) . '", ' . $id3v2_majorversion . '))). [Note: this particular error has been known to happen with tags edited by "MP3ext (www.mutschler.de/mp3ext/)"]');
+                                $this->warning('error parsing "'.$frame_name.'" ('.$framedataoffset.' bytes into the ID3v2.'.$id3v2_majorversion.' tag). (ERROR: !IsValidID3v2FrameName("'.str_replace("\x00", ' ', $frame_name).'", '.$id3v2_majorversion.'))). [Note: this particular error has been known to happen with tags edited by "MP3ext (www.mutschler.de/mp3ext/)"]');
                                 break;
 
                             default:
-                                $this->warning('error parsing "' . $frame_name . '" (' . $framedataoffset . ' bytes into the ID3v2.' . $id3v2_majorversion . ' tag). (ERROR: !IsValidID3v2FrameName("' . str_replace("\x00", ' ', $frame_name) . '", ' . $id3v2_majorversion . '))).');
+                                $this->warning('error parsing "'.$frame_name.'" ('.$framedataoffset.' bytes into the ID3v2.'.$id3v2_majorversion.' tag). (ERROR: !IsValidID3v2FrameName("'.str_replace("\x00", ' ', $frame_name).'", '.$id3v2_majorversion.'))).');
                                 break;
                         }
 
                     }
                     elseif(!isset($framedata) || ($frame_size > strlen($framedata))) {
 
-                        $this->error('error parsing "' . $frame_name . '" (' . $framedataoffset . ' bytes into the ID3v2.' . $id3v2_majorversion . ' tag). (ERROR: $frame_size (' . $frame_size . ') > strlen($framedata) (' . (isset($framedata) ? strlen($framedata) : 'null') . ')).');
+                        $this->error('error parsing "'.$frame_name.'" ('.$framedataoffset.' bytes into the ID3v2.'.$id3v2_majorversion.' tag). (ERROR: $frame_size ('.$frame_size.') > strlen($framedata) ('.(isset($framedata) ? strlen($framedata) : 'null').')).');
 
                     }
                     else {
 
-                        $this->error('error parsing "' . $frame_name . '" (' . $framedataoffset . ' bytes into the ID3v2.' . $id3v2_majorversion . ' tag).');
+                        $this->error('error parsing "'.$frame_name.'" ('.$framedataoffset.' bytes into the ID3v2.'.$id3v2_majorversion.' tag).');
 
                     }
 
@@ -740,7 +740,7 @@ class getid3_id3v2 extends getid3_handler {
             if($parsedFrame['flags']['compression']) {
                 $parsedFrame['decompressed_size'] = getid3_lib::BigEndian2Int(substr($parsedFrame['data'], 0, 4));
                 if(!function_exists('gzuncompress')) {
-                    $this->warning('gzuncompress() support required to decompress ID3v2 frame "' . $parsedFrame['frame_name'] . '"');
+                    $this->warning('gzuncompress() support required to decompress ID3v2 frame "'.$parsedFrame['frame_name'].'"');
                 }
                 else {
                     if($decompresseddata = @gzuncompress(substr($parsedFrame['data'], 4))) {
@@ -749,7 +749,7 @@ class getid3_id3v2 extends getid3_handler {
                         unset($decompresseddata);
                     }
                     else {
-                        $this->warning('gzuncompress() failed on compressed contents of ID3v2 frame "' . $parsedFrame['frame_name'] . '"');
+                        $this->warning('gzuncompress() failed on compressed contents of ID3v2 frame "'.$parsedFrame['frame_name'].'"');
                     }
                 }
             }
@@ -757,13 +757,13 @@ class getid3_id3v2 extends getid3_handler {
 
         if(!empty($parsedFrame['flags']['DataLengthIndicator'])) {
             if($parsedFrame['data_length_indicator'] != strlen($parsedFrame['data'])) {
-                $this->warning('ID3v2 frame "' . $parsedFrame['frame_name'] . '" should be ' . $parsedFrame['data_length_indicator'] . ' bytes long according to DataLengthIndicator, but found ' . strlen($parsedFrame['data']) . ' bytes of data');
+                $this->warning('ID3v2 frame "'.$parsedFrame['frame_name'].'" should be '.$parsedFrame['data_length_indicator'].' bytes long according to DataLengthIndicator, but found '.strlen($parsedFrame['data']).' bytes of data');
             }
         }
 
         if(isset($parsedFrame['datalength']) && ($parsedFrame['datalength'] == 0)) {
 
-            $warning = 'Frame "' . $parsedFrame['frame_name'] . '" at offset ' . $parsedFrame['dataoffset'] . ' has no data portion';
+            $warning = 'Frame "'.$parsedFrame['frame_name'].'" at offset '.$parsedFrame['dataoffset'].' has no data portion';
             switch($parsedFrame['frame_name']) {
                 case 'WCOM':
                     $warning .= ' (this is known to happen with files tagged by RioPort)';
@@ -800,7 +800,7 @@ class getid3_id3v2 extends getid3_handler {
             $frame_textencoding = ord(substr($parsedFrame['data'], $frame_offset++, 1));
             $frame_textencoding_terminator = $this->TextEncodingTerminatorLookup($frame_textencoding);
             if((($id3v2_majorversion <= 3) && ($frame_textencoding > 1)) || (($id3v2_majorversion == 4) && ($frame_textencoding > 3))) {
-                $this->warning('Invalid text encoding byte (' . $frame_textencoding . ') in frame "' . $parsedFrame['frame_name'] . '" - defaulting to ISO-8859-1 encoding');
+                $this->warning('Invalid text encoding byte ('.$frame_textencoding.') in frame "'.$parsedFrame['frame_name'].'" - defaulting to ISO-8859-1 encoding');
                 $frame_textencoding_terminator = "\x00";
             }
             $frame_terminatorpos = strpos($parsedFrame['data'], $frame_textencoding_terminator, $frame_offset);
@@ -837,7 +837,7 @@ class getid3_id3v2 extends getid3_handler {
             $frame_offset = 0;
             $frame_textencoding = ord(substr($parsedFrame['data'], $frame_offset++, 1));
             if((($id3v2_majorversion <= 3) && ($frame_textencoding > 1)) || (($id3v2_majorversion == 4) && ($frame_textencoding > 3))) {
-                $this->warning('Invalid text encoding byte (' . $frame_textencoding . ') in frame "' . $parsedFrame['frame_name'] . '" - defaulting to ISO-8859-1 encoding');
+                $this->warning('Invalid text encoding byte ('.$frame_textencoding.') in frame "'.$parsedFrame['frame_name'].'" - defaulting to ISO-8859-1 encoding');
             }
 
             $parsedFrame['data'] = (string)substr($parsedFrame['data'], $frame_offset);
@@ -894,7 +894,7 @@ class getid3_id3v2 extends getid3_handler {
             $frame_textencoding = ord(substr($parsedFrame['data'], $frame_offset++, 1));
             $frame_textencoding_terminator = $this->TextEncodingTerminatorLookup($frame_textencoding);
             if((($id3v2_majorversion <= 3) && ($frame_textencoding > 1)) || (($id3v2_majorversion == 4) && ($frame_textencoding > 3))) {
-                $this->warning('Invalid text encoding byte (' . $frame_textencoding . ') in frame "' . $parsedFrame['frame_name'] . '" - defaulting to ISO-8859-1 encoding');
+                $this->warning('Invalid text encoding byte ('.$frame_textencoding.') in frame "'.$parsedFrame['frame_name'].'" - defaulting to ISO-8859-1 encoding');
                 $frame_textencoding_terminator = "\x00";
             }
             $frame_terminatorpos = strpos($parsedFrame['data'], $frame_textencoding_terminator, $frame_offset);
@@ -939,7 +939,7 @@ class getid3_id3v2 extends getid3_handler {
             $frame_offset = 0;
             $frame_textencoding = ord(substr($parsedFrame['data'], $frame_offset++, 1));
             if((($id3v2_majorversion <= 3) && ($frame_textencoding > 1)) || (($id3v2_majorversion == 4) && ($frame_textencoding > 3))) {
-                $this->warning('Invalid text encoding byte (' . $frame_textencoding . ') in frame "' . $parsedFrame['frame_name'] . '" - defaulting to ISO-8859-1 encoding');
+                $this->warning('Invalid text encoding byte ('.$frame_textencoding.') in frame "'.$parsedFrame['frame_name'].'" - defaulting to ISO-8859-1 encoding');
             }
             $parsedFrame['encodingid'] = $frame_textencoding;
             $parsedFrame['encoding'] = $this->TextEncodingNameLookup($parsedFrame['encodingid']);
@@ -1124,7 +1124,7 @@ class getid3_id3v2 extends getid3_handler {
             $frame_textencoding = ord(substr($parsedFrame['data'], $frame_offset++, 1));
             $frame_textencoding_terminator = $this->TextEncodingTerminatorLookup($frame_textencoding);
             if((($id3v2_majorversion <= 3) && ($frame_textencoding > 1)) || (($id3v2_majorversion == 4) && ($frame_textencoding > 3))) {
-                $this->warning('Invalid text encoding byte (' . $frame_textencoding . ') in frame "' . $parsedFrame['frame_name'] . '" - defaulting to ISO-8859-1 encoding');
+                $this->warning('Invalid text encoding byte ('.$frame_textencoding.') in frame "'.$parsedFrame['frame_name'].'" - defaulting to ISO-8859-1 encoding');
                 $frame_textencoding_terminator = "\x00";
             }
             $frame_language = substr($parsedFrame['data'], $frame_offset, 3);
@@ -1169,7 +1169,7 @@ class getid3_id3v2 extends getid3_handler {
             $frame_textencoding = ord(substr($parsedFrame['data'], $frame_offset++, 1));
             $frame_textencoding_terminator = $this->TextEncodingTerminatorLookup($frame_textencoding);
             if((($id3v2_majorversion <= 3) && ($frame_textencoding > 1)) || (($id3v2_majorversion == 4) && ($frame_textencoding > 3))) {
-                $this->warning('Invalid text encoding byte (' . $frame_textencoding . ') in frame "' . $parsedFrame['frame_name'] . '" - defaulting to ISO-8859-1 encoding');
+                $this->warning('Invalid text encoding byte ('.$frame_textencoding.') in frame "'.$parsedFrame['frame_name'].'" - defaulting to ISO-8859-1 encoding');
                 $frame_textencoding_terminator = "\x00";
             }
             $frame_language = substr($parsedFrame['data'], $frame_offset, 3);
@@ -1223,7 +1223,7 @@ class getid3_id3v2 extends getid3_handler {
 
             if(strlen($parsedFrame['data']) < 5) {
 
-                $this->warning('Invalid data (too short) for "' . $parsedFrame['frame_name'] . '" frame at offset ' . $parsedFrame['dataoffset']);
+                $this->warning('Invalid data (too short) for "'.$parsedFrame['frame_name'].'" frame at offset '.$parsedFrame['dataoffset']);
 
             }
             else {
@@ -1232,7 +1232,7 @@ class getid3_id3v2 extends getid3_handler {
                 $frame_textencoding = ord(substr($parsedFrame['data'], $frame_offset++, 1));
                 $frame_textencoding_terminator = $this->TextEncodingTerminatorLookup($frame_textencoding);
                 if((($id3v2_majorversion <= 3) && ($frame_textencoding > 1)) || (($id3v2_majorversion == 4) && ($frame_textencoding > 3))) {
-                    $this->warning('Invalid text encoding byte (' . $frame_textencoding . ') in frame "' . $parsedFrame['frame_name'] . '" - defaulting to ISO-8859-1 encoding');
+                    $this->warning('Invalid text encoding byte ('.$frame_textencoding.') in frame "'.$parsedFrame['frame_name'].'" - defaulting to ISO-8859-1 encoding');
                     $frame_textencoding_terminator = "\x00";
                 }
                 $frame_language = substr($parsedFrame['data'], $frame_offset, 3);
@@ -1295,7 +1295,7 @@ class getid3_id3v2 extends getid3_handler {
                 $frame_offset += 2;
                 $parsedFrame[$RVA2channelcounter]['bitspeakvolume'] = ord(substr($frame_remainingdata, $frame_offset++, 1));
                 if(($parsedFrame[$RVA2channelcounter]['bitspeakvolume'] < 1) || ($parsedFrame[$RVA2channelcounter]['bitspeakvolume'] > 4)) {
-                    $this->warning('ID3v2::RVA2 frame[' . $RVA2channelcounter . '] contains invalid ' . $parsedFrame[$RVA2channelcounter]['bitspeakvolume'] . '-byte bits-representing-peak value');
+                    $this->warning('ID3v2::RVA2 frame['.$RVA2channelcounter.'] contains invalid '.$parsedFrame[$RVA2channelcounter]['bitspeakvolume'].'-byte bits-representing-peak value');
                     break;
                 }
                 $frame_bytespeakvolume = ceil($parsedFrame[$RVA2channelcounter]['bitspeakvolume'] / 8);
@@ -1504,7 +1504,7 @@ class getid3_id3v2 extends getid3_handler {
             $frame_textencoding = ord(substr($parsedFrame['data'], $frame_offset++, 1));
             $frame_textencoding_terminator = $this->TextEncodingTerminatorLookup($frame_textencoding);
             if((($id3v2_majorversion <= 3) && ($frame_textencoding > 1)) || (($id3v2_majorversion == 4) && ($frame_textencoding > 3))) {
-                $this->warning('Invalid text encoding byte (' . $frame_textencoding . ') in frame "' . $parsedFrame['frame_name'] . '" - defaulting to ISO-8859-1 encoding');
+                $this->warning('Invalid text encoding byte ('.$frame_textencoding.') in frame "'.$parsedFrame['frame_name'].'" - defaulting to ISO-8859-1 encoding');
                 $frame_textencoding_terminator = "\x00";
             }
 
@@ -1540,7 +1540,7 @@ class getid3_id3v2 extends getid3_handler {
             $frame_picturetype = ord(substr($parsedFrame['data'], $frame_offset++, 1));
 
             if($frame_offset >= $parsedFrame['datalength']) {
-                $this->warning('data portion of APIC frame is missing at offset ' . ($parsedFrame['dataoffset'] + 8 + $frame_offset));
+                $this->warning('data portion of APIC frame is missing at offset '.($parsedFrame['dataoffset'] + 8 + $frame_offset));
             }
             else {
                 $frame_terminatorpos = strpos($parsedFrame['data'], $frame_textencoding_terminator, $frame_offset);
@@ -1600,19 +1600,19 @@ class getid3_id3v2 extends getid3_handler {
                         $dir = rtrim(str_replace(array('/', '\\'), DIRECTORY_SEPARATOR, $this->getid3->option_save_attachments), DIRECTORY_SEPARATOR);
                         if(!is_dir($dir) || !getID3::is_writable($dir)) {
                             // cannot write, skip
-                            $this->warning('attachment at ' . $frame_offset . ' cannot be saved to "' . $dir . '" (not writable)');
+                            $this->warning('attachment at '.$frame_offset.' cannot be saved to "'.$dir.'" (not writable)');
                             unset($parsedFrame['data']);
                             break;
                         }
                     }
                     // if we get this far, must be OK
                     if(is_string($this->getid3->option_save_attachments)) {
-                        $destination_filename = $dir . DIRECTORY_SEPARATOR . md5($info['filenamepath']) . '_' . $frame_offset;
+                        $destination_filename = $dir.DIRECTORY_SEPARATOR.md5($info['filenamepath']).'_'.$frame_offset;
                         if(!file_exists($destination_filename) || getID3::is_writable($destination_filename)) {
                             file_put_contents($destination_filename, $parsedFrame['data']);
                         }
                         else {
-                            $this->warning('attachment at ' . $frame_offset . ' cannot be saved to "' . $destination_filename . '" (not writable)');
+                            $this->warning('attachment at '.$frame_offset.' cannot be saved to "'.$destination_filename.'" (not writable)');
                         }
                         $parsedFrame['data_filename'] = $destination_filename;
                         unset($parsedFrame['data']);
@@ -1652,7 +1652,7 @@ class getid3_id3v2 extends getid3_handler {
             $frame_textencoding = ord(substr($parsedFrame['data'], $frame_offset++, 1));
             $frame_textencoding_terminator = $this->TextEncodingTerminatorLookup($frame_textencoding);
             if((($id3v2_majorversion <= 3) && ($frame_textencoding > 1)) || (($id3v2_majorversion == 4) && ($frame_textencoding > 3))) {
-                $this->warning('Invalid text encoding byte (' . $frame_textencoding . ') in frame "' . $parsedFrame['frame_name'] . '" - defaulting to ISO-8859-1 encoding');
+                $this->warning('Invalid text encoding byte ('.$frame_textencoding.') in frame "'.$parsedFrame['frame_name'].'" - defaulting to ISO-8859-1 encoding');
                 $frame_textencoding_terminator = "\x00";
             }
             $frame_terminatorpos = strpos($parsedFrame['data'], "\x00", $frame_offset);
@@ -1848,7 +1848,7 @@ class getid3_id3v2 extends getid3_handler {
             $frame_offset = 0;
             $frame_textencoding = ord(substr($parsedFrame['data'], $frame_offset++, 1));
             if((($id3v2_majorversion <= 3) && ($frame_textencoding > 1)) || (($id3v2_majorversion == 4) && ($frame_textencoding > 3))) {
-                $this->warning('Invalid text encoding byte (' . $frame_textencoding . ') in frame "' . $parsedFrame['frame_name'] . '" - defaulting to ISO-8859-1 encoding');
+                $this->warning('Invalid text encoding byte ('.$frame_textencoding.') in frame "'.$parsedFrame['frame_name'].'" - defaulting to ISO-8859-1 encoding');
             }
             $frame_language = substr($parsedFrame['data'], $frame_offset, 3);
             $frame_offset += 3;
@@ -1876,7 +1876,7 @@ class getid3_id3v2 extends getid3_handler {
             $frame_offset = 0;
             $frame_textencoding = ord(substr($parsedFrame['data'], $frame_offset++, 1));
             if((($id3v2_majorversion <= 3) && ($frame_textencoding > 1)) || (($id3v2_majorversion == 4) && ($frame_textencoding > 3))) {
-                $this->warning('Invalid text encoding byte (' . $frame_textencoding . ') in frame "' . $parsedFrame['frame_name'] . '" - defaulting to ISO-8859-1 encoding');
+                $this->warning('Invalid text encoding byte ('.$frame_textencoding.') in frame "'.$parsedFrame['frame_name'].'" - defaulting to ISO-8859-1 encoding');
             }
             $parsedFrame['encodingid'] = $frame_textencoding;
             $parsedFrame['encoding'] = $this->TextEncodingNameLookup($frame_textencoding);
@@ -1918,7 +1918,7 @@ class getid3_id3v2 extends getid3_handler {
             $frame_textencoding = ord(substr($parsedFrame['data'], $frame_offset++, 1));
             $frame_textencoding_terminator = $this->TextEncodingTerminatorLookup($frame_textencoding);
             if((($id3v2_majorversion <= 3) && ($frame_textencoding > 1)) || (($id3v2_majorversion == 4) && ($frame_textencoding > 3))) {
-                $this->warning('Invalid text encoding byte (' . $frame_textencoding . ') in frame "' . $parsedFrame['frame_name'] . '" - defaulting to ISO-8859-1 encoding');
+                $this->warning('Invalid text encoding byte ('.$frame_textencoding.') in frame "'.$parsedFrame['frame_name'].'" - defaulting to ISO-8859-1 encoding');
                 $frame_textencoding_terminator = "\x00";
             }
 
@@ -2144,7 +2144,7 @@ class getid3_id3v2 extends getid3_handler {
 
             $frame_offset = 0;
             @list($parsedFrame['element_id']) = explode("\x00", $parsedFrame['data'], 2);
-            $frame_offset += strlen($parsedFrame['element_id'] . "\x00");
+            $frame_offset += strlen($parsedFrame['element_id']."\x00");
             $parsedFrame['time_begin'] = getid3_lib::BigEndian2Int(substr($parsedFrame['data'], $frame_offset, 4));
             $frame_offset += 4;
             $parsedFrame['time_end'] = getid3_lib::BigEndian2Int(substr($parsedFrame['data'], $frame_offset, 4));
@@ -2172,7 +2172,7 @@ class getid3_id3v2 extends getid3_handler {
                     $subframe['flags_raw'] = getid3_lib::BigEndian2Int(substr($parsedFrame['data'], $frame_offset, 2));
                     $frame_offset += 2;
                     if($subframe['size'] > (strlen($parsedFrame['data']) - $frame_offset)) {
-                        $this->warning('CHAP subframe "' . $subframe['name'] . '" at frame offset ' . $frame_offset . ' claims to be "' . $subframe['size'] . '" bytes, which is more than the available data (' . (strlen($parsedFrame['data']) - $frame_offset) . ' bytes)');
+                        $this->warning('CHAP subframe "'.$subframe['name'].'" at frame offset '.$frame_offset.' claims to be "'.$subframe['size'].'" bytes, which is more than the available data ('.(strlen($parsedFrame['data']) - $frame_offset).' bytes)');
                         break;
                     }
                     $subframe_rawdata = substr($parsedFrame['data'], $frame_offset, $subframe['size']);
@@ -2233,11 +2233,11 @@ class getid3_id3v2 extends getid3_handler {
                                 $parsedFrame['picture_present'] = true;
                             }
                             else {
-                                $this->warning('ID3v2.CHAP subframe #' . (count($parsedFrame['subframes']) + 1) . ' "' . $subframe['name'] . '" not in expected format');
+                                $this->warning('ID3v2.CHAP subframe #'.(count($parsedFrame['subframes']) + 1).' "'.$subframe['name'].'" not in expected format');
                             }
                             break;
                         default:
-                            $this->warning('ID3v2.CHAP subframe "' . $subframe['name'] . '" not handled (supported: TIT2, TIT3, WXXX, APIC)');
+                            $this->warning('ID3v2.CHAP subframe "'.$subframe['name'].'" not handled (supported: TIT2, TIT3, WXXX, APIC)');
                             break;
                     }
                 }
@@ -2269,7 +2269,7 @@ class getid3_id3v2 extends getid3_handler {
 
             $frame_offset = 0;
             @list($parsedFrame['element_id']) = explode("\x00", $parsedFrame['data'], 2);
-            $frame_offset += strlen($parsedFrame['element_id'] . "\x00");
+            $frame_offset += strlen($parsedFrame['element_id']."\x00");
             $ctoc_flags_raw = ord(substr($parsedFrame['data'], $frame_offset, 1));
             $frame_offset += 1;
             $parsedFrame['entry_count'] = ord(substr($parsedFrame['data'], $frame_offset, 1));
@@ -2299,7 +2299,7 @@ class getid3_id3v2 extends getid3_handler {
                     $subframe['flags_raw'] = getid3_lib::BigEndian2Int(substr($parsedFrame['data'], $frame_offset, 2));
                     $frame_offset += 2;
                     if($subframe['size'] > (strlen($parsedFrame['data']) - $frame_offset)) {
-                        $this->warning('CTOS subframe "' . $subframe['name'] . '" at frame offset ' . $frame_offset . ' claims to be "' . $subframe['size'] . '" bytes, which is more than the available data (' . (strlen($parsedFrame['data']) - $frame_offset) . ' bytes)');
+                        $this->warning('CTOS subframe "'.$subframe['name'].'" at frame offset '.$frame_offset.' claims to be "'.$subframe['size'].'" bytes, which is more than the available data ('.(strlen($parsedFrame['data']) - $frame_offset).' bytes)');
                         break;
                     }
                     $subframe_rawdata = substr($parsedFrame['data'], $frame_offset, $subframe['size']);
@@ -2338,7 +2338,7 @@ class getid3_id3v2 extends getid3_handler {
                         $parsedFrame['subframes'][] = $subframe;
                     }
                     else {
-                        $this->warning('ID3v2.CTOC subframe "' . $subframe['name'] . '" not handled (only TIT2 and TIT3)');
+                        $this->warning('ID3v2.CTOC subframe "'.$subframe['name'].'" not handled (only TIT2 and TIT3)');
                     }
                 }
                 unset($subframe_rawdata, $subframe, $encoding_converted_text);
@@ -3584,8 +3584,8 @@ class getid3_id3v2 extends getid3_handler {
             // replace / with NULL, then replace back the two ID3v1 genres that legitimately have "/" as part of the single genre name
             if(preg_match('#/#', $genrestring)) {
                 $genrestring = str_replace('/', "\x00", $genrestring);
-                $genrestring = str_replace('Pop' . "\x00" . 'Funk', 'Pop/Funk', $genrestring);
-                $genrestring = str_replace('Rock' . "\x00" . 'Rock', 'Folk/Rock', $genrestring);
+                $genrestring = str_replace('Pop'."\x00".'Funk', 'Pop/Funk', $genrestring);
+                $genrestring = str_replace('Rock'."\x00".'Rock', 'Folk/Rock', $genrestring);
             }
 
             // some other taggers separate multiple genres with semicolon, e.g. "Heavy Metal;Thrash Metal;Metal"
@@ -3595,7 +3595,7 @@ class getid3_id3v2 extends getid3_handler {
         }
 
         if(strpos($genrestring, "\x00") === false) {
-            $genrestring = preg_replace('#\(([0-9]{1,3})\)#', '$1' . "\x00", $genrestring);
+            $genrestring = preg_replace('#\(([0-9]{1,3})\)#', '$1'."\x00", $genrestring);
         }
 
         $genre_elements = explode("\x00", $genrestring);

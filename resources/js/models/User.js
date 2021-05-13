@@ -10,9 +10,11 @@ export default class User extends Model {
         actions: {
             fetchCurrent() {
                 return this.get('/api/role/get')
-            }, fetchById(id) {
+            },
+            fetchById(id) {
                 return this.get('/api/role/get/${id}')
-            }, fetchForUser() {
+            },
+            fetchForUser() {
                 return this.get('/api/role/user')
             }
         }

@@ -7,7 +7,8 @@ export default class ArtistMedia extends Model {
 
     static fields() {
         return {
-            artist_id: this.number(null), media_id: this.number(null)
+            artist_id: this.number(null),
+            media_id: this.number(null)
         }
     }
 }

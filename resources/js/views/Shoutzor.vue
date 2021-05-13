@@ -24,9 +24,11 @@
 import simplebar from 'simplebar-vue';
 
 export default {
-    name: "Shoutzor", components: {
+    name: "Shoutzor",
+    components: {
         simplebar
-    }, mounted() {
+    },
+    mounted() {
         //Add a scroll-event listener for when the user scrolls through the main content section
         this.$refs.scroll.scrollElement.addEventListener("scroll", this.onContentScroll);
 
@@ -34,7 +36,8 @@ export default {
         document.addEventListener('dragover', this.onDragOver);
         document.addEventListener('dragleave', this.onDragLeave);
         document.addEventListener('drop', this.onDrop);
-    }, beforeDestroy() {
+    },
+    beforeDestroy() {
         //Remove the scroll event listener
         this.$refs.scroll.scrollElement.removeEventListener("scroll", this.onContentScroll);
 
@@ -42,9 +45,13 @@ export default {
         document.removeEventListener('dragover', this.onDragOver);
         document.removeEventListener('dragleave', this.onDragLeave);
         document.removeEventListener('drop', this.onDrop);
-    }, methods: {
+    },
+    methods: {
         onContentScroll(event) {
-            this.$bus.emit('main-content-scroll', {scrollX: event.target.scrollLeft, scrollY: event.target.scrollTop});
+            this.$bus.emit('main-content-scroll', {
+                scrollX: event.target.scrollLeft,
+                scrollY: event.target.scrollTop
+            });
         },
 
         onDragOver(event) {

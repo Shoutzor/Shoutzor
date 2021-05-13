@@ -28,14 +28,16 @@ import Request from '@js/models/Request';
 export default {
     data() {
         return {
-            albumImage: require('@static/images/album_temp_bg.jpg'),
+            albumImage: require('@static/images/album_temp_bg.jpg')
         };
-    }, computed: {
+    },
+    computed: {
         currentMedia: () => Request.query()
         .where((r) => { return r.played_at !== null; })
         .with(["media.artists|albums", "user"])
         .last()
-    }, filters: {
+    },
+    filters: {
         getAlbumImage: function(media) {
             let defaultImage = require('@static/images/album_cover_placeholder.jpg');
 

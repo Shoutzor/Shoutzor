@@ -92,7 +92,8 @@ import {mapGetters} from "vuex";
 export default {
     components: {
         VueSlider
-    }, data() {
+    },
+    data() {
         return {
             volume: 100,
             albumImage: require('@static/images/album_temp_bg.jpg'),
@@ -107,7 +108,7 @@ export default {
             isAuthenticated: 'isAuthenticated',
             playerStatus: 'MediaPlayer/getPlayerState',
             hasVideo: 'MediaPlayer/hasVideo'
-        }),
+        })
     },
 
     mounted() {

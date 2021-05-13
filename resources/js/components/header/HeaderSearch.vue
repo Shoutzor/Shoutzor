@@ -17,13 +17,18 @@ r
 
 <script>
 export default {
-    name: 'HeaderSearch', data() {
+    name: 'HeaderSearch',
+    data() {
         return {
             q: ''
         }
-    }, methods: {
+    },
+    methods: {
         searchAction: function() {
-            this.$router.push({path: 'search', query: {q: this.q}});
+            this.$router.push({
+                path: 'search',
+                query: {q: this.q}
+            });
             this.q = '';
         }
     }

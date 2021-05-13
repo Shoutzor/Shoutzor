@@ -68,10 +68,14 @@ import simplebar from 'simplebar-vue';
 import HeaderSearch from "./HeaderSearch";
 
 export default {
-    name: 'headerMenu', computed: mapGetters({
-        isAuthenticated: 'isAuthenticated', can: 'can'
-    }), components: {
-        HeaderSearch, simplebar
+    name: 'headerMenu',
+    computed: mapGetters({
+        isAuthenticated: 'isAuthenticated',
+        can: 'can'
+    }),
+    components: {
+        HeaderSearch,
+        simplebar
     }
 }
 </script>

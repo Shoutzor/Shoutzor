@@ -54,7 +54,7 @@ class Argument {
      */
     public function getCommandName() {
         preg_match("/\\\\([\w]+)Command$/", get_class($this->command), $matches);
-        return isset($matches[1]) ? lcfirst($matches[1]) . '()' : 'Method';
+        return isset($matches[1]) ? lcfirst($matches[1]).'()' : 'Method';
     }
 
     /**

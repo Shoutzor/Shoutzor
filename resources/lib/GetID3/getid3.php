@@ -15,7 +15,7 @@ if(!defined('GETID3_OS_ISWINDOWS')) {
 }
 // Get base path of getID3() - ONCE
 if(!defined('GETID3_INCLUDEPATH')) {
-    define('GETID3_INCLUDEPATH', dirname(__FILE__) . DIRECTORY_SEPARATOR);
+    define('GETID3_INCLUDEPATH', dirname(__FILE__).DIRECTORY_SEPARATOR);
 }
 // Workaround Bug #39923 (https://bugs.php.net/bug.php?id=39923)
 if(!defined('IMG_JPG') && defined('IMAGETYPE_JPEG')) {
@@ -57,7 +57,7 @@ if($open_basedir) {
         if(substr($basedir, -1, 1) != DIRECTORY_SEPARATOR) {
             $basedir .= DIRECTORY_SEPARATOR;
         }
-        if(preg_match('#^' . preg_quote($basedir) . '#', $temp_dir)) {
+        if(preg_match('#^'.preg_quote($basedir).'#', $temp_dir)) {
             $found_valid_tempdir = true;
             break;
         }
@@ -236,7 +236,7 @@ class getID3 {
         // Check for PHP version
         $required_php_version = '5.3.0';
         if(version_compare(PHP_VERSION, $required_php_version, '<')) {
-            $this->startup_error .= 'getID3() requires PHP v' . $required_php_version . ' or higher - you are running v' . PHP_VERSION . "\n";
+            $this->startup_error .= 'getID3() requires PHP v'.$required_php_version.' or higher - you are running v'.PHP_VERSION."\n";
             return;
         }
 
@@ -254,10 +254,10 @@ class getID3 {
             // memory limits probably disabled
         }
         elseif($this->memory_limit <= 4194304) {
-            $this->startup_error .= 'PHP has less than 4MB available memory and will very likely run out. Increase memory_limit in php.ini' . "\n";
+            $this->startup_error .= 'PHP has less than 4MB available memory and will very likely run out. Increase memory_limit in php.ini'."\n";
         }
         elseif($this->memory_limit <= 12582912) {
-            $this->startup_warning .= 'PHP has less than 12MB available memory and might run out if all modules are loaded. Increase memory_limit in php.ini' . "\n";
+            $this->startup_warning .= 'PHP has less than 12MB available memory and might run out if all modules are loaded. Increase memory_limit in php.ini'."\n";
         }
 
         // Check safe_mode off
@@ -269,26 +269,26 @@ class getID3 {
             // http://php.net/manual/en/mbstring.overload.php
             // "mbstring.func_overload in php.ini is a positive value that represents a combination of bitmasks specifying the categories of functions to be overloaded. It should be set to 1 to overload the mail() function. 2 for string functions, 4 for regular expression functions"
             // getID3 cannot run when string functions are overloaded. It doesn't matter if mail() or ereg* functions are overloaded since getID3 does not use those.
-            $this->startup_error .= 'WARNING: php.ini contains "mbstring.func_overload = ' . ini_get('mbstring.func_overload') . '", getID3 cannot run with this setting (bitmask 2 (string functions) cannot be set). Recommended to disable entirely.' . "\n";
+            $this->startup_error .= 'WARNING: php.ini contains "mbstring.func_overload = '.ini_get('mbstring.func_overload').'", getID3 cannot run with this setting (bitmask 2 (string functions) cannot be set). Recommended to disable entirely.'."\n";
         }
 
         // Check for magic_quotes_runtime
         if(function_exists('get_magic_quotes_runtime')) {
             if(get_magic_quotes_runtime()) {
-                $this->startup_error .= 'magic_quotes_runtime must be disabled before running getID3(). Surround getid3 block by set_magic_quotes_runtime(0) and set_magic_quotes_runtime(1).' . "\n";
+                $this->startup_error .= 'magic_quotes_runtime must be disabled before running getID3(). Surround getid3 block by set_magic_quotes_runtime(0) and set_magic_quotes_runtime(1).'."\n";
             }
         }
 
         // Check for magic_quotes_gpc
         if(function_exists('magic_quotes_gpc')) {
             if(get_magic_quotes_gpc()) {
-                $this->startup_error .= 'magic_quotes_gpc must be disabled before running getID3(). Surround getid3 block by set_magic_quotes_gpc(0) and set_magic_quotes_gpc(1).' . "\n";
+                $this->startup_error .= 'magic_quotes_gpc must be disabled before running getID3(). Surround getid3 block by set_magic_quotes_gpc(0) and set_magic_quotes_gpc(1).'."\n";
             }
         }
 
         // Load support library
-        if(!include_once(GETID3_INCLUDEPATH . 'getid3.lib.php')) {
-            $this->startup_error .= 'getid3.lib.php is missing or corrupt' . "\n";
+        if(!include_once(GETID3_INCLUDEPATH.'getid3.lib.php')) {
+            $this->startup_error .= 'getid3.lib.php is missing or corrupt'."\n";
         }
 
         if($this->option_max_2gb_check === null) {
@@ -303,10 +303,10 @@ class getID3 {
         // IMPORTANT: This path must include the trailing slash
         if(GETID3_OS_ISWINDOWS && !defined('GETID3_HELPERAPPSDIR')) {
 
-            $helperappsdir = GETID3_INCLUDEPATH . '..' . DIRECTORY_SEPARATOR . 'helperapps'; // must not have any space in this path
+            $helperappsdir = GETID3_INCLUDEPATH.'..'.DIRECTORY_SEPARATOR.'helperapps'; // must not have any space in this path
 
             if(!is_dir($helperappsdir)) {
-                $this->startup_warning .= '"' . $helperappsdir . '" cannot be defined as GETID3_HELPERAPPSDIR because it does not exist' . "\n";
+                $this->startup_warning .= '"'.$helperappsdir.'" cannot be defined as GETID3_HELPERAPPSDIR because it does not exist'."\n";
             }
             elseif(strpos(realpath($helperappsdir), ' ') !== false) {
                 $DirPieces = explode(DIRECTORY_SEPARATOR, realpath($helperappsdir));
@@ -314,7 +314,7 @@ class getID3 {
                 foreach($DirPieces as $key => $value) {
                     if(strpos($value, ' ') !== false) {
                         if(!empty($path_so_far)) {
-                            $commandline = 'dir /x ' . escapeshellarg(implode(DIRECTORY_SEPARATOR, $path_so_far));
+                            $commandline = 'dir /x '.escapeshellarg(implode(DIRECTORY_SEPARATOR, $path_so_far));
                             $dir_listing = `$commandline`;
                             $lines = explode("\n", $dir_listing);
                             foreach($lines as $line) {
@@ -328,14 +328,14 @@ class getID3 {
                             }
                         }
                         else {
-                            $this->startup_warning .= 'GETID3_HELPERAPPSDIR must not have any spaces in it - use 8dot3 naming convention if neccesary. You can run "dir /x" from the commandline to see the correct 8.3-style names.' . "\n";
+                            $this->startup_warning .= 'GETID3_HELPERAPPSDIR must not have any spaces in it - use 8dot3 naming convention if neccesary. You can run "dir /x" from the commandline to see the correct 8.3-style names.'."\n";
                         }
                     }
                     $path_so_far[] = $value;
                 }
                 $helperappsdir = implode(DIRECTORY_SEPARATOR, $path_so_far);
             }
-            define('GETID3_HELPERAPPSDIR', $helperappsdir . DIRECTORY_SEPARATOR);
+            define('GETID3_HELPERAPPSDIR', $helperappsdir.DIRECTORY_SEPARATOR);
         }
 
         if(!empty($this->startup_error)) {
@@ -412,11 +412,11 @@ class getID3 {
 
             // Handle tags
             foreach(array('id3v2' => 'id3v2', 'id3v1' => 'id3v1', 'apetag' => 'ape', 'lyrics3' => 'lyrics3') as $tag_name => $tag_key) {
-                $option_tag = 'option_tag_' . $tag_name;
+                $option_tag = 'option_tag_'.$tag_name;
                 if($this->$option_tag) {
-                    $this->include_module('tag.' . $tag_name);
+                    $this->include_module('tag.'.$tag_name);
                     try {
-                        $tag_class = 'getid3_' . $tag_name;
+                        $tag_class = 'getid3_'.$tag_name;
                         $tag = new $tag_class($this);
                         $tag->Analyze();
                     }
@@ -485,15 +485,15 @@ class getID3 {
             $this->info['mime_type'] = $determined_format['mime_type'];
 
             // supported format signature pattern detected, but module deleted
-            if(!file_exists(GETID3_INCLUDEPATH . $determined_format['include'])) {
+            if(!file_exists(GETID3_INCLUDEPATH.$determined_format['include'])) {
                 fclose($this->fp);
-                return $this->error('Format not supported, module "' . $determined_format['include'] . '" was removed.');
+                return $this->error('Format not supported, module "'.$determined_format['include'].'" was removed.');
             }
 
             // module requires mb_convert_encoding/iconv support
             // Check encoding/iconv support
             if(!empty($determined_format['iconv_req']) && !function_exists('mb_convert_encoding') && !function_exists('iconv') && !in_array($this->encoding, array('ISO-8859-1', 'UTF-8', 'UTF-16LE', 'UTF-16BE', 'UTF-16'))) {
-                $errormessage = 'mb_convert_encoding() or iconv() support is required for this module (' . $determined_format['include'] . ') for encodings other than ISO-8859-1, UTF-8, UTF-16LE, UTF16-BE, UTF-16. ';
+                $errormessage = 'mb_convert_encoding() or iconv() support is required for this module ('.$determined_format['include'].') for encodings other than ISO-8859-1, UTF-8, UTF-16LE, UTF16-BE, UTF-16. ';
                 if(GETID3_OS_ISWINDOWS) {
                     $errormessage .= 'PHP does not have mb_convert_encoding() or iconv() support. Please enable php_mbstring.dll / php_iconv.dll in php.ini, and copy php_mbstring.dll / iconv.dll from c:/php/dlls to c:/windows/system32';
                 }
@@ -504,12 +504,12 @@ class getID3 {
             }
 
             // include module
-            include_once(GETID3_INCLUDEPATH . $determined_format['include']);
+            include_once(GETID3_INCLUDEPATH.$determined_format['include']);
 
             // instantiate module class
-            $class_name = 'getid3_' . $determined_format['module'];
+            $class_name = 'getid3_'.$determined_format['module'];
             if(!class_exists($class_name)) {
-                return $this->error('Format not supported, module "' . $determined_format['include'] . '" is corrupt.');
+                return $this->error('Format not supported, module "'.$determined_format['include'].'" is corrupt.');
             }
             $class = new $class_name($this);
             $class->Analyze();
@@ -550,7 +550,7 @@ class getID3 {
 
         }
         catch(Exception $e) {
-            $this->error('Caught exception: ' . $e->getMessage());
+            $this->error('Caught exception: '.$e->getMessage());
         }
 
         // return info array
@@ -612,7 +612,7 @@ class getID3 {
                 if(empty($errormessagelist)) {
                     $errormessagelist[] = 'fopen failed';
                 }
-                throw new getid3_exception('Could not open "' . $filename . '" (' . implode('; ', $errormessagelist) . ')');
+                throw new getid3_exception('Could not open "'.$filename.'" ('.implode('; ', $errormessagelist).')');
             }
 
             $this->info['filesize'] = (!is_null($filesize) ? $filesize : filesize($filename));
@@ -621,7 +621,7 @@ class getID3 {
             $filename = str_replace('\\', '/', $filename);
             $this->info['filepath'] = str_replace('\\', '/', realpath(dirname($filename)));
             $this->info['filename'] = getid3_lib::mb_basename($filename);
-            $this->info['filenamepath'] = $this->info['filepath'] . '/' . $this->info['filename'];
+            $this->info['filenamepath'] = $this->info['filepath'].'/'.$this->info['filename'];
 
             // set more parameters
             $this->info['avdataoffset'] = 0;
@@ -647,15 +647,15 @@ class getID3 {
                     if($real_filesize === false) {
                         unset($this->info['filesize']);
                         fclose($this->fp);
-                        throw new getid3_exception('Unable to determine actual filesize. File is most likely larger than ' . round(PHP_INT_MAX / 1073741824) . 'GB and is not supported by PHP.');
+                        throw new getid3_exception('Unable to determine actual filesize. File is most likely larger than '.round(PHP_INT_MAX / 1073741824).'GB and is not supported by PHP.');
                     }
                     elseif(getid3_lib::intValueSupported($real_filesize)) {
                         unset($this->info['filesize']);
                         fclose($this->fp);
-                        throw new getid3_exception('PHP seems to think the file is larger than ' . round(PHP_INT_MAX / 1073741824) . 'GB, but filesystem reports it as ' . number_format($real_filesize / 1073741824, 3) . 'GB, please report to info@getid3.org');
+                        throw new getid3_exception('PHP seems to think the file is larger than '.round(PHP_INT_MAX / 1073741824).'GB, but filesystem reports it as '.number_format($real_filesize / 1073741824, 3).'GB, please report to info@getid3.org');
                     }
                     $this->info['filesize'] = $real_filesize;
-                    $this->warning('File is larger than ' . round(PHP_INT_MAX / 1073741824) . 'GB (filesystem reports it as ' . number_format($real_filesize / 1073741824, 3) . 'GB) and is not properly supported by PHP.');
+                    $this->warning('File is larger than '.round(PHP_INT_MAX / 1073741824).'GB (filesystem reports it as '.number_format($real_filesize / 1073741824, 3).'GB) and is not properly supported by PHP.');
                 }
             }
 
@@ -749,10 +749,10 @@ class getID3 {
      */
     public function include_module($name) {
         //if (!file_exists($this->include_path.'module.'.$name.'.php')) {
-        if(!file_exists(GETID3_INCLUDEPATH . 'module.' . $name . '.php')) {
-            throw new getid3_exception('Required module.' . $name . '.php is missing.');
+        if(!file_exists(GETID3_INCLUDEPATH.'module.'.$name.'.php')) {
+            throw new getid3_exception('Required module.'.$name.'.php is missing.');
         }
-        include_once(GETID3_INCLUDEPATH . 'module.' . $name . '.php');
+        include_once(GETID3_INCLUDEPATH.'module.'.$name.'.php');
         return true;
     }
 
@@ -772,8 +772,8 @@ class getID3 {
         foreach($this->GetFileFormatArray() as $format_name => $info) {
             // The /s switch on preg_match() forces preg_match() NOT to treat
             // newline (0x0A) characters as special chars but do a binary match
-            if(!empty($info['pattern']) && preg_match('#' . $info['pattern'] . '#s', $filedata)) {
-                $info['include'] = 'module.' . $info['group'] . '.' . $info['module'] . '.php';
+            if(!empty($info['pattern']) && preg_match('#'.$info['pattern'].'#s', $filedata)) {
+                $info['include'] = 'module.'.$info['group'].'.'.$info['module'].'.php';
                 return $info;
             }
         }
@@ -783,7 +783,7 @@ class getID3 {
             // use assume format on these if format detection failed
             $GetFileFormatArray = $this->GetFileFormatArray();
             $info = $GetFileFormatArray['mp3'];
-            $info['include'] = 'module.' . $info['group'] . '.' . $info['module'] . '.php';
+            $info['include'] = 'module.'.$info['group'].'.'.$info['module'].'.php';
             return $info;
         }
         elseif(preg_match('#\\.cue$#i', $filename) && preg_match('#FILE "[^"]+" (BINARY|MOTOROLA|AIFF|WAVE|MP3)#', $filedata)) {
@@ -792,7 +792,7 @@ class getID3 {
             // and verify there's at least one instance of "TRACK xx AUDIO" in the file
             $GetFileFormatArray = $this->GetFileFormatArray();
             $info = $GetFileFormatArray['cue'];
-            $info['include'] = 'module.' . $info['group'] . '.' . $info['module'] . '.php';
+            $info['include'] = 'module.'.$info['group'].'.'.$info['module'].'.php';
             return $info;
         }
 
@@ -1359,7 +1359,7 @@ class getID3 {
                 break;
 
             default:
-                return $this->error('bad algorithm "' . $algorithm . '" in getHashdata()');
+                return $this->error('bad algorithm "'.$algorithm.'" in getHashdata()');
                 break;
         }
 
@@ -1385,8 +1385,8 @@ class getID3 {
 
             if(preg_match('#(1|ON)#i', ini_get('safe_mode'))) {
 
-                $this->warning('Failed making system call to vorbiscomment.exe - ' . $algorithm . '_data is incorrect - error returned: PHP running in Safe Mode (backtick operator not available)');
-                $this->info[$algorithm . '_data'] = false;
+                $this->warning('Failed making system call to vorbiscomment.exe - '.$algorithm.'_data is incorrect - error returned: PHP running in Safe Mode (backtick operator not available)');
+                $this->info[$algorithm.'_data'] = false;
 
             }
             else {
@@ -1404,30 +1404,30 @@ class getID3 {
 
                 if(GETID3_OS_ISWINDOWS) {
 
-                    if(file_exists(GETID3_HELPERAPPSDIR . 'vorbiscomment.exe')) {
+                    if(file_exists(GETID3_HELPERAPPSDIR.'vorbiscomment.exe')) {
 
-                        $commandline = '"' . GETID3_HELPERAPPSDIR . 'vorbiscomment.exe" -w -c "' . $empty . '" "' . $file . '" "' . $temp . '"';
+                        $commandline = '"'.GETID3_HELPERAPPSDIR.'vorbiscomment.exe" -w -c "'.$empty.'" "'.$file.'" "'.$temp.'"';
                         $VorbisCommentError = `$commandline`;
 
                     }
                     else {
 
-                        $VorbisCommentError = 'vorbiscomment.exe not found in ' . GETID3_HELPERAPPSDIR;
+                        $VorbisCommentError = 'vorbiscomment.exe not found in '.GETID3_HELPERAPPSDIR;
 
                     }
 
                 }
                 else {
 
-                    $commandline = 'vorbiscomment -w -c ' . escapeshellarg($empty) . ' ' . escapeshellarg($file) . ' ' . escapeshellarg($temp) . ' 2>&1';
+                    $commandline = 'vorbiscomment -w -c '.escapeshellarg($empty).' '.escapeshellarg($file).' '.escapeshellarg($temp).' 2>&1';
                     $VorbisCommentError = `$commandline`;
 
                 }
 
                 if(!empty($VorbisCommentError)) {
 
-                    $this->warning('Failed making system call to vorbiscomment(.exe) - ' . $algorithm . '_data will be incorrect. If vorbiscomment is unavailable, please download from http://www.vorbis.com/download.psp and put in the getID3() directory. Error returned: ' . $VorbisCommentError);
-                    $this->info[$algorithm . '_data'] = false;
+                    $this->warning('Failed making system call to vorbiscomment(.exe) - '.$algorithm.'_data will be incorrect. If vorbiscomment is unavailable, please download from http://www.vorbis.com/download.psp and put in the getID3() directory. Error returned: '.$VorbisCommentError);
+                    $this->info[$algorithm.'_data'] = false;
 
                 }
                 else {
@@ -1435,11 +1435,11 @@ class getID3 {
                     // Get hash of newly created file
                     switch($algorithm) {
                         case 'md5':
-                            $this->info[$algorithm . '_data'] = md5_file($temp);
+                            $this->info[$algorithm.'_data'] = md5_file($temp);
                             break;
 
                         case 'sha1':
-                            $this->info[$algorithm . '_data'] = sha1_file($temp);
+                            $this->info[$algorithm.'_data'] = sha1_file($temp);
                             break;
                     }
                 }
@@ -1459,7 +1459,7 @@ class getID3 {
             if(!empty($this->info['avdataoffset']) || (isset($this->info['avdataend']) && ($this->info['avdataend'] < $this->info['filesize']))) {
 
                 // get hash from part of file
-                $this->info[$algorithm . '_data'] = getid3_lib::hash_data($this->info['filenamepath'], $this->info['avdataoffset'], $this->info['avdataend'], $algorithm);
+                $this->info[$algorithm.'_data'] = getid3_lib::hash_data($this->info['filenamepath'], $this->info['avdataoffset'], $this->info['avdataend'], $algorithm);
 
             }
             else {
@@ -1467,11 +1467,11 @@ class getID3 {
                 // get hash from whole file
                 switch($algorithm) {
                     case 'md5':
-                        $this->info[$algorithm . '_data'] = md5_file($this->info['filenamepath']);
+                        $this->info[$algorithm.'_data'] = md5_file($this->info['filenamepath']);
                         break;
 
                     case 'sha1':
-                        $this->info[$algorithm . '_data'] = sha1_file($this->info['filenamepath']);
+                        $this->info[$algorithm.'_data'] = sha1_file($this->info['filenamepath']);
                         break;
                 }
             }
@@ -1625,13 +1625,13 @@ abstract class getid3_handler {
                 // set up destination path
                 $dir = rtrim(str_replace(array('/', '\\'), DIRECTORY_SEPARATOR, $this->getid3->option_save_attachments), DIRECTORY_SEPARATOR);
                 if(!is_dir($dir) || !getID3::is_writable($dir)) { // check supplied directory
-                    throw new Exception('supplied path (' . $dir . ') does not exist, or is not writable');
+                    throw new Exception('supplied path ('.$dir.') does not exist, or is not writable');
                 }
-                $dest = $dir . DIRECTORY_SEPARATOR . $name . ($image_mime ? '.' . getid3_lib::ImageExtFromMime($image_mime) : '');
+                $dest = $dir.DIRECTORY_SEPARATOR.$name.($image_mime ? '.'.getid3_lib::ImageExtFromMime($image_mime) : '');
 
                 // create dest file
                 if(($fp_dest = fopen($dest, 'wb')) == false) {
-                    throw new Exception('failed to create file ' . $dest);
+                    throw new Exception('failed to create file '.$dest);
                 }
 
                 // copy data
@@ -1664,7 +1664,7 @@ abstract class getid3_handler {
 
             // do not set any is case of error
             $attachment = null;
-            $this->warning('Failed to extract attachment ' . $name . ': ' . $e->getMessage());
+            $this->warning('Failed to extract attachment '.$name.': '.$e->getMessage());
 
         }
 
@@ -1708,7 +1708,7 @@ abstract class getid3_handler {
                 $pos = $this->getid3->info['filesize'] + $bytes;
             }
             if(!getid3_lib::intValueSupported($pos)) {
-                throw new getid3_exception('cannot fseek(' . $pos . ') because beyond PHP filesystem limit', 10);
+                throw new getid3_exception('cannot fseek('.$pos.') because beyond PHP filesystem limit', 10);
             }
         }
         return fseek($this->getid3->fp, $bytes, $whence);
@@ -1738,7 +1738,7 @@ abstract class getid3_handler {
         }
         $pos = $this->ftell() + $bytes;
         if(!getid3_lib::intValueSupported($pos)) {
-            throw new getid3_exception('cannot fread(' . $bytes . ' from ' . $this->ftell() . ') because beyond PHP filesystem limit', 10);
+            throw new getid3_exception('cannot fread('.$bytes.' from '.$this->ftell().') because beyond PHP filesystem limit', 10);
         }
 
         //return fread($this->getid3->fp, $bytes);
@@ -1753,7 +1753,7 @@ abstract class getid3_handler {
         do {
             //if (($this->getid3->memory_limit > 0) && ($bytes > $this->getid3->memory_limit)) {
             if(($this->getid3->memory_limit > 0) && (($bytes / $this->getid3->memory_limit) > 0.99)) { // enable a more-fuzzy match to prevent close misses generating errors like "PHP Fatal error: Allowed memory size of 33554432 bytes exhausted (tried to allocate 33554464 bytes)"
-                throw new getid3_exception('cannot fread(' . $bytes . ' from ' . $this->ftell() . ') that is more than available PHP memory (' . $this->getid3->memory_limit . ')', 10);
+                throw new getid3_exception('cannot fread('.$bytes.' from '.$this->ftell().') that is more than available PHP memory ('.$this->getid3->memory_limit.')', 10);
             }
             $part = fread($this->getid3->fp, $bytes);
             $partLength = strlen($part);

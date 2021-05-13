@@ -47,13 +47,19 @@
 import {mapGetters} from 'vuex';
 
 export default {
-    name: 'headerTop', computed: mapGetters({
-        isAuthenticated: 'isAuthenticated', user: 'getUser', can: 'can'
-    }), created() {
+    name: 'headerTop',
+    computed: mapGetters({
+        isAuthenticated: 'isAuthenticated',
+        user: 'getUser',
+        can: 'can'
+    }),
+    created() {
         this.$bus.on('main-content-scroll', this.handleScroll);
-    }, beforeDestroy() {
+    },
+    beforeDestroy() {
         this.$bus.off('main-content-scroll', this.handleScroll);
-    }, methods: {
+    },
+    methods: {
         handleScroll(event) {
             var navbar = document.querySelector('#navbar-top');
 

@@ -6,9 +6,11 @@ export default class Permission extends Model {
         actions: {
             fetchAll() {
                 return this.get('/api/permission/get')
-            }, fetchById(id) {
+            },
+            fetchById(id) {
                 return this.get('/api/permission/get/${id}')
-            }, fetchForUser() {
+            },
+            fetchForUser() {
                 return this.get('/api/permission/user')
             }
         }
@@ -16,7 +18,9 @@ export default class Permission extends Model {
 
     static fields() {
         return {
-            id: this.number(null), name: this.string(''), description: this.string('')
+            id: this.number(null),
+            name: this.string(''),
+            description: this.string('')
         }
     }
 }

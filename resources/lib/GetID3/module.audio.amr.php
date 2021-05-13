@@ -24,9 +24,9 @@ class getid3_amr extends getid3_handler {
         $this->fseek($info['avdataoffset']);
         $AMRheader = $this->fread(6);
 
-        $magic = '#!AMR' . "\x0A";
+        $magic = '#!AMR'."\x0A";
         if(substr($AMRheader, 0, 6) != $magic) {
-            $this->error('Expecting "' . getid3_lib::PrintHexBytes($magic) . '" at offset ' . $info['avdataoffset'] . ', found "' . getid3_lib::PrintHexBytes(substr($AMRheader, 0, 6)) . '"');
+            $this->error('Expecting "'.getid3_lib::PrintHexBytes($magic).'" at offset '.$info['avdataoffset'].', found "'.getid3_lib::PrintHexBytes(substr($AMRheader, 0, 6)).'"');
             return false;
         }
 

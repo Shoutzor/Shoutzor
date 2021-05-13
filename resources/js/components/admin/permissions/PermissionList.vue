@@ -13,6 +13,7 @@
 import PermissionListItem from "./PermissionListItem";
 
 export default {
-    components: {PermissionListItem}, props: ['permissions', 'hasPermissions']
+    components: {PermissionListItem},
+    props: ['permissions', 'hasPermissions']
 }
 </script>

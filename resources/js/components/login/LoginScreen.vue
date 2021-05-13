@@ -36,9 +36,13 @@ import LoginForm from "@js/components/login/LoginForm";
 import {mapGetters} from "vuex";
 
 export default {
-    name: 'LoginScreen', components: {LoginForm}, computed: mapGetters({
-        can: 'can', hasToken: 'hasToken'
-    }), methods: {
+    name: 'LoginScreen',
+    components: {LoginForm},
+    computed: mapGetters({
+        can: 'can',
+        hasToken: 'hasToken'
+    }),
+    methods: {
         logout: function() {
             this.$store.dispatch('logout');
         }

@@ -4,8 +4,13 @@
 export default {
     data() {
         return {
-            files: [], isUploading: false, status: {
-                totalFiles: 0, progress: 0, currentFile: null, failedFiles: []
+            files: [],
+            isUploading: false,
+            status: {
+                totalFiles: 0,
+                progress: 0,
+                currentFile: null,
+                failedFiles: []
             }
         }
     },
@@ -20,11 +25,13 @@ export default {
             else {
                 this.status.totalFiles = this.files.length;
             }
-        }, status: {
+        },
+        status: {
             handler(val) {
                 //Whenever the upload status changes, emit an update event for the UploadProgress component
                 this.$bus.emit('upload-status', this.status);
-            }, deep: true
+            },
+            deep: true
         }
     },
 
@@ -76,7 +83,8 @@ export default {
             axios.post("/api/upload", formData, {
                 headers: {
                     "Content-Type": "multipart/form-data"
-                }, onUploadProgress: () => {
+                },
+                onUploadProgress: () => {
                     this.status.progress = Math.round((100 * event.loaded) / event.total);
                 }
             })
@@ -88,7 +96,8 @@ export default {
             .catch(error => {
                 //Add the file to the failed uploads list to inform the user
                 this.status.failedFiles.push(Object.assign({
-                        filename: currentFile.name, message: ""
+                        filename: currentFile.name,
+                        message: ""
                     }, //Parse the error response to create appropriate status output
                     this.parseError(error.response)))
             })

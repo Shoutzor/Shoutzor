@@ -112,7 +112,7 @@ class getid3_id3v1 extends getid3_handler {
         $info = &$this->getid3->info;
 
         if(!getid3_lib::intValueSupported($info['filesize'])) {
-            $this->warning('Unable to check for ID3v1 because file is larger than ' . round(PHP_INT_MAX / 1073741824) . 'GB');
+            $this->warning('Unable to check for ID3v1 because file is larger than '.round(PHP_INT_MAX / 1073741824).'GB');
             return false;
         }
 

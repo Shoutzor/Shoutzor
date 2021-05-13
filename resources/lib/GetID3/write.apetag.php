@@ -14,7 +14,7 @@
 //                                                            ///
 /////////////////////////////////////////////////////////////////
 
-getid3_lib::IncludeDependency(GETID3_INCLUDEPATH . 'module.tag.apetag.php', __FILE__, true);
+getid3_lib::IncludeDependency(GETID3_INCLUDEPATH.'module.tag.apetag.php', __FILE__, true);
 
 class getid3_write_apetag {
     /**
@@ -169,7 +169,7 @@ class getid3_write_apetag {
 
             $valuestring = '';
             foreach($arrayofvalues as $value) {
-                $valuestring .= str_replace("\x00", '', $value) . "\x00";
+                $valuestring .= str_replace("\x00", '', $value)."\x00";
             }
             $valuestring = rtrim($valuestring, "\x00");
 
@@ -179,14 +179,14 @@ class getid3_write_apetag {
             //$tagitem .= $this->GenerateAPEtagFlags(true, true, false, 0, false);
             $tagitem .= "\x00\x00\x00\x00";
 
-            $tagitem .= $this->CleanAPEtagItemKey($key) . "\x00";
+            $tagitem .= $this->CleanAPEtagItemKey($key)."\x00";
             $tagitem .= $valuestring;
 
             $items[] = $tagitem;
 
         }
 
-        return $this->GenerateAPEtagHeaderFooter($items, true) . implode('', $items) . $this->GenerateAPEtagHeaderFooter($items, false);
+        return $this->GenerateAPEtagHeaderFooter($items, true).implode('', $items).$this->GenerateAPEtagHeaderFooter($items, false);
     }
 
     /**
@@ -267,7 +267,7 @@ class getid3_write_apetag {
             $APEtagFlags[3] |= 0x01; // Tag or Item is Read Only
         }
 
-        return chr($APEtagFlags[3]) . chr($APEtagFlags[2]) . chr($APEtagFlags[1]) . chr($APEtagFlags[0]);
+        return chr($APEtagFlags[3]).chr($APEtagFlags[2]).chr($APEtagFlags[1]).chr($APEtagFlags[0]);
     }
 
 }

@@ -39,7 +39,7 @@ class getid3_monkey extends getid3_handler {
         $thisfile_monkeysaudio_raw['magic'] = substr($MACheaderData, 0, 4);
         $magic = 'MAC ';
         if($thisfile_monkeysaudio_raw['magic'] != $magic) {
-            $this->error('Expecting "' . getid3_lib::PrintHexBytes($magic) . '" at offset ' . $info['avdataoffset'] . ', found "' . getid3_lib::PrintHexBytes($thisfile_monkeysaudio_raw['magic']) . '"');
+            $this->error('Expecting "'.getid3_lib::PrintHexBytes($magic).'" at offset '.$info['avdataoffset'].', found "'.getid3_lib::PrintHexBytes($thisfile_monkeysaudio_raw['magic']).'"');
             unset($info['fileformat']);
             return false;
         }
@@ -173,8 +173,8 @@ class getid3_monkey extends getid3_handler {
         }
 
         $info['audio']['bits_per_sample'] = $thisfile_monkeysaudio['bits_per_sample'];
-        $info['audio']['encoder'] = 'MAC v' . number_format($thisfile_monkeysaudio['version'], 2);
-        $info['audio']['encoder_options'] = ucfirst($thisfile_monkeysaudio['compression']) . ' compression';
+        $info['audio']['encoder'] = 'MAC v'.number_format($thisfile_monkeysaudio['version'], 2);
+        $info['audio']['encoder_options'] = ucfirst($thisfile_monkeysaudio['compression']).' compression';
 
         return true;
     }

@@ -40,7 +40,7 @@ class ExifCommand extends BaseCommand {
 
         $requestedKey = $this->argument(0)->value();
         if($requestedKey !== null) {
-            $this->setOutput($core->getImageProperty('exif:' . $requestedKey));
+            $this->setOutput($core->getImageProperty('exif:'.$requestedKey));
             return true;
         }
 

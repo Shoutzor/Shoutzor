@@ -57,10 +57,12 @@ import moment from "moment";
 export default {
     components: {
         BeautifiedTime
-    }, computed: {
+    },
+    computed: {
         lastPlayed: () => Request.query().where((r) => {
             return r.played_at !== null;
-        }).orderBy('played_at', 'desc').limit(1).with(["media"]).first(), queue: () => Request.query().where((r) => {
+        }).orderBy('played_at', 'desc').limit(1).with(["media"]).first(),
+        queue: () => Request.query().where((r) => {
             return r.played_at === null;
         }).orderBy('requested_at', 'asc').with(["media.artists", "user"]).get(),
 

@@ -26,7 +26,7 @@ class ExifCommand extends AbstractCommand {
 
         // try to read exif data from image file
         try {
-            $data = @exif_read_data($image->dirname . '/' . $image->basename);
+            $data = @exif_read_data($image->dirname.'/'.$image->basename);
 
             if(!is_null($key) && is_array($data)) {
                 $data = array_key_exists($key, $data) ? $data[$key] : false;
@@ -34,7 +34,7 @@ class ExifCommand extends AbstractCommand {
 
         }
         catch(Exception $e) {
-            throw new NotReadableException(sprintf("Cannot read the Exif data from the filename (%s) provided ", $image->dirname . '/' . $image->basename), $e->getCode(), $e);
+            throw new NotReadableException(sprintf("Cannot read the Exif data from the filename (%s) provided ", $image->dirname.'/'.$image->basename), $e->getCode(), $e);
         }
 
         $this->setOutput($data);

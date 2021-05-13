@@ -13,11 +13,17 @@ import store from "@js/store/index";
 import LoadScreen from "../components/loader/LoadScreen";
 
 export default {
-    name: "App", components: {
-        LoadScreen, LoginScreen, Shoutzor
-    }, computed: mapGetters({
-        can: 'can', hasToken: 'hasToken'
-    }), data() {
+    name: "App",
+    components: {
+        LoadScreen,
+        LoginScreen,
+        Shoutzor
+    },
+    computed: mapGetters({
+        can: 'can',
+        hasToken: 'hasToken'
+    }),
+    data() {
         return {
             loaded: false
         }

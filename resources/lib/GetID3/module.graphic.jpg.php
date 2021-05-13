@@ -73,7 +73,7 @@ class getid3_jpg extends getid3_handler {
                                     return false;
                                 }
 
-                                $errcontext['info']['warning'][] = 'Error parsing EXIF data (' . $errstr . ')';
+                                $errcontext['info']['warning'][] = 'Error parsing EXIF data ('.$errstr.')';
                             });
 
                             $info['jpg']['exif'] = exif_read_data($info['filenamepath'], null, true, false);
@@ -81,11 +81,11 @@ class getid3_jpg extends getid3_handler {
                             restore_error_handler();
                         }
                         else {
-                            $this->warning('exif_read_data() cannot parse non-EXIF data in APP1 (expected "Exif", found "' . substr($imageinfo['APP1'], 0, 4) . '")');
+                            $this->warning('exif_read_data() cannot parse non-EXIF data in APP1 (expected "Exif", found "'.substr($imageinfo['APP1'], 0, 4).'")');
                         }
                     }
                     else {
-                        $this->warning('EXIF parsing only available when ' . (GETID3_OS_ISWINDOWS ? 'php_exif.dll enabled' : 'compiled with --enable-exif'));
+                        $this->warning('EXIF parsing only available when '.(GETID3_OS_ISWINDOWS ? 'php_exif.dll enabled' : 'compiled with --enable-exif'));
                     }
                 }
                 $returnOK = true;
@@ -111,7 +111,7 @@ class getid3_jpg extends getid3_handler {
                 for($i = 0; $i < 4; $i++) {
                     $version_subparts[$i] = ord(substr($info['jpg']['exif']['GPS']['GPSVersion'], $i, 1));
                 }
-                $info['jpg']['exif']['GPS']['computed']['version'] = 'v' . implode('.', $version_subparts);
+                $info['jpg']['exif']['GPS']['computed']['version'] = 'v'.implode('.', $version_subparts);
             }
 
             if(isset($info['jpg']['exif']['GPS']['GPSDateStamp'])) {
@@ -156,7 +156,7 @@ class getid3_jpg extends getid3_handler {
 
         }
 
-        getid3_lib::IncludeDependency(GETID3_INCLUDEPATH . 'module.tag.xmp.php', __FILE__, true);
+        getid3_lib::IncludeDependency(GETID3_INCLUDEPATH.'module.tag.xmp.php', __FILE__, true);
         if(isset($info['filenamepath'])) {
             $image_xmp = new Image_XMP($info['filenamepath']);
             $xmp_raw = $image_xmp->getAllTags();
@@ -166,7 +166,7 @@ class getid3_jpg extends getid3_handler {
                     $info['xmp'][$subsection][$tagname] = $this->CastAsAppropriate($value);
                 }
                 else {
-                    $this->warning('XMP: expecting "<subsection>:<tagname>", found "' . $key . '"');
+                    $this->warning('XMP: expecting "<subsection>:<tagname>", found "'.$key.'"');
                 }
             }
         }

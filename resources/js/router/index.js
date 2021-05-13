@@ -19,36 +19,71 @@ Vue.use(VueRouter);
 
 //Routes
 const routes = [{
-    name: 'dashboard', path: '/', component: DashboardView
+    name: 'dashboard',
+    path: '/',
+    component: DashboardView
 }, {
-    name: 'history', path: '/history', component: HistoryView
+    name: 'history',
+    path: '/history',
+    component: HistoryView
 }, {
-    name: 'popular', path: '/popular', component: DashboardView
+    name: 'popular',
+    path: '/popular',
+    component: DashboardView
 }, {
-    name: 'upload', path: '/upload', component: UploadView, meta: {requiresAuth: true}
+    name: 'upload',
+    path: '/upload',
+    component: UploadView,
+    meta: {requiresAuth: true}
 }, {
-    name: 'artist', path: '/artist', component: DashboardView
+    name: 'artist',
+    path: '/artist',
+    component: DashboardView
 }, {
-    name: 'search', path: '/search', component: SearchView
+    name: 'search',
+    path: '/search',
+    component: SearchView
 }, {
-    name: 'profile', path: '/profile', component: UserSettingsView, meta: {requiresAuth: true}
+    name: 'profile',
+    path: '/profile',
+    component: UserSettingsView,
+    meta: {requiresAuth: true}
 }, {
-    name: 'admin', path: '/admin', component: AdminView, meta: {
-        requiresAuth: true, requiresPermission: 'admin.access'
-    }, children: [{
-        name: 'admin-dashboard', path: 'dashboard', component: AdminDashboard
+    name: 'admin',
+    path: '/admin',
+    component: AdminView,
+    meta: {
+        requiresAuth: true,
+        requiresPermission: 'admin.access'
+    },
+    children: [{
+        name: 'admin-dashboard',
+        path: 'dashboard',
+        component: AdminDashboard
     }, {
-        name: 'admin-users', path: 'users', component: AdminUsers
+        name: 'admin-users',
+        path: 'users',
+        component: AdminUsers
     }, {
-        name: 'admin-roles', path: 'roles', component: AdminRoles, children: [{
-            name: 'admin-roles-list', path: 'list', component: AdminRolesList
+        name: 'admin-roles',
+        path: 'roles',
+        component: AdminRoles,
+        children: [{
+            name: 'admin-roles-list',
+            path: 'list',
+            component: AdminRolesList
         }, {
-            name: 'admin-roles-edit', path: 'edit/:roleId', component: AdminRolesEdit, props: ({params}) => ({
+            name: 'admin-roles-edit',
+            path: 'edit/:roleId',
+            component: AdminRolesEdit,
+            props: ({params}) => ({
                 roleId: Number.parseInt(params.roleId, 10) || null
             })
         }]
     }, {
-        name: 'admin-packages', path: 'packages', component: AdminPackages
+        name: 'admin-packages',
+        path: 'packages',
+        component: AdminPackages
     }]
 }];
 

@@ -27,7 +27,7 @@ class getid3_voc extends getid3_handler {
 
         $magic = 'Creative Voice File';
         if(substr($VOCheader, 0, 19) != $magic) {
-            $this->error('Expecting "' . getid3_lib::PrintHexBytes($magic) . '" at offset ' . $info['avdataoffset'] . ', found "' . getid3_lib::PrintHexBytes(substr($VOCheader, 0, 19)) . '"');
+            $this->error('Expecting "'.getid3_lib::PrintHexBytes($magic).'" at offset '.$info['avdataoffset'].', found "'.getid3_lib::PrintHexBytes(substr($VOCheader, 0, 19)).'"');
             return false;
         }
 
@@ -137,7 +137,7 @@ class getid3_voc extends getid3_handler {
                     break;
 
                 default:
-                    $this->warning('Unhandled block type "' . $BlockType . '" at offset ' . $BlockOffset);
+                    $this->warning('Unhandled block type "'.$BlockType.'" at offset '.$BlockOffset);
                     $this->fseek($BlockSize, SEEK_CUR);
                     break;
             }
@@ -172,7 +172,7 @@ class getid3_voc extends getid3_handler {
      */
     public function VOCcompressionTypeLookup($index) {
         static $VOCcompressionTypeLookup = array(0 => '8-bit', 1 => '4-bit', 2 => '2.6-bit', 3 => '2-bit');
-        return (isset($VOCcompressionTypeLookup[$index]) ? $VOCcompressionTypeLookup[$index] : 'Multi DAC (' . ($index - 3) . ') channels');
+        return (isset($VOCcompressionTypeLookup[$index]) ? $VOCcompressionTypeLookup[$index] : 'Multi DAC ('.($index - 3).') channels');
     }
 
     /**
