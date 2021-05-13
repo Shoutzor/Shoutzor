@@ -141,7 +141,7 @@
             }
         }
 
-        @media (max-width: 991.98px) {
+        @media (max-width: map-get($grid-breakpoints, lg)) {
             height: 150px;
 
             .track-background > .album-image {

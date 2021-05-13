@@ -13,7 +13,7 @@
             </div>
 
             <div class="navbar-nav flex-row order-md-last">
-                <div class="nav-item d-md-flex mr-3" v-if="isAuthenticated && can('admin.access')">
+                <div class="nav-item d-md-flex adminpanel-button" v-if="isAuthenticated && can('admin.access')">
                     <router-link
                         :to="{name: 'admin-dashboard'}"
                         class="btn btn-sm btn-outline-primary"
@@ -27,7 +27,6 @@
                             <div class="mt-1 small text-muted">Administrator</div>
                         </div>
                     </a>
-
                     <header-user></header-user>
                 </div>
                 <div class="nav-item dropdown" v-else>
@@ -36,7 +35,6 @@
                             <div>Login / Register</div>
                         </div>
                     </a>
-
                     <header-login></header-login>
                 </div>
             </div>
@@ -82,6 +80,7 @@
         z-index: 999;
         background: $body-bg;
         transition: box-shadow 0.2s ease;
+
         @media (min-width: map-get($grid-breakpoints, md)) {
             position: fixed;
             top: 0;
@@ -93,9 +92,15 @@
                 padding-left: 0;
             }
 
+            .adminpanel-button {
+                margin-right: 0.5rem;
+                margin-left: -0.5rem;
+            }
+
             .navbar-brand {
                 -webkit-filter: none;
                 filter: none;
+
                 @media (min-width: map-get($grid-breakpoints, md)) {
                     display: flex;
                     justify-content: center;
