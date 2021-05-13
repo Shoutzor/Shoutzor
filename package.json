@@ -9,10 +9,12 @@
     "prod": "npm run production",
     "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
   },
-  "devDependencies": {
+  "devDependencies": {},
+  "dependencies": {
     "@babel/plugin-proposal-class-properties": "^7.8.3",
     "@rollup/plugin-commonjs": "^17.1.0",
     "@tabler/core": "^1.0.0-alpha.12",
+    "@vue/babel-helper-vue-jsx-merge-props": "^1.2.1",
     "@vuex-orm/core": "^0.36.3",
     "@vuex-orm/plugin-axios": "^0.9.4",
     "autoprefixer": "^9.8.4",
@@ -25,6 +27,7 @@
     "jquery": "^3.2",
     "laravel-mix": "^5.0.5",
     "lodash": "^4.17.19",
+    "moment": "^2.29.1",
     "popper.js": "^1.12",
     "postcss": "^7.0.32",
     "resolve-url-loader": "^2.3.1",
@@ -39,11 +42,7 @@
     "vue-slider-component": "^3.1.5",
     "vue-tabler-icons": "^1.8.1",
     "vue-template-compiler": "^2.6.10",
-    "vuex": "^3.6.2"
-  },
-  "dependencies": {
-    "@vue/babel-helper-vue-jsx-merge-props": "^1.2.1",
-    "moment": "^2.29.1",
+    "vuex": "^3.6.2",
     "vuex-search": "^2.2.5"
   }
 }
