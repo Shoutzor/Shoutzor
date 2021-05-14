@@ -5,6 +5,8 @@ import Artist from './Artist';
 import AlbumArtist from './AlbumArtist';
 import AlbumMedia from './AlbumMedia';
 
+import {defaultAlbumImage} from "../config";
+
 export default class Album extends Model {
     static entity = 'albums';
 
@@ -25,5 +27,13 @@ export default class Album extends Model {
             artists: this.belongsToMany(Artist, AlbumArtist, 'album_id', 'artist_id'),
             media: this.belongsToMany(Media, AlbumMedia, 'album_id', 'media_id')
         }
+    }
+
+    get albumImage() {
+        if(this.image === '') {
+            return defaultAlbumImage;
+        }
+
+        return this.image;
     }
 }

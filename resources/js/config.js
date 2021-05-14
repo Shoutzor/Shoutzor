@@ -1,0 +1,1 @@
+export const defaultAlbumImage = require('@static/images/album_cover_placeholder.jpg');

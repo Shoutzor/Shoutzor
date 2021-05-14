@@ -1,11 +1,11 @@
 <template>
     <div v-if="currentMedia" class="col-sm-12 nowplaying">
         <div class="track-background">
-            <img class="album-image" v-bind:src="currentMedia.media | getAlbumImage" />
+            <img class="album-image" v-bind:src="currentMedia.media.coverImage" />
             <div class="album-overlay"></div>
         </div>
         <div class="track-content card card-aside">
-            <img alt="album image" class="album-image card-aside-column" v-bind:src="currentMedia.media | getAlbumImage" />
+            <img alt="album image" class="album-image card-aside-column" v-bind:src="currentMedia.media.coverImage" />
             <div class="track-info card-body d-flex flex-column mt-auto">
                 <h3 v-if="currentMedia.media !== null">{{ currentMedia.media.title }}</h3>
                 <artist-list :artists="currentMedia.media.artists"></artist-list>
@@ -31,23 +31,6 @@ export default {
             .where((r) => { return r.played_at !== null; })
             .with(["media.artists|albums", "user"])
             .last()
-    },
-    filters: {
-        getAlbumImage: function(media) {
-            let defaultImage = require('@static/images/album_cover_placeholder.jpg');
-
-            if(media.albums === null || media.albums.length === 0) {
-                return defaultImage;
-            }
-
-            let albumImage = media.albums[0].image;
-
-            if(albumImage === '') {
-                return defaultImage;
-            }
-
-            return albumImage;
-        }
     }
 }
 </script>
