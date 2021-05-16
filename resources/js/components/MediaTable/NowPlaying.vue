@@ -1,20 +1,20 @@
 <template>
-    <div v-if="currentMedia" class="col-sm-12 nowplaying">
+    <div v-if="currentRequest" class="col-sm-12 nowplaying">
         <div class="track-background">
-            <img class="album-image" v-bind:src="currentMedia.media.coverImage" />
+            <img class="album-image" v-bind:src="currentRequest.media.coverImage" />
             <div class="album-overlay"></div>
         </div>
         <div class="track-content card card-aside">
-            <img alt="album image" class="album-image card-aside-column" v-bind:src="currentMedia.media.coverImage" />
+            <img alt="album image" class="album-image card-aside-column" v-bind:src="currentRequest.media.coverImage" />
             <div class="track-info card-body d-flex flex-column mt-auto">
-                <h3 v-if="currentMedia.media !== null">{{ currentMedia.media.title }}</h3>
-                <artist-list :artists="currentMedia.media.artists"></artist-list>
+                <h3 v-if="currentRequest.media !== null">{{ currentRequest.media.title }}</h3>
+                <artist-list :artists="currentRequest.media.artists"></artist-list>
 
                 <div class="d-flex align-items-center mt-auto">
                     <div class="requested-by pl-3">
                         <small class="text-muted">Requested by</small>
-                        <div v-if="currentMedia.user !== null">{{ currentMedia.user.name }}</div>
-                        <div v-if="currentMedia.user === null">AutoDJ</div>
+                        <div v-if="currentRequest.user !== null">{{ currentRequest.user.name }}</div>
+                        <div v-if="currentRequest.user === null">AutoDJ</div>
                     </div>
                 </div>
             </div>
@@ -27,7 +27,7 @@ import Request from '@js/models/Request';
 
 export default {
     computed: {
-        currentMedia: () => Request.query()
+        currentRequest: () => Request.query()
             .where((r) => { return r.played_at !== null; })
             .with(["media.artists|albums", "user"])
             .last()
@@ -58,7 +58,8 @@ export default {
             height: 100%;
             background-color: rgba(0, 0, 0, 0.1);
             background-repeat: repeat;
-            background-position: 0px 0px;
+            background-position: -7px 0px;
+            background-size: contain;
             background-image: url("~@static/images/nowplaying_overlay.png");
         }
     }
@@ -124,6 +125,7 @@ export default {
 
         .track-background > .album-image {
             min-width: 150%;
+            top: -200%;
             left: -25%;
         }
 
@@ -140,6 +142,14 @@ export default {
                 padding: 0 0 0 0.5rem;
                 margin-top: -5px !important;
             }
+        }
+    }
+
+    @media (max-width: map-get($grid-breakpoints, md)) {
+        .track-background > .album-image {
+            min-width: 200%;
+            top: -150%;
+            left: -50%;
         }
     }
 }
