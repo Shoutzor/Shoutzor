@@ -3,6 +3,8 @@
 namespace App\Events\Internal;
 
 use App\Album;
+use App\Events\BaseEvent;
+use App\Events\ReadOnlyEvent;
 use Symfony\Contracts\EventDispatcher\Event;
 
 /**
@@ -11,11 +13,10 @@ use Symfony\Contracts\EventDispatcher\Event;
  * @package App\Events
  * Gets called when an album gets added to Shoutz0r
  */
-class AlbumCreateEvent extends Event {
+class AlbumCreateEvent extends ReadOnlyEvent {
     public const NAME = 'artist.create';
 
     protected $album;
-    protected $exists = false;
 
     public function __construct(Album $album) {
         $this->album = $album;
@@ -23,13 +24,5 @@ class AlbumCreateEvent extends Event {
 
     public function getAlbum(): Album {
         return $this->album;
-    }
-
-    public function setExists(): void {
-        $this->exists = true;
-    }
-
-    public function exists(): bool {
-        return $this->exists;
     }
 }

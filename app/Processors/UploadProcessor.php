@@ -14,29 +14,21 @@ class UploadProcessor {
 
     public function parse(Upload $upload) {
         //Create the initial media object to be passed along
-        $media = new Media(['title' => '', 'filename' => Storage::get(Upload::STORAGE_PATH . $upload->filename), 'crc' => 'invalid', 'duration' => 0, 'is_video' => false]);
+        $media = new Media([
+            'title' => '',
+            'filename' => Storage::get(Upload::STORAGE_PATH . $upload->filename),
+            'crc' => 'invalid',
+            'duration' => 0,
+            'is_video' => false
+        ]);
 
         //Send the event that an upload has been added
         $event = new UploadProcessingEvent($upload, $media);
         app(EventDispatcher::class)->dispatch($event);
 
-        var_dump(app(EventDispatcher::class));
-
-        die("passed event processing");
-
-        // Check if the resulting media object is valid
-        if($media->isValid() === false) {
-            // Resulting media object is invalid, marking the upload event as invalid
-            $event->setInvalid();
-
-            // Setting the upload status to failed
-            $upload->status = Upload::STATUS_FAILED;
-
-            //TODO perhaps throw an exception?
-        }
-
-        //Save any changes to the upload object, possible changes could be: reason (upload failed, already exists, etc)
-        $upload->save();
+        /*
+         * TODO add media validation as an eventhandler
+         */
 
         //Check if any listeners/subscribers marked the upload as invalid
         if($event->isValid()) {
@@ -54,6 +46,9 @@ class UploadProcessor {
         }
         //The upload was marked as invalid
         else {
+            $upload->status = Upload::STATUS_FAILED;
+            $upload->save();
+
             //Trigger the event that the upload processing has failed
             app(EventDispatcher::class)->dispatch(new UploadFailedEvent($upload));
         }
