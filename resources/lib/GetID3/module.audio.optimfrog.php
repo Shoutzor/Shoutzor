@@ -41,7 +41,11 @@ class getid3_optimfrog extends getid3_handler {
 
         }
 
-        $this->error('Expecting "*RIFF" or "OFR " at offset '.$info['avdataoffset'].', found "'.getid3_lib::PrintHexBytes($OFRheader).'"');
+        $this->error(
+            'Expecting "*RIFF" or "OFR " at offset '.$info['avdataoffset'].', found "'.getid3_lib::PrintHexBytes(
+                $OFRheader
+            ).'"'
+        );
         unset($info['fileformat']);
         return false;
     }
@@ -87,7 +91,8 @@ class getid3_optimfrog extends getid3_handler {
         $info['audio']['channels'] = $info['riff']['audio'][0]['channels'];
         $info['audio']['sample_rate'] = $info['riff']['audio'][0]['sample_rate'];
         $info['audio']['bits_per_sample'] = $info['riff']['audio'][0]['bits_per_sample'];
-        $info['playtime_seconds'] = $OrignalRIFFdataSize / ($info['audio']['channels'] * $info['audio']['sample_rate'] * ($info['audio']['bits_per_sample'] / 8));
+        $info['playtime_seconds'] =
+            $OrignalRIFFdataSize / ($info['audio']['channels'] * $info['audio']['sample_rate'] * ($info['audio']['bits_per_sample'] / 8));
         $info['audio']['bitrate'] = (($info['avdataend'] - $info['avdataoffset']) * 8) / $info['playtime_seconds'];
 
         unset($getid3_riff, $getid3_temp, $RIFFdata);
@@ -134,32 +139,45 @@ class getid3_optimfrog extends getid3_handler {
                             break;
 
                         default:
-                            $this->warning('"'.$BlockName.'" contains more data than expected (expected 12 or 15 bytes, found '.$BlockSize.' bytes)');
+                            $this->warning(
+                                '"'.$BlockName.'" contains more data than expected (expected 12 or 15 bytes, found '.$BlockSize.' bytes)'
+                            );
                             break;
                     }
                     $BlockData .= $this->fread($BlockSize);
 
-                    $thisfile_ofr_thisblock['total_samples'] = getid3_lib::LittleEndian2Int(substr($BlockData, $offset, 6));
+                    $thisfile_ofr_thisblock['total_samples'] =
+                        getid3_lib::LittleEndian2Int(substr($BlockData, $offset, 6));
                     $offset += 6;
-                    $thisfile_ofr_thisblock['raw']['sample_type'] = getid3_lib::LittleEndian2Int(substr($BlockData, $offset, 1));
-                    $thisfile_ofr_thisblock['sample_type'] = $this->OptimFROGsampleTypeLookup($thisfile_ofr_thisblock['raw']['sample_type']);
+                    $thisfile_ofr_thisblock['raw']['sample_type'] =
+                        getid3_lib::LittleEndian2Int(substr($BlockData, $offset, 1));
+                    $thisfile_ofr_thisblock['sample_type'] =
+                        $this->OptimFROGsampleTypeLookup($thisfile_ofr_thisblock['raw']['sample_type']);
                     $offset += 1;
-                    $thisfile_ofr_thisblock['channel_config'] = getid3_lib::LittleEndian2Int(substr($BlockData, $offset, 1));
+                    $thisfile_ofr_thisblock['channel_config'] =
+                        getid3_lib::LittleEndian2Int(substr($BlockData, $offset, 1));
                     $thisfile_ofr_thisblock['channels'] = $thisfile_ofr_thisblock['channel_config'];
                     $offset += 1;
-                    $thisfile_ofr_thisblock['sample_rate'] = getid3_lib::LittleEndian2Int(substr($BlockData, $offset, 4));
+                    $thisfile_ofr_thisblock['sample_rate'] =
+                        getid3_lib::LittleEndian2Int(substr($BlockData, $offset, 4));
                     $offset += 4;
 
                     if($BlockSize > 12) {
 
                         // OFR 4.504b or higher
-                        $thisfile_ofr_thisblock['channels'] = $this->OptimFROGchannelConfigNumChannelsLookup($thisfile_ofr_thisblock['channel_config']);
-                        $thisfile_ofr_thisblock['raw']['encoder_id'] = getid3_lib::LittleEndian2Int(substr($BlockData, $offset, 2));
-                        $thisfile_ofr_thisblock['encoder'] = $this->OptimFROGencoderNameLookup($thisfile_ofr_thisblock['raw']['encoder_id']);
+                        $thisfile_ofr_thisblock['channels'] =
+                            $this->OptimFROGchannelConfigNumChannelsLookup($thisfile_ofr_thisblock['channel_config']);
+                        $thisfile_ofr_thisblock['raw']['encoder_id'] =
+                            getid3_lib::LittleEndian2Int(substr($BlockData, $offset, 2));
+                        $thisfile_ofr_thisblock['encoder'] =
+                            $this->OptimFROGencoderNameLookup($thisfile_ofr_thisblock['raw']['encoder_id']);
                         $offset += 2;
-                        $thisfile_ofr_thisblock['raw']['compression'] = getid3_lib::LittleEndian2Int(substr($BlockData, $offset, 1));
-                        $thisfile_ofr_thisblock['compression'] = $this->OptimFROGcompressionLookup($thisfile_ofr_thisblock['raw']['compression']);
-                        $thisfile_ofr_thisblock['speedup'] = $this->OptimFROGspeedupLookup($thisfile_ofr_thisblock['raw']['compression']);
+                        $thisfile_ofr_thisblock['raw']['compression'] =
+                            getid3_lib::LittleEndian2Int(substr($BlockData, $offset, 1));
+                        $thisfile_ofr_thisblock['compression'] =
+                            $this->OptimFROGcompressionLookup($thisfile_ofr_thisblock['raw']['compression']);
+                        $thisfile_ofr_thisblock['speedup'] =
+                            $this->OptimFROGspeedupLookup($thisfile_ofr_thisblock['raw']['compression']);
                         $offset += 1;
 
                         $info['audio']['encoder'] = 'OptimFROG '.$thisfile_ofr_thisblock['encoder'];
@@ -178,7 +196,8 @@ class getid3_optimfrog extends getid3_handler {
 
                     $info['audio']['channels'] = $thisfile_ofr_thisblock['channels'];
                     $info['audio']['sample_rate'] = $thisfile_ofr_thisblock['sample_rate'];
-                    $info['audio']['bits_per_sample'] = $this->OptimFROGbitsPerSampleTypeLookup($thisfile_ofr_thisblock['raw']['sample_type']);
+                    $info['audio']['bits_per_sample'] =
+                        $this->OptimFROGbitsPerSampleTypeLookup($thisfile_ofr_thisblock['raw']['sample_type']);
                     break;
 
                 case 'COMP':
@@ -202,8 +221,10 @@ class getid3_optimfrog extends getid3_handler {
                     $COMPdata['raw']['sample_type'] = getid3_lib::LittleEndian2Int(substr($BlockData, $offset, 1));
                     $COMPdata['sample_type'] = $this->OptimFROGsampleTypeLookup($COMPdata['raw']['sample_type']);
                     $offset += 1;
-                    $COMPdata['raw']['channel_configuration'] = getid3_lib::LittleEndian2Int(substr($BlockData, $offset, 1));
-                    $COMPdata['channel_configuration'] = $this->OptimFROGchannelConfigurationLookup($COMPdata['raw']['channel_configuration']);
+                    $COMPdata['raw']['channel_configuration'] =
+                        getid3_lib::LittleEndian2Int(substr($BlockData, $offset, 1));
+                    $COMPdata['channel_configuration'] =
+                        $this->OptimFROGchannelConfigurationLookup($COMPdata['raw']['channel_configuration']);
                     $offset += 1;
                     $COMPdata['raw']['algorithm_id'] = getid3_lib::LittleEndian2Int(substr($BlockData, $offset, 2));
                     //$COMPdata['algorithm']                    = OptimFROGalgorithmNameLookup($COMPdata['raw']['algorithm_id']);
@@ -256,7 +277,10 @@ class getid3_optimfrog extends getid3_handler {
 
                     $thisfile_ofr_thisblock['offset'] = $BlockOffset;
                     $thisfile_ofr_thisblock['size'] = $BlockSize;
-                    $this->warning('APEtag processing inside OptimFROG not supported in this version ('.$this->getid3->version().') of getID3()');
+                    $this->warning(
+                        'APEtag processing inside OptimFROG not supported in this version ('.$this->getid3->version(
+                        ).') of getID3()'
+                    );
 
                     $this->fseek($BlockSize, SEEK_CUR);
                     break;
@@ -270,7 +294,8 @@ class getid3_optimfrog extends getid3_handler {
                     if($BlockSize == 16) {
 
                         $thisfile_ofr_thisblock['md5_binary'] = $this->fread($BlockSize);
-                        $thisfile_ofr_thisblock['md5_string'] = getid3_lib::PrintHexBytes($thisfile_ofr_thisblock['md5_binary'], true, false, false);
+                        $thisfile_ofr_thisblock['md5_string'] =
+                            getid3_lib::PrintHexBytes($thisfile_ofr_thisblock['md5_binary'], true, false, false);
                         $info['md5_data_source'] = $thisfile_ofr_thisblock['md5_string'];
 
                     }
@@ -286,7 +311,9 @@ class getid3_optimfrog extends getid3_handler {
                     $thisfile_ofr_thisblock['offset'] = $BlockOffset;
                     $thisfile_ofr_thisblock['size'] = $BlockSize;
 
-                    $this->warning('Unhandled OptimFROG block type "'.$BlockName.'" at offset '.$thisfile_ofr_thisblock['offset']);
+                    $this->warning(
+                        'Unhandled OptimFROG block type "'.$BlockName.'" at offset '.$thisfile_ofr_thisblock['offset']
+                    );
                     $this->fseek($BlockSize, SEEK_CUR);
                     break;
             }
@@ -295,7 +322,8 @@ class getid3_optimfrog extends getid3_handler {
             $info['avdataend'] = $info['ofr']['TAIL']['offset'];
         }
 
-        $info['playtime_seconds'] = (float)$info['ofr']['OFR ']['total_samples'] / ($info['audio']['channels'] * $info['audio']['sample_rate']);
+        $info['playtime_seconds'] =
+            (float)$info['ofr']['OFR ']['total_samples'] / ($info['audio']['channels'] * $info['audio']['sample_rate']);
         $info['audio']['bitrate'] = (($info['avdataend'] - $info['avdataoffset']) * 8) / $info['playtime_seconds'];
 
         // move the data chunk after all other chunks (if any)
@@ -322,7 +350,19 @@ class getid3_optimfrog extends getid3_handler {
      * @return string|false
      */
     public static function OptimFROGsampleTypeLookup($SampleType) {
-        static $OptimFROGsampleTypeLookup = array(0 => 'unsigned int (8-bit)', 1 => 'signed int (8-bit)', 2 => 'unsigned int (16-bit)', 3 => 'signed int (16-bit)', 4 => 'unsigned int (24-bit)', 5 => 'signed int (24-bit)', 6 => 'unsigned int (32-bit)', 7 => 'signed int (32-bit)', 8 => 'float 0.24 (32-bit)', 9 => 'float 16.8 (32-bit)', 10 => 'float 24.0 (32-bit)');
+        static $OptimFROGsampleTypeLookup = array(
+            0  => 'unsigned int (8-bit)',
+            1  => 'signed int (8-bit)',
+            2  => 'unsigned int (16-bit)',
+            3  => 'signed int (16-bit)',
+            4  => 'unsigned int (24-bit)',
+            5  => 'signed int (24-bit)',
+            6  => 'unsigned int (32-bit)',
+            7  => 'signed int (32-bit)',
+            8  => 'float 0.24 (32-bit)',
+            9  => 'float 16.8 (32-bit)',
+            10 => 'float 24.0 (32-bit)'
+        );
         return (isset($OptimFROGsampleTypeLookup[$SampleType]) ? $OptimFROGsampleTypeLookup[$SampleType] : false);
     }
 
@@ -348,8 +388,11 @@ class getid3_optimfrog extends getid3_handler {
         $EncoderVersion = number_format(((($EncoderID & 0xF0) >> 4) + 4500) / 1000, 3);
         $EncoderSystemID = ($EncoderID & 0x0F);
 
-        static $OptimFROGencoderSystemLookup = array(0x00 => 'Windows console', 0x01 => 'Linux console', 0x0F => 'unknown');
-        return $EncoderVersion.' ('.(isset($OptimFROGencoderSystemLookup[$EncoderSystemID]) ? $OptimFROGencoderSystemLookup[$EncoderSystemID] : 'undefined encoder type (0x'.dechex($EncoderSystemID).')').')';
+        static $OptimFROGencoderSystemLookup =
+            array(0x00 => 'Windows console', 0x01 => 'Linux console', 0x0F => 'unknown');
+        return $EncoderVersion.' ('.(isset($OptimFROGencoderSystemLookup[$EncoderSystemID]) ? $OptimFROGencoderSystemLookup[$EncoderSystemID] : 'undefined encoder type (0x'.dechex(
+                    $EncoderSystemID
+                ).')').')';
     }
 
     /**
@@ -364,10 +407,24 @@ class getid3_optimfrog extends getid3_handler {
         $CompressionModeID = ($CompressionID & 0xF8) >> 3;
         //$CompressionSpeedupID = ($CompressionID & 0x07);
 
-        static $OptimFROGencoderModeLookup = array(0x00 => 'fast', 0x01 => 'normal', 0x02 => 'high', 0x03 => 'extra', // extranew (some versions)
+        static $OptimFROGencoderModeLookup = array(
+            0x00 => 'fast',
+            0x01 => 'normal',
+            0x02 => 'high',
+            0x03 => 'extra', // extranew (some versions)
             0x04 => 'best',  // bestnew (some versions)
-            0x05 => 'ultra', 0x06 => 'insane', 0x07 => 'highnew', 0x08 => 'extranew', 0x09 => 'bestnew');
-        return (isset($OptimFROGencoderModeLookup[$CompressionModeID]) ? $OptimFROGencoderModeLookup[$CompressionModeID] : 'undefined mode (0x'.str_pad(dechex($CompressionModeID), 2, '0', STR_PAD_LEFT).')');
+            0x05 => 'ultra',
+            0x06 => 'insane',
+            0x07 => 'highnew',
+            0x08 => 'extranew',
+            0x09 => 'bestnew'
+        );
+        return (isset($OptimFROGencoderModeLookup[$CompressionModeID]) ? $OptimFROGencoderModeLookup[$CompressionModeID] : 'undefined mode (0x'.str_pad(
+                dechex($CompressionModeID),
+                2,
+                '0',
+                STR_PAD_LEFT
+            ).')');
     }
 
 
@@ -389,7 +446,9 @@ class getid3_optimfrog extends getid3_handler {
         $CompressionSpeedupID = ($CompressionID & 0x07);
 
         static $OptimFROGencoderSpeedupLookup = array(0x00 => '1x', 0x01 => '2x', 0x02 => '4x');
-        return (isset($OptimFROGencoderSpeedupLookup[$CompressionSpeedupID]) ? $OptimFROGencoderSpeedupLookup[$CompressionSpeedupID] : 'undefined mode (0x'.dechex($CompressionSpeedupID));
+        return (isset($OptimFROGencoderSpeedupLookup[$CompressionSpeedupID]) ? $OptimFROGencoderSpeedupLookup[$CompressionSpeedupID] : 'undefined mode (0x'.dechex(
+                $CompressionSpeedupID
+            ));
     }
 
     /**
@@ -398,7 +457,8 @@ class getid3_optimfrog extends getid3_handler {
      * @return int|false
      */
     public static function OptimFROGbitsPerSampleTypeLookup($SampleType) {
-        static $OptimFROGbitsPerSampleTypeLookup = array(0 => 8, 1 => 8, 2 => 16, 3 => 16, 4 => 24, 5 => 24, 6 => 32, 7 => 32, 8 => 32, 9 => 32, 10 => 32);
+        static $OptimFROGbitsPerSampleTypeLookup =
+            array(0 => 8, 1 => 8, 2 => 16, 3 => 16, 4 => 24, 5 => 24, 6 => 32, 7 => 32, 8 => 32, 9 => 32, 10 => 32);
         return (isset($OptimFROGbitsPerSampleTypeLookup[$SampleType]) ? $OptimFROGbitsPerSampleTypeLookup[$SampleType] : false);
     }
 

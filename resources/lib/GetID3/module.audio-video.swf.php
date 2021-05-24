@@ -30,7 +30,9 @@ class getid3_swf extends getid3_handler {
 
         $this->fseek($info['avdataoffset']);
 
-        $SWFfileData = $this->fread($info['avdataend'] - $info['avdataoffset']); // 8 + 2 + 2 + max(9) bytes NOT including Frame_Size RECT data
+        $SWFfileData = $this->fread(
+            $info['avdataend'] - $info['avdataoffset']
+        ); // 8 + 2 + 2 + max(9) bytes NOT including Frame_Size RECT data
 
         $info['swf']['header']['signature'] = substr($SWFfileData, 0, 3);
         switch($info['swf']['header']['signature']) {
@@ -43,7 +45,11 @@ class getid3_swf extends getid3_handler {
                 break;
 
             default:
-                $this->error('Expecting "FWS" or "CWS" at offset '.$info['avdataoffset'].', found "'.getid3_lib::PrintHexBytes($info['swf']['header']['signature']).'"');
+                $this->error(
+                    'Expecting "FWS" or "CWS" at offset '.$info['avdataoffset'].', found "'.getid3_lib::PrintHexBytes(
+                        $info['swf']['header']['signature']
+                    ).'"'
+                );
                 unset($info['swf']);
                 unset($info['fileformat']);
                 return false;
@@ -59,7 +65,11 @@ class getid3_swf extends getid3_handler {
                 $SWFfileData = $SWFHead.$decompressed;
             }
             else {
-                $this->error('Error decompressing compressed SWF data ('.strlen($SWFfileData).' bytes compressed, should be '.($info['swf']['header']['length'] - 8).' bytes uncompressed)');
+                $this->error(
+                    'Error decompressing compressed SWF data ('.strlen(
+                        $SWFfileData
+                    ).' bytes compressed, should be '.($info['swf']['header']['length'] - 8).' bytes uncompressed)'
+                );
                 return false;
             }
         }
@@ -81,8 +91,10 @@ class getid3_swf extends getid3_handler {
         // Example: 0x000C  ->  0x0C  ->  12     So the frame rate is 12 fps.
 
         // Byte at (8 + $FrameSizeDataLength) is always zero and ignored
-        $info['swf']['header']['frame_rate'] = getid3_lib::LittleEndian2Int(substr($SWFfileData, 9 + $FrameSizeDataLength, 1));
-        $info['swf']['header']['frame_count'] = getid3_lib::LittleEndian2Int(substr($SWFfileData, 10 + $FrameSizeDataLength, 2));
+        $info['swf']['header']['frame_rate'] =
+            getid3_lib::LittleEndian2Int(substr($SWFfileData, 9 + $FrameSizeDataLength, 1));
+        $info['swf']['header']['frame_count'] =
+            getid3_lib::LittleEndian2Int(substr($SWFfileData, 10 + $FrameSizeDataLength, 2));
 
         $info['video']['frame_rate'] = $info['swf']['header']['frame_rate'];
         $info['video']['resolution_x'] = intval(round($info['swf']['header']['frame_width'] / 20));
@@ -122,7 +134,8 @@ class getid3_swf extends getid3_handler {
 
                 case 9: // Set background color
                     //$info['swf']['tags'][] = $TagData;
-                    $info['swf']['bgcolor'] = strtoupper(str_pad(dechex(getid3_lib::BigEndian2Int($TagData['data'])), 6, '0', STR_PAD_LEFT));
+                    $info['swf']['bgcolor'] =
+                        strtoupper(str_pad(dechex(getid3_lib::BigEndian2Int($TagData['data'])), 6, '0', STR_PAD_LEFT));
                     break;
 
                 default:

@@ -26,7 +26,13 @@ class getid3_shorten extends getid3_handler {
         $ShortenHeader = $this->fread(8);
         $magic = 'ajkg';
         if(substr($ShortenHeader, 0, 4) != $magic) {
-            $this->error('Expecting "'.getid3_lib::PrintHexBytes($magic).'" at offset '.$info['avdataoffset'].', found "'.getid3_lib::PrintHexBytes(substr($ShortenHeader, 0, 4)).'"');
+            $this->error(
+                'Expecting "'.getid3_lib::PrintHexBytes(
+                    $magic
+                ).'" at offset '.$info['avdataoffset'].', found "'.getid3_lib::PrintHexBytes(
+                    substr($ShortenHeader, 0, 4)
+                ).'"'
+            );
             return false;
         }
         $info['fileformat'] = 'shn';
@@ -47,7 +53,13 @@ class getid3_shorten extends getid3_handler {
             $magic = 'SEEK';
             if($SeekTableMagic != $magic) {
 
-                $this->error('Expecting "'.getid3_lib::PrintHexBytes($magic).'" at offset '.$info['shn']['seektable']['offset'].', found "'.getid3_lib::PrintHexBytes($SeekTableMagic).'"');
+                $this->error(
+                    'Expecting "'.getid3_lib::PrintHexBytes(
+                        $magic
+                    ).'" at offset '.$info['shn']['seektable']['offset'].', found "'.getid3_lib::PrintHexBytes(
+                        $SeekTableMagic
+                    ).'"'
+                );
                 return false;
 
             }
@@ -115,7 +127,9 @@ class getid3_shorten extends getid3_handler {
         }
 
         if(preg_match('#(1|ON)#i', ini_get('safe_mode'))) {
-            $this->error('PHP running in Safe Mode - backtick operator not available, cannot run shntool to analyze Shorten files');
+            $this->error(
+                'PHP running in Safe Mode - backtick operator not available, cannot run shntool to analyze Shorten files'
+            );
             return false;
         }
 
@@ -128,7 +142,8 @@ class getid3_shorten extends getid3_handler {
                     return false;
                 }
             }
-            $commandline = GETID3_HELPERAPPSDIR.'shorten.exe -x "'.$info['filenamepath'].'" - | '.GETID3_HELPERAPPSDIR.'head.exe -c 64';
+            $commandline =
+                GETID3_HELPERAPPSDIR.'shorten.exe -x "'.$info['filenamepath'].'" - | '.GETID3_HELPERAPPSDIR.'head.exe -c 64';
             $commandline = str_replace('/', '\\', $commandline);
 
         }
@@ -142,7 +157,10 @@ class getid3_shorten extends getid3_handler {
                 $this->error('shorten binary was not found in path or /usr/local/bin');
                 return false;
             }
-            $commandline = (file_exists('/usr/local/bin/shorten') ? '/usr/local/bin/' : '').'shorten -x '.escapeshellarg($info['filenamepath']).' - | head -c 64';
+            $commandline =
+                (file_exists('/usr/local/bin/shorten') ? '/usr/local/bin/' : '').'shorten -x '.escapeshellarg(
+                    $info['filenamepath']
+                ).' - | head -c 64';
 
         }
 
@@ -160,7 +178,9 @@ class getid3_shorten extends getid3_handler {
 
             if(substr($output, 20 + $fmt_size, 4) == 'data') {
 
-                $info['playtime_seconds'] = getid3_lib::LittleEndian2Int(substr($output, 20 + 4 + $fmt_size, 4)) / $DecodedWAVFORMATEX['raw']['nAvgBytesPerSec'];
+                $info['playtime_seconds'] = getid3_lib::LittleEndian2Int(
+                        substr($output, 20 + 4 + $fmt_size, 4)
+                    ) / $DecodedWAVFORMATEX['raw']['nAvgBytesPerSec'];
 
             }
             else {

@@ -10,6 +10,14 @@ import {defaultAlbumImage} from "../config";
 export default class Media extends Model {
     static entity = 'media'
 
+    get coverImage() {
+        if(this.albums === null || this.albums.length === 0) {
+            return defaultAlbumImage;
+        }
+
+        return this.albums[0].albumImage;
+    }
+
     static fields() {
         return {
             id: this.number(null),
@@ -22,13 +30,5 @@ export default class Media extends Model {
             albums: this.belongsToMany(Album, AlbumMedia, 'media_id', 'album_id'),
             artists: this.belongsToMany(Artist, ArtistMedia, 'media_id', 'artist_id')
         }
-    }
-
-    get coverImage() {
-        if(this.albums === null || this.albums.length === 0) {
-            return defaultAlbumImage;
-        }
-
-        return this.albums[0].albumImage;
     }
 }

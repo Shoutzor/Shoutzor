@@ -46,13 +46,17 @@ class Decoder extends AbstractDecoder {
             case 'image/webp':
             case 'image/x-webp':
                 if(!function_exists('imagecreatefromwebp')) {
-                    throw new NotReadableException("Unsupported image type. GD/PHP installation does not support WebP format.");
+                    throw new NotReadableException(
+                        "Unsupported image type. GD/PHP installation does not support WebP format."
+                    );
                 }
                 $core = @imagecreatefromwebp($path);
                 break;
 
             default:
-                throw new NotReadableException("Unsupported image type. GD driver is only able to decode JPG, PNG, GIF or WebP files.");
+                throw new NotReadableException(
+                    "Unsupported image type. GD driver is only able to decode JPG, PNG, GIF or WebP files."
+                );
         }
 
         if(empty($core)) {

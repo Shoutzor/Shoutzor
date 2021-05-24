@@ -28,7 +28,8 @@ class PolygonCommand extends AbstractCommand {
             throw new InvalidArgumentException("You must have at least 3 points in your array.");
         }
 
-        $polygon_classname = sprintf('\Intervention\Image\%s\Shapes\PolygonShape', $image->getDriver()->getDriverName());
+        $polygon_classname =
+            sprintf('\Intervention\Image\%s\Shapes\PolygonShape', $image->getDriver()->getDriverName());
 
         $polygon = new $polygon_classname($points);
 

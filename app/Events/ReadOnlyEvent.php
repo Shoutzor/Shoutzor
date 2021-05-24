@@ -2,6 +2,8 @@
 
 namespace App\Events;
 
+use Exception;
+
 /**
  * Class ReadOnlyEvent
  *
@@ -11,17 +13,21 @@ namespace App\Events;
 class ReadOnlyEvent extends BaseEvent {
     public function stopPropagation(): void {
         //Ignore.
+        throw new Exception("Something tried stopping the propagation on a read-only event");
     }
 
     /**
      * Marks the upload as invalid
+     *
+     * @throws Exception
      */
     public function setInvalid($reason = '') {
-        //Ignore.
+        throw new Exception("Something tried marking a read-only event as invalid");
     }
 
     /**
      * Returns whether the upload is valid or not
+     *
      * @return bool
      */
     public function isValid(): bool {

@@ -260,10 +260,18 @@ class Html2Text {
 
             while($n != null) {
 
-                $text = static::iterateOverNode($n, $previousSiblingName, $in_pre || $name == 'pre', $is_office_document, $options);
+                $text = static::iterateOverNode(
+                    $n,
+                    $previousSiblingName,
+                    $in_pre || $name == 'pre',
+                    $is_office_document,
+                    $options
+                );
 
                 // Pass current node name to next child, as previousSibling does not appear to get populated
-                if($n instanceof DOMDocumentType || $n instanceof DOMProcessingInstruction || ($n instanceof DOMText && static::isWhitespace($text))) {
+                if($n instanceof DOMDocumentType || $n instanceof DOMProcessingInstruction || ($n instanceof DOMText && static::isWhitespace(
+                            $text
+                        ))) {
                     // Keep current previousSiblingName, these are invisible
                     $trailing_whitespace++;
                 }

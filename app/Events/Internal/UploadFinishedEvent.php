@@ -18,7 +18,7 @@ class UploadFinishedEvent extends ReadOnlyEvent {
     protected $upload;
     protected $media;
 
-    public function __construct(Upload $upload, ?Media $media) {
+    public function __construct(Upload $upload, Media $media) {
         $this->upload = $upload;
         $this->media = $media;
     }

@@ -34,7 +34,12 @@ class ExifCommand extends AbstractCommand {
 
         }
         catch(Exception $e) {
-            throw new NotReadableException(sprintf("Cannot read the Exif data from the filename (%s) provided ", $image->dirname.'/'.$image->basename), $e->getCode(), $e);
+            throw new NotReadableException(
+                sprintf(
+                    "Cannot read the Exif data from the filename (%s) provided ",
+                    $image->dirname.'/'.$image->basename
+                ), $e->getCode(), $e
+            );
         }
 
         $this->setOutput($data);

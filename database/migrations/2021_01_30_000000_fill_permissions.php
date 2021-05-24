@@ -26,7 +26,11 @@ class FillPermissions extends Migration {
          * Create permissions (if not existing)
          */
 
-        $this->createPermission('website.access', '(dis)allows visiting the website (ie: require login)', [$guest, $user, $admin]);
+        $this->createPermission(
+            'website.access',
+            '(dis)allows visiting the website (ie: require login)',
+            [$guest, $user, $admin]
+        );
 
         $this->createPermission('website.search', '(dis)allows searching', [$guest, $user, $admin]);
 
@@ -38,7 +42,11 @@ class FillPermissions extends Migration {
 
         $this->createPermission('admin.packages', '(dis)allows managing shoutzor packages', [$admin]);
 
-        $this->createPermission('admin.permissions.permission.get', '(dis)allows managing shoutzor permissions', [$admin]);
+        $this->createPermission(
+            'admin.permissions.permission.get',
+            '(dis)allows managing shoutzor permissions',
+            [$admin]
+        );
 
         $this->createPermission('admin.permissions.role.get', '(dis)allows managing shoutzor roles', [$admin]);
 

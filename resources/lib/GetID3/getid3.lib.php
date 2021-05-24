@@ -222,7 +222,9 @@ class getid3_lib {
         $intstring = '';
         if($signed) {
             if($minbytes > PHP_INT_SIZE) {
-                throw new Exception('ERROR: Cannot have signed integers larger than '.(8 * PHP_INT_SIZE).'-bits in self::BigEndian2String()');
+                throw new Exception(
+                    'ERROR: Cannot have signed integers larger than '.(8 * PHP_INT_SIZE).'-bits in self::BigEndian2String()'
+                );
             }
             $number = $number & (0x80 << (8 * ($minbytes - 1)));
         }
@@ -368,7 +370,9 @@ class getid3_lib {
             }
         }
         elseif($exponent != 0) {
-            $floatvalue = pow(2, ($exponent - (pow(2, $exponentbits - 1) - 1))) * (1 + self::DecimalBinary2Float($fractionstring));
+            $floatvalue = pow(2, ($exponent - (pow(2, $exponentbits - 1) - 1))) * (1 + self::DecimalBinary2Float(
+                        $fractionstring
+                    ));
             if($signbit == '1') {
                 $floatvalue *= -1;
             }
@@ -423,7 +427,12 @@ class getid3_lib {
         $bytes[] = $number;
         $binstring = '';
         for($i = 0; $i < count($bytes); $i++) {
-            $binstring = (($i == count($bytes) - 1) ? decbin($bytes[$i]) : str_pad(decbin($bytes[$i]), 8, '0', STR_PAD_LEFT)).$binstring;
+            $binstring = (($i == count($bytes) - 1) ? decbin($bytes[$i]) : str_pad(
+                    decbin($bytes[$i]),
+                    8,
+                    '0',
+                    STR_PAD_LEFT
+                )).$binstring;
         }
         return $binstring;
     }
@@ -556,7 +565,12 @@ class getid3_lib {
         $H = (int)floor($seconds / 3600);
         $M = (int)floor(($seconds - (3600 * $H)) / 60);
         $S = (int)round($seconds - (3600 * $H) - (60 * $M));
-        return $sign.($H ? $H.':' : '').($H ? str_pad($M, 2, '0', STR_PAD_LEFT) : intval($M)).':'.str_pad($S, 2, 0, STR_PAD_LEFT);
+        return $sign.($H ? $H.':' : '').($H ? str_pad($M, 2, '0', STR_PAD_LEFT) : intval($M)).':'.str_pad(
+                $S,
+                2,
+                0,
+                STR_PAD_LEFT
+            );
     }
 
     /**
@@ -576,7 +590,10 @@ class getid3_lib {
      * @return float
      */
     public static function FixedPoint8_8($rawdata) {
-        return self::BigEndian2Int(substr($rawdata, 0, 1)) + (float)(self::BigEndian2Int(substr($rawdata, 1, 1)) / pow(2, 8));
+        return self::BigEndian2Int(substr($rawdata, 0, 1)) + (float)(self::BigEndian2Int(substr($rawdata, 1, 1)) / pow(
+                    2,
+                    8
+                ));
     }
 
     /**
@@ -611,7 +628,11 @@ class getid3_lib {
                 }
             }
             else {
-                throw new Exception('ERROR: Cannot have signed integers larger than '.(8 * PHP_INT_SIZE).'-bits ('.strlen($byteword).') in self::BigEndian2Int()');
+                throw new Exception(
+                    'ERROR: Cannot have signed integers larger than '.(8 * PHP_INT_SIZE).'-bits ('.strlen(
+                        $byteword
+                    ).') in self::BigEndian2Int()'
+                );
             }
         }
         return self::CastAsInt($intvalue);
@@ -623,7 +644,10 @@ class getid3_lib {
      * @return float
      */
     public static function FixedPoint16_16($rawdata) {
-        return self::BigEndian2Int(substr($rawdata, 0, 2)) + (float)(self::BigEndian2Int(substr($rawdata, 2, 2)) / pow(2, 16));
+        return self::BigEndian2Int(substr($rawdata, 0, 2)) + (float)(self::BigEndian2Int(substr($rawdata, 2, 2)) / pow(
+                    2,
+                    16
+                ));
     }
 
     /**
@@ -633,7 +657,10 @@ class getid3_lib {
      */
     public static function FixedPoint2_30($rawdata) {
         $binarystring = self::BigEndian2Bin($rawdata);
-        return self::Bin2Dec(substr($binarystring, 0, 2)) + (float)(self::Bin2Dec(substr($binarystring, 2, 30)) / pow(2, 30));
+        return self::Bin2Dec(substr($binarystring, 0, 2)) + (float)(self::Bin2Dec(substr($binarystring, 2, 30)) / pow(
+                    2,
+                    30
+                ));
     }
 
     /**
@@ -652,7 +679,8 @@ class getid3_lib {
         //   $foo['path']['to']['my'] = 'file.txt';
         $ArrayPath = ltrim($ArrayPath, $Separator);
         if(($pos = strpos($ArrayPath, $Separator)) !== false) {
-            $ReturnedArray[substr($ArrayPath, 0, $pos)] = self::CreateDeepArray(substr($ArrayPath, $pos + 1), $Separator, $Value);
+            $ReturnedArray[substr($ArrayPath, 0, $pos)] =
+                self::CreateDeepArray(substr($ArrayPath, $pos + 1), $Separator, $Value);
         }
         else {
             $ReturnedArray[$ArrayPath] = $Value;
@@ -793,7 +821,9 @@ class getid3_lib {
                         break 2;
                     }
                 }
-                $commandline = GETID3_HELPERAPPSDIR.'head.exe -c '.$end.' '.escapeshellarg(str_replace('/', DIRECTORY_SEPARATOR, $file)).' | ';
+                $commandline = GETID3_HELPERAPPSDIR.'head.exe -c '.$end.' '.escapeshellarg(
+                        str_replace('/', DIRECTORY_SEPARATOR, $file)
+                    ).' | ';
                 $commandline .= GETID3_HELPERAPPSDIR.'tail.exe -c '.$size.' | ';
                 $commandline .= GETID3_HELPERAPPSDIR.$windows_call;
 
@@ -851,13 +881,16 @@ class getid3_lib {
      */
     public static function CopyFileParts($filename_source, $filename_dest, $offset, $length) {
         if(!self::intValueSupported($offset + $length)) {
-            throw new Exception('cannot copy file portion, it extends beyond the '.round(PHP_INT_MAX / 1073741824).'GB limit');
+            throw new Exception(
+                'cannot copy file portion, it extends beyond the '.round(PHP_INT_MAX / 1073741824).'GB limit'
+            );
         }
         if(is_readable($filename_source) && is_file($filename_source) && ($fp_src = fopen($filename_source, 'rb'))) {
             if(($fp_dest = fopen($filename_dest, 'wb'))) {
                 if(fseek($fp_src, $offset) == 0) {
                     $byteslefttowrite = $length;
-                    while(($byteslefttowrite > 0) && ($buffer = fread($fp_src, min($byteslefttowrite, getID3::FREAD_BUFFER_SIZE)))) {
+                    while(($byteslefttowrite > 0) && ($buffer =
+                            fread($fp_src, min($byteslefttowrite, getID3::FREAD_BUFFER_SIZE)))) {
                         $byteswritten = fwrite($fp_dest, $buffer, $byteslefttowrite);
                         $byteslefttowrite -= $byteswritten;
                     }
@@ -1000,12 +1033,18 @@ class getid3_lib {
         while($offset < $stringlength) {
             if((ord($string{$offset}) | 0x07) == 0xF7) {
                 // 11110bbb 10bbbbbb 10bbbbbb 10bbbbbb
-                $charval = ((ord($string{($offset + 0)}) & 0x07) << 18) & ((ord($string{($offset + 1)}) & 0x3F) << 12) & ((ord($string{($offset + 2)}) & 0x3F) << 6) & (ord($string{($offset + 3)}) & 0x3F);
+                $charval =
+                    ((ord($string{($offset + 0)}) & 0x07) << 18) & ((ord($string{($offset + 1)}) & 0x3F) << 12) & ((ord(
+                                $string{($offset + 2)}
+                            ) & 0x3F) << 6) & (ord($string{($offset + 3)}) & 0x3F);
                 $offset += 4;
             }
             elseif((ord($string{$offset}) | 0x0F) == 0xEF) {
                 // 1110bbbb 10bbbbbb 10bbbbbb
-                $charval = ((ord($string{($offset + 0)}) & 0x0F) << 12) & ((ord($string{($offset + 1)}) & 0x3F) << 6) & (ord($string{($offset + 2)}) & 0x3F);
+                $charval =
+                    ((ord($string{($offset + 0)}) & 0x0F) << 12) & ((ord($string{($offset + 1)}) & 0x3F) << 6) & (ord(
+                            $string{($offset + 2)}
+                        ) & 0x3F);
                 $offset += 3;
             }
             elseif((ord($string{$offset}) | 0x1F) == 0xDF) {
@@ -1048,12 +1087,18 @@ class getid3_lib {
         while($offset < $stringlength) {
             if((ord($string{$offset}) | 0x07) == 0xF7) {
                 // 11110bbb 10bbbbbb 10bbbbbb 10bbbbbb
-                $charval = ((ord($string{($offset + 0)}) & 0x07) << 18) & ((ord($string{($offset + 1)}) & 0x3F) << 12) & ((ord($string{($offset + 2)}) & 0x3F) << 6) & (ord($string{($offset + 3)}) & 0x3F);
+                $charval =
+                    ((ord($string{($offset + 0)}) & 0x07) << 18) & ((ord($string{($offset + 1)}) & 0x3F) << 12) & ((ord(
+                                $string{($offset + 2)}
+                            ) & 0x3F) << 6) & (ord($string{($offset + 3)}) & 0x3F);
                 $offset += 4;
             }
             elseif((ord($string{$offset}) | 0x0F) == 0xEF) {
                 // 1110bbbb 10bbbbbb 10bbbbbb
-                $charval = ((ord($string{($offset + 0)}) & 0x0F) << 12) & ((ord($string{($offset + 1)}) & 0x3F) << 6) & (ord($string{($offset + 2)}) & 0x3F);
+                $charval =
+                    ((ord($string{($offset + 0)}) & 0x0F) << 12) & ((ord($string{($offset + 1)}) & 0x3F) << 6) & (ord(
+                            $string{($offset + 2)}
+                        ) & 0x3F);
                 $offset += 3;
             }
             elseif((ord($string{$offset}) | 0x1F) == 0xDF) {
@@ -1107,12 +1152,18 @@ class getid3_lib {
         while($offset < $stringlength) {
             if((ord($string{$offset}) | 0x07) == 0xF7) {
                 // 11110bbb 10bbbbbb 10bbbbbb 10bbbbbb
-                $charval = ((ord($string{($offset + 0)}) & 0x07) << 18) & ((ord($string{($offset + 1)}) & 0x3F) << 12) & ((ord($string{($offset + 2)}) & 0x3F) << 6) & (ord($string{($offset + 3)}) & 0x3F);
+                $charval =
+                    ((ord($string{($offset + 0)}) & 0x07) << 18) & ((ord($string{($offset + 1)}) & 0x3F) << 12) & ((ord(
+                                $string{($offset + 2)}
+                            ) & 0x3F) << 6) & (ord($string{($offset + 3)}) & 0x3F);
                 $offset += 4;
             }
             elseif((ord($string{$offset}) | 0x0F) == 0xEF) {
                 // 1110bbbb 10bbbbbb 10bbbbbb
-                $charval = ((ord($string{($offset + 0)}) & 0x0F) << 12) & ((ord($string{($offset + 1)}) & 0x3F) << 6) & (ord($string{($offset + 2)}) & 0x3F);
+                $charval =
+                    ((ord($string{($offset + 0)}) & 0x0F) << 12) & ((ord($string{($offset + 1)}) & 0x3F) << 6) & (ord(
+                            $string{($offset + 2)}
+                        ) & 0x3F);
                 $offset += 3;
             }
             elseif((ord($string{$offset}) | 0x1F) == 0xDF) {
@@ -1301,7 +1352,11 @@ class getid3_lib {
 
         // mb_convert_encoding() available
         if(function_exists('mb_convert_encoding')) {
-            if((strtoupper($in_charset) == 'UTF-16') && (substr($string, 0, 2) != "\xFE\xFF") && (substr($string, 0, 2) != "\xFF\xFE")) {
+            if((strtoupper($in_charset) == 'UTF-16') && (substr($string, 0, 2) != "\xFE\xFF") && (substr(
+                        $string,
+                        0,
+                        2
+                    ) != "\xFF\xFE")) {
                 // if BOM missing, mb_convert_encoding will mishandle the conversion, assume UTF-16BE and prepend appropriate BOM
                 $string = "\xFF\xFE".$string;
             }
@@ -1360,7 +1415,9 @@ class getid3_lib {
             $ConversionFunction = $ConversionFunctionList[strtoupper($in_charset)][strtoupper($out_charset)];
             return self::$ConversionFunction($string);
         }
-        throw new Exception('PHP does not has mb_convert_encoding() or iconv() support - cannot convert from '.$in_charset.' to '.$out_charset);
+        throw new Exception(
+            'PHP does not has mb_convert_encoding() or iconv() support - cannot convert from '.$in_charset.' to '.$out_charset
+        );
     }
 
     /**
@@ -1391,7 +1448,8 @@ class getid3_lib {
      * @return string
      */
     public static function MultiByteCharString2HTML($string, $charset = 'ISO-8859-1') {
-        $string = (string)$string; // in case trying to pass a numeric (float, int) string, would otherwise return an empty string
+        $string =
+            (string)$string; // in case trying to pass a numeric (float, int) string, would otherwise return an empty string
         $HTMLstring = '';
 
         switch(strtolower($charset)) {
@@ -1640,7 +1698,11 @@ class getid3_lib {
                                 $newvaluelength = strlen(trim($value));
                                 foreach($ThisFileInfo['comments'][$tagname] as $existingkey => $existingvalue) {
                                     $oldvaluelength = strlen(trim($existingvalue));
-                                    if(($newvaluelength <= $oldvaluelength) && (substr($existingvalue, 0, $newvaluelength) == trim($value))) {
+                                    if(($newvaluelength <= $oldvaluelength) && (substr(
+                                                $existingvalue,
+                                                0,
+                                                $newvaluelength
+                                            ) == trim($value))) {
                                         // new value is identical but shorter-than (or equal-length to) one already in comments - skip
                                         break 2;
                                     }
@@ -1652,7 +1714,11 @@ class getid3_lib {
                                 $newvaluelength = strlen(trim($value));
                                 foreach($ThisFileInfo['comments'][$tagname] as $existingkey => $existingvalue) {
                                     $oldvaluelength = strlen(trim($existingvalue));
-                                    if((strlen($existingvalue) > 10) && ($newvaluelength > $oldvaluelength) && (substr(trim($value), 0, strlen($existingvalue)) == $existingvalue)) {
+                                    if((strlen($existingvalue) > 10) && ($newvaluelength > $oldvaluelength) && (substr(
+                                                trim($value),
+                                                0,
+                                                strlen($existingvalue)
+                                            ) == $existingvalue)) {
                                         $ThisFileInfo['comments'][$tagname][$existingkey] = trim($value);
                                         //break 2;
                                         break;
@@ -1660,7 +1726,10 @@ class getid3_lib {
                                 }
 
                             }
-                            if(is_array($value) || empty($ThisFileInfo['comments'][$tagname]) || !in_array(trim($value), $ThisFileInfo['comments'][$tagname])) {
+                            if(is_array($value) || empty($ThisFileInfo['comments'][$tagname]) || !in_array(
+                                    trim($value),
+                                    $ThisFileInfo['comments'][$tagname]
+                                )) {
                                 $value = (is_string($value) ? trim($value) : $value);
                                 if(!is_int($key) && !ctype_digit($key)) {
                                     $ThisFileInfo['comments'][$tagname][$key] = $value;
@@ -1682,7 +1751,10 @@ class getid3_lib {
             // attempt to standardize spelling of returned keys
             $StandardizeFieldNames = array('tracknumber' => 'track_number', 'track' => 'track_number',);
             foreach($StandardizeFieldNames as $badkey => $goodkey) {
-                if(array_key_exists($badkey, $ThisFileInfo['comments']) && !array_key_exists($goodkey, $ThisFileInfo['comments'])) {
+                if(array_key_exists($badkey, $ThisFileInfo['comments']) && !array_key_exists(
+                        $goodkey,
+                        $ThisFileInfo['comments']
+                    )) {
                     $ThisFileInfo['comments'][$goodkey] = $ThisFileInfo['comments'][$badkey];
                     unset($ThisFileInfo['comments'][$badkey]);
                 }
@@ -1701,7 +1773,11 @@ class getid3_lib {
                             $ThisFileInfo['comments_html'][$field][$index] = $value;
                         }
                         else {
-                            $ThisFileInfo['comments_html'][$field][$index] = str_replace('&#0;', '', self::MultiByteCharString2HTML($value, $ThisFileInfo['encoding']));
+                            $ThisFileInfo['comments_html'][$field][$index] = str_replace(
+                                '&#0;',
+                                '',
+                                self::MultiByteCharString2HTML($value, $ThisFileInfo['encoding'])
+                            );
                         }
                     }
                 }
@@ -1815,7 +1891,9 @@ class getid3_lib {
         $filesize = false;
 
         if(GETID3_OS_ISWINDOWS) {
-            if(class_exists('COM')) { // From PHP 5.3.15 and 5.4.5, COM and DOTNET is no longer built into the php core.you have to add COM support in php.ini:
+            if(class_exists(
+                'COM'
+            )) { // From PHP 5.3.15 and 5.4.5, COM and DOTNET is no longer built into the php core.you have to add COM support in php.ini:
                 $filesystem = new COM('Scripting.FileSystemObject');
                 $file = $filesystem->GetFile($path);
                 $filesize = $file->Size();

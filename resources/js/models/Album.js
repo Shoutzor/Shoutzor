@@ -18,6 +18,14 @@ export default class Album extends Model {
         }
     }
 
+    get albumImage() {
+        if(this.image === '') {
+            return defaultAlbumImage;
+        }
+
+        return this.image;
+    }
+
     static fields() {
         return {
             id: this.number(null),
@@ -27,13 +35,5 @@ export default class Album extends Model {
             artists: this.belongsToMany(Artist, AlbumArtist, 'album_id', 'artist_id'),
             media: this.belongsToMany(Media, AlbumMedia, 'album_id', 'media_id')
         }
-    }
-
-    get albumImage() {
-        if(this.image === '') {
-            return defaultAlbumImage;
-        }
-
-        return this.image;
     }
 }

@@ -44,7 +44,11 @@ class getid3_gzip extends getid3_handler {
         //+---+---+---+---+---+---+---+---+---+---+
 
         if($info['php_memory_limit'] && ($info['filesize'] > $info['php_memory_limit'])) {
-            $this->error('File is too large ('.number_format($info['filesize']).' bytes) to read into memory (limit: '.number_format($info['php_memory_limit'] / 1048576).'MB)');
+            $this->error(
+                'File is too large ('.number_format(
+                    $info['filesize']
+                ).' bytes) to read into memory (limit: '.number_format($info['php_memory_limit'] / 1048576).'MB)'
+            );
             return false;
         }
         $this->fseek(0);
@@ -194,7 +198,10 @@ class getid3_gzip extends getid3_handler {
             $thisInfo['crc32'] = getid3_lib::LittleEndian2Int(substr($buff, strlen($buff) - 8, 4));
             $thisInfo['filesize'] = getid3_lib::LittleEndian2Int(substr($buff, strlen($buff) - 4));
 
-            $info['gzip']['files'] = getid3_lib::array_merge_clobber($info['gzip']['files'], getid3_lib::CreateDeepArray($thisInfo['filename'], '/', $thisInfo['filesize']));
+            $info['gzip']['files'] = getid3_lib::array_merge_clobber(
+                $info['gzip']['files'],
+                getid3_lib::CreateDeepArray($thisInfo['filename'], '/', $thisInfo['filesize'])
+            );
 
             if($this->option_gzip_parse_contents) {
                 // Try to inflate GZip
@@ -217,11 +224,14 @@ class getid3_gzip extends getid3_handler {
                     unset($getid3_temp);
 
                     // file format is determined
-                    $determined_format['module'] = (isset($determined_format['module']) ? $determined_format['module'] : '');
+                    $determined_format['module'] =
+                        (isset($determined_format['module']) ? $determined_format['module'] : '');
                     switch($determined_format['module']) {
                         case 'tar':
                             // view TAR-file info
-                            if(file_exists(GETID3_INCLUDEPATH.$determined_format['include']) && include_once(GETID3_INCLUDEPATH.$determined_format['include'])) {
+                            if(file_exists(
+                                    GETID3_INCLUDEPATH.$determined_format['include']
+                                ) && include_once(GETID3_INCLUDEPATH.$determined_format['include'])) {
                                 if(($temp_tar_filename = tempnam(GETID3_TEMP_DIR, 'getID3')) === false) {
                                     // can't find anywhere to create a temp file, abort
                                     $this->error('Unable to create temp file to parse TAR inside GZIP file');
@@ -252,7 +262,9 @@ class getid3_gzip extends getid3_handler {
                     }
                 }
                 else {
-                    $this->warning('PHP is not compiled with gzinflate() support. Please enable PHP Zlib extension or recompile with the --with-zlib switch');
+                    $this->warning(
+                        'PHP is not compiled with gzinflate() support. Please enable PHP Zlib extension or recompile with the --with-zlib switch'
+                    );
                 }
             }
         }
@@ -267,7 +279,23 @@ class getid3_gzip extends getid3_handler {
      * @return string
      */
     public function get_os_type($key) {
-        static $os_type = array('0' => 'FAT filesystem (MS-DOS, OS/2, NT/Win32)', '1' => 'Amiga', '2' => 'VMS (or OpenVMS)', '3' => 'Unix', '4' => 'VM/CMS', '5' => 'Atari TOS', '6' => 'HPFS filesystem (OS/2, NT)', '7' => 'Macintosh', '8' => 'Z-System', '9' => 'CP/M', '10' => 'TOPS-20', '11' => 'NTFS filesystem (NT)', '12' => 'QDOS', '13' => 'Acorn RISCOS', '255' => 'unknown');
+        static $os_type = array(
+            '0'   => 'FAT filesystem (MS-DOS, OS/2, NT/Win32)',
+            '1'   => 'Amiga',
+            '2'   => 'VMS (or OpenVMS)',
+            '3'   => 'Unix',
+            '4'   => 'VM/CMS',
+            '5'   => 'Atari TOS',
+            '6'   => 'HPFS filesystem (OS/2, NT)',
+            '7'   => 'Macintosh',
+            '8'   => 'Z-System',
+            '9'   => 'CP/M',
+            '10'  => 'TOPS-20',
+            '11'  => 'NTFS filesystem (NT)',
+            '12'  => 'QDOS',
+            '13'  => 'Acorn RISCOS',
+            '255' => 'unknown'
+        );
         return (isset($os_type[$key]) ? $os_type[$key] : '');
     }
 

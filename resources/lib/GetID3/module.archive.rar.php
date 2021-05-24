@@ -34,7 +34,10 @@ class getid3_rar extends getid3_handler {
                     $info['rar']['files'] = array();
                     $entries = rar_list($rp);
                     foreach($entries as $entry) {
-                        $info['rar']['files'] = getid3_lib::array_merge_clobber($info['rar']['files'], getid3_lib::CreateDeepArray($entry->getName(), '/', $entry->getUnpackedSize()));
+                        $info['rar']['files'] = getid3_lib::array_merge_clobber(
+                            $info['rar']['files'],
+                            getid3_lib::CreateDeepArray($entry->getName(), '/', $entry->getUnpackedSize())
+                        );
                     }
                     rar_close($rp);
                     return true;
@@ -48,7 +51,9 @@ class getid3_rar extends getid3_handler {
             }
         }
         else {
-            $this->error('PHP-RAR processing has been disabled (set $getid3_rar->option_use_rar_extension=true to enable)');
+            $this->error(
+                'PHP-RAR processing has been disabled (set $getid3_rar->option_use_rar_extension=true to enable)'
+            );
         }
         return false;
 

@@ -32,7 +32,11 @@ class getid3_tta extends getid3_handler {
         $info['tta']['magic'] = substr($ttaheader, 0, 3);
         $magic = 'TTA';
         if($info['tta']['magic'] != $magic) {
-            $this->error('Expecting "'.getid3_lib::PrintHexBytes($magic).'" at offset '.$info['avdataoffset'].', found "'.getid3_lib::PrintHexBytes($info['tta']['magic']).'"');
+            $this->error(
+                'Expecting "'.getid3_lib::PrintHexBytes(
+                    $magic
+                ).'" at offset '.$info['avdataoffset'].', found "'.getid3_lib::PrintHexBytes($info['tta']['magic']).'"'
+            );
             unset($info['fileformat']);
             unset($info['audio']);
             unset($info['tta']);
@@ -78,7 +82,8 @@ class getid3_tta extends getid3_handler {
                 $info['tta']['major_version'] = 3;
                 $info['avdataoffset'] += 26;
 
-                $info['tta']['audio_format'] = getid3_lib::LittleEndian2Int(substr($ttaheader, 4, 2)); // getid3_riff::wFormatTagLookup()
+                $info['tta']['audio_format'] =
+                    getid3_lib::LittleEndian2Int(substr($ttaheader, 4, 2)); // getid3_riff::wFormatTagLookup()
                 $info['tta']['channels'] = getid3_lib::LittleEndian2Int(substr($ttaheader, 6, 2));
                 $info['tta']['bits_per_sample'] = getid3_lib::LittleEndian2Int(substr($ttaheader, 8, 2));
                 $info['tta']['sample_rate'] = getid3_lib::LittleEndian2Int(substr($ttaheader, 10, 4));
@@ -90,7 +95,10 @@ class getid3_tta extends getid3_handler {
                 break;
 
             default:
-                $this->error('This version of getID3() ['.$this->getid3->version().'] only knows how to handle TTA v1 and v2 - it may not work correctly with this file which appears to be TTA v'.$ttaheader{3});
+                $this->error(
+                    'This version of getID3() ['.$this->getid3->version(
+                    ).'] only knows how to handle TTA v1 and v2 - it may not work correctly with this file which appears to be TTA v'.$ttaheader{3}
+                );
                 return false;
                 break;
         }

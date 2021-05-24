@@ -3,9 +3,7 @@
 namespace App\Events\Internal;
 
 use App\Album;
-use App\Events\BaseEvent;
 use App\Events\ReadOnlyEvent;
-use Symfony\Contracts\EventDispatcher\Event;
 
 /**
  * Class AlbumCreateEvent

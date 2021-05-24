@@ -24,7 +24,11 @@ class Decoder extends AbstractDecoder {
 
             $core->setBackgroundColor(new ImagickPixel('transparent'));
             $core->readImage($path);
-            $core->setImageType(defined('\Imagick::IMGTYPE_TRUECOLORALPHA') ? Imagick::IMGTYPE_TRUECOLORALPHA : Imagick::IMGTYPE_TRUECOLORMATTE);
+            $core->setImageType(
+                defined(
+                    '\Imagick::IMGTYPE_TRUECOLORALPHA'
+                ) ? Imagick::IMGTYPE_TRUECOLORALPHA : Imagick::IMGTYPE_TRUECOLORMATTE
+            );
 
         }
         catch(ImagickException $e) {

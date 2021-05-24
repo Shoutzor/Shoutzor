@@ -8,6 +8,14 @@ import {defaultArtistImage} from "../config";
 export default class Artist extends Model {
     static entity = 'artists';
 
+    get artistImage() {
+        if(this.image === '') {
+            return defaultArtistImage;
+        }
+
+        return this.image;
+    }
+
     static fields() {
         return {
             id: this.uid(),
@@ -16,13 +24,5 @@ export default class Artist extends Model {
             image: this.string(''),
             media: this.belongsToMany(Media, ArtistMedia, 'artist_id', 'media_id')
         }
-    }
-
-    get artistImage() {
-        if(this.image === '') {
-            return defaultArtistImage;
-        }
-
-        return this.image;
     }
 }

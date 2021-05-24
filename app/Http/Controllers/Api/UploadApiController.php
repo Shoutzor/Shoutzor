@@ -27,7 +27,7 @@ class UploadApiController extends Controller {
         $ext = $request->file('media')->extension();
 
         //Set the new  name for the file
-        $newName = time() . $name . '.' . $ext;
+        $newName = time().$name.'.'.$ext;
 
         //Move the file to a temporary directory while it's awaiting processing.
         $request->file('media')->storeAs(Upload::STORAGE_PATH, $newName);
@@ -47,7 +47,7 @@ class UploadApiController extends Controller {
 
         // Check if any eventhandlers marked the upload as invalid
         if($event->isValid() === false) {
-            return response()->json(['message' => 'Upload rejected, reason: ' . $event->getReason()], 406);
+            return response()->json(['message' => 'Upload rejected, reason: '.$event->getReason()], 406);
         }
 
         $upload->save();

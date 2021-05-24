@@ -69,7 +69,13 @@ class getid3_avr extends getid3_handler {
         $info['avr']['raw']['magic'] = substr($AVRheader, 0, 4);
         $magic = '2BIT';
         if($info['avr']['raw']['magic'] != $magic) {
-            $this->error('Expecting "'.getid3_lib::PrintHexBytes($magic).'" at offset '.$info['avdataoffset'].', found "'.getid3_lib::PrintHexBytes($info['avr']['raw']['magic']).'"');
+            $this->error(
+                'Expecting "'.getid3_lib::PrintHexBytes(
+                    $magic
+                ).'" at offset '.$info['avdataoffset'].', found "'.getid3_lib::PrintHexBytes(
+                    $info['avr']['raw']['magic']
+                ).'"'
+            );
             unset($info['fileformat']);
             unset($info['avr']);
             return false;
@@ -106,7 +112,9 @@ class getid3_avr extends getid3_handler {
         }
 
         if(($info['avdataend'] - $info['avdataoffset']) != ($info['avr']['sample_length'] * (($info['avr']['bits_per_sample'] == 8) ? 1 : 2))) {
-            $this->warning('Probable truncated file: expecting '.($info['avr']['sample_length'] * (($info['avr']['bits_per_sample'] == 8) ? 1 : 2)).' bytes of audio data, found '.($info['avdataend'] - $info['avdataoffset']));
+            $this->warning(
+                'Probable truncated file: expecting '.($info['avr']['sample_length'] * (($info['avr']['bits_per_sample'] == 8) ? 1 : 2)).' bytes of audio data, found '.($info['avdataend'] - $info['avdataoffset'])
+            );
         }
 
         $info['audio']['dataformat'] = 'avr';
@@ -115,8 +123,10 @@ class getid3_avr extends getid3_handler {
         $info['audio']['bits_per_sample'] = $info['avr']['bits_per_sample'];
         $info['audio']['sample_rate'] = $info['avr']['sample_rate'];
         $info['audio']['channels'] = ($info['avr']['flags']['stereo'] ? 2 : 1);
-        $info['playtime_seconds'] = ($info['avr']['sample_length'] / $info['audio']['channels']) / $info['avr']['sample_rate'];
-        $info['audio']['bitrate'] = ($info['avr']['sample_length'] * (($info['avr']['bits_per_sample'] == 8) ? 8 : 16)) / $info['playtime_seconds'];
+        $info['playtime_seconds'] =
+            ($info['avr']['sample_length'] / $info['audio']['channels']) / $info['avr']['sample_rate'];
+        $info['audio']['bitrate'] =
+            ($info['avr']['sample_length'] * (($info['avr']['bits_per_sample'] == 8) ? 8 : 16)) / $info['playtime_seconds'];
 
         return true;
     }

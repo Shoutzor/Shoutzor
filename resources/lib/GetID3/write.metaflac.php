@@ -50,7 +50,8 @@ class getid3_write_metaflac {
     public function WriteMetaFLAC() {
 
         if(preg_match('#(1|ON)#i', ini_get('safe_mode'))) {
-            $this->errors[] = 'PHP running in Safe Mode (backtick operator not available) - cannot call metaflac, tags not written';
+            $this->errors[] =
+                'PHP running in Safe Mode (backtick operator not available) - cannot call metaflac, tags not written';
             return false;
         }
 
@@ -60,18 +61,27 @@ class getid3_write_metaflac {
             foreach($this->tag_data['ATTACHED_PICTURE'] as $key => $picturedetails) {
                 $temppicturefilename = tempnam(GETID3_TEMP_DIR, 'getID3');
                 $tempfilenames[] = $temppicturefilename;
-                if(getID3::is_writable($temppicturefilename) && is_file($temppicturefilename) && ($fpcomments = fopen($temppicturefilename, 'wb'))) {
+                if(getID3::is_writable($temppicturefilename) && is_file($temppicturefilename) && ($fpcomments =
+                        fopen($temppicturefilename, 'wb'))) {
                     // https://xiph.org/flac/documentation_tools_flac.html#flac_options_picture
                     // [TYPE]|[MIME-TYPE]|[DESCRIPTION]|[WIDTHxHEIGHTxDEPTH[/COLORS]]|FILE
                     fwrite($fpcomments, $picturedetails['data']);
                     fclose($fpcomments);
-                    $picture_typeid = (!empty($picturedetails['picturetypeid']) ? $this->ID3v2toFLACpictureTypes($picturedetails['picturetypeid']) : 3); // default to "3:Cover (front)"
-                    $picture_mimetype = (!empty($picturedetails['mime']) ? $picturedetails['mime'] : ''); // should be auto-detected
+                    $picture_typeid = (!empty($picturedetails['picturetypeid']) ? $this->ID3v2toFLACpictureTypes(
+                        $picturedetails['picturetypeid']
+                    ) : 3); // default to "3:Cover (front)"
+                    $picture_mimetype =
+                        (!empty($picturedetails['mime']) ? $picturedetails['mime'] : ''); // should be auto-detected
                     $picture_width_height_depth = '';
-                    $this->pictures[] = $picture_typeid.'|'.$picture_mimetype.'|'.preg_replace('#[^\x20-\x7B\x7D-\x7F]#', '', $picturedetails['description']).'|'.$picture_width_height_depth.'|'.$temppicturefilename;
+                    $this->pictures[] = $picture_typeid.'|'.$picture_mimetype.'|'.preg_replace(
+                            '#[^\x20-\x7B\x7D-\x7F]#',
+                            '',
+                            $picturedetails['description']
+                        ).'|'.$picture_width_height_depth.'|'.$temppicturefilename;
                 }
                 else {
-                    $this->errors[] = 'failed to open temporary tags file, tags not written - fopen("'.$temppicturefilename.'", "wb")';
+                    $this->errors[] =
+                        'failed to open temporary tags file, tags not written - fopen("'.$temppicturefilename.'", "wb")';
                     return false;
                 }
             }
@@ -81,7 +91,8 @@ class getid3_write_metaflac {
         // Create file with new comments
         $tempcommentsfilename = tempnam(GETID3_TEMP_DIR, 'getID3');
         $tempfilenames[] = $tempcommentsfilename;
-        if(getID3::is_writable($tempcommentsfilename) && is_file($tempcommentsfilename) && ($fpcomments = fopen($tempcommentsfilename, 'wb'))) {
+        if(getID3::is_writable($tempcommentsfilename) && is_file($tempcommentsfilename) && ($fpcomments =
+                fopen($tempcommentsfilename, 'wb'))) {
             foreach($this->tag_data as $key => $value) {
                 foreach($value as $commentdata) {
                     fwrite($fpcomments, $this->CleanmetaflacName($key).'='.$commentdata."\n");
@@ -91,7 +102,8 @@ class getid3_write_metaflac {
 
         }
         else {
-            $this->errors[] = 'failed to open temporary tags file, tags not written - fopen("'.$tempcommentsfilename.'", "wb")';
+            $this->errors[] =
+                'failed to open temporary tags file, tags not written - fopen("'.$tempcommentsfilename.'", "wb")';
             return false;
         }
 
@@ -111,7 +123,10 @@ class getid3_write_metaflac {
                 clearstatcache();
                 $timestampbeforewriting = filemtime($this->filename);
 
-                $commandline = GETID3_HELPERAPPSDIR.'metaflac.exe --no-utf8-convert --remove-all-tags --import-tags-from='.escapeshellarg($tempcommentsfilename);
+                $commandline =
+                    GETID3_HELPERAPPSDIR.'metaflac.exe --no-utf8-convert --remove-all-tags --import-tags-from='.escapeshellarg(
+                        $tempcommentsfilename
+                    );
                 foreach($this->pictures as $picturecommand) {
                     $commandline .= ' --import-picture-from='.escapeshellarg($picturecommand);
                 }
@@ -121,7 +136,8 @@ class getid3_write_metaflac {
                 if(empty($metaflacError)) {
                     clearstatcache();
                     if($timestampbeforewriting == filemtime($this->filename)) {
-                        $metaflacError = 'File modification timestamp has not changed - it looks like the tags were not written';
+                        $metaflacError =
+                            'File modification timestamp has not changed - it looks like the tags were not written';
                     }
                 }
             }
@@ -133,7 +149,9 @@ class getid3_write_metaflac {
         else {
 
             // It's simpler on *nix
-            $commandline = 'metaflac --no-utf8-convert --remove-all-tags --import-tags-from='.escapeshellarg($tempcommentsfilename);
+            $commandline = 'metaflac --no-utf8-convert --remove-all-tags --import-tags-from='.escapeshellarg(
+                    $tempcommentsfilename
+                );
             foreach($this->pictures as $picturecommand) {
                 $commandline .= ' --import-picture-from='.escapeshellarg($picturecommand);
             }
@@ -193,7 +211,8 @@ class getid3_write_metaflac {
     public function DeleteMetaFLAC() {
 
         if(preg_match('#(1|ON)#i', ini_get('safe_mode'))) {
-            $this->errors[] = 'PHP running in Safe Mode (backtick operator not available) - cannot call metaflac, tags not deleted';
+            $this->errors[] =
+                'PHP running in Safe Mode (backtick operator not available) - cannot call metaflac, tags not deleted';
             return false;
         }
 
@@ -211,7 +230,8 @@ class getid3_write_metaflac {
                 if(empty($metaflacError)) {
                     clearstatcache();
                     if($timestampbeforewriting == filemtime($this->filename)) {
-                        $metaflacError = 'File modification timestamp has not changed - it looks like the tags were not deleted';
+                        $metaflacError =
+                            'File modification timestamp has not changed - it looks like the tags were not deleted';
                     }
                 }
             }

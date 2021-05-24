@@ -170,7 +170,17 @@ class TrimCommand extends ResizeCommand {
         }
 
         // trim parts of image
-        return $this->modify($image, 0, 0, $top_x, $top_y, ($bottom_x - $top_x), ($bottom_y - $top_y), ($bottom_x - $top_x), ($bottom_y - $top_y));
+        return $this->modify(
+            $image,
+            0,
+            0,
+            $top_x,
+            $top_y,
+            ($bottom_x - $top_x),
+            ($bottom_y - $top_y),
+            ($bottom_x - $top_x),
+            ($bottom_y - $top_y)
+        );
 
     }
 }

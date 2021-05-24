@@ -61,15 +61,21 @@ class getid3_lpac extends getid3_handler {
         $info['lpac']['max_prediction_order'] = ($flags['parameters'] & 0x0000003F);
 
         if($info['lpac']['flags']['fast_compress'] && ($info['lpac']['max_prediction_order'] != 3)) {
-            $this->warning('max_prediction_order expected to be "3" if fast_compress is true, actual value is "'.$info['lpac']['max_prediction_order'].'"');
+            $this->warning(
+                'max_prediction_order expected to be "3" if fast_compress is true, actual value is "'.$info['lpac']['max_prediction_order'].'"'
+            );
         }
         switch($info['lpac']['file_version']) {
             case 6:
                 if($info['lpac']['flags']['adaptive_quantization']) {
-                    $this->warning('adaptive_quantization expected to be false in LPAC file stucture v6, actually true');
+                    $this->warning(
+                        'adaptive_quantization expected to be false in LPAC file stucture v6, actually true'
+                    );
                 }
                 if($info['lpac']['quantization'] != 20) {
-                    $this->warning('Quantization expected to be 20 in LPAC file stucture v6, actually '.$info['lpac']['flags']['Q']);
+                    $this->warning(
+                        'Quantization expected to be 20 in LPAC file stucture v6, actually '.$info['lpac']['flags']['Q']
+                    );
                 }
                 break;
 

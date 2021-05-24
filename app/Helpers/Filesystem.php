@@ -78,4 +78,16 @@ class Filesystem {
     public static function correctDS(string $path): string {
         return str_replace('\\', '/', $path);
     }
+
+    public static function isSymbolicLink($target)
+    {
+        if (defined('PHP_WINDOWS_VERSION_BUILD')) {
+            if(file_exists($target) && readlink($target) != $target) {
+                return true;
+            }
+        } elseif (is_link($target)) {
+            return true;
+        }
+        return false;
+    }
 }

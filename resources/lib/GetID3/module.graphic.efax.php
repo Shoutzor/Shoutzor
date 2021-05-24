@@ -26,14 +26,20 @@ class getid3_efax extends getid3_handler {
 
         $info['efax']['header']['magic'] = substr($efaxheader, 0, 2);
         if($info['efax']['header']['magic'] != "\xDC\xFE") {
-            $this->error('Invalid eFax byte order identifier (expecting DC FE, found '.getid3_lib::PrintHexBytes($info['efax']['header']['magic']).') at offset '.$info['avdataoffset']);
+            $this->error(
+                'Invalid eFax byte order identifier (expecting DC FE, found '.getid3_lib::PrintHexBytes(
+                    $info['efax']['header']['magic']
+                ).') at offset '.$info['avdataoffset']
+            );
             return false;
         }
         $info['fileformat'] = 'efax';
 
         $info['efax']['header']['filesize'] = getid3_lib::LittleEndian2Int(substr($efaxheader, 2, 4));
         if($info['efax']['header']['filesize'] != $info['filesize']) {
-            $this->error('Probable '.(($info['efax']['header']['filesize'] > $info['filesize']) ? 'truncated' : 'corrupt').' file, expecting '.$info['efax']['header']['filesize'].' bytes, found '.$info['filesize'].' bytes');
+            $this->error(
+                'Probable '.(($info['efax']['header']['filesize'] > $info['filesize']) ? 'truncated' : 'corrupt').' file, expecting '.$info['efax']['header']['filesize'].' bytes, found '.$info['filesize'].' bytes'
+            );
         }
         $info['efax']['header']['software1'] = rtrim(substr($efaxheader, 26, 32), "\x00");
         $info['efax']['header']['software2'] = rtrim(substr($efaxheader, 58, 32), "\x00");

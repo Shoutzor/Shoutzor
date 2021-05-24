@@ -4,7 +4,7 @@
 # https://docs.microsoft.com/azure/devops/pipelines/languages/php
 
 trigger:
-- master
+  - master
 
 pool:
   vmImage: 'ubuntu-latest'
@@ -13,58 +13,58 @@ variables:
   phpVersion: 7.4
 
 steps:
-- script: |
-    sudo update-alternatives --set php /usr/bin/php$(phpVersion)
-    sudo update-alternatives --set phar /usr/bin/phar$(phpVersion)
-    sudo update-alternatives --set phpdbg /usr/bin/phpdbg$(phpVersion)
-    sudo update-alternatives --set php-cgi /usr/bin/php-cgi$(phpVersion)
-    sudo update-alternatives --set phar.phar /usr/bin/phar.phar$(phpVersion)
-    php -version
-  displayName: 'Use PHP version $(phpVersion)'
+  - script: |
+      sudo update-alternatives --set php /usr/bin/php$(phpVersion)
+      sudo update-alternatives --set phar /usr/bin/phar$(phpVersion)
+      sudo update-alternatives --set phpdbg /usr/bin/phpdbg$(phpVersion)
+      sudo update-alternatives --set php-cgi /usr/bin/php-cgi$(phpVersion)
+      sudo update-alternatives --set phar.phar /usr/bin/phar.phar$(phpVersion)
+      php -version
+    displayName: 'Use PHP version $(phpVersion)'
 
-- script: |
-    curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
-    sudo apt-get install -y build-essential debconf-utils screen
-    sudo apt-get install -y unzip xvfb autogen autoconf libtool pkg-config nasm
-  displayName: 'Installing System Dependencies'
+  - script: |
+      curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
+      sudo apt-get install -y build-essential debconf-utils screen
+      sudo apt-get install -y unzip xvfb autogen autoconf libtool pkg-config nasm
+    displayName: 'Installing System Dependencies'
 
-- script: |
-    sudo apt-get install -y mysql-server
-    sudo systemctl start mysql.service
-    sudo mysql -uroot -proot -e "use mysql; update user set authentication_string=PASSWORD('laravel') where User='root'; update user set plugin='mysql_native_password';FLUSH PRIVILEGES;"
-    sudo mysql -uroot -plaravel -e 'create database laravel;'
-  displayName: 'Install MySQL'
+  - script: |
+      sudo apt-get install -y mysql-server
+      sudo systemctl start mysql.service
+      sudo mysql -uroot -proot -e "use mysql; update user set authentication_string=PASSWORD('laravel') where User='root'; update user set plugin='mysql_native_password';FLUSH PRIVILEGES;"
+      sudo mysql -uroot -plaravel -e 'create database laravel;'
+    displayName: 'Install MySQL'
 
-- script: |
-    cp .env.example .env
-  displayName: 'Environment Setup'
+  - script: |
+      cp .env.example .env
+    displayName: 'Environment Setup'
 
-- script: |
-    sudo composer self-update
-    composer install --no-interaction --prefer-dist --no-suggest
-    composer --version
-  displayName: 'Installing Package Dependencies'
+  - script: |
+      sudo composer self-update
+      composer install --no-interaction --prefer-dist --no-suggest
+      composer --version
+    displayName: 'Installing Package Dependencies'
 
-- script: |
-    php artisan key:generate --force
-    php artisan passport:install --force
-    php artisan migrate:fresh --force
-    php artisan db:seed --force
-  displayName: 'Running Migrations'
+  - script: |
+      php artisan key:generate --force
+      php artisan passport:install --force
+      php artisan migrate:fresh --force
+      php artisan db:seed --force
+    displayName: 'Running Migrations'
 
-- script: |
-    vendor/bin/phpunit --log-junit tests/Results/TEST-phpunit-junit.xml
-  displayName: 'Running Unit Tests'
+  - script: |
+      vendor/bin/phpunit --log-junit tests/Results/TEST-phpunit-junit.xml
+    displayName: 'Running Unit Tests'
 
-# Publish Test Results to Azure Pipelines/TFS
-- task: PublishTestResults@2
-  inputs:
-    testRunner: 'JUnit' # Options: JUnit, NUnit, VSTest, xUnit
-    testResultsFiles: '**/TEST-*.xml'
-    searchFolder: '$(System.DefaultWorkingDirectory)/tests/Results' # Optional
-    mergeTestResults: false # Optional
-    #testRunTitle: # Optional
-    #buildPlatform: # Optional
-    #buildConfiguration: # Optional
-    #publishRunAttachments: true # Optional
-  condition: always()
+  # Publish Test Results to Azure Pipelines/TFS
+  - task: PublishTestResults@2
+    inputs:
+      testRunner: 'JUnit' # Options: JUnit, NUnit, VSTest, xUnit
+      testResultsFiles: '**/TEST-*.xml'
+      searchFolder: '$(System.DefaultWorkingDirectory)/tests/Results' # Optional
+      mergeTestResults: false # Optional
+      #testRunTitle: # Optional
+      #buildPlatform: # Optional
+      #buildConfiguration: # Optional
+      #publishRunAttachments: true # Optional
+    condition: always()

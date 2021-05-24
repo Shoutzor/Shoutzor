@@ -85,7 +85,16 @@ class Font extends AbstractFont {
             imagealphablending($image->getCore(), true);
 
             // draw ttf text
-            imagettftext($image->getCore(), $this->getPointSize(), $this->angle, $posx, $posy, $color->getInt(), $this->file, $this->text);
+            imagettftext(
+                $image->getCore(),
+                $this->getPointSize(),
+                $this->angle,
+                $posx,
+                $posy,
+                $color->getInt(),
+                $this->file,
+                $this->text
+            );
 
         }
         else {
@@ -221,7 +230,9 @@ class Font extends AbstractFont {
         $internalfont = is_numeric($internalfont) ? $internalfont : false;
 
         if(!in_array($internalfont, [1, 2, 3, 4, 5])) {
-            throw new NotSupportedException(sprintf('Internal GD font (%s) not available. Use only 1-5.', $internalfont));
+            throw new NotSupportedException(
+                sprintf('Internal GD font (%s) not available. Use only 1-5.', $internalfont)
+            );
         }
 
         return intval($internalfont);

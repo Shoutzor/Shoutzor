@@ -2,11 +2,12 @@
 
 namespace App\Providers;
 
+use App\Events\ShoutzorDispatcher;
 use Illuminate\Support\ServiceProvider;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 
 class InternalEventServiceProvider extends ServiceProvider {
-    private EventDispatcher $dispatcher;
+    private ShoutzorDispatcher $dispatcher;
 
     /**
      * Register any application services.
@@ -14,7 +15,7 @@ class InternalEventServiceProvider extends ServiceProvider {
      * @return void
      */
     public function register() {
-        $this->dispatcher = new EventDispatcher();
+        $this->dispatcher = new ShoutzorDispatcher();
         $this->app->instance(EventDispatcher::class, $this->dispatcher);
     }
 

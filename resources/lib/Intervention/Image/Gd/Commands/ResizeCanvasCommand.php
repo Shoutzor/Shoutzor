@@ -71,7 +71,14 @@ class ResizeCanvasCommand extends AbstractCommand {
         // even if background-color is set
         $transparent = imagecolorallocatealpha($canvas->getCore(), 255, 255, 255, 127);
         imagealphablending($canvas->getCore(), false); // do not blend / just overwrite
-        imagefilledrectangle($canvas->getCore(), $dst_x, $dst_y, $dst_x + $src_w - 1, $dst_y + $src_h - 1, $transparent);
+        imagefilledrectangle(
+            $canvas->getCore(),
+            $dst_x,
+            $dst_y,
+            $dst_x + $src_w - 1,
+            $dst_y + $src_h - 1,
+            $transparent
+        );
 
         // copy image into new canvas
         imagecopy($canvas->getCore(), $image->getCore(), $dst_x, $dst_y, $src_x, $src_y, $src_w, $src_h);

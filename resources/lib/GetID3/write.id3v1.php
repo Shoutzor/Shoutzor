@@ -80,10 +80,15 @@ class getid3_write_id3v1 {
      */
     public function WriteID3v1() {
         // File MUST be writeable - CHMOD(646) at least
-        if(!empty($this->filename) && is_readable($this->filename) && getID3::is_writable($this->filename) && is_file($this->filename)) {
+        if(!empty($this->filename) && is_readable($this->filename) && getID3::is_writable($this->filename) && is_file(
+                $this->filename
+            )) {
             $this->setRealFileSize();
             if(($this->filesize <= 0) || !getid3_lib::intValueSupported($this->filesize)) {
-                $this->errors[] = 'Unable to WriteID3v1('.$this->filename.') because filesize ('.$this->filesize.') is larger than '.round(PHP_INT_MAX / 1073741824).'GB';
+                $this->errors[] =
+                    'Unable to WriteID3v1('.$this->filename.') because filesize ('.$this->filesize.') is larger than '.round(
+                        PHP_INT_MAX / 1073741824
+                    ).'GB';
                 return false;
             }
             if($fp_source = fopen($this->filename, 'r+b')) {
@@ -94,9 +99,18 @@ class getid3_write_id3v1 {
                 else {
                     fseek($fp_source, 0, SEEK_END);    // append new ID3v1 tag
                 }
-                $this->tag_data['track_number'] = (isset($this->tag_data['track_number']) ? $this->tag_data['track_number'] : '');
+                $this->tag_data['track_number'] =
+                    (isset($this->tag_data['track_number']) ? $this->tag_data['track_number'] : '');
 
-                $new_id3v1_tag_data = getid3_id3v1::GenerateID3v1Tag((isset($this->tag_data['title']) ? $this->tag_data['title'] : ''), (isset($this->tag_data['artist']) ? $this->tag_data['artist'] : ''), (isset($this->tag_data['album']) ? $this->tag_data['album'] : ''), (isset($this->tag_data['year']) ? $this->tag_data['year'] : ''), (isset($this->tag_data['genreid']) ? $this->tag_data['genreid'] : ''), (isset($this->tag_data['comment']) ? $this->tag_data['comment'] : ''), (isset($this->tag_data['track_number']) ? $this->tag_data['track_number'] : ''));
+                $new_id3v1_tag_data = getid3_id3v1::GenerateID3v1Tag(
+                    (isset($this->tag_data['title']) ? $this->tag_data['title'] : ''),
+                    (isset($this->tag_data['artist']) ? $this->tag_data['artist'] : ''),
+                    (isset($this->tag_data['album']) ? $this->tag_data['album'] : ''),
+                    (isset($this->tag_data['year']) ? $this->tag_data['year'] : ''),
+                    (isset($this->tag_data['genreid']) ? $this->tag_data['genreid'] : ''),
+                    (isset($this->tag_data['comment']) ? $this->tag_data['comment'] : ''),
+                    (isset($this->tag_data['track_number']) ? $this->tag_data['track_number'] : '')
+                );
                 fwrite($fp_source, $new_id3v1_tag_data, 128);
                 fclose($fp_source);
                 return true;
@@ -137,10 +151,15 @@ class getid3_write_id3v1 {
      */
     public function RemoveID3v1() {
         // File MUST be writeable - CHMOD(646) at least
-        if(!empty($this->filename) && is_readable($this->filename) && getID3::is_writable($this->filename) && is_file($this->filename)) {
+        if(!empty($this->filename) && is_readable($this->filename) && getID3::is_writable($this->filename) && is_file(
+                $this->filename
+            )) {
             $this->setRealFileSize();
             if(($this->filesize <= 0) || !getid3_lib::intValueSupported($this->filesize)) {
-                $this->errors[] = 'Unable to RemoveID3v1('.$this->filename.') because filesize ('.$this->filesize.') is larger than '.round(PHP_INT_MAX / 1073741824).'GB';
+                $this->errors[] =
+                    'Unable to RemoveID3v1('.$this->filename.') because filesize ('.$this->filesize.') is larger than '.round(
+                        PHP_INT_MAX / 1073741824
+                    ).'GB';
                 return false;
             }
             if($fp_source = fopen($this->filename, 'r+b')) {

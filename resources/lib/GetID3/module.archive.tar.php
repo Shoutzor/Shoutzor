@@ -29,7 +29,8 @@ class getid3_tar extends getid3_handler {
         $info['fileformat'] = 'tar';
         $info['tar']['files'] = array();
 
-        $unpack_header = 'a100fname/a8mode/a8uid/a8gid/a12size/a12mtime/a8chksum/a1typflag/a100lnkname/a6magic/a2ver/a32uname/a32gname/a8devmaj/a8devmin/a155prefix';
+        $unpack_header =
+            'a100fname/a8mode/a8uid/a8gid/a12size/a12mtime/a8chksum/a1typflag/a100lnkname/a6magic/a2ver/a32uname/a32gname/a8devmaj/a8devmin/a155prefix';
         $null_512k = str_repeat("\x00", 512); // end-of-file marker
 
         $this->fseek(0);
@@ -94,8 +95,28 @@ class getid3_tar extends getid3_handler {
             if($name == '') {
                 break;
             }
-            $info['tar']['file_details'][$name] = array('name' => $name, 'mode_raw' => $mode, 'mode' => self::display_perms($mode), 'uid' => $uid, 'gid' => $gid, 'size' => $size, 'mtime' => $mtime, 'chksum' => $chksum, 'typeflag' => self::get_flag_type($typflag), 'linkname' => $lnkname, 'magic' => $magic, 'version' => $ver, 'uname' => $uname, 'gname' => $gname, 'devmajor' => $devmaj, 'devminor' => $devmin);
-            $info['tar']['files'] = getid3_lib::array_merge_clobber($info['tar']['files'], getid3_lib::CreateDeepArray($info['tar']['file_details'][$name]['name'], '/', $size));
+            $info['tar']['file_details'][$name] = array(
+                'name'     => $name,
+                'mode_raw' => $mode,
+                'mode'     => self::display_perms($mode),
+                'uid'      => $uid,
+                'gid'      => $gid,
+                'size'     => $size,
+                'mtime'    => $mtime,
+                'chksum'   => $chksum,
+                'typeflag' => self::get_flag_type($typflag),
+                'linkname' => $lnkname,
+                'magic'    => $magic,
+                'version'  => $ver,
+                'uname'    => $uname,
+                'gname'    => $gname,
+                'devmajor' => $devmaj,
+                'devminor' => $devmin
+            );
+            $info['tar']['files'] = getid3_lib::array_merge_clobber(
+                $info['tar']['files'],
+                getid3_lib::CreateDeepArray($info['tar']['file_details'][$name]['name'], '/', $size)
+            );
         }
         return true;
     }
@@ -171,7 +192,23 @@ class getid3_tar extends getid3_handler {
      * @return mixed|string
      */
     public function get_flag_type($typflag) {
-        static $flag_types = array('0' => 'LF_NORMAL', '1' => 'LF_LINK', '2' => 'LF_SYNLINK', '3' => 'LF_CHR', '4' => 'LF_BLK', '5' => 'LF_DIR', '6' => 'LF_FIFO', '7' => 'LF_CONFIG', 'D' => 'LF_DUMPDIR', 'K' => 'LF_LONGLINK', 'L' => 'LF_LONGNAME', 'M' => 'LF_MULTIVOL', 'N' => 'LF_NAMES', 'S' => 'LF_SPARSE', 'V' => 'LF_VOLHDR');
+        static $flag_types = array(
+            '0' => 'LF_NORMAL',
+            '1' => 'LF_LINK',
+            '2' => 'LF_SYNLINK',
+            '3' => 'LF_CHR',
+            '4' => 'LF_BLK',
+            '5' => 'LF_DIR',
+            '6' => 'LF_FIFO',
+            '7' => 'LF_CONFIG',
+            'D' => 'LF_DUMPDIR',
+            'K' => 'LF_LONGLINK',
+            'L' => 'LF_LONGNAME',
+            'M' => 'LF_MULTIVOL',
+            'N' => 'LF_NAMES',
+            'S' => 'LF_SPARSE',
+            'V' => 'LF_VOLHDR'
+        );
         return (isset($flag_types[$typflag]) ? $flag_types[$typflag] : '');
     }
 

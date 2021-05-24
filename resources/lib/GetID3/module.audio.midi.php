@@ -42,7 +42,11 @@ class getid3_midi extends getid3_handler {
         $offset = 0;
         $MIDIheaderID = substr($MIDIdata, $offset, 4); // 'MThd'
         if($MIDIheaderID != GETID3_MIDI_MAGIC_MTHD) {
-            $this->error('Expecting "'.getid3_lib::PrintHexBytes(GETID3_MIDI_MAGIC_MTHD).'" at offset '.$info['avdataoffset'].', found "'.getid3_lib::PrintHexBytes($MIDIheaderID).'"');
+            $this->error(
+                'Expecting "'.getid3_lib::PrintHexBytes(
+                    GETID3_MIDI_MAGIC_MTHD
+                ).'" at offset '.$info['avdataoffset'].', found "'.getid3_lib::PrintHexBytes($MIDIheaderID).'"'
+            );
             unset($info['fileformat']);
             return false;
         }
@@ -63,7 +67,10 @@ class getid3_midi extends getid3_handler {
                 }
                 else {
                     $this->warning('only processed '.($i - 1).' of '.$thisfile_midi_raw['tracks'].' tracks');
-                    $this->error('Unabled to read more file data at '.$this->ftell().' (trying to seek to : '.$offset.'), was expecting at least 8 more bytes');
+                    $this->error(
+                        'Unabled to read more file data at '.$this->ftell(
+                        ).' (trying to seek to : '.$offset.'), was expecting at least 8 more bytes'
+                    );
                     return false;
                 }
             }
@@ -77,7 +84,11 @@ class getid3_midi extends getid3_handler {
                 $offset += $tracksize;
             }
             else {
-                $this->error('Expecting "'.getid3_lib::PrintHexBytes(GETID3_MIDI_MAGIC_MTRK).'" at '.($offset - 4).', found "'.getid3_lib::PrintHexBytes($trackID).'" instead');
+                $this->error(
+                    'Expecting "'.getid3_lib::PrintHexBytes(
+                        GETID3_MIDI_MAGIC_MTRK
+                    ).'" at '.($offset - 4).', found "'.getid3_lib::PrintHexBytes($trackID).'" instead'
+                );
                 return false;
             }
         }
@@ -92,8 +103,10 @@ class getid3_midi extends getid3_handler {
         if($this->scanwholefile) { // this can take quite a long time, so have the option to bypass it if speed is very important
             $thisfile_midi['totalticks'] = 0;
             $info['playtime_seconds'] = 0;
-            $CurrentMicroSecondsPerBeat = 500000; // 120 beats per minute;  60,000,000 microseconds per minute -> 500,000 microseconds per beat
-            $CurrentBeatsPerMinute = 120;    // 120 beats per minute;  60,000,000 microseconds per minute -> 500,000 microseconds per beat
+            $CurrentMicroSecondsPerBeat =
+                500000; // 120 beats per minute;  60,000,000 microseconds per minute -> 500,000 microseconds per beat
+            $CurrentBeatsPerMinute =
+                120;    // 120 beats per minute;  60,000,000 microseconds per minute -> 500,000 microseconds per beat
             $MicroSecondsPerQuarterNoteAfter = array();
             $MIDIevents = array();
 
@@ -165,10 +178,12 @@ class getid3_midi extends getid3_handler {
 
                         $thisfile_midi_raw['track'][$tracknumber]['instrumentid'] = $newprogramnum;
                         if($tracknumber == 10) {
-                            $thisfile_midi_raw['track'][$tracknumber]['instrument'] = $this->GeneralMIDIpercussionLookup($newprogramnum);
+                            $thisfile_midi_raw['track'][$tracknumber]['instrument'] =
+                                $this->GeneralMIDIpercussionLookup($newprogramnum);
                         }
                         else {
-                            $thisfile_midi_raw['track'][$tracknumber]['instrument'] = $this->GeneralMIDIinstrumentLookup($newprogramnum);
+                            $thisfile_midi_raw['track'][$tracknumber]['instrument'] =
+                                $this->GeneralMIDIinstrumentLookup($newprogramnum);
                         }
 
                     }
@@ -192,7 +207,8 @@ class getid3_midi extends getid3_handler {
                         $eventsoffset += $METAeventLength;
                         switch($METAeventCommand) {
                             case 0x00: // Set track sequence number
-                                $track_sequence_number = getid3_lib::BigEndian2Int(substr($METAeventData, 0, $METAeventLength));
+                                $track_sequence_number =
+                                    getid3_lib::BigEndian2Int(substr($METAeventData, 0, $METAeventLength));
                                 //$thisfile_midi_raw['events'][$tracknumber][$eventid]['seqno'] = $track_sequence_number;
                                 break;
 
@@ -242,12 +258,14 @@ class getid3_midi extends getid3_handler {
                                 break;
 
                             case 0x51: // Tempo: microseconds / quarter note
-                                $CurrentMicroSecondsPerBeat = getid3_lib::BigEndian2Int(substr($METAeventData, 0, $METAeventLength));
+                                $CurrentMicroSecondsPerBeat =
+                                    getid3_lib::BigEndian2Int(substr($METAeventData, 0, $METAeventLength));
                                 if($CurrentMicroSecondsPerBeat == 0) {
                                     $this->error('Corrupt MIDI file: CurrentMicroSecondsPerBeat == zero');
                                     return false;
                                 }
-                                $thisfile_midi_raw['events'][$tracknumber][$CumulativeDeltaTime]['us_qnote'] = $CurrentMicroSecondsPerBeat;
+                                $thisfile_midi_raw['events'][$tracknumber][$CumulativeDeltaTime]['us_qnote'] =
+                                    $CurrentMicroSecondsPerBeat;
                                 $CurrentBeatsPerMinute = (1000000 / $CurrentMicroSecondsPerBeat) * 60;
                                 $MicroSecondsPerQuarterNoteAfter[$CumulativeDeltaTime] = $CurrentMicroSecondsPerBeat;
                                 $TicksAtCurrentBPM = 0;
@@ -255,8 +273,11 @@ class getid3_midi extends getid3_handler {
 
                             case 0x58: // Time signature
                                 $timesig_numerator = getid3_lib::BigEndian2Int($METAeventData{0});
-                                $timesig_denominator = pow(2, getid3_lib::BigEndian2Int($METAeventData{1})); // $02 -> x/4, $03 -> x/8, etc
-                                $timesig_32inqnote = getid3_lib::BigEndian2Int($METAeventData{2});         // number of 32nd notes to the quarter note
+                                $timesig_denominator =
+                                    pow(2, getid3_lib::BigEndian2Int($METAeventData{1})); // $02 -> x/4, $03 -> x/8, etc
+                                $timesig_32inqnote = getid3_lib::BigEndian2Int(
+                                    $METAeventData{2}
+                                );         // number of 32nd notes to the quarter note
                                 //$thisfile_midi_raw['events'][$tracknumber][$eventid]['timesig_32inqnote']   = $timesig_32inqnote;
                                 //$thisfile_midi_raw['events'][$tracknumber][$eventid]['timesig_numerator']   = $timesig_numerator;
                                 //$thisfile_midi_raw['events'][$tracknumber][$eventid]['timesig_denominator'] = $timesig_denominator;
@@ -271,15 +292,33 @@ class getid3_midi extends getid3_handler {
                                     $keysig_sharpsflats -= 256;
                                 }
 
-                                $keysig_majorminor = getid3_lib::BigEndian2Int($METAeventData{1}); // 0 -> major, 1 -> minor
-                                $keysigs = array(-7 => 'Cb', -6 => 'Gb', -5 => 'Db', -4 => 'Ab', -3 => 'Eb', -2 => 'Bb', -1 => 'F', 0 => 'C', 1 => 'G', 2 => 'D', 3 => 'A', 4 => 'E', 5 => 'B', 6 => 'F#', 7 => 'C#');
+                                $keysig_majorminor =
+                                    getid3_lib::BigEndian2Int($METAeventData{1}); // 0 -> major, 1 -> minor
+                                $keysigs = array(
+                                    -7 => 'Cb',
+                                    -6 => 'Gb',
+                                    -5 => 'Db',
+                                    -4 => 'Ab',
+                                    -3 => 'Eb',
+                                    -2 => 'Bb',
+                                    -1 => 'F',
+                                    0  => 'C',
+                                    1  => 'G',
+                                    2  => 'D',
+                                    3  => 'A',
+                                    4  => 'E',
+                                    5  => 'B',
+                                    6  => 'F#',
+                                    7  => 'C#'
+                                );
                                 //$thisfile_midi_raw['events'][$tracknumber][$eventid]['keysig_sharps'] = (($keysig_sharpsflats > 0) ? abs($keysig_sharpsflats) : 0);
                                 //$thisfile_midi_raw['events'][$tracknumber][$eventid]['keysig_flats']  = (($keysig_sharpsflats < 0) ? abs($keysig_sharpsflats) : 0);
                                 //$thisfile_midi_raw['events'][$tracknumber][$eventid]['keysig_minor']  = (bool) $keysig_majorminor;
                                 //$thisfile_midi_raw['events'][$tracknumber][$eventid]['keysig_text']   = $keysigs[$keysig_sharpsflats].' '.($thisfile_midi_raw['events'][$tracknumber][$eventid]['keysig_minor'] ? 'minor' : 'major');
 
                                 // $keysigs[$keysig_sharpsflats] gets an int key (correct) - $keysigs["$keysig_sharpsflats"] gets a string key (incorrect)
-                                $thisfile_midi['keysignature'][] = $keysigs[$keysig_sharpsflats].' '.((bool)$keysig_majorminor ? 'minor' : 'major');
+                                $thisfile_midi['keysignature'][] =
+                                    $keysigs[$keysig_sharpsflats].' '.((bool)$keysig_majorminor ? 'minor' : 'major');
                                 break;
 
                             case 0x7F: // Sequencer specific information
@@ -294,7 +333,9 @@ class getid3_midi extends getid3_handler {
                     }
                     else {
 
-                        $this->warning('Unhandled MIDI Event ID: '.$MIDIevents[$tracknumber][$eventid]['eventid'].' + Channel ID: '.$MIDIevents[$tracknumber][$eventid]['channel']);
+                        $this->warning(
+                            'Unhandled MIDI Event ID: '.$MIDIevents[$tracknumber][$eventid]['eventid'].' + Channel ID: '.$MIDIevents[$tracknumber][$eventid]['channel']
+                        );
 
                     }
                 }

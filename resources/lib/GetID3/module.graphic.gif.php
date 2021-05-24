@@ -39,7 +39,13 @@ class getid3_gif extends getid3_handler {
 
         $magic = 'GIF';
         if($info['gif']['header']['raw']['identifier'] != $magic) {
-            $this->error('Expecting "'.getid3_lib::PrintHexBytes($magic).'" at offset '.$info['avdataoffset'].', found "'.getid3_lib::PrintHexBytes($info['gif']['header']['raw']['identifier']).'"');
+            $this->error(
+                'Expecting "'.getid3_lib::PrintHexBytes(
+                    $magic
+                ).'" at offset '.$info['avdataoffset'].', found "'.getid3_lib::PrintHexBytes(
+                    $info['gif']['header']['raw']['identifier']
+                ).'"'
+            );
             unset($info['fileformat']);
             unset($info['gif']);
             return false;
@@ -162,16 +168,22 @@ class getid3_gif extends getid3_handler {
                     $ExtensionBlock = array();
                     $ExtensionBlock['function_code'] = getid3_lib::LittleEndian2Int(substr($ExtensionBlockData, 1, 1));
                     $ExtensionBlock['byte_length'] = getid3_lib::LittleEndian2Int(substr($ExtensionBlockData, 2, 1));
-                    $ExtensionBlock['data'] = (($ExtensionBlock['byte_length'] > 0) ? $this->fread($ExtensionBlock['byte_length']) : null);
+                    $ExtensionBlock['data'] =
+                        (($ExtensionBlock['byte_length'] > 0) ? $this->fread($ExtensionBlock['byte_length']) : null);
 
                     if(substr($ExtensionBlock['data'], 0, 11) == 'NETSCAPE2.0') { // Netscape Application Block (NAB)
                         $ExtensionBlock['data'] .= $this->fread(4);
                         if(substr($ExtensionBlock['data'], 11, 2) == "\x03\x01") {
                             $info['gif']['animation']['animated'] = true;
-                            $info['gif']['animation']['loop_count'] = getid3_lib::LittleEndian2Int(substr($ExtensionBlock['data'], 13, 2));
+                            $info['gif']['animation']['loop_count'] =
+                                getid3_lib::LittleEndian2Int(substr($ExtensionBlock['data'], 13, 2));
                         }
                         else {
-                            $this->warning('Expecting 03 01 at offset '.($this->ftell() - 4).', found "'.getid3_lib::PrintHexBytes(substr($ExtensionBlock['data'], 11, 2)).'"');
+                            $this->warning(
+                                'Expecting 03 01 at offset '.($this->ftell() - 4).', found "'.getid3_lib::PrintHexBytes(
+                                    substr($ExtensionBlock['data'], 11, 2)
+                                ).'"'
+                            );
                         }
                     }
 

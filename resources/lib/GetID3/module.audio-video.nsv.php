@@ -47,7 +47,11 @@ class getid3_nsv extends getid3_handler {
                 break;
 
             default:
-                $this->error('Expecting "NSVs" or "NSVf" at offset '.$info['avdataoffset'].', found "'.getid3_lib::PrintHexBytes($NSVheader).'"');
+                $this->error(
+                    'Expecting "NSVs" or "NSVf" at offset '.$info['avdataoffset'].', found "'.getid3_lib::PrintHexBytes(
+                        $NSVheader
+                    ).'"'
+                );
                 return false;
                 break;
         }
@@ -74,7 +78,9 @@ class getid3_nsv extends getid3_handler {
         $offset += 4;
 
         if($info['nsv']['NSVs']['identifier'] != 'NSVs') {
-            $this->error('expected "NSVs" at offset ('.$fileoffset.'), found "'.$info['nsv']['NSVs']['identifier'].'" instead');
+            $this->error(
+                'expected "NSVs" at offset ('.$fileoffset.'), found "'.$info['nsv']['NSVs']['identifier'].'" instead'
+            );
             unset($info['nsv']['NSVs']);
             return false;
         }
@@ -173,7 +179,9 @@ class getid3_nsv extends getid3_handler {
         $offset += 4;
 
         if($info['nsv']['NSVf']['identifier'] != 'NSVf') {
-            $this->error('expected "NSVf" at offset ('.$fileoffset.'), found "'.$info['nsv']['NSVf']['identifier'].'" instead');
+            $this->error(
+                'expected "NSVf" at offset ('.$fileoffset.'), found "'.$info['nsv']['NSVf']['identifier'].'" instead'
+            );
             unset($info['nsv']['NSVf']);
             return false;
         }
@@ -186,7 +194,9 @@ class getid3_nsv extends getid3_handler {
         $offset += 4;
 
         if($info['nsv']['NSVf']['file_size'] > $info['avdataend']) {
-            $this->warning('truncated file - NSVf header indicates '.$info['nsv']['NSVf']['file_size'].' bytes, file actually '.$info['avdataend'].' bytes');
+            $this->warning(
+                'truncated file - NSVf header indicates '.$info['nsv']['NSVf']['file_size'].' bytes, file actually '.$info['avdataend'].' bytes'
+            );
         }
 
         $info['nsv']['NSVf']['playtime_ms'] = getid3_lib::LittleEndian2Int(substr($NSVfheader, $offset, 4));
@@ -203,7 +213,9 @@ class getid3_nsv extends getid3_handler {
             return false;
         }
 
-        $NSVfheader .= $this->fread($info['nsv']['NSVf']['meta_size'] + (4 * $info['nsv']['NSVf']['TOC_entries_1']) + (4 * $info['nsv']['NSVf']['TOC_entries_2']));
+        $NSVfheader .= $this->fread(
+            $info['nsv']['NSVf']['meta_size'] + (4 * $info['nsv']['NSVf']['TOC_entries_1']) + (4 * $info['nsv']['NSVf']['TOC_entries_2'])
+        );
         $NSVfheaderlength = strlen($NSVfheader);
         $info['nsv']['NSVf']['metadata'] = substr($NSVfheader, $offset, $info['nsv']['NSVf']['meta_size']);
         $offset += $info['nsv']['NSVf']['meta_size'];
@@ -212,7 +224,8 @@ class getid3_nsv extends getid3_handler {
             $TOCcounter = 0;
             while($TOCcounter < $info['nsv']['NSVf']['TOC_entries_1']) {
                 if($TOCcounter < $info['nsv']['NSVf']['TOC_entries_1']) {
-                    $info['nsv']['NSVf']['TOC_1'][$TOCcounter] = getid3_lib::LittleEndian2Int(substr($NSVfheader, $offset, 4));
+                    $info['nsv']['NSVf']['TOC_1'][$TOCcounter] =
+                        getid3_lib::LittleEndian2Int(substr($NSVfheader, $offset, 4));
                     $offset += 4;
                     $TOCcounter++;
                 }

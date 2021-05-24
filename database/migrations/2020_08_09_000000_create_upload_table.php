@@ -11,12 +11,15 @@ class CreateUploadTable extends Migration {
      * @return void
      */
     public function up() {
-        Schema::create('uploads', function(Blueprint $table) {
-            $table->increments('id');
-            $table->string('filename');
-            $table->foreignId('user_id')->constrained('users', 'id')->cascadeOnDelete();
-            $table->smallInteger('status')->unsigned();
-        });
+        Schema::create(
+            'uploads',
+            function(Blueprint $table) {
+                $table->increments('id');
+                $table->string('filename');
+                $table->foreignId('user_id')->constrained('users', 'id')->cascadeOnDelete();
+                $table->smallInteger('status')->unsigned();
+            }
+        );
     }
 
     /**

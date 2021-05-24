@@ -25,7 +25,11 @@ class getid3_dss extends getid3_handler {
         $DSSheader = $this->fread(1540);
 
         if(!preg_match('#^[\\x02-\\x08]ds[s2]#', $DSSheader)) {
-            $this->error('Expecting "[02-08] 64 73 [73|32]" at offset '.$info['avdataoffset'].', found "'.getid3_lib::PrintHexBytes(substr($DSSheader, 0, 4)).'"');
+            $this->error(
+                'Expecting "[02-08] 64 73 [73|32]" at offset '.$info['avdataoffset'].', found "'.getid3_lib::PrintHexBytes(
+                    substr($DSSheader, 0, 4)
+                ).'"'
+            );
             return false;
         }
 
@@ -39,33 +43,53 @@ class getid3_dss extends getid3_handler {
         $info['audio']['bitrate_mode'] = 'cbr';
 
         $info['dss']['version'] = ord(substr($DSSheader, 0, 1));
-        $info['dss']['hardware'] = trim(substr($DSSheader, 12, 16)); // identification string for hardware used to create the file, e.g. "DPM 9600", "DS2400"
+        $info['dss']['hardware'] = trim(
+            substr($DSSheader, 12, 16)
+        ); // identification string for hardware used to create the file, e.g. "DPM 9600", "DS2400"
         $info['dss']['unknown1'] = getid3_lib::LittleEndian2Int(substr($DSSheader, 28, 4));
         // 32-37 = "FE FF FE FF F7 FF" in all the sample files I've seen
         $info['dss']['date_create_unix'] = $this->DSSdateStringToUnixDate(substr($DSSheader, 38, 12));
         $info['dss']['date_complete_unix'] = $this->DSSdateStringToUnixDate(substr($DSSheader, 50, 12));
-        $info['dss']['playtime_sec'] = intval((substr($DSSheader, 62, 2) * 3600) + (substr($DSSheader, 64, 2) * 60) + substr($DSSheader, 66, 2)); // approximate file playtime in HHMMSS
+        $info['dss']['playtime_sec'] = intval(
+            (substr($DSSheader, 62, 2) * 3600) + (substr($DSSheader, 64, 2) * 60) + substr($DSSheader, 66, 2)
+        ); // approximate file playtime in HHMMSS
         if($info['dss']['version'] <= 3) {
-            $info['dss']['playtime_ms'] = getid3_lib::LittleEndian2Int(substr($DSSheader, 512, 4)); // exact file playtime in milliseconds. Has also been observed at offset 530 in one sample file, with something else (unknown) at offset 512
+            $info['dss']['playtime_ms'] = getid3_lib::LittleEndian2Int(
+                substr($DSSheader, 512, 4)
+            ); // exact file playtime in milliseconds. Has also been observed at offset 530 in one sample file, with something else (unknown) at offset 512
             $info['dss']['priority'] = ord(substr($DSSheader, 793, 1));
             $info['dss']['comments'] = trim(substr($DSSheader, 798, 100));
-            $info['dss']['sample_rate_index'] = ord(substr($DSSheader, 1538, 1));  // this isn't certain, this may or may not be where the sample rate info is stored, but it seems consistent on my small selection of sample files
+            $info['dss']['sample_rate_index'] = ord(
+                substr($DSSheader, 1538, 1)
+            );  // this isn't certain, this may or may not be where the sample rate info is stored, but it seems consistent on my small selection of sample files
             $info['audio']['sample_rate'] = $this->DSSsampleRateLookup($info['dss']['sample_rate_index']);
         }
         else {
-            $this->getid3->warning('DSS above version 3 not fully supported in this version of getID3. Any additional documentation or format specifications would be welcome. This file is version '.$info['dss']['version']);
+            $this->getid3->warning(
+                'DSS above version 3 not fully supported in this version of getID3. Any additional documentation or format specifications would be welcome. This file is version '.$info['dss']['version']
+            );
         }
 
-        $info['audio']['bits_per_sample'] = 16; // maybe, maybe not -- most compressed audio formats don't have a fixed bits-per-sample value, but this is a reasonable approximation
+        $info['audio']['bits_per_sample'] =
+            16; // maybe, maybe not -- most compressed audio formats don't have a fixed bits-per-sample value, but this is a reasonable approximation
         $info['audio']['channels'] = 1;
 
-        if(!empty($info['dss']['playtime_ms']) && (floor($info['dss']['playtime_ms'] / 1000) == $info['dss']['playtime_sec'])) { // *should* just be playtime_ms / 1000 but at least one sample file has playtime_ms at offset 530 instead of offset 512, so safety check
+        if(!empty($info['dss']['playtime_ms']) && (floor(
+                    $info['dss']['playtime_ms'] / 1000
+                ) == $info['dss']['playtime_sec'])) { // *should* just be playtime_ms / 1000 but at least one sample file has playtime_ms at offset 530 instead of offset 512, so safety check
             $info['playtime_seconds'] = $info['dss']['playtime_ms'] / 1000;
         }
         else {
             $info['playtime_seconds'] = $info['dss']['playtime_sec'];
             if(!empty($info['dss']['playtime_ms'])) {
-                $this->getid3->warning('playtime_ms ('.number_format($info['dss']['playtime_ms'] / 1000, 3).') does not match playtime_sec ('.number_format($info['dss']['playtime_sec']).') - using playtime_sec value');
+                $this->getid3->warning(
+                    'playtime_ms ('.number_format(
+                        $info['dss']['playtime_ms'] / 1000,
+                        3
+                    ).') does not match playtime_sec ('.number_format(
+                        $info['dss']['playtime_sec']
+                    ).') - using playtime_sec value'
+                );
             }
         }
         $info['audio']['bitrate'] = ($info['filesize'] * 8) / $info['playtime_seconds'];

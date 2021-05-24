@@ -11,14 +11,17 @@ class CreateMediaTable extends Migration {
      * @return void
      */
     public function up() {
-        Schema::create('media', function(Blueprint $table) {
-            $table->increments('id');
-            $table->string('title');
-            $table->string('filename');
-            $table->string('crc', 32);
-            $table->boolean('is_video');
-            $table->smallInteger('duration')->unsigned();
-        });
+        Schema::create(
+            'media',
+            function(Blueprint $table) {
+                $table->increments('id');
+                $table->string('title');
+                $table->string('filename');
+                $table->string('crc', 32);
+                $table->boolean('is_video');
+                $table->smallInteger('duration')->unsigned();
+            }
+        );
     }
 
     /**

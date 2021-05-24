@@ -43,13 +43,16 @@ class getid3_svg extends getid3_handler {
                 $section_data = array();
                 while(preg_match('/ "([^"]+)"/', $info['svg'][$section_to_fix]['raw'][1], $matches)) {
                     $section_data[] = $matches[1];
-                    $info['svg'][$section_to_fix]['raw'][1] = str_replace($matches[0], '', $info['svg'][$section_to_fix]['raw'][1]);
+                    $info['svg'][$section_to_fix]['raw'][1] =
+                        str_replace($matches[0], '', $info['svg'][$section_to_fix]['raw'][1]);
                 }
                 while(preg_match('/([^\s]+)="([^"]+)"/', $info['svg'][$section_to_fix]['raw'][1], $matches)) {
                     $section_data[] = $matches[0];
-                    $info['svg'][$section_to_fix]['raw'][1] = str_replace($matches[0], '', $info['svg'][$section_to_fix]['raw'][1]);
+                    $info['svg'][$section_to_fix]['raw'][1] =
+                        str_replace($matches[0], '', $info['svg'][$section_to_fix]['raw'][1]);
                 }
-                $section_data = array_merge($section_data, preg_split('/[\s,]+/', $info['svg'][$section_to_fix]['raw'][1]));
+                $section_data =
+                    array_merge($section_data, preg_split('/[\s,]+/', $info['svg'][$section_to_fix]['raw'][1]));
                 foreach($section_data as $keyvaluepair) {
                     $keyvaluepair = trim($keyvaluepair);
                     if($keyvaluepair) {

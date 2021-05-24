@@ -10,41 +10,41 @@
         </tr>
         </thead>
         <tbody v-if="queue && queue.length > 0">
-        <tr v-for="request in queueWithPlaytime">
-            <td class="text-center mediatype-column">
-                        <span
-                            v-if="request.media.is_video === true"
-                            class="avatar mediatype video bg-orange-lt"
-                        >
-                            <movie-icon class="mediasource-icon"></movie-icon>
-                        </span>
-                <span
-                    v-else
-                    class="avatar mediatype audio bg-azure-lt"
-                >
-                            <music-icon class="mediasource-icon"></music-icon>
-                        </span>
-            </td>
-            <td>
-                <div>{{ request.media.title }}</div>
-                <artist-list :artists="request.media.artists" class="small text-muted"></artist-list>
-            </td>
-            <td>
-                <div v-if="request.user !== null">{{ request.user.username }}</div>
-                <div v-else>AutoDJ</div>
-            </td>
-            <td>
-                <beautified-time :time="request.media.duration"></beautified-time>
-            </td>
-            <td>
-                <div>{{ request.playtime }}</div>
-            </td>
-        </tr>
+            <tr v-for="request in queueWithPlaytime">
+                <td class="text-center mediatype-column">
+                            <span
+                                v-if="request.media.is_video === true"
+                                class="avatar mediatype video bg-orange-lt"
+                            >
+                                <movie-icon class="mediasource-icon"></movie-icon>
+                            </span>
+                    <span
+                        v-else
+                        class="avatar mediatype audio bg-azure-lt"
+                    >
+                                <music-icon class="mediasource-icon"></music-icon>
+                            </span>
+                </td>
+                <td>
+                    <div>{{ request.media.title }}</div>
+                    <artist-list :artists="request.media.artists" class="small text-muted"></artist-list>
+                </td>
+                <td>
+                    <div v-if="request.user !== null">{{ request.user.username }}</div>
+                    <div v-else>AutoDJ</div>
+                </td>
+                <td>
+                    <beautified-time :time="request.media.duration"></beautified-time>
+                </td>
+                <td>
+                    <div>{{ request.playtime }}</div>
+                </td>
+            </tr>
         </tbody>
         <tbody v-else>
-        <tr>
-            <td colspan="5">No songs in queue</td>
-        </tr>
+            <tr>
+                <td colspan="5">No songs in queue</td>
+            </tr>
         </tbody>
     </table>
 </template>

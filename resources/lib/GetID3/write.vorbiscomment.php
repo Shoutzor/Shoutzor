@@ -57,13 +57,15 @@ class getid3_write_vorbiscomment {
     public function WriteVorbisComment() {
 
         if(preg_match('#(1|ON)#i', ini_get('safe_mode'))) {
-            $this->errors[] = 'PHP running in Safe Mode (backtick operator not available) - cannot call vorbiscomment, tags not written';
+            $this->errors[] =
+                'PHP running in Safe Mode (backtick operator not available) - cannot call vorbiscomment, tags not written';
             return false;
         }
 
         // Create file with new comments
         $tempcommentsfilename = tempnam(GETID3_TEMP_DIR, 'getID3');
-        if(getID3::is_writable($tempcommentsfilename) && is_file($tempcommentsfilename) && ($fpcomments = fopen($tempcommentsfilename, 'wb'))) {
+        if(getID3::is_writable($tempcommentsfilename) && is_file($tempcommentsfilename) && ($fpcomments =
+                fopen($tempcommentsfilename, 'wb'))) {
 
             foreach($this->tag_data as $key => $value) {
                 foreach($value as $commentdata) {
@@ -94,13 +96,15 @@ class getid3_write_vorbiscomment {
                 clearstatcache();
                 $timestampbeforewriting = filemtime($this->filename);
 
-                $commandline = GETID3_HELPERAPPSDIR.'vorbiscomment.exe -w --raw -c "'.$tempcommentsfilename.'" "'.$this->filename.'" 2>&1';
+                $commandline =
+                    GETID3_HELPERAPPSDIR.'vorbiscomment.exe -w --raw -c "'.$tempcommentsfilename.'" "'.$this->filename.'" 2>&1';
                 $VorbiscommentError = `$commandline`;
 
                 if(empty($VorbiscommentError)) {
                     clearstatcache();
                     if($timestampbeforewriting == filemtime($this->filename)) {
-                        $VorbiscommentError = 'File modification timestamp has not changed - it looks like the tags were not written';
+                        $VorbiscommentError =
+                            'File modification timestamp has not changed - it looks like the tags were not written';
                     }
                 }
             }

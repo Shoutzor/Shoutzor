@@ -187,7 +187,8 @@ class getid3_cue extends getid3_handler {
                 switch($type) {
                     case 'flags':
                         // first entry in this line
-                        $this->cuesheet['tracks'][$track_on]['flags'] = array('4ch' => false, 'data' => false, 'dcp' => false, 'pre' => false, 'scms' => false,);
+                        $this->cuesheet['tracks'][$track_on]['flags'] =
+                            array('4ch' => false, 'data' => false, 'dcp' => false, 'pre' => false, 'scms' => false,);
                         break;
                     case 'data':
                     case 'dcp':
@@ -228,11 +229,13 @@ class getid3_cue extends getid3_handler {
 
         switch($type) {
             case 'index':
-                $this->cuesheet['tracks'][$track_on][$type][$number] = array('minutes' => intval($minutes), 'seconds' => intval($seconds), 'frames' => intval($frames));
+                $this->cuesheet['tracks'][$track_on][$type][$number] =
+                    array('minutes' => intval($minutes), 'seconds' => intval($seconds), 'frames' => intval($frames));
                 break;
             case 'pregap':
             case 'postgap':
-                $this->cuesheet['tracks'][$track_on][$type] = array('minutes' => intval($minutes), 'seconds' => intval($seconds), 'frames' => intval($frames));
+                $this->cuesheet['tracks'][$track_on][$type] =
+                    array('minutes' => intval($minutes), 'seconds' => intval($seconds), 'frames' => intval($frames));
                 break;
         }
     }
