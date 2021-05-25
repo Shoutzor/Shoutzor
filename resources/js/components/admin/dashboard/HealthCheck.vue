@@ -9,13 +9,14 @@
                     class="btn btn-pill btn-sm ms-2">Attempt automatic repair</button>
         </div>
 
-        <div v-if="needsFixing() && repairResult !== ''" class="mb-2">
+        <div v-if="repairError || Object.keys(repairResult).length > 0" class="mb-2">
             <div class="card">
-                <div v-if="repairError" class="card-status-start bg-danger"></div>
+                <div v-if="repairError || repairResult.result === false" class="card-status-start bg-danger"></div>
                 <div v-else class="card-status-start bg-green"></div>
                 <div class="card-body">
-                    <h3 class="card-title">Automatic repair</h3>
-                    <p>{{ repairResult }}</p>
+                    <h3 class="card-title">Automatic repair result</h3>
+                    <p v-if="repairError">Failed to request the automatic repair, no repair attempted</p>
+                    <p v-else v-for="result in repairResult.data">{{ result.name }}: {{ result.result ? "Success" : "Failed" }}</p>
                 </div>
             </div>
         </div>
@@ -27,8 +28,8 @@
         </div>
 
         <div
-            v-else-if="healthData && Object.keys(healthData).length > 0"
-            v-for="(check, name) in healthData"
+            v-else-if="healthData && healthData.length > 0"
+            v-for="check in healthData"
             class="card card-sm">
             <div class="card-body d-flex">
                 <span
@@ -45,7 +46,7 @@
                 </span>
 
                 <div class="ms-3">
-                    <div class="strong">{{ name }}</div>
+                    <div class="strong">{{ check.name }}</div>
                     <div>{{ check.status }}</div>
                 </div>
             </div>
@@ -65,12 +66,12 @@ import axios from "axios";
 export default {
     data() {
         return {
-            healthData: {},
+            healthData: [],
             loading: true,
             errored: false,
             repairLoading: false,
             repairError: false,
-            repairResult: ''
+            repairResult: []
         };
     },
 
@@ -80,12 +81,12 @@ export default {
 
     methods: {
         resetVariables() {
-            this.healthData = {};
+            this.healthData = [];
             this.loading = false;
             this.errored = false;
             this.repairLoading = false;
             this.repairError = false;
-            this.repairResult = '';
+            this.repairResult = [];
         },
 
         isLoading() {
@@ -95,7 +96,7 @@ export default {
         needsFixing() {
             let result = false;
 
-            Object.values(this.healthData).forEach(async function(item) {
+            this.healthData.forEach(async function(item) {
                 if(item.healthy === false) {
                     result = true;
                 }
@@ -106,18 +107,17 @@ export default {
 
         onRefreshButtonClick() {
             this.resetVariables();
-            this.loading = true;
             this.doHealthCheck();
         },
 
         onRepairButtonClick() {
             this.resetVariables();
             this.loading = true;
-            this.repairLoading = true;
             this.attemptRepair();
         },
 
         doHealthCheck() {
+            this.loading = true;
             axios.get('/api/dashboard/healthcheck')
                 .then(response => {
                     this.healthData = response.data;
@@ -131,9 +131,11 @@ export default {
         },
 
         attemptRepair() {
+            this.repairLoading = true;
             axios.get('/api/dashboard/fixhealth')
                 .then(response => {
-                    this.repairResult = response.data.message;
+                    console.log(response.data);
+                    this.repairResult = response.data;
                     this.doHealthCheck();
                 })
                 .catch(err => {
