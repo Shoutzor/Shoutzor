@@ -14,9 +14,9 @@
                 <div v-if="repairError || repairResult.result === false" class="card-status-start bg-danger"></div>
                 <div v-else class="card-status-start bg-green"></div>
                 <div class="card-body">
-                    <h3 class="card-title">Automatic repair result</h3>
-                    <p v-if="repairError">Failed to request the automatic repair, no repair attempted</p>
-                    <p v-else v-for="result in repairResult.data">{{ result.name }}: {{ result.result ? "Success" : "Failed" }}</p>
+                    <h3 class="card-title">Automatic repair result(s)</h3>
+                    <p v-if="repairError">A failure occured while requesting the automatic repair</p>
+                    <p v-else v-for="result in repairResult.data" class="repair-result"><strong>{{ result.name }}:</strong> <span class="pre-text">{{ result.result }}</span></p>
                 </div>
             </div>
         </div>
@@ -47,7 +47,7 @@
 
                 <div class="ms-3">
                     <div class="strong">{{ check.name }}</div>
-                    <div>{{ check.status }}</div>
+                    <div class="pre-text">{{ check.status }}</div>
                 </div>
             </div>
         </div>
@@ -150,5 +150,7 @@ export default {
 </script>
 
 <style lang="scss">
-
+.pre-text {
+    white-space: pre-wrap;
+}
 </style>

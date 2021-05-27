@@ -32,15 +32,25 @@ class HealthCheckManager {
         $success = true;
 
         foreach($this->healthChecks as $check) {
+            # Each healthcheck needs to be aware if it's healthy first.
+            $check->checkHealth();
+
+            # Skip healthchecks that are already healthy
+            if($check->isHealthy()) {
+                continue;
+            }
+
+            # Next, we can perform the fix
             $result = $check->fix();
 
-            if(!$result) {
+            // Check if any of the automatic repairs failed
+            if($result->isFixed() === false) {
                 $success = false;
             }
 
             $data[] = [
                 'name' => $check->getName(),
-                'result' => $result
+                'result' => $result->getMessage()
             ];
         }
 

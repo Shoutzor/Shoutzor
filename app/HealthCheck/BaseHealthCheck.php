@@ -16,7 +16,7 @@ abstract class BaseHealthCheck {
         $this->name         = $name;
         $this->description  = $description;
         $this->status       = $status;
-        $this->isHealthy    = true;
+        $this->isHealthy    = false;
     }
 
     public function getName(): string {
@@ -47,6 +47,6 @@ abstract class BaseHealthCheck {
     }
 
     abstract public function checkHealth(): void;
-    abstract public function fix(): bool;
+    abstract public function fix(): HealthCheckFixResult;
 
 }

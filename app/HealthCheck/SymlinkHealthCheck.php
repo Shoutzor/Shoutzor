@@ -9,22 +9,24 @@ use JetBrains\PhpStorm\Pure;
 class SymlinkHealthCheck extends BaseHealthCheck {
 
     private array $errors;
+    private array $symlinks;
 
     #[Pure]
-    public function __construct() {
+    public function __construct(array $symlinks) {
         parent::__construct(
             'Symlinks',
             'Checks if all configured symlinks are created and accessible',
             'All symlinks are created and accessible'
         );
 
-        $this->isHealthy    = true;
+        $this->symlinks     = $symlinks;
+        $this->isHealthy    = false;
         $this->errors       = [];
     }
 
     #[Pure]
     public function getStatus(): string {
-        return $this->isHealthy() ? $this->status : implode("<br />", $this->errors);
+        return $this->isHealthy() ? $this->status : implode("\n", $this->errors);
     }
 
     public function checkHealth(): void {
@@ -32,9 +34,7 @@ class SymlinkHealthCheck extends BaseHealthCheck {
         $caughtErrors = [];
 
         # Check if all symlinks exist
-        $symLinks = config('filesystems.links');
-
-        foreach($symLinks as $symlinkLocation=>$targetLocation) {
+        foreach($this->symlinks as $symlinkLocation=>$targetLocation) {
             clearstatcache(false, $symlinkLocation);
             if(Filesystem::isSymbolicLink($symlinkLocation) === false) {
                 $healthCheck = false;
@@ -53,13 +53,26 @@ class SymlinkHealthCheck extends BaseHealthCheck {
         $this->errors = $caughtErrors;
     }
 
-    public function fix(): bool {
+    public function fix(): HealthCheckFixResult {
+        $result = new HealthCheckFixResult();
+
+        # No need to perform a fix if we're healthy.
+        if($this->isHealthy()) {
+            $result->setFixed(true);
+            $result->setMessage('Symlinks healthy, no fix required.');
+            return $result;
+        }
+
         $exitCode = Artisan::call('storage:link');
 
         if($exitCode === 0) {
-            return true;
+            $result->setFixed(true);
+            $result->setMessage('Symlinks created');
+        } else {
+            $result->setFixed(false);
+            $result->setMessage('Failed to create the symlinks');
         }
 
-        return false;
+        return $result;
     }
 }

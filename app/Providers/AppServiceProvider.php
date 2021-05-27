@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\HealthCheck\HealthCheckManager;
 use App\HealthCheck\SymlinkHealthCheck;
+use App\HealthCheck\WritableDirsHealthCheck;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider {
@@ -17,9 +18,16 @@ class AppServiceProvider extends ServiceProvider {
      */
     public function register() {
         $this->healthCheckManager = new HealthCheckManager();
-        $this->app->instance(HealthCheckManager::class, $this->healthCheckManager);
+        $this->healthCheckManager->registerHealthcheck(new SymlinkHealthCheck(config('filesystems.links')));
+        $this->healthCheckManager->registerHealthCheck(
+            new WritableDirsHealthCheck(
+                [
+                    storage_path()
+                ]
+            )
+        );
 
-        $this->healthCheckManager->registerHealthcheck(new SymlinkHealthCheck());
+        $this->app->instance(HealthCheckManager::class, $this->healthCheckManager);
     }
 
     /**
