@@ -130,33 +130,13 @@ abstract class PackageLoader {
     /**
      * Gets called when the package is discovered. This does not load or enable the package yet.
      * This method allows for creating config files before the package is enabled.
-     * Additionally, this method creates a symbolic link to the package's resources/static/public directory (if
-     * existing)
      *
      * @return void
      */
     public function onDiscover(): void {
-        $packagesPath = FilesystemHelper::correctDS(storage_path('app/public/packages/'));
-        $packageAssetPath = FilesystemHelper::correctDS($this->pkgPath.'/resources/static/public');
-        $symlinkPath = FilesystemHelper::correctDS(storage_path($packagesPath.$this->getId().'/'));
-
-        //Check if the packages directory in storage/app/public exists, if not: create it
-        if(directoryExists($packagesPath) === false) {
-            Log::info("Directory ".$packagesPath." does not exist yet, creating it.");
-            mkdir($packagesPath, 0777, true);
-        }
-
-        //If a public asset path exists, create a symlink to it so we can use those assets in the front-end
-        if(file_exists($packageAssetPath) && file_exists($symlinkPath) === false) {
-            try {
-                symlink($packageAssetPath, $symlinkPath);
-            }
-            catch(Exception $e) {
-                #throw new Exception("Could not create package symlink, error: ".$e->getMessage());
-                Log::critical("Could not create package symlink, error: ".$e->getMessage());
-                #Log::error("Could not create package symlink, error: ".$e->getMessage());
-            }
-        }
+        #$packagesPath = FilesystemHelper::correctDS(storage_path('app/public/packages/'));
+        #$packageAssetPath = FilesystemHelper::correctDS($this->pkgPath.'/resources/static/public');
+        #$symlinkPath = FilesystemHelper::correctDS(storage_path($packagesPath.$this->getId().'/'));
     }
 
     /**

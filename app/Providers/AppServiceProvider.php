@@ -2,9 +2,11 @@
 
 namespace App\Providers;
 
+use App\HealthCheck\CacheHealthCheck;
 use App\HealthCheck\HealthCheckManager;
 use App\HealthCheck\SymlinkHealthCheck;
 use App\HealthCheck\WritableDirsHealthCheck;
+use App\Helpers\Filesystem;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider {
@@ -22,10 +24,12 @@ class AppServiceProvider extends ServiceProvider {
         $this->healthCheckManager->registerHealthCheck(
             new WritableDirsHealthCheck(
                 [
-                    storage_path()
+                    Filesystem::correctDS(storage_path()),
+                    Filesystem::correctDS(storage_path('app/public/packages/'))
                 ]
             )
         );
+        $this->healthCheckManager->registerHealthcheck(new CacheHealthCheck());
 
         $this->app->instance(HealthCheckManager::class, $this->healthCheckManager);
     }

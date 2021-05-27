@@ -134,7 +134,6 @@ export default {
             this.repairLoading = true;
             axios.get('/api/dashboard/fixhealth')
                 .then(response => {
-                    console.log(response.data);
                     this.repairResult = response.data;
                     this.doHealthCheck();
                 })

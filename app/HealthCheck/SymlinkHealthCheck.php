@@ -3,8 +3,8 @@
 namespace App\HealthCheck;
 
 use App\Helpers\Filesystem;
-use Illuminate\Support\Facades\Artisan;
 use JetBrains\PhpStorm\Pure;
+use \Exception;
 
 class SymlinkHealthCheck extends BaseHealthCheck {
 
@@ -63,14 +63,22 @@ class SymlinkHealthCheck extends BaseHealthCheck {
             return $result;
         }
 
-        $exitCode = Artisan::call('storage:link');
+        $errors = [];
 
-        if($exitCode === 0) {
+        foreach($this->symlinks as $symlinkLocation=>$targetLocation) {
+            try {
+                symlink($targetLocation, $symlinkLocation);
+            } catch (Exception $e) {
+                $errors[] = "Could not create symlink from $targetLocation to $symlinkLocation";
+            }
+        }
+
+        if(count($errors) === 0) {
             $result->setFixed(true);
             $result->setMessage('Symlinks created');
         } else {
             $result->setFixed(false);
-            $result->setMessage('Failed to create the symlinks');
+            $result->setMessage(implode("\n", $errors));
         }
 
         return $result;

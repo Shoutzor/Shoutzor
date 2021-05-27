@@ -38,6 +38,12 @@ class WritableDirsHealthCheck extends BaseHealthCheck {
         # Check if all symlinks exist
         foreach($this->directories as $directory) {
             clearstatcache(false, $directory);
+            if(is_dir($directory) === false) {
+                $healthCheck = false;
+                $caughtErrors[] = "Missing: $directory";
+                continue;
+            }
+
             if(is_writable($directory) === false) {
                 $healthCheck = false;
                 $caughtErrors[] = "Not writable: $directory";
@@ -53,13 +59,37 @@ class WritableDirsHealthCheck extends BaseHealthCheck {
         // Not quite sure how to fix this by code. IMO a sysadmin should do this manually.
         $result = new HealthCheckFixResult();
 
-        if($this->isHealthy) {
+        if($this->isHealthy()) {
             $result->setFixed(true);
             $result->setMessage('No fix required');
-        } else {
-            $result->setFixed(false);
-            $result->setMessage('No automatic fix available, manual fix required.');
+            return $result;
         }
+
+        $success = true;
+        $actions = [];
+
+        # Iterate over all directories that are required
+        foreach($this->directories as $directory) {
+            # Make sure the directory exists, create if not.
+            if(is_dir($directory) === false) {
+                # Create the directory
+                if(mkdir($directory, 0775, true)) {
+                    $actions[] = "Created: $directory";
+                } else {
+                    $success = false;
+                    $actions[] = "Failed to create: $directory";
+                    continue;
+                }
+            }
+
+            if(is_writable($directory) === false) {
+                $success = false;
+                $actions[] = "Not writable (manual fix required): $directory";
+            }
+        }
+
+        $result->setFixed($success);
+        $result->setMessage(implode("\n", $actions));
 
         return $result;
     }
