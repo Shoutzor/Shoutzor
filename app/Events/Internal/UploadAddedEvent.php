@@ -2,8 +2,8 @@
 
 namespace App\Events\Internal;
 
+use App\Events\BaseEvent;
 use App\Upload;
-use Symfony\Contracts\EventDispatcher\Event;
 
 /**
  * Class UploadAddedEvent
@@ -11,10 +11,10 @@ use Symfony\Contracts\EventDispatcher\Event;
  * @package App\Events
  * Gets called when a file has been uploaded, the file wont be parsed until UploadProcessingEvent is called
  */
-class UploadAddedEvent extends Event {
+class UploadAddedEvent extends BaseEvent {
     public const NAME = 'upload.added';
 
-    protected $upload;
+    protected Upload $upload;
 
     public function __construct(Upload $upload) {
         $this->upload = $upload;

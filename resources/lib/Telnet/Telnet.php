@@ -139,7 +139,9 @@ class Telnet {
                 if(empty($prompt)) {
                     return self::TELNET_OK;
                 }
-                throw new Exception("Couldn't find the requested : '".$prompt."', it was not in the data returned from server: ".$this->buffer);
+                throw new Exception(
+                    "Couldn't find the requested : '".$prompt."', it was not in the data returned from server: ".$this->buffer
+                );
             }
             // Interpreted As Command
             if($c == $this->IAC) {

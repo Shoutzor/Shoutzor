@@ -30,7 +30,11 @@ class getid3_bonk extends getid3_handler {
 
         if(!getid3_lib::intValueSupported($thisfile_bonk['dataend'])) {
 
-            $this->warning('Unable to parse BONK file from end (v0.6+ preferred method) because PHP filesystem functions only support up to '.round(PHP_INT_MAX / 1073741824).'GB');
+            $this->warning(
+                'Unable to parse BONK file from end (v0.6+ preferred method) because PHP filesystem functions only support up to '.round(
+                    PHP_INT_MAX / 1073741824
+                ).'GB'
+            );
 
         }
         else {
@@ -43,8 +47,14 @@ class getid3_bonk extends getid3_handler {
                 $this->fseek(0 - $BonkTagSize, SEEK_CUR);
                 $BonkTagOffset = $this->ftell();
                 $TagHeaderTest = $this->fread(5);
-                if(($TagHeaderTest{0} != "\x00") || (substr($PossibleBonkTag, 4, 4) != strtolower(substr($PossibleBonkTag, 4, 4)))) {
-                    $this->error('Expecting "'.getid3_lib::PrintHexBytes("\x00".strtoupper(substr($PossibleBonkTag, 4, 4))).'" at offset '.$BonkTagOffset.', found "'.getid3_lib::PrintHexBytes($TagHeaderTest).'"');
+                if(($TagHeaderTest{0} != "\x00") || (substr($PossibleBonkTag, 4, 4) != strtolower(
+                            substr($PossibleBonkTag, 4, 4)
+                        ))) {
+                    $this->error(
+                        'Expecting "'.getid3_lib::PrintHexBytes(
+                            "\x00".strtoupper(substr($PossibleBonkTag, 4, 4))
+                        ).'" at offset '.$BonkTagOffset.', found "'.getid3_lib::PrintHexBytes($TagHeaderTest).'"'
+                    );
                     return false;
                 }
                 $BonkTagName = substr($TagHeaderTest, 1, 4);
@@ -170,9 +180,11 @@ class getid3_bonk extends getid3_handler {
                 $info['audio']['lossless'] = $thisfile_bonk_BONK['lossless'];
                 $info['audio']['codec'] = 'bonk';
 
-                $info['playtime_seconds'] = $thisfile_bonk_BONK['number_samples'] / ($thisfile_bonk_BONK['sample_rate'] * $thisfile_bonk_BONK['channels']);
+                $info['playtime_seconds'] =
+                    $thisfile_bonk_BONK['number_samples'] / ($thisfile_bonk_BONK['sample_rate'] * $thisfile_bonk_BONK['channels']);
                 if($info['playtime_seconds'] > 0) {
-                    $info['audio']['bitrate'] = (($info['bonk']['dataend'] - $info['bonk']['dataoffset']) * 8) / $info['playtime_seconds'];
+                    $info['audio']['bitrate'] =
+                        (($info['bonk']['dataend'] - $info['bonk']['dataoffset']) * 8) / $info['playtime_seconds'];
                 }
                 break;
 
@@ -232,7 +244,9 @@ class getid3_bonk extends getid3_handler {
                 break;
 
             default:
-                $this->warning('Unexpected Bonk tag "'.$BonkTagName.'" at offset '.$info['bonk'][$BonkTagName]['offset']);
+                $this->warning(
+                    'Unexpected Bonk tag "'.$BonkTagName.'" at offset '.$info['bonk'][$BonkTagName]['offset']
+                );
                 break;
 
         }

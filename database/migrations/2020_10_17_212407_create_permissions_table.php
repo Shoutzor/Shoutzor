@@ -14,16 +14,21 @@ class CreatePermissionsTable extends Migration {
         $tableNames = config('permission.table_names');
 
         if(empty($tableNames)) {
-            throw new Exception('Error: config/permission.php not loaded. Run [php artisan config:clear] and try again.');
+            throw new Exception(
+                'Error: config/permission.php not loaded. Run [php artisan config:clear] and try again.'
+            );
         }
 
-        Schema::create($tableNames['permissions'], function(Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->string('name');
-            $table->string('guard_name');
-            $table->string('description')->default('');
-            $table->timestamps();
-        });
+        Schema::create(
+            $tableNames['permissions'],
+            function(Blueprint $table) {
+                $table->bigIncrements('id');
+                $table->string('name');
+                $table->string('guard_name');
+                $table->string('description')->default('');
+                $table->timestamps();
+            }
+        );
     }
 
     /**
@@ -35,7 +40,9 @@ class CreatePermissionsTable extends Migration {
         $tableNames = config('permission.table_names');
 
         if(empty($tableNames)) {
-            throw new Exception('Error: config/permission.php not found and defaults could not be merged. Please publish the package configuration before proceeding, or drop the tables manually.');
+            throw new Exception(
+                'Error: config/permission.php not found and defaults could not be merged. Please publish the package configuration before proceeding, or drop the tables manually.'
+            );
         }
 
         Schema::drop($tableNames['permissions']);

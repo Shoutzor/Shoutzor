@@ -2,8 +2,8 @@
 
 namespace App\Events\Internal;
 
+use App\Events\ReadOnlyEvent;
 use App\Upload;
-use Symfony\Contracts\EventDispatcher\Event;
 
 /**
  * Class UploadFailedEvent
@@ -11,7 +11,7 @@ use Symfony\Contracts\EventDispatcher\Event;
  * @package App\Events
  * Gets called when an upload from the queue has been processed, but was deemed invalid
  */
-class UploadFailedEvent extends Event {
+class UploadFailedEvent extends ReadOnlyEvent {
     public const NAME = 'upload.failed';
 
     protected $upload;

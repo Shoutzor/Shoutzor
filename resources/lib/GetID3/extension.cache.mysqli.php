@@ -125,7 +125,8 @@ class getID3_cached_mysqli extends getID3 {
         // Create cache table if not exists
         $this->create_table();
 
-        $this->db_structure_check = true; // set to false if you know your table structure has already been migrated to use `hash` as the primary key to avoid
+        $this->db_structure_check =
+            true; // set to false if you know your table structure has already been migrated to use `hash` as the primary key to avoid
         $this->migrate_db_structure();
 
         // Check version number and clear cache if changed
@@ -178,7 +179,8 @@ class getID3_cached_mysqli extends getID3 {
             $this->cursor = $this->mysqli->query($SQLquery);
             if($this->cursor->num_rows == 0) {
                 // table has not been migrated, add column, add hashes, change index
-                $SQLquery = 'ALTER TABLE `getid3_cache` DROP PRIMARY KEY, ADD `hash` CHAR(32) NOT NULL DEFAULT \'\' FIRST, ADD PRIMARY KEY(`hash`)';
+                $SQLquery =
+                    'ALTER TABLE `getid3_cache` DROP PRIMARY KEY, ADD `hash` CHAR(32) NOT NULL DEFAULT \'\' FIRST, ADD PRIMARY KEY(`hash`)';
                 $this->mysqli->query($SQLquery);
 
                 $SQLquery = 'UPDATE `getid3_cache` SET';
@@ -201,7 +203,11 @@ class getID3_cached_mysqli extends getID3 {
      */
     public function clear_cache() {
         $this->mysqli->query('TRUNCATE TABLE `'.$this->mysqli->real_escape_string($this->table).'`');
-        $this->mysqli->query('INSERT INTO `'.$this->mysqli->real_escape_string($this->table).'` (`hash`, `filename`, `filesize`, `filetime`, `analyzetime`, `value`) VALUES (\'getID3::VERSION\', \''.getID3::VERSION.'\', -1, -1, -1, \''.getID3::VERSION.'\')');
+        $this->mysqli->query(
+            'INSERT INTO `'.$this->mysqli->real_escape_string(
+                $this->table
+            ).'` (`hash`, `filename`, `filesize`, `filetime`, `analyzetime`, `value`) VALUES (\'getID3::VERSION\', \''.getID3::VERSION.'\', -1, -1, -1, \''.getID3::VERSION.'\')'
+        );
     }
 
     /**
@@ -225,7 +231,9 @@ class getID3_cached_mysqli extends getID3 {
             // Lookup file
             $SQLquery = 'SELECT `value`';
             $SQLquery .= ' FROM `'.$this->mysqli->real_escape_string($this->table).'`';
-            $SQLquery .= ' WHERE (`hash` = \''.$this->mysqli->real_escape_string(md5($filename.$filesize.$filetime)).'\')';
+            $SQLquery .= ' WHERE (`hash` = \''.$this->mysqli->real_escape_string(
+                    md5($filename.$filesize.$filetime)
+                ).'\')';
             $this->cursor = $this->mysqli->query($SQLquery);
             if($this->cursor->num_rows > 0) {
                 // Hit
@@ -239,7 +247,9 @@ class getID3_cached_mysqli extends getID3 {
 
         // Save result
         if(file_exists($filename)) {
-            $SQLquery = 'INSERT INTO `'.$this->mysqli->real_escape_string($this->table).'` (`hash`, `filename`, `filesize`, `filetime`, `analyzetime`, `value`) VALUES (';
+            $SQLquery = 'INSERT INTO `'.$this->mysqli->real_escape_string(
+                    $this->table
+                ).'` (`hash`, `filename`, `filesize`, `filetime`, `analyzetime`, `value`) VALUES (';
             $SQLquery .= '\''.$this->mysqli->real_escape_string(md5($filename.$filesize.$filetime)).'\'';
             $SQLquery .= ', \''.$this->mysqli->real_escape_string($filename).'\'';
             $SQLquery .= ', \''.$this->mysqli->real_escape_string($filesize).'\'';

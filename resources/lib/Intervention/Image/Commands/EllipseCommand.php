@@ -19,7 +19,8 @@ class EllipseCommand extends AbstractCommand {
         $y = $this->argument(3)->type('numeric')->required()->value();
         $callback = $this->argument(4)->type('closure')->value();
 
-        $ellipse_classname = sprintf('\Intervention\Image\%s\Shapes\EllipseShape', $image->getDriver()->getDriverName());
+        $ellipse_classname =
+            sprintf('\Intervention\Image\%s\Shapes\EllipseShape', $image->getDriver()->getDriverName());
 
         $ellipse = new $ellipse_classname($width, $height);
 

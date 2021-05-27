@@ -28,6 +28,11 @@ class InsertCommand extends AbstractCommand {
         $target = $image_size->relativePosition($watermark_size);
 
         // insert image at position
-        return $image->getCore()->compositeImage($watermark->getCore(), Imagick::COMPOSITE_DEFAULT, $target->x, $target->y);
+        return $image->getCore()->compositeImage(
+            $watermark->getCore(),
+            Imagick::COMPOSITE_DEFAULT,
+            $target->x,
+            $target->y
+        );
     }
 }

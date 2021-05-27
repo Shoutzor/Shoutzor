@@ -33,6 +33,16 @@ class CropCommand extends ResizeCommand {
         }
 
         // crop image core
-        return $this->modify($image, 0, 0, $position->x, $position->y, $cropped->width, $cropped->height, $cropped->width, $cropped->height);
+        return $this->modify(
+            $image,
+            0,
+            0,
+            $position->x,
+            $position->y,
+            $cropped->width,
+            $cropped->height,
+            $cropped->width,
+            $cropped->height
+        );
     }
 }

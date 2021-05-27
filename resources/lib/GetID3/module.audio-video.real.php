@@ -43,9 +43,14 @@ class getid3_real extends getid3_handler {
                     $info['audio']['bits_per_sample'] = $info['real']['old_ra_header']['bits_per_sample'];
                     $info['audio']['channels'] = $info['real']['old_ra_header']['channels'];
 
-                    $info['playtime_seconds'] = 60 * ($info['real']['old_ra_header']['audio_bytes'] / $info['real']['old_ra_header']['bytes_per_minute']);
-                    $info['audio']['bitrate'] = 8 * ($info['real']['old_ra_header']['audio_bytes'] / $info['playtime_seconds']);
-                    $info['audio']['codec'] = $this->RealAudioCodecFourCClookup($info['real']['old_ra_header']['fourcc'], $info['audio']['bitrate']);
+                    $info['playtime_seconds'] =
+                        60 * ($info['real']['old_ra_header']['audio_bytes'] / $info['real']['old_ra_header']['bytes_per_minute']);
+                    $info['audio']['bitrate'] =
+                        8 * ($info['real']['old_ra_header']['audio_bytes'] / $info['playtime_seconds']);
+                    $info['audio']['codec'] = $this->RealAudioCodecFourCClookup(
+                        $info['real']['old_ra_header']['fourcc'],
+                        $info['audio']['bitrate']
+                    );
 
                     foreach($info['real']['old_ra_header']['comments'] as $key => $valuearray) {
                         if(strlen(trim($valuearray[0])) > 0) {
@@ -54,7 +59,9 @@ class getid3_real extends getid3_handler {
                     }
                     return true;
                 }
-                $this->error('There was a problem parsing this RealAudio file. Please submit it for analysis to info@getid3.org');
+                $this->error(
+                    'There was a problem parsing this RealAudio file. Please submit it for analysis to info@getid3.org'
+                );
                 unset($info['bitrate']);
                 unset($info['playtime_seconds']);
                 return false;
@@ -68,7 +75,9 @@ class getid3_real extends getid3_handler {
             $thisfile_real_chunks_currentchunk['offset'] = $this->ftell() - 8;
             $thisfile_real_chunks_currentchunk['length'] = $ChunkSize;
             if(($thisfile_real_chunks_currentchunk['offset'] + $thisfile_real_chunks_currentchunk['length']) > $info['avdataend']) {
-                $this->warning('Chunk "'.$thisfile_real_chunks_currentchunk['name'].'" at offset '.$thisfile_real_chunks_currentchunk['offset'].' claims to be '.$thisfile_real_chunks_currentchunk['length'].' bytes long, which is beyond end of file');
+                $this->warning(
+                    'Chunk "'.$thisfile_real_chunks_currentchunk['name'].'" at offset '.$thisfile_real_chunks_currentchunk['offset'].' claims to be '.$thisfile_real_chunks_currentchunk['length'].' bytes long, which is beyond end of file'
+                );
                 return false;
             }
 
@@ -88,14 +97,17 @@ class getid3_real extends getid3_handler {
             switch($ChunkName) {
 
                 case '.RMF': // RealMedia File Header
-                    $thisfile_real_chunks_currentchunk['object_version'] = getid3_lib::BigEndian2Int(substr($ChunkData, $offset, 2));
+                    $thisfile_real_chunks_currentchunk['object_version'] =
+                        getid3_lib::BigEndian2Int(substr($ChunkData, $offset, 2));
                     $offset += 2;
                     switch($thisfile_real_chunks_currentchunk['object_version']) {
 
                         case 0:
-                            $thisfile_real_chunks_currentchunk['file_version'] = getid3_lib::BigEndian2Int(substr($ChunkData, $offset, 4));
+                            $thisfile_real_chunks_currentchunk['file_version'] =
+                                getid3_lib::BigEndian2Int(substr($ChunkData, $offset, 4));
                             $offset += 4;
-                            $thisfile_real_chunks_currentchunk['headers_count'] = getid3_lib::BigEndian2Int(substr($ChunkData, $offset, 4));
+                            $thisfile_real_chunks_currentchunk['headers_count'] =
+                                getid3_lib::BigEndian2Int(substr($ChunkData, $offset, 4));
                             $offset += 4;
                             break;
 
@@ -107,76 +119,107 @@ class getid3_real extends getid3_handler {
                     break;
 
                 case 'PROP': // Properties Header
-                    $thisfile_real_chunks_currentchunk['object_version'] = getid3_lib::BigEndian2Int(substr($ChunkData, $offset, 2));
+                    $thisfile_real_chunks_currentchunk['object_version'] =
+                        getid3_lib::BigEndian2Int(substr($ChunkData, $offset, 2));
                     $offset += 2;
                     if($thisfile_real_chunks_currentchunk['object_version'] == 0) {
-                        $thisfile_real_chunks_currentchunk['max_bit_rate'] = getid3_lib::BigEndian2Int(substr($ChunkData, $offset, 4));
+                        $thisfile_real_chunks_currentchunk['max_bit_rate'] =
+                            getid3_lib::BigEndian2Int(substr($ChunkData, $offset, 4));
                         $offset += 4;
-                        $thisfile_real_chunks_currentchunk['avg_bit_rate'] = getid3_lib::BigEndian2Int(substr($ChunkData, $offset, 4));
+                        $thisfile_real_chunks_currentchunk['avg_bit_rate'] =
+                            getid3_lib::BigEndian2Int(substr($ChunkData, $offset, 4));
                         $offset += 4;
-                        $thisfile_real_chunks_currentchunk['max_packet_size'] = getid3_lib::BigEndian2Int(substr($ChunkData, $offset, 4));
+                        $thisfile_real_chunks_currentchunk['max_packet_size'] =
+                            getid3_lib::BigEndian2Int(substr($ChunkData, $offset, 4));
                         $offset += 4;
-                        $thisfile_real_chunks_currentchunk['avg_packet_size'] = getid3_lib::BigEndian2Int(substr($ChunkData, $offset, 4));
+                        $thisfile_real_chunks_currentchunk['avg_packet_size'] =
+                            getid3_lib::BigEndian2Int(substr($ChunkData, $offset, 4));
                         $offset += 4;
-                        $thisfile_real_chunks_currentchunk['num_packets'] = getid3_lib::BigEndian2Int(substr($ChunkData, $offset, 4));
+                        $thisfile_real_chunks_currentchunk['num_packets'] =
+                            getid3_lib::BigEndian2Int(substr($ChunkData, $offset, 4));
                         $offset += 4;
-                        $thisfile_real_chunks_currentchunk['duration'] = getid3_lib::BigEndian2Int(substr($ChunkData, $offset, 4));
+                        $thisfile_real_chunks_currentchunk['duration'] =
+                            getid3_lib::BigEndian2Int(substr($ChunkData, $offset, 4));
                         $offset += 4;
-                        $thisfile_real_chunks_currentchunk['preroll'] = getid3_lib::BigEndian2Int(substr($ChunkData, $offset, 4));
+                        $thisfile_real_chunks_currentchunk['preroll'] =
+                            getid3_lib::BigEndian2Int(substr($ChunkData, $offset, 4));
                         $offset += 4;
-                        $thisfile_real_chunks_currentchunk['index_offset'] = getid3_lib::BigEndian2Int(substr($ChunkData, $offset, 4));
+                        $thisfile_real_chunks_currentchunk['index_offset'] =
+                            getid3_lib::BigEndian2Int(substr($ChunkData, $offset, 4));
                         $offset += 4;
-                        $thisfile_real_chunks_currentchunk['data_offset'] = getid3_lib::BigEndian2Int(substr($ChunkData, $offset, 4));
+                        $thisfile_real_chunks_currentchunk['data_offset'] =
+                            getid3_lib::BigEndian2Int(substr($ChunkData, $offset, 4));
                         $offset += 4;
-                        $thisfile_real_chunks_currentchunk['num_streams'] = getid3_lib::BigEndian2Int(substr($ChunkData, $offset, 2));
+                        $thisfile_real_chunks_currentchunk['num_streams'] =
+                            getid3_lib::BigEndian2Int(substr($ChunkData, $offset, 2));
                         $offset += 2;
-                        $thisfile_real_chunks_currentchunk['flags_raw'] = getid3_lib::BigEndian2Int(substr($ChunkData, $offset, 2));
+                        $thisfile_real_chunks_currentchunk['flags_raw'] =
+                            getid3_lib::BigEndian2Int(substr($ChunkData, $offset, 2));
                         $offset += 2;
                         $info['playtime_seconds'] = $thisfile_real_chunks_currentchunk['duration'] / 1000;
                         if($thisfile_real_chunks_currentchunk['duration'] > 0) {
                             $info['bitrate'] += $thisfile_real_chunks_currentchunk['avg_bit_rate'];
                         }
-                        $thisfile_real_chunks_currentchunk['flags']['save_enabled'] = (bool)($thisfile_real_chunks_currentchunk['flags_raw'] & 0x0001);
-                        $thisfile_real_chunks_currentchunk['flags']['perfect_play'] = (bool)($thisfile_real_chunks_currentchunk['flags_raw'] & 0x0002);
-                        $thisfile_real_chunks_currentchunk['flags']['live_broadcast'] = (bool)($thisfile_real_chunks_currentchunk['flags_raw'] & 0x0004);
+                        $thisfile_real_chunks_currentchunk['flags']['save_enabled'] =
+                            (bool)($thisfile_real_chunks_currentchunk['flags_raw'] & 0x0001);
+                        $thisfile_real_chunks_currentchunk['flags']['perfect_play'] =
+                            (bool)($thisfile_real_chunks_currentchunk['flags_raw'] & 0x0002);
+                        $thisfile_real_chunks_currentchunk['flags']['live_broadcast'] =
+                            (bool)($thisfile_real_chunks_currentchunk['flags_raw'] & 0x0004);
                     }
                     break;
 
                 case 'MDPR': // Media Properties Header
-                    $thisfile_real_chunks_currentchunk['object_version'] = getid3_lib::BigEndian2Int(substr($ChunkData, $offset, 2));
+                    $thisfile_real_chunks_currentchunk['object_version'] =
+                        getid3_lib::BigEndian2Int(substr($ChunkData, $offset, 2));
                     $offset += 2;
                     if($thisfile_real_chunks_currentchunk['object_version'] == 0) {
-                        $thisfile_real_chunks_currentchunk['stream_number'] = getid3_lib::BigEndian2Int(substr($ChunkData, $offset, 2));
+                        $thisfile_real_chunks_currentchunk['stream_number'] =
+                            getid3_lib::BigEndian2Int(substr($ChunkData, $offset, 2));
                         $offset += 2;
-                        $thisfile_real_chunks_currentchunk['max_bit_rate'] = getid3_lib::BigEndian2Int(substr($ChunkData, $offset, 4));
+                        $thisfile_real_chunks_currentchunk['max_bit_rate'] =
+                            getid3_lib::BigEndian2Int(substr($ChunkData, $offset, 4));
                         $offset += 4;
-                        $thisfile_real_chunks_currentchunk['avg_bit_rate'] = getid3_lib::BigEndian2Int(substr($ChunkData, $offset, 4));
+                        $thisfile_real_chunks_currentchunk['avg_bit_rate'] =
+                            getid3_lib::BigEndian2Int(substr($ChunkData, $offset, 4));
                         $offset += 4;
-                        $thisfile_real_chunks_currentchunk['max_packet_size'] = getid3_lib::BigEndian2Int(substr($ChunkData, $offset, 4));
+                        $thisfile_real_chunks_currentchunk['max_packet_size'] =
+                            getid3_lib::BigEndian2Int(substr($ChunkData, $offset, 4));
                         $offset += 4;
-                        $thisfile_real_chunks_currentchunk['avg_packet_size'] = getid3_lib::BigEndian2Int(substr($ChunkData, $offset, 4));
+                        $thisfile_real_chunks_currentchunk['avg_packet_size'] =
+                            getid3_lib::BigEndian2Int(substr($ChunkData, $offset, 4));
                         $offset += 4;
-                        $thisfile_real_chunks_currentchunk['start_time'] = getid3_lib::BigEndian2Int(substr($ChunkData, $offset, 4));
+                        $thisfile_real_chunks_currentchunk['start_time'] =
+                            getid3_lib::BigEndian2Int(substr($ChunkData, $offset, 4));
                         $offset += 4;
-                        $thisfile_real_chunks_currentchunk['preroll'] = getid3_lib::BigEndian2Int(substr($ChunkData, $offset, 4));
+                        $thisfile_real_chunks_currentchunk['preroll'] =
+                            getid3_lib::BigEndian2Int(substr($ChunkData, $offset, 4));
                         $offset += 4;
-                        $thisfile_real_chunks_currentchunk['duration'] = getid3_lib::BigEndian2Int(substr($ChunkData, $offset, 4));
+                        $thisfile_real_chunks_currentchunk['duration'] =
+                            getid3_lib::BigEndian2Int(substr($ChunkData, $offset, 4));
                         $offset += 4;
-                        $thisfile_real_chunks_currentchunk['stream_name_size'] = getid3_lib::BigEndian2Int(substr($ChunkData, $offset, 1));
+                        $thisfile_real_chunks_currentchunk['stream_name_size'] =
+                            getid3_lib::BigEndian2Int(substr($ChunkData, $offset, 1));
                         $offset += 1;
-                        $thisfile_real_chunks_currentchunk['stream_name'] = substr($ChunkData, $offset, $thisfile_real_chunks_currentchunk['stream_name_size']);
+                        $thisfile_real_chunks_currentchunk['stream_name'] =
+                            substr($ChunkData, $offset, $thisfile_real_chunks_currentchunk['stream_name_size']);
                         $offset += $thisfile_real_chunks_currentchunk['stream_name_size'];
-                        $thisfile_real_chunks_currentchunk['mime_type_size'] = getid3_lib::BigEndian2Int(substr($ChunkData, $offset, 1));
+                        $thisfile_real_chunks_currentchunk['mime_type_size'] =
+                            getid3_lib::BigEndian2Int(substr($ChunkData, $offset, 1));
                         $offset += 1;
-                        $thisfile_real_chunks_currentchunk['mime_type'] = substr($ChunkData, $offset, $thisfile_real_chunks_currentchunk['mime_type_size']);
+                        $thisfile_real_chunks_currentchunk['mime_type'] =
+                            substr($ChunkData, $offset, $thisfile_real_chunks_currentchunk['mime_type_size']);
                         $offset += $thisfile_real_chunks_currentchunk['mime_type_size'];
-                        $thisfile_real_chunks_currentchunk['type_specific_len'] = getid3_lib::BigEndian2Int(substr($ChunkData, $offset, 4));
+                        $thisfile_real_chunks_currentchunk['type_specific_len'] =
+                            getid3_lib::BigEndian2Int(substr($ChunkData, $offset, 4));
                         $offset += 4;
-                        $thisfile_real_chunks_currentchunk['type_specific_data'] = substr($ChunkData, $offset, $thisfile_real_chunks_currentchunk['type_specific_len']);
+                        $thisfile_real_chunks_currentchunk['type_specific_data'] =
+                            substr($ChunkData, $offset, $thisfile_real_chunks_currentchunk['type_specific_len']);
                         $offset += $thisfile_real_chunks_currentchunk['type_specific_len'];
 
                         // shortcut
-                        $thisfile_real_chunks_currentchunk_typespecificdata = &$thisfile_real_chunks_currentchunk['type_specific_data'];
+                        $thisfile_real_chunks_currentchunk_typespecificdata = &
+                            $thisfile_real_chunks_currentchunk['type_specific_data'];
 
                         switch($thisfile_real_chunks_currentchunk['mime_type']) {
                             case 'video/x-pn-realvideo':
@@ -185,17 +228,32 @@ class getid3_real extends getid3_handler {
 
                                 // shortcut
                                 $thisfile_real_chunks_currentchunk['video_info'] = array();
-                                $thisfile_real_chunks_currentchunk_videoinfo = &$thisfile_real_chunks_currentchunk['video_info'];
+                                $thisfile_real_chunks_currentchunk_videoinfo = &
+                                    $thisfile_real_chunks_currentchunk['video_info'];
 
-                                $thisfile_real_chunks_currentchunk_videoinfo['dwSize'] = getid3_lib::BigEndian2Int(substr($thisfile_real_chunks_currentchunk_typespecificdata, 0, 4));
-                                $thisfile_real_chunks_currentchunk_videoinfo['fourcc1'] = substr($thisfile_real_chunks_currentchunk_typespecificdata, 4, 4);
-                                $thisfile_real_chunks_currentchunk_videoinfo['fourcc2'] = substr($thisfile_real_chunks_currentchunk_typespecificdata, 8, 4);
-                                $thisfile_real_chunks_currentchunk_videoinfo['width'] = getid3_lib::BigEndian2Int(substr($thisfile_real_chunks_currentchunk_typespecificdata, 12, 2));
-                                $thisfile_real_chunks_currentchunk_videoinfo['height'] = getid3_lib::BigEndian2Int(substr($thisfile_real_chunks_currentchunk_typespecificdata, 14, 2));
-                                $thisfile_real_chunks_currentchunk_videoinfo['bits_per_sample'] = getid3_lib::BigEndian2Int(substr($thisfile_real_chunks_currentchunk_typespecificdata, 16, 2));
+                                $thisfile_real_chunks_currentchunk_videoinfo['dwSize'] = getid3_lib::BigEndian2Int(
+                                    substr($thisfile_real_chunks_currentchunk_typespecificdata, 0, 4)
+                                );
+                                $thisfile_real_chunks_currentchunk_videoinfo['fourcc1'] =
+                                    substr($thisfile_real_chunks_currentchunk_typespecificdata, 4, 4);
+                                $thisfile_real_chunks_currentchunk_videoinfo['fourcc2'] =
+                                    substr($thisfile_real_chunks_currentchunk_typespecificdata, 8, 4);
+                                $thisfile_real_chunks_currentchunk_videoinfo['width'] = getid3_lib::BigEndian2Int(
+                                    substr($thisfile_real_chunks_currentchunk_typespecificdata, 12, 2)
+                                );
+                                $thisfile_real_chunks_currentchunk_videoinfo['height'] = getid3_lib::BigEndian2Int(
+                                    substr($thisfile_real_chunks_currentchunk_typespecificdata, 14, 2)
+                                );
+                                $thisfile_real_chunks_currentchunk_videoinfo['bits_per_sample'] =
+                                    getid3_lib::BigEndian2Int(
+                                        substr($thisfile_real_chunks_currentchunk_typespecificdata, 16, 2)
+                                    );
                                 //$thisfile_real_chunks_currentchunk_videoinfo['unknown1']          = getid3_lib::BigEndian2Int(substr($thisfile_real_chunks_currentchunk_typespecificdata, 18, 2));
                                 //$thisfile_real_chunks_currentchunk_videoinfo['unknown2']          = getid3_lib::BigEndian2Int(substr($thisfile_real_chunks_currentchunk_typespecificdata, 20, 2));
-                                $thisfile_real_chunks_currentchunk_videoinfo['frames_per_second'] = getid3_lib::BigEndian2Int(substr($thisfile_real_chunks_currentchunk_typespecificdata, 22, 2));
+                                $thisfile_real_chunks_currentchunk_videoinfo['frames_per_second'] =
+                                    getid3_lib::BigEndian2Int(
+                                        substr($thisfile_real_chunks_currentchunk_typespecificdata, 22, 2)
+                                    );
                                 //$thisfile_real_chunks_currentchunk_videoinfo['unknown3']          = getid3_lib::BigEndian2Int(substr($thisfile_real_chunks_currentchunk_typespecificdata, 24, 2));
                                 //$thisfile_real_chunks_currentchunk_videoinfo['unknown4']          = getid3_lib::BigEndian2Int(substr($thisfile_real_chunks_currentchunk_typespecificdata, 26, 2));
                                 //$thisfile_real_chunks_currentchunk_videoinfo['unknown5']          = getid3_lib::BigEndian2Int(substr($thisfile_real_chunks_currentchunk_typespecificdata, 28, 2));
@@ -204,26 +262,36 @@ class getid3_real extends getid3_handler {
                                 //$thisfile_real_chunks_currentchunk_videoinfo['unknown8']          = getid3_lib::BigEndian2Int(substr($thisfile_real_chunks_currentchunk_typespecificdata, 34, 2));
                                 //$thisfile_real_chunks_currentchunk_videoinfo['unknown9']          = getid3_lib::BigEndian2Int(substr($thisfile_real_chunks_currentchunk_typespecificdata, 36, 2));
 
-                                $thisfile_real_chunks_currentchunk_videoinfo['codec'] = getid3_riff::fourccLookup($thisfile_real_chunks_currentchunk_videoinfo['fourcc2']);
+                                $thisfile_real_chunks_currentchunk_videoinfo['codec'] =
+                                    getid3_riff::fourccLookup($thisfile_real_chunks_currentchunk_videoinfo['fourcc2']);
 
                                 $info['video']['resolution_x'] = $thisfile_real_chunks_currentchunk_videoinfo['width'];
                                 $info['video']['resolution_y'] = $thisfile_real_chunks_currentchunk_videoinfo['height'];
-                                $info['video']['frame_rate'] = (float)$thisfile_real_chunks_currentchunk_videoinfo['frames_per_second'];
+                                $info['video']['frame_rate'] =
+                                    (float)$thisfile_real_chunks_currentchunk_videoinfo['frames_per_second'];
                                 $info['video']['codec'] = $thisfile_real_chunks_currentchunk_videoinfo['codec'];
-                                $info['video']['bits_per_sample'] = $thisfile_real_chunks_currentchunk_videoinfo['bits_per_sample'];
+                                $info['video']['bits_per_sample'] =
+                                    $thisfile_real_chunks_currentchunk_videoinfo['bits_per_sample'];
                                 break;
 
                             case 'audio/x-pn-realaudio':
                             case 'audio/x-pn-multirate-realaudio':
-                                $this->ParseOldRAheader($thisfile_real_chunks_currentchunk_typespecificdata, $thisfile_real_chunks_currentchunk['parsed_audio_data']);
+                                $this->ParseOldRAheader(
+                                    $thisfile_real_chunks_currentchunk_typespecificdata,
+                                    $thisfile_real_chunks_currentchunk['parsed_audio_data']
+                                );
 
-                                $info['audio']['sample_rate'] = $thisfile_real_chunks_currentchunk['parsed_audio_data']['sample_rate'];
-                                $info['audio']['bits_per_sample'] = $thisfile_real_chunks_currentchunk['parsed_audio_data']['bits_per_sample'];
-                                $info['audio']['channels'] = $thisfile_real_chunks_currentchunk['parsed_audio_data']['channels'];
+                                $info['audio']['sample_rate'] =
+                                    $thisfile_real_chunks_currentchunk['parsed_audio_data']['sample_rate'];
+                                $info['audio']['bits_per_sample'] =
+                                    $thisfile_real_chunks_currentchunk['parsed_audio_data']['bits_per_sample'];
+                                $info['audio']['channels'] =
+                                    $thisfile_real_chunks_currentchunk['parsed_audio_data']['channels'];
                                 if(!empty($info['audio']['dataformat'])) {
                                     foreach($info['audio'] as $key => $value) {
                                         if($key != 'streams') {
-                                            $info['audio']['streams'][$thisfile_real_chunks_currentchunk['stream_number']][$key] = $value;
+                                            $info['audio']['streams'][$thisfile_real_chunks_currentchunk['stream_number']][$key] =
+                                                $value;
                                         }
                                     }
                                 }
@@ -232,16 +300,31 @@ class getid3_real extends getid3_handler {
                             case 'logical-fileinfo':
                                 // shortcut
                                 $thisfile_real_chunks_currentchunk['logical_fileinfo'] = array();
-                                $thisfile_real_chunks_currentchunk_logicalfileinfo = &$thisfile_real_chunks_currentchunk['logical_fileinfo'];
+                                $thisfile_real_chunks_currentchunk_logicalfileinfo = &
+                                    $thisfile_real_chunks_currentchunk['logical_fileinfo'];
 
                                 $thisfile_real_chunks_currentchunk_logicalfileinfo_offset = 0;
-                                $thisfile_real_chunks_currentchunk_logicalfileinfo['logical_fileinfo_length'] = getid3_lib::BigEndian2Int(substr($thisfile_real_chunks_currentchunk_typespecificdata, $thisfile_real_chunks_currentchunk_logicalfileinfo_offset, 4));
+                                $thisfile_real_chunks_currentchunk_logicalfileinfo['logical_fileinfo_length'] =
+                                    getid3_lib::BigEndian2Int(
+                                        substr(
+                                            $thisfile_real_chunks_currentchunk_typespecificdata,
+                                            $thisfile_real_chunks_currentchunk_logicalfileinfo_offset,
+                                            4
+                                        )
+                                    );
                                 $thisfile_real_chunks_currentchunk_logicalfileinfo_offset += 4;
 
                                 //$thisfile_real_chunks_currentchunk_logicalfileinfo['unknown1']                = getid3_lib::BigEndian2Int(substr($thisfile_real_chunks_currentchunk_typespecificdata, $thisfile_real_chunks_currentchunk_logicalfileinfo_offset, 4));
                                 $thisfile_real_chunks_currentchunk_logicalfileinfo_offset += 4;
 
-                                $thisfile_real_chunks_currentchunk_logicalfileinfo['num_tags'] = getid3_lib::BigEndian2Int(substr($thisfile_real_chunks_currentchunk_typespecificdata, $thisfile_real_chunks_currentchunk_logicalfileinfo_offset, 4));
+                                $thisfile_real_chunks_currentchunk_logicalfileinfo['num_tags'] =
+                                    getid3_lib::BigEndian2Int(
+                                        substr(
+                                            $thisfile_real_chunks_currentchunk_typespecificdata,
+                                            $thisfile_real_chunks_currentchunk_logicalfileinfo_offset,
+                                            4
+                                        )
+                                    );
                                 $thisfile_real_chunks_currentchunk_logicalfileinfo_offset += 4;
 
                                 //$thisfile_real_chunks_currentchunk_logicalfileinfo['unknown2']                = getid3_lib::BigEndian2Int(substr($thisfile_real_chunks_currentchunk_typespecificdata, $thisfile_real_chunks_currentchunk_logicalfileinfo_offset, 4));
@@ -259,21 +342,29 @@ class getid3_real extends getid3_handler {
                         }
 
                         if(empty($info['playtime_seconds'])) {
-                            $info['playtime_seconds'] = max($info['playtime_seconds'], ($thisfile_real_chunks_currentchunk['duration'] + $thisfile_real_chunks_currentchunk['start_time']) / 1000);
+                            $info['playtime_seconds'] = max(
+                                $info['playtime_seconds'],
+                                ($thisfile_real_chunks_currentchunk['duration'] + $thisfile_real_chunks_currentchunk['start_time']) / 1000
+                            );
                         }
                         if($thisfile_real_chunks_currentchunk['duration'] > 0) {
                             switch($thisfile_real_chunks_currentchunk['mime_type']) {
                                 case 'audio/x-pn-realaudio':
                                 case 'audio/x-pn-multirate-realaudio':
-                                    $info['audio']['bitrate'] = (isset($info['audio']['bitrate']) ? $info['audio']['bitrate'] : 0) + $thisfile_real_chunks_currentchunk['avg_bit_rate'];
-                                    $info['audio']['codec'] = $this->RealAudioCodecFourCClookup($thisfile_real_chunks_currentchunk['parsed_audio_data']['fourcc'], $info['audio']['bitrate']);
+                                    $info['audio']['bitrate'] =
+                                        (isset($info['audio']['bitrate']) ? $info['audio']['bitrate'] : 0) + $thisfile_real_chunks_currentchunk['avg_bit_rate'];
+                                    $info['audio']['codec'] = $this->RealAudioCodecFourCClookup(
+                                        $thisfile_real_chunks_currentchunk['parsed_audio_data']['fourcc'],
+                                        $info['audio']['bitrate']
+                                    );
                                     $info['audio']['dataformat'] = 'real';
                                     $info['audio']['lossless'] = false;
                                     break;
 
                                 case 'video/x-pn-realvideo':
                                 case 'video/x-pn-multirate-realvideo':
-                                    $info['video']['bitrate'] = (isset($info['video']['bitrate']) ? $info['video']['bitrate'] : 0) + $thisfile_real_chunks_currentchunk['avg_bit_rate'];
+                                    $info['video']['bitrate'] =
+                                        (isset($info['video']['bitrate']) ? $info['video']['bitrate'] : 0) + $thisfile_real_chunks_currentchunk['avg_bit_rate'];
                                     $info['video']['bitrate_mode'] = 'cbr';
                                     $info['video']['dataformat'] = 'real';
                                     $info['video']['lossless'] = false;
@@ -281,42 +372,58 @@ class getid3_real extends getid3_handler {
                                     break;
 
                                 case 'audio/x-ralf-mpeg4-generic':
-                                    $info['audio']['bitrate'] = (isset($info['audio']['bitrate']) ? $info['audio']['bitrate'] : 0) + $thisfile_real_chunks_currentchunk['avg_bit_rate'];
+                                    $info['audio']['bitrate'] =
+                                        (isset($info['audio']['bitrate']) ? $info['audio']['bitrate'] : 0) + $thisfile_real_chunks_currentchunk['avg_bit_rate'];
                                     $info['audio']['codec'] = 'RealAudio Lossless';
                                     $info['audio']['dataformat'] = 'real';
                                     $info['audio']['lossless'] = true;
                                     break;
                             }
-                            $info['bitrate'] = (isset($info['video']['bitrate']) ? $info['video']['bitrate'] : 0) + (isset($info['audio']['bitrate']) ? $info['audio']['bitrate'] : 0);
+                            $info['bitrate'] =
+                                (isset($info['video']['bitrate']) ? $info['video']['bitrate'] : 0) + (isset($info['audio']['bitrate']) ? $info['audio']['bitrate'] : 0);
                         }
                     }
                     break;
 
                 case 'CONT': // Content Description Header (text comments)
-                    $thisfile_real_chunks_currentchunk['object_version'] = getid3_lib::BigEndian2Int(substr($ChunkData, $offset, 2));
+                    $thisfile_real_chunks_currentchunk['object_version'] =
+                        getid3_lib::BigEndian2Int(substr($ChunkData, $offset, 2));
                     $offset += 2;
                     if($thisfile_real_chunks_currentchunk['object_version'] == 0) {
-                        $thisfile_real_chunks_currentchunk['title_len'] = getid3_lib::BigEndian2Int(substr($ChunkData, $offset, 2));
+                        $thisfile_real_chunks_currentchunk['title_len'] =
+                            getid3_lib::BigEndian2Int(substr($ChunkData, $offset, 2));
                         $offset += 2;
-                        $thisfile_real_chunks_currentchunk['title'] = (string)substr($ChunkData, $offset, $thisfile_real_chunks_currentchunk['title_len']);
+                        $thisfile_real_chunks_currentchunk['title'] =
+                            (string)substr($ChunkData, $offset, $thisfile_real_chunks_currentchunk['title_len']);
                         $offset += $thisfile_real_chunks_currentchunk['title_len'];
 
-                        $thisfile_real_chunks_currentchunk['artist_len'] = getid3_lib::BigEndian2Int(substr($ChunkData, $offset, 2));
+                        $thisfile_real_chunks_currentchunk['artist_len'] =
+                            getid3_lib::BigEndian2Int(substr($ChunkData, $offset, 2));
                         $offset += 2;
-                        $thisfile_real_chunks_currentchunk['artist'] = (string)substr($ChunkData, $offset, $thisfile_real_chunks_currentchunk['artist_len']);
+                        $thisfile_real_chunks_currentchunk['artist'] =
+                            (string)substr($ChunkData, $offset, $thisfile_real_chunks_currentchunk['artist_len']);
                         $offset += $thisfile_real_chunks_currentchunk['artist_len'];
 
-                        $thisfile_real_chunks_currentchunk['copyright_len'] = getid3_lib::BigEndian2Int(substr($ChunkData, $offset, 2));
+                        $thisfile_real_chunks_currentchunk['copyright_len'] =
+                            getid3_lib::BigEndian2Int(substr($ChunkData, $offset, 2));
                         $offset += 2;
-                        $thisfile_real_chunks_currentchunk['copyright'] = (string)substr($ChunkData, $offset, $thisfile_real_chunks_currentchunk['copyright_len']);
+                        $thisfile_real_chunks_currentchunk['copyright'] =
+                            (string)substr($ChunkData, $offset, $thisfile_real_chunks_currentchunk['copyright_len']);
                         $offset += $thisfile_real_chunks_currentchunk['copyright_len'];
 
-                        $thisfile_real_chunks_currentchunk['comment_len'] = getid3_lib::BigEndian2Int(substr($ChunkData, $offset, 2));
+                        $thisfile_real_chunks_currentchunk['comment_len'] =
+                            getid3_lib::BigEndian2Int(substr($ChunkData, $offset, 2));
                         $offset += 2;
-                        $thisfile_real_chunks_currentchunk['comment'] = (string)substr($ChunkData, $offset, $thisfile_real_chunks_currentchunk['comment_len']);
+                        $thisfile_real_chunks_currentchunk['comment'] =
+                            (string)substr($ChunkData, $offset, $thisfile_real_chunks_currentchunk['comment_len']);
                         $offset += $thisfile_real_chunks_currentchunk['comment_len'];
 
-                        $commentkeystocopy = array('title' => 'title', 'artist' => 'artist', 'copyright' => 'copyright', 'comment' => 'comment');
+                        $commentkeystocopy = array(
+                            'title'     => 'title',
+                            'artist'    => 'artist',
+                            'copyright' => 'copyright',
+                            'comment'   => 'comment'
+                        );
                         foreach($commentkeystocopy as $key => $val) {
                             if($thisfile_real_chunks_currentchunk[$key]) {
                                 $info['real']['comments'][$val][] = trim($thisfile_real_chunks_currentchunk[$key]);
@@ -331,14 +438,18 @@ class getid3_real extends getid3_handler {
                     break;
 
                 case 'INDX': // Index Section Header
-                    $thisfile_real_chunks_currentchunk['object_version'] = getid3_lib::BigEndian2Int(substr($ChunkData, $offset, 2));
+                    $thisfile_real_chunks_currentchunk['object_version'] =
+                        getid3_lib::BigEndian2Int(substr($ChunkData, $offset, 2));
                     $offset += 2;
                     if($thisfile_real_chunks_currentchunk['object_version'] == 0) {
-                        $thisfile_real_chunks_currentchunk['num_indices'] = getid3_lib::BigEndian2Int(substr($ChunkData, $offset, 4));
+                        $thisfile_real_chunks_currentchunk['num_indices'] =
+                            getid3_lib::BigEndian2Int(substr($ChunkData, $offset, 4));
                         $offset += 4;
-                        $thisfile_real_chunks_currentchunk['stream_number'] = getid3_lib::BigEndian2Int(substr($ChunkData, $offset, 2));
+                        $thisfile_real_chunks_currentchunk['stream_number'] =
+                            getid3_lib::BigEndian2Int(substr($ChunkData, $offset, 2));
                         $offset += 2;
-                        $thisfile_real_chunks_currentchunk['next_index_header'] = getid3_lib::BigEndian2Int(substr($ChunkData, $offset, 4));
+                        $thisfile_real_chunks_currentchunk['next_index_header'] =
+                            getid3_lib::BigEndian2Int(substr($ChunkData, $offset, 4));
                         $offset += 4;
 
                         if($thisfile_real_chunks_currentchunk['next_index_header'] == 0) {
@@ -353,7 +464,9 @@ class getid3_real extends getid3_handler {
                     break;
 
                 default:
-                    $this->warning('Unhandled RealMedia chunk "'.$ChunkName.'" at offset '.$thisfile_real_chunks_currentchunk['offset']);
+                    $this->warning(
+                        'Unhandled RealMedia chunk "'.$ChunkName.'" at offset '.$thisfile_real_chunks_currentchunk['offset']
+                    );
                     break;
             }
             $ChunkCounter++;
@@ -403,7 +516,8 @@ class getid3_real extends getid3_handler {
             //$ParsedArray['unknown3']         = getid3_lib::BigEndian2Int(substr($OldRAheaderData, 14, 2));
             $ParsedArray['bytes_per_minute'] = getid3_lib::BigEndian2Int(substr($OldRAheaderData, 16, 2));
             $ParsedArray['audio_bytes'] = getid3_lib::BigEndian2Int(substr($OldRAheaderData, 18, 4));
-            $ParsedArray['comments_raw'] = substr($OldRAheaderData, 22, $ParsedArray['header_size'] - 22 + 1); // not including null terminator
+            $ParsedArray['comments_raw'] =
+                substr($OldRAheaderData, 22, $ParsedArray['header_size'] - 22 + 1); // not including null terminator
 
             $commentoffset = 0;
             $commentlength = getid3_lib::BigEndian2Int(substr($ParsedArray['comments_raw'], $commentoffset++, 1));
@@ -415,7 +529,8 @@ class getid3_real extends getid3_handler {
             $commentoffset += $commentlength;
 
             $commentlength = getid3_lib::BigEndian2Int(substr($ParsedArray['comments_raw'], $commentoffset++, 1));
-            $ParsedArray['comments']['copyright'][] = substr($ParsedArray['comments_raw'], $commentoffset, $commentlength);
+            $ParsedArray['comments']['copyright'][] =
+                substr($ParsedArray['comments_raw'], $commentoffset, $commentlength);
             $commentoffset += $commentlength;
 
             $commentoffset++; // final null terminator (?)
@@ -456,16 +571,22 @@ class getid3_real extends getid3_handler {
                     $ParsedArray['comments_raw'] = substr($OldRAheaderData, 69, $ParsedArray['header_size'] - 69 + 16);
 
                     $commentoffset = 0;
-                    $commentlength = getid3_lib::BigEndian2Int(substr($ParsedArray['comments_raw'], $commentoffset++, 1));
-                    $ParsedArray['comments']['title'][] = substr($ParsedArray['comments_raw'], $commentoffset, $commentlength);
+                    $commentlength =
+                        getid3_lib::BigEndian2Int(substr($ParsedArray['comments_raw'], $commentoffset++, 1));
+                    $ParsedArray['comments']['title'][] =
+                        substr($ParsedArray['comments_raw'], $commentoffset, $commentlength);
                     $commentoffset += $commentlength;
 
-                    $commentlength = getid3_lib::BigEndian2Int(substr($ParsedArray['comments_raw'], $commentoffset++, 1));
-                    $ParsedArray['comments']['artist'][] = substr($ParsedArray['comments_raw'], $commentoffset, $commentlength);
+                    $commentlength =
+                        getid3_lib::BigEndian2Int(substr($ParsedArray['comments_raw'], $commentoffset++, 1));
+                    $ParsedArray['comments']['artist'][] =
+                        substr($ParsedArray['comments_raw'], $commentoffset, $commentlength);
                     $commentoffset += $commentlength;
 
-                    $commentlength = getid3_lib::BigEndian2Int(substr($ParsedArray['comments_raw'], $commentoffset++, 1));
-                    $ParsedArray['comments']['copyright'][] = substr($ParsedArray['comments_raw'], $commentoffset, $commentlength);
+                    $commentlength =
+                        getid3_lib::BigEndian2Int(substr($ParsedArray['comments_raw'], $commentoffset++, 1));
+                    $ParsedArray['comments']['copyright'][] =
+                        substr($ParsedArray['comments_raw'], $commentoffset, $commentlength);
                     $commentoffset += $commentlength;
                     break;
 

@@ -41,7 +41,9 @@ class Argument {
      */
     public function required() {
         if(!array_key_exists($this->key, $this->command->arguments)) {
-            throw new InvalidArgumentException(sprintf("Missing argument %d for %s", $this->key + 1, $this->getCommandName()));
+            throw new InvalidArgumentException(
+                sprintf("Missing argument %d for %s", $this->key + 1, $this->getCommandName())
+            );
         }
 
         return $this;

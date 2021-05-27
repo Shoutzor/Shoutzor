@@ -11,16 +11,19 @@ class CreateRequestsTable extends Migration {
      * @return void
      */
     public function up() {
-        Schema::create('requests', function(Blueprint $table) {
-            $table->increments('id');
-            $table->integer('media_id')->unsigned();
-            $table->foreignId('user_id')->nullable()->constrained('users', 'id')->cascadeOnDelete();
-            $table->timestamp('requested_at')->useCurrent();
-            $table->timestamp('played_at')->nullable()->default(null);
+        Schema::create(
+            'requests',
+            function(Blueprint $table) {
+                $table->increments('id');
+                $table->integer('media_id')->unsigned();
+                $table->foreignId('user_id')->nullable()->constrained('users', 'id')->cascadeOnDelete();
+                $table->timestamp('requested_at')->useCurrent();
+                $table->timestamp('played_at')->nullable()->default(null);
 
-            $table->foreign('media_id')->references('id')->on('media')->cascadeOnDelete();
+                $table->foreign('media_id')->references('id')->on('media')->cascadeOnDelete();
 
-        });
+            }
+        );
     }
 
     /**

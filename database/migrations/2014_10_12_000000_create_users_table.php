@@ -13,20 +13,25 @@ class CreateUsersTable extends Migration {
      * @return void
      */
     public function up() {
-        Schema::create('users', function(Blueprint $table) {
-            $table->id();
-            $table->string('username')->unique();
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->rememberToken();
-            $table->timestamps();
-        });
+        Schema::create(
+            'users',
+            function(Blueprint $table) {
+                $table->id();
+                $table->string('username')->unique();
+                $table->string('email')->unique();
+                $table->timestamp('email_verified_at')->nullable();
+                $table->string('password');
+                $table->rememberToken();
+                $table->timestamps();
+            }
+        );
 
         /*
          * Create the initial admin user
          */
-        DB::table('users')->insert(['username' => "admin", 'email' => "admin-user@example.org", 'password' => Hash::make('admin'),]);
+        DB::table('users')->insert(
+            ['username' => "admin", 'email' => "admin-user@example.org", 'password' => Hash::make('admin'),]
+        );
     }
 
     /**

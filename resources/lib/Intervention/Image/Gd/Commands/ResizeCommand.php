@@ -21,7 +21,17 @@ class ResizeCommand extends AbstractCommand {
         $resized = $image->getSize()->resize($width, $height, $constraints);
 
         // modify image
-        $this->modify($image, 0, 0, 0, 0, $resized->getWidth(), $resized->getHeight(), $image->getWidth(), $image->getHeight());
+        $this->modify(
+            $image,
+            0,
+            0,
+            0,
+            0,
+            $resized->getWidth(),
+            $resized->getHeight(),
+            $image->getWidth(),
+            $image->getHeight()
+        );
 
         return true;
     }
@@ -62,7 +72,8 @@ class ResizeCommand extends AbstractCommand {
         }
 
         // copy content from resource
-        $result = imagecopyresampled($modified, $resource, $dst_x, $dst_y, $src_x, $src_y, $dst_w, $dst_h, $src_w, $src_h);
+        $result =
+            imagecopyresampled($modified, $resource, $dst_x, $dst_y, $src_x, $src_y, $dst_w, $dst_h, $src_w, $src_h);
 
         // set new content as recource
         $image->setCore($modified);

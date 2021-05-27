@@ -5,6 +5,8 @@ import Artist from './Artist';
 import AlbumArtist from './AlbumArtist';
 import AlbumMedia from './AlbumMedia';
 
+import {defaultAlbumImage} from "../config";
+
 export default class Album extends Model {
     static entity = 'albums';
 
@@ -14,6 +16,14 @@ export default class Album extends Model {
                 return this.get('/api/album/get/${id}');
             }
         }
+    }
+
+    get albumImage() {
+        if(this.image === '') {
+            return defaultAlbumImage;
+        }
+
+        return this.image;
     }
 
     static fields() {

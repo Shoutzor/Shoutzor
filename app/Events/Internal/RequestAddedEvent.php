@@ -2,8 +2,8 @@
 
 namespace App\Events\Internal;
 
-use App\Upload;
-use Symfony\Contracts\EventDispatcher\Event;
+use App\Events\ReadOnlyEvent;
+use App\Request;
 
 /**
  * Class RequestAddedEvent
@@ -11,16 +11,16 @@ use Symfony\Contracts\EventDispatcher\Event;
  * @package App\Events
  * Gets called when a request is added to the Queue
  */
-class RequestAddedEvent extends Event {
+class RequestAddedEvent extends ReadOnlyEvent {
     public const NAME = 'request.added';
 
-    protected $upload;
+    protected Request $request;
 
-    public function __construct(Upload $upload) {
-        $this->upload = $upload;
+    public function __construct(Request $request) {
+        $this->request = $request;
     }
 
-    public function getUpload(): Upload {
-        return $this->upload;
+    public function getRequest(): Request {
+        return $this->request;
     }
 }

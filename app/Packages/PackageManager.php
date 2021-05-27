@@ -115,7 +115,7 @@ class PackageManager {
             $path = explode("/", $pkgPath);
             $cnt = count($path);
 
-            $pkg = $path[$cnt - 2] . '\\' . $path[$cnt - 1] . '\\Main';
+            $pkg = $path[$cnt - 2].'\\'.$path[$cnt - 1].'\\Main';
         }
 
         //Check if the package already exists in our registry
@@ -192,9 +192,12 @@ class PackageManager {
      * Updates the list of enabled packages
      */
     public function updateEnabledPackagesList(): void {
-        $map = array_map(function($pkgClassName) {
-            return '"' . $pkgClassName . '"';
-        }, $this->enabledPackages);
+        $map = array_map(
+            function($pkgClassName) {
+                return '"'.$pkgClassName.'"';
+            },
+            $this->enabledPackages
+        );
 
         file_put_contents(storage_path('app/packages_enabled.php'), ClassMapGenerator::createFile($map));
     }
@@ -228,7 +231,7 @@ class PackageManager {
      */
     public function fetchPackages(): array {
         $pkg_root_path = base_path('packages');
-        $pkg_pattern = $pkg_root_path . '/*/*/shoutzor.package';
+        $pkg_pattern = $pkg_root_path.'/*/*/shoutzor.package';
 
         //Check all installed packages
         foreach(glob($pkg_pattern) as $pkg) {
@@ -245,8 +248,8 @@ class PackageManager {
             }
             catch(Exception $e) {
                 //Log an error about the package being invalid
-                Log::error("Tried loading an invalid package: " . $pkg);
-                Log::error("Reason: " . $e->getMessage());
+                Log::error("Tried loading an invalid package: ".$pkg);
+                Log::error("Reason: ".$e->getMessage());
 
                 ob_start();
                 var_dump($e);
@@ -254,7 +257,7 @@ class PackageManager {
             }
             finally {
                 //Log an error about the package being invalid
-                Log::error("Tried loading an invalid package: " . $pkg);
+                Log::error("Tried loading an invalid package: ".$pkg);
             }
         }
 
@@ -272,7 +275,10 @@ class PackageManager {
 
         //Validate that the name, version and namespace fields exist
         //These are the minimum required fields for a Shoutz0r package
-        if(array_key_exists("id", $pkgData) && array_key_exists("name", $pkgData) && array_key_exists("author", $pkgData) && array_key_exists("version", $pkgData)) {
+        if(array_key_exists("id", $pkgData) && array_key_exists("name", $pkgData) && array_key_exists(
+                "author",
+                $pkgData
+            ) && array_key_exists("version", $pkgData)) {
             //Package is valid
             return true;
         }

@@ -25,10 +25,12 @@ class getid3_dts extends getid3_handler {
     /**
      * Possible syncwords indicating bitstream encoding.
      */
-    public static $syncwords = array(0 => "\x7F\xFE\x80\x01",  // raw big-endian
+    public static $syncwords = array(
+        0 => "\x7F\xFE\x80\x01",  // raw big-endian
         1 => "\xFE\x7F\x01\x80",  // raw little-endian
         2 => "\x1F\xFF\xE8\x00",  // 14-bit big-endian
-        3 => "\xFF\x1F\x00\xE8");
+        3 => "\xFF\x1F\x00\xE8"
+    );
     /**
      * @var int
      */
@@ -42,7 +44,9 @@ class getid3_dts extends getid3_handler {
         $info['fileformat'] = 'dts';
 
         $this->fseek($info['avdataoffset']);
-        $DTSheader = $this->fread(20); // we only need 2 words magic + 6 words frame header, but these words may be normal 16-bit words OR 14-bit words with 2 highest bits set to zero, so 8 words can be either 8*16/8 = 16 bytes OR 8*16*(16/14)/8 = 18.3 bytes
+        $DTSheader = $this->fread(
+            20
+        ); // we only need 2 words magic + 6 words frame header, but these words may be normal 16-bit words OR 14-bit words with 2 highest bits set to zero, so 8 words can be either 8*16/8 = 16 bytes OR 8*16*(16/14)/8 = 18.3 bytes
 
         // check syncword
         $sync = substr($DTSheader, 0, 4);
@@ -62,7 +66,12 @@ class getid3_dts extends getid3_handler {
         else {
 
             unset($info['fileformat']);
-            return $this->error('Expecting "'.implode('| ', array_map('getid3_lib::PrintHexBytes', self::$syncwords)).'" at offset '.$info['avdataoffset'].', found "'.getid3_lib::PrintHexBytes($sync).'"');
+            return $this->error(
+                'Expecting "'.implode(
+                    '| ',
+                    array_map('getid3_lib::PrintHexBytes', self::$syncwords)
+                ).'" at offset '.$info['avdataoffset'].', found "'.getid3_lib::PrintHexBytes($sync).'"'
+            );
 
         }
 
@@ -118,11 +127,15 @@ class getid3_dts extends getid3_handler {
         $info['dts']['bitrate'] = self::bitrateLookup($info['dts']['raw']['bitrate']);
         $info['dts']['bits_per_sample'] = self::bitPerSampleLookup($info['dts']['raw']['bits_per_sample']);
         $info['dts']['sample_rate'] = self::sampleRateLookup($info['dts']['raw']['sample_frequency']);
-        $info['dts']['dialog_normalization'] = self::dialogNormalization($info['dts']['raw']['dialog_normalization'], $info['dts']['raw']['encoder_soft_version']);
+        $info['dts']['dialog_normalization'] = self::dialogNormalization(
+            $info['dts']['raw']['dialog_normalization'],
+            $info['dts']['raw']['encoder_soft_version']
+        );
         $info['dts']['flags']['lossless'] = (($info['dts']['raw']['bitrate'] == 31) ? true : false);
         $info['dts']['bitrate_mode'] = (($info['dts']['raw']['bitrate'] == 30) ? 'vbr' : 'cbr');
         $info['dts']['channels'] = self::numChannelsLookup($info['dts']['raw']['channel_arrangement']);
-        $info['dts']['channel_arrangement'] = self::channelArrangementLookup($info['dts']['raw']['channel_arrangement']);
+        $info['dts']['channel_arrangement'] =
+            self::channelArrangementLookup($info['dts']['raw']['channel_arrangement']);
 
         $info['audio']['dataformat'] = 'dts';
         $info['audio']['lossless'] = $info['dts']['flags']['lossless'];
@@ -160,7 +173,40 @@ class getid3_dts extends getid3_handler {
      * @return int|string|false
      */
     public static function bitrateLookup($index) {
-        static $lookup = array(0 => 32000, 1 => 56000, 2 => 64000, 3 => 96000, 4 => 112000, 5 => 128000, 6 => 192000, 7 => 224000, 8 => 256000, 9 => 320000, 10 => 384000, 11 => 448000, 12 => 512000, 13 => 576000, 14 => 640000, 15 => 768000, 16 => 960000, 17 => 1024000, 18 => 1152000, 19 => 1280000, 20 => 1344000, 21 => 1408000, 22 => 1411200, 23 => 1472000, 24 => 1536000, 25 => 1920000, 26 => 2048000, 27 => 3072000, 28 => 3840000, 29 => 'open', 30 => 'variable', 31 => 'lossless',);
+        static $lookup = array(
+            0  => 32000,
+            1  => 56000,
+            2  => 64000,
+            3  => 96000,
+            4  => 112000,
+            5  => 128000,
+            6  => 192000,
+            7  => 224000,
+            8  => 256000,
+            9  => 320000,
+            10 => 384000,
+            11 => 448000,
+            12 => 512000,
+            13 => 576000,
+            14 => 640000,
+            15 => 768000,
+            16 => 960000,
+            17 => 1024000,
+            18 => 1152000,
+            19 => 1280000,
+            20 => 1344000,
+            21 => 1408000,
+            22 => 1411200,
+            23 => 1472000,
+            24 => 1536000,
+            25 => 1920000,
+            26 => 2048000,
+            27 => 3072000,
+            28 => 3840000,
+            29 => 'open',
+            30 => 'variable',
+            31 => 'lossless',
+        );
         return (isset($lookup[$index]) ? $lookup[$index] : false);
     }
 
@@ -180,7 +226,24 @@ class getid3_dts extends getid3_handler {
      * @return int|string|false
      */
     public static function sampleRateLookup($index) {
-        static $lookup = array(0 => 'invalid', 1 => 8000, 2 => 16000, 3 => 32000, 4 => 'invalid', 5 => 'invalid', 6 => 11025, 7 => 22050, 8 => 44100, 9 => 'invalid', 10 => 'invalid', 11 => 12000, 12 => 24000, 13 => 48000, 14 => 'invalid', 15 => 'invalid',);
+        static $lookup = array(
+            0  => 'invalid',
+            1  => 8000,
+            2  => 16000,
+            3  => 32000,
+            4  => 'invalid',
+            5  => 'invalid',
+            6  => 11025,
+            7  => 22050,
+            8  => 44100,
+            9  => 'invalid',
+            10 => 'invalid',
+            11 => 12000,
+            12 => 24000,
+            13 => 48000,
+            14 => 'invalid',
+            15 => 'invalid',
+        );
         return (isset($lookup[$index]) ? $lookup[$index] : false);
     }
 
@@ -251,7 +314,24 @@ class getid3_dts extends getid3_handler {
      * @return string
      */
     public static function channelArrangementLookup($index) {
-        static $lookup = array(0 => 'A', 1 => 'A + B (dual mono)', 2 => 'L + R (stereo)', 3 => '(L+R) + (L-R) (sum-difference)', 4 => 'LT + RT (left and right total)', 5 => 'C + L + R', 6 => 'L + R + S', 7 => 'C + L + R + S', 8 => 'L + R + SL + SR', 9 => 'C + L + R + SL + SR', 10 => 'CL + CR + L + R + SL + SR', 11 => 'C + L + R+ LR + RR + OV', 12 => 'CF + CR + LF + RF + LR + RR', 13 => 'CL + C + CR + L + R + SL + SR', 14 => 'CL + CR + L + R + SL1 + SL2 + SR1 + SR2', 15 => 'CL + C+ CR + L + R + SL + S + SR',);
+        static $lookup = array(
+            0  => 'A',
+            1  => 'A + B (dual mono)',
+            2  => 'L + R (stereo)',
+            3  => '(L+R) + (L-R) (sum-difference)',
+            4  => 'LT + RT (left and right total)',
+            5  => 'C + L + R',
+            6  => 'L + R + S',
+            7  => 'C + L + R + S',
+            8  => 'L + R + SL + SR',
+            9  => 'C + L + R + SL + SR',
+            10 => 'CL + CR + L + R + SL + SR',
+            11 => 'C + L + R+ LR + RR + OV',
+            12 => 'CF + CR + LF + RF + LR + RR',
+            13 => 'CL + C + CR + L + R + SL + SR',
+            14 => 'CL + CR + L + R + SL1 + SL2 + SR1 + SR2',
+            15 => 'CL + C+ CR + L + R + SL + S + SR',
+        );
         return (isset($lookup[$index]) ? $lookup[$index] : 'user-defined');
     }
 

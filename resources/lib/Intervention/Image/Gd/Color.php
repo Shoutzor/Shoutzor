@@ -196,7 +196,12 @@ class Color extends AbstractColor {
         $color_tolerance = round($tolerance * 2.55);
         $alpha_tolerance = round($tolerance * 1.27);
 
-        $delta = ['r' => abs($color->r - $this->r), 'g' => abs($color->g - $this->g), 'b' => abs($color->b - $this->b), 'a' => abs($color->a - $this->a)];
+        $delta = [
+            'r' => abs($color->r - $this->r),
+            'g' => abs($color->g - $this->g),
+            'b' => abs($color->b - $this->b),
+            'a' => abs($color->a - $this->a)
+        ];
 
         return ($delta['r'] > $color_tolerance or $delta['g'] > $color_tolerance or $delta['b'] > $color_tolerance or $delta['a'] > $alpha_tolerance);
     }

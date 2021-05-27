@@ -20,8 +20,15 @@ class AuthApiController extends Controller {
      * @return [string] message
      */
     public function register(Request $request) {
-        $request->validate(['name' => 'required|string', 'email' => 'required|string|email|unique:users', 'password' => 'required|string|confirmed']);
-        $user = new User(['name' => $request->name, 'email' => $request->email, 'password' => bcrypt($request->password)]);
+        $request->validate(
+            [
+                'name'     => 'required|string',
+                'email'    => 'required|string|email|unique:users',
+                'password' => 'required|string|confirmed'
+            ]
+        );
+        $user =
+            new User(['name' => $request->name, 'email' => $request->email, 'password' => bcrypt($request->password)]);
 
         $user->save();
 
@@ -51,7 +58,10 @@ class AuthApiController extends Controller {
 
         //Check if the user is allowed to access the website
         if($user->hasPermissionTo('website.access') === false) {
-            return response()->json(['message' => 'This account does not have the required permission to access the website.'], 401);
+            return response()->json(
+                ['message' => 'This account does not have the required permission to access the website.'],
+                401
+            );
         }
 
         $tokenResult = $user->createToken('Personal Access Token');
@@ -63,7 +73,13 @@ class AuthApiController extends Controller {
 
         $token->save();
 
-        return response()->json(['token' => $tokenResult->accessToken, 'token_type' => 'Bearer', 'expires_at' => Carbon::parse($tokenResult->token->expires_at)->toISOString()]);
+        return response()->json(
+            [
+                'token'      => $tokenResult->accessToken,
+                'token_type' => 'Bearer',
+                'expires_at' => Carbon::parse($tokenResult->token->expires_at)->toISOString()
+            ]
+        );
     }
 
     /**

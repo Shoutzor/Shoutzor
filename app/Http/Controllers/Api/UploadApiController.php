@@ -26,26 +26,31 @@ class UploadApiController extends Controller {
         $name = $request->file('media')->getClientOriginalName();
         $ext = $request->file('media')->extension();
 
-        //TODO check if the file is a valid media file.
-
         //Set the new  name for the file
-        $newName = time() . $name . '.' . $ext;
+        $newName = time().$name.'.'.$ext;
 
         //Move the file to a temporary directory while it's awaiting processing.
         $request->file('media')->storeAs(Upload::STORAGE_PATH, $newName);
 
-        //TODO sanitize the uploaded file. ie: remove all metadata to prevent possible exploits.
-
         //Store the upload in the database for use in the Job
         $upload = new Upload();
         $upload->filename = $newName;
-        //$upload->user_id    = $request->user()->id;
-        $upload->user_id = 1;
+        $upload->user_id = $request->user()->id;
         $upload->status = Upload::STATUS_QUEUED;
-        $upload->save();
 
         //Send the event that an upload has been added
-        app(EventDispatcher::class)->dispatch(new UploadAddedEvent($upload));
+        $event = new UploadAddedEvent($upload);
+        app(EventDispatcher::class)->dispatch($event);
+
+        //TODO add eventlistener: check if the file is a valid media file.
+        //TODO add eventlistener: sanitize the uploaded file. ie: remove all metadata to prevent possible exploits.
+
+        // Check if any eventhandlers marked the upload as invalid
+        if($event->isValid() === false) {
+            return response()->json(['message' => 'Upload rejected, reason: '.$event->getReason()], 406);
+        }
+
+        $upload->save();
 
         //Add the Upload as a job to the Queue for processing
         //ProcessUpload::dispatch($upload)->onConnection('database_' . Upload::QUEUE_NAME)->onQueue(Upload::QUEUE_NAME);

@@ -46,7 +46,10 @@ class ImageServiceProviderLaravel5 extends ServiceProvider {
             $filename_pattern = '[ \w\\.\\/\\-\\@\(\)]+';
 
             // route to access template applied image file
-            $app['router']->get(config('imagecache.route').'/{template}/{filename}', ['uses' => 'Intervention\Image\ImageCacheController@getResponse', 'as' => 'imagecache'])->where(['filename' => $filename_pattern]);
+            $app['router']->get(
+                config('imagecache.route').'/{template}/{filename}',
+                ['uses' => 'Intervention\Image\ImageCacheController@getResponse', 'as' => 'imagecache']
+            )->where(['filename' => $filename_pattern]);
         }
     }
 
@@ -62,9 +65,12 @@ class ImageServiceProviderLaravel5 extends ServiceProvider {
         $this->mergeConfigFrom(__DIR__.'/../../config/config.php', 'image');
 
         // create image
-        $app->singleton('image', function($app) {
-            return new ImageManager($app['config']->get('image'));
-        });
+        $app->singleton(
+            'image',
+            function($app) {
+                return new ImageManager($app['config']->get('image'));
+            }
+        );
 
         $app->alias('image', 'Intervention\Image\ImageManager');
     }

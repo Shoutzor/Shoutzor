@@ -31,7 +31,9 @@ class ImageManager {
      */
     private function checkRequirements() {
         if(!function_exists('finfo_buffer')) {
-            throw new MissingDependencyException("PHP Fileinfo extension must be installed/enabled to use Intervention Image.");
+            throw new MissingDependencyException(
+                "PHP Fileinfo extension must be installed/enabled to use Intervention Image."
+            );
         }
     }
 
@@ -119,6 +121,8 @@ class ImageManager {
             return $imagecache->get($lifetime, $returnObj);
         }
 
-        throw new MissingDependencyException("Please install package intervention/imagecache before running this function.");
+        throw new MissingDependencyException(
+            "Please install package intervention/imagecache before running this function."
+        );
     }
 }

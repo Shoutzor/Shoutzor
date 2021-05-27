@@ -206,7 +206,13 @@ class Color extends AbstractColor {
      * @return string
      */
     public function getRgba() {
-        return sprintf('rgba(%d, %d, %d, %.2F)', $this->getRedValue(), $this->getGreenValue(), $this->getBlueValue(), $this->getAlphaValue());
+        return sprintf(
+            'rgba(%d, %d, %d, %.2F)',
+            $this->getRedValue(),
+            $this->getGreenValue(),
+            $this->getBlueValue(),
+            $this->getAlphaValue()
+        );
     }
 
     /**
@@ -220,7 +226,12 @@ class Color extends AbstractColor {
         $color_tolerance = round($tolerance * 2.55);
         $alpha_tolerance = round($tolerance);
 
-        $delta = ['r' => abs($color->getRedValue() - $this->getRedValue()), 'g' => abs($color->getGreenValue() - $this->getGreenValue()), 'b' => abs($color->getBlueValue() - $this->getBlueValue()), 'a' => abs($color->getAlphaValue() - $this->getAlphaValue())];
+        $delta = [
+            'r' => abs($color->getRedValue() - $this->getRedValue()),
+            'g' => abs($color->getGreenValue() - $this->getGreenValue()),
+            'b' => abs($color->getBlueValue() - $this->getBlueValue()),
+            'a' => abs($color->getAlphaValue() - $this->getAlphaValue())
+        ];
 
         return ($delta['r'] > $color_tolerance or $delta['g'] > $color_tolerance or $delta['b'] > $color_tolerance or $delta['a'] > $alpha_tolerance);
     }

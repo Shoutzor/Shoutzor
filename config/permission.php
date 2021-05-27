@@ -68,7 +68,8 @@ return [
          * basic default value but you may easily change it to any table you like.
          */
 
-        'role_has_permissions' => 'role_has_permissions',],
+        'role_has_permissions' => 'role_has_permissions',
+    ],
 
     'column_names' => [
 
@@ -80,7 +81,8 @@ return [
          * that case, name this `model_uuid`.
          */
 
-        'model_morph_key' => 'model_id',],
+        'model_morph_key' => 'model_id',
+    ],
 
     /*
      * When set to true, the required permission names are added to the exception
@@ -136,4 +138,6 @@ return [
          * file. Using 'default' here means to use the `default` set in cache.php.
          */
 
-        'store' => 'default',],];
+        'store' => 'default',
+    ],
+];

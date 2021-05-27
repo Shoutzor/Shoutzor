@@ -47,7 +47,13 @@ class getid3_bmp extends getid3_handler {
 
         $magic = 'BM';
         if($thisfile_bmp_header_raw['identifier'] != $magic) {
-            $this->error('Expecting "'.getid3_lib::PrintHexBytes($magic).'" at offset '.$info['avdataoffset'].', found "'.getid3_lib::PrintHexBytes($thisfile_bmp_header_raw['identifier']).'"');
+            $this->error(
+                'Expecting "'.getid3_lib::PrintHexBytes(
+                    $magic
+                ).'" at offset '.$info['avdataoffset'].', found "'.getid3_lib::PrintHexBytes(
+                    $thisfile_bmp_header_raw['identifier']
+                ).'"'
+            );
             unset($info['fileformat']);
             unset($info['bmp']);
             return false;
@@ -146,7 +152,8 @@ class getid3_bmp extends getid3_handler {
 
                 $thisfile_bmp_header_raw['compression'] = getid3_lib::LittleEndian2Int(substr($BMPheader, $offset, 4));
                 $offset += 4;
-                $thisfile_bmp_header_raw['bmp_data_size'] = getid3_lib::LittleEndian2Int(substr($BMPheader, $offset, 4));
+                $thisfile_bmp_header_raw['bmp_data_size'] =
+                    getid3_lib::LittleEndian2Int(substr($BMPheader, $offset, 4));
                 $offset += 4;
                 $thisfile_bmp_header_raw['resolution_h'] = getid3_lib::LittleEndian2Int(substr($BMPheader, $offset, 4));
                 $offset += 4;
@@ -154,9 +161,11 @@ class getid3_bmp extends getid3_handler {
                 $offset += 4;
                 $thisfile_bmp_header_raw['colors_used'] = getid3_lib::LittleEndian2Int(substr($BMPheader, $offset, 4));
                 $offset += 4;
-                $thisfile_bmp_header_raw['colors_important'] = getid3_lib::LittleEndian2Int(substr($BMPheader, $offset, 4));
+                $thisfile_bmp_header_raw['colors_important'] =
+                    getid3_lib::LittleEndian2Int(substr($BMPheader, $offset, 4));
                 $offset += 4;
-                $thisfile_bmp_header_raw['resolution_units'] = getid3_lib::LittleEndian2Int(substr($BMPheader, $offset, 2));
+                $thisfile_bmp_header_raw['resolution_units'] =
+                    getid3_lib::LittleEndian2Int(substr($BMPheader, $offset, 2));
                 $offset += 2;
                 $thisfile_bmp_header_raw['reserved1'] = getid3_lib::LittleEndian2Int(substr($BMPheader, $offset, 2));
                 $offset += 2;
@@ -168,14 +177,17 @@ class getid3_bmp extends getid3_handler {
                 $offset += 4;
                 $thisfile_bmp_header_raw['size2'] = getid3_lib::LittleEndian2Int(substr($BMPheader, $offset, 4));
                 $offset += 4;
-                $thisfile_bmp_header_raw['color_encoding'] = getid3_lib::LittleEndian2Int(substr($BMPheader, $offset, 4));
+                $thisfile_bmp_header_raw['color_encoding'] =
+                    getid3_lib::LittleEndian2Int(substr($BMPheader, $offset, 4));
                 $offset += 4;
                 $thisfile_bmp_header_raw['identifier'] = getid3_lib::LittleEndian2Int(substr($BMPheader, $offset, 4));
                 $offset += 4;
 
-                $thisfile_bmp_header['compression'] = $this->BMPcompressionOS2Lookup($thisfile_bmp_header_raw['compression']);
+                $thisfile_bmp_header['compression'] =
+                    $this->BMPcompressionOS2Lookup($thisfile_bmp_header_raw['compression']);
 
-                $info['video']['codec'] = $thisfile_bmp_header['compression'].' '.$thisfile_bmp_header_raw['bits_per_pixel'].'-bit';
+                $info['video']['codec'] =
+                    $thisfile_bmp_header['compression'].' '.$thisfile_bmp_header_raw['bits_per_pixel'].'-bit';
             }
 
         }
@@ -211,19 +223,23 @@ class getid3_bmp extends getid3_handler {
             $offset += 4;
             $thisfile_bmp_header_raw['bmp_data_size'] = getid3_lib::LittleEndian2Int(substr($BMPheader, $offset, 4));
             $offset += 4;
-            $thisfile_bmp_header_raw['resolution_h'] = getid3_lib::LittleEndian2Int(substr($BMPheader, $offset, 4), true);
+            $thisfile_bmp_header_raw['resolution_h'] =
+                getid3_lib::LittleEndian2Int(substr($BMPheader, $offset, 4), true);
             $offset += 4;
-            $thisfile_bmp_header_raw['resolution_v'] = getid3_lib::LittleEndian2Int(substr($BMPheader, $offset, 4), true);
+            $thisfile_bmp_header_raw['resolution_v'] =
+                getid3_lib::LittleEndian2Int(substr($BMPheader, $offset, 4), true);
             $offset += 4;
             $thisfile_bmp_header_raw['colors_used'] = getid3_lib::LittleEndian2Int(substr($BMPheader, $offset, 4));
             $offset += 4;
             $thisfile_bmp_header_raw['colors_important'] = getid3_lib::LittleEndian2Int(substr($BMPheader, $offset, 4));
             $offset += 4;
 
-            $thisfile_bmp_header['compression'] = $this->BMPcompressionWindowsLookup($thisfile_bmp_header_raw['compression']);
+            $thisfile_bmp_header['compression'] =
+                $this->BMPcompressionWindowsLookup($thisfile_bmp_header_raw['compression']);
             $info['video']['resolution_x'] = $thisfile_bmp_header_raw['width'];
             $info['video']['resolution_y'] = $thisfile_bmp_header_raw['height'];
-            $info['video']['codec'] = $thisfile_bmp_header['compression'].' '.$thisfile_bmp_header_raw['bits_per_pixel'].'-bit';
+            $info['video']['codec'] =
+                $thisfile_bmp_header['compression'].' '.$thisfile_bmp_header_raw['bits_per_pixel'].'-bit';
             $info['video']['bits_per_sample'] = $thisfile_bmp_header_raw['bits_per_pixel'];
 
             if(($thisfile_bmp['type_version'] >= 4) || ($thisfile_bmp_header_raw['compression'] == 3)) {
@@ -264,9 +280,12 @@ class getid3_bmp extends getid3_handler {
                 $thisfile_bmp_header_raw['gamma_blue'] = getid3_lib::LittleEndian2Int(substr($BMPheader, $offset, 4));
                 $offset += 4;
 
-                $thisfile_bmp_header['ciexyz_red'] = getid3_lib::FixedPoint2_30(strrev($thisfile_bmp_header_raw['ciexyz_red']));
-                $thisfile_bmp_header['ciexyz_green'] = getid3_lib::FixedPoint2_30(strrev($thisfile_bmp_header_raw['ciexyz_green']));
-                $thisfile_bmp_header['ciexyz_blue'] = getid3_lib::FixedPoint2_30(strrev($thisfile_bmp_header_raw['ciexyz_blue']));
+                $thisfile_bmp_header['ciexyz_red'] =
+                    getid3_lib::FixedPoint2_30(strrev($thisfile_bmp_header_raw['ciexyz_red']));
+                $thisfile_bmp_header['ciexyz_green'] =
+                    getid3_lib::FixedPoint2_30(strrev($thisfile_bmp_header_raw['ciexyz_green']));
+                $thisfile_bmp_header['ciexyz_blue'] =
+                    getid3_lib::FixedPoint2_30(strrev($thisfile_bmp_header_raw['ciexyz_blue']));
             }
 
             if($thisfile_bmp['type_version'] >= 5) {
@@ -280,9 +299,11 @@ class getid3_bmp extends getid3_handler {
                 // DWORD        bV5Reserved;
                 $thisfile_bmp_header_raw['intent'] = getid3_lib::LittleEndian2Int(substr($BMPheader, $offset, 4));
                 $offset += 4;
-                $thisfile_bmp_header_raw['profile_data_offset'] = getid3_lib::LittleEndian2Int(substr($BMPheader, $offset, 4));
+                $thisfile_bmp_header_raw['profile_data_offset'] =
+                    getid3_lib::LittleEndian2Int(substr($BMPheader, $offset, 4));
                 $offset += 4;
-                $thisfile_bmp_header_raw['profile_data_size'] = getid3_lib::LittleEndian2Int(substr($BMPheader, $offset, 4));
+                $thisfile_bmp_header_raw['profile_data_size'] =
+                    getid3_lib::LittleEndian2Int(substr($BMPheader, $offset, 4));
                 $offset += 4;
                 $thisfile_bmp_header_raw['reserved3'] = getid3_lib::LittleEndian2Int(substr($BMPheader, $offset, 4));
                 $offset += 4;
@@ -329,10 +350,13 @@ class getid3_bmp extends getid3_handler {
 
         if($this->ExtractData) {
             $this->fseek($thisfile_bmp_header_raw['data_offset']);
-            $RowByteLength = ceil(($thisfile_bmp_header_raw['width'] * ($thisfile_bmp_header_raw['bits_per_pixel'] / 8)) / 4) * 4; // round up to nearest DWORD boundry
+            $RowByteLength = ceil(
+                    ($thisfile_bmp_header_raw['width'] * ($thisfile_bmp_header_raw['bits_per_pixel'] / 8)) / 4
+                ) * 4; // round up to nearest DWORD boundry
             $BMPpixelData = $this->fread($thisfile_bmp_header_raw['height'] * $RowByteLength);
             $pixeldataoffset = 0;
-            $thisfile_bmp_header_raw['compression'] = (isset($thisfile_bmp_header_raw['compression']) ? $thisfile_bmp_header_raw['compression'] : '');
+            $thisfile_bmp_header_raw['compression'] =
+                (isset($thisfile_bmp_header_raw['compression']) ? $thisfile_bmp_header_raw['compression'] : '');
             switch($thisfile_bmp_header_raw['compression']) {
 
                 case 0: // BI_RGB
@@ -387,7 +411,10 @@ class getid3_bmp extends getid3_handler {
                         case 24:
                             for($row = ($thisfile_bmp_header_raw['height'] - 1); $row >= 0; $row--) {
                                 for($col = 0; $col < $thisfile_bmp_header_raw['width']; $col++) {
-                                    $thisfile_bmp['data'][$row][$col] = (ord($BMPpixelData{$pixeldataoffset + 2}) << 16) | (ord($BMPpixelData{$pixeldataoffset + 1}) << 8) | ord($BMPpixelData{$pixeldataoffset});
+                                    $thisfile_bmp['data'][$row][$col] =
+                                        (ord($BMPpixelData{$pixeldataoffset + 2}) << 16) | (ord(
+                                                $BMPpixelData{$pixeldataoffset + 1}
+                                            ) << 8) | ord($BMPpixelData{$pixeldataoffset});
                                     $pixeldataoffset += 3;
                                 }
                                 while(($pixeldataoffset % 4) != 0) {
@@ -400,7 +427,12 @@ class getid3_bmp extends getid3_handler {
                         case 32:
                             for($row = ($thisfile_bmp_header_raw['height'] - 1); $row >= 0; $row--) {
                                 for($col = 0; $col < $thisfile_bmp_header_raw['width']; $col++) {
-                                    $thisfile_bmp['data'][$row][$col] = (ord($BMPpixelData{$pixeldataoffset + 3}) << 24) | (ord($BMPpixelData{$pixeldataoffset + 2}) << 16) | (ord($BMPpixelData{$pixeldataoffset + 1}) << 8) | ord($BMPpixelData{$pixeldataoffset});
+                                    $thisfile_bmp['data'][$row][$col] =
+                                        (ord($BMPpixelData{$pixeldataoffset + 3}) << 24) | (ord(
+                                                $BMPpixelData{$pixeldataoffset + 2}
+                                            ) << 16) | (ord($BMPpixelData{$pixeldataoffset + 1}) << 8) | ord(
+                                            $BMPpixelData{$pixeldataoffset}
+                                        );
                                     $pixeldataoffset += 4;
                                 }
                                 while(($pixeldataoffset % 4) != 0) {
@@ -415,7 +447,9 @@ class getid3_bmp extends getid3_handler {
                             break;
 
                         default:
-                            $this->error('Unknown bits-per-pixel value ('.$thisfile_bmp_header_raw['bits_per_pixel'].') - cannot read pixel data');
+                            $this->error(
+                                'Unknown bits-per-pixel value ('.$thisfile_bmp_header_raw['bits_per_pixel'].') - cannot read pixel data'
+                            );
                             break;
                     }
                     break;
@@ -426,7 +460,8 @@ class getid3_bmp extends getid3_handler {
                             $pixelcounter = 0;
                             while($pixeldataoffset < strlen($BMPpixelData)) {
                                 $firstbyte = getid3_lib::LittleEndian2Int(substr($BMPpixelData, $pixeldataoffset++, 1));
-                                $secondbyte = getid3_lib::LittleEndian2Int(substr($BMPpixelData, $pixeldataoffset++, 1));
+                                $secondbyte =
+                                    getid3_lib::LittleEndian2Int(substr($BMPpixelData, $pixeldataoffset++, 1));
                                 if($firstbyte == 0) {
 
                                     // escaped/absolute mode - the first byte of the pair can be set to zero to
@@ -447,10 +482,15 @@ class getid3_bmp extends getid3_handler {
                                             // delta - The 2 bytes following the escape contain unsigned values
                                             // indicating the horizontal and vertical offsets of the next pixel
                                             // from the current position.
-                                            $colincrement = getid3_lib::LittleEndian2Int(substr($BMPpixelData, $pixeldataoffset++, 1));
-                                            $rowincrement = getid3_lib::LittleEndian2Int(substr($BMPpixelData, $pixeldataoffset++, 1));
+                                            $colincrement = getid3_lib::LittleEndian2Int(
+                                                substr($BMPpixelData, $pixeldataoffset++, 1)
+                                            );
+                                            $rowincrement = getid3_lib::LittleEndian2Int(
+                                                substr($BMPpixelData, $pixeldataoffset++, 1)
+                                            );
                                             $col = ($pixelcounter % $thisfile_bmp_header_raw['width']) + $colincrement;
-                                            $row = ($thisfile_bmp_header_raw['height'] - 1 - (($pixelcounter - $col) / $thisfile_bmp_header_raw['width'])) - $rowincrement;
+                                            $row =
+                                                ($thisfile_bmp_header_raw['height'] - 1 - (($pixelcounter - $col) / $thisfile_bmp_header_raw['width'])) - $rowincrement;
                                             $pixelcounter = ($row * $thisfile_bmp_header_raw['width']) + $col;
                                             break;
 
@@ -460,10 +500,14 @@ class getid3_bmp extends getid3_handler {
                                             // number of bytes that follow, each of which contains the color index
                                             // of a single pixel. Each run must be aligned on a word boundary.
                                             for($i = 0; $i < $secondbyte; $i++) {
-                                                $paletteindex = getid3_lib::LittleEndian2Int(substr($BMPpixelData, $pixeldataoffset++, 1));
+                                                $paletteindex = getid3_lib::LittleEndian2Int(
+                                                    substr($BMPpixelData, $pixeldataoffset++, 1)
+                                                );
                                                 $col = $pixelcounter % $thisfile_bmp_header_raw['width'];
-                                                $row = $thisfile_bmp_header_raw['height'] - 1 - (($pixelcounter - $col) / $thisfile_bmp_header_raw['width']);
-                                                $thisfile_bmp['data'][$row][$col] = $thisfile_bmp['palette'][$paletteindex];
+                                                $row =
+                                                    $thisfile_bmp_header_raw['height'] - 1 - (($pixelcounter - $col) / $thisfile_bmp_header_raw['width']);
+                                                $thisfile_bmp['data'][$row][$col] =
+                                                    $thisfile_bmp['palette'][$paletteindex];
                                                 $pixelcounter++;
                                             }
                                             while(($pixeldataoffset % 2) != 0) {
@@ -480,7 +524,8 @@ class getid3_bmp extends getid3_handler {
                                     // to be drawn using the color index contained in the second byte.
                                     for($i = 0; $i < $firstbyte; $i++) {
                                         $col = $pixelcounter % $thisfile_bmp_header_raw['width'];
-                                        $row = $thisfile_bmp_header_raw['height'] - 1 - (($pixelcounter - $col) / $thisfile_bmp_header_raw['width']);
+                                        $row =
+                                            $thisfile_bmp_header_raw['height'] - 1 - (($pixelcounter - $col) / $thisfile_bmp_header_raw['width']);
                                         $thisfile_bmp['data'][$row][$col] = $thisfile_bmp['palette'][$secondbyte];
                                         $pixelcounter++;
                                     }
@@ -490,7 +535,9 @@ class getid3_bmp extends getid3_handler {
                             break;
 
                         default:
-                            $this->error('Unknown bits-per-pixel value ('.$thisfile_bmp_header_raw['bits_per_pixel'].') - cannot read pixel data');
+                            $this->error(
+                                'Unknown bits-per-pixel value ('.$thisfile_bmp_header_raw['bits_per_pixel'].') - cannot read pixel data'
+                            );
                             break;
                     }
                     break;
@@ -501,7 +548,8 @@ class getid3_bmp extends getid3_handler {
                             $pixelcounter = 0;
                             while($pixeldataoffset < strlen($BMPpixelData)) {
                                 $firstbyte = getid3_lib::LittleEndian2Int(substr($BMPpixelData, $pixeldataoffset++, 1));
-                                $secondbyte = getid3_lib::LittleEndian2Int(substr($BMPpixelData, $pixeldataoffset++, 1));
+                                $secondbyte =
+                                    getid3_lib::LittleEndian2Int(substr($BMPpixelData, $pixeldataoffset++, 1));
                                 if($firstbyte == 0) {
 
                                     // escaped/absolute mode - the first byte of the pair can be set to zero to
@@ -522,10 +570,15 @@ class getid3_bmp extends getid3_handler {
                                             // delta - The 2 bytes following the escape contain unsigned values
                                             // indicating the horizontal and vertical offsets of the next pixel
                                             // from the current position.
-                                            $colincrement = getid3_lib::LittleEndian2Int(substr($BMPpixelData, $pixeldataoffset++, 1));
-                                            $rowincrement = getid3_lib::LittleEndian2Int(substr($BMPpixelData, $pixeldataoffset++, 1));
+                                            $colincrement = getid3_lib::LittleEndian2Int(
+                                                substr($BMPpixelData, $pixeldataoffset++, 1)
+                                            );
+                                            $rowincrement = getid3_lib::LittleEndian2Int(
+                                                substr($BMPpixelData, $pixeldataoffset++, 1)
+                                            );
                                             $col = ($pixelcounter % $thisfile_bmp_header_raw['width']) + $colincrement;
-                                            $row = ($thisfile_bmp_header_raw['height'] - 1 - (($pixelcounter - $col) / $thisfile_bmp_header_raw['width'])) - $rowincrement;
+                                            $row =
+                                                ($thisfile_bmp_header_raw['height'] - 1 - (($pixelcounter - $col) / $thisfile_bmp_header_raw['width'])) - $rowincrement;
                                             $pixelcounter = ($row * $thisfile_bmp_header_raw['width']) + $col;
                                             break;
 
@@ -537,7 +590,9 @@ class getid3_bmp extends getid3_handler {
                                             unset($paletteindexes);
                                             $paletteindexes = array();
                                             for($i = 0; $i < ceil($secondbyte / 2); $i++) {
-                                                $paletteindexbyte = getid3_lib::LittleEndian2Int(substr($BMPpixelData, $pixeldataoffset++, 1));
+                                                $paletteindexbyte = getid3_lib::LittleEndian2Int(
+                                                    substr($BMPpixelData, $pixeldataoffset++, 1)
+                                                );
                                                 $paletteindexes[] = ($paletteindexbyte & 0xF0) >> 4;
                                                 $paletteindexes[] = ($paletteindexbyte & 0x0F);
                                             }
@@ -548,8 +603,10 @@ class getid3_bmp extends getid3_handler {
 
                                             foreach($paletteindexes as $paletteindex) {
                                                 $col = $pixelcounter % $thisfile_bmp_header_raw['width'];
-                                                $row = $thisfile_bmp_header_raw['height'] - 1 - (($pixelcounter - $col) / $thisfile_bmp_header_raw['width']);
-                                                $thisfile_bmp['data'][$row][$col] = $thisfile_bmp['palette'][$paletteindex];
+                                                $row =
+                                                    $thisfile_bmp_header_raw['height'] - 1 - (($pixelcounter - $col) / $thisfile_bmp_header_raw['width']);
+                                                $thisfile_bmp['data'][$row][$col] =
+                                                    $thisfile_bmp['palette'][$paletteindex];
                                                 $pixelcounter++;
                                             }
                                             break;
@@ -569,8 +626,10 @@ class getid3_bmp extends getid3_handler {
                                     $paletteindexes[1] = ($secondbyte & 0x0F);
                                     for($i = 0; $i < $firstbyte; $i++) {
                                         $col = $pixelcounter % $thisfile_bmp_header_raw['width'];
-                                        $row = $thisfile_bmp_header_raw['height'] - 1 - (($pixelcounter - $col) / $thisfile_bmp_header_raw['width']);
-                                        $thisfile_bmp['data'][$row][$col] = $thisfile_bmp['palette'][$paletteindexes[($i % 2)]];
+                                        $row =
+                                            $thisfile_bmp_header_raw['height'] - 1 - (($pixelcounter - $col) / $thisfile_bmp_header_raw['width']);
+                                        $thisfile_bmp['data'][$row][$col] =
+                                            $thisfile_bmp['palette'][$paletteindexes[($i % 2)]];
                                         $pixelcounter++;
                                     }
 
@@ -579,7 +638,9 @@ class getid3_bmp extends getid3_handler {
                             break;
 
                         default:
-                            $this->error('Unknown bits-per-pixel value ('.$thisfile_bmp_header_raw['bits_per_pixel'].') - cannot read pixel data');
+                            $this->error(
+                                'Unknown bits-per-pixel value ('.$thisfile_bmp_header_raw['bits_per_pixel'].') - cannot read pixel data'
+                            );
                             break;
                     }
                     break;
@@ -602,12 +663,30 @@ class getid3_bmp extends getid3_handler {
                             }
                             for($row = ($thisfile_bmp_header_raw['height'] - 1); $row >= 0; $row--) {
                                 for($col = 0; $col < $thisfile_bmp_header_raw['width']; $col++) {
-                                    $pixelvalue = getid3_lib::LittleEndian2Int(substr($BMPpixelData, $pixeldataoffset, $thisfile_bmp_header_raw['bits_per_pixel'] / 8));
+                                    $pixelvalue = getid3_lib::LittleEndian2Int(
+                                        substr(
+                                            $BMPpixelData,
+                                            $pixeldataoffset,
+                                            $thisfile_bmp_header_raw['bits_per_pixel'] / 8
+                                        )
+                                    );
                                     $pixeldataoffset += $thisfile_bmp_header_raw['bits_per_pixel'] / 8;
 
-                                    $red = intval(round(((($pixelvalue & $thisfile_bmp_header_raw['red_mask']) >> $redshift) / ($thisfile_bmp_header_raw['red_mask'] >> $redshift)) * 255));
-                                    $green = intval(round(((($pixelvalue & $thisfile_bmp_header_raw['green_mask']) >> $greenshift) / ($thisfile_bmp_header_raw['green_mask'] >> $greenshift)) * 255));
-                                    $blue = intval(round(((($pixelvalue & $thisfile_bmp_header_raw['blue_mask']) >> $blueshift) / ($thisfile_bmp_header_raw['blue_mask'] >> $blueshift)) * 255));
+                                    $red = intval(
+                                        round(
+                                            ((($pixelvalue & $thisfile_bmp_header_raw['red_mask']) >> $redshift) / ($thisfile_bmp_header_raw['red_mask'] >> $redshift)) * 255
+                                        )
+                                    );
+                                    $green = intval(
+                                        round(
+                                            ((($pixelvalue & $thisfile_bmp_header_raw['green_mask']) >> $greenshift) / ($thisfile_bmp_header_raw['green_mask'] >> $greenshift)) * 255
+                                        )
+                                    );
+                                    $blue = intval(
+                                        round(
+                                            ((($pixelvalue & $thisfile_bmp_header_raw['blue_mask']) >> $blueshift) / ($thisfile_bmp_header_raw['blue_mask'] >> $blueshift)) * 255
+                                        )
+                                    );
                                     $thisfile_bmp['data'][$row][$col] = (($red << 16) | ($green << 8) | ($blue));
                                 }
                                 while(($pixeldataoffset % 4) != 0) {
@@ -618,13 +697,17 @@ class getid3_bmp extends getid3_handler {
                             break;
 
                         default:
-                            $this->error('Unknown bits-per-pixel value ('.$thisfile_bmp_header_raw['bits_per_pixel'].') - cannot read pixel data');
+                            $this->error(
+                                'Unknown bits-per-pixel value ('.$thisfile_bmp_header_raw['bits_per_pixel'].') - cannot read pixel data'
+                            );
                             break;
                     }
                     break;
 
                 default: // unhandled compression type
-                    $this->error('Unknown/unhandled compression type value ('.$thisfile_bmp_header_raw['compression'].') - cannot decompress pixel data');
+                    $this->error(
+                        'Unknown/unhandled compression type value ('.$thisfile_bmp_header_raw['compression'].') - cannot decompress pixel data'
+                    );
                     break;
             }
         }
@@ -638,7 +721,8 @@ class getid3_bmp extends getid3_handler {
      * @return string
      */
     public function BMPcompressionOS2Lookup($compressionid) {
-        static $BMPcompressionOS2Lookup = array(0 => 'BI_RGB', 1 => 'BI_RLE8', 2 => 'BI_RLE4', 3 => 'Huffman 1D', 4 => 'BI_RLE24',);
+        static $BMPcompressionOS2Lookup =
+            array(0 => 'BI_RGB', 1 => 'BI_RLE8', 2 => 'BI_RLE4', 3 => 'Huffman 1D', 4 => 'BI_RLE24',);
         return (isset($BMPcompressionOS2Lookup[$compressionid]) ? $BMPcompressionOS2Lookup[$compressionid] : 'invalid');
     }
 
@@ -648,7 +732,8 @@ class getid3_bmp extends getid3_handler {
      * @return string
      */
     public function BMPcompressionWindowsLookup($compressionid) {
-        static $BMPcompressionWindowsLookup = array(0 => 'BI_RGB', 1 => 'BI_RLE8', 2 => 'BI_RLE4', 3 => 'BI_BITFIELDS', 4 => 'BI_JPEG', 5 => 'BI_PNG');
+        static $BMPcompressionWindowsLookup =
+            array(0 => 'BI_RGB', 1 => 'BI_RLE8', 2 => 'BI_RLE4', 3 => 'BI_BITFIELDS', 4 => 'BI_JPEG', 5 => 'BI_PNG');
         return (isset($BMPcompressionWindowsLookup[$compressionid]) ? $BMPcompressionWindowsLookup[$compressionid] : 'invalid');
     }
 
@@ -681,7 +766,8 @@ class getid3_bmp extends getid3_handler {
                 }
             }
             if(headers_sent()) {
-                echo 'plotted '.($BMPinfo['resolution_x'] * $BMPinfo['resolution_y']).' pixels in '.(time() - $starttime).' seconds<BR>';
+                echo 'plotted '.($BMPinfo['resolution_x'] * $BMPinfo['resolution_y']).' pixels in '.(time(
+                        ) - $starttime).' seconds<BR>';
                 imagedestroy($im);
                 exit;
             }

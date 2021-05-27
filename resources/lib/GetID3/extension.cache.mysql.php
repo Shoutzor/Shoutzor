@@ -162,7 +162,12 @@ class getID3_cached_mysql extends getID3 {
     public function clear_cache() {
 
         $this->cursor = mysql_query('DELETE FROM `'.mysql_real_escape_string($this->table).'`', $this->connection);
-        $this->cursor = mysql_query('INSERT INTO `'.mysql_real_escape_string($this->table).'` VALUES (\''.getID3::VERSION.'\', -1, -1, -1, \''.getID3::VERSION.'\')', $this->connection);
+        $this->cursor = mysql_query(
+            'INSERT INTO `'.mysql_real_escape_string(
+                $this->table
+            ).'` VALUES (\''.getID3::VERSION.'\', -1, -1, -1, \''.getID3::VERSION.'\')',
+            $this->connection
+        );
     }
 
     /**
@@ -202,7 +207,9 @@ class getID3_cached_mysql extends getID3 {
 
         // Save result
         if(file_exists($filename)) {
-            $SQLquery = 'INSERT INTO `'.mysql_real_escape_string($this->table).'` (`filename`, `filesize`, `filetime`, `analyzetime`, `value`) VALUES (';
+            $SQLquery = 'INSERT INTO `'.mysql_real_escape_string(
+                    $this->table
+                ).'` (`filename`, `filesize`, `filetime`, `analyzetime`, `value`) VALUES (';
             $SQLquery .= '\''.mysql_real_escape_string($filename).'\'';
             $SQLquery .= ', \''.mysql_real_escape_string($filesize).'\'';
             $SQLquery .= ', \''.mysql_real_escape_string($filetime).'\'';

@@ -5,8 +5,18 @@ import AlbumMedia from "./AlbumMedia";
 import Artist from "./Artist";
 import ArtistMedia from "./ArtistMedia";
 
+import {defaultAlbumImage} from "../config";
+
 export default class Media extends Model {
     static entity = 'media'
+
+    get coverImage() {
+        if(this.albums === null || this.albums.length === 0) {
+            return defaultAlbumImage;
+        }
+
+        return this.albums[0].albumImage;
+    }
 
     static fields() {
         return {

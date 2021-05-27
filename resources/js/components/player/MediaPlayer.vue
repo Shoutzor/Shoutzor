@@ -1,13 +1,13 @@
 <template>
     <div id="audio-player">
         <div class="media-info">
-            <div v-if="currentMedia && currentMedia.media !== null" class="row row-sm align-items-center ps-2">
+            <div v-if="currentRequest && currentRequest.media !== null" class="row row-sm align-items-center ps-2">
                 <div class="col-auto">
-                    <img class="rounded" height="48" v-bind:src="albumImage" width="48">
+                    <img class="rounded" height="48" v-bind:src="currentRequest.media.coverImage" width="48">
                 </div>
                 <div class="col">
-                    <span class="track-title">{{ currentMedia.media.title }}</span>
-                    <artist-list :artists="currentMedia.media.artists" class="text-muted"></artist-list>
+                    <span class="track-title">{{ currentRequest.media.title }}</span>
+                    <artist-list :artists="currentRequest.media.artists" class="text-muted"></artist-list>
                 </div>
             </div>
             <div v-else class="row row-sm align-items-center">
@@ -104,7 +104,7 @@ export default {
     },
 
     computed: {
-        currentMedia: () => Request.query()
+        currentRequest: () => Request.query()
             .where((r) => { return r.played_at !== null; })
             .with(["media.artists|albums", "user"])
             .last(), ...mapGetters({

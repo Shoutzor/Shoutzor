@@ -11,13 +11,16 @@ class CreateArtistsTable extends Migration {
      * @return void
      */
     public function up() {
-        Schema::create('artists', function(Blueprint $table) {
-            $table->increments('id');
-            $table->string('name');
-            $table->string('image');
-            $table->text('summary');
-            $table->timestamps();
-        });
+        Schema::create(
+            'artists',
+            function(Blueprint $table) {
+                $table->increments('id');
+                $table->string('name');
+                $table->string('image');
+                $table->text('summary');
+                $table->timestamps();
+            }
+        );
     }
 
     /**

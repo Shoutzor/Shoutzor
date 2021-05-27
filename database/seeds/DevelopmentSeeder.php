@@ -44,7 +44,13 @@ class DevelopmentSeeder extends Seeder {
         for($i = 0; $i < 50; $i++) {
             echo "Creating user $i/50..\n";
 
-            $users[] = DB::table('users')->insertGetId(['username' => $faker->userName, 'email' => $faker->safeEmail, 'password' => Hash::make($faker->password),]);
+            $users[] = DB::table('users')->insertGetId(
+                [
+                    'username' => $faker->userName,
+                    'email'    => $faker->safeEmail,
+                    'password' => Hash::make($faker->password),
+                ]
+            );
         }
 
         //
@@ -56,7 +62,13 @@ class DevelopmentSeeder extends Seeder {
         for($i = 0; $i < 20; $i++) {
             echo "Creating artist $i/20..\n";
 
-            $artists[] = DB::table('artists')->insertGetId(['name' => $faker->musicDanceArtist(), 'summary' => $faker->realText(200, 2), 'image' => $faker->picsum($artistImageLocation, 640, 640, false),]);
+            $artists[] = DB::table('artists')->insertGetId(
+                [
+                    'name'    => $faker->musicDanceArtist(),
+                    'summary' => $faker->realText(200, 2),
+                    'image'   => $faker->picsum($artistImageLocation, 640, 640, false),
+                ]
+            );
         }
 
         //
@@ -67,7 +79,13 @@ class DevelopmentSeeder extends Seeder {
 
         for($i = 0; $i < 10; $i++) {
             echo "Creating album $i/10..\n";
-            $albums[] = DB::table('albums')->insertGetId(['title' => $faker->musicDanceAlbum(), 'summary' => $faker->realText(200, 2), 'image' => $faker->picsum($albumImageLocation, 640, 640, false),]);
+            $albums[] = DB::table('albums')->insertGetId(
+                [
+                    'title'   => $faker->musicDanceAlbum(),
+                    'summary' => $faker->realText(200, 2),
+                    'image'   => $faker->picsum($albumImageLocation, 640, 640, false),
+                ]
+            );
         }
 
         //
@@ -76,19 +94,43 @@ class DevelopmentSeeder extends Seeder {
         // Every Album will get 2 Artists assigned to it
         //
         for($i = 0; $i < 10; $i++) {
-            DB::table('album_artist')->insert([['album_id' => $albums[$i], 'artist_id' => $artists[$i * 2]], ['album_id' => $albums[$i], 'artist_id' => $artists[$i * 2 + 1]]]);
+            DB::table('album_artist')->insert(
+                [
+                    ['album_id' => $albums[$i], 'artist_id' => $artists[$i * 2]],
+                    ['album_id' => $albums[$i], 'artist_id' => $artists[$i * 2 + 1]]
+                ]
+            );
         }
 
         //
         // Media
         //
-        $trackTitles = ["Ghosts 'n Stuff", "Sweet but Psycho", "The veldt - 8 minute edit", "You shook me all night long", "Highway to hell", "Let there be rock", "Ride on / interviews", "Rock 'N' Roll Damnation", "Never gonna give you up", "Baba O'Riley"];
+        $trackTitles = [
+            "Ghosts 'n Stuff",
+            "Sweet but Psycho",
+            "The veldt - 8 minute edit",
+            "You shook me all night long",
+            "Highway to hell",
+            "Let there be rock",
+            "Ride on / interviews",
+            "Rock 'N' Roll Damnation",
+            "Never gonna give you up",
+            "Baba O'Riley"
+        ];
         $tracks = [];
         echo "Creating (10) media items..\n";
 
         for($i = 0; $i < 10; $i++) {
             echo "Creating media $i/10..\n";
-            $tracks[] = DB::table('media')->insertGetId(['title' => $trackTitles[$i], 'filename' => 'example.mp3', 'crc' => 'invalid_crc_placeholder_hash', 'duration' => $faker->numberBetween(30, 500), 'is_video' => false]);
+            $tracks[] = DB::table('media')->insertGetId(
+                [
+                    'title'    => $trackTitles[$i],
+                    'filename' => 'example.mp3',
+                    'crc'      => 'invalid_crc_placeholder_hash',
+                    'duration' => $faker->numberBetween(30, 500),
+                    'is_video' => false
+                ]
+            );
         }
 
         //
@@ -106,7 +148,12 @@ class DevelopmentSeeder extends Seeder {
         // Every Album will get 2 Artists assigned to it
         //
         for($i = 0; $i < 10; $i++) {
-            DB::table('artist_media')->insert([['artist_id' => $artists[$i * 2], 'media_id' => $tracks[$i]], ['artist_id' => $artists[$i * 2 + 1], 'media_id' => $tracks[$i]]]);
+            DB::table('artist_media')->insert(
+                [
+                    ['artist_id' => $artists[$i * 2], 'media_id' => $tracks[$i]],
+                    ['artist_id' => $artists[$i * 2 + 1], 'media_id' => $tracks[$i]]
+                ]
+            );
         }
 
         //
@@ -120,7 +167,9 @@ class DevelopmentSeeder extends Seeder {
         DB::table('requests')->insert(['user_id' => null, 'media_id' => $tracks[4]]);
 
         //Create a request that has been played 3 minutes ago
-        DB::table('requests')->insert(['user_id' => $users[1], 'media_id' => $tracks[4], 'played_at' => Carbon::now()->addMinutes(-3)]);
+        DB::table('requests')->insert(
+            ['user_id' => $users[1], 'media_id' => $tracks[4], 'played_at' => Carbon::now()->addMinutes(-3)]
+        );
 
         //Create a request that has been played just now
         DB::table('requests')->insert(['user_id' => null, 'media_id' => $tracks[2], 'played_at' => Carbon::now()]);

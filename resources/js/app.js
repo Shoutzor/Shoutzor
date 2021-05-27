@@ -25,4 +25,3 @@ app.$mount('#shoutzor');
 
 //Load other components
 require('./bootstrap');
-require('./theme');

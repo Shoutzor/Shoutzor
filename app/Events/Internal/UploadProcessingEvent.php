@@ -2,49 +2,25 @@
 
 namespace App\Events\Internal;
 
-use App\Media;
+use App\Events\ReadOnlyEvent;
 use App\Upload;
-use Symfony\Contracts\EventDispatcher\Event;
 
 /**
  * Class UploadProcessingEvent
  *
  * @package App\Events
- * Gets called when an upload from the queue is ready for processing
+ * Gets called when an upload from the queue is being processed
  */
-class UploadProcessingEvent extends Event {
+class UploadProcessingEvent extends ReadOnlyEvent {
     public const NAME = 'upload.processing';
 
     protected Upload $upload;
-    protected Media $media;
-    protected bool $valid = true;
 
-    public function __construct(Upload $upload, Media $media) {
+    public function __construct(Upload $upload) {
         $this->upload = $upload;
-        $this->media = $media;
     }
 
     public function getUpload(): Upload {
         return $this->upload;
-    }
-
-    public function getMedia(): Media {
-        return $this->media;
-    }
-
-    /**
-     * Marks the upload as invalid
-     */
-    public function setInvalid() {
-        $this->valid = false;
-    }
-
-    /**
-     * Returns whether the upload is valid or not
-     *
-     * @return bool
-     */
-    public function isValid(): bool {
-        return $this->valid;
     }
 }

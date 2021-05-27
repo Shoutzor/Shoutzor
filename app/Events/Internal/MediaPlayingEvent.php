@@ -2,8 +2,8 @@
 
 namespace App\Events\Internal;
 
-use App\Upload;
-use Symfony\Contracts\EventDispatcher\Event;
+use App\Events\ReadOnlyEvent;
+use App\Media;
 
 /**
  * Class MediaPlayingEvent
@@ -11,16 +11,16 @@ use Symfony\Contracts\EventDispatcher\Event;
  * @package App\Events
  * Gets called when a media object started playing on Shoutz0r
  */
-class MediaPlayingEvent extends Event {
+class MediaPlayingEvent extends ReadOnlyEvent {
     public const NAME = 'media.playing';
 
-    protected $upload;
+    protected Media $media;
 
-    public function __construct(Upload $upload) {
-        $this->upload = $upload;
+    public function __construct(Media $media) {
+        $this->media = $media;
     }
 
-    public function getUpload(): Upload {
-        return $this->upload;
+    public function getMedia(): Media {
+        return $this->media;
     }
 }

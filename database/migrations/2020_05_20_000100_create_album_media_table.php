@@ -11,14 +11,17 @@ class CreateAlbumMediaTable extends Migration {
      * @return void
      */
     public function up() {
-        Schema::create('album_media', function(Blueprint $table) {
-            $table->integer('album_id')->unsigned();
-            $table->integer('media_id')->unsigned();
+        Schema::create(
+            'album_media',
+            function(Blueprint $table) {
+                $table->integer('album_id')->unsigned();
+                $table->integer('media_id')->unsigned();
 
-            $table->foreign('album_id')->references('id')->on('albums')->cascadeOnDelete();
-            $table->foreign('media_id')->references('id')->on('media')->cascadeOnDelete();
-            $table->unique(['album_id', 'media_id']);
-        });
+                $table->foreign('album_id')->references('id')->on('albums')->cascadeOnDelete();
+                $table->foreign('media_id')->references('id')->on('media')->cascadeOnDelete();
+                $table->unique(['album_id', 'media_id']);
+            }
+        );
     }
 
     /**
