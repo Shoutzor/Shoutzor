@@ -20,17 +20,17 @@
             <div class="w-100"></div>
 
             <div class="col-sm-12">
-                <health-check ref="healthcheck"></health-check>
+                <health-checker ref="healthcheck"></health-checker>
             </div>
         </div>
     </div>
 </template>
 
 <script>
-import HealthCheck from "@js/components/admin/dashboard/HealthCheck";
+import HealthChecker from "@js/components/HealthCheck/HealthChecker";
 
 export default {
     name: "admin-dashboard",
-    components: {HealthCheck}
+    components: {HealthChecker}
 };
 </script>
