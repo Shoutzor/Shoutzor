@@ -37,6 +37,12 @@ mix.sass('resources/scss/app.scss', 'public/css')
         globalVueStyles: __dirname + '/resources/scss/_variables.scss'
     });
 
+mix.sass('resources/scss/app-installer.scss', 'public/css')
+    .js('resources/js/app-installer.js', 'public/js')
+    .options({
+        globalVueStyles: __dirname + '/resources/scss/_variables.scss'
+    });
+
 mix.copy('resources/static/images/shoutzor-logo-large.png', 'public/images');
 mix.copy('resources/static/images/appicon', 'public/images/appicon');
 
