@@ -19,7 +19,7 @@
                     <div class="col">
                         <div class="btn-list justify-content-end">
                             <a href="#" class="btn btn-link link-secondary">
-                                Set up later
+                                Go back
                             </a>
                             <a href="#" class="btn btn-primary">
                                 Continue

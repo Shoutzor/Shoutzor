@@ -15,7 +15,8 @@
 
             <button v-if="needsFixing() && enableAutofix"
                     @click="onRepairButtonClick()"
-                    class="autoFixButton btn btn-pill btn-sm ms-2">Attempt automatic repair</button>
+                    class="autoFixButton ms-2"
+                    :class="autoFixButtonClasses">Attempt automatic repair</button>
         </div>
 
         <div v-if="repairError || Object.keys(repairResult).length > 0" class="mb-2">
@@ -40,7 +41,6 @@
             v-else-if="healthData && healthData.length > 0"
             v-for="check in healthData"
             v-bind:key="check.name"
-            v-bind:data="check"
             v-bind="check">
         </health-status>
 
@@ -89,6 +89,11 @@ export default {
             type: Boolean,
             required: false,
             default: true
+        },
+        autoFixButtonClasses: {
+            type: String,
+            required: false,
+            default: 'btn btn-pill btn-sm'
         }
     },
 
@@ -146,7 +151,7 @@ export default {
 
         doHealthCheck() {
             this.loading = true;
-            axios.get('/api/dashboard/healthcheck')
+            axios.get('/api/system/health')
                 .then(response => {
                     this.healthData = response.data;
                 })
@@ -160,7 +165,7 @@ export default {
 
         attemptRepair() {
             this.repairLoading = true;
-            axios.get('/api/dashboard/fixhealth')
+            axios.post('/api/system/health/fix')
                 .then(response => {
                     this.repairResult = response.data;
                     this.doHealthCheck();

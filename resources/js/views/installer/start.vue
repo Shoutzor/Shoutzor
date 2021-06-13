@@ -13,6 +13,7 @@
             v-bind:showTitle="false"
             refreshButtonClasses="btn btn-light"
             refreshButtonText="refresh"
+            autoFixButtonClasses="btn btn-primary"
         ></health-checker>
     </div>
 </template>

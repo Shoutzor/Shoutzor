@@ -22,6 +22,9 @@ Route::post('auth/login', 'AuthApiController@login');
 Route::get('role/guest', 'RoleApiController@guest');
 Route::get('permission/user', 'PermissionApiController@user');
 
+Route::get('system/health/', 'SystemApiController@getHealthStatus');
+Route::post('system/health/fix', 'SystemApiController@fixHealth');
+
 /*
  * --------------------------------------------------------------------------
  * Routes within this group require to be authenticated
@@ -58,9 +61,6 @@ Route::group(
         Route::group(
             ['middleware' => 'can:admin.access'],
             function() {
-                Route::get('dashboard/healthcheck', 'DashboardApiController@getHealthStatus');
-                Route::get('dashboard/fixhealth', 'DashboardApiController@fixHealth');
-
                 Route::get('permission/user/{id?}', 'PermissionApiController@user')->middleware(
                     'can:admin.permissions.permission.get'
                 )->where('id', '[0-9]+');
