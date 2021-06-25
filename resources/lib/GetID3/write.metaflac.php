@@ -14,7 +14,8 @@
 //                                                            ///
 /////////////////////////////////////////////////////////////////
 
-class getid3_write_metaflac {
+class getid3_write_metaflac
+{
     /**
      * @var string
      */
@@ -41,15 +42,17 @@ class getid3_write_metaflac {
 
     private $pictures = array();
 
-    public function __construct() {
+    public function __construct()
+    {
     }
 
     /**
      * @return bool
      */
-    public function WriteMetaFLAC() {
+    public function WriteMetaFLAC()
+    {
 
-        if(preg_match('#(1|ON)#i', ini_get('safe_mode'))) {
+        if (preg_match('#(1|ON)#i', ini_get('safe_mode'))) {
             $this->errors[] =
                 'PHP running in Safe Mode (backtick operator not available) - cannot call metaflac, tags not written';
             return false;
@@ -57,11 +60,11 @@ class getid3_write_metaflac {
 
         $tempfilenames = array();
 
-        if(!empty($this->tag_data['ATTACHED_PICTURE'])) {
-            foreach($this->tag_data['ATTACHED_PICTURE'] as $key => $picturedetails) {
+        if (!empty($this->tag_data['ATTACHED_PICTURE'])) {
+            foreach ($this->tag_data['ATTACHED_PICTURE'] as $key => $picturedetails) {
                 $temppicturefilename = tempnam(GETID3_TEMP_DIR, 'getID3');
                 $tempfilenames[] = $temppicturefilename;
-                if(getID3::is_writable($temppicturefilename) && is_file($temppicturefilename) && ($fpcomments =
+                if (getID3::is_writable($temppicturefilename) && is_file($temppicturefilename) && ($fpcomments =
                         fopen($temppicturefilename, 'wb'))) {
                     // https://xiph.org/flac/documentation_tools_flac.html#flac_options_picture
                     // [TYPE]|[MIME-TYPE]|[DESCRIPTION]|[WIDTHxHEIGHTxDEPTH[/COLORS]]|FILE
@@ -78,8 +81,7 @@ class getid3_write_metaflac {
                             '',
                             $picturedetails['description']
                         ).'|'.$picture_width_height_depth.'|'.$temppicturefilename;
-                }
-                else {
+                } else {
                     $this->errors[] =
                         'failed to open temporary tags file, tags not written - fopen("'.$temppicturefilename.'", "wb")';
                     return false;
@@ -91,26 +93,25 @@ class getid3_write_metaflac {
         // Create file with new comments
         $tempcommentsfilename = tempnam(GETID3_TEMP_DIR, 'getID3');
         $tempfilenames[] = $tempcommentsfilename;
-        if(getID3::is_writable($tempcommentsfilename) && is_file($tempcommentsfilename) && ($fpcomments =
+        if (getID3::is_writable($tempcommentsfilename) && is_file($tempcommentsfilename) && ($fpcomments =
                 fopen($tempcommentsfilename, 'wb'))) {
-            foreach($this->tag_data as $key => $value) {
-                foreach($value as $commentdata) {
+            foreach ($this->tag_data as $key => $value) {
+                foreach ($value as $commentdata) {
                     fwrite($fpcomments, $this->CleanmetaflacName($key).'='.$commentdata."\n");
                 }
             }
             fclose($fpcomments);
 
-        }
-        else {
+        } else {
             $this->errors[] =
                 'failed to open temporary tags file, tags not written - fopen("'.$tempcommentsfilename.'", "wb")';
             return false;
         }
 
         $oldignoreuserabort = ignore_user_abort(true);
-        if(GETID3_OS_ISWINDOWS) {
+        if (GETID3_OS_ISWINDOWS) {
 
-            if(file_exists(GETID3_HELPERAPPSDIR.'metaflac.exe')) {
+            if (file_exists(GETID3_HELPERAPPSDIR.'metaflac.exe')) {
                 //$commandline = '"'.GETID3_HELPERAPPSDIR.'metaflac.exe" --no-utf8-convert --remove-all-tags --import-tags-from="'.$tempcommentsfilename.'" "'.str_replace('/', '\\', $this->filename).'"';
                 //  metaflac works fine if you copy-paste the above commandline into a command prompt,
                 //  but refuses to work with `backtick` if there are "doublequotes" present around BOTH
@@ -127,32 +128,30 @@ class getid3_write_metaflac {
                     GETID3_HELPERAPPSDIR.'metaflac.exe --no-utf8-convert --remove-all-tags --import-tags-from='.escapeshellarg(
                         $tempcommentsfilename
                     );
-                foreach($this->pictures as $picturecommand) {
+                foreach ($this->pictures as $picturecommand) {
                     $commandline .= ' --import-picture-from='.escapeshellarg($picturecommand);
                 }
                 $commandline .= ' '.escapeshellarg($this->filename).' 2>&1';
                 $metaflacError = `$commandline`;
 
-                if(empty($metaflacError)) {
+                if (empty($metaflacError)) {
                     clearstatcache();
-                    if($timestampbeforewriting == filemtime($this->filename)) {
+                    if ($timestampbeforewriting == filemtime($this->filename)) {
                         $metaflacError =
                             'File modification timestamp has not changed - it looks like the tags were not written';
                     }
                 }
-            }
-            else {
+            } else {
                 $metaflacError = 'metaflac.exe not found in '.GETID3_HELPERAPPSDIR;
             }
 
-        }
-        else {
+        } else {
 
             // It's simpler on *nix
             $commandline = 'metaflac --no-utf8-convert --remove-all-tags --import-tags-from='.escapeshellarg(
                     $tempcommentsfilename
                 );
-            foreach($this->pictures as $picturecommand) {
+            foreach ($this->pictures as $picturecommand) {
                 $commandline .= ' --import-picture-from='.escapeshellarg($picturecommand);
             }
             $commandline .= ' '.escapeshellarg($this->filename).' 2>&1';
@@ -161,12 +160,12 @@ class getid3_write_metaflac {
         }
 
         // Remove temporary comments file
-        foreach($tempfilenames as $tempfilename) {
+        foreach ($tempfilenames as $tempfilename) {
             unlink($tempfilename);
         }
         ignore_user_abort($oldignoreuserabort);
 
-        if(!empty($metaflacError)) {
+        if (!empty($metaflacError)) {
 
             $this->errors[] = 'System call to metaflac failed with this message returned: '."\n\n".$metaflacError;
             return false;
@@ -177,11 +176,12 @@ class getid3_write_metaflac {
     }
 
     /**
-     * @param int $id3v2_picture_typeid
+     * @param  int  $id3v2_picture_typeid
      *
      * @return int
      */
-    public function ID3v2toFLACpictureTypes($id3v2_picture_typeid) {
+    public function ID3v2toFLACpictureTypes($id3v2_picture_typeid)
+    {
         // METAFLAC picture type list is identical to ID3v2 picture type list (as least up to 0x14 "Publisher/Studio logotype")
         // http://id3.org/id3v2.4.0-frames (section 4.14)
         // https://xiph.org/flac/documentation_tools_flac.html#flac_options_picture
@@ -190,11 +190,12 @@ class getid3_write_metaflac {
     }
 
     /**
-     * @param string $originalcommentname
+     * @param  string  $originalcommentname
      *
      * @return string
      */
-    public function CleanmetaflacName($originalcommentname) {
+    public function CleanmetaflacName($originalcommentname)
+    {
         // A case-insensitive field name that may consist of ASCII 0x20 through 0x7D, 0x3D ('=') excluded.
         // ASCII 0x41 through 0x5A inclusive (A-Z) is to be considered equivalent to ASCII 0x61 through
         // 0x7A inclusive (a-z).
@@ -208,18 +209,19 @@ class getid3_write_metaflac {
     /**
      * @return bool
      */
-    public function DeleteMetaFLAC() {
+    public function DeleteMetaFLAC()
+    {
 
-        if(preg_match('#(1|ON)#i', ini_get('safe_mode'))) {
+        if (preg_match('#(1|ON)#i', ini_get('safe_mode'))) {
             $this->errors[] =
                 'PHP running in Safe Mode (backtick operator not available) - cannot call metaflac, tags not deleted';
             return false;
         }
 
         $oldignoreuserabort = ignore_user_abort(true);
-        if(GETID3_OS_ISWINDOWS) {
+        if (GETID3_OS_ISWINDOWS) {
 
-            if(file_exists(GETID3_HELPERAPPSDIR.'metaflac.exe')) {
+            if (file_exists(GETID3_HELPERAPPSDIR.'metaflac.exe')) {
                 // To at least see if there was a problem, compare file modification timestamps before and after writing
                 clearstatcache();
                 $timestampbeforewriting = filemtime($this->filename);
@@ -227,20 +229,18 @@ class getid3_write_metaflac {
                 $commandline = GETID3_HELPERAPPSDIR.'metaflac.exe --remove-all-tags "'.$this->filename.'" 2>&1';
                 $metaflacError = `$commandline`;
 
-                if(empty($metaflacError)) {
+                if (empty($metaflacError)) {
                     clearstatcache();
-                    if($timestampbeforewriting == filemtime($this->filename)) {
+                    if ($timestampbeforewriting == filemtime($this->filename)) {
                         $metaflacError =
                             'File modification timestamp has not changed - it looks like the tags were not deleted';
                     }
                 }
-            }
-            else {
+            } else {
                 $metaflacError = 'metaflac.exe not found in '.GETID3_HELPERAPPSDIR;
             }
 
-        }
-        else {
+        } else {
 
             // It's simpler on *nix
             $commandline = 'metaflac --remove-all-tags "'.$this->filename.'" 2>&1';
@@ -250,7 +250,7 @@ class getid3_write_metaflac {
 
         ignore_user_abort($oldignoreuserabort);
 
-        if(!empty($metaflacError)) {
+        if (!empty($metaflacError)) {
             $this->errors[] = 'System call to metaflac failed with this message returned: '."\n\n".$metaflacError;
             return false;
         }

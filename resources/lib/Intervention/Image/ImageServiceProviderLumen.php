@@ -4,13 +4,15 @@ namespace Intervention\Image;
 
 use Illuminate\Support\ServiceProvider;
 
-class ImageServiceProviderLumen extends ServiceProvider {
+class ImageServiceProviderLumen extends ServiceProvider
+{
     /**
      * Register the service provider.
      *
      * @return void
      */
-    public function register() {
+    public function register()
+    {
         $app = $this->app;
 
         // merge default config
@@ -22,7 +24,7 @@ class ImageServiceProviderLumen extends ServiceProvider {
         // create image
         $app->singleton(
             'image',
-            function($app) {
+            function ($app) {
                 return new ImageManager($app['config']->get('image'));
             }
         );

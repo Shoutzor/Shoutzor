@@ -16,7 +16,8 @@
 
 getid3_lib::IncludeDependency(GETID3_INCLUDEPATH.'module.tag.id3v1.php', __FILE__, true);
 
-class getid3_write_id3v1 {
+class getid3_write_id3v1
+{
     /**
      * @var string
      */
@@ -46,13 +47,15 @@ class getid3_write_id3v1 {
      */
     public $errors = array();
 
-    public function __construct() {
+    public function __construct()
+    {
     }
 
     /**
      * @return bool
      */
-    public function FixID3v1Padding() {
+    public function FixID3v1Padding()
+    {
         // ID3v1 data is supposed to be padded with NULL characters, but some taggers incorrectly use spaces
         // This function rewrites the ID3v1 tag with correct padding
 
@@ -64,9 +67,9 @@ class getid3_write_id3v1 {
         $getID3->option_extra_info = false;
         $getID3->option_tag_id3v1 = true;
         $ThisFileInfo = $getID3->analyze($this->filename);
-        if(isset($ThisFileInfo['tags']['id3v1'])) {
+        if (isset($ThisFileInfo['tags']['id3v1'])) {
             $id3v1data = array();
-            foreach($ThisFileInfo['tags']['id3v1'] as $key => $value) {
+            foreach ($ThisFileInfo['tags']['id3v1'] as $key => $value) {
                 $id3v1data[$key] = implode(',', $value);
             }
             $this->tag_data = $id3v1data;
@@ -78,25 +81,25 @@ class getid3_write_id3v1 {
     /**
      * @return bool
      */
-    public function WriteID3v1() {
+    public function WriteID3v1()
+    {
         // File MUST be writeable - CHMOD(646) at least
-        if(!empty($this->filename) && is_readable($this->filename) && getID3::is_writable($this->filename) && is_file(
+        if (!empty($this->filename) && is_readable($this->filename) && getID3::is_writable($this->filename) && is_file(
                 $this->filename
             )) {
             $this->setRealFileSize();
-            if(($this->filesize <= 0) || !getid3_lib::intValueSupported($this->filesize)) {
+            if (($this->filesize <= 0) || !getid3_lib::intValueSupported($this->filesize)) {
                 $this->errors[] =
                     'Unable to WriteID3v1('.$this->filename.') because filesize ('.$this->filesize.') is larger than '.round(
                         PHP_INT_MAX / 1073741824
                     ).'GB';
                 return false;
             }
-            if($fp_source = fopen($this->filename, 'r+b')) {
+            if ($fp_source = fopen($this->filename, 'r+b')) {
                 fseek($fp_source, -128, SEEK_END);
-                if(fread($fp_source, 3) == 'TAG') {
+                if (fread($fp_source, 3) == 'TAG') {
                     fseek($fp_source, -128, SEEK_END); // overwrite existing ID3v1 tag
-                }
-                else {
+                } else {
                     fseek($fp_source, 0, SEEK_END);    // append new ID3v1 tag
                 }
                 $this->tag_data['track_number'] =
@@ -115,8 +118,7 @@ class getid3_write_id3v1 {
                 fclose($fp_source);
                 return true;
 
-            }
-            else {
+            } else {
                 $this->errors[] = 'Could not fopen('.$this->filename.', "r+b")';
                 return false;
             }
@@ -128,8 +130,9 @@ class getid3_write_id3v1 {
     /**
      * @return bool
      */
-    public function setRealFileSize() {
-        if(PHP_INT_MAX > 2147483647) {
+    public function setRealFileSize()
+    {
+        if (PHP_INT_MAX > 2147483647) {
             $this->filesize = filesize($this->filename);
             return true;
         }
@@ -149,37 +152,35 @@ class getid3_write_id3v1 {
     /**
      * @return bool
      */
-    public function RemoveID3v1() {
+    public function RemoveID3v1()
+    {
         // File MUST be writeable - CHMOD(646) at least
-        if(!empty($this->filename) && is_readable($this->filename) && getID3::is_writable($this->filename) && is_file(
+        if (!empty($this->filename) && is_readable($this->filename) && getID3::is_writable($this->filename) && is_file(
                 $this->filename
             )) {
             $this->setRealFileSize();
-            if(($this->filesize <= 0) || !getid3_lib::intValueSupported($this->filesize)) {
+            if (($this->filesize <= 0) || !getid3_lib::intValueSupported($this->filesize)) {
                 $this->errors[] =
                     'Unable to RemoveID3v1('.$this->filename.') because filesize ('.$this->filesize.') is larger than '.round(
                         PHP_INT_MAX / 1073741824
                     ).'GB';
                 return false;
             }
-            if($fp_source = fopen($this->filename, 'r+b')) {
+            if ($fp_source = fopen($this->filename, 'r+b')) {
 
                 fseek($fp_source, -128, SEEK_END);
-                if(fread($fp_source, 3) == 'TAG') {
+                if (fread($fp_source, 3) == 'TAG') {
                     ftruncate($fp_source, $this->filesize - 128);
-                }
-                else {
+                } else {
                     // no ID3v1 tag to begin with - do nothing
                 }
                 fclose($fp_source);
                 return true;
 
-            }
-            else {
+            } else {
                 $this->errors[] = 'Could not fopen('.$this->filename.', "r+b")';
             }
-        }
-        else {
+        } else {
             $this->errors[] = $this->filename.' is not writeable';
         }
         return false;

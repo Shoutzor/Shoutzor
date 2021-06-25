@@ -19,18 +19,20 @@ getid3_lib::IncludeDependency(GETID3_INCLUDEPATH.'module.audio.ogg.php', __FILE_
 /**
  * @tutorial http://flac.sourceforge.net/format.html
  */
-class getid3_flac extends getid3_handler {
+class getid3_flac extends getid3_handler
+{
     const syncword = 'fLaC';
 
     /**
      * @return bool
      */
-    public function Analyze() {
+    public function Analyze()
+    {
         $info = &$this->getid3->info;
 
         $this->fseek($info['avdataoffset']);
         $StreamMarker = $this->fread(4);
-        if($StreamMarker != self::syncword) {
+        if ($StreamMarker != self::syncword) {
             return $this->error(
                 'Expecting "'.getid3_lib::PrintHexBytes(
                     self::syncword
@@ -49,25 +51,26 @@ class getid3_flac extends getid3_handler {
     /**
      * @return bool
      */
-    public function parseMETAdata() {
+    public function parseMETAdata()
+    {
         $info = &$this->getid3->info;
         do {
             $BlockOffset = $this->ftell();
             $BlockHeader = $this->fread(4);
             $LBFBT = getid3_lib::BigEndian2Int(substr($BlockHeader, 0, 1));  // LBFBT = LastBlockFlag + BlockType
-            $LastBlockFlag = (bool)($LBFBT & 0x80);
+            $LastBlockFlag = (bool) ($LBFBT & 0x80);
             $BlockType = ($LBFBT & 0x7F);
             $BlockLength = getid3_lib::BigEndian2Int(substr($BlockHeader, 1, 3));
             $BlockTypeText = self::metaBlockTypeLookup($BlockType);
 
-            if(($BlockOffset + 4 + $BlockLength) > $info['avdataend']) {
+            if (($BlockOffset + 4 + $BlockLength) > $info['avdataend']) {
                 $this->warning(
                     'METADATA_BLOCK_HEADER.BLOCK_TYPE ('.$BlockTypeText.') at offset '.$BlockOffset.' extends beyond end of file'
                 );
                 break;
             }
-            if($BlockLength < 1) {
-                if($BlockTypeText != 'reserved') {
+            if ($BlockLength < 1) {
+                if ($BlockTypeText != 'reserved') {
                     // probably supposed to be zero-length
                     $this->warning(
                         'METADATA_BLOCK_HEADER.BLOCK_LENGTH ('.$BlockTypeText.') at offset '.$BlockOffset.' is zero bytes'
@@ -88,13 +91,13 @@ class getid3_flac extends getid3_handler {
             $BlockTypeText_raw['block_type'] = $BlockType;
             $BlockTypeText_raw['block_type_text'] = $BlockTypeText;
             $BlockTypeText_raw['block_length'] = $BlockLength;
-            if($BlockTypeText_raw['block_type'] != 0x06) { // do not read attachment data automatically
+            if ($BlockTypeText_raw['block_type'] != 0x06) { // do not read attachment data automatically
                 $BlockTypeText_raw['block_data'] = $this->fread($BlockLength);
             }
 
-            switch($BlockTypeText) {
+            switch ($BlockTypeText) {
                 case 'STREAMINFO':     // 0x00
-                    if(!$this->parseSTREAMINFO($BlockTypeText_raw['block_data'])) {
+                    if (!$this->parseSTREAMINFO($BlockTypeText_raw['block_data'])) {
                         return false;
                     }
                     break;
@@ -104,31 +107,31 @@ class getid3_flac extends getid3_handler {
                     break;
 
                 case 'APPLICATION':    // 0x02
-                    if(!$this->parseAPPLICATION($BlockTypeText_raw['block_data'])) {
+                    if (!$this->parseAPPLICATION($BlockTypeText_raw['block_data'])) {
                         return false;
                     }
                     break;
 
                 case 'SEEKTABLE':      // 0x03
-                    if(!$this->parseSEEKTABLE($BlockTypeText_raw['block_data'])) {
+                    if (!$this->parseSEEKTABLE($BlockTypeText_raw['block_data'])) {
                         return false;
                     }
                     break;
 
                 case 'VORBIS_COMMENT': // 0x04
-                    if(!$this->parseVORBIS_COMMENT($BlockTypeText_raw['block_data'])) {
+                    if (!$this->parseVORBIS_COMMENT($BlockTypeText_raw['block_data'])) {
                         return false;
                     }
                     break;
 
                 case 'CUESHEET':       // 0x05
-                    if(!$this->parseCUESHEET($BlockTypeText_raw['block_data'])) {
+                    if (!$this->parseCUESHEET($BlockTypeText_raw['block_data'])) {
                         return false;
                     }
                     break;
 
                 case 'PICTURE':        // 0x06
-                    if(!$this->parsePICTURE()) {
+                    if (!$this->parsePICTURE()) {
                         return false;
                     }
                     break;
@@ -141,36 +144,35 @@ class getid3_flac extends getid3_handler {
 
             unset($info['flac'][$BlockTypeText]['raw']);
             $info['avdataoffset'] = $this->ftell();
-        }
-        while($LastBlockFlag === false);
+        } while ($LastBlockFlag === false);
 
         // handle tags
-        if(!empty($info['flac']['VORBIS_COMMENT']['comments'])) {
+        if (!empty($info['flac']['VORBIS_COMMENT']['comments'])) {
             $info['flac']['comments'] = $info['flac']['VORBIS_COMMENT']['comments'];
         }
-        if(!empty($info['flac']['VORBIS_COMMENT']['vendor'])) {
+        if (!empty($info['flac']['VORBIS_COMMENT']['vendor'])) {
             $info['audio']['encoder'] = str_replace('reference ', '', $info['flac']['VORBIS_COMMENT']['vendor']);
         }
 
         // copy attachments to 'comments' array if nesesary
-        if(isset($info['flac']['PICTURE']) && ($this->getid3->option_save_attachments !== getID3::ATTACHMENTS_NONE)) {
-            foreach($info['flac']['PICTURE'] as $entry) {
-                if(!empty($entry['data'])) {
-                    if(!isset($info['flac']['comments']['picture'])) {
+        if (isset($info['flac']['PICTURE']) && ($this->getid3->option_save_attachments !== getID3::ATTACHMENTS_NONE)) {
+            foreach ($info['flac']['PICTURE'] as $entry) {
+                if (!empty($entry['data'])) {
+                    if (!isset($info['flac']['comments']['picture'])) {
                         $info['flac']['comments']['picture'] = array();
                     }
                     $comments_picture_data = array();
-                    foreach(array(
-                                'data',
-                                'image_mime',
-                                'image_width',
-                                'image_height',
-                                'imagetype',
-                                'picturetype',
-                                'description',
-                                'datalength'
-                            ) as $picture_key) {
-                        if(isset($entry[$picture_key])) {
+                    foreach (array(
+                                 'data',
+                                 'image_mime',
+                                 'image_width',
+                                 'image_height',
+                                 'imagetype',
+                                 'picturetype',
+                                 'description',
+                                 'datalength'
+                             ) as $picture_key) {
+                        if (isset($entry[$picture_key])) {
                             $comments_picture_data[$picture_key] = $entry[$picture_key];
                         }
                     }
@@ -180,42 +182,41 @@ class getid3_flac extends getid3_handler {
             }
         }
 
-        if(isset($info['flac']['STREAMINFO'])) {
-            if(!$this->isDependencyFor('matroska')) {
+        if (isset($info['flac']['STREAMINFO'])) {
+            if (!$this->isDependencyFor('matroska')) {
                 $info['flac']['compressed_audio_bytes'] = $info['avdataend'] - $info['avdataoffset'];
             }
             $info['flac']['uncompressed_audio_bytes'] =
                 $info['flac']['STREAMINFO']['samples_stream'] * $info['flac']['STREAMINFO']['channels'] * ($info['flac']['STREAMINFO']['bits_per_sample'] / 8);
-            if($info['flac']['uncompressed_audio_bytes'] == 0) {
+            if ($info['flac']['uncompressed_audio_bytes'] == 0) {
                 return $this->error('Corrupt FLAC file: uncompressed_audio_bytes == zero');
             }
-            if(!empty($info['flac']['compressed_audio_bytes'])) {
+            if (!empty($info['flac']['compressed_audio_bytes'])) {
                 $info['flac']['compression_ratio'] =
                     $info['flac']['compressed_audio_bytes'] / $info['flac']['uncompressed_audio_bytes'];
             }
         }
 
         // set md5_data_source - built into flac 0.5+
-        if(isset($info['flac']['STREAMINFO']['audio_signature'])) {
+        if (isset($info['flac']['STREAMINFO']['audio_signature'])) {
 
-            if($info['flac']['STREAMINFO']['audio_signature'] === str_repeat("\x00", 16)) {
+            if ($info['flac']['STREAMINFO']['audio_signature'] === str_repeat("\x00", 16)) {
                 $this->warning('FLAC STREAMINFO.audio_signature is null (known issue with libOggFLAC)');
-            }
-            else {
+            } else {
                 $info['md5_data_source'] = '';
                 $md5 = $info['flac']['STREAMINFO']['audio_signature'];
-                for($i = 0; $i < strlen($md5); $i++) {
+                for ($i = 0; $i < strlen($md5); $i++) {
                     $info['md5_data_source'] .= str_pad(dechex(ord($md5[$i])), 2, '00', STR_PAD_LEFT);
                 }
-                if(!preg_match('/^[0-9a-f]{32}$/', $info['md5_data_source'])) {
+                if (!preg_match('/^[0-9a-f]{32}$/', $info['md5_data_source'])) {
                     unset($info['md5_data_source']);
                 }
             }
         }
 
-        if(isset($info['flac']['STREAMINFO']['bits_per_sample'])) {
+        if (isset($info['flac']['STREAMINFO']['bits_per_sample'])) {
             $info['audio']['bits_per_sample'] = $info['flac']['STREAMINFO']['bits_per_sample'];
-            if($info['audio']['bits_per_sample'] == 8) {
+            if ($info['audio']['bits_per_sample'] == 8) {
                 // special case
                 // must invert sign bit on all data bytes before MD5'ing to match FLAC's calculated value
                 // MD5sum calculates on unsigned bytes, but FLAC calculated MD5 on 8-bit audio data as signed
@@ -229,11 +230,12 @@ class getid3_flac extends getid3_handler {
     }
 
     /**
-     * @param int $blocktype
+     * @param  int  $blocktype
      *
      * @return string
      */
-    public static function metaBlockTypeLookup($blocktype) {
+    public static function metaBlockTypeLookup($blocktype)
+    {
         static $lookup = array(
             0 => 'STREAMINFO',
             1 => 'PADDING',
@@ -247,16 +249,17 @@ class getid3_flac extends getid3_handler {
     }
 
     /**
-     * @param string $BlockData
+     * @param  string  $BlockData
      *
      * @return bool
      */
-    private function parseSTREAMINFO($BlockData) {
+    private function parseSTREAMINFO($BlockData)
+    {
         $info = &$this->getid3->info;
 
         $info['flac']['STREAMINFO'] = self::parseSTREAMINFOdata($BlockData);
 
-        if(!empty($info['flac']['STREAMINFO']['sample_rate'])) {
+        if (!empty($info['flac']['STREAMINFO']['sample_rate'])) {
 
             $info['audio']['bitrate_mode'] = 'vbr';
             $info['audio']['sample_rate'] = $info['flac']['STREAMINFO']['sample_rate'];
@@ -264,18 +267,16 @@ class getid3_flac extends getid3_handler {
             $info['audio']['bits_per_sample'] = $info['flac']['STREAMINFO']['bits_per_sample'];
             $info['playtime_seconds'] =
                 $info['flac']['STREAMINFO']['samples_stream'] / $info['flac']['STREAMINFO']['sample_rate'];
-            if($info['playtime_seconds'] > 0) {
-                if(!$this->isDependencyFor('matroska')) {
+            if ($info['playtime_seconds'] > 0) {
+                if (!$this->isDependencyFor('matroska')) {
                     $info['audio']['bitrate'] =
                         (($info['avdataend'] - $info['avdataoffset']) * 8) / $info['playtime_seconds'];
-                }
-                else {
+                } else {
                     $this->warning('Cannot determine audio bitrate because total stream size is unknown');
                 }
             }
 
-        }
-        else {
+        } else {
             return $this->error('Corrupt METAdata block: STREAMINFO');
         }
 
@@ -283,11 +284,12 @@ class getid3_flac extends getid3_handler {
     }
 
     /**
-     * @param string $BlockData
+     * @param  string  $BlockData
      *
      * @return array
      */
-    public static function parseSTREAMINFOdata($BlockData) {
+    public static function parseSTREAMINFOdata($BlockData)
+    {
         $streaminfo = array();
         $streaminfo['min_block_size'] = getid3_lib::BigEndian2Int(substr($BlockData, 0, 2));
         $streaminfo['max_block_size'] = getid3_lib::BigEndian2Int(substr($BlockData, 2, 2));
@@ -306,11 +308,12 @@ class getid3_flac extends getid3_handler {
     }
 
     /**
-     * @param string $BlockData
+     * @param  string  $BlockData
      *
      * @return bool
      */
-    private function parseAPPLICATION($BlockData) {
+    private function parseAPPLICATION($BlockData)
+    {
         $info = &$this->getid3->info;
 
         $ApplicationID = getid3_lib::BigEndian2Int(substr($BlockData, 0, 4));
@@ -321,11 +324,12 @@ class getid3_flac extends getid3_handler {
     }
 
     /**
-     * @param int $applicationid
+     * @param  int  $applicationid
      *
      * @return string
      */
-    public static function applicationIDLookup($applicationid) {
+    public static function applicationIDLookup($applicationid)
+    {
         // http://flac.sourceforge.net/id.html
         static $lookup = array(
             0x41544348 => 'FlacFile',
@@ -379,27 +383,27 @@ class getid3_flac extends getid3_handler {
     }
 
     /**
-     * @param string $BlockData
+     * @param  string  $BlockData
      *
      * @return bool
      */
-    private function parseSEEKTABLE($BlockData) {
+    private function parseSEEKTABLE($BlockData)
+    {
         $info = &$this->getid3->info;
 
         $offset = 0;
         $BlockLength = strlen($BlockData);
         $placeholderpattern = str_repeat("\xFF", 8);
-        while($offset < $BlockLength) {
+        while ($offset < $BlockLength) {
             $SampleNumberString = substr($BlockData, $offset, 8);
             $offset += 8;
-            if($SampleNumberString == $placeholderpattern) {
+            if ($SampleNumberString == $placeholderpattern) {
 
                 // placeholder point
                 getid3_lib::safe_inc($info['flac']['SEEKTABLE']['placeholders'], 1);
                 $offset += 10;
 
-            }
-            else {
+            } else {
 
                 $SampleNumber = getid3_lib::BigEndian2Int($SampleNumberString);
                 $info['flac']['SEEKTABLE'][$SampleNumber]['offset'] =
@@ -416,19 +420,20 @@ class getid3_flac extends getid3_handler {
     }
 
     /**
-     * @param string $BlockData
+     * @param  string  $BlockData
      *
      * @return bool
      */
-    private function parseVORBIS_COMMENT($BlockData) {
+    private function parseVORBIS_COMMENT($BlockData)
+    {
         $info = &$this->getid3->info;
 
         $getid3_ogg = new getid3_ogg($this->getid3);
-        if($this->isDependencyFor('matroska')) {
+        if ($this->isDependencyFor('matroska')) {
             $getid3_ogg->setStringMode($this->data_string);
         }
         $getid3_ogg->ParseVorbisComments();
-        if(isset($info['ogg'])) {
+        if (isset($info['ogg'])) {
             unset($info['ogg']['comments_raw']);
             $info['flac']['VORBIS_COMMENT'] = $info['ogg'];
             unset($info['ogg']);
@@ -440,11 +445,12 @@ class getid3_flac extends getid3_handler {
     }
 
     /**
-     * @param string $BlockData
+     * @param  string  $BlockData
      *
      * @return bool
      */
-    private function parseCUESHEET($BlockData) {
+    private function parseCUESHEET($BlockData)
+    {
         $info = &$this->getid3->info;
         $offset = 0;
         $info['flac']['CUESHEET']['media_catalog_number'] = trim(substr($BlockData, $offset, 128), "\0");
@@ -452,7 +458,7 @@ class getid3_flac extends getid3_handler {
         $info['flac']['CUESHEET']['lead_in_samples'] = getid3_lib::BigEndian2Int(substr($BlockData, $offset, 8));
         $offset += 8;
         $info['flac']['CUESHEET']['flags']['is_cd'] =
-            (bool)(getid3_lib::BigEndian2Int(substr($BlockData, $offset, 1)) & 0x80);
+            (bool) (getid3_lib::BigEndian2Int(substr($BlockData, $offset, 1)) & 0x80);
         $offset += 1;
 
         $offset += 258; // reserved
@@ -460,7 +466,7 @@ class getid3_flac extends getid3_handler {
         $info['flac']['CUESHEET']['number_tracks'] = getid3_lib::BigEndian2Int(substr($BlockData, $offset, 1));
         $offset += 1;
 
-        for($track = 0; $track < $info['flac']['CUESHEET']['number_tracks']; $track++) {
+        for ($track = 0; $track < $info['flac']['CUESHEET']['number_tracks']; $track++) {
             $TrackSampleOffset = getid3_lib::BigEndian2Int(substr($BlockData, $offset, 8));
             $offset += 8;
             $TrackNumber = getid3_lib::BigEndian2Int(substr($BlockData, $offset, 1));
@@ -473,8 +479,8 @@ class getid3_flac extends getid3_handler {
 
             $TrackFlagsRaw = getid3_lib::BigEndian2Int(substr($BlockData, $offset, 1));
             $offset += 1;
-            $info['flac']['CUESHEET']['tracks'][$TrackNumber]['flags']['is_audio'] = (bool)($TrackFlagsRaw & 0x80);
-            $info['flac']['CUESHEET']['tracks'][$TrackNumber]['flags']['pre_emphasis'] = (bool)($TrackFlagsRaw & 0x40);
+            $info['flac']['CUESHEET']['tracks'][$TrackNumber]['flags']['is_audio'] = (bool) ($TrackFlagsRaw & 0x80);
+            $info['flac']['CUESHEET']['tracks'][$TrackNumber]['flags']['pre_emphasis'] = (bool) ($TrackFlagsRaw & 0x40);
 
             $offset += 13; // reserved
 
@@ -482,7 +488,7 @@ class getid3_flac extends getid3_handler {
                 getid3_lib::BigEndian2Int(substr($BlockData, $offset, 1));
             $offset += 1;
 
-            for($index = 0; $index < $info['flac']['CUESHEET']['tracks'][$TrackNumber]['index_points']; $index++) {
+            for ($index = 0; $index < $info['flac']['CUESHEET']['tracks'][$TrackNumber]['index_points']; $index++) {
                 $IndexSampleOffset = getid3_lib::BigEndian2Int(substr($BlockData, $offset, 8));
                 $offset += 8;
                 $IndexNumber = getid3_lib::BigEndian2Int(substr($BlockData, $offset, 1));
@@ -503,14 +509,15 @@ class getid3_flac extends getid3_handler {
      *
      * @return bool
      */
-    public function parsePICTURE() {
+    public function parsePICTURE()
+    {
         $info = &$this->getid3->info;
 
         $picture['typeid'] = getid3_lib::BigEndian2Int($this->fread(4));
         $picture['picturetype'] = self::pictureTypeLookup($picture['typeid']);
         $picture['image_mime'] = $this->fread(getid3_lib::BigEndian2Int($this->fread(4)));
         $descr_length = getid3_lib::BigEndian2Int($this->fread(4));
-        if($descr_length) {
+        if ($descr_length) {
             $picture['description'] = $this->fread($descr_length);
         }
         $picture['image_width'] = getid3_lib::BigEndian2Int($this->fread(4));
@@ -519,10 +526,9 @@ class getid3_flac extends getid3_handler {
         $picture['colors_indexed'] = getid3_lib::BigEndian2Int($this->fread(4));
         $picture['datalength'] = getid3_lib::BigEndian2Int($this->fread(4));
 
-        if($picture['image_mime'] == '-->') {
+        if ($picture['image_mime'] == '-->') {
             $picture['data'] = $this->fread($picture['datalength']);
-        }
-        else {
+        } else {
             $picture['data'] = $this->saveAttachment(
                 str_replace('/', '_', $picture['picturetype']).'_'.$this->ftell(),
                 $this->ftell(),
@@ -537,22 +543,23 @@ class getid3_flac extends getid3_handler {
     }
 
     /**
-     * @param int $type_id
+     * @param  int  $type_id
      *
      * @return string
      */
-    public static function pictureTypeLookup($type_id) {
+    public static function pictureTypeLookup($type_id)
+    {
         static $lookup = array(
-            0  => 'Other',
-            1  => '32x32 pixels \'file icon\' (PNG only)',
-            2  => 'Other file icon',
-            3  => 'Cover (front)',
-            4  => 'Cover (back)',
-            5  => 'Leaflet page',
-            6  => 'Media (e.g. label side of CD)',
-            7  => 'Lead artist/lead performer/soloist',
-            8  => 'Artist/performer',
-            9  => 'Conductor',
+            0 => 'Other',
+            1 => '32x32 pixels \'file icon\' (PNG only)',
+            2 => 'Other file icon',
+            3 => 'Cover (front)',
+            4 => 'Cover (back)',
+            5 => 'Leaflet page',
+            6 => 'Media (e.g. label side of CD)',
+            7 => 'Lead artist/lead performer/soloist',
+            8 => 'Artist/performer',
+            9 => 'Conductor',
             10 => 'Band/Orchestra',
             11 => 'Composer',
             12 => 'Lyricist/text writer',

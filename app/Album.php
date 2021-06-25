@@ -3,10 +3,14 @@
 namespace App;
 
 use App\Events\Internal\AlbumCreateEvent;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 
-class Album extends Model {
+class Album extends Model
+{
+    use HasFactory;
+
     /**
      * Indicates if the model should be timestamped.
      *
@@ -14,21 +18,24 @@ class Album extends Model {
      */
     public $timestamps = false;
 
-    public static function create(Album $album) {
+    public static function create(Album $album)
+    {
         $event = new AlbumCreateEvent($album);
         app(EventDispatcher::class)->dispatch($event);
 
         //Check if the album already exists
-        if($event->exists() === false) {
+        if ($event->exists() === false) {
             $album->save();
         }
     }
 
-    public function artists() {
+    public function artists()
+    {
         return $this->belongsToMany('App\Artist');
     }
 
-    public function media() {
+    public function media()
+    {
         return $this->belongsToMany('App\Media');
     }
 }

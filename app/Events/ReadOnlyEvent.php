@@ -10,8 +10,10 @@ use Exception;
  * @package App\Events
  * Creates a read-only event, this cannot be marked invalid or stopped from propagating.
  */
-class ReadOnlyEvent extends BaseEvent {
-    public function stopPropagation(): void {
+class ReadOnlyEvent extends BaseEvent
+{
+    public function stopPropagation(): void
+    {
         //Ignore.
         throw new Exception("Something tried stopping the propagation on a read-only event");
     }
@@ -21,7 +23,8 @@ class ReadOnlyEvent extends BaseEvent {
      *
      * @throws Exception
      */
-    public function setInvalid($reason = '') {
+    public function setInvalid($reason = '')
+    {
         throw new Exception("Something tried marking a read-only event as invalid");
     }
 
@@ -30,11 +33,13 @@ class ReadOnlyEvent extends BaseEvent {
      *
      * @return bool
      */
-    public function isValid(): bool {
+    public function isValid(): bool
+    {
         return true;
     }
 
-    public function isPropagationStopped(): bool {
+    public function isPropagationStopped(): bool
+    {
         return false;
     }
 }

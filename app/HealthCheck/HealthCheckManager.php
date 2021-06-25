@@ -2,24 +2,26 @@
 
 namespace App\HealthCheck;
 
-use App\HealthCheck\BaseHealthCheck;
-
-class HealthCheckManager {
+class HealthCheckManager
+{
 
     private array $healthChecks;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->healthChecks = [];
     }
 
-    public function registerHealthCheck(BaseHealthCheck $healthCheck): void {
+    public function registerHealthCheck(BaseHealthCheck $healthCheck): void
+    {
         $this->healthChecks[] = $healthCheck;
     }
 
-    public function getHealthStatus(): array {
+    public function getHealthStatus(): array
+    {
         $data = [];
 
-        foreach($this->healthChecks as $check) {
+        foreach ($this->healthChecks as $check) {
             $check->checkHealth();
             $data[] = $check->toArray();
         }
@@ -27,16 +29,17 @@ class HealthCheckManager {
         return $data;
     }
 
-    public function performAutoFix(): array {
+    public function performAutoFix(): array
+    {
         $data = [];
         $success = true;
 
-        foreach($this->healthChecks as $check) {
+        foreach ($this->healthChecks as $check) {
             # Each healthcheck needs to be aware if it's healthy first.
             $check->checkHealth();
 
             # Skip healthchecks that are already healthy
-            if($check->isHealthy()) {
+            if ($check->isHealthy()) {
                 continue;
             }
 
@@ -44,7 +47,7 @@ class HealthCheckManager {
             $result = $check->fix();
 
             // Check if any of the automatic repairs failed
-            if($result->isFixed() === false) {
+            if ($result->isFixed() === false) {
                 $success = false;
             }
 

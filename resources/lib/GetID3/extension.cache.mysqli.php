@@ -68,7 +68,8 @@
  *   Infrequent updates, many reads      any DBM
  *   Frequent updates                    mysqli
  */
-class getID3_cached_mysqli extends getID3 {
+class getID3_cached_mysqli extends getID3
+{
     /**
      * @var mysqli
      */
@@ -92,30 +93,31 @@ class getID3_cached_mysqli extends getID3 {
     /**
      * constructor - see top of this file for cache type and cache_options
      *
-     * @param string $host
-     * @param string $database
-     * @param string $username
-     * @param string $password
-     * @param string $table
+     * @param  string  $host
+     * @param  string  $database
+     * @param  string  $username
+     * @param  string  $password
+     * @param  string  $table
      *
      * @throws Exception
      * @throws getid3_exception
      */
-    public function __construct($host, $database, $username, $password, $table = 'getid3_cache') {
+    public function __construct($host, $database, $username, $password, $table = 'getid3_cache')
+    {
 
         // Check for mysqli support
-        if(!function_exists('mysqli_connect')) {
+        if (!function_exists('mysqli_connect')) {
             throw new Exception('PHP not compiled with mysqli support.');
         }
 
         // Connect to database
         $this->mysqli = new mysqli($host, $username, $password);
-        if(!$this->mysqli) {
+        if (!$this->mysqli) {
             throw new Exception('mysqli_connect() failed - check permissions and spelling.');
         }
 
         // Select database
-        if(!$this->mysqli->select_db($database)) {
+        if (!$this->mysqli->select_db($database)) {
             throw new Exception('Cannot use database '.$database);
         }
 
@@ -135,10 +137,10 @@ class getID3_cached_mysqli extends getID3 {
         $SQLquery .= ' FROM `'.$this->mysqli->real_escape_string($this->table).'`';
         $SQLquery .= ' WHERE (`filename` = \''.$this->mysqli->real_escape_string(getID3::VERSION).'\')';
         $SQLquery .= ' AND (`hash` = \'getID3::VERSION\')';
-        if($this->cursor = $this->mysqli->query($SQLquery)) {
+        if ($this->cursor = $this->mysqli->query($SQLquery)) {
             list($version) = $this->cursor->fetch_array();
         }
-        if($version != getID3::VERSION) {
+        if ($version != getID3::VERSION) {
             $this->clear_cache();
         }
 
@@ -148,10 +150,11 @@ class getID3_cached_mysqli extends getID3 {
     /**
      * (re)create mysqli table
      *
-     * @param bool $drop
+     * @param  bool  $drop
      */
-    private function create_table($drop = false) {
-        if($drop) {
+    private function create_table($drop = false)
+    {
+        if ($drop) {
             $SQLquery = 'DROP TABLE IF EXISTS `'.$this->mysqli->real_escape_string($this->table).'`';
             $this->mysqli->query($SQLquery);
         }
@@ -170,14 +173,15 @@ class getID3_cached_mysqli extends getID3 {
     /**
      * migrate database structure if needed
      */
-    public function migrate_db_structure() {
+    public function migrate_db_structure()
+    {
         // Check for table structure
-        if($this->db_structure_check) {
+        if ($this->db_structure_check) {
             $SQLquery = 'SHOW COLUMNS';
             $SQLquery .= ' FROM `'.$this->mysqli->real_escape_string($this->table).'`';
             $SQLquery .= ' LIKE \'hash\'';
             $this->cursor = $this->mysqli->query($SQLquery);
-            if($this->cursor->num_rows == 0) {
+            if ($this->cursor->num_rows == 0) {
                 // table has not been migrated, add column, add hashes, change index
                 $SQLquery =
                     'ALTER TABLE `getid3_cache` DROP PRIMARY KEY, ADD `hash` CHAR(32) NOT NULL DEFAULT \'\' FIRST, ADD PRIMARY KEY(`hash`)';
@@ -201,7 +205,8 @@ class getID3_cached_mysqli extends getID3 {
     /**
      * clear cache
      */
-    public function clear_cache() {
+    public function clear_cache()
+    {
         $this->mysqli->query('TRUNCATE TABLE `'.$this->mysqli->real_escape_string($this->table).'`');
         $this->mysqli->query(
             'INSERT INTO `'.$this->mysqli->real_escape_string(
@@ -213,16 +218,17 @@ class getID3_cached_mysqli extends getID3 {
     /**
      * analyze file
      *
-     * @param string $filename
-     * @param int    $filesize
-     * @param string $original_filename
+     * @param  string  $filename
+     * @param  int  $filesize
+     * @param  string  $original_filename
      *
      * @return mixed
      */
-    public function analyze($filename, $filesize = null, $original_filename = '') {
+    public function analyze($filename, $filesize = null, $original_filename = '')
+    {
 
         $filetime = 0;
-        if(file_exists($filename)) {
+        if (file_exists($filename)) {
 
             // Short-hands
             $filetime = filemtime($filename);
@@ -235,7 +241,7 @@ class getID3_cached_mysqli extends getID3 {
                     md5($filename.$filesize.$filetime)
                 ).'\')';
             $this->cursor = $this->mysqli->query($SQLquery);
-            if($this->cursor->num_rows > 0) {
+            if ($this->cursor->num_rows > 0) {
                 // Hit
                 list($result) = $this->cursor->fetch_array();
                 return unserialize(base64_decode($result));
@@ -246,7 +252,7 @@ class getID3_cached_mysqli extends getID3 {
         $analysis = parent::analyze($filename, $filesize, $original_filename);
 
         // Save result
-        if(file_exists($filename)) {
+        if (file_exists($filename)) {
             $SQLquery = 'INSERT INTO `'.$this->mysqli->real_escape_string(
                     $this->table
                 ).'` (`hash`, `filename`, `filesize`, `filetime`, `analyzetime`, `value`) VALUES (';

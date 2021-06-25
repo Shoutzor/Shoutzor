@@ -5,13 +5,15 @@ namespace Intervention\Image\Gd;
 use Intervention\Image\AbstractEncoder;
 use Intervention\Image\Exception\NotSupportedException;
 
-class Encoder extends AbstractEncoder {
+class Encoder extends AbstractEncoder
+{
     /**
      * Processes and returns encoded image as JPEG string
      *
      * @return string
      */
-    protected function processJpeg() {
+    protected function processJpeg()
+    {
         ob_start();
         imagejpeg($this->image->getCore(), null, $this->quality);
         $this->image->mime = image_type_to_mime_type(IMAGETYPE_JPEG);
@@ -26,7 +28,8 @@ class Encoder extends AbstractEncoder {
      *
      * @return string
      */
-    protected function processPng() {
+    protected function processPng()
+    {
         ob_start();
         $resource = $this->image->getCore();
         imagealphablending($resource, false);
@@ -44,7 +47,8 @@ class Encoder extends AbstractEncoder {
      *
      * @return string
      */
-    protected function processGif() {
+    protected function processGif()
+    {
         ob_start();
         imagegif($this->image->getCore());
         $this->image->mime = image_type_to_mime_type(IMAGETYPE_GIF);
@@ -54,8 +58,9 @@ class Encoder extends AbstractEncoder {
         return $buffer;
     }
 
-    protected function processWebp() {
-        if(!function_exists('imagewebp')) {
+    protected function processWebp()
+    {
+        if (!function_exists('imagewebp')) {
             throw new NotSupportedException("Webp format is not supported by PHP installation.");
         }
 
@@ -73,7 +78,8 @@ class Encoder extends AbstractEncoder {
      *
      * @return string
      */
-    protected function processTiff() {
+    protected function processTiff()
+    {
         throw new NotSupportedException("TIFF format is not supported by Gd Driver.");
     }
 
@@ -82,7 +88,8 @@ class Encoder extends AbstractEncoder {
      *
      * @return string
      */
-    protected function processBmp() {
+    protected function processBmp()
+    {
         throw new NotSupportedException("BMP format is not supported by Gd Driver.");
     }
 
@@ -91,7 +98,8 @@ class Encoder extends AbstractEncoder {
      *
      * @return string
      */
-    protected function processIco() {
+    protected function processIco()
+    {
         throw new NotSupportedException("ICO format is not supported by Gd Driver.");
     }
 
@@ -100,7 +108,8 @@ class Encoder extends AbstractEncoder {
      *
      * @return string
      */
-    protected function processPsd() {
+    protected function processPsd()
+    {
         throw new NotSupportedException("PSD format is not supported by Gd Driver.");
     }
 }

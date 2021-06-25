@@ -7,14 +7,16 @@ use ImagickDraw;
 use Intervention\Image\Commands\AbstractCommand;
 use Intervention\Image\Image;
 
-class ResizeCanvasCommand extends AbstractCommand {
+class ResizeCanvasCommand extends AbstractCommand
+{
     /**
      * Resizes image boundaries
      *
-     * @param Image $image
+     * @param  Image  $image
      * @return boolean
      */
-    public function execute($image) {
+    public function execute($image)
+    {
         $width = $this->argument(0)->type('digit')->required()->value();
         $height = $this->argument(1)->type('digit')->required()->value();
         $anchor = $this->argument(2)->value('center');
@@ -29,7 +31,7 @@ class ResizeCanvasCommand extends AbstractCommand {
         $height = is_null($height) ? $original_height : intval($height);
 
         // check on relative width/height
-        if($relative) {
+        if ($relative) {
             $width = $original_width + $width;
             $height = $original_height + $height;
         }
@@ -47,23 +49,21 @@ class ResizeCanvasCommand extends AbstractCommand {
         $canvas_pos = $image_size->relativePosition($canvas_size);
         $image_pos = $canvas_size->relativePosition($image_size);
 
-        if($width <= $original_width) {
+        if ($width <= $original_width) {
             $dst_x = 0;
             $src_x = $canvas_pos->x;
             $src_w = $canvas_size->width;
-        }
-        else {
+        } else {
             $dst_x = $image_pos->x;
             $src_x = 0;
             $src_w = $original_width;
         }
 
-        if($height <= $original_height) {
+        if ($height <= $original_height) {
             $dst_y = 0;
             $src_y = $canvas_pos->y;
             $src_h = $canvas_size->height;
-        }
-        else {
+        } else {
             $dst_y = $image_pos->y;
             $src_y = 0;
             $src_h = $original_height;

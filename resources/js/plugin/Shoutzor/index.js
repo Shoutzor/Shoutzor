@@ -3,7 +3,7 @@ import Request from '@js/models/Request';
 
 var updateDataHandle = null;
 var Shoutzor = {
-    install: function(Vue, options) {
+    install: function (Vue, options) {
         // Call the onReady method when the app reports it's ready
         Vue.bus.on('app.ready', (data) => {
             this.onReady();
@@ -15,7 +15,7 @@ var Shoutzor = {
      * effectively, the Shoutzor plugin is initialized here.
      * @param self
      */
-    onReady: function() {
+    onReady: function () {
         // Fetch initial data
         this.updateData();
 
@@ -29,7 +29,7 @@ var Shoutzor = {
      * When this method is called, new data is fetched from the API
      * @emits app.data.update this event is emitted when Shoutzor has finished loading new data from the API
      */
-    updateData: function() {
+    updateData: function () {
         //When the updateData method is called, reset the timeout.
         window.clearTimeout(updateDataHandle);
 

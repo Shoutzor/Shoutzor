@@ -4,18 +4,20 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateArtistMediaTable extends Migration {
+class CreateArtistMediaTable extends Migration
+{
     /**
      * Run the migrations.
      *
      * @return void
      */
-    public function up() {
+    public function up()
+    {
         Schema::create(
             'artist_media',
-            function(Blueprint $table) {
+            function (Blueprint $table) {
                 $table->integer('artist_id')->unsigned();
-                $table->integer('media_id')->unsigned();
+                $table->unsignedBigInteger('media_id');
 
                 $table->foreign('artist_id')->references('id')->on('artists')->cascadeOnDelete();
                 $table->foreign('media_id')->references('id')->on('media')->cascadeOnDelete();
@@ -29,7 +31,8 @@ class CreateArtistMediaTable extends Migration {
      *
      * @return void
      */
-    public function down() {
+    public function down()
+    {
         Schema::dropIfExists('artist_media');
     }
 }

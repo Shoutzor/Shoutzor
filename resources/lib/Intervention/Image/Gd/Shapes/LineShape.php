@@ -7,7 +7,8 @@ use Intervention\Image\Exception\NotSupportedException;
 use Intervention\Image\Gd\Color;
 use Intervention\Image\Image;
 
-class LineShape extends AbstractShape {
+class LineShape extends AbstractShape
+{
     /**
      * Starting point x-coordinate of line
      *
@@ -39,10 +40,11 @@ class LineShape extends AbstractShape {
     /**
      * Create new line shape instance
      *
-     * @param int $x
-     * @param int $y
+     * @param  int  $x
+     * @param  int  $y
      */
-    public function __construct($x = null, $y = null) {
+    public function __construct($x = null, $y = null)
+    {
         $this->x = is_numeric($x) ? intval($x) : $this->x;
         $this->y = is_numeric($y) ? intval($y) : $this->y;
     }
@@ -50,32 +52,35 @@ class LineShape extends AbstractShape {
     /**
      * Set current line color
      *
-     * @param string $color
+     * @param  string  $color
      * @return void
      */
-    public function color($color) {
+    public function color($color)
+    {
         $this->color = $color;
     }
 
     /**
      * Set current line width in pixels
      *
-     * @param int $width
+     * @param  int  $width
      * @return void
      */
-    public function width($width) {
+    public function width($width)
+    {
         throw new NotSupportedException("Line width is not supported by GD driver.");
     }
 
     /**
      * Draw current instance of line to given endpoint on given image
      *
-     * @param Image $image
-     * @param int   $x
-     * @param int   $y
+     * @param  Image  $image
+     * @param  int  $x
+     * @param  int  $y
      * @return boolean
      */
-    public function applyToImage(Image $image, $x = 0, $y = 0) {
+    public function applyToImage(Image $image, $x = 0, $y = 0)
+    {
         $color = new Color($this->color);
         imageline($image->getCore(), $x, $y, $this->x, $this->y, $color->getInt());
 

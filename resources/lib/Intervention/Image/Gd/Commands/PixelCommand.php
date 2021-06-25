@@ -6,14 +6,16 @@ use Intervention\Image\Commands\AbstractCommand;
 use Intervention\Image\Gd\Color;
 use Intervention\Image\Image;
 
-class PixelCommand extends AbstractCommand {
+class PixelCommand extends AbstractCommand
+{
     /**
      * Draws one pixel to a given image
      *
-     * @param Image $image
+     * @param  Image  $image
      * @return boolean
      */
-    public function execute($image) {
+    public function execute($image)
+    {
         $color = $this->argument(0)->required()->value();
         $color = new Color($color);
         $x = $this->argument(1)->type('digit')->required()->value();

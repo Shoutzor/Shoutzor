@@ -6,14 +6,16 @@ use Imagick;
 use Intervention\Image\Commands\AbstractCommand;
 use Intervention\Image\Image;
 
-class LimitColorsCommand extends AbstractCommand {
+class LimitColorsCommand extends AbstractCommand
+{
     /**
      * Reduces colors of a given image
      *
-     * @param Image $image
+     * @param  Image  $image
      * @return boolean
      */
-    public function execute($image) {
+    public function execute($image)
+    {
         $count = $this->argument(0)->value();
         $matte = $this->argument(1)->value();
 
@@ -27,7 +29,7 @@ class LimitColorsCommand extends AbstractCommand {
         $alpha->separateImageChannel(Imagick::CHANNEL_ALPHA);
         $alpha->negateImage(false);
 
-        if($matte) {
+        if ($matte) {
 
             // get matte color
             $mattecolor = $image->getDriver()->parseColor($matte)->getPixel();
@@ -46,8 +48,7 @@ class LimitColorsCommand extends AbstractCommand {
             // replace core
             $image->setCore($canvas);
 
-        }
-        else {
+        } else {
 
             $image->getCore()->quantizeImage($count, Imagick::COLORSPACE_RGB, 0, false, false);
             $image->getCore()->compositeImage($alpha, Imagick::COMPOSITE_COPYOPACITY, 0, 0);

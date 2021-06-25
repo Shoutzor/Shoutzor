@@ -5,14 +5,16 @@ namespace Intervention\Image\Commands;
 use Closure;
 use Intervention\Image\Image;
 
-class TextCommand extends AbstractCommand {
+class TextCommand extends AbstractCommand
+{
     /**
      * Write text on given image
      *
-     * @param Image $image
+     * @param  Image  $image
      * @return boolean
      */
-    public function execute($image) {
+    public function execute($image)
+    {
         $text = $this->argument(0)->required()->value();
         $x = $this->argument(1)->type('numeric')->value(0);
         $y = $this->argument(2)->type('numeric')->value(0);
@@ -22,7 +24,7 @@ class TextCommand extends AbstractCommand {
 
         $font = new $fontclassname($text);
 
-        if($callback instanceof Closure) {
+        if ($callback instanceof Closure) {
             $callback($font);
         }
 

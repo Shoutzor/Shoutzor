@@ -8,26 +8,27 @@ use Intervention\Image\AbstractFont;
 use Intervention\Image\Exception\RuntimeException;
 use Intervention\Image\Image;
 
-class Font extends AbstractFont {
+class Font extends AbstractFont
+{
     /**
      * Draws font to given image at given position
      *
-     * @param Image $image
-     * @param int   $posx
-     * @param int   $posy
+     * @param  Image  $image
+     * @param  int  $posx
+     * @param  int  $posy
      * @return void
      */
-    public function applyToImage(Image $image, $posx = 0, $posy = 0) {
+    public function applyToImage(Image $image, $posx = 0, $posy = 0)
+    {
         // build draw object
         $draw = new ImagickDraw();
         $draw->setStrokeAntialias(true);
         $draw->setTextAntialias(true);
 
         // set font file
-        if($this->hasApplicableFontFile()) {
+        if ($this->hasApplicableFontFile()) {
             $draw->setFont($this->file);
-        }
-        else {
+        } else {
             throw new RuntimeException("Font file must be provided to apply text to image.");
         }
 
@@ -38,7 +39,7 @@ class Font extends AbstractFont {
         $draw->setFillColor($color->getPixel());
 
         // align horizontal
-        switch(strtolower($this->align)) {
+        switch (strtolower($this->align)) {
             case 'center':
                 $align = Imagick::ALIGN_CENTER;
                 break;
@@ -55,10 +56,10 @@ class Font extends AbstractFont {
         $draw->setTextAlignment($align);
 
         // align vertical
-        if(strtolower($this->valign) != 'bottom') {
+        if (strtolower($this->valign) != 'bottom') {
 
             // corrections on y-position
-            switch(strtolower($this->valign)) {
+            switch (strtolower($this->valign)) {
                 case 'center':
                 case 'middle':
                     // calculate box size
@@ -83,7 +84,8 @@ class Font extends AbstractFont {
      *
      * @return array
      */
-    public function getBoxSize() {
+    public function getBoxSize()
+    {
         $box = [];
 
         // build draw object
@@ -92,10 +94,9 @@ class Font extends AbstractFont {
         $draw->setTextAntialias(true);
 
         // set font file
-        if($this->hasApplicableFontFile()) {
+        if ($this->hasApplicableFontFile()) {
             $draw->setFont($this->file);
-        }
-        else {
+        } else {
             throw new RuntimeException("Font file must be provided to apply text to image.");
         }
 
@@ -103,12 +104,11 @@ class Font extends AbstractFont {
 
         $dimensions = (new Imagick())->queryFontMetrics($draw, $this->text);
 
-        if(strlen($this->text) == 0) {
+        if (strlen($this->text) == 0) {
             // no text -> no boxsize
             $box['width'] = 0;
             $box['height'] = 0;
-        }
-        else {
+        } else {
             // get boxsize
             $box['width'] = intval(abs($dimensions['textWidth']));
             $box['height'] = intval(abs($dimensions['textHeight']));

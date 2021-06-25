@@ -9,16 +9,18 @@ use App\Upload;
 use Illuminate\Http\Request;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 
-class UploadApiController extends Controller {
+class UploadApiController extends Controller
+{
 
-    public function store(Request $request) {
+    public function store(Request $request)
+    {
         //Check if a file has been provided with the request
-        if($request->hasFile('media') !== true) {
+        if ($request->hasFile('media') !== true) {
             return response()->json(['error' => 'No file with name media uploaded'], 400);
         }
 
         //Check if there are any errors with the file upload
-        if($request->file('media')->isValid() !== true) {
+        if ($request->file('media')->isValid() !== true) {
             return response()->json(['error' => 'The uploaded file did not upload correctly'], 400);
         }
 
@@ -46,7 +48,7 @@ class UploadApiController extends Controller {
         //TODO add eventlistener: sanitize the uploaded file. ie: remove all metadata to prevent possible exploits.
 
         // Check if any eventhandlers marked the upload as invalid
-        if($event->isValid() === false) {
+        if ($event->isValid() === false) {
             return response()->json(['message' => 'Upload rejected, reason: '.$event->getReason()], 406);
         }
 

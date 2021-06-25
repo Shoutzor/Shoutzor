@@ -6,7 +6,8 @@ use Intervention\Image\Commands\ExifCommand as BaseCommand;
 use Intervention\Image\Exception\NotSupportedException;
 use Intervention\Image\Image;
 
-class ExifCommand extends BaseCommand {
+class ExifCommand extends BaseCommand
+{
     /**
      * Prefer extension or not
      *
@@ -17,37 +18,39 @@ class ExifCommand extends BaseCommand {
     /**
      *
      */
-    public function dontPreferExtension() {
+    public function dontPreferExtension()
+    {
         $this->preferExtension = false;
     }
 
     /**
      * Read Exif data from the given image
      *
-     * @param Image $image
+     * @param  Image  $image
      * @return boolean
      */
-    public function execute($image) {
-        if($this->preferExtension && function_exists('exif_read_data')) {
+    public function execute($image)
+    {
+        if ($this->preferExtension && function_exists('exif_read_data')) {
             return parent::execute($image);
         }
 
         $core = $image->getCore();
 
-        if(!method_exists($core, 'getImageProperties')) {
+        if (!method_exists($core, 'getImageProperties')) {
             throw new NotSupportedException("Reading Exif data is not supported by this PHP installation.");
         }
 
         $requestedKey = $this->argument(0)->value();
-        if($requestedKey !== null) {
+        if ($requestedKey !== null) {
             $this->setOutput($core->getImageProperty('exif:'.$requestedKey));
             return true;
         }
 
         $exif = [];
         $properties = $core->getImageProperties();
-        foreach($properties as $key => $value) {
-            if(substr($key, 0, 5) !== 'exif:') {
+        foreach ($properties as $key => $value) {
+            if (substr($key, 0, 5) !== 'exif:') {
                 continue;
             }
 

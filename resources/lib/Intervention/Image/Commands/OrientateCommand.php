@@ -4,15 +4,17 @@ namespace Intervention\Image\Commands;
 
 use Intervention\Image\Image;
 
-class OrientateCommand extends AbstractCommand {
+class OrientateCommand extends AbstractCommand
+{
     /**
      * Correct image orientation according to Exif data
      *
-     * @param Image $image
+     * @param  Image  $image
      * @return boolean
      */
-    public function execute($image) {
-        switch($image->exif('Orientation')) {
+    public function execute($image)
+    {
+        switch ($image->exif('Orientation')) {
 
             case 2:
                 $image->flip();

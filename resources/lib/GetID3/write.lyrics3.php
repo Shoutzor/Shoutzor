@@ -14,7 +14,8 @@
 //                                                            ///
 /////////////////////////////////////////////////////////////////
 
-class getid3_write_lyrics3 {
+class getid3_write_lyrics3
+{
     /**
      * @var string
      */
@@ -40,13 +41,15 @@ class getid3_write_lyrics3 {
      */
     public $errors = array();
 
-    public function __construct() {
+    public function __construct()
+    {
     }
 
     /**
      * @return bool
      */
-    public function WriteLyrics3() {
+    public function WriteLyrics3()
+    {
         $this->errors[] = 'WriteLyrics3() not yet functional - cannot write Lyrics3';
         return false;
     }
@@ -54,12 +57,13 @@ class getid3_write_lyrics3 {
     /**
      * @return bool
      */
-    public function DeleteLyrics3() {
+    public function DeleteLyrics3()
+    {
         // Initialize getID3 engine
         $getID3 = new getID3;
         $ThisFileInfo = $getID3->analyze($this->filename);
-        if(isset($ThisFileInfo['lyrics3']['tag_offset_start']) && isset($ThisFileInfo['lyrics3']['tag_offset_end'])) {
-            if(is_readable($this->filename) && getID3::is_writable($this->filename) && is_file($this->filename) && (
+        if (isset($ThisFileInfo['lyrics3']['tag_offset_start']) && isset($ThisFileInfo['lyrics3']['tag_offset_end'])) {
+            if (is_readable($this->filename) && getID3::is_writable($this->filename) && is_file($this->filename) && (
                 $fp = fopen($this->filename, 'a+b'))) {
 
                 flock($fp, LOCK_EX);
@@ -67,14 +71,14 @@ class getid3_write_lyrics3 {
 
                 fseek($fp, $ThisFileInfo['lyrics3']['tag_offset_end']);
                 $DataAfterLyrics3 = '';
-                if($ThisFileInfo['filesize'] > $ThisFileInfo['lyrics3']['tag_offset_end']) {
+                if ($ThisFileInfo['filesize'] > $ThisFileInfo['lyrics3']['tag_offset_end']) {
                     $DataAfterLyrics3 =
                         fread($fp, $ThisFileInfo['filesize'] - $ThisFileInfo['lyrics3']['tag_offset_end']);
                 }
 
                 ftruncate($fp, $ThisFileInfo['lyrics3']['tag_offset_start']);
 
-                if(!empty($DataAfterLyrics3)) {
+                if (!empty($DataAfterLyrics3)) {
                     fseek($fp, $ThisFileInfo['lyrics3']['tag_offset_start']);
                     fwrite($fp, $DataAfterLyrics3, strlen($DataAfterLyrics3));
                 }
@@ -85,8 +89,7 @@ class getid3_write_lyrics3 {
 
                 return true;
 
-            }
-            else {
+            } else {
                 $this->errors[] = 'Cannot fopen('.$this->filename.', "a+b")';
                 return false;
             }

@@ -6,22 +6,24 @@ use Intervention\Image\AbstractFont;
 use Intervention\Image\Exception\NotSupportedException;
 use Intervention\Image\Image;
 
-class Font extends AbstractFont {
+class Font extends AbstractFont
+{
     /**
      * Draws font to given image at given position
      *
-     * @param Image $image
-     * @param int   $posx
-     * @param int   $posy
+     * @param  Image  $image
+     * @param  int  $posx
+     * @param  int  $posy
      * @return void
      */
-    public function applyToImage(Image $image, $posx = 0, $posy = 0) {
+    public function applyToImage(Image $image, $posx = 0, $posy = 0)
+    {
         // parse text color
         $color = new Color($this->color);
 
-        if($this->hasApplicableFontFile()) {
+        if ($this->hasApplicableFontFile()) {
 
-            if($this->angle != 0 || is_string($this->align) || is_string($this->valign)) {
+            if ($this->angle != 0 || is_string($this->align) || is_string($this->valign)) {
 
                 $box = $this->getBoxSize();
 
@@ -29,7 +31,7 @@ class Font extends AbstractFont {
                 $valign = is_null($this->valign) ? 'bottom' : strtolower($this->valign);
 
                 // correction on position depending on v/h alignment
-                switch($align.'-'.$valign) {
+                switch ($align.'-'.$valign) {
 
                     case 'center-top':
                         $posx = $posx - round(($box[6] + $box[4]) / 2);
@@ -96,8 +98,7 @@ class Font extends AbstractFont {
                 $this->text
             );
 
-        }
-        else {
+        } else {
 
             // get box size
             $box = $this->getBoxSize();
@@ -105,21 +106,19 @@ class Font extends AbstractFont {
             $height = $box['height'];
 
             // internal font specific position corrections
-            if($this->getInternalFont() == 1) {
+            if ($this->getInternalFont() == 1) {
                 $top_correction = 1;
                 $bottom_correction = 2;
-            }
-            elseif($this->getInternalFont() == 3) {
+            } elseif ($this->getInternalFont() == 3) {
                 $top_correction = 2;
                 $bottom_correction = 4;
-            }
-            else {
+            } else {
                 $top_correction = 3;
                 $bottom_correction = 4;
             }
 
             // x-position corrections for horizontal alignment
-            switch(strtolower($this->align)) {
+            switch (strtolower($this->align)) {
                 case 'center':
                     $posx = ceil($posx - ($width / 2));
                     break;
@@ -130,7 +129,7 @@ class Font extends AbstractFont {
             }
 
             // y-position corrections for vertical alignment
-            switch(strtolower($this->valign)) {
+            switch (strtolower($this->valign)) {
                 case 'center':
                 case 'middle':
                     $posy = ceil($posy - ($height / 2));
@@ -156,20 +155,21 @@ class Font extends AbstractFont {
      *
      * @return Array
      */
-    public function getBoxSize() {
+    public function getBoxSize()
+    {
         $box = [];
 
-        if($this->hasApplicableFontFile()) {
+        if ($this->hasApplicableFontFile()) {
 
             // get bounding box with angle 0
             $box = imagettfbbox($this->getPointSize(), 0, $this->file, $this->text);
 
             // rotate points manually
-            if($this->angle != 0) {
+            if ($this->angle != 0) {
 
                 $angle = pi() * 2 - $this->angle * pi() * 2 / 360;
 
-                for($i = 0; $i < 4; $i++) {
+                for ($i = 0; $i < 4; $i++) {
                     $x = $box[$i * 2];
                     $y = $box[$i * 2 + 1];
                     $box[$i * 2] = cos($angle) * $x - sin($angle) * $y;
@@ -180,19 +180,17 @@ class Font extends AbstractFont {
             $box['width'] = intval(abs($box[4] - $box[0]));
             $box['height'] = intval(abs($box[5] - $box[1]));
 
-        }
-        else {
+        } else {
 
             // get current internal font size
             $width = $this->getInternalFontWidth();
             $height = $this->getInternalFontHeight();
 
-            if(strlen($this->text) == 0) {
+            if (strlen($this->text) == 0) {
                 // no text -> no boxsize
                 $box['width'] = 0;
                 $box['height'] = 0;
-            }
-            else {
+            } else {
                 // calculate boxsize
                 $box['width'] = strlen($this->text) * $width;
                 $box['height'] = $height;
@@ -207,7 +205,8 @@ class Font extends AbstractFont {
      *
      * @return int
      */
-    protected function getPointSize() {
+    protected function getPointSize()
+    {
         return intval(ceil($this->size * 0.75));
     }
 
@@ -216,7 +215,8 @@ class Font extends AbstractFont {
      *
      * @return int
      */
-    private function getInternalFontWidth() {
+    private function getInternalFontWidth()
+    {
         return $this->getInternalFont() + 4;
     }
 
@@ -225,11 +225,12 @@ class Font extends AbstractFont {
      *
      * @return int
      */
-    private function getInternalFont() {
+    private function getInternalFont()
+    {
         $internalfont = is_null($this->file) ? 1 : $this->file;
         $internalfont = is_numeric($internalfont) ? $internalfont : false;
 
-        if(!in_array($internalfont, [1, 2, 3, 4, 5])) {
+        if (!in_array($internalfont, [1, 2, 3, 4, 5])) {
             throw new NotSupportedException(
                 sprintf('Internal GD font (%s) not available. Use only 1-5.', $internalfont)
             );
@@ -243,8 +244,9 @@ class Font extends AbstractFont {
      *
      * @return int
      */
-    private function getInternalFontHeight() {
-        switch($this->getInternalFont()) {
+    private function getInternalFontHeight()
+    {
+        switch ($this->getInternalFont()) {
             case 1:
                 return 8;
 

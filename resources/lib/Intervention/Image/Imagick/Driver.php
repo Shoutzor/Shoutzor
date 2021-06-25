@@ -7,15 +7,17 @@ use Intervention\Image\AbstractDriver;
 use Intervention\Image\Exception\NotSupportedException;
 use Intervention\Image\Image;
 
-class Driver extends AbstractDriver {
+class Driver extends AbstractDriver
+{
     /**
      * Creates new instance of driver
      *
-     * @param Decoder $decoder
-     * @param Encoder $encoder
+     * @param  Decoder  $decoder
+     * @param  Encoder  $encoder
      */
-    public function __construct(Decoder $decoder = null, Encoder $encoder = null) {
-        if(!$this->coreAvailable()) {
+    public function __construct(Decoder $decoder = null, Encoder $encoder = null)
+    {
+        if (!$this->coreAvailable()) {
             throw new NotSupportedException("ImageMagick module not available with this PHP installation.");
         }
 
@@ -28,19 +30,21 @@ class Driver extends AbstractDriver {
      *
      * @return boolean
      */
-    protected function coreAvailable() {
+    protected function coreAvailable()
+    {
         return (extension_loaded('imagick') && class_exists('Imagick'));
     }
 
     /**
      * Creates new image instance
      *
-     * @param int   $width
-     * @param int   $height
-     * @param mixed $background
+     * @param  int  $width
+     * @param  int  $height
+     * @param  mixed  $background
      * @return Image
      */
-    public function newImage($width, $height, $background = null) {
+    public function newImage($width, $height, $background = null)
+    {
         $background = new Color($background);
 
         // create empty core
@@ -59,10 +63,11 @@ class Driver extends AbstractDriver {
     /**
      * Reads given string into color object
      *
-     * @param string $value
+     * @param  string  $value
      * @return AbstractColor
      */
-    public function parseColor($value) {
+    public function parseColor($value)
+    {
         return new Color($value);
     }
 }

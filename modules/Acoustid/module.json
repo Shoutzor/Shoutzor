@@ -1,0 +1,6 @@
+{
+    "name": "AcoustID",
+    "slug": "acoustid",
+    "version": "1.0",
+    "description": "Enables AcoustId for identifying audio files on Shoutz0r"
+}

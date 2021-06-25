@@ -5,7 +5,8 @@ namespace App;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Contracts\Support\Jsonable;
 
-abstract class MediaSource implements Arrayable, Jsonable {
+abstract class MediaSource implements Arrayable, Jsonable
+{
     /**
      * The identifier of the MediaSource, ie: file, youtube, spotify, etc.
      *
@@ -21,11 +22,13 @@ abstract class MediaSource implements Arrayable, Jsonable {
      */
     const icon = ['fas', 'question'];
 
-    public function toJson($options = 0) {
+    public function toJson($options = 0)
+    {
         return json_encode($this->toArray());
     }
 
-    public function toArray() {
+    public function toArray()
+    {
         return ['identifier' => static::identifier, 'icon' => static::icon];
     }
 }

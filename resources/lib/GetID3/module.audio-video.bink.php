@@ -13,11 +13,13 @@
 //                                                            ///
 /////////////////////////////////////////////////////////////////
 
-class getid3_bink extends getid3_handler {
+class getid3_bink extends getid3_handler
+{
     /**
      * @return bool
      */
-    public function Analyze() {
+    public function Analyze()
+    {
         $info = &$this->getid3->info;
 
         $this->error(
@@ -26,7 +28,7 @@ class getid3_bink extends getid3_handler {
 
         $this->fseek($info['avdataoffset']);
         $fileTypeID = $this->fread(3);
-        switch($fileTypeID) {
+        switch ($fileTypeID) {
             case 'BIK':
                 return $this->ParseBink();
                 break;
@@ -52,7 +54,8 @@ class getid3_bink extends getid3_handler {
     /**
      * @return bool
      */
-    public function ParseBink() {
+    public function ParseBink()
+    {
         $info = &$this->getid3->info;
         $info['fileformat'] = 'bink';
         $info['video']['dataformat'] = 'bink';
@@ -62,7 +65,7 @@ class getid3_bink extends getid3_handler {
         $info['bink']['data_size'] = getid3_lib::LittleEndian2Int(substr($fileData, 4, 4));
         $info['bink']['frame_count'] = getid3_lib::LittleEndian2Int(substr($fileData, 8, 2));
 
-        if(($info['avdataend'] - $info['avdataoffset']) != ($info['bink']['data_size'] + 8)) {
+        if (($info['avdataend'] - $info['avdataoffset']) != ($info['bink']['data_size'] + 8)) {
             $this->error(
                 'Probably truncated file: expecting '.$info['bink']['data_size'].' bytes, found '.($info['avdataend'] - $info['avdataoffset'])
             );
@@ -74,7 +77,8 @@ class getid3_bink extends getid3_handler {
     /**
      * @return bool
      */
-    public function ParseSmacker() {
+    public function ParseSmacker()
+    {
         $info = &$this->getid3->info;
         $info['fileformat'] = 'smacker';
         $info['video']['dataformat'] = 'smacker';

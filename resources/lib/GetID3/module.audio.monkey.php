@@ -14,11 +14,13 @@
 //                                                            ///
 /////////////////////////////////////////////////////////////////
 
-class getid3_monkey extends getid3_handler {
+class getid3_monkey extends getid3_handler
+{
     /**
      * @return bool
      */
-    public function Analyze() {
+    public function Analyze()
+    {
         $info = &$this->getid3->info;
 
         // based loosely on code from TMonkey by Jurgen Faul <jfaulØgmx*de>
@@ -38,7 +40,7 @@ class getid3_monkey extends getid3_handler {
 
         $thisfile_monkeysaudio_raw['magic'] = substr($MACheaderData, 0, 4);
         $magic = 'MAC ';
-        if($thisfile_monkeysaudio_raw['magic'] != $magic) {
+        if ($thisfile_monkeysaudio_raw['magic'] != $magic) {
             $this->error(
                 'Expecting "'.getid3_lib::PrintHexBytes(
                     $magic
@@ -52,7 +54,7 @@ class getid3_monkey extends getid3_handler {
         $thisfile_monkeysaudio_raw['nVersion'] =
             getid3_lib::LittleEndian2Int(substr($MACheaderData, 4, 2)); // appears to be uint32 in 3.98+
 
-        if($thisfile_monkeysaudio_raw['nVersion'] < 3980) {
+        if ($thisfile_monkeysaudio_raw['nVersion'] < 3980) {
             $thisfile_monkeysaudio_raw['nCompressionLevel'] =
                 getid3_lib::LittleEndian2Int(substr($MACheaderData, 6, 2));
             $thisfile_monkeysaudio_raw['nFormatFlags'] = getid3_lib::LittleEndian2Int(substr($MACheaderData, 8, 2));
@@ -68,8 +70,7 @@ class getid3_monkey extends getid3_handler {
             $thisfile_monkeysaudio_raw['nPeakLevel'] = getid3_lib::LittleEndian2Int(substr($MACheaderData, 32, 4));
             $thisfile_monkeysaudio_raw['nSeekElements'] = getid3_lib::LittleEndian2Int(substr($MACheaderData, 38, 2));
             $offset = 8;
-        }
-        else {
+        } else {
             $offset = 8;
             // APE_DESCRIPTOR
             $thisfile_monkeysaudio_raw['nDescriptorBytes'] =
@@ -122,16 +123,16 @@ class getid3_monkey extends getid3_handler {
             $offset += 4;
         }
 
-        $thisfile_monkeysaudio['flags']['8-bit'] = (bool)($thisfile_monkeysaudio_raw['nFormatFlags'] & 0x0001);
-        $thisfile_monkeysaudio['flags']['crc-32'] = (bool)($thisfile_monkeysaudio_raw['nFormatFlags'] & 0x0002);
-        $thisfile_monkeysaudio['flags']['peak_level'] = (bool)($thisfile_monkeysaudio_raw['nFormatFlags'] & 0x0004);
-        $thisfile_monkeysaudio['flags']['24-bit'] = (bool)($thisfile_monkeysaudio_raw['nFormatFlags'] & 0x0008);
-        $thisfile_monkeysaudio['flags']['seek_elements'] = (bool)($thisfile_monkeysaudio_raw['nFormatFlags'] & 0x0010);
-        $thisfile_monkeysaudio['flags']['no_wav_header'] = (bool)($thisfile_monkeysaudio_raw['nFormatFlags'] & 0x0020);
+        $thisfile_monkeysaudio['flags']['8-bit'] = (bool) ($thisfile_monkeysaudio_raw['nFormatFlags'] & 0x0001);
+        $thisfile_monkeysaudio['flags']['crc-32'] = (bool) ($thisfile_monkeysaudio_raw['nFormatFlags'] & 0x0002);
+        $thisfile_monkeysaudio['flags']['peak_level'] = (bool) ($thisfile_monkeysaudio_raw['nFormatFlags'] & 0x0004);
+        $thisfile_monkeysaudio['flags']['24-bit'] = (bool) ($thisfile_monkeysaudio_raw['nFormatFlags'] & 0x0008);
+        $thisfile_monkeysaudio['flags']['seek_elements'] = (bool) ($thisfile_monkeysaudio_raw['nFormatFlags'] & 0x0010);
+        $thisfile_monkeysaudio['flags']['no_wav_header'] = (bool) ($thisfile_monkeysaudio_raw['nFormatFlags'] & 0x0020);
         $thisfile_monkeysaudio['version'] = $thisfile_monkeysaudio_raw['nVersion'] / 1000;
         $thisfile_monkeysaudio['compression'] =
             $this->MonkeyCompressionLevelNameLookup($thisfile_monkeysaudio_raw['nCompressionLevel']);
-        if($thisfile_monkeysaudio_raw['nVersion'] < 3980) {
+        if ($thisfile_monkeysaudio_raw['nVersion'] < 3980) {
             $thisfile_monkeysaudio['samples_per_frame'] = $this->MonkeySamplesPerFrame(
                 $thisfile_monkeysaudio_raw['nVersion'],
                 $thisfile_monkeysaudio_raw['nCompressionLevel']
@@ -142,26 +143,25 @@ class getid3_monkey extends getid3_handler {
         $thisfile_monkeysaudio['channels'] = $thisfile_monkeysaudio_raw['nChannels'];
         $info['audio']['channels'] = $thisfile_monkeysaudio['channels'];
         $thisfile_monkeysaudio['sample_rate'] = $thisfile_monkeysaudio_raw['nSampleRate'];
-        if($thisfile_monkeysaudio['sample_rate'] == 0) {
+        if ($thisfile_monkeysaudio['sample_rate'] == 0) {
             $this->error('Corrupt MAC file: frequency == zero');
             return false;
         }
         $info['audio']['sample_rate'] = $thisfile_monkeysaudio['sample_rate'];
-        if($thisfile_monkeysaudio['flags']['peak_level']) {
+        if ($thisfile_monkeysaudio['flags']['peak_level']) {
             $thisfile_monkeysaudio['peak_level'] = $thisfile_monkeysaudio_raw['nPeakLevel'];
             $thisfile_monkeysaudio['peak_ratio'] =
                 $thisfile_monkeysaudio['peak_level'] / pow(2, $thisfile_monkeysaudio['bits_per_sample'] - 1);
         }
-        if($thisfile_monkeysaudio_raw['nVersion'] >= 3980) {
+        if ($thisfile_monkeysaudio_raw['nVersion'] >= 3980) {
             $thisfile_monkeysaudio['samples'] =
                 (($thisfile_monkeysaudio_raw['nTotalFrames'] - 1) * $thisfile_monkeysaudio_raw['nBlocksPerFrame']) + $thisfile_monkeysaudio_raw['nFinalFrameBlocks'];
-        }
-        else {
+        } else {
             $thisfile_monkeysaudio['samples'] =
                 (($thisfile_monkeysaudio_raw['nTotalFrames'] - 1) * $thisfile_monkeysaudio['samples_per_frame']) + $thisfile_monkeysaudio_raw['nFinalFrameSamples'];
         }
         $thisfile_monkeysaudio['playtime'] = $thisfile_monkeysaudio['samples'] / $thisfile_monkeysaudio['sample_rate'];
-        if($thisfile_monkeysaudio['playtime'] == 0) {
+        if ($thisfile_monkeysaudio['playtime'] == 0) {
             $this->error('Corrupt MAC file: playtime == zero');
             return false;
         }
@@ -169,7 +169,7 @@ class getid3_monkey extends getid3_handler {
         $thisfile_monkeysaudio['compressed_size'] = $info['avdataend'] - $info['avdataoffset'];
         $thisfile_monkeysaudio['uncompressed_size'] =
             $thisfile_monkeysaudio['samples'] * $thisfile_monkeysaudio['channels'] * ($thisfile_monkeysaudio['bits_per_sample'] / 8);
-        if($thisfile_monkeysaudio['uncompressed_size'] == 0) {
+        if ($thisfile_monkeysaudio['uncompressed_size'] == 0) {
             $this->error('Corrupt MAC file: uncompressed_size == zero');
             return false;
         }
@@ -180,29 +180,27 @@ class getid3_monkey extends getid3_handler {
         $info['audio']['bitrate'] = $thisfile_monkeysaudio['bitrate'];
 
         // add size of MAC header to avdataoffset
-        if($thisfile_monkeysaudio_raw['nVersion'] >= 3980) {
+        if ($thisfile_monkeysaudio_raw['nVersion'] >= 3980) {
             $info['avdataoffset'] += $thisfile_monkeysaudio_raw['nDescriptorBytes'];
             $info['avdataoffset'] += $thisfile_monkeysaudio_raw['nHeaderBytes'];
             $info['avdataoffset'] += $thisfile_monkeysaudio_raw['nSeekTableBytes'];
             $info['avdataoffset'] += $thisfile_monkeysaudio_raw['nHeaderDataBytes'];
 
             $info['avdataend'] -= $thisfile_monkeysaudio_raw['nTerminatingDataBytes'];
-        }
-        else {
+        } else {
             $info['avdataoffset'] += $offset;
         }
 
-        if($thisfile_monkeysaudio_raw['nVersion'] >= 3980) {
-            if($thisfile_monkeysaudio_raw['cFileMD5'] === str_repeat("\x00", 16)) {
+        if ($thisfile_monkeysaudio_raw['nVersion'] >= 3980) {
+            if ($thisfile_monkeysaudio_raw['cFileMD5'] === str_repeat("\x00", 16)) {
                 //$this->warning('cFileMD5 is null');
-            }
-            else {
+            } else {
                 $info['md5_data_source'] = '';
                 $md5 = $thisfile_monkeysaudio_raw['cFileMD5'];
-                for($i = 0; $i < strlen($md5); $i++) {
+                for ($i = 0; $i < strlen($md5); $i++) {
                     $info['md5_data_source'] .= str_pad(dechex(ord($md5{$i})), 2, '00', STR_PAD_LEFT);
                 }
-                if(!preg_match('/^[0-9a-f]{32}$/', $info['md5_data_source'])) {
+                if (!preg_match('/^[0-9a-f]{32}$/', $info['md5_data_source'])) {
                     unset($info['md5_data_source']);
                 }
             }
@@ -216,13 +214,14 @@ class getid3_monkey extends getid3_handler {
     }
 
     /**
-     * @param int $compressionlevel
+     * @param  int  $compressionlevel
      *
      * @return string
      */
-    public function MonkeyCompressionLevelNameLookup($compressionlevel) {
+    public function MonkeyCompressionLevelNameLookup($compressionlevel)
+    {
         static $MonkeyCompressionLevelNameLookup = array(
-            0    => 'unknown',
+            0 => 'unknown',
             1000 => 'fast',
             2000 => 'normal',
             3000 => 'high',
@@ -233,22 +232,20 @@ class getid3_monkey extends getid3_handler {
     }
 
     /**
-     * @param int $versionid
-     * @param int $compressionlevel
+     * @param  int  $versionid
+     * @param  int  $compressionlevel
      *
      * @return int
      */
-    public function MonkeySamplesPerFrame($versionid, $compressionlevel) {
-        if($versionid >= 3950) {
+    public function MonkeySamplesPerFrame($versionid, $compressionlevel)
+    {
+        if ($versionid >= 3950) {
             return 73728 * 4;
-        }
-        elseif($versionid >= 3900) {
+        } elseif ($versionid >= 3900) {
             return 73728;
-        }
-        elseif(($versionid >= 3800) && ($compressionlevel == 4000)) {
+        } elseif (($versionid >= 3800) && ($compressionlevel == 4000)) {
             return 73728;
-        }
-        else {
+        } else {
             return 9216;
         }
     }

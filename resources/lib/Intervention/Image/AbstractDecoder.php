@@ -9,7 +9,8 @@ use Intervention\Image\Exception\NotReadableException;
 use Psr\Http\Message\StreamInterface;
 use RuntimeException;
 
-abstract class AbstractDecoder {
+abstract class AbstractDecoder
+{
     /**
      * Buffer of input data
      *
@@ -20,9 +21,10 @@ abstract class AbstractDecoder {
     /**
      * Creates new Decoder with data
      *
-     * @param mixed $data
+     * @param  mixed  $data
      */
-    public function __construct($data = null) {
+    public function __construct($data = null)
+    {
         $this->data = $data;
     }
 
@@ -31,20 +33,22 @@ abstract class AbstractDecoder {
      *
      * @return boolean
      */
-    public function isSymfonyUpload() {
+    public function isSymfonyUpload()
+    {
         return is_a($this->data, 'Symfony\Component\HttpFoundation\File\UploadedFile');
     }
 
     /**
      * Initiates new image from mixed data
      *
-     * @param mixed $data
+     * @param  mixed  $data
      * @return Image
      */
-    public function init($data) {
+    public function init($data)
+    {
         $this->data = $data;
 
-        switch(true) {
+        switch (true) {
 
             case $this->isGdResource():
                 return $this->initFromGdResource($this->data);
@@ -87,8 +91,9 @@ abstract class AbstractDecoder {
      *
      * @return boolean
      */
-    public function isGdResource() {
-        if(is_resource($this->data)) {
+    public function isGdResource()
+    {
+        if (is_resource($this->data)) {
             return (get_resource_type($this->data) == 'gd');
         }
 
@@ -98,7 +103,7 @@ abstract class AbstractDecoder {
     /**
      * Initiates new image from GD resource
      *
-     * @param Resource $resource
+     * @param  Resource  $resource
      * @return Image
      */
     abstract public function initFromGdResource($resource);
@@ -108,14 +113,15 @@ abstract class AbstractDecoder {
      *
      * @return boolean
      */
-    public function isImagick() {
+    public function isImagick()
+    {
         return is_a($this->data, 'Imagick');
     }
 
     /**
      * Initiates new image from Imagick object
      *
-     * @param Imagick $object
+     * @param  Imagick  $object
      * @return Image
      */
     abstract public function initFromImagick(Imagick $object);
@@ -125,17 +131,19 @@ abstract class AbstractDecoder {
      *
      * @return boolean
      */
-    public function isInterventionImage() {
+    public function isInterventionImage()
+    {
         return is_a($this->data, '\Intervention\Image\Image');
     }
 
     /**
      * Initiates new Image from Intervention\Image\Image
      *
-     * @param Image $object
+     * @param  Image  $object
      * @return Image
      */
-    public function initFromInterventionImage($object) {
+    public function initFromInterventionImage($object)
+    {
         return $object;
     }
 
@@ -144,14 +152,15 @@ abstract class AbstractDecoder {
      *
      * @return boolean
      */
-    public function isSplFileInfo() {
+    public function isSplFileInfo()
+    {
         return is_a($this->data, 'SplFileInfo');
     }
 
     /**
      * Initiates new image from path in filesystem
      *
-     * @param string $path
+     * @param  string  $path
      * @return Image
      */
     abstract public function initFromPath($path);
@@ -161,8 +170,9 @@ abstract class AbstractDecoder {
      *
      * @return boolean
      */
-    public function isBinary() {
-        if(is_string($this->data)) {
+    public function isBinary()
+    {
+        if (is_string($this->data)) {
             $mime = finfo_buffer(finfo_open(FILEINFO_MIME_TYPE), $this->data);
             return (substr($mime, 0, 4) != 'text' && $mime != 'application/x-empty');
         }
@@ -173,7 +183,7 @@ abstract class AbstractDecoder {
     /**
      * Initiates new image from binary data
      *
-     * @param string $data
+     * @param  string  $data
      * @return Image
      */
     abstract public function initFromBinary($data);
@@ -183,17 +193,19 @@ abstract class AbstractDecoder {
      *
      * @return boolean
      */
-    public function isUrl() {
-        return (bool)filter_var($this->data, FILTER_VALIDATE_URL);
+    public function isUrl()
+    {
+        return (bool) filter_var($this->data, FILTER_VALIDATE_URL);
     }
 
     /**
      * Init from given URL
      *
-     * @param string $url
+     * @param  string  $url
      * @return Image
      */
-    public function initFromUrl($url) {
+    public function initFromUrl($url)
+    {
 
         $options = [
             'http' => [
@@ -204,7 +216,7 @@ abstract class AbstractDecoder {
 
         $context = stream_context_create($options);
 
-        if($data = @file_get_contents($url, false, $context)) {
+        if ($data = @file_get_contents($url, false, $context)) {
             return $this->initFromBinary($data);
         }
 
@@ -216,14 +228,15 @@ abstract class AbstractDecoder {
      *
      * @return boolean
      */
-    public function isStream() {
-        if($this->data instanceof StreamInterface) {
+    public function isStream()
+    {
+        if ($this->data instanceof StreamInterface) {
             return true;
         }
-        if(!is_resource($this->data)) {
+        if (!is_resource($this->data)) {
             return false;
         }
-        if(get_resource_type($this->data) !== 'stream') {
+        if (get_resource_type($this->data) !== 'stream') {
             return false;
         }
 
@@ -233,39 +246,38 @@ abstract class AbstractDecoder {
     /**
      * Init from given stream
      *
-     * @param StreamInterface|resource $stream
+     * @param  StreamInterface|resource  $stream
      * @return Image
      */
-    public function initFromStream($stream) {
-        if(!$stream instanceof StreamInterface) {
+    public function initFromStream($stream)
+    {
+        if (!$stream instanceof StreamInterface) {
             $stream = new Stream($stream);
         }
 
         try {
             $offset = $stream->tell();
-        }
-        catch(RuntimeException $e) {
+        } catch (RuntimeException $e) {
             $offset = 0;
         }
 
         $shouldAndCanSeek = $offset !== 0 && $stream->isSeekable();
 
-        if($shouldAndCanSeek) {
+        if ($shouldAndCanSeek) {
             $stream->rewind();
         }
 
         try {
             $data = $stream->getContents();
-        }
-        catch(RuntimeException $e) {
+        } catch (RuntimeException $e) {
             $data = null;
         }
 
-        if($shouldAndCanSeek) {
+        if ($shouldAndCanSeek) {
             $stream->seek($offset);
         }
 
-        if($data) {
+        if ($data) {
             return $this->initFromBinary($data);
         }
 
@@ -277,7 +289,8 @@ abstract class AbstractDecoder {
      *
      * @return boolean
      */
-    public function isDataUrl() {
+    public function isDataUrl()
+    {
         $data = $this->decodeDataUrl($this->data);
 
         return is_null($data) ? false : true;
@@ -286,18 +299,19 @@ abstract class AbstractDecoder {
     /**
      * Parses and decodes binary image data from data-url
      *
-     * @param string $data_url
+     * @param  string  $data_url
      * @return string
      */
-    private function decodeDataUrl($data_url) {
-        if(!is_string($data_url)) {
+    private function decodeDataUrl($data_url)
+    {
+        if (!is_string($data_url)) {
             return null;
         }
 
         $pattern = "/^data:(?:image\/[a-zA-Z\-\.]+)(?:charset=\".+\")?;base64,(?P<data>.+)$/";
         preg_match($pattern, $data_url, $matches);
 
-        if(is_array($matches) && array_key_exists('data', $matches)) {
+        if (is_array($matches) && array_key_exists('data', $matches)) {
             return base64_decode($matches['data']);
         }
 
@@ -309,12 +323,12 @@ abstract class AbstractDecoder {
      *
      * @return boolean
      */
-    public function isFilePath() {
-        if(is_string($this->data)) {
+    public function isFilePath()
+    {
+        if (is_string($this->data)) {
             try {
                 return is_file($this->data);
-            }
-            catch(Exception $e) {
+            } catch (Exception $e) {
                 return false;
             }
         }
@@ -327,8 +341,9 @@ abstract class AbstractDecoder {
      *
      * @return boolean
      */
-    public function isBase64() {
-        if(!is_string($this->data)) {
+    public function isBase64()
+    {
+        if (!is_string($this->data)) {
             return false;
         }
 
@@ -340,7 +355,8 @@ abstract class AbstractDecoder {
      *
      * @return string
      */
-    public function __toString() {
-        return (string)$this->data;
+    public function __toString()
+    {
+        return (string) $this->data;
     }
 }

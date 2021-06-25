@@ -6,7 +6,8 @@ use Closure;
 use Intervention\Image\Exception\MissingDependencyException;
 use Intervention\Image\Exception\NotSupportedException;
 
-class ImageManager {
+class ImageManager
+{
     /**
      * Config
      *
@@ -17,9 +18,10 @@ class ImageManager {
     /**
      * Creates new instance of Image Manager
      *
-     * @param array $config
+     * @param  array  $config
      */
-    public function __construct(array $config = []) {
+    public function __construct(array $config = [])
+    {
         $this->checkRequirements();
         $this->configure($config);
     }
@@ -29,8 +31,9 @@ class ImageManager {
      *
      * @return void
      */
-    private function checkRequirements() {
-        if(!function_exists('finfo_buffer')) {
+    private function checkRequirements()
+    {
+        if (!function_exists('finfo_buffer')) {
             throw new MissingDependencyException(
                 "PHP Fileinfo extension must be installed/enabled to use Intervention Image."
             );
@@ -40,11 +43,12 @@ class ImageManager {
     /**
      * Overrides configuration settings
      *
-     * @param array $config
+     * @param  array  $config
      *
      * @return self
      */
-    public function configure(array $config = []) {
+    public function configure(array $config = [])
+    {
         $this->config = array_replace($this->config, $config);
 
         return $this;
@@ -53,11 +57,12 @@ class ImageManager {
     /**
      * Initiates an Image instance from different input types
      *
-     * @param mixed $data
+     * @param  mixed  $data
      *
      * @return Image
      */
-    public function make($data) {
+    public function make($data)
+    {
         return $this->createDriver()->init($data);
     }
 
@@ -66,19 +71,20 @@ class ImageManager {
      *
      * @return AbstractDriver
      */
-    private function createDriver() {
-        if(is_string($this->config['driver'])) {
+    private function createDriver()
+    {
+        if (is_string($this->config['driver'])) {
             $drivername = ucfirst($this->config['driver']);
             $driverclass = sprintf('Intervention\\Image\\%s\\Driver', $drivername);
 
-            if(class_exists($driverclass)) {
+            if (class_exists($driverclass)) {
                 return new $driverclass;
             }
 
             throw new NotSupportedException("Driver ({$drivername}) could not be instantiated.");
         }
 
-        if($this->config['driver'] instanceof AbstractDriver) {
+        if ($this->config['driver'] instanceof AbstractDriver) {
             return $this->config['driver'];
         }
 
@@ -88,13 +94,14 @@ class ImageManager {
     /**
      * Creates an empty image canvas
      *
-     * @param int   $width
-     * @param int   $height
-     * @param mixed $background
+     * @param  int  $width
+     * @param  int  $height
+     * @param  mixed  $background
      *
      * @return Image
      */
-    public function canvas($width, $height, $background = null) {
+    public function canvas($width, $height, $background = null)
+    {
         return $this->createDriver()->newImage($width, $height, $background);
     }
 
@@ -102,19 +109,20 @@ class ImageManager {
      * Create new cached image and run callback
      * (requires additional package intervention/imagecache)
      *
-     * @param Closure $callback
-     * @param int     $lifetime
-     * @param boolean $returnObj
+     * @param  Closure  $callback
+     * @param  int  $lifetime
+     * @param  boolean  $returnObj
      *
      * @return Image
      */
-    public function cache(Closure $callback, $lifetime = null, $returnObj = false) {
-        if(class_exists('Intervention\\Image\\ImageCache')) {
+    public function cache(Closure $callback, $lifetime = null, $returnObj = false)
+    {
+        if (class_exists('Intervention\\Image\\ImageCache')) {
             // create imagecache
             $imagecache = new ImageCache($this);
 
             // run callback
-            if(is_callable($callback)) {
+            if (is_callable($callback)) {
                 $callback($imagecache);
             }
 

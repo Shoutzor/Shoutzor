@@ -6,12 +6,14 @@ use App\Artist;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class ArtistApiController extends Controller {
+class ArtistApiController extends Controller
+{
 
-    public function get(Request $request, int $id) {
+    public function get(Request $request, int $id)
+    {
         $artist = Artist::find($id);
 
-        if(!$artist) {
+        if (!$artist) {
             return response()->json(['message' => 'Album with id '.$id.' not found'], 404);
         }
 

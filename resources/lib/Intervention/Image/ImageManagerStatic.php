@@ -5,7 +5,8 @@ namespace Intervention\Image;
 use Closure;
 use Intervention\Image\Exception\NotReadableException;
 
-class ImageManagerStatic {
+class ImageManagerStatic
+{
     /**
      * Instance of Intervention\Image\ImageManager
      *
@@ -16,20 +17,22 @@ class ImageManagerStatic {
     /**
      * Creates a new instance
      *
-     * @param ImageManager $manager
+     * @param  ImageManager  $manager
      */
-    public function __construct(ImageManager $manager = null) {
+    public function __construct(ImageManager $manager = null)
+    {
         self::$manager = $manager ? $manager : new ImageManager;
     }
 
     /**
      * Statically create new custom configured image manager
      *
-     * @param array $config
+     * @param  array  $config
      *
      * @return ImageManager
      */
-    public static function configure(array $config = []) {
+    public static function configure(array $config = [])
+    {
         return self::$manager = self::getManager()->configure($config);
     }
 
@@ -38,45 +41,49 @@ class ImageManagerStatic {
      *
      * @return ImageManager
      */
-    public static function getManager() {
+    public static function getManager()
+    {
         return self::$manager ? self::$manager : new ImageManager;
     }
 
     /**
      * Statically initiates an Image instance from different input types
      *
-     * @param mixed $data
+     * @param  mixed  $data
      *
      * @return Image
      * @throws NotReadableException
      */
-    public static function make($data) {
+    public static function make($data)
+    {
         return self::getManager()->make($data);
     }
 
     /**
      * Statically creates an empty image canvas
      *
-     * @param int   $width
-     * @param int   $height
-     * @param mixed $background
+     * @param  int  $width
+     * @param  int  $height
+     * @param  mixed  $background
      *
      * @return Image
      */
-    public static function canvas($width, $height, $background = null) {
+    public static function canvas($width, $height, $background = null)
+    {
         return self::getManager()->canvas($width, $height, $background);
     }
 
     /**
      * Create new cached image and run callback statically
      *
-     * @param Closure $callback
-     * @param int     $lifetime
-     * @param boolean $returnObj
+     * @param  Closure  $callback
+     * @param  int  $lifetime
+     * @param  boolean  $returnObj
      *
      * @return mixed
      */
-    public static function cache(Closure $callback, $lifetime = null, $returnObj = false) {
+    public static function cache(Closure $callback, $lifetime = null, $returnObj = false)
+    {
         return self::getManager()->cache($callback, $lifetime, $returnObj);
     }
 }

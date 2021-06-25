@@ -5,14 +5,16 @@ namespace Intervention\Image\Gd\Commands;
 use Intervention\Image\Image;
 use Intervention\Image\Size;
 
-class FitCommand extends ResizeCommand {
+class FitCommand extends ResizeCommand
+{
     /**
      * Crops and resized an image at the same time
      *
-     * @param Image $image
+     * @param  Image  $image
      * @return boolean
      */
-    public function execute($image) {
+    public function execute($image)
+    {
         $width = $this->argument(0)->type('digit')->required()->value();
         $height = $this->argument(1)->type('digit')->value($width);
         $constraints = $this->argument(2)->type('closure')->value();

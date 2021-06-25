@@ -4,20 +4,22 @@ namespace Intervention\Image\Gd\Commands;
 
 use Intervention\Image\Image;
 
-class FlipCommand extends ResizeCommand {
+class FlipCommand extends ResizeCommand
+{
     /**
      * Mirrors an image
      *
-     * @param Image $image
+     * @param  Image  $image
      * @return boolean
      */
-    public function execute($image) {
+    public function execute($image)
+    {
         $mode = $this->argument(0)->value('h');
 
         $size = $image->getSize();
         $dst = clone $size;
 
-        switch(strtolower($mode)) {
+        switch (strtolower($mode)) {
             case 2:
             case 'v':
             case 'vert':

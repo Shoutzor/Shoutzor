@@ -4,13 +4,15 @@ namespace App\Http\Controllers;
 
 use Illuminate\Contracts\Support\Renderable;
 
-class UpdateController extends Controller {
+class UpdateController extends Controller
+{
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct() {
+    public function __construct()
+    {
         //$this->middleware('auth');
     }
 
@@ -19,7 +21,8 @@ class UpdateController extends Controller {
      *
      * @return Renderable
      */
-    public function install() {
+    public function install()
+    {
         return view('install');
     }
 }

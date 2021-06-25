@@ -2,9 +2,13 @@
 
 namespace App;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Media extends Model {
+class Media extends Model
+{
+    use HasFactory;
+
     const STORAGE_PATH = 'media/';
     public $timestamps = false;
     /**
@@ -13,13 +17,15 @@ class Media extends Model {
      * @var string
      */
     protected $table = 'media';
-    protected $fillable = ['title', 'filename', 'crc', 'duration', 'is_video'];
+    protected $fillable = ['title', 'filename', 'duration', 'is_video'];
 
-    public function albums() {
+    public function albums()
+    {
         return $this->belongsToMany('App\Album');
     }
 
-    public function artists() {
+    public function artists()
+    {
         return $this->belongsToMany('App\Artist');
     }
 }
