@@ -10,18 +10,21 @@ use Symfony\Contracts\EventDispatcher\Event;
  * @package App\Events
  * Gets called when a file has been uploaded, the file wont be parsed until UploadProcessingEvent is called
  */
-class BaseEvent extends Event {
+class BaseEvent extends Event
+{
     protected bool $valid = true;
     protected string $reason;
 
-    public function getReason(): string {
+    public function getReason(): string
+    {
         return $this->reason;
     }
 
     /**
      * Marks the upload as invalid
      */
-    public function setInvalid($reason = '') {
+    public function setInvalid($reason = '')
+    {
         $this->valid = false;
         $this->reason = $reason;
         $this->stopPropagation();
@@ -32,7 +35,8 @@ class BaseEvent extends Event {
      *
      * @return bool
      */
-    public function isValid(): bool {
+    public function isValid(): bool
+    {
         return $this->valid;
     }
 }

@@ -14,13 +14,15 @@
 //                                                            ///
 /////////////////////////////////////////////////////////////////
 
-class getid3_swf extends getid3_handler {
+class getid3_swf extends getid3_handler
+{
     public $ReturnAllTagData = false;
 
     /**
      * @return bool
      */
-    public function Analyze() {
+    public function Analyze()
+    {
         $info = &$this->getid3->info;
 
         $info['fileformat'] = 'swf';
@@ -35,7 +37,7 @@ class getid3_swf extends getid3_handler {
         ); // 8 + 2 + 2 + max(9) bytes NOT including Frame_Size RECT data
 
         $info['swf']['header']['signature'] = substr($SWFfileData, 0, 3);
-        switch($info['swf']['header']['signature']) {
+        switch ($info['swf']['header']['signature']) {
             case 'FWS':
                 $info['swf']['header']['compressed'] = false;
                 break;
@@ -58,13 +60,12 @@ class getid3_swf extends getid3_handler {
         $info['swf']['header']['version'] = getid3_lib::LittleEndian2Int(substr($SWFfileData, 3, 1));
         $info['swf']['header']['length'] = getid3_lib::LittleEndian2Int(substr($SWFfileData, 4, 4));
 
-        if($info['swf']['header']['compressed']) {
+        if ($info['swf']['header']['compressed']) {
             $SWFHead = substr($SWFfileData, 0, 8);
             $SWFfileData = substr($SWFfileData, 8);
-            if($decompressed = @gzuncompress($SWFfileData)) {
+            if ($decompressed = @gzuncompress($SWFfileData)) {
                 $SWFfileData = $SWFHead.$decompressed;
-            }
-            else {
+            } else {
                 $this->error(
                     'Error decompressing compressed SWF data ('.strlen(
                         $SWFfileData
@@ -77,7 +78,7 @@ class getid3_swf extends getid3_handler {
         $FrameSizeBitsPerValue = (ord(substr($SWFfileData, 8, 1)) & 0xF8) >> 3;
         $FrameSizeDataLength = ceil((5 + (4 * $FrameSizeBitsPerValue)) / 8);
         $FrameSizeDataString = str_pad(decbin(ord(substr($SWFfileData, 8, 1)) & 0x07), 3, '0', STR_PAD_LEFT);
-        for($i = 1; $i < $FrameSizeDataLength; $i++) {
+        for ($i = 1; $i < $FrameSizeDataLength; $i++) {
             $FrameSizeDataString .= str_pad(decbin(ord(substr($SWFfileData, 8 + $i, 1))), 8, '0', STR_PAD_LEFT);
         }
         list($X1, $X2, $Y1, $Y2) = explode("\n", wordwrap($FrameSizeDataString, $FrameSizeBitsPerValue, "\n", 1));
@@ -99,9 +100,9 @@ class getid3_swf extends getid3_handler {
         $info['video']['frame_rate'] = $info['swf']['header']['frame_rate'];
         $info['video']['resolution_x'] = intval(round($info['swf']['header']['frame_width'] / 20));
         $info['video']['resolution_y'] = intval(round($info['swf']['header']['frame_height'] / 20));
-        $info['video']['pixel_aspect_ratio'] = (float)1;
+        $info['video']['pixel_aspect_ratio'] = (float) 1;
 
-        if(($info['swf']['header']['frame_count'] > 0) && ($info['swf']['header']['frame_rate'] > 0)) {
+        if (($info['swf']['header']['frame_count'] > 0) && ($info['swf']['header']['frame_rate'] > 0)) {
             $info['playtime_seconds'] = $info['swf']['header']['frame_count'] / $info['swf']['header']['frame_rate'];
         }
         //echo __LINE__.'='.number_format(microtime(true) - $start_time, 3).'<br>';
@@ -111,14 +112,14 @@ class getid3_swf extends getid3_handler {
         $CurrentOffset = 12 + $FrameSizeDataLength;
         $SWFdataLength = strlen($SWFfileData);
 
-        while($CurrentOffset < $SWFdataLength) {
+        while ($CurrentOffset < $SWFdataLength) {
             //echo __LINE__.'='.number_format(microtime(true) - $start_time, 3).'<br>';
 
             $TagIDTagLength = getid3_lib::LittleEndian2Int(substr($SWFfileData, $CurrentOffset, 2));
             $TagID = ($TagIDTagLength & 0xFFFC) >> 6;
             $TagLength = ($TagIDTagLength & 0x003F);
             $CurrentOffset += 2;
-            if($TagLength == 0x3F) {
+            if ($TagLength == 0x3F) {
                 $TagLength = getid3_lib::LittleEndian2Int(substr($SWFfileData, $CurrentOffset, 4));
                 $CurrentOffset += 4;
             }
@@ -128,7 +129,7 @@ class getid3_swf extends getid3_handler {
             $TagData['size'] = $TagLength;
             $TagData['id'] = $TagID;
             $TagData['data'] = substr($SWFfileData, $CurrentOffset, $TagLength);
-            switch($TagID) {
+            switch ($TagID) {
                 case 0: // end of movie
                     break 2;
 
@@ -139,7 +140,7 @@ class getid3_swf extends getid3_handler {
                     break;
 
                 default:
-                    if($this->ReturnAllTagData) {
+                    if ($this->ReturnAllTagData) {
                         $info['swf']['tags'][] = $TagData;
                     }
                     break;

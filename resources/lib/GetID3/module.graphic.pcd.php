@@ -14,13 +14,15 @@
 //                                                            ///
 /////////////////////////////////////////////////////////////////
 
-class getid3_pcd extends getid3_handler {
+class getid3_pcd extends getid3_handler
+{
     public $ExtractData = 0;
 
     /**
      * @return bool
      */
-    public function Analyze() {
+    public function Analyze()
+    {
         $info = &$this->getid3->info;
 
         $info['fileformat'] = 'pcd';
@@ -32,23 +34,21 @@ class getid3_pcd extends getid3_handler {
         $PCDflags = $this->fread(1);
         $PCDisVertical = ((ord($PCDflags) & 0x01) ? true : false);
 
-        if($PCDisVertical) {
+        if ($PCDisVertical) {
             $info['video']['resolution_x'] = 3072;
             $info['video']['resolution_y'] = 2048;
-        }
-        else {
+        } else {
             $info['video']['resolution_x'] = 2048;
             $info['video']['resolution_y'] = 3072;
         }
 
-        if($this->ExtractData > 3) {
+        if ($this->ExtractData > 3) {
 
             $this->error(
                 'Cannot extract PSD image data for detail levels above BASE (level-3) because encrypted with Kodak-proprietary compression/encryption.'
             );
 
-        }
-        elseif($this->ExtractData > 0) {
+        } elseif ($this->ExtractData > 0) {
 
             $PCD_levels[1] = array(192, 128, 0x02000); // BASE/16
             $PCD_levels[2] = array(384, 256, 0x0B800); // BASE/4
@@ -61,7 +61,7 @@ class getid3_pcd extends getid3_handler {
 
             $this->fseek($info['avdataoffset'] + $PCD_dataOffset);
 
-            for($y = 0; $y < $PCD_height; $y += 2) {
+            for ($y = 0; $y < $PCD_height; $y += 2) {
                 // The image-data of these subtypes start at the respective offsets of 02000h, 0b800h and 30000h.
                 // To decode the YcbYr to the more usual RGB-code, three lines of data have to be read, each
                 // consisting of w bytes, where w is the width of the image-subtype. The first w bytes and
@@ -73,29 +73,28 @@ class getid3_pcd extends getid3_handler {
                 $PCD_data_Cb = $this->fread(intval(round($PCD_width / 2)));
                 $PCD_data_Cr = $this->fread(intval(round($PCD_width / 2)));
 
-                for($x = 0; $x < $PCD_width; $x++) {
-                    if($PCDisVertical) {
+                for ($x = 0; $x < $PCD_width; $x++) {
+                    if ($PCDisVertical) {
                         $info['pcd']['data'][$PCD_width - $x][$y] = $this->YCbCr2RGB(
                             ord($PCD_data_Y1{$x}),
-                            ord($PCD_data_Cb{(int)floor($x / 2)}),
-                            ord($PCD_data_Cr{(int)floor($x / 2)})
+                            ord($PCD_data_Cb{(int) floor($x / 2)}),
+                            ord($PCD_data_Cr{(int) floor($x / 2)})
                         );
                         $info['pcd']['data'][$PCD_width - $x][$y + 1] = $this->YCbCr2RGB(
                             ord($PCD_data_Y2{$x}),
-                            ord($PCD_data_Cb{(int)floor($x / 2)}),
-                            ord($PCD_data_Cr{(int)floor($x / 2)})
+                            ord($PCD_data_Cb{(int) floor($x / 2)}),
+                            ord($PCD_data_Cr{(int) floor($x / 2)})
                         );
-                    }
-                    else {
+                    } else {
                         $info['pcd']['data'][$y][$x] = $this->YCbCr2RGB(
                             ord($PCD_data_Y1{$x}),
-                            ord($PCD_data_Cb{(int)floor($x / 2)}),
-                            ord($PCD_data_Cr{(int)floor($x / 2)})
+                            ord($PCD_data_Cb{(int) floor($x / 2)}),
+                            ord($PCD_data_Cr{(int) floor($x / 2)})
                         );
                         $info['pcd']['data'][$y + 1][$x] = $this->YCbCr2RGB(
                             ord($PCD_data_Y2{$x}),
-                            ord($PCD_data_Cb{(int)floor($x / 2)}),
-                            ord($PCD_data_Cr{(int)floor($x / 2)})
+                            ord($PCD_data_Cb{(int) floor($x / 2)}),
+                            ord($PCD_data_Cr{(int) floor($x / 2)})
                         );
                     }
                 }
@@ -119,15 +118,16 @@ class getid3_pcd extends getid3_handler {
     }
 
     /**
-     * @param int $Y
-     * @param int $Cb
-     * @param int $Cr
+     * @param  int  $Y
+     * @param  int  $Cb
+     * @param  int  $Cr
      *
      * @return int
      */
-    public function YCbCr2RGB($Y, $Cb, $Cr) {
+    public function YCbCr2RGB($Y, $Cb, $Cr)
+    {
         static $YCbCr_constants = array();
-        if(empty($YCbCr_constants)) {
+        if (empty($YCbCr_constants)) {
             $YCbCr_constants['red']['Y'] = 0.0054980 * 256;
             $YCbCr_constants['red']['Cb'] = 0.0000000 * 256;
             $YCbCr_constants['red']['Cr'] = 0.0051681 * 256;
@@ -140,7 +140,7 @@ class getid3_pcd extends getid3_handler {
         }
 
         $RGBcolor = array('red' => 0, 'green' => 0, 'blue' => 0);
-        foreach($RGBcolor as $rgbname => $dummy) {
+        foreach ($RGBcolor as $rgbname => $dummy) {
             $RGBcolor[$rgbname] = max(
                 0,
                 min(

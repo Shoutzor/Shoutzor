@@ -7,7 +7,8 @@ use Illuminate\Support\Facades\Gate;
 use Laravel\Passport\Passport;
 use Spatie\Permission\Models\Role;
 
-class AuthServiceProvider extends ServiceProvider {
+class AuthServiceProvider extends ServiceProvider
+{
     /**
      * The policy mappings for the application.
      *
@@ -20,19 +21,20 @@ class AuthServiceProvider extends ServiceProvider {
      *
      * @return void
      */
-    public function boot() {
+    public function boot()
+    {
         $this->registerPolicies();
 
         Gate::after(
-            function($user, $ability, $result, $arguments) {
+            function ($user, $ability, $result, $arguments) {
                 die();
-                if(!$user) {
+                if (!$user) {
                     $role = Role::findByName('guest');
 
                     //Check if the guest role could be found
-                    if($role) {
+                    if ($role) {
                         //Check if the guest role has the permission
-                        if($role->hasPermissionTo($ability)) {
+                        if ($role->hasPermissionTo($ability)) {
                             //Permit the request
                             //Response::allow();
                             return true;

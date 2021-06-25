@@ -5,7 +5,8 @@ namespace Intervention\Image;
 use Intervention\Image\Exception\InvalidArgumentException;
 use Intervention\Image\Exception\NotSupportedException;
 
-abstract class AbstractEncoder {
+abstract class AbstractEncoder
+{
     /**
      * Buffer of encode result data
      *
@@ -37,17 +38,18 @@ abstract class AbstractEncoder {
     /**
      * Process a given image
      *
-     * @param Image  $image
-     * @param string $format
-     * @param int    $quality
+     * @param  Image  $image
+     * @param  string  $format
+     * @param  int  $quality
      * @return Image
      */
-    public function process(Image $image, $format = null, $quality = null) {
+    public function process(Image $image, $format = null, $quality = null)
+    {
         $this->setImage($image);
         $this->setFormat($format);
         $this->setQuality($quality);
 
-        switch(strtolower($this->format)) {
+        switch (strtolower($this->format)) {
 
             case 'data-url':
                 $this->result = $this->processDataUrl();
@@ -130,19 +132,21 @@ abstract class AbstractEncoder {
     /**
      * Sets image to process
      *
-     * @param Image $image
+     * @param  Image  $image
      */
-    protected function setImage($image) {
+    protected function setImage($image)
+    {
         $this->image = $image;
     }
 
     /**
      * Determines output format
      *
-     * @param string $format
+     * @param  string  $format
      */
-    protected function setFormat($format = null) {
-        if($format == '' && $this->image instanceof Image) {
+    protected function setFormat($format = null)
+    {
+        if ($format == '' && $this->image instanceof Image) {
             $format = $this->image->mime;
         }
 
@@ -154,13 +158,14 @@ abstract class AbstractEncoder {
     /**
      * Determines output quality
      *
-     * @param int $quality
+     * @param  int  $quality
      */
-    protected function setQuality($quality) {
+    protected function setQuality($quality)
+    {
         $quality = is_null($quality) ? 90 : $quality;
         $quality = $quality === 0 ? 1 : $quality;
 
-        if($quality < 0 || $quality > 100) {
+        if ($quality < 0 || $quality > 100) {
             throw new InvalidArgumentException('Quality must range from 0 to 100.');
         }
 
@@ -174,7 +179,8 @@ abstract class AbstractEncoder {
      *
      * @return string
      */
-    protected function processDataUrl() {
+    protected function processDataUrl()
+    {
         $mime = $this->image->mime ? $this->image->mime : 'image/png';
 
         return sprintf('data:%s;base64,%s', $mime, base64_encode($this->process($this->image, $mime, $this->quality)));

@@ -14,11 +14,13 @@
 //                                                            ///
 /////////////////////////////////////////////////////////////////
 
-class getid3_tta extends getid3_handler {
+class getid3_tta extends getid3_handler
+{
     /**
      * @return bool
      */
-    public function Analyze() {
+    public function Analyze()
+    {
         $info = &$this->getid3->info;
 
         $info['fileformat'] = 'tta';
@@ -31,7 +33,7 @@ class getid3_tta extends getid3_handler {
 
         $info['tta']['magic'] = substr($ttaheader, 0, 3);
         $magic = 'TTA';
-        if($info['tta']['magic'] != $magic) {
+        if ($info['tta']['magic'] != $magic) {
             $this->error(
                 'Expecting "'.getid3_lib::PrintHexBytes(
                     $magic
@@ -43,7 +45,7 @@ class getid3_tta extends getid3_handler {
             return false;
         }
 
-        switch($ttaheader{3}) {
+        switch ($ttaheader{3}) {
             case "\x01": // TTA v1.x
             case "\x02": // TTA v1.x
             case "\x03": // TTA v1.x
@@ -96,8 +98,7 @@ class getid3_tta extends getid3_handler {
 
             default:
                 $this->error(
-                    'This version of getID3() ['.$this->getid3->version(
-                    ).'] only knows how to handle TTA v1 and v2 - it may not work correctly with this file which appears to be TTA v'.$ttaheader{3}
+                    'This version of getID3() ['.$this->getid3->version().'] only knows how to handle TTA v1 and v2 - it may not work correctly with this file which appears to be TTA v'.$ttaheader{3}
                 );
                 return false;
                 break;

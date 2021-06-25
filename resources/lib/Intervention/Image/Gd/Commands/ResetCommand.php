@@ -6,17 +6,19 @@ use Intervention\Image\Commands\AbstractCommand;
 use Intervention\Image\Exception\RuntimeException;
 use Intervention\Image\Image;
 
-class ResetCommand extends AbstractCommand {
+class ResetCommand extends AbstractCommand
+{
     /**
      * Resets given image to its backup state
      *
-     * @param Image $image
+     * @param  Image  $image
      * @return boolean
      */
-    public function execute($image) {
+    public function execute($image)
+    {
         $backupName = $this->argument(0)->value();
 
-        if(is_resource($backup = $image->getBackup($backupName))) {
+        if (is_resource($backup = $image->getBackup($backupName))) {
 
             // destroy current resource
             imagedestroy($image->getCore());

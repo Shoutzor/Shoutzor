@@ -16,11 +16,13 @@
 
 getid3_lib::IncludeDependency(GETID3_INCLUDEPATH.'module.tag.id3v2.php', __FILE__, true);
 
-class getid3_dsf extends getid3_handler {
+class getid3_dsf extends getid3_handler
+{
     /**
      * @return bool
      */
-    public function Analyze() {
+    public function Analyze()
+    {
         $info = &$this->getid3->info;
 
         $info['fileformat'] = 'dsf';
@@ -35,7 +37,7 @@ class getid3_dsf extends getid3_handler {
         $info['dsf']['dsd']['magic'] = substr($dsfheader, $headeroffset, 4);
         $headeroffset += 4;
         $magic = 'DSD ';
-        if($info['dsf']['dsd']['magic'] != $magic) {
+        if ($info['dsf']['dsd']['magic'] != $magic) {
             $this->error(
                 'Expecting "'.getid3_lib::PrintHexBytes(
                     $magic
@@ -59,7 +61,7 @@ class getid3_dsf extends getid3_handler {
         $info['dsf']['fmt']['magic'] = substr($dsfheader, $headeroffset, 4);
         $headeroffset += 4;
         $magic = 'fmt ';
-        if($info['dsf']['fmt']['magic'] != $magic) {
+        if ($info['dsf']['fmt']['magic'] != $magic) {
             $this->error(
                 'Expecting "'.getid3_lib::PrintHexBytes(
                     $magic
@@ -73,7 +75,7 @@ class getid3_dsf extends getid3_handler {
         $dsfheader .= $this->fread(
             $info['dsf']['fmt']['fmt_chunk_size'] - 12 + 12
         );  // we have already read the entire DSD chunk, plus 12 bytes of FMT. We now want to read the size of FMT, plus 12 bytes into the next chunk to get magic and size.
-        if(strlen($dsfheader) != ($info['dsf']['dsd']['dsd_chunk_size'] + $info['dsf']['fmt']['fmt_chunk_size'] + 12)) {
+        if (strlen($dsfheader) != ($info['dsf']['dsd']['dsd_chunk_size'] + $info['dsf']['fmt']['fmt_chunk_size'] + 12)) {
             $this->error(
                 'Expecting '.($info['dsf']['dsd']['dsd_chunk_size'] + $info['dsf']['fmt']['fmt_chunk_size']).' bytes header, found '.strlen(
                     $dsfheader
@@ -106,7 +108,7 @@ class getid3_dsf extends getid3_handler {
         $info['dsf']['data']['magic'] = substr($dsfheader, $headeroffset, 4);
         $headeroffset += 4;
         $magic = 'data';
-        if($info['dsf']['data']['magic'] != $magic) {
+        if ($info['dsf']['data']['magic'] != $magic) {
             $this->error(
                 'Expecting "'.getid3_lib::PrintHexBytes(
                     $magic
@@ -119,7 +121,7 @@ class getid3_dsf extends getid3_handler {
         $info['avdataoffset'] = $headeroffset;
         $info['avdataend'] = $info['avdataoffset'] + $info['dsf']['data']['data_chunk_size'];
 
-        if($info['dsf']['dsd']['meta_chunk_offset'] > 0) {
+        if ($info['dsf']['dsd']['meta_chunk_offset'] > 0) {
             $getid3_id3v2 = new getid3_id3v2($this->getid3);
             $getid3_id3v2->StartingOffset = $info['dsf']['dsd']['meta_chunk_offset'];
             $getid3_id3v2->Analyze();
@@ -139,26 +141,27 @@ class getid3_dsf extends getid3_handler {
     }
 
     /**
-     * @param int $channel_type_id
+     * @param  int  $channel_type_id
      *
      * @return string
      */
-    public static function DSFchannelTypeLookup($channel_type_id) {
+    public static function DSFchannelTypeLookup($channel_type_id)
+    {
         static $DSFchannelTypeLookup = array(// interleaving order:
-                                             1 => 'mono',
-                                             // 1: Mono
-                                             2 => 'stereo',
-                                             // 1: Front-Left; 2: Front-Right
-                                             3 => '3-channel',
-                                             // 1: Front-Left; 2: Front-Right; 3: Center
-                                             4 => 'quad',
-                                             // 1: Front-Left; 2: Front-Right; 3: Back-Left; 4: Back-Right
-                                             5 => '4-channel',
-                                             // 1: Front-Left; 2: Front-Right; 3: Center;    4: Low-Frequency
-                                             6 => '5-channel',
-                                             // 1: Front-Left; 2: Front-Right; 3: Center;    4: Back-Left      5: Back-Right
-                                             7 => '5.1',
-                                             // 1: Front-Left; 2: Front-Right; 3: Center;    4: Low-Frequency; 5: Back-Left;  6: Back-Right
+            1 => 'mono',
+            // 1: Mono
+            2 => 'stereo',
+            // 1: Front-Left; 2: Front-Right
+            3 => '3-channel',
+            // 1: Front-Left; 2: Front-Right; 3: Center
+            4 => 'quad',
+            // 1: Front-Left; 2: Front-Right; 3: Back-Left; 4: Back-Right
+            5 => '4-channel',
+            // 1: Front-Left; 2: Front-Right; 3: Center;    4: Low-Frequency
+            6 => '5-channel',
+            // 1: Front-Left; 2: Front-Right; 3: Center;    4: Back-Left      5: Back-Right
+            7 => '5.1',
+            // 1: Front-Left; 2: Front-Right; 3: Center;    4: Low-Frequency; 5: Back-Left;  6: Back-Right
         );
         return (isset($DSFchannelTypeLookup[$channel_type_id]) ? $DSFchannelTypeLookup[$channel_type_id] : '');
     }

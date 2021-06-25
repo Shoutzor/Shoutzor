@@ -2,7 +2,8 @@
 
 namespace Intervention\Image;
 
-abstract class AbstractFont {
+abstract class AbstractFont
+{
     /**
      * Text to be written
      *
@@ -55,18 +56,19 @@ abstract class AbstractFont {
     /**
      * Create a new instance of Font
      *
-     * @param Strinf $text Text to be written
+     * @param  Strinf  $text  Text to be written
      */
-    public function __construct($text = null) {
+    public function __construct($text = null)
+    {
         $this->text = $text;
     }
 
     /**
      * Draws font to given image on given position
      *
-     * @param Image $image
-     * @param int   $posx
-     * @param int   $posy
+     * @param  Image  $image
+     * @param  int  $posx
+     * @param  int  $posy
      * @return boolean
      */
     abstract public function applyToImage(Image $image, $posx = 0, $posy = 0);
@@ -81,10 +83,11 @@ abstract class AbstractFont {
     /**
      * Set text to be written
      *
-     * @param String $text
+     * @param  String  $text
      * @return void
      */
-    public function text($text) {
+    public function text($text)
+    {
         $this->text = $text;
 
         return $this;
@@ -95,17 +98,19 @@ abstract class AbstractFont {
      *
      * @return String
      */
-    public function getText() {
+    public function getText()
+    {
         return $this->text;
     }
 
     /**
      * Set font size in pixels
      *
-     * @param int $size
+     * @param  int  $size
      * @return void
      */
-    public function size($size) {
+    public function size($size)
+    {
         $this->size = $size;
 
         return $this;
@@ -116,17 +121,19 @@ abstract class AbstractFont {
      *
      * @return int
      */
-    public function getSize() {
+    public function getSize()
+    {
         return $this->size;
     }
 
     /**
      * Set color of text to be written
      *
-     * @param mixed $color
+     * @param  mixed  $color
      * @return void
      */
-    public function color($color) {
+    public function color($color)
+    {
         $this->color = $color;
 
         return $this;
@@ -137,17 +144,19 @@ abstract class AbstractFont {
      *
      * @return mixed
      */
-    public function getColor() {
+    public function getColor()
+    {
         return $this->color;
     }
 
     /**
      * Set rotation angle of text
      *
-     * @param int $angle
+     * @param  int  $angle
      * @return void
      */
-    public function angle($angle) {
+    public function angle($angle)
+    {
         $this->angle = $angle;
 
         return $this;
@@ -158,17 +167,19 @@ abstract class AbstractFont {
      *
      * @return int
      */
-    public function getAngle() {
+    public function getAngle()
+    {
         return $this->angle;
     }
 
     /**
      * Set horizontal text alignment
      *
-     * @param string $align
+     * @param  string  $align
      * @return void
      */
-    public function align($align) {
+    public function align($align)
+    {
         $this->align = $align;
 
         return $this;
@@ -179,17 +190,19 @@ abstract class AbstractFont {
      *
      * @return string
      */
-    public function getAlign() {
+    public function getAlign()
+    {
         return $this->align;
     }
 
     /**
      * Set vertical text alignment
      *
-     * @param string $valign
+     * @param  string  $valign
      * @return void
      */
-    public function valign($valign) {
+    public function valign($valign)
+    {
         $this->valign = $valign;
 
         return $this;
@@ -200,17 +213,19 @@ abstract class AbstractFont {
      *
      * @return string
      */
-    public function getValign() {
+    public function getValign()
+    {
         return $this->valign;
     }
 
     /**
      * Set path to font file
      *
-     * @param string $file
+     * @param  string  $file
      * @return void
      */
-    public function file($file) {
+    public function file($file)
+    {
         $this->file = $file;
 
         return $this;
@@ -221,7 +236,8 @@ abstract class AbstractFont {
      *
      * @return string
      */
-    public function getFile() {
+    public function getFile()
+    {
         return $this->file;
     }
 
@@ -230,7 +246,8 @@ abstract class AbstractFont {
      *
      * @return int
      */
-    public function countLines() {
+    public function countLines()
+    {
         return count(explode(PHP_EOL, $this->text));
     }
 
@@ -239,8 +256,9 @@ abstract class AbstractFont {
      *
      * @return boolean
      */
-    protected function hasApplicableFontFile() {
-        if(is_string($this->file)) {
+    protected function hasApplicableFontFile()
+    {
+        if (is_string($this->file)) {
             return file_exists($this->file);
         }
 

@@ -14,19 +14,22 @@ use getID3;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 
-class UploadProcessor {
+class UploadProcessor
+{
 
     private $id3;
     private $mediaDir;
     private $tempMediaDir;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->id3 = new getID3();
         $this->mediaDir = Media::STORAGE_PATH;
         $this->tempMediaDir = Upload::STORAGE_PATH;
     }
 
-    public function parse(Upload $upload) {
+    public function parse(Upload $upload)
+    {
         //Send the event that an upload is being processed
         $event = new UploadProcessingEvent($upload);
         app(EventDispatcher::class)->dispatch($event);
@@ -51,9 +54,8 @@ class UploadProcessor {
 
             // Delete the upload from the database
             $upload->delete();
-        }
-            // A (temporary) error occured while processing, will retry later.
-        catch(UploadFailedRetryException $e) {
+        } // A (temporary) error occured while processing, will retry later.
+        catch (UploadFailedRetryException $e) {
             $upload->status = Upload::STATUS_FAILED_RETRY;
             $upload->save();
 
@@ -61,9 +63,8 @@ class UploadProcessor {
 
             //Trigger the event that the upload processing has failed
             app(EventDispatcher::class)->dispatch(new UploadFailedEvent($upload));
-        }
-            //Something happened while processing the upload
-        catch(Exception $e) {
+        } //Something happened while processing the upload
+        catch (Exception $e) {
             $upload->status = Upload::STATUS_FAILED_FINAL;
             $upload->save();
 
@@ -74,12 +75,13 @@ class UploadProcessor {
         }
     }
 
-    private function process(Upload $upload): Media {
+    private function process(Upload $upload): Media
+    {
         $media = new Media(
             [
-                'title'    => '',
+                'title' => '',
                 'filename' => Storage::get($this->tempMediaDir.$upload->filename),
-                'crc'      => 'invalid',
+                'crc' => 'invalid',
                 'duration' => 0,
                 'is_video' => false
             ]
@@ -97,7 +99,8 @@ class UploadProcessor {
     /**
      * Calculates the duration (in seconds) of a file
      */
-    private function getDuration(Media $media) {
+    private function getDuration(Media $media)
+    {
         $info = $this->id3->analyze($this->tempMediaDir.'/'.$media->filename);
         $time = $info['playtime_string'];
         $time = explode(':', $time);
@@ -114,10 +117,11 @@ class UploadProcessor {
     /**
      * @throws Exception if the Media file is not unique
      */
-    private function checkIfUnique(Media $media) {
+    private function checkIfUnique(Media $media)
+    {
         $exist = Media::query()->where('crc', $media->crc)->first();
 
-        if($exist) {
+        if ($exist) {
             throw new UploadFailedFinalException("A file with the same CRC-hash is already in the database");
         }
     }

@@ -8,13 +8,15 @@ use Spatie\Permission\Exceptions\RoleAlreadyExists;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
-class FillPermissions extends Migration {
+class FillPermissions extends Migration
+{
     /**
      * Run the migrations.
      *
      * @return void
      */
-    public function up() {
+    public function up()
+    {
         /*
          * Create roles (if not existing)
          */
@@ -58,13 +60,13 @@ class FillPermissions extends Migration {
     /**
      * Create a role if it doesn't exist yet
      *
-     * @param string $name the name of the role
+     * @param  string  $name  the name of the role
      */
-    private function createRole(string $name, string $description, bool $protected = false) {
+    private function createRole(string $name, string $description, bool $protected = false)
+    {
         try {
             return Role::create(['name' => $name, 'description' => $description, 'protected' => $protected]);
-        }
-        catch(RoleAlreadyExists $e) {
+        } catch (RoleAlreadyExists $e) {
             //Ignore
         }
 
@@ -74,19 +76,19 @@ class FillPermissions extends Migration {
     /**
      * Create a permission if it doesn't exist yet.
      *
-     * @param string $name  the name of the permission
-     * @param array  $roles the roles to assign this permission to by default
+     * @param  string  $name  the name of the permission
+     * @param  array  $roles  the roles to assign this permission to by default
      */
-    private function createPermission(string $name, string $description, array $roles = []) {
+    private function createPermission(string $name, string $description, array $roles = [])
+    {
         try {
             $perm = Permission::create(['name' => $name, 'description' => $description]);
 
             //Assign the permission for the provided roles
-            foreach($roles as $role) {
+            foreach ($roles as $role) {
                 $role->givePermissionTo($perm);
             }
-        }
-        catch(PermissionAlreadyExists $e) {
+        } catch (PermissionAlreadyExists $e) {
             //Ignore
         }
     }
@@ -96,7 +98,8 @@ class FillPermissions extends Migration {
      *
      * @return void
      */
-    public function down() {
+    public function down()
+    {
         $tableNames = config('permission.table_names');
 
         DB::table($tableNames['permissions'])->delete();

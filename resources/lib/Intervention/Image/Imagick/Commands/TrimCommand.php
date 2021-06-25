@@ -6,14 +6,16 @@ use Intervention\Image\Commands\AbstractCommand;
 use Intervention\Image\Image;
 use Intervention\Image\Imagick\Color;
 
-class TrimCommand extends AbstractCommand {
+class TrimCommand extends AbstractCommand
+{
     /**
      * Trims away parts of an image
      *
-     * @param Image $image
+     * @param  Image  $image
      * @return boolean
      */
-    public function execute($image) {
+    public function execute($image)
+    {
         $base = $this->argument(0)->type('string')->value();
         $away = $this->argument(1)->value();
         $tolerance = $this->argument(2)->type('numeric')->value(0);
@@ -25,20 +27,19 @@ class TrimCommand extends AbstractCommand {
         $checkTransparency = false;
 
         // define borders to trim away
-        if(is_null($away)) {
+        if (is_null($away)) {
             $away = ['top', 'right', 'bottom', 'left'];
-        }
-        elseif(is_string($away)) {
+        } elseif (is_string($away)) {
             $away = [$away];
         }
 
         // lower border names
-        foreach($away as $key => $value) {
+        foreach ($away as $key => $value) {
             $away[$key] = strtolower($value);
         }
 
         // define base color position
-        switch(strtolower($base)) {
+        switch (strtolower($base)) {
             case 'transparent':
             case 'trans':
                 $checkTransparency = true;
@@ -61,10 +62,9 @@ class TrimCommand extends AbstractCommand {
         }
 
         // pick base color
-        if($checkTransparency) {
+        if ($checkTransparency) {
             $base_color = new Color; // color will only be used to compare alpha channel
-        }
-        else {
+        } else {
             $base_color = $image->pickColor($base_x, $base_y, 'object');
         }
 
@@ -84,23 +84,23 @@ class TrimCommand extends AbstractCommand {
         list($crop_width, $crop_height) = [$trimed->width, $trimed->height];
 
         // adjust settings if right should not be trimed
-        if(!in_array('right', $away)) {
+        if (!in_array('right', $away)) {
             $crop_width = $crop_width + ($width - ($width - $crop_x));
         }
 
         // adjust settings if bottom should not be trimed
-        if(!in_array('bottom', $away)) {
+        if (!in_array('bottom', $away)) {
             $crop_height = $crop_height + ($height - ($height - $crop_y));
         }
 
         // adjust settings if left should not be trimed
-        if(!in_array('left', $away)) {
+        if (!in_array('left', $away)) {
             $crop_width = $crop_width + $crop_x;
             $crop_x = 0;
         }
 
         // adjust settings if top should not be trimed
-        if(!in_array('top', $away)) {
+        if (!in_array('top', $away)) {
             $crop_height = $crop_height + $crop_y;
             $crop_y = 0;
         }

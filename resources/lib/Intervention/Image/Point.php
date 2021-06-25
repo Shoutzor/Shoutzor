@@ -2,7 +2,8 @@
 
 namespace Intervention\Image;
 
-class Point {
+class Point
+{
     /**
      * X coordinate
      *
@@ -20,10 +21,11 @@ class Point {
     /**
      * Creates a new instance
      *
-     * @param int $x
-     * @param int $y
+     * @param  int  $x
+     * @param  int  $y
      */
-    public function __construct($x = null, $y = null) {
+    public function __construct($x = null, $y = null)
+    {
         $this->x = is_numeric($x) ? intval($x) : 0;
         $this->y = is_numeric($y) ? intval($y) : 0;
     }
@@ -31,10 +33,11 @@ class Point {
     /**
      * Sets both X and Y coordinate
      *
-     * @param int $x
-     * @param int $y
+     * @param  int  $x
+     * @param  int  $y
      */
-    public function setPosition($x, $y) {
+    public function setPosition($x, $y)
+    {
         $this->setX($x);
         $this->setY($y);
     }
@@ -42,18 +45,20 @@ class Point {
     /**
      * Sets X coordinate
      *
-     * @param int $x
+     * @param  int  $x
      */
-    public function setX($x) {
+    public function setX($x)
+    {
         $this->x = intval($x);
     }
 
     /**
      * Sets Y coordinate
      *
-     * @param int $y
+     * @param  int  $y
      */
-    public function setY($y) {
+    public function setY($y)
+    {
         $this->y = intval($y);
     }
 }

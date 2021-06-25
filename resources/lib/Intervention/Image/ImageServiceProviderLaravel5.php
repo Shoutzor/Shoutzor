@@ -4,13 +4,15 @@ namespace Intervention\Image;
 
 use Illuminate\Support\ServiceProvider;
 
-class ImageServiceProviderLaravel5 extends ServiceProvider {
+class ImageServiceProviderLaravel5 extends ServiceProvider
+{
     /**
      * Bootstrap the application events.
      *
      * @return void
      */
-    public function boot() {
+    public function boot()
+    {
         $this->publishes([__DIR__.'/../../config/config.php' => config_path('image.php')]);
 
         // setup intervention/imagecache if package is installed
@@ -22,7 +24,8 @@ class ImageServiceProviderLaravel5 extends ServiceProvider {
      *
      * @return boolean
      */
-    private function cacheIsInstalled() {
+    private function cacheIsInstalled()
+    {
         return class_exists('Intervention\\Image\\ImageCache');
     }
 
@@ -31,7 +34,8 @@ class ImageServiceProviderLaravel5 extends ServiceProvider {
      *
      * @return void
      */
-    protected function bootstrapImageCache() {
+    protected function bootstrapImageCache()
+    {
         $app = $this->app;
         $config = __DIR__.'/../../../../imagecache/src/config/config.php';
 
@@ -41,7 +45,7 @@ class ImageServiceProviderLaravel5 extends ServiceProvider {
         $this->mergeConfigFrom($config, 'imagecache');
 
         // imagecache route
-        if(is_string(config('imagecache.route'))) {
+        if (is_string(config('imagecache.route'))) {
 
             $filename_pattern = '[ \w\\.\\/\\-\\@\(\)]+';
 
@@ -58,7 +62,8 @@ class ImageServiceProviderLaravel5 extends ServiceProvider {
      *
      * @return void
      */
-    public function register() {
+    public function register()
+    {
         $app = $this->app;
 
         // merge default config
@@ -67,7 +72,7 @@ class ImageServiceProviderLaravel5 extends ServiceProvider {
         // create image
         $app->singleton(
             'image',
-            function($app) {
+            function ($app) {
                 return new ImageManager($app['config']->get('image'));
             }
         );

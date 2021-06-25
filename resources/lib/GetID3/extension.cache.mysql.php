@@ -68,7 +68,8 @@
  *   Infrequent updates, many reads      any DBM
  *   Frequent updates                    mysql
  */
-class getID3_cached_mysql extends getID3 {
+class getID3_cached_mysql extends getID3
+{
     /**
      * @var resource
      */
@@ -87,30 +88,31 @@ class getID3_cached_mysql extends getID3 {
     /**
      * constructor - see top of this file for cache type and cache_options
      *
-     * @param string $host
-     * @param string $database
-     * @param string $username
-     * @param string $password
-     * @param string $table
+     * @param  string  $host
+     * @param  string  $database
+     * @param  string  $username
+     * @param  string  $password
+     * @param  string  $table
      *
      * @throws Exception
      * @throws getid3_exception
      */
-    public function __construct($host, $database, $username, $password, $table = 'getid3_cache') {
+    public function __construct($host, $database, $username, $password, $table = 'getid3_cache')
+    {
 
         // Check for mysql support
-        if(!function_exists('mysql_pconnect')) {
+        if (!function_exists('mysql_pconnect')) {
             throw new Exception('PHP not compiled with mysql support.');
         }
 
         // Connect to database
         $this->connection = mysql_pconnect($host, $username, $password);
-        if(!$this->connection) {
+        if (!$this->connection) {
             throw new Exception('mysql_pconnect() failed - check permissions and spelling.');
         }
 
         // Select database
-        if(!mysql_select_db($database, $this->connection)) {
+        if (!mysql_select_db($database, $this->connection)) {
             throw new Exception('Cannot use database '.$database);
         }
 
@@ -128,10 +130,10 @@ class getID3_cached_mysql extends getID3 {
         $SQLquery .= ' AND (`filesize` = -1)';
         $SQLquery .= ' AND (`filetime` = -1)';
         $SQLquery .= ' AND (`analyzetime` = -1)';
-        if($this->cursor = mysql_query($SQLquery, $this->connection)) {
+        if ($this->cursor = mysql_query($SQLquery, $this->connection)) {
             list($version) = mysql_fetch_array($this->cursor);
         }
-        if($version != getID3::VERSION) {
+        if ($version != getID3::VERSION) {
             $this->clear_cache();
         }
 
@@ -141,9 +143,10 @@ class getID3_cached_mysql extends getID3 {
     /**
      * (re)create sql table
      *
-     * @param bool $drop
+     * @param  bool  $drop
      */
-    private function create_table($drop = false) {
+    private function create_table($drop = false)
+    {
 
         $SQLquery = 'CREATE TABLE IF NOT EXISTS `'.mysql_real_escape_string($this->table).'` (';
         $SQLquery .= '`filename` VARCHAR(990) NOT NULL DEFAULT \'\'';
@@ -159,7 +162,8 @@ class getID3_cached_mysql extends getID3 {
     /**
      * clear cache
      */
-    public function clear_cache() {
+    public function clear_cache()
+    {
 
         $this->cursor = mysql_query('DELETE FROM `'.mysql_real_escape_string($this->table).'`', $this->connection);
         $this->cursor = mysql_query(
@@ -173,16 +177,17 @@ class getID3_cached_mysql extends getID3 {
     /**
      * analyze file
      *
-     * @param string $filename
-     * @param int    $filesize
-     * @param string $original_filename
+     * @param  string  $filename
+     * @param  int  $filesize
+     * @param  string  $original_filename
      *
      * @return mixed
      */
-    public function analyze($filename, $filesize = null, $original_filename = '') {
+    public function analyze($filename, $filesize = null, $original_filename = '')
+    {
 
         $filetime = 0;
-        if(file_exists($filename)) {
+        if (file_exists($filename)) {
 
             // Short-hands
             $filetime = filemtime($filename);
@@ -195,7 +200,7 @@ class getID3_cached_mysql extends getID3 {
             $SQLquery .= '   AND (`filesize` = \''.mysql_real_escape_string($filesize).'\')';
             $SQLquery .= '   AND (`filetime` = \''.mysql_real_escape_string($filetime).'\')';
             $this->cursor = mysql_query($SQLquery, $this->connection);
-            if(mysql_num_rows($this->cursor) > 0) {
+            if (mysql_num_rows($this->cursor) > 0) {
                 // Hit
                 list($result) = mysql_fetch_array($this->cursor);
                 return unserialize(base64_decode($result));
@@ -206,7 +211,7 @@ class getID3_cached_mysql extends getID3 {
         $analysis = parent::analyze($filename, $filesize, $original_filename);
 
         // Save result
-        if(file_exists($filename)) {
+        if (file_exists($filename)) {
             $SQLquery = 'INSERT INTO `'.mysql_real_escape_string(
                     $this->table
                 ).'` (`filename`, `filesize`, `filetime`, `analyzetime`, `value`) VALUES (';

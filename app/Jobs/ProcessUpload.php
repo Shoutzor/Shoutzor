@@ -11,7 +11,8 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 
-class ProcessUpload implements ShouldQueue {
+class ProcessUpload implements ShouldQueue
+{
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     protected $upload;
@@ -19,20 +20,22 @@ class ProcessUpload implements ShouldQueue {
     /**
      * Create a new job instance.
      *
-     * @param Upload $podcast
+     * @param  Upload  $podcast
      * @return void
      */
-    public function __construct(Upload $upload) {
+    public function __construct(Upload $upload)
+    {
         $this->upload = $upload;
     }
 
     /**
      * Execute the job.
      *
-     * @param UploadProcessor $processor
+     * @param  UploadProcessor  $processor
      * @return void
      */
-    public function handle(UploadProcessor $processor) {
+    public function handle(UploadProcessor $processor)
+    {
         //Update the status
         $this->upload->status = Upload::STATUS_PROCESSING;
         $this->upload->save();
@@ -45,7 +48,8 @@ class ProcessUpload implements ShouldQueue {
      *
      * @return void
      */
-    public function failed() {
+    public function failed()
+    {
         $this->upload->status = Upload::STATUS_FAILED;
         $this->upload->save();
     }
@@ -55,7 +59,8 @@ class ProcessUpload implements ShouldQueue {
      *
      * @return DateTime
      */
-    public function retryUntil() {
+    public function retryUntil()
+    {
         return now()->addMinutes(5);
     }
 }

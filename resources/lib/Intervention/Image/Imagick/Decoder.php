@@ -10,14 +10,16 @@ use Intervention\Image\Exception\NotReadableException;
 use Intervention\Image\Exception\NotSupportedException;
 use Intervention\Image\Image;
 
-class Decoder extends AbstractDecoder {
+class Decoder extends AbstractDecoder
+{
     /**
      * Initiates new image from path in filesystem
      *
-     * @param string $path
+     * @param  string  $path
      * @return Image
      */
-    public function initFromPath($path) {
+    public function initFromPath($path)
+    {
         $core = new Imagick;
 
         try {
@@ -30,8 +32,7 @@ class Decoder extends AbstractDecoder {
                 ) ? Imagick::IMGTYPE_TRUECOLORALPHA : Imagick::IMGTYPE_TRUECOLORMATTE
             );
 
-        }
-        catch(ImagickException $e) {
+        } catch (ImagickException $e) {
             throw new NotReadableException("Unable to read image from path ({$path}).", 0, $e);
         }
 
@@ -45,10 +46,11 @@ class Decoder extends AbstractDecoder {
     /**
      * Initiates new image from Imagick object
      *
-     * @param Imagick $object
+     * @param  Imagick  $object
      * @return Image
      */
-    public function initFromImagick(Imagick $object) {
+    public function initFromImagick(Imagick $object)
+    {
         // currently animations are not supported
         // so all images are turned into static
         $object = $this->removeAnimation($object);
@@ -63,13 +65,14 @@ class Decoder extends AbstractDecoder {
      * Turns object into one frame Imagick object
      * by removing all frames except first
      *
-     * @param Imagick $object
+     * @param  Imagick  $object
      * @return Imagick
      */
-    private function removeAnimation(Imagick $object) {
+    private function removeAnimation(Imagick $object)
+    {
         $imagick = new Imagick;
 
-        foreach($object as $frame) {
+        foreach ($object as $frame) {
             $imagick->addImage($frame->getImage());
             break;
         }
@@ -82,20 +85,22 @@ class Decoder extends AbstractDecoder {
     /**
      * Initiates new image from GD resource
      *
-     * @param Resource $resource
+     * @param  Resource  $resource
      * @return Image
      */
-    public function initFromGdResource($resource) {
+    public function initFromGdResource($resource)
+    {
         throw new NotSupportedException('Imagick driver is unable to init from GD resource.');
     }
 
     /**
      * Initiates new image from binary data
      *
-     * @param string $data
+     * @param  string  $data
      * @return Image
      */
-    public function initFromBinary($binary) {
+    public function initFromBinary($binary)
+    {
         $core = new Imagick;
 
         try {
@@ -103,8 +108,7 @@ class Decoder extends AbstractDecoder {
 
             $core->readImageBlob($binary);
 
-        }
-        catch(ImagickException $e) {
+        } catch (ImagickException $e) {
             throw new NotReadableException("Unable to read image from binary data.", 0, $e);
         }
 

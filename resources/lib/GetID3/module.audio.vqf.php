@@ -14,11 +14,13 @@
 //                                                            ///
 /////////////////////////////////////////////////////////////////
 
-class getid3_vqf extends getid3_handler {
+class getid3_vqf extends getid3_handler
+{
     /**
      * @return bool
      */
-    public function Analyze() {
+    public function Analyze()
+    {
         $info = &$this->getid3->info;
 
         // based loosely on code from TTwinVQ by Jurgen Faul <jfaulØgmx*de>
@@ -40,7 +42,7 @@ class getid3_vqf extends getid3_handler {
         $offset = 0;
         $thisfile_vqf_raw['header_tag'] = substr($VQFheaderData, $offset, 4);
         $magic = 'TWIN';
-        if($thisfile_vqf_raw['header_tag'] != $magic) {
+        if ($thisfile_vqf_raw['header_tag'] != $magic) {
             $this->error(
                 'Expecting "'.getid3_lib::PrintHexBytes(
                     $magic
@@ -58,30 +60,30 @@ class getid3_vqf extends getid3_handler {
         $thisfile_vqf_raw['size'] = getid3_lib::BigEndian2Int(substr($VQFheaderData, $offset, 4));
         $offset += 4;
 
-        while($this->ftell() < $info['avdataend']) {
+        while ($this->ftell() < $info['avdataend']) {
 
             $ChunkBaseOffset = $this->ftell();
             $chunkoffset = 0;
             $ChunkData = $this->fread(8);
             $ChunkName = substr($ChunkData, $chunkoffset, 4);
-            if($ChunkName == 'DATA') {
+            if ($ChunkName == 'DATA') {
                 $info['avdataoffset'] = $ChunkBaseOffset;
                 break;
             }
             $chunkoffset += 4;
             $ChunkSize = getid3_lib::BigEndian2Int(substr($ChunkData, $chunkoffset, 4));
             $chunkoffset += 4;
-            if($ChunkSize > ($info['avdataend'] - $this->ftell())) {
+            if ($ChunkSize > ($info['avdataend'] - $this->ftell())) {
                 $this->error(
                     'Invalid chunk size ('.$ChunkSize.') for chunk "'.$ChunkName.'" at offset '.$ChunkBaseOffset
                 );
                 break;
             }
-            if($ChunkSize > 0) {
+            if ($ChunkSize > 0) {
                 $ChunkData .= $this->fread($ChunkSize);
             }
 
-            switch($ChunkName) {
+            switch ($ChunkName) {
                 case 'COMM':
                     // shortcut
                     $thisfile_vqf['COMM'] = array();
@@ -102,7 +104,7 @@ class getid3_vqf extends getid3_handler {
                     $info['audio']['bitrate'] = $thisfile_vqf_COMM['bitrate'] * 1000;
                     $info['audio']['encoder_options'] = 'CBR'.ceil($info['audio']['bitrate'] / 1000);
 
-                    if($info['audio']['bitrate'] == 0) {
+                    if ($info['audio']['bitrate'] == 0) {
                         $this->error('Corrupt VQF file: bitrate_audio == zero');
                         return false;
                     }
@@ -130,10 +132,10 @@ class getid3_vqf extends getid3_handler {
 
         $info['playtime_seconds'] = (($info['avdataend'] - $info['avdataoffset']) * 8) / $info['audio']['bitrate'];
 
-        if(isset($thisfile_vqf['DSIZ']) && (($thisfile_vqf['DSIZ'] != ($info['avdataend'] - $info['avdataoffset'] - strlen(
+        if (isset($thisfile_vqf['DSIZ']) && (($thisfile_vqf['DSIZ'] != ($info['avdataend'] - $info['avdataoffset'] - strlen(
                         'DATA'
                     ))))) {
-            switch($thisfile_vqf['DSIZ']) {
+            switch ($thisfile_vqf['DSIZ']) {
                 case 0:
                 case 1:
                     $this->warning(
@@ -156,21 +158,23 @@ class getid3_vqf extends getid3_handler {
     }
 
     /**
-     * @param int $frequencyid
+     * @param  int  $frequencyid
      *
      * @return int
      */
-    public function VQFchannelFrequencyLookup($frequencyid) {
+    public function VQFchannelFrequencyLookup($frequencyid)
+    {
         static $VQFchannelFrequencyLookup = array(11 => 11025, 22 => 22050, 44 => 44100);
         return (isset($VQFchannelFrequencyLookup[$frequencyid]) ? $VQFchannelFrequencyLookup[$frequencyid] : $frequencyid * 1000);
     }
 
     /**
-     * @param string $shortname
+     * @param  string  $shortname
      *
      * @return string
      */
-    public function VQFcommentNiceNameLookup($shortname) {
+    public function VQFcommentNiceNameLookup($shortname)
+    {
         static $VQFcommentNiceNameLookup = array(
             'NAME' => 'title',
             'AUTH' => 'artist',

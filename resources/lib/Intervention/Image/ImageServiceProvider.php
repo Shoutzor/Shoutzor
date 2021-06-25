@@ -8,7 +8,8 @@ use Illuminate\Support\ServiceProvider;
 use Intervention\Image\Provider\ProviderInterface;
 use Laravel\Lumen\Application as LumenApplication;
 
-class ImageServiceProvider extends ServiceProvider {
+class ImageServiceProvider extends ServiceProvider
+{
     /**
      * Indicates if loading of the provider is deferred.
      *
@@ -26,10 +27,11 @@ class ImageServiceProvider extends ServiceProvider {
     /**
      * Create a new service provider instance.
      *
-     * @param Application $app
+     * @param  Application  $app
      * @return void
      */
-    public function __construct($app) {
+    public function __construct($app)
+    {
         parent::__construct($app);
 
         $this->provider = $this->getProvider();
@@ -40,14 +42,13 @@ class ImageServiceProvider extends ServiceProvider {
      *
      * @return ProviderInterface
      */
-    private function getProvider() {
-        if($this->app instanceof LumenApplication) {
+    private function getProvider()
+    {
+        if ($this->app instanceof LumenApplication) {
             $provider = '\Intervention\Image\ImageServiceProviderLumen';
-        }
-        elseif(version_compare(IlluminateApplication::VERSION, '5.0', '<')) {
+        } elseif (version_compare(IlluminateApplication::VERSION, '5.0', '<')) {
             $provider = '\Intervention\Image\ImageServiceProviderLaravel4';
-        }
-        else {
+        } else {
             $provider = '\Intervention\Image\ImageServiceProviderLaravel5';
         }
 
@@ -59,8 +60,9 @@ class ImageServiceProvider extends ServiceProvider {
      *
      * @return void
      */
-    public function boot() {
-        if(method_exists($this->provider, 'boot')) {
+    public function boot()
+    {
+        if (method_exists($this->provider, 'boot')) {
             return $this->provider->boot();
         }
     }
@@ -70,7 +72,8 @@ class ImageServiceProvider extends ServiceProvider {
      *
      * @return void
      */
-    public function register() {
+    public function register()
+    {
         return $this->provider->register();
     }
 
@@ -79,7 +82,8 @@ class ImageServiceProvider extends ServiceProvider {
      *
      * @return array
      */
-    public function provides() {
+    public function provides()
+    {
         return ['image'];
     }
 }

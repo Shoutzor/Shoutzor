@@ -5,14 +5,16 @@ namespace Intervention\Image\Commands;
 use Closure;
 use Intervention\Image\Image;
 
-class LineCommand extends AbstractCommand {
+class LineCommand extends AbstractCommand
+{
     /**
      * Draws line on given image
      *
-     * @param Image $image
+     * @param  Image  $image
      * @return boolean
      */
-    public function execute($image) {
+    public function execute($image)
+    {
         $x1 = $this->argument(0)->type('numeric')->required()->value();
         $y1 = $this->argument(1)->type('numeric')->required()->value();
         $x2 = $this->argument(2)->type('numeric')->required()->value();
@@ -23,7 +25,7 @@ class LineCommand extends AbstractCommand {
 
         $line = new $line_classname($x2, $y2);
 
-        if($callback instanceof Closure) {
+        if ($callback instanceof Closure) {
             $callback($line);
         }
 

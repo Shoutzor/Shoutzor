@@ -4,16 +4,18 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateRolePermissionsTable extends Migration {
+class CreateRolePermissionsTable extends Migration
+{
     /**
      * Run the migrations.
      *
      * @return void
      */
-    public function up() {
+    public function up()
+    {
         $tableNames = config('permission.table_names');
 
-        if(empty($tableNames)) {
+        if (empty($tableNames)) {
             throw new Exception(
                 'Error: config/permission.php not loaded. Run [php artisan config:clear] and try again.'
             );
@@ -21,7 +23,7 @@ class CreateRolePermissionsTable extends Migration {
 
         Schema::create(
             $tableNames['role_has_permissions'],
-            function(Blueprint $table) use ($tableNames) {
+            function (Blueprint $table) use ($tableNames) {
                 $table->unsignedBigInteger('permission_id');
                 $table->unsignedBigInteger('role_id');
 
@@ -43,10 +45,11 @@ class CreateRolePermissionsTable extends Migration {
      *
      * @return void
      */
-    public function down() {
+    public function down()
+    {
         $tableNames = config('permission.table_names');
 
-        if(empty($tableNames)) {
+        if (empty($tableNames)) {
             throw new Exception(
                 'Error: config/permission.php not found and defaults could not be merged. Please publish the package configuration before proceeding, or drop the tables manually.'
             );

@@ -3,46 +3,51 @@
 namespace App\HealthCheck;
 
 use App\Helpers\Filesystem;
+use Exception;
 use JetBrains\PhpStorm\Pure;
-use \Exception;
 
-class SymlinkHealthCheck extends BaseHealthCheck {
+class SymlinkHealthCheck extends BaseHealthCheck
+{
 
     private array $errors;
     private array $symlinks;
 
     #[Pure]
-    public function __construct(array $symlinks) {
+    public function __construct(
+        array $symlinks
+    ) {
         parent::__construct(
             'Symlinks',
             'Checks if all configured symlinks are created and accessible',
             'All symlinks are created and accessible'
         );
 
-        $this->symlinks     = $symlinks;
-        $this->isHealthy    = false;
-        $this->errors       = [];
+        $this->symlinks = $symlinks;
+        $this->isHealthy = false;
+        $this->errors = [];
     }
 
     #[Pure]
-    public function getStatus(): string {
+    public function getStatus(): string
+    {
         return $this->isHealthy() ? $this->status : implode("\n", $this->errors);
     }
 
-    public function checkHealth(): void {
+    public function checkHealth(): void
+    {
         $healthCheck = true;
         $caughtErrors = [];
 
         # Check if all symlinks exist
-        foreach($this->symlinks as $symlinkLocation=>$targetLocation) {
+        foreach ($this->symlinks as $symlinkLocation => $targetLocation) {
             clearstatcache(false, $symlinkLocation);
-            if(Filesystem::isSymbolicLink($symlinkLocation) === false) {
+            if (Filesystem::isSymbolicLink($symlinkLocation) === false) {
                 $healthCheck = false;
                 $caughtErrors[] = "Missing symlink: $symlinkLocation";
                 continue;
             }
 
-            if(is_readable($symlinkLocation) === false) {
+            if (is_readable($symlinkLocation) === false) {
                 $healthCheck = false;
                 $caughtErrors[] = "Symlink not readable: $symlinkLocation";
                 continue;
@@ -53,11 +58,12 @@ class SymlinkHealthCheck extends BaseHealthCheck {
         $this->errors = $caughtErrors;
     }
 
-    public function fix(): HealthCheckFixResult {
+    public function fix(): HealthCheckFixResult
+    {
         $result = new HealthCheckFixResult();
 
         # No need to perform a fix if we're healthy.
-        if($this->isHealthy()) {
+        if ($this->isHealthy()) {
             $result->setFixed(true);
             $result->setMessage('Symlinks healthy, no fix required.');
             return $result;
@@ -65,7 +71,7 @@ class SymlinkHealthCheck extends BaseHealthCheck {
 
         $errors = [];
 
-        foreach($this->symlinks as $symlinkLocation=>$targetLocation) {
+        foreach ($this->symlinks as $symlinkLocation => $targetLocation) {
             try {
                 symlink($targetLocation, $symlinkLocation);
             } catch (Exception $e) {
@@ -73,7 +79,7 @@ class SymlinkHealthCheck extends BaseHealthCheck {
             }
         }
 
-        if(count($errors) === 0) {
+        if (count($errors) === 0) {
             $result->setFixed(true);
             $result->setMessage('Symlinks created');
         } else {

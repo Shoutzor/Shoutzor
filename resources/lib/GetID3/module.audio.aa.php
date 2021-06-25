@@ -14,18 +14,20 @@
 //                                                            ///
 /////////////////////////////////////////////////////////////////
 
-class getid3_aa extends getid3_handler {
+class getid3_aa extends getid3_handler
+{
     /**
      * @return bool
      */
-    public function Analyze() {
+    public function Analyze()
+    {
         $info = &$this->getid3->info;
 
         $this->fseek($info['avdataoffset']);
         $AAheader = $this->fread(8);
 
         $magic = "\x57\x90\x75\x36";
-        if(substr($AAheader, 4, 4) != $magic) {
+        if (substr($AAheader, 4, 4) != $magic) {
             $this->error(
                 'Expecting "'.getid3_lib::PrintHexBytes(
                     $magic
@@ -50,7 +52,7 @@ class getid3_aa extends getid3_handler {
         $thisfile_aa['encoding'] = 'ISO-8859-1';
 
         $thisfile_aa['filesize'] = getid3_lib::BigEndian2Int(substr($AAheader, 0, 4));
-        if($thisfile_aa['filesize'] > ($info['avdataend'] - $info['avdataoffset'])) {
+        if ($thisfile_aa['filesize'] > ($info['avdataend'] - $info['avdataoffset'])) {
             $this->warning(
                 'Possible truncated file - expecting "'.$thisfile_aa['filesize'].'" bytes of data, only found '.($info['avdataend'] - $info['avdataoffset']).' bytes"'
             );

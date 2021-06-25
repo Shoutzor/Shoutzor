@@ -6,14 +6,16 @@ use Intervention\Image\Commands\AbstractCommand;
 use Intervention\Image\Gd\Color;
 use Intervention\Image\Image;
 
-class RotateCommand extends AbstractCommand {
+class RotateCommand extends AbstractCommand
+{
     /**
      * Rotates image counter clockwise
      *
-     * @param Image $image
+     * @param  Image  $image
      * @return boolean
      */
-    public function execute($image) {
+    public function execute($image)
+    {
         $angle = $this->argument(0)->type('numeric')->required()->value();
         $color = $this->argument(1)->value();
         $color = new Color($color);

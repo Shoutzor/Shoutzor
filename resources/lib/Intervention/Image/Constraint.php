@@ -2,7 +2,8 @@
 
 namespace Intervention\Image;
 
-class Constraint {
+class Constraint
+{
     /**
      * Bit value of aspect ratio constraint
      */
@@ -30,9 +31,10 @@ class Constraint {
     /**
      * Create a new constraint based on size
      *
-     * @param Size $size
+     * @param  Size  $size
      */
-    public function __construct(Size $size) {
+    public function __construct(Size $size)
+    {
         $this->size = $size;
     }
 
@@ -41,18 +43,20 @@ class Constraint {
      *
      * @return Size
      */
-    public function getSize() {
+    public function getSize()
+    {
         return $this->size;
     }
 
     /**
      * Checks if given argument is fixed in current constraint
      *
-     * @param int $type
+     * @param  int  $type
      * @return boolean
      */
-    public function isFixed($type) {
-        return (bool)($this->fixed & (1 << $type));
+    public function isFixed($type)
+    {
+        return (bool) ($this->fixed & (1 << $type));
     }
 
     /**
@@ -60,17 +64,19 @@ class Constraint {
      *
      * @return void
      */
-    public function aspectRatio() {
+    public function aspectRatio()
+    {
         $this->fix(self::ASPECTRATIO);
     }
 
     /**
      * Fix the given argument in current constraint
      *
-     * @param int $type
+     * @param  int  $type
      * @return void
      */
-    public function fix($type) {
+    public function fix($type)
+    {
         $this->fixed = ($this->fixed & ~(1 << $type)) | (1 << $type);
     }
 
@@ -79,7 +85,8 @@ class Constraint {
      *
      * @return void
      */
-    public function upsize() {
+    public function upsize()
+    {
         $this->fix(self::UPSIZE);
     }
 }

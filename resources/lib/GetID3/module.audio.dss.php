@@ -14,17 +14,19 @@
 //                                                            ///
 /////////////////////////////////////////////////////////////////
 
-class getid3_dss extends getid3_handler {
+class getid3_dss extends getid3_handler
+{
     /**
      * @return bool
      */
-    public function Analyze() {
+    public function Analyze()
+    {
         $info = &$this->getid3->info;
 
         $this->fseek($info['avdataoffset']);
         $DSSheader = $this->fread(1540);
 
-        if(!preg_match('#^[\\x02-\\x08]ds[s2]#', $DSSheader)) {
+        if (!preg_match('#^[\\x02-\\x08]ds[s2]#', $DSSheader)) {
             $this->error(
                 'Expecting "[02-08] 64 73 [73|32]" at offset '.$info['avdataoffset'].', found "'.getid3_lib::PrintHexBytes(
                     substr($DSSheader, 0, 4)
@@ -53,7 +55,7 @@ class getid3_dss extends getid3_handler {
         $info['dss']['playtime_sec'] = intval(
             (substr($DSSheader, 62, 2) * 3600) + (substr($DSSheader, 64, 2) * 60) + substr($DSSheader, 66, 2)
         ); // approximate file playtime in HHMMSS
-        if($info['dss']['version'] <= 3) {
+        if ($info['dss']['version'] <= 3) {
             $info['dss']['playtime_ms'] = getid3_lib::LittleEndian2Int(
                 substr($DSSheader, 512, 4)
             ); // exact file playtime in milliseconds. Has also been observed at offset 530 in one sample file, with something else (unknown) at offset 512
@@ -63,8 +65,7 @@ class getid3_dss extends getid3_handler {
                 substr($DSSheader, 1538, 1)
             );  // this isn't certain, this may or may not be where the sample rate info is stored, but it seems consistent on my small selection of sample files
             $info['audio']['sample_rate'] = $this->DSSsampleRateLookup($info['dss']['sample_rate_index']);
-        }
-        else {
+        } else {
             $this->getid3->warning(
                 'DSS above version 3 not fully supported in this version of getID3. Any additional documentation or format specifications would be welcome. This file is version '.$info['dss']['version']
             );
@@ -74,14 +75,13 @@ class getid3_dss extends getid3_handler {
             16; // maybe, maybe not -- most compressed audio formats don't have a fixed bits-per-sample value, but this is a reasonable approximation
         $info['audio']['channels'] = 1;
 
-        if(!empty($info['dss']['playtime_ms']) && (floor(
+        if (!empty($info['dss']['playtime_ms']) && (floor(
                     $info['dss']['playtime_ms'] / 1000
                 ) == $info['dss']['playtime_sec'])) { // *should* just be playtime_ms / 1000 but at least one sample file has playtime_ms at offset 530 instead of offset 512, so safety check
             $info['playtime_seconds'] = $info['dss']['playtime_ms'] / 1000;
-        }
-        else {
+        } else {
             $info['playtime_seconds'] = $info['dss']['playtime_sec'];
-            if(!empty($info['dss']['playtime_ms'])) {
+            if (!empty($info['dss']['playtime_ms'])) {
                 $this->getid3->warning(
                     'playtime_ms ('.number_format(
                         $info['dss']['playtime_ms'] / 1000,
@@ -98,11 +98,12 @@ class getid3_dss extends getid3_handler {
     }
 
     /**
-     * @param string $datestring
+     * @param  string  $datestring
      *
      * @return int|false
      */
-    public function DSSdateStringToUnixDate($datestring) {
+    public function DSSdateStringToUnixDate($datestring)
+    {
         $y = substr($datestring, 0, 2);
         $m = substr($datestring, 2, 2);
         $d = substr($datestring, 4, 2);
@@ -114,13 +115,14 @@ class getid3_dss extends getid3_handler {
     }
 
     /**
-     * @param int $sample_rate_index
+     * @param  int  $sample_rate_index
      *
      * @return int|false
      */
-    public function DSSsampleRateLookup($sample_rate_index) {
+    public function DSSsampleRateLookup($sample_rate_index)
+    {
         static $dssSampleRateLookup = array(0x0A => 16000, 0x0C => 11025, 0x0D => 12000, 0x15 => 8000,);
-        if(!array_key_exists($sample_rate_index, $dssSampleRateLookup)) {
+        if (!array_key_exists($sample_rate_index, $dssSampleRateLookup)) {
             $this->getid3->warning('unknown sample_rate_index: 0x'.strtoupper(dechex($sample_rate_index)));
             return false;
         }

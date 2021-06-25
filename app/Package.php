@@ -9,7 +9,8 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 
-class Package extends Model {
+class Package extends Model
+{
     //This model doesn't utilize an SQL table
     public $timestamps = false;
     protected $table = '';
@@ -22,9 +23,10 @@ class Package extends Model {
     /**
      * Create a new Package Model instance
      *
-     * @param PackageLoader $package
+     * @param  PackageLoader  $package
      */
-    public function __construct(PackageLoader $package) {
+    public function __construct(PackageLoader $package)
+    {
         parent::__construct();
 
         //Set the package reference
@@ -34,11 +36,12 @@ class Package extends Model {
     /**
      * DISABLED - Not a SQL Table Model
      *
-     * @param array|Collection|int|string $ids
+     * @param  array|Collection|int|string  $ids
      * @return int|void
      * @throws Exception
      */
-    public static function destroy($ids) {
+    public static function destroy($ids)
+    {
         throw new Exception("Not implemented");
     }
 
@@ -47,10 +50,11 @@ class Package extends Model {
      *
      * @return array
      */
-    public function toArray() {
+    public function toArray()
+    {
         $result = [];
 
-        foreach($this->fillable as $key) {
+        foreach ($this->fillable as $key) {
             $result[$key] = $this->{$key};
         }
 
@@ -60,14 +64,14 @@ class Package extends Model {
     /**
      * Get an attribute from the package for the model
      *
-     * @param string $key
+     * @param  string  $key
      * @return mixed
      */
-    public function getAttribute($key) {
-        if($key === 'enabled') {
+    public function getAttribute($key)
+    {
+        if ($key === 'enabled') {
             return app(PackageManager::class)->isEnabled($this->package);
-        }
-        else {
+        } else {
             return $this->package->getProperty($key, null);
         }
     }
@@ -76,11 +80,12 @@ class Package extends Model {
      * DISABLED - Since this is effectively read-only from the package file, this method is unused
      *
      * @param       $key
-     * @param mixed $value
+     * @param  mixed  $value
      * @return void
      * @throws Exception
      */
-    public function __set($key, $value) {
+    public function __set($key, $value)
+    {
         throw new Exception("Not implemented");
     }
 
@@ -90,7 +95,8 @@ class Package extends Model {
      * @return void
      * @throws Exception
      */
-    public function getConnection() {
+    public function getConnection()
+    {
         throw new Exception("Not implemented");
     }
 
@@ -100,18 +106,20 @@ class Package extends Model {
      * @return bool|void|null
      * @throws Exception
      */
-    public function delete() {
+    public function delete()
+    {
         throw new Exception("Not implemented");
     }
 
     /**
      * DISABLED - Not a SQL Table Model
      *
-     * @param \Illuminate\Database\Query\Builder $query
+     * @param  \Illuminate\Database\Query\Builder  $query
      * @return Package|Builder|void
      * @throws Exception
      */
-    public function newEloquentBuilder($query) {
+    public function newEloquentBuilder($query)
+    {
         throw new Exception("Not implemented");
     }
 }

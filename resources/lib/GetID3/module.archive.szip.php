@@ -14,16 +14,18 @@
 //                                                            ///
 /////////////////////////////////////////////////////////////////
 
-class getid3_szip extends getid3_handler {
+class getid3_szip extends getid3_handler
+{
     /**
      * @return bool
      */
-    public function Analyze() {
+    public function Analyze()
+    {
         $info = &$this->getid3->info;
 
         $this->fseek($info['avdataoffset']);
         $SZIPHeader = $this->fread(6);
-        if(substr($SZIPHeader, 0, 4) != "SZ\x0A\x04") {
+        if (substr($SZIPHeader, 0, 4) != "SZ\x0A\x04") {
             $this->error(
                 'Expecting "53 5A 0A 04" at offset '.$info['avdataoffset'].', found "'.getid3_lib::PrintHexBytes(
                     substr($SZIPHeader, 0, 4)
@@ -37,9 +39,9 @@ class getid3_szip extends getid3_handler {
         $this->error('SZIP parsing not enabled in this version of getID3() ['.$this->getid3->version().']');
         return false;
 
-        while(!$this->feof()) {
+        while (!$this->feof()) {
             $NextBlockID = $this->fread(2);
-            switch($NextBlockID) {
+            switch ($NextBlockID) {
                 case 'SZ':
                     // Note that szip files can be concatenated, this has the same effect as
                     // concatenating the files. this also means that global header blocks
@@ -51,7 +53,7 @@ class getid3_szip extends getid3_handler {
                     $BHheaderbytes = getid3_lib::BigEndian2Int($this->fread(3));
                     $BHheaderdata = $this->fread($BHheaderbytes);
                     $BHheaderoffset = 0;
-                    while(strpos($BHheaderdata, "\x00", $BHheaderoffset) > 0) {
+                    while (strpos($BHheaderdata, "\x00", $BHheaderoffset) > 0) {
                         //filename as \0 terminated string  (empty string indicates end)
                         //owner as \0 terminated string (empty is same as last file)
                         //group as \0 terminated string (empty is same as last file)

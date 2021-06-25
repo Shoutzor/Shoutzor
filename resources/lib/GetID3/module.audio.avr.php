@@ -14,11 +14,13 @@
 //                                                            ///
 /////////////////////////////////////////////////////////////////
 
-class getid3_avr extends getid3_handler {
+class getid3_avr extends getid3_handler
+{
     /**
      * @return bool
      */
-    public function Analyze() {
+    public function Analyze()
+    {
         $info = &$this->getid3->info;
 
         // http://cui.unige.ch/OSG/info/AudioFormats/ap11.html
@@ -68,7 +70,7 @@ class getid3_avr extends getid3_handler {
 
         $info['avr']['raw']['magic'] = substr($AVRheader, 0, 4);
         $magic = '2BIT';
-        if($info['avr']['raw']['magic'] != $magic) {
+        if ($info['avr']['raw']['magic'] != $magic) {
             $this->error(
                 'Expecting "'.getid3_lib::PrintHexBytes(
                     $magic
@@ -104,14 +106,14 @@ class getid3_avr extends getid3_handler {
         $info['avr']['flags']['loop'] = (($info['avr']['raw']['loop'] == 0) ? false : true);
 
         $info['avr']['midi_notes'] = array();
-        if(($info['avr']['raw']['midi'] & 0xFF00) != 0xFF00) {
+        if (($info['avr']['raw']['midi'] & 0xFF00) != 0xFF00) {
             $info['avr']['midi_notes'][] = ($info['avr']['raw']['midi'] & 0xFF00) >> 8;
         }
-        if(($info['avr']['raw']['midi'] & 0x00FF) != 0x00FF) {
+        if (($info['avr']['raw']['midi'] & 0x00FF) != 0x00FF) {
             $info['avr']['midi_notes'][] = ($info['avr']['raw']['midi'] & 0x00FF);
         }
 
-        if(($info['avdataend'] - $info['avdataoffset']) != ($info['avr']['sample_length'] * (($info['avr']['bits_per_sample'] == 8) ? 1 : 2))) {
+        if (($info['avdataend'] - $info['avdataoffset']) != ($info['avr']['sample_length'] * (($info['avr']['bits_per_sample'] == 8) ? 1 : 2))) {
             $this->warning(
                 'Probable truncated file: expecting '.($info['avr']['sample_length'] * (($info['avr']['bits_per_sample'] == 8) ? 1 : 2)).' bytes of audio data, found '.($info['avdataend'] - $info['avdataoffset'])
             );

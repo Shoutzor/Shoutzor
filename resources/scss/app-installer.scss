@@ -1,1 +1,9 @@
 @import "global-import";
+
+body {
+  overflow: visible !important;
+}
+
+.container-tight {
+  max-width: 40rem;
+}

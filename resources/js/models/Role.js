@@ -34,7 +34,7 @@ export default class Role extends Model {
      */
     can(permissionName) {
         //Check permissions
-        let check = this.permissions.some(function(p) {
+        let check = this.permissions.some(function (p) {
             return p.name === permissionName;
         });
 
