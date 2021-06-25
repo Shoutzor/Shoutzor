@@ -1,0 +1,6 @@
+{
+    "name": "LastFM",
+    "slug": "lastfm",
+    "version": "1.0",
+    "description": "Enables LastFM for getting details on artists and albums for songs on Shoutz0r"
+}
