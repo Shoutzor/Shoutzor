@@ -93,14 +93,13 @@ const router = new VueRouter({
 
 //Authentication check
 router.beforeEach((to, from, next) => {
-    if(to.matched.some(record => record.meta.requiresAuth)) {
-        if(store.getters.hasToken) {
+    if (to.matched.some(record => record.meta.requiresAuth)) {
+        if (store.getters.hasToken) {
             next()
             return
         }
         next('/')
-    }
-    else {
+    } else {
         next()
     }
 });

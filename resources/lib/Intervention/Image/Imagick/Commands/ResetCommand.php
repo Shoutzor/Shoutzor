@@ -7,19 +7,21 @@ use Intervention\Image\Commands\AbstractCommand;
 use Intervention\Image\Exception\RuntimeException;
 use Intervention\Image\Image;
 
-class ResetCommand extends AbstractCommand {
+class ResetCommand extends AbstractCommand
+{
     /**
      * Resets given image to its backup state
      *
-     * @param Image $image
+     * @param  Image  $image
      * @return boolean
      */
-    public function execute($image) {
+    public function execute($image)
+    {
         $backupName = $this->argument(0)->value();
 
         $backup = $image->getBackup($backupName);
 
-        if($backup instanceof Imagick) {
+        if ($backup instanceof Imagick) {
 
             // destroy current core
             $image->getCore()->clear();

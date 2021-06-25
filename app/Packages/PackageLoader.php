@@ -2,13 +2,10 @@
 
 namespace App\Packages;
 
-use App\Helpers\Filesystem as FilesystemHelper;
-use Exception;
 use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Support\Facades\Log;
-use function PHPUnit\Framework\directoryExists;
 
-abstract class PackageLoader {
+abstract class PackageLoader
+{
 
     /**
      * The application instance.
@@ -34,10 +31,11 @@ abstract class PackageLoader {
     /**
      * Create a new package loader instance
      *
-     * @param Application $app
+     * @param  Application  $app
      * @return void
      */
-    public function __construct(Application $app, string $pkgPath) {
+    public function __construct(Application $app, string $pkgPath)
+    {
         $this->app = $app;
         $this->pkgPath = $pkgPath;
 
@@ -45,7 +43,8 @@ abstract class PackageLoader {
         $this->parseComposer();
     }
 
-    protected function parseComposer(): void {
+    protected function parseComposer(): void
+    {
         $this->pkgProperties = json_decode(file_get_contents($this->pkgPath."/shoutzor.package"));
     }
 
@@ -54,19 +53,21 @@ abstract class PackageLoader {
      *
      * @return string
      */
-    public function getIcon(): string {
+    public function getIcon(): string
+    {
         return $this->getProperty('icon', '');
     }
 
     /**
      * Returns the request property's value. If it doesn't exist, the default value will be returned
      *
-     * @param string $key
-     * @param null   $default
+     * @param  string  $key
+     * @param  null  $default
      * @return mixed|null
      */
-    public function getProperty(string $key, $default = null) {
-        if(property_exists($this->pkgProperties, $key)) {
+    public function getProperty(string $key, $default = null)
+    {
+        if (property_exists($this->pkgProperties, $key)) {
             return $this->pkgProperties->{$key};
         }
 
@@ -78,7 +79,8 @@ abstract class PackageLoader {
      *
      * @return string
      */
-    public function getName(): string {
+    public function getName(): string
+    {
         return $this->getProperty('name', '');
     }
 
@@ -87,7 +89,8 @@ abstract class PackageLoader {
      *
      * @return string
      */
-    public function getAuthor(): string {
+    public function getAuthor(): string
+    {
         return $this->getProperty('author', '');
     }
 
@@ -96,7 +99,8 @@ abstract class PackageLoader {
      *
      * @return string
      */
-    public function getWebsite(): string {
+    public function getWebsite(): string
+    {
         return $this->getProperty('website', '');
     }
 
@@ -105,7 +109,8 @@ abstract class PackageLoader {
      *
      * @return string
      */
-    public function getDescription(): string {
+    public function getDescription(): string
+    {
         return $this->getProperty('description', '');
     }
 
@@ -114,7 +119,8 @@ abstract class PackageLoader {
      *
      * @return string
      */
-    public function getVersion(): string {
+    public function getVersion(): string
+    {
         return $this->getProperty('version', '');
     }
 
@@ -123,7 +129,8 @@ abstract class PackageLoader {
      *
      * @return string
      */
-    public function getLicense(): string {
+    public function getLicense(): string
+    {
         return $this->getProperty('license', '');
     }
 
@@ -133,7 +140,8 @@ abstract class PackageLoader {
      *
      * @return void
      */
-    public function onDiscover(): void {
+    public function onDiscover(): void
+    {
         #$packagesPath = FilesystemHelper::correctDS(storage_path('app/public/packages/'));
         #$packageAssetPath = FilesystemHelper::correctDS($this->pkgPath.'/resources/static/public');
         #$symlinkPath = FilesystemHelper::correctDS(storage_path($packagesPath.$this->getId().'/'));
@@ -144,7 +152,8 @@ abstract class PackageLoader {
      *
      * @return string
      */
-    public function getId(): string {
+    public function getId(): string
+    {
         return $this->getProperty('id', '');
     }
 
@@ -172,7 +181,7 @@ abstract class PackageLoader {
     /**
      * Gets called when an package is updated
      *
-     * @param string $versionFrom the version the package was at, before updating
+     * @param  string  $versionFrom  the version the package was at, before updating
      * @return void
      */
     abstract public function onUpdate(string $versionFrom): void;

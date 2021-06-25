@@ -9,7 +9,7 @@ export default class Artist extends Model {
     static entity = 'artists';
 
     get artistImage() {
-        if(this.image === '') {
+        if (this.image === '') {
             return defaultArtistImage;
         }
 

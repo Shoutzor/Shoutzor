@@ -4,7 +4,8 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Upload extends Model {
+class Upload extends Model
+{
     const STATUS_QUEUED = 0; # In queue to be processed
     const STATUS_PROCESSING = 1; # Currently being processed
     const STATUS_FAILED_RETRY = 2; # Processing failed, retry allowed.
@@ -15,7 +16,8 @@ class Upload extends Model {
 
     public $timestamps = false;
 
-    public function user() {
+    public function user()
+    {
         return $this->belongsTo('App\User');
     }
 

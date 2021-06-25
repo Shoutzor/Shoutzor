@@ -11,16 +11,19 @@ use App\Events\ReadOnlyEvent;
  * @package App\Events
  * Gets called when an album gets added to Shoutz0r
  */
-class AlbumCreateEvent extends ReadOnlyEvent {
+class AlbumCreateEvent extends ReadOnlyEvent
+{
     public const NAME = 'artist.create';
 
     protected $album;
 
-    public function __construct(Album $album) {
+    public function __construct(Album $album)
+    {
         $this->album = $album;
     }
 
-    public function getAlbum(): Album {
+    public function getAlbum(): Album
+    {
         return $this->album;
     }
 }

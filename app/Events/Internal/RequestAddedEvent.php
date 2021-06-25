@@ -11,16 +11,19 @@ use App\Request;
  * @package App\Events
  * Gets called when a request is added to the Queue
  */
-class RequestAddedEvent extends ReadOnlyEvent {
+class RequestAddedEvent extends ReadOnlyEvent
+{
     public const NAME = 'request.added';
 
     protected Request $request;
 
-    public function __construct(Request $request) {
+    public function __construct(Request $request)
+    {
         $this->request = $request;
     }
 
-    public function getRequest(): Request {
+    public function getRequest(): Request
+    {
         return $this->request;
     }
 }

@@ -2,21 +2,24 @@
 
 namespace App\Packages;
 
-class PackageConfig {
+class PackageConfig
+{
 
     protected string $file;
 
-    protected function __construct(string $file) {
+    protected function __construct(string $file)
+    {
         $this->file = $file;
     }
 
     /**
      * Create an empty config file
      *
-     * @param string $file
+     * @param  string  $file
      * @return PackageConfig
      */
-    public static function create(string $file): PackageConfig {
+    public static function create(string $file): PackageConfig
+    {
 
     }
 
@@ -24,24 +27,26 @@ class PackageConfig {
      * Create a config file using a source config file.
      * This will add any non-existing keys to the file if it already exists
      *
-     * @param string $file
-     * @param string $source
+     * @param  string  $file
+     * @param  string  $source
      * @return PackageConfig
      */
-    public static function createFrom(string $file, string $source): PackageConfig {
+    public static function createFrom(string $file, string $source): PackageConfig
+    {
 
     }
 
     /**
      * Load an existing config file
      *
-     * @param string $file
+     * @param  string  $file
      * @return PackageConfig|null
      */
-    public static function load(string $file): ?PackageConfig {
+    public static function load(string $file): ?PackageConfig
+    {
         $file = config_path("packages/$file");
 
-        if(file_exists($file)) {
+        if (file_exists($file)) {
             return new PackageConfig($file);
         }
 

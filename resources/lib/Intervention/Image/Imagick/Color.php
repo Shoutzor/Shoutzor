@@ -6,7 +6,8 @@ use Imagick;
 use ImagickPixel;
 use Intervention\Image\AbstractColor;
 
-class Color extends AbstractColor {
+class Color extends AbstractColor
+{
     /**
      * ImagickPixel containing current color information
      *
@@ -17,10 +18,11 @@ class Color extends AbstractColor {
     /**
      * Initiates color object from integer
      *
-     * @param int $value
+     * @param  int  $value
      * @return AbstractColor
      */
-    public function initFromInteger($value) {
+    public function initFromInteger($value)
+    {
         $a = ($value >> 24) & 0xFF;
         $r = ($value >> 16) & 0xFF;
         $g = ($value >> 8) & 0xFF;
@@ -33,12 +35,13 @@ class Color extends AbstractColor {
     /**
      * Calculates RGA integer alpha value into float value
      *
-     * @param int $value
+     * @param  int  $value
      * @return float
      */
-    private function rgb2alpha($value) {
+    private function rgb2alpha($value)
+    {
         // (255 -> 1.0) / (0 -> 0.0)
-        return (float)round($value / 255, 2);
+        return (float) round($value / 255, 2);
     }
 
     /**
@@ -46,7 +49,8 @@ class Color extends AbstractColor {
      *
      * @return ImagickPixel
      */
-    private function setPixel($r, $g, $b, $a = null) {
+    private function setPixel($r, $g, $b, $a = null)
+    {
         $a = is_null($a) ? 1 : $a;
 
         return $this->pixel = new ImagickPixel(sprintf('rgba(%d, %d, %d, %.2F)', $r, $g, $b, $a));
@@ -55,19 +59,19 @@ class Color extends AbstractColor {
     /**
      * Initiates color object from given array
      *
-     * @param array $value
+     * @param  array  $value
      * @return AbstractColor
      */
-    public function initFromArray($array) {
+    public function initFromArray($array)
+    {
         $array = array_values($array);
 
-        if(count($array) == 4) {
+        if (count($array) == 4) {
 
             // color array with alpha value
             list($r, $g, $b, $a) = $array;
 
-        }
-        elseif(count($array) == 3) {
+        } elseif (count($array) == 3) {
 
             // color array without alpha value
             list($r, $g, $b) = $array;
@@ -80,12 +84,13 @@ class Color extends AbstractColor {
     /**
      * Initiates color object from given string
      *
-     * @param string $value
+     * @param  string  $value
      *
      * @return AbstractColor
      */
-    public function initFromString($value) {
-        if($color = $this->rgbaFromString($value)) {
+    public function initFromString($value)
+    {
+        if ($color = $this->rgbaFromString($value)) {
             $this->setPixel($color[0], $color[1], $color[2], $color[3]);
         }
     }
@@ -93,12 +98,13 @@ class Color extends AbstractColor {
     /**
      * Initiates color object from given ImagickPixel object
      *
-     * @param ImagickPixel $value
+     * @param  ImagickPixel  $value
      *
      * @return AbstractColor
      */
-    public function initFromObject($value) {
-        if(is_a($value, '\ImagickPixel')) {
+    public function initFromObject($value)
+    {
+        if (is_a($value, '\ImagickPixel')) {
             $this->pixel = $value;
         }
     }
@@ -106,27 +112,29 @@ class Color extends AbstractColor {
     /**
      * Initiates color object from given R, G and B values
      *
-     * @param int $r
-     * @param int $g
-     * @param int $b
+     * @param  int  $r
+     * @param  int  $g
+     * @param  int  $b
      *
      * @return AbstractColor
      */
-    public function initFromRgb($r, $g, $b) {
+    public function initFromRgb($r, $g, $b)
+    {
         $this->setPixel($r, $g, $b);
     }
 
     /**
      * Initiates color object from given R, G, B and A values
      *
-     * @param int   $r
-     * @param int   $g
-     * @param int   $b
-     * @param float $a
+     * @param  int  $r
+     * @param  int  $g
+     * @param  int  $b
+     * @param  float  $a
      *
      * @return AbstractColor
      */
-    public function initFromRgba($r, $g, $b, $a) {
+    public function initFromRgba($r, $g, $b, $a)
+    {
         $this->setPixel($r, $g, $b, $a);
     }
 
@@ -135,7 +143,8 @@ class Color extends AbstractColor {
      *
      * @return int
      */
-    public function getInt() {
+    public function getInt()
+    {
         $r = $this->getRedValue();
         $g = $this->getGreenValue();
         $b = $this->getBlueValue();
@@ -149,7 +158,8 @@ class Color extends AbstractColor {
      *
      * @return int
      */
-    public function getRedValue() {
+    public function getRedValue()
+    {
         return intval(round($this->pixel->getColorValue(Imagick::COLOR_RED) * 255));
     }
 
@@ -158,7 +168,8 @@ class Color extends AbstractColor {
      *
      * @return int
      */
-    public function getGreenValue() {
+    public function getGreenValue()
+    {
         return intval(round($this->pixel->getColorValue(Imagick::COLOR_GREEN) * 255));
     }
 
@@ -167,7 +178,8 @@ class Color extends AbstractColor {
      *
      * @return int
      */
-    public function getBlueValue() {
+    public function getBlueValue()
+    {
         return intval(round($this->pixel->getColorValue(Imagick::COLOR_BLUE) * 255));
     }
 
@@ -176,18 +188,20 @@ class Color extends AbstractColor {
      *
      * @return float
      */
-    public function getAlphaValue() {
+    public function getAlphaValue()
+    {
         return round($this->pixel->getColorValue(Imagick::COLOR_ALPHA), 2);
     }
 
     /**
      * Calculates hexadecimal value of current color instance
      *
-     * @param string $prefix
+     * @param  string  $prefix
      *
      * @return string
      */
-    public function getHex($prefix = '') {
+    public function getHex($prefix = '')
+    {
         return sprintf('%s%02x%02x%02x', $prefix, $this->getRedValue(), $this->getGreenValue(), $this->getBlueValue());
     }
 
@@ -196,7 +210,8 @@ class Color extends AbstractColor {
      *
      * @return array
      */
-    public function getArray() {
+    public function getArray()
+    {
         return [$this->getRedValue(), $this->getGreenValue(), $this->getBlueValue(), $this->getAlphaValue()];
     }
 
@@ -205,7 +220,8 @@ class Color extends AbstractColor {
      *
      * @return string
      */
-    public function getRgba() {
+    public function getRgba()
+    {
         return sprintf(
             'rgba(%d, %d, %d, %.2F)',
             $this->getRedValue(),
@@ -218,11 +234,12 @@ class Color extends AbstractColor {
     /**
      * Determines if current color is different from given color
      *
-     * @param AbstractColor $color
-     * @param int           $tolerance
+     * @param  AbstractColor  $color
+     * @param  int  $tolerance
      * @return boolean
      */
-    public function differs(AbstractColor $color, $tolerance = 0) {
+    public function differs(AbstractColor $color, $tolerance = 0)
+    {
         $color_tolerance = round($tolerance * 2.55);
         $alpha_tolerance = round($tolerance);
 
@@ -241,7 +258,8 @@ class Color extends AbstractColor {
      *
      * @return ImagickPixel
      */
-    public function getPixel() {
+    public function getPixel()
+    {
         return $this->pixel;
     }
 

@@ -8,7 +8,8 @@ use function is_bool;
 use function is_int;
 use function is_string;
 
-class Argument {
+class Argument
+{
     /**
      * Command with arguments
      *
@@ -26,10 +27,11 @@ class Argument {
     /**
      * Creates new instance from given command and key
      *
-     * @param AbstractCommand $command
-     * @param int             $key
+     * @param  AbstractCommand  $command
+     * @param  int  $key
      */
-    public function __construct(AbstractCommand $command, $key = 0) {
+    public function __construct(AbstractCommand $command, $key = 0)
+    {
         $this->command = $command;
         $this->key = $key;
     }
@@ -39,8 +41,9 @@ class Argument {
      *
      * @return Argument
      */
-    public function required() {
-        if(!array_key_exists($this->key, $this->command->arguments)) {
+    public function required()
+    {
+        if (!array_key_exists($this->key, $this->command->arguments)) {
             throw new InvalidArgumentException(
                 sprintf("Missing argument %d for %s", $this->key + 1, $this->getCommandName())
             );
@@ -54,7 +57,8 @@ class Argument {
      *
      * @return string
      */
-    public function getCommandName() {
+    public function getCommandName()
+    {
         preg_match("/\\\\([\w]+)Command$/", get_class($this->command), $matches);
         return isset($matches[1]) ? lcfirst($matches[1]).'()' : 'Method';
     }
@@ -64,17 +68,18 @@ class Argument {
      *
      * @return Argument
      */
-    public function between($x, $y) {
+    public function between($x, $y)
+    {
         $value = $this->type('numeric')->value();
 
-        if(is_null($value)) {
+        if (is_null($value)) {
             return $this;
         }
 
         $alpha = min($x, $y);
         $omega = max($x, $y);
 
-        if($value < $alpha || $value > $omega) {
+        if ($value < $alpha || $value > $omega) {
             throw new InvalidArgumentException(sprintf('Argument %d must be between %s and %s.', $this->key, $x, $y));
         }
 
@@ -84,13 +89,14 @@ class Argument {
     /**
      * Returns value of current argument
      *
-     * @param mixed $default
+     * @param  mixed  $default
      * @return mixed
      */
-    public function value($default = null) {
+    public function value($default = null)
+    {
         $arguments = $this->command->arguments;
 
-        if(is_array($arguments)) {
+        if (is_array($arguments)) {
             return isset($arguments[$this->key]) ? $arguments[$this->key] : $default;
         }
 
@@ -102,15 +108,16 @@ class Argument {
      *
      * @return Argument
      */
-    public function type($type) {
+    public function type($type)
+    {
         $valid = true;
         $value = $this->value();
 
-        if($value === null) {
+        if ($value === null) {
             return $this;
         }
 
-        switch(strtolower($type)) {
+        switch (strtolower($type)) {
             case 'bool':
             case 'boolean':
                 $valid = is_bool($value);
@@ -145,14 +152,13 @@ class Argument {
                 break;
         }
 
-        if(!$valid) {
+        if (!$valid) {
             $commandName = $this->getCommandName();
             $argument = $this->key + 1;
 
-            if(isset($message)) {
+            if (isset($message)) {
                 $message = sprintf($message, $commandName, $argument);
-            }
-            else {
+            } else {
                 $message = sprintf('Missing argument for %d.', $argument);
             }
 
@@ -165,10 +171,11 @@ class Argument {
     /**
      * Checks if value is "PHP" integer (120 but also 120.0)
      *
-     * @param mixed $value
+     * @param  mixed  $value
      * @return boolean
      */
-    private function isDigit($value) {
+    private function isDigit($value)
+    {
         return is_numeric($value) ? intval($value) == $value : false;
     }
 
@@ -177,14 +184,15 @@ class Argument {
      *
      * @return Argument
      */
-    public function min($value) {
+    public function min($value)
+    {
         $v = $this->type('numeric')->value();
 
-        if(is_null($v)) {
+        if (is_null($v)) {
             return $this;
         }
 
-        if($v < $value) {
+        if ($v < $value) {
             throw new InvalidArgumentException(sprintf('Argument %d must be at least %s.', $this->key, $value));
         }
 
@@ -196,14 +204,15 @@ class Argument {
      *
      * @return Argument
      */
-    public function max($value) {
+    public function max($value)
+    {
         $v = $this->type('numeric')->value();
 
-        if(is_null($v)) {
+        if (is_null($v)) {
             return $this;
         }
 
-        if($v > $value) {
+        if ($v > $value) {
             throw new InvalidArgumentException(sprintf('Argument %d may not be greater than %s.', $this->key, $value));
         }
 

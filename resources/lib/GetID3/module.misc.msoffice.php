@@ -14,17 +14,19 @@
 //                                                            ///
 /////////////////////////////////////////////////////////////////
 
-class getid3_msoffice extends getid3_handler {
+class getid3_msoffice extends getid3_handler
+{
     /**
      * @return bool
      */
-    public function Analyze() {
+    public function Analyze()
+    {
         $info = &$this->getid3->info;
 
         $this->fseek($info['avdataoffset']);
         $DOCFILEheader = $this->fread(8);
         $magic = "\xD0\xCF\x11\xE0\xA1\xB1\x1A\xE1";
-        if(substr($DOCFILEheader, 0, 8) != $magic) {
+        if (substr($DOCFILEheader, 0, 8) != $magic) {
             $this->error(
                 'Expecting "'.getid3_lib::PrintHexBytes(
                     $magic

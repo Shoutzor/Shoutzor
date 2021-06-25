@@ -19,7 +19,7 @@ export default class Album extends Model {
     }
 
     get albumImage() {
-        if(this.image === '') {
+        if (this.image === '') {
             return defaultAlbumImage;
         }
 

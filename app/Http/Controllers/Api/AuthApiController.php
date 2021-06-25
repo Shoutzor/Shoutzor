@@ -9,7 +9,8 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class AuthApiController extends Controller {
+class AuthApiController extends Controller
+{
     /**
      * Create user
      *
@@ -19,11 +20,12 @@ class AuthApiController extends Controller {
      * @param  [string] password_confirmation
      * @return [string] message
      */
-    public function register(Request $request) {
+    public function register(Request $request)
+    {
         $request->validate(
             [
-                'name'     => 'required|string',
-                'email'    => 'required|string|email|unique:users',
+                'name' => 'required|string',
+                'email' => 'required|string|email|unique:users',
                 'password' => 'required|string|confirmed'
             ]
         );
@@ -45,19 +47,20 @@ class AuthApiController extends Controller {
      * @return [string] token_type
      * @return [string] expires_at
      */
-    public function login(Request $request) {
+    public function login(Request $request)
+    {
         $request->validate(['username' => 'required|string', 'password' => 'required|string',]);
 
         $credentials = request(['username', 'password']);
 
-        if(!Auth::attempt($credentials)) {
+        if (!Auth::attempt($credentials)) {
             return response()->json(['message' => 'Invalid login credentials provided'], 401);
         }
 
         $user = $request->user();
 
         //Check if the user is allowed to access the website
-        if($user->hasPermissionTo('website.access') === false) {
+        if ($user->hasPermissionTo('website.access') === false) {
             return response()->json(
                 ['message' => 'This account does not have the required permission to access the website.'],
                 401
@@ -67,7 +70,7 @@ class AuthApiController extends Controller {
         $tokenResult = $user->createToken('Personal Access Token');
         $token = $tokenResult->token;
 
-        if($request->remember_me) {
+        if ($request->remember_me) {
             $token->expires_at = Carbon::now()->addMonths(1);
         }
 
@@ -75,7 +78,7 @@ class AuthApiController extends Controller {
 
         return response()->json(
             [
-                'token'      => $tokenResult->accessToken,
+                'token' => $tokenResult->accessToken,
                 'token_type' => 'Bearer',
                 'expires_at' => Carbon::parse($tokenResult->token->expires_at)->toISOString()
             ]
@@ -85,10 +88,11 @@ class AuthApiController extends Controller {
     /**
      * Logout user (Revoke the token)
      *
-     * @param Request $request
+     * @param  Request  $request
      * @return JsonResponse [string] message
      */
-    public function logout(Request $request) {
+    public function logout(Request $request)
+    {
         $request->user()->token()->revoke();
         return response()->json(['message' => 'Successfully logged out'], 200);
     }
@@ -96,10 +100,11 @@ class AuthApiController extends Controller {
     /**
      * Get the authenticated User
      *
-     * @param Request $request
+     * @param  Request  $request
      * @return JsonResponse [json] user object
      */
-    public function user(Request $request) {
+    public function user(Request $request)
+    {
         return response()->json(User::with(['permissions', 'roles.permissions'])->find(Auth::id()), 200);
     }
 }

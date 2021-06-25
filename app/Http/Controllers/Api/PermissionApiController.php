@@ -9,20 +9,21 @@ use Illuminate\Http\Request;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
-class PermissionApiController extends Controller {
+class PermissionApiController extends Controller
+{
     /**
      * Returns a single or all permissions
      *
-     * @param int|null $id
+     * @param  int|null  $id
      * @return JsonResponse an array of permissions
      */
-    public function get(int $id = null) {
+    public function get(int $id = null)
+    {
         $permission = Permission::findById($id);
 
-        if(!$permission) {
+        if (!$permission) {
             $permissions = Permission::all();
-        }
-        else {
+        } else {
             $permissions = [$permission];
         }
 
@@ -37,14 +38,15 @@ class PermissionApiController extends Controller {
      * Role will return only the permissions inherited from roles
      * Direct will return only the permissions directly assigned to the user
      *
-     * @param Request  $request
-     * @param int|null $id
-     * @param string   $type
+     * @param  Request  $request
+     * @param  int|null  $id
+     * @param  string  $type
      * @return JsonResponse an array of permissions
      */
-    public function user(Request $request, int $id = null, string $type = "all") {
-        if($id) {
-            if($request->user()->hasPermissionTo('admin.permissions.permission.get') === false) {
+    public function user(Request $request, int $id = null, string $type = "all")
+    {
+        if ($id) {
+            if ($request->user()->hasPermissionTo('admin.permissions.permission.get') === false) {
                 return response()->json(
                     ['message' => 'You do not have the admin.permissions.permission.get permission'],
                     403
@@ -53,16 +55,15 @@ class PermissionApiController extends Controller {
 
             $user = User::find($id);
 
-            if(!$user) {
+            if (!$user) {
                 return response()->json(['message' => 'No user with this ID could be found'], 404);
             }
-        }
-        else {
+        } else {
             $user = $request->user();
         }
 
-        if($user) {
-            switch($type) {
+        if ($user) {
+            switch ($type) {
                 case "all":
                     $permissions = $user->getAllPermissions();
                     break;
@@ -78,14 +79,13 @@ class PermissionApiController extends Controller {
                 default:
                     return response()->json(['message' => 'Invalid type provided'], 400);
             }
-        }
-        //Guest user
+        } //Guest user
         else {
             $role = Role::findByName('guest');
             $permissions = [];
 
             //Check if the guest role could be found
-            if($role) {
+            if ($role) {
                 $permissions = $role->permissions;
             }
         }

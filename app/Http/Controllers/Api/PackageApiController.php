@@ -8,15 +8,18 @@ use App\Packages\PackageManager;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
-class PackageApiController extends Controller {
+class PackageApiController extends Controller
+{
 
     private PackageManager $pm;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->pm = app(PackageManager::class);
     }
 
-    public function installed(Request $request) {
+    public function installed(Request $request)
+    {
         $request->validate(['id' => 'string']);
 
         //@todo this can be removed once the package marketplace is implemented
@@ -27,18 +30,16 @@ class PackageApiController extends Controller {
         $packages = $this->pm->fetchPackages();
         $result = [];
 
-        if($request->id !== null) {
-            foreach($packages as $pkg) {
-                if($request->id === $pkg->getId()) {
+        if ($request->id !== null) {
+            foreach ($packages as $pkg) {
+                if ($request->id === $pkg->getId()) {
                     $result[] = new Package($pkg);
-                }
-                else {
+                } else {
                     return response()->json(['message' => 'Package with id '.$request->id.' not found'], 404);
                 }
             }
-        }
-        else {
-            foreach($packages as $pkg) {
+        } else {
+            foreach ($packages as $pkg) {
                 $result[] = new Package($pkg);
             }
         }
@@ -49,10 +50,11 @@ class PackageApiController extends Controller {
     /**
      * Enable a package
      *
-     * @param Request $request
+     * @param  Request  $request
      * @return JsonResponse
      */
-    public function enable(Request $request) {
+    public function enable(Request $request)
+    {
         $request->validate(['id' => 'string']);
 
         //@todo this can be removed once the package marketplace is implemented
@@ -64,7 +66,7 @@ class PackageApiController extends Controller {
         $pkg = $this->pm->findPackageById($request->id);
 
         //Check if the package was found
-        if(is_null($pkg) === false) {
+        if (is_null($pkg) === false) {
             //Enable the package
             $this->pm->enablePackage($pkg);
             $this->pm->updateEnabledPackagesList();
@@ -80,10 +82,11 @@ class PackageApiController extends Controller {
     /**
      * Disable a package
      *
-     * @param Request $request
+     * @param  Request  $request
      * @return JsonResponse
      */
-    public function disable(Request $request) {
+    public function disable(Request $request)
+    {
         $request->validate(['id' => 'string']);
 
         //@todo this can be removed once the package marketplace is implemented
@@ -95,7 +98,7 @@ class PackageApiController extends Controller {
         $pkg = $this->pm->findPackageById($request->id);
 
         //Check if the package was found
-        if(is_null($pkg) === false) {
+        if (is_null($pkg) === false) {
             //Disable the package
             $this->pm->disablePackage($pkg);
             $this->pm->updateEnabledPackagesList();

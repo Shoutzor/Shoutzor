@@ -1,17 +1,17 @@
 #main-content {
-    max-height: 100%;
-    overflow: hidden;
-    padding-bottom: $player-height;
+  max-height: 100%;
+  overflow: hidden;
+  padding-bottom: $player-height;
 
-    @media (min-width: map-get($grid-breakpoints, lg)) {
-        padding-left: $sidebar-width;
-        padding-top: $navbar-height;
-    }
+  @media (min-width: map-get($grid-breakpoints, lg)) {
+    padding-left: $sidebar-width;
+    padding-top: $navbar-height;
+  }
 }
 
 .page {
-    background: url("~@static/images/bg.png") transparent repeat-x;
-    padding-top: 0.5rem;
-    padding-bottom: calc(#{$navbar-height} + #{$player-height});
-    min-height: 600px;
+  background: url("~@static/images/bg.png") transparent repeat-x;
+  padding-top: 0.5rem;
+  padding-bottom: calc(#{$navbar-height} + #{$player-height});
+  min-height: 600px;
 }

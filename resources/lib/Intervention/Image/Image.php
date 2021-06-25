@@ -178,7 +178,8 @@ use Psr\Http\Message\StreamInterface;
  *                                                       Build PSR-7 compatible ResponseInterface with current image in
  *                                                       given format and quality.
  */
-class Image extends File {
+class Image extends File
+{
     /**
      * Last image encoding result
      *
@@ -207,10 +208,11 @@ class Image extends File {
     /**
      * Creates a new Image instance
      *
-     * @param AbstractDriver $driver
-     * @param mixed          $core
+     * @param  AbstractDriver  $driver
+     * @param  mixed  $core
      */
-    public function __construct(AbstractDriver $driver = null, $core = null) {
+    public function __construct(AbstractDriver $driver = null, $core = null)
+    {
         $this->driver = $driver;
         $this->core = $core;
     }
@@ -219,11 +221,12 @@ class Image extends File {
      * Magic method to catch all image calls
      * usually any AbstractCommand
      *
-     * @param string $name
-     * @param Array  $arguments
+     * @param  string  $name
+     * @param  Array  $arguments
      * @return mixed
      */
-    public function __call($name, $arguments) {
+    public function __call($name, $arguments)
+    {
         $command = $this->driver->executeCommand($this, $name, $arguments);
         return $command->hasOutput() ? $command->getOutput() : $this;
     }
@@ -231,26 +234,27 @@ class Image extends File {
     /**
      * Saves encoded image in filesystem
      *
-     * @param string $path
-     * @param int    $quality
-     * @param string $format
+     * @param  string  $path
+     * @param  int  $quality
+     * @param  string  $format
      * @return Image
      */
-    public function save($path = null, $quality = null, $format = null) {
+    public function save($path = null, $quality = null, $format = null)
+    {
         $path = is_null($path) ? $this->basePath() : $path;
 
-        if(is_null($path)) {
+        if (is_null($path)) {
             throw new NotWritableException("Can't write to undefined path.");
         }
 
-        if($format === null) {
+        if ($format === null) {
             $format = pathinfo($path, PATHINFO_EXTENSION);
         }
 
         $data = $this->encode($format, $quality);
         $saved = @file_put_contents($path, $data);
 
-        if($saved === false) {
+        if ($saved === false) {
             throw new NotWritableException("Can't write image data to path ({$path})");
         }
 
@@ -263,21 +267,23 @@ class Image extends File {
     /**
      * Starts encoding of current image
      *
-     * @param string $format
-     * @param int    $quality
+     * @param  string  $format
+     * @param  int  $quality
      * @return Image
      */
-    public function encode($format = null, $quality = 90) {
+    public function encode($format = null, $quality = 90)
+    {
         return $this->driver->encode($this, $format, $quality);
     }
 
     /**
      * Runs a given filter on current image
      *
-     * @param FiltersFilterInterface $filter
+     * @param  FiltersFilterInterface  $filter
      * @return Image
      */
-    public function filter(Filters\FilterInterface $filter) {
+    public function filter(Filters\FilterInterface $filter)
+    {
         return $filter->applyFilter($this);
     }
 
@@ -286,16 +292,18 @@ class Image extends File {
      *
      * @return AbstractDriver
      */
-    public function getDriver() {
+    public function getDriver()
+    {
         return $this->driver;
     }
 
     /**
      * Sets current image driver
      *
-     * @param AbstractDriver $driver
+     * @param  AbstractDriver  $driver
      */
-    public function setDriver(AbstractDriver $driver) {
+    public function setDriver(AbstractDriver $driver)
+    {
         $this->driver = $driver;
 
         return $this;
@@ -306,16 +314,18 @@ class Image extends File {
      *
      * @return mixed
      */
-    public function getCore() {
+    public function getCore()
+    {
         return $this->core;
     }
 
     /**
      * Sets current image resource
      *
-     * @param mixed $core
+     * @param  mixed  $core
      */
-    public function setCore($core) {
+    public function setCore($core)
+    {
         $this->core = $core;
 
         return $this;
@@ -324,13 +334,14 @@ class Image extends File {
     /**
      * Returns current image backup
      *
-     * @param string $name
+     * @param  string  $name
      * @return mixed
      */
-    public function getBackup($name = null) {
+    public function getBackup($name = null)
+    {
         $name = is_null($name) ? 'default' : $name;
 
-        if(!$this->backupExists($name)) {
+        if (!$this->backupExists($name)) {
             throw new RuntimeException("Backup with name ({$name}) not available. Call backup() before reset().");
         }
 
@@ -340,10 +351,11 @@ class Image extends File {
     /**
      * Checks if named backup exists
      *
-     * @param string $name
+     * @param  string  $name
      * @return bool
      */
-    private function backupExists($name) {
+    private function backupExists($name)
+    {
         return array_key_exists($name, $this->backups);
     }
 
@@ -352,18 +364,20 @@ class Image extends File {
      *
      * @return array
      */
-    public function getBackups() {
+    public function getBackups()
+    {
         return $this->backups;
     }
 
     /**
      * Sets current image backup
      *
-     * @param mixed  $resource
-     * @param string $name
+     * @param  mixed  $resource
+     * @param  string  $name
      * @return self
      */
-    public function setBackup($resource, $name = null) {
+    public function setBackup($resource, $name = null)
+    {
         $name = is_null($name) ? 'default' : $name;
 
         $this->backups[$name] = $resource;
@@ -376,7 +390,8 @@ class Image extends File {
      *
      * @return boolean
      */
-    public function isEncoded() {
+    public function isEncoded()
+    {
         return !empty($this->encoded);
     }
 
@@ -385,16 +400,18 @@ class Image extends File {
      *
      * @return string
      */
-    public function getEncoded() {
+    public function getEncoded()
+    {
         return $this->encoded;
     }
 
     /**
      * Sets encoded image buffer
      *
-     * @param string $value
+     * @param  string  $value
      */
-    public function setEncoded($value) {
+    public function setEncoded($value)
+    {
         $this->encoded = $value;
 
         return $this;
@@ -405,7 +422,8 @@ class Image extends File {
      *
      * @return int
      */
-    public function width() {
+    public function width()
+    {
         return $this->getWidth();
     }
 
@@ -414,7 +432,8 @@ class Image extends File {
      *
      * @return int
      */
-    public function getWidth() {
+    public function getWidth()
+    {
         return $this->getSize()->width;
     }
 
@@ -423,7 +442,8 @@ class Image extends File {
      *
      * @return int
      */
-    public function height() {
+    public function height()
+    {
         return $this->getHeight();
     }
 
@@ -432,7 +452,8 @@ class Image extends File {
      *
      * @return int
      */
-    public function getHeight() {
+    public function getHeight()
+    {
         return $this->getSize()->height;
     }
 
@@ -441,7 +462,8 @@ class Image extends File {
      *
      * @return string
      */
-    public function mime() {
+    public function mime()
+    {
         return $this->mime;
     }
 
@@ -450,14 +472,16 @@ class Image extends File {
      *
      * @return string
      */
-    public function __toString() {
+    public function __toString()
+    {
         return $this->encoded;
     }
 
     /**
      * Cloning an image
      */
-    public function __clone() {
+    public function __clone()
+    {
         $this->core = $this->driver->cloneCore($this->core);
     }
 }

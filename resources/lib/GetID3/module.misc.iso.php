@@ -14,20 +14,22 @@
 //                                                            ///
 /////////////////////////////////////////////////////////////////
 
-class getid3_iso extends getid3_handler {
+class getid3_iso extends getid3_handler
+{
     /**
      * @return bool
      */
-    public function Analyze() {
+    public function Analyze()
+    {
         $info = &$this->getid3->info;
 
         $info['fileformat'] = 'iso';
 
-        for($i = 16; $i <= 19; $i++) {
+        for ($i = 16; $i <= 19; $i++) {
             $this->fseek(2048 * $i);
             $ISOheader = $this->fread(2048);
-            if(substr($ISOheader, 1, 5) == 'CD001') {
-                switch(ord($ISOheader{0})) {
+            if (substr($ISOheader, 1, 5) == 'CD001') {
+                switch (ord($ISOheader{0})) {
                     case 1:
                         $info['iso']['primary_volume_descriptor']['offset'] = 2048 * $i;
                         $this->ParsePrimaryVolumeDescriptor($ISOheader);
@@ -48,7 +50,7 @@ class getid3_iso extends getid3_handler {
         $this->ParsePathTable();
 
         $info['iso']['files'] = array();
-        foreach($info['iso']['path_table']['directories'] as $directorynum => $directorydata) {
+        foreach ($info['iso']['path_table']['directories'] as $directorynum => $directorydata) {
             $info['iso']['directories'][$directorynum] = $this->ParseDirectoryRecord($directorydata);
         }
 
@@ -56,11 +58,12 @@ class getid3_iso extends getid3_handler {
     }
 
     /**
-     * @param string $ISOheader
+     * @param  string  $ISOheader
      *
      * @return bool
      */
-    public function ParsePrimaryVolumeDescriptor(&$ISOheader) {
+    public function ParsePrimaryVolumeDescriptor(&$ISOheader)
+    {
         // ISO integer values are stored *BOTH* Little-Endian AND Big-Endian format!!
         // ie 12345 == 0x3039  is stored as $39 $30 $30 $39 in a 4-byte field
 
@@ -72,7 +75,7 @@ class getid3_iso extends getid3_handler {
 
         $thisfile_iso_primaryVD_raw['volume_descriptor_type'] = getid3_lib::LittleEndian2Int(substr($ISOheader, 0, 1));
         $thisfile_iso_primaryVD_raw['standard_identifier'] = substr($ISOheader, 1, 5);
-        if($thisfile_iso_primaryVD_raw['standard_identifier'] != 'CD001') {
+        if ($thisfile_iso_primaryVD_raw['standard_identifier'] != 'CD001') {
             $this->error(
                 'Expected "CD001" at offset ('.($thisfile_iso_primaryVD['offset'] + 1).'), found "'.$thisfile_iso_primaryVD_raw['standard_identifier'].'" instead'
             );
@@ -140,7 +143,7 @@ class getid3_iso extends getid3_handler {
         $thisfile_iso_primaryVD['volume_effective_date_time'] =
             $this->ISOtimeText2UNIXtime($thisfile_iso_primaryVD_raw['volume_effective_date_time']);
 
-        if(($thisfile_iso_primaryVD_raw['volume_space_size'] * 2048) > $info['filesize']) {
+        if (($thisfile_iso_primaryVD_raw['volume_space_size'] * 2048) > $info['filesize']) {
             $this->error(
                 'Volume Space Size ('.($thisfile_iso_primaryVD_raw['volume_space_size'] * 2048).' bytes) is larger than the file size ('.$info['filesize'].' bytes) (truncated file?)'
             );
@@ -150,31 +153,33 @@ class getid3_iso extends getid3_handler {
     }
 
     /**
-     * @param string $ISOtime
+     * @param  string  $ISOtime
      *
      * @return int|false
      */
-    public function ISOtimeText2UNIXtime($ISOtime) {
+    public function ISOtimeText2UNIXtime($ISOtime)
+    {
 
-        $UNIXyear = (int)substr($ISOtime, 0, 4);
-        $UNIXmonth = (int)substr($ISOtime, 4, 2);
-        $UNIXday = (int)substr($ISOtime, 6, 2);
-        $UNIXhour = (int)substr($ISOtime, 8, 2);
-        $UNIXminute = (int)substr($ISOtime, 10, 2);
-        $UNIXsecond = (int)substr($ISOtime, 12, 2);
+        $UNIXyear = (int) substr($ISOtime, 0, 4);
+        $UNIXmonth = (int) substr($ISOtime, 4, 2);
+        $UNIXday = (int) substr($ISOtime, 6, 2);
+        $UNIXhour = (int) substr($ISOtime, 8, 2);
+        $UNIXminute = (int) substr($ISOtime, 10, 2);
+        $UNIXsecond = (int) substr($ISOtime, 12, 2);
 
-        if(!$UNIXyear) {
+        if (!$UNIXyear) {
             return false;
         }
         return gmmktime($UNIXhour, $UNIXminute, $UNIXsecond, $UNIXmonth, $UNIXday, $UNIXyear);
     }
 
     /**
-     * @param string $ISOheader
+     * @param  string  $ISOheader
      *
      * @return bool
      */
-    public function ParseSupplementaryVolumeDescriptor(&$ISOheader) {
+    public function ParseSupplementaryVolumeDescriptor(&$ISOheader)
+    {
         // ISO integer values are stored Both-Endian format!!
         // ie 12345 == 0x3039  is stored as $39 $30 $30 $39 in a 4-byte field
 
@@ -187,7 +192,7 @@ class getid3_iso extends getid3_handler {
         $thisfile_iso_supplementaryVD_raw['volume_descriptor_type'] =
             getid3_lib::LittleEndian2Int(substr($ISOheader, 0, 1));
         $thisfile_iso_supplementaryVD_raw['standard_identifier'] = substr($ISOheader, 1, 5);
-        if($thisfile_iso_supplementaryVD_raw['standard_identifier'] != 'CD001') {
+        if ($thisfile_iso_supplementaryVD_raw['standard_identifier'] != 'CD001') {
             $this->error(
                 'Expected "CD001" at offset ('.($thisfile_iso_supplementaryVD['offset'] + 1).'), found "'.$thisfile_iso_supplementaryVD_raw['standard_identifier'].'" instead'
             );
@@ -204,7 +209,7 @@ class getid3_iso extends getid3_handler {
         //$thisfile_iso_supplementaryVD_raw['unused_2']                  =                              substr($ISOheader,   72, 8);
         $thisfile_iso_supplementaryVD_raw['volume_space_size'] =
             getid3_lib::LittleEndian2Int(substr($ISOheader, 80, 4));
-        if($thisfile_iso_supplementaryVD_raw['volume_space_size'] == 0) {
+        if ($thisfile_iso_supplementaryVD_raw['volume_space_size'] == 0) {
             // Supplementary Volume Descriptor not used
             //unset($thisfile_iso_supplementaryVD);
             //return false;
@@ -270,7 +275,7 @@ class getid3_iso extends getid3_handler {
         $thisfile_iso_supplementaryVD['volume_effective_date_time'] =
             $this->ISOtimeText2UNIXtime($thisfile_iso_supplementaryVD_raw['volume_effective_date_time']);
 
-        if(($thisfile_iso_supplementaryVD_raw['volume_space_size'] * $thisfile_iso_supplementaryVD_raw['logical_block_size']) > $info['filesize']) {
+        if (($thisfile_iso_supplementaryVD_raw['volume_space_size'] * $thisfile_iso_supplementaryVD_raw['logical_block_size']) > $info['filesize']) {
             $this->error(
                 'Volume Space Size ('.($thisfile_iso_supplementaryVD_raw['volume_space_size'] * $thisfile_iso_supplementaryVD_raw['logical_block_size']).' bytes) is larger than the file size ('.$info['filesize'].' bytes) (truncated file?)'
             );
@@ -282,23 +287,23 @@ class getid3_iso extends getid3_handler {
     /**
      * @return bool
      */
-    public function ParsePathTable() {
+    public function ParsePathTable()
+    {
         $info = &$this->getid3->info;
-        if(!isset($info['iso']['supplementary_volume_descriptor']['raw']['path_table_l_location']) && !isset($info['iso']['primary_volume_descriptor']['raw']['path_table_l_location'])) {
+        if (!isset($info['iso']['supplementary_volume_descriptor']['raw']['path_table_l_location']) && !isset($info['iso']['primary_volume_descriptor']['raw']['path_table_l_location'])) {
             return false;
         }
-        if(isset($info['iso']['supplementary_volume_descriptor']['raw']['path_table_l_location'])) {
+        if (isset($info['iso']['supplementary_volume_descriptor']['raw']['path_table_l_location'])) {
             $PathTableLocation = $info['iso']['supplementary_volume_descriptor']['raw']['path_table_l_location'];
             $PathTableSize = $info['iso']['supplementary_volume_descriptor']['raw']['path_table_size'];
             $TextEncoding = 'UTF-16BE'; // Big-Endian Unicode
-        }
-        else {
+        } else {
             $PathTableLocation = $info['iso']['primary_volume_descriptor']['raw']['path_table_l_location'];
             $PathTableSize = $info['iso']['primary_volume_descriptor']['raw']['path_table_size'];
             $TextEncoding = 'ISO-8859-1'; // Latin-1
         }
 
-        if(($PathTableLocation * 2048) > $info['filesize']) {
+        if (($PathTableLocation * 2048) > $info['filesize']) {
             $this->error(
                 'Path Table Location specifies an offset ('.($PathTableLocation * 2048).') beyond the end-of-file ('.$info['filesize'].')'
             );
@@ -311,7 +316,7 @@ class getid3_iso extends getid3_handler {
 
         $offset = 0;
         $pathcounter = 1;
-        while($offset < $PathTableSize) {
+        while ($offset < $PathTableSize) {
             // shortcut
             $info['iso']['path_table']['directories'][$pathcounter] = array();
             $thisfile_iso_pathtable_directories_current = &$info['iso']['path_table']['directories'][$pathcounter];
@@ -343,10 +348,9 @@ class getid3_iso extends getid3_handler {
 
             $thisfile_iso_pathtable_directories_current['location_bytes'] =
                 $thisfile_iso_pathtable_directories_current['location_logical'] * 2048;
-            if($pathcounter == 1) {
+            if ($pathcounter == 1) {
                 $thisfile_iso_pathtable_directories_current['full_path'] = '/';
-            }
-            else {
+            } else {
                 $thisfile_iso_pathtable_directories_current['full_path'] =
                     $info['iso']['path_table']['directories'][$thisfile_iso_pathtable_directories_current['parent_directory']]['full_path'].$thisfile_iso_pathtable_directories_current['name_ascii'].'/';
             }
@@ -359,16 +363,16 @@ class getid3_iso extends getid3_handler {
     }
 
     /**
-     * @param array $directorydata
+     * @param  array  $directorydata
      *
      * @return array
      */
-    public function ParseDirectoryRecord($directorydata) {
+    public function ParseDirectoryRecord($directorydata)
+    {
         $info = &$this->getid3->info;
-        if(isset($info['iso']['supplementary_volume_descriptor'])) {
+        if (isset($info['iso']['supplementary_volume_descriptor'])) {
             $TextEncoding = 'UTF-16BE';   // Big-Endian Unicode
-        }
-        else {
+        } else {
             $TextEncoding = 'ISO-8859-1'; // Latin-1
         }
 
@@ -376,7 +380,7 @@ class getid3_iso extends getid3_handler {
         $DirectoryRecordData = $this->fread(1);
         $DirectoryRecord = array();
 
-        while(ord($DirectoryRecordData{0}) > 33) {
+        while (ord($DirectoryRecordData{0}) > 33) {
 
             $DirectoryRecordData .= $this->fread(ord($DirectoryRecordData{0}) - 1);
 
@@ -410,20 +414,19 @@ class getid3_iso extends getid3_handler {
 
             $ThisDirectoryRecord['filesize'] = $ThisDirectoryRecord['raw']['filesize'];
             $ThisDirectoryRecord['offset_bytes'] = $ThisDirectoryRecord['raw']['offset_logical'] * 2048;
-            $ThisDirectoryRecord['file_flags']['hidden'] = (bool)($ThisDirectoryRecord['raw']['file_flags'] & 0x01);
-            $ThisDirectoryRecord['file_flags']['directory'] = (bool)($ThisDirectoryRecord['raw']['file_flags'] & 0x02);
-            $ThisDirectoryRecord['file_flags']['associated'] = (bool)($ThisDirectoryRecord['raw']['file_flags'] & 0x04);
-            $ThisDirectoryRecord['file_flags']['extended'] = (bool)($ThisDirectoryRecord['raw']['file_flags'] & 0x08);
+            $ThisDirectoryRecord['file_flags']['hidden'] = (bool) ($ThisDirectoryRecord['raw']['file_flags'] & 0x01);
+            $ThisDirectoryRecord['file_flags']['directory'] = (bool) ($ThisDirectoryRecord['raw']['file_flags'] & 0x02);
+            $ThisDirectoryRecord['file_flags']['associated'] = (bool) ($ThisDirectoryRecord['raw']['file_flags'] & 0x04);
+            $ThisDirectoryRecord['file_flags']['extended'] = (bool) ($ThisDirectoryRecord['raw']['file_flags'] & 0x08);
             $ThisDirectoryRecord['file_flags']['permissions'] =
-                (bool)($ThisDirectoryRecord['raw']['file_flags'] & 0x10);
-            $ThisDirectoryRecord['file_flags']['multiple'] = (bool)($ThisDirectoryRecord['raw']['file_flags'] & 0x80);
+                (bool) ($ThisDirectoryRecord['raw']['file_flags'] & 0x10);
+            $ThisDirectoryRecord['file_flags']['multiple'] = (bool) ($ThisDirectoryRecord['raw']['file_flags'] & 0x80);
             $ThisDirectoryRecord['recording_timestamp'] =
                 $this->ISOtime2UNIXtime($ThisDirectoryRecord['raw']['recording_date_time']);
 
-            if($ThisDirectoryRecord['file_flags']['directory']) {
+            if ($ThisDirectoryRecord['file_flags']['directory']) {
                 $ThisDirectoryRecord['filename'] = $directorydata['full_path'];
-            }
-            else {
+            } else {
                 $ThisDirectoryRecord['filename'] = $directorydata['full_path'].$this->ISOstripFilenameVersion(
                         $ThisDirectoryRecord['file_identifier_ascii']
                     );
@@ -445,11 +448,12 @@ class getid3_iso extends getid3_handler {
     }
 
     /**
-     * @param string $ISOtime
+     * @param  string  $ISOtime
      *
      * @return int
      */
-    public function ISOtime2UNIXtime($ISOtime) {
+    public function ISOtime2UNIXtime($ISOtime)
+    {
         // Represented by seven bytes:
         // 1: Number of years since 1900
         // 2: Month of the year from 1 to 12
@@ -471,11 +475,12 @@ class getid3_iso extends getid3_handler {
     }
 
     /**
-     * @param int $BinaryValue
+     * @param  int  $BinaryValue
      *
      * @return int
      */
-    public function TwosCompliment2Decimal($BinaryValue) {
+    public function TwosCompliment2Decimal($BinaryValue)
+    {
         // http://sandbox.mc.edu/~bennet/cs110/tc/tctod.html
         // First check if the number is negative or positive by looking at the sign bit.
         // If it is positive, simply convert it to decimal.
@@ -483,28 +488,27 @@ class getid3_iso extends getid3_handler {
         // Then, convert the result to decimal.
         // The negative of this number is the value of the original binary.
 
-        if($BinaryValue & 0x80) {
+        if ($BinaryValue & 0x80) {
 
             // negative number
             return (0 - ((~$BinaryValue & 0xFF) + 1));
-        }
-        else {
+        } else {
             // positive number
             return $BinaryValue;
         }
     }
 
     /**
-     * @param string $ISOfilename
+     * @param  string  $ISOfilename
      *
      * @return string
      */
-    public function ISOstripFilenameVersion($ISOfilename) {
+    public function ISOstripFilenameVersion($ISOfilename)
+    {
         // convert 'filename.ext;1' to 'filename.ext'
-        if(!strstr($ISOfilename, ';')) {
+        if (!strstr($ISOfilename, ';')) {
             return $ISOfilename;
-        }
-        else {
+        } else {
             return substr($ISOfilename, 0, strpos($ISOfilename, ';'));
         }
     }

@@ -5,7 +5,8 @@ namespace Intervention\Image;
 use Closure;
 use Intervention\Image\Exception\InvalidArgumentException;
 
-class Size {
+class Size
+{
     /**
      * Width
      *
@@ -30,11 +31,12 @@ class Size {
     /**
      * Creates a new Size instance
      *
-     * @param int   $width
-     * @param int   $height
-     * @param Point $pivot
+     * @param  int  $width
+     * @param  int  $height
+     * @param  Point  $pivot
      */
-    public function __construct($width = null, $height = null, Point $pivot = null) {
+    public function __construct($width = null, $height = null, Point $pivot = null)
+    {
         $this->width = is_numeric($width) ? intval($width) : 1;
         $this->height = is_numeric($height) ? intval($height) : 1;
         $this->pivot = $pivot ? $pivot : new Point;
@@ -43,28 +45,28 @@ class Size {
     /**
      * Resize given Size to best fitting size of current size.
      *
-     * @param Size $size
+     * @param  Size  $size
      * @return Size
      */
-    public function fit(Size $size, $position = 'center') {
+    public function fit(Size $size, $position = 'center')
+    {
         // create size with auto height
         $auto_height = clone $size;
 
         $auto_height->resize(
             $this->width,
             null,
-            function($constraint) {
+            function ($constraint) {
                 $constraint->aspectRatio();
             }
         );
 
         // decide which version to use
-        if($auto_height->fitsInto($this)) {
+        if ($auto_height->fitsInto($this)) {
 
             $size = $auto_height;
 
-        }
-        else {
+        } else {
 
             // create size with auto width
             $auto_width = clone $size;
@@ -72,7 +74,7 @@ class Size {
             $auto_width->resize(
                 null,
                 $this->height,
-                function($constraint) {
+                function ($constraint) {
                     $constraint->aspectRatio();
                 }
             );
@@ -90,13 +92,14 @@ class Size {
     /**
      * Resize to desired width and/or height
      *
-     * @param int     $width
-     * @param int     $height
-     * @param Closure $callback
+     * @param  int  $width
+     * @param  int  $height
+     * @param  Closure  $callback
      * @return Size
      */
-    public function resize($width, $height, Closure $callback = null) {
-        if(is_null($width) && is_null($height)) {
+    public function resize($width, $height, Closure $callback = null)
+    {
+        if (is_null($width) && is_null($height)) {
             throw new InvalidArgumentException("Width or height needs to be defined.");
         }
 
@@ -111,10 +114,9 @@ class Size {
         $dominant_h_size->resizeHeight($height, $callback);
 
         // decide which size to use
-        if($dominant_h_size->fitsInto(new self($width, $height))) {
+        if ($dominant_h_size->fitsInto(new self($width, $height))) {
             $this->set($dominant_h_size->width, $dominant_h_size->height);
-        }
-        else {
+        } else {
             $this->set($dominant_w_size->width, $dominant_w_size->height);
         }
 
@@ -124,34 +126,33 @@ class Size {
     /**
      * Scale size according to given constraints
      *
-     * @param int     $height
-     * @param Closure $callback
+     * @param  int  $height
+     * @param  Closure  $callback
      * @return Size
      */
-    private function resizeHeight($height, Closure $callback = null) {
+    private function resizeHeight($height, Closure $callback = null)
+    {
         $constraint = $this->getConstraint($callback);
 
-        if($constraint->isFixed(Constraint::UPSIZE)) {
+        if ($constraint->isFixed(Constraint::UPSIZE)) {
             $max_width = $constraint->getSize()->getWidth();
             $max_height = $constraint->getSize()->getHeight();
         }
 
-        if(is_numeric($height)) {
+        if (is_numeric($height)) {
 
-            if($constraint->isFixed(Constraint::UPSIZE)) {
+            if ($constraint->isFixed(Constraint::UPSIZE)) {
                 $this->height = ($height > $max_height) ? $max_height : $height;
-            }
-            else {
+            } else {
                 $this->height = $height;
             }
 
-            if($constraint->isFixed(Constraint::ASPECTRATIO)) {
+            if ($constraint->isFixed(Constraint::ASPECTRATIO)) {
                 $w = max(1, intval(round($this->height * $constraint->getSize()->getRatio())));
 
-                if($constraint->isFixed(Constraint::UPSIZE)) {
+                if ($constraint->isFixed(Constraint::UPSIZE)) {
                     $this->width = ($w > $max_width) ? $max_width : $w;
-                }
-                else {
+                } else {
                     $this->width = $w;
                 }
             }
@@ -161,13 +162,14 @@ class Size {
     /**
      * Runs constraints on current size
      *
-     * @param Closure $callback
+     * @param  Closure  $callback
      * @return Constraint
      */
-    private function getConstraint(Closure $callback = null) {
+    private function getConstraint(Closure $callback = null)
+    {
         $constraint = new Constraint(clone $this);
 
-        if(is_callable($callback)) {
+        if (is_callable($callback)) {
             $callback($constraint);
         }
 
@@ -179,7 +181,8 @@ class Size {
      *
      * @return int
      */
-    public function getWidth() {
+    public function getWidth()
+    {
         return $this->width;
     }
 
@@ -188,7 +191,8 @@ class Size {
      *
      * @return int
      */
-    public function getHeight() {
+    public function getHeight()
+    {
         return $this->height;
     }
 
@@ -197,41 +201,41 @@ class Size {
      *
      * @return float
      */
-    public function getRatio() {
+    public function getRatio()
+    {
         return $this->width / $this->height;
     }
 
     /**
      * Scale size according to given constraints
      *
-     * @param int     $width
-     * @param Closure $callback
+     * @param  int  $width
+     * @param  Closure  $callback
      * @return Size
      */
-    private function resizeWidth($width, Closure $callback = null) {
+    private function resizeWidth($width, Closure $callback = null)
+    {
         $constraint = $this->getConstraint($callback);
 
-        if($constraint->isFixed(Constraint::UPSIZE)) {
+        if ($constraint->isFixed(Constraint::UPSIZE)) {
             $max_width = $constraint->getSize()->getWidth();
             $max_height = $constraint->getSize()->getHeight();
         }
 
-        if(is_numeric($width)) {
+        if (is_numeric($width)) {
 
-            if($constraint->isFixed(Constraint::UPSIZE)) {
+            if ($constraint->isFixed(Constraint::UPSIZE)) {
                 $this->width = ($width > $max_width) ? $max_width : $width;
-            }
-            else {
+            } else {
                 $this->width = $width;
             }
 
-            if($constraint->isFixed(Constraint::ASPECTRATIO)) {
+            if ($constraint->isFixed(Constraint::ASPECTRATIO)) {
                 $h = max(1, intval(round($this->width / $constraint->getSize()->getRatio())));
 
-                if($constraint->isFixed(Constraint::UPSIZE)) {
+                if ($constraint->isFixed(Constraint::UPSIZE)) {
                     $this->height = ($h > $max_height) ? $max_height : $h;
-                }
-                else {
+                } else {
                     $this->height = $h;
                 }
             }
@@ -241,20 +245,22 @@ class Size {
     /**
      * Checks if given size fits into current size
      *
-     * @param Size $size
+     * @param  Size  $size
      * @return boolean
      */
-    public function fitsInto(Size $size) {
+    public function fitsInto(Size $size)
+    {
         return ($this->width <= $size->width) && ($this->height <= $size->height);
     }
 
     /**
      * Set the width and height absolutely
      *
-     * @param int $width
-     * @param int $height
+     * @param  int  $width
+     * @param  int  $height
      */
-    public function set($width, $height) {
+    public function set($width, $height)
+    {
         $this->width = $width;
         $this->height = $height;
     }
@@ -263,13 +269,14 @@ class Size {
      * Aligns current size's pivot point to given position
      * and moves point automatically by offset.
      *
-     * @param string $position
-     * @param int    $offset_x
-     * @param int    $offset_y
+     * @param  string  $position
+     * @param  int  $offset_x
+     * @param  int  $offset_y
      * @return Size
      */
-    public function align($position, $offset_x = 0, $offset_y = 0) {
-        switch(strtolower($position)) {
+    public function align($position, $offset_x = 0, $offset_y = 0)
+    {
+        switch (strtolower($position)) {
 
             case 'top':
             case 'top-center':
@@ -349,9 +356,10 @@ class Size {
     /**
      * Set current pivot point
      *
-     * @param Point $point
+     * @param  Point  $point
      */
-    public function setPivot(Point $point) {
+    public function setPivot(Point $point)
+    {
         $this->pivot = $point;
     }
 
@@ -359,10 +367,11 @@ class Size {
      * Calculate the relative position to another Size
      * based on the pivot point settings of both sizes.
      *
-     * @param Size $size
+     * @param  Size  $size
      * @return Point
      */
-    public function relativePosition(Size $size) {
+    public function relativePosition(Size $size)
+    {
         $x = $this->pivot->x - $size->pivot->x;
         $y = $this->pivot->y - $size->pivot->y;
 

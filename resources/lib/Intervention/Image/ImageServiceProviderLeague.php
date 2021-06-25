@@ -4,7 +4,8 @@ namespace Intervention\Image;
 
 use League\Container\ServiceProvider\AbstractServiceProvider;
 
-class ImageServiceProviderLeague extends AbstractServiceProvider {
+class ImageServiceProviderLeague extends AbstractServiceProvider
+{
     /**
      * @var array $config
      */
@@ -18,9 +19,10 @@ class ImageServiceProviderLeague extends AbstractServiceProvider {
     /**
      * Constructor.
      *
-     * @param array $config
+     * @param  array  $config
      */
-    public function __construct($config = []) {
+    public function __construct($config = [])
+    {
         $this->config = $config;
     }
 
@@ -29,10 +31,11 @@ class ImageServiceProviderLeague extends AbstractServiceProvider {
      *
      * @return void
      */
-    public function register() {
+    public function register()
+    {
         $this->getContainer()->share(
             'Intervention\Image\ImageManager',
-            function() {
+            function () {
                 return new ImageManager($this->config);
             }
         );

@@ -14,14 +14,16 @@
 //                                                            ///
 /////////////////////////////////////////////////////////////////
 
-class getid3_bmp extends getid3_handler {
+class getid3_bmp extends getid3_handler
+{
     public $ExtractPalette = false;
     public $ExtractData = false;
 
     /**
      * @return bool
      */
-    public function Analyze() {
+    public function Analyze()
+    {
         $info = &$this->getid3->info;
 
         // shortcuts
@@ -46,7 +48,7 @@ class getid3_bmp extends getid3_handler {
         $offset += 2;
 
         $magic = 'BM';
-        if($thisfile_bmp_header_raw['identifier'] != $magic) {
+        if ($thisfile_bmp_header_raw['identifier'] != $magic) {
             $this->error(
                 'Expecting "'.getid3_lib::PrintHexBytes(
                     $magic
@@ -73,31 +75,25 @@ class getid3_bmp extends getid3_handler {
         // check if the hardcoded-to-1 "planes" is at offset 22 or 26
         $planes22 = getid3_lib::LittleEndian2Int(substr($BMPheader, 22, 2));
         $planes26 = getid3_lib::LittleEndian2Int(substr($BMPheader, 26, 2));
-        if(($planes22 == 1) && ($planes26 != 1)) {
+        if (($planes22 == 1) && ($planes26 != 1)) {
             $thisfile_bmp['type_os'] = 'OS/2';
             $thisfile_bmp['type_version'] = 1;
-        }
-        elseif(($planes26 == 1) && ($planes22 != 1)) {
+        } elseif (($planes26 == 1) && ($planes22 != 1)) {
             $thisfile_bmp['type_os'] = 'Windows';
             $thisfile_bmp['type_version'] = 1;
-        }
-        elseif($thisfile_bmp_header_raw['header_size'] == 12) {
+        } elseif ($thisfile_bmp_header_raw['header_size'] == 12) {
             $thisfile_bmp['type_os'] = 'OS/2';
             $thisfile_bmp['type_version'] = 1;
-        }
-        elseif($thisfile_bmp_header_raw['header_size'] == 40) {
+        } elseif ($thisfile_bmp_header_raw['header_size'] == 40) {
             $thisfile_bmp['type_os'] = 'Windows';
             $thisfile_bmp['type_version'] = 1;
-        }
-        elseif($thisfile_bmp_header_raw['header_size'] == 84) {
+        } elseif ($thisfile_bmp_header_raw['header_size'] == 84) {
             $thisfile_bmp['type_os'] = 'Windows';
             $thisfile_bmp['type_version'] = 4;
-        }
-        elseif($thisfile_bmp_header_raw['header_size'] == 100) {
+        } elseif ($thisfile_bmp_header_raw['header_size'] == 100) {
             $thisfile_bmp['type_os'] = 'Windows';
             $thisfile_bmp['type_version'] = 5;
-        }
-        else {
+        } else {
             $this->error('Unknown BMP subtype (or not a BMP file)');
             unset($info['fileformat']);
             unset($info['bmp']);
@@ -107,9 +103,9 @@ class getid3_bmp extends getid3_handler {
         $info['fileformat'] = 'bmp';
         $info['video']['dataformat'] = 'bmp';
         $info['video']['lossless'] = true;
-        $info['video']['pixel_aspect_ratio'] = (float)1;
+        $info['video']['pixel_aspect_ratio'] = (float) 1;
 
-        if($thisfile_bmp['type_os'] == 'OS/2') {
+        if ($thisfile_bmp['type_os'] == 'OS/2') {
 
             // OS/2-format BMP
             // http://netghost.narod.ru/gff/graphics/summary/os2bmp.htm
@@ -134,7 +130,7 @@ class getid3_bmp extends getid3_handler {
             $info['video']['codec'] = 'BI_RGB '.$thisfile_bmp_header_raw['bits_per_pixel'].'-bit';
             $info['video']['bits_per_sample'] = $thisfile_bmp_header_raw['bits_per_pixel'];
 
-            if($thisfile_bmp['type_version'] >= 2) {
+            if ($thisfile_bmp['type_version'] >= 2) {
                 // DWORD  Compression;      /* Bitmap compression scheme */
                 // DWORD  ImageDataSize;    /* Size of bitmap data in bytes */
                 // DWORD  XResolution;      /* X resolution of display device */
@@ -190,8 +186,7 @@ class getid3_bmp extends getid3_handler {
                     $thisfile_bmp_header['compression'].' '.$thisfile_bmp_header_raw['bits_per_pixel'].'-bit';
             }
 
-        }
-        elseif($thisfile_bmp['type_os'] == 'Windows') {
+        } elseif ($thisfile_bmp['type_os'] == 'Windows') {
 
             // Windows-format BMP
 
@@ -242,7 +237,7 @@ class getid3_bmp extends getid3_handler {
                 $thisfile_bmp_header['compression'].' '.$thisfile_bmp_header_raw['bits_per_pixel'].'-bit';
             $info['video']['bits_per_sample'] = $thisfile_bmp_header_raw['bits_per_pixel'];
 
-            if(($thisfile_bmp['type_version'] >= 4) || ($thisfile_bmp_header_raw['compression'] == 3)) {
+            if (($thisfile_bmp['type_version'] >= 4) || ($thisfile_bmp_header_raw['compression'] == 3)) {
                 // should only be v4+, but BMPs with type_version==1 and BI_BITFIELDS compression have been seen
                 $BMPheader .= $this->fread(44);
 
@@ -288,7 +283,7 @@ class getid3_bmp extends getid3_handler {
                     getid3_lib::FixedPoint2_30(strrev($thisfile_bmp_header_raw['ciexyz_blue']));
             }
 
-            if($thisfile_bmp['type_version'] >= 5) {
+            if ($thisfile_bmp['type_version'] >= 5) {
                 $BMPheader .= $this->fread(16);
 
                 // BITMAPV5HEADER - [16 bytes] - http://msdn.microsoft.com/library/en-us/gdi/bitmaps_7c36.asp
@@ -309,26 +304,24 @@ class getid3_bmp extends getid3_handler {
                 $offset += 4;
             }
 
-        }
-        else {
+        } else {
 
             $this->error('Unknown BMP format in header.');
             return false;
 
         }
 
-        if($this->ExtractPalette || $this->ExtractData) {
+        if ($this->ExtractPalette || $this->ExtractData) {
             $PaletteEntries = 0;
-            if($thisfile_bmp_header_raw['bits_per_pixel'] < 16) {
+            if ($thisfile_bmp_header_raw['bits_per_pixel'] < 16) {
                 $PaletteEntries = pow(2, $thisfile_bmp_header_raw['bits_per_pixel']);
-            }
-            elseif(isset($thisfile_bmp_header_raw['colors_used']) && ($thisfile_bmp_header_raw['colors_used'] > 0) && ($thisfile_bmp_header_raw['colors_used'] <= 256)) {
+            } elseif (isset($thisfile_bmp_header_raw['colors_used']) && ($thisfile_bmp_header_raw['colors_used'] > 0) && ($thisfile_bmp_header_raw['colors_used'] <= 256)) {
                 $PaletteEntries = $thisfile_bmp_header_raw['colors_used'];
             }
-            if($PaletteEntries > 0) {
+            if ($PaletteEntries > 0) {
                 $BMPpalette = $this->fread(4 * $PaletteEntries);
                 $paletteoffset = 0;
-                for($i = 0; $i < $PaletteEntries; $i++) {
+                for ($i = 0; $i < $PaletteEntries; $i++) {
                     // RGBQUAD          - http://msdn.microsoft.com/library/en-us/gdi/bitmaps_5f8y.asp
                     // BYTE    rgbBlue;
                     // BYTE    rgbGreen;
@@ -337,10 +330,9 @@ class getid3_bmp extends getid3_handler {
                     $blue = getid3_lib::LittleEndian2Int(substr($BMPpalette, $paletteoffset++, 1));
                     $green = getid3_lib::LittleEndian2Int(substr($BMPpalette, $paletteoffset++, 1));
                     $red = getid3_lib::LittleEndian2Int(substr($BMPpalette, $paletteoffset++, 1));
-                    if(($thisfile_bmp['type_os'] == 'OS/2') && ($thisfile_bmp['type_version'] == 1)) {
+                    if (($thisfile_bmp['type_os'] == 'OS/2') && ($thisfile_bmp['type_version'] == 1)) {
                         // no padding byte
-                    }
-                    else {
+                    } else {
                         $paletteoffset++; // padding byte
                     }
                     $thisfile_bmp['palette'][$i] = (($red << 16) | ($green << 8) | $blue);
@@ -348,7 +340,7 @@ class getid3_bmp extends getid3_handler {
             }
         }
 
-        if($this->ExtractData) {
+        if ($this->ExtractData) {
             $this->fseek($thisfile_bmp_header_raw['data_offset']);
             $RowByteLength = ceil(
                     ($thisfile_bmp_header_raw['width'] * ($thisfile_bmp_header_raw['bits_per_pixel'] / 8)) / 4
@@ -357,21 +349,21 @@ class getid3_bmp extends getid3_handler {
             $pixeldataoffset = 0;
             $thisfile_bmp_header_raw['compression'] =
                 (isset($thisfile_bmp_header_raw['compression']) ? $thisfile_bmp_header_raw['compression'] : '');
-            switch($thisfile_bmp_header_raw['compression']) {
+            switch ($thisfile_bmp_header_raw['compression']) {
 
                 case 0: // BI_RGB
-                    switch($thisfile_bmp_header_raw['bits_per_pixel']) {
+                    switch ($thisfile_bmp_header_raw['bits_per_pixel']) {
                         case 1:
-                            for($row = ($thisfile_bmp_header_raw['height'] - 1); $row >= 0; $row--) {
-                                for($col = 0; $col < $thisfile_bmp_header_raw['width']; $col = $col) {
+                            for ($row = ($thisfile_bmp_header_raw['height'] - 1); $row >= 0; $row--) {
+                                for ($col = 0; $col < $thisfile_bmp_header_raw['width']; $col = $col) {
                                     $paletteindexbyte = ord($BMPpixelData{$pixeldataoffset++});
-                                    for($i = 7; $i >= 0; $i--) {
+                                    for ($i = 7; $i >= 0; $i--) {
                                         $paletteindex = ($paletteindexbyte & (0x01 << $i)) >> $i;
                                         $thisfile_bmp['data'][$row][$col] = $thisfile_bmp['palette'][$paletteindex];
                                         $col++;
                                     }
                                 }
-                                while(($pixeldataoffset % 4) != 0) {
+                                while (($pixeldataoffset % 4) != 0) {
                                     // lines are padded to nearest DWORD
                                     $pixeldataoffset++;
                                 }
@@ -379,16 +371,16 @@ class getid3_bmp extends getid3_handler {
                             break;
 
                         case 4:
-                            for($row = ($thisfile_bmp_header_raw['height'] - 1); $row >= 0; $row--) {
-                                for($col = 0; $col < $thisfile_bmp_header_raw['width']; $col = $col) {
+                            for ($row = ($thisfile_bmp_header_raw['height'] - 1); $row >= 0; $row--) {
+                                for ($col = 0; $col < $thisfile_bmp_header_raw['width']; $col = $col) {
                                     $paletteindexbyte = ord($BMPpixelData{$pixeldataoffset++});
-                                    for($i = 1; $i >= 0; $i--) {
+                                    for ($i = 1; $i >= 0; $i--) {
                                         $paletteindex = ($paletteindexbyte & (0x0F << (4 * $i))) >> (4 * $i);
                                         $thisfile_bmp['data'][$row][$col] = $thisfile_bmp['palette'][$paletteindex];
                                         $col++;
                                     }
                                 }
-                                while(($pixeldataoffset % 4) != 0) {
+                                while (($pixeldataoffset % 4) != 0) {
                                     // lines are padded to nearest DWORD
                                     $pixeldataoffset++;
                                 }
@@ -396,12 +388,12 @@ class getid3_bmp extends getid3_handler {
                             break;
 
                         case 8:
-                            for($row = ($thisfile_bmp_header_raw['height'] - 1); $row >= 0; $row--) {
-                                for($col = 0; $col < $thisfile_bmp_header_raw['width']; $col++) {
+                            for ($row = ($thisfile_bmp_header_raw['height'] - 1); $row >= 0; $row--) {
+                                for ($col = 0; $col < $thisfile_bmp_header_raw['width']; $col++) {
                                     $paletteindex = ord($BMPpixelData{$pixeldataoffset++});
                                     $thisfile_bmp['data'][$row][$col] = $thisfile_bmp['palette'][$paletteindex];
                                 }
-                                while(($pixeldataoffset % 4) != 0) {
+                                while (($pixeldataoffset % 4) != 0) {
                                     // lines are padded to nearest DWORD
                                     $pixeldataoffset++;
                                 }
@@ -409,15 +401,15 @@ class getid3_bmp extends getid3_handler {
                             break;
 
                         case 24:
-                            for($row = ($thisfile_bmp_header_raw['height'] - 1); $row >= 0; $row--) {
-                                for($col = 0; $col < $thisfile_bmp_header_raw['width']; $col++) {
+                            for ($row = ($thisfile_bmp_header_raw['height'] - 1); $row >= 0; $row--) {
+                                for ($col = 0; $col < $thisfile_bmp_header_raw['width']; $col++) {
                                     $thisfile_bmp['data'][$row][$col] =
                                         (ord($BMPpixelData{$pixeldataoffset + 2}) << 16) | (ord(
                                                 $BMPpixelData{$pixeldataoffset + 1}
                                             ) << 8) | ord($BMPpixelData{$pixeldataoffset});
                                     $pixeldataoffset += 3;
                                 }
-                                while(($pixeldataoffset % 4) != 0) {
+                                while (($pixeldataoffset % 4) != 0) {
                                     // lines are padded to nearest DWORD
                                     $pixeldataoffset++;
                                 }
@@ -425,8 +417,8 @@ class getid3_bmp extends getid3_handler {
                             break;
 
                         case 32:
-                            for($row = ($thisfile_bmp_header_raw['height'] - 1); $row >= 0; $row--) {
-                                for($col = 0; $col < $thisfile_bmp_header_raw['width']; $col++) {
+                            for ($row = ($thisfile_bmp_header_raw['height'] - 1); $row >= 0; $row--) {
+                                for ($col = 0; $col < $thisfile_bmp_header_raw['width']; $col++) {
                                     $thisfile_bmp['data'][$row][$col] =
                                         (ord($BMPpixelData{$pixeldataoffset + 3}) << 24) | (ord(
                                                 $BMPpixelData{$pixeldataoffset + 2}
@@ -435,7 +427,7 @@ class getid3_bmp extends getid3_handler {
                                         );
                                     $pixeldataoffset += 4;
                                 }
-                                while(($pixeldataoffset % 4) != 0) {
+                                while (($pixeldataoffset % 4) != 0) {
                                     // lines are padded to nearest DWORD
                                     $pixeldataoffset++;
                                 }
@@ -455,19 +447,19 @@ class getid3_bmp extends getid3_handler {
                     break;
 
                 case 1: // BI_RLE8 - http://msdn.microsoft.com/library/en-us/gdi/bitmaps_6x0u.asp
-                    switch($thisfile_bmp_header_raw['bits_per_pixel']) {
+                    switch ($thisfile_bmp_header_raw['bits_per_pixel']) {
                         case 8:
                             $pixelcounter = 0;
-                            while($pixeldataoffset < strlen($BMPpixelData)) {
+                            while ($pixeldataoffset < strlen($BMPpixelData)) {
                                 $firstbyte = getid3_lib::LittleEndian2Int(substr($BMPpixelData, $pixeldataoffset++, 1));
                                 $secondbyte =
                                     getid3_lib::LittleEndian2Int(substr($BMPpixelData, $pixeldataoffset++, 1));
-                                if($firstbyte == 0) {
+                                if ($firstbyte == 0) {
 
                                     // escaped/absolute mode - the first byte of the pair can be set to zero to
                                     // indicate an escape character that denotes the end of a line, the end of
                                     // a bitmap, or a delta, depending on the value of the second byte.
-                                    switch($secondbyte) {
+                                    switch ($secondbyte) {
                                         case 0:
                                             // end of line
                                             // no need for special processing, just ignore
@@ -499,7 +491,7 @@ class getid3_bmp extends getid3_handler {
                                             // value in the range 03H through FFH. The second byte represents the
                                             // number of bytes that follow, each of which contains the color index
                                             // of a single pixel. Each run must be aligned on a word boundary.
-                                            for($i = 0; $i < $secondbyte; $i++) {
+                                            for ($i = 0; $i < $secondbyte; $i++) {
                                                 $paletteindex = getid3_lib::LittleEndian2Int(
                                                     substr($BMPpixelData, $pixeldataoffset++, 1)
                                                 );
@@ -510,19 +502,18 @@ class getid3_bmp extends getid3_handler {
                                                     $thisfile_bmp['palette'][$paletteindex];
                                                 $pixelcounter++;
                                             }
-                                            while(($pixeldataoffset % 2) != 0) {
+                                            while (($pixeldataoffset % 2) != 0) {
                                                 // Each run must be aligned on a word boundary.
                                                 $pixeldataoffset++;
                                             }
                                             break;
                                     }
 
-                                }
-                                else {
+                                } else {
 
                                     // encoded mode - the first byte specifies the number of consecutive pixels
                                     // to be drawn using the color index contained in the second byte.
-                                    for($i = 0; $i < $firstbyte; $i++) {
+                                    for ($i = 0; $i < $firstbyte; $i++) {
                                         $col = $pixelcounter % $thisfile_bmp_header_raw['width'];
                                         $row =
                                             $thisfile_bmp_header_raw['height'] - 1 - (($pixelcounter - $col) / $thisfile_bmp_header_raw['width']);
@@ -543,19 +534,19 @@ class getid3_bmp extends getid3_handler {
                     break;
 
                 case 2: // BI_RLE4 - http://msdn.microsoft.com/library/en-us/gdi/bitmaps_6x0u.asp
-                    switch($thisfile_bmp_header_raw['bits_per_pixel']) {
+                    switch ($thisfile_bmp_header_raw['bits_per_pixel']) {
                         case 4:
                             $pixelcounter = 0;
-                            while($pixeldataoffset < strlen($BMPpixelData)) {
+                            while ($pixeldataoffset < strlen($BMPpixelData)) {
                                 $firstbyte = getid3_lib::LittleEndian2Int(substr($BMPpixelData, $pixeldataoffset++, 1));
                                 $secondbyte =
                                     getid3_lib::LittleEndian2Int(substr($BMPpixelData, $pixeldataoffset++, 1));
-                                if($firstbyte == 0) {
+                                if ($firstbyte == 0) {
 
                                     // escaped/absolute mode - the first byte of the pair can be set to zero to
                                     // indicate an escape character that denotes the end of a line, the end of
                                     // a bitmap, or a delta, depending on the value of the second byte.
-                                    switch($secondbyte) {
+                                    switch ($secondbyte) {
                                         case 0:
                                             // end of line
                                             // no need for special processing, just ignore
@@ -589,19 +580,19 @@ class getid3_bmp extends getid3_handler {
                                             // each run must be aligned on a word boundary.
                                             unset($paletteindexes);
                                             $paletteindexes = array();
-                                            for($i = 0; $i < ceil($secondbyte / 2); $i++) {
+                                            for ($i = 0; $i < ceil($secondbyte / 2); $i++) {
                                                 $paletteindexbyte = getid3_lib::LittleEndian2Int(
                                                     substr($BMPpixelData, $pixeldataoffset++, 1)
                                                 );
                                                 $paletteindexes[] = ($paletteindexbyte & 0xF0) >> 4;
                                                 $paletteindexes[] = ($paletteindexbyte & 0x0F);
                                             }
-                                            while(($pixeldataoffset % 2) != 0) {
+                                            while (($pixeldataoffset % 2) != 0) {
                                                 // Each run must be aligned on a word boundary.
                                                 $pixeldataoffset++;
                                             }
 
-                                            foreach($paletteindexes as $paletteindex) {
+                                            foreach ($paletteindexes as $paletteindex) {
                                                 $col = $pixelcounter % $thisfile_bmp_header_raw['width'];
                                                 $row =
                                                     $thisfile_bmp_header_raw['height'] - 1 - (($pixelcounter - $col) / $thisfile_bmp_header_raw['width']);
@@ -612,8 +603,7 @@ class getid3_bmp extends getid3_handler {
                                             break;
                                     }
 
-                                }
-                                else {
+                                } else {
 
                                     // encoded mode - the first byte of the pair contains the number of pixels to be
                                     // drawn using the color indexes in the second byte. The second byte contains two
@@ -624,7 +614,7 @@ class getid3_bmp extends getid3_handler {
                                     // pixels specified by the first byte have been drawn.
                                     $paletteindexes[0] = ($secondbyte & 0xF0) >> 4;
                                     $paletteindexes[1] = ($secondbyte & 0x0F);
-                                    for($i = 0; $i < $firstbyte; $i++) {
+                                    for ($i = 0; $i < $firstbyte; $i++) {
                                         $col = $pixelcounter % $thisfile_bmp_header_raw['width'];
                                         $row =
                                             $thisfile_bmp_header_raw['height'] - 1 - (($pixelcounter - $col) / $thisfile_bmp_header_raw['width']);
@@ -646,23 +636,23 @@ class getid3_bmp extends getid3_handler {
                     break;
 
                 case 3: // BI_BITFIELDS
-                    switch($thisfile_bmp_header_raw['bits_per_pixel']) {
+                    switch ($thisfile_bmp_header_raw['bits_per_pixel']) {
                         case 16:
                         case 32:
                             $redshift = 0;
                             $greenshift = 0;
                             $blueshift = 0;
-                            while((($thisfile_bmp_header_raw['red_mask'] >> $redshift) & 0x01) == 0) {
+                            while ((($thisfile_bmp_header_raw['red_mask'] >> $redshift) & 0x01) == 0) {
                                 $redshift++;
                             }
-                            while((($thisfile_bmp_header_raw['green_mask'] >> $greenshift) & 0x01) == 0) {
+                            while ((($thisfile_bmp_header_raw['green_mask'] >> $greenshift) & 0x01) == 0) {
                                 $greenshift++;
                             }
-                            while((($thisfile_bmp_header_raw['blue_mask'] >> $blueshift) & 0x01) == 0) {
+                            while ((($thisfile_bmp_header_raw['blue_mask'] >> $blueshift) & 0x01) == 0) {
                                 $blueshift++;
                             }
-                            for($row = ($thisfile_bmp_header_raw['height'] - 1); $row >= 0; $row--) {
-                                for($col = 0; $col < $thisfile_bmp_header_raw['width']; $col++) {
+                            for ($row = ($thisfile_bmp_header_raw['height'] - 1); $row >= 0; $row--) {
+                                for ($col = 0; $col < $thisfile_bmp_header_raw['width']; $col++) {
                                     $pixelvalue = getid3_lib::LittleEndian2Int(
                                         substr(
                                             $BMPpixelData,
@@ -689,7 +679,7 @@ class getid3_bmp extends getid3_handler {
                                     );
                                     $thisfile_bmp['data'][$row][$col] = (($red << 16) | ($green << 8) | ($blue));
                                 }
-                                while(($pixeldataoffset % 4) != 0) {
+                                while (($pixeldataoffset % 4) != 0) {
                                     // lines are padded to nearest DWORD
                                     $pixeldataoffset++;
                                 }
@@ -716,62 +706,62 @@ class getid3_bmp extends getid3_handler {
     }
 
     /**
-     * @param int $compressionid
+     * @param  int  $compressionid
      *
      * @return string
      */
-    public function BMPcompressionOS2Lookup($compressionid) {
+    public function BMPcompressionOS2Lookup($compressionid)
+    {
         static $BMPcompressionOS2Lookup =
             array(0 => 'BI_RGB', 1 => 'BI_RLE8', 2 => 'BI_RLE4', 3 => 'Huffman 1D', 4 => 'BI_RLE24',);
         return (isset($BMPcompressionOS2Lookup[$compressionid]) ? $BMPcompressionOS2Lookup[$compressionid] : 'invalid');
     }
 
     /**
-     * @param int $compressionid
+     * @param  int  $compressionid
      *
      * @return string
      */
-    public function BMPcompressionWindowsLookup($compressionid) {
+    public function BMPcompressionWindowsLookup($compressionid)
+    {
         static $BMPcompressionWindowsLookup =
             array(0 => 'BI_RGB', 1 => 'BI_RLE8', 2 => 'BI_RLE4', 3 => 'BI_BITFIELDS', 4 => 'BI_JPEG', 5 => 'BI_PNG');
         return (isset($BMPcompressionWindowsLookup[$compressionid]) ? $BMPcompressionWindowsLookup[$compressionid] : 'invalid');
     }
 
     /**
-     * @param array $BMPinfo
+     * @param  array  $BMPinfo
      *
      * @return bool
      */
-    public function PlotBMP(&$BMPinfo) {
+    public function PlotBMP(&$BMPinfo)
+    {
         $starttime = time();
-        if(!isset($BMPinfo['bmp']['data']) || !is_array($BMPinfo['bmp']['data'])) {
+        if (!isset($BMPinfo['bmp']['data']) || !is_array($BMPinfo['bmp']['data'])) {
             echo 'ERROR: no pixel data<BR>';
             return false;
         }
         set_time_limit(intval(round($BMPinfo['resolution_x'] * $BMPinfo['resolution_y'] / 10000)));
-        if($im = imagecreatetruecolor($BMPinfo['resolution_x'], $BMPinfo['resolution_y'])) {
-            for($row = 0; $row < $BMPinfo['resolution_y']; $row++) {
-                for($col = 0; $col < $BMPinfo['resolution_x']; $col++) {
-                    if(isset($BMPinfo['bmp']['data'][$row][$col])) {
+        if ($im = imagecreatetruecolor($BMPinfo['resolution_x'], $BMPinfo['resolution_y'])) {
+            for ($row = 0; $row < $BMPinfo['resolution_y']; $row++) {
+                for ($col = 0; $col < $BMPinfo['resolution_x']; $col++) {
+                    if (isset($BMPinfo['bmp']['data'][$row][$col])) {
                         $red = ($BMPinfo['bmp']['data'][$row][$col] & 0x00FF0000) >> 16;
                         $green = ($BMPinfo['bmp']['data'][$row][$col] & 0x0000FF00) >> 8;
                         $blue = ($BMPinfo['bmp']['data'][$row][$col] & 0x000000FF);
                         $pixelcolor = imagecolorallocate($im, $red, $green, $blue);
                         imagesetpixel($im, $col, $row, $pixelcolor);
-                    }
-                    else {
+                    } else {
                         //echo 'ERROR: no data for pixel '.$row.' x '.$col.'<BR>';
                         //return false;
                     }
                 }
             }
-            if(headers_sent()) {
-                echo 'plotted '.($BMPinfo['resolution_x'] * $BMPinfo['resolution_y']).' pixels in '.(time(
-                        ) - $starttime).' seconds<BR>';
+            if (headers_sent()) {
+                echo 'plotted '.($BMPinfo['resolution_x'] * $BMPinfo['resolution_y']).' pixels in '.(time() - $starttime).' seconds<BR>';
                 imagedestroy($im);
                 exit;
-            }
-            else {
+            } else {
                 header('Content-type: image/png');
                 imagepng($im);
                 imagedestroy($im);

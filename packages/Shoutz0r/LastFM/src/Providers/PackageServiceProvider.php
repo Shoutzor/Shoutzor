@@ -6,13 +6,15 @@ use Illuminate\Support\ServiceProvider;
 use Shoutz0r\LastFM\Subscribers\UploadSubscriber;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 
-class PackageServiceProvider extends ServiceProvider {
+class PackageServiceProvider extends ServiceProvider
+{
     /**
      * Register the service provider.
      *
      * @return void
      */
-    public function register() {
+    public function register()
+    {
         $this->registerConfig();
     }
 
@@ -21,7 +23,8 @@ class PackageServiceProvider extends ServiceProvider {
      *
      * @return void
      */
-    protected function registerConfig() {
+    protected function registerConfig()
+    {
         $this->publishes([__DIR__.'/config/config.php' => config_path('shoutzor_lastfm.php')], 'config');
     }
 
@@ -30,7 +33,8 @@ class PackageServiceProvider extends ServiceProvider {
      *
      * @return void
      */
-    public function boot() {
+    public function boot()
+    {
         //Register our event subscriber
         app(EventDispatcher::class)->addSubscriber(new UploadSubscriber());
     }

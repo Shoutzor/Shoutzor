@@ -11,7 +11,7 @@ export default class Media extends Model {
     static entity = 'media'
 
     get coverImage() {
-        if(this.albums === null || this.albums.length === 0) {
+        if (this.albums === null || this.albums.length === 0) {
             return defaultAlbumImage;
         }
 

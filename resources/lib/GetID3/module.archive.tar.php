@@ -19,11 +19,13 @@
 //                                                             //
 /////////////////////////////////////////////////////////////////
 
-class getid3_tar extends getid3_handler {
+class getid3_tar extends getid3_handler
+{
     /**
      * @return bool
      */
-    public function Analyze() {
+    public function Analyze()
+    {
         $info = &$this->getid3->info;
 
         $info['fileformat'] = 'tar';
@@ -34,21 +36,21 @@ class getid3_tar extends getid3_handler {
         $null_512k = str_repeat("\x00", 512); // end-of-file marker
 
         $this->fseek(0);
-        while(!feof($this->getid3->fp)) {
+        while (!feof($this->getid3->fp)) {
             $buffer = $this->fread(512);
-            if(strlen($buffer) < 512) {
+            if (strlen($buffer) < 512) {
                 break;
             }
 
             // check the block
             $checksum = 0;
-            for($i = 0; $i < 148; $i++) {
+            for ($i = 0; $i < 148; $i++) {
                 $checksum += ord($buffer{$i});
             }
-            for($i = 148; $i < 156; $i++) {
+            for ($i = 148; $i < 156; $i++) {
                 $checksum += ord(' ');
             }
-            for($i = 156; $i < 512; $i++) {
+            for ($i = 156; $i < 512; $i++) {
                 $checksum += ord($buffer{$i});
             }
             $attr = unpack($unpack_header, $buffer);
@@ -68,17 +70,17 @@ class getid3_tar extends getid3_handler {
             $devmaj = octdec(isset($attr['devmaj']) ? trim($attr['devmaj']) : '');
             $devmin = octdec(isset($attr['devmin']) ? trim($attr['devmin']) : '');
             $prefix = (isset($attr['prefix']) ? trim($attr['prefix']) : '');
-            if(($checksum == 256) && ($chksum == 0)) {
+            if (($checksum == 256) && ($chksum == 0)) {
                 // EOF Found
                 break;
             }
-            if($prefix) {
+            if ($prefix) {
                 $name = $prefix.'/'.$name;
             }
-            if((preg_match('#/$#', $name)) && !$name) {
+            if ((preg_match('#/$#', $name)) && !$name) {
                 $typeflag = 5;
             }
-            if($buffer == $null_512k) {
+            if ($buffer == $null_512k) {
                 // it's the end of the tar-file...
                 break;
             }
@@ -87,29 +89,29 @@ class getid3_tar extends getid3_handler {
             $this->fseek($size, SEEK_CUR);
 
             $diff = $size % 512;
-            if($diff != 0) {
+            if ($diff != 0) {
                 // Padding, throw away
                 $this->fseek((512 - $diff), SEEK_CUR);
             }
             // Protect against tar-files with garbage at the end
-            if($name == '') {
+            if ($name == '') {
                 break;
             }
             $info['tar']['file_details'][$name] = array(
-                'name'     => $name,
+                'name' => $name,
                 'mode_raw' => $mode,
-                'mode'     => self::display_perms($mode),
-                'uid'      => $uid,
-                'gid'      => $gid,
-                'size'     => $size,
-                'mtime'    => $mtime,
-                'chksum'   => $chksum,
+                'mode' => self::display_perms($mode),
+                'uid' => $uid,
+                'gid' => $gid,
+                'size' => $size,
+                'mtime' => $mtime,
+                'chksum' => $chksum,
                 'typeflag' => self::get_flag_type($typflag),
                 'linkname' => $lnkname,
-                'magic'    => $magic,
-                'version'  => $ver,
-                'uname'    => $uname,
-                'gname'    => $gname,
+                'magic' => $magic,
+                'version' => $ver,
+                'uname' => $uname,
+                'gname' => $gname,
                 'devmajor' => $devmaj,
                 'devminor' => $devmin
             );
@@ -124,31 +126,32 @@ class getid3_tar extends getid3_handler {
     /**
      * Parses the file mode to file permissions.
      *
-     * @param int $mode
+     * @param  int  $mode
      *
      * @return string
      */
-    public function display_perms($mode) {
+    public function display_perms($mode)
+    {
         // Determine Type
-        if($mode & 0x1000) {
+        if ($mode & 0x1000) {
             $type = 'p';
         } // FIFO pipe
-        elseif($mode & 0x2000) {
+        elseif ($mode & 0x2000) {
             $type = 'c';
         } // Character special
-        elseif($mode & 0x4000) {
+        elseif ($mode & 0x4000) {
             $type = 'd';
         } // Directory
-        elseif($mode & 0x6000) {
+        elseif ($mode & 0x6000) {
             $type = 'b';
         } // Block special
-        elseif($mode & 0x8000) {
+        elseif ($mode & 0x8000) {
             $type = '-';
         } // Regular
-        elseif($mode & 0xA000) {
+        elseif ($mode & 0xA000) {
             $type = 'l';
         } // Symbolic Link
-        elseif($mode & 0xC000) {
+        elseif ($mode & 0xC000) {
             $type = 's';
         } // Socket
         else {
@@ -167,13 +170,13 @@ class getid3_tar extends getid3_handler {
         $world['execute'] = (($mode & 00001) ? 'x' : '-');
 
         // Adjust for SUID, SGID and sticky bit
-        if($mode & 0x800) {
+        if ($mode & 0x800) {
             $owner['execute'] = ($owner['execute'] == 'x') ? 's' : 'S';
         }
-        if($mode & 0x400) {
+        if ($mode & 0x400) {
             $group['execute'] = ($group['execute'] == 'x') ? 's' : 'S';
         }
-        if($mode & 0x200) {
+        if ($mode & 0x200) {
             $world['execute'] = ($world['execute'] == 'x') ? 't' : 'T';
         }
 
@@ -187,11 +190,12 @@ class getid3_tar extends getid3_handler {
     /**
      * Converts the file type.
      *
-     * @param string $typflag
+     * @param  string  $typflag
      *
      * @return mixed|string
      */
-    public function get_flag_type($typflag) {
+    public function get_flag_type($typflag)
+    {
         static $flag_types = array(
             '0' => 'LF_NORMAL',
             '1' => 'LF_LINK',

@@ -4,16 +4,18 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateAlbumArtistTable extends Migration {
+class CreateAlbumArtistTable extends Migration
+{
     /**
      * Run the migrations.
      *
      * @return void
      */
-    public function up() {
+    public function up()
+    {
         Schema::create(
             'album_artist',
-            function(Blueprint $table) {
+            function (Blueprint $table) {
                 $table->integer('album_id')->unsigned();
                 $table->integer('artist_id')->unsigned();
 
@@ -29,7 +31,8 @@ class CreateAlbumArtistTable extends Migration {
      *
      * @return void
      */
-    public function down() {
+    public function down()
+    {
         Schema::dropIfExists('album_artist');
     }
 }

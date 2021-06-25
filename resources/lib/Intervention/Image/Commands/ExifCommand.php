@@ -7,18 +7,20 @@ use Intervention\Image\Exception\NotReadableException;
 use Intervention\Image\Exception\NotSupportedException;
 use Intervention\Image\Image;
 
-class ExifCommand extends AbstractCommand {
+class ExifCommand extends AbstractCommand
+{
     /**
      * Read Exif data from the given image
      *
      * Note: Windows PHP Users - in order to use this method you will need to
      * enable the mbstring and exif extensions within the php.ini file.
      *
-     * @param Image $image
+     * @param  Image  $image
      * @return boolean
      */
-    public function execute($image) {
-        if(!function_exists('exif_read_data')) {
+    public function execute($image)
+    {
+        if (!function_exists('exif_read_data')) {
             throw new NotSupportedException("Reading Exif data is not supported by this PHP installation.");
         }
 
@@ -28,12 +30,11 @@ class ExifCommand extends AbstractCommand {
         try {
             $data = @exif_read_data($image->dirname.'/'.$image->basename);
 
-            if(!is_null($key) && is_array($data)) {
+            if (!is_null($key) && is_array($data)) {
                 $data = array_key_exists($key, $data) ? $data[$key] : false;
             }
 
-        }
-        catch(Exception $e) {
+        } catch (Exception $e) {
             throw new NotReadableException(
                 sprintf(
                     "Cannot read the Exif data from the filename (%s) provided ",

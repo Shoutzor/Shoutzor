@@ -14,18 +14,20 @@
 //                                                            ///
 /////////////////////////////////////////////////////////////////
 
-class getid3_efax extends getid3_handler {
+class getid3_efax extends getid3_handler
+{
     /**
      * @return bool
      */
-    public function Analyze() {
+    public function Analyze()
+    {
         $info = &$this->getid3->info;
 
         $this->fseek($info['avdataoffset']);
         $efaxheader = $this->fread(1024);
 
         $info['efax']['header']['magic'] = substr($efaxheader, 0, 2);
-        if($info['efax']['header']['magic'] != "\xDC\xFE") {
+        if ($info['efax']['header']['magic'] != "\xDC\xFE") {
             $this->error(
                 'Invalid eFax byte order identifier (expecting DC FE, found '.getid3_lib::PrintHexBytes(
                     $info['efax']['header']['magic']
@@ -36,7 +38,7 @@ class getid3_efax extends getid3_handler {
         $info['fileformat'] = 'efax';
 
         $info['efax']['header']['filesize'] = getid3_lib::LittleEndian2Int(substr($efaxheader, 2, 4));
-        if($info['efax']['header']['filesize'] != $info['filesize']) {
+        if ($info['efax']['header']['filesize'] != $info['filesize']) {
             $this->error(
                 'Probable '.(($info['efax']['header']['filesize'] > $info['filesize']) ? 'truncated' : 'corrupt').' file, expecting '.$info['efax']['header']['filesize'].' bytes, found '.$info['filesize'].' bytes'
             );

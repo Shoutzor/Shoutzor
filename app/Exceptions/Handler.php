@@ -8,7 +8,8 @@ use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Throwable;
 
-class Handler extends ExceptionHandler {
+class Handler extends ExceptionHandler
+{
     /**
      * A list of the exception types that are not reported.
      *
@@ -27,25 +28,27 @@ class Handler extends ExceptionHandler {
     /**
      * Report or log an exception.
      *
-     * @param Throwable $exception
+     * @param  Throwable  $exception
      * @return void
      *
      * @throws Exception
      */
-    public function report(Throwable $exception) {
+    public function report(Throwable $exception)
+    {
         parent::report($exception);
     }
 
     /**
      * Render an exception into an HTTP response.
      *
-     * @param Request   $request
-     * @param Throwable $exception
+     * @param  Request  $request
+     * @param  Throwable  $exception
      * @return Response
      *
      * @throws Throwable
      */
-    public function render($request, Throwable $exception) {
+    public function render($request, Throwable $exception)
+    {
         return response()->json($exception, 500);
         //return parent::render($request, $exception);
     }

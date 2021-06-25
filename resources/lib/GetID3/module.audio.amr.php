@@ -14,18 +14,20 @@
 //                                                            ///
 /////////////////////////////////////////////////////////////////
 
-class getid3_amr extends getid3_handler {
+class getid3_amr extends getid3_handler
+{
     /**
      * @return bool
      */
-    public function Analyze() {
+    public function Analyze()
+    {
         $info = &$this->getid3->info;
 
         $this->fseek($info['avdataoffset']);
         $AMRheader = $this->fread(6);
 
         $magic = '#!AMR'."\x0A";
-        if(substr($AMRheader, 0, 6) != $magic) {
+        if (substr($AMRheader, 0, 6) != $magic) {
             $this->error(
                 'Expecting "'.getid3_lib::PrintHexBytes(
                     $magic
@@ -52,19 +54,18 @@ class getid3_amr extends getid3_handler {
 
         $buffer = '';
         do {
-            if((strlen($buffer) < $this->getid3->fread_buffer_size()) && !feof($this->getid3->fp)) {
+            if ((strlen($buffer) < $this->getid3->fread_buffer_size()) && !feof($this->getid3->fp)) {
                 $buffer .= $this->fread($this->getid3->fread_buffer_size() * 2);
             }
             $AMR_frame_header = ord(substr($buffer, 0, 1));
             $codec_mode_request =
                 ($AMR_frame_header & 0x78) >> 3; // The 2nd bit through 5th bit (counting the most significant bit as the first bit) comprise the CMR (Codec Mode Request), values 0-7 being valid for AMR. The top bit of the CMR can actually be ignored, though it is used when AMR forms RTP payloads. The lower 3-bits of the header are reserved and are not used. Viewing the header from most significant bit to least significant bit, the encoding is XCCCCXXX, where Xs are reserved (typically 0) and the Cs are the CMR.
-            if($codec_mode_request > 7) {
+            if ($codec_mode_request > 7) {
                 break;
             }
             $thisfile_amr['frame_mode_count'][$codec_mode_request]++;
             $buffer = substr($buffer, $this->amr_mode_bytes_per_frame($codec_mode_request));
-        }
-        while(strlen($buffer) > 0);
+        } while (strlen($buffer) > 0);
 
         $info['playtime_seconds'] = array_sum(
                 $thisfile_amr['frame_mode_count']
@@ -77,11 +78,12 @@ class getid3_amr extends getid3_handler {
     }
 
     /**
-     * @param int $key
+     * @param  int  $key
      *
      * @return int|false
      */
-    public function amr_mode_bytes_per_frame($key) {
+    public function amr_mode_bytes_per_frame($key)
+    {
         static $amr_mode_bitrate = array(
             0 => 13, // 1-byte frame header +  95 bits [padded to: 12 bytes] audio data
             1 => 14, // 1-byte frame header + 103 bits [padded to: 13 bytes] audio data
@@ -96,11 +98,12 @@ class getid3_amr extends getid3_handler {
     }
 
     /**
-     * @param int $key
+     * @param  int  $key
      *
      * @return int|false
      */
-    public function amr_mode_bitrate($key) {
+    public function amr_mode_bitrate($key)
+    {
         static $amr_mode_bitrate =
             array(0 => 4750, 1 => 5150, 2 => 5900, 3 => 6700, 4 => 7400, 5 => 7950, 6 => 10200, 7 => 12200,);
         return (isset($amr_mode_bitrate[$key]) ? $amr_mode_bitrate[$key] : false);

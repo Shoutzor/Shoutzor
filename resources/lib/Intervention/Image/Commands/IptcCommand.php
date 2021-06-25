@@ -5,15 +5,17 @@ namespace Intervention\Image\Commands;
 use Intervention\Image\Exception\NotSupportedException;
 use Intervention\Image\Image;
 
-class IptcCommand extends AbstractCommand {
+class IptcCommand extends AbstractCommand
+{
     /**
      * Read Iptc data from the given image
      *
-     * @param Image $image
+     * @param  Image  $image
      * @return boolean
      */
-    public function execute($image) {
-        if(!function_exists('iptcparse')) {
+    public function execute($image)
+    {
+        if (!function_exists('iptcparse')) {
             throw new NotSupportedException("Reading Iptc data is not supported by this PHP installation.");
         }
 
@@ -24,10 +26,10 @@ class IptcCommand extends AbstractCommand {
 
         $data = [];
 
-        if(array_key_exists('APP13', $info)) {
+        if (array_key_exists('APP13', $info)) {
             $iptc = iptcparse($info['APP13']);
 
-            if(is_array($iptc)) {
+            if (is_array($iptc)) {
                 $data['DocumentTitle'] = isset($iptc["2#005"][0]) ? $iptc["2#005"][0] : null;
                 $data['Urgency'] = isset($iptc["2#010"][0]) ? $iptc["2#010"][0] : null;
                 $data['Category'] = isset($iptc["2#015"][0]) ? $iptc["2#015"][0] : null;
@@ -52,7 +54,7 @@ class IptcCommand extends AbstractCommand {
             }
         }
 
-        if(!is_null($key) && is_array($data)) {
+        if (!is_null($key) && is_array($data)) {
             $data = array_key_exists($key, $data) ? $data[$key] : false;
         }
 

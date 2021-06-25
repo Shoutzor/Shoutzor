@@ -14,11 +14,13 @@
 //                                                            ///
 /////////////////////////////////////////////////////////////////
 
-class getid3_voc extends getid3_handler {
+class getid3_voc extends getid3_handler
+{
     /**
      * @return bool
      */
-    public function Analyze() {
+    public function Analyze()
+    {
         $info = &$this->getid3->info;
 
         $OriginalAVdataOffset = $info['avdataoffset'];
@@ -26,7 +28,7 @@ class getid3_voc extends getid3_handler {
         $VOCheader = $this->fread(26);
 
         $magic = 'Creative Voice File';
-        if(substr($VOCheader, 0, 19) != $magic) {
+        if (substr($VOCheader, 0, 19) != $magic) {
             $this->error(
                 'Expecting "'.getid3_lib::PrintHexBytes(
                     $magic
@@ -70,14 +72,14 @@ class getid3_voc extends getid3_handler {
             $ThisBlock = array();
 
             getid3_lib::safe_inc($thisfile_voc['blocktypes'][$BlockType], 1);
-            switch($BlockType) {
+            switch ($BlockType) {
                 case 0:  // Terminator
                     // do nothing, we'll break out of the loop down below
                     break;
 
                 case 1:  // Sound data
                     $BlockData .= $this->fread(2);
-                    if($info['avdataoffset'] <= $OriginalAVdataOffset) {
+                    if ($info['avdataoffset'] <= $OriginalAVdataOffset) {
                         $info['avdataoffset'] = $this->ftell();
                     }
                     $this->fseek($BlockSize - 2, SEEK_CUR);
@@ -86,13 +88,13 @@ class getid3_voc extends getid3_handler {
                     $ThisBlock['compression_type'] = getid3_lib::LittleEndian2Int(substr($BlockData, 5, 1));
 
                     $ThisBlock['compression_name'] = $this->VOCcompressionTypeLookup($ThisBlock['compression_type']);
-                    if($ThisBlock['compression_type'] <= 3) {
+                    if ($ThisBlock['compression_type'] <= 3) {
                         $thisfile_voc['compressed_bits_per_sample'] =
                             getid3_lib::CastAsInt(str_replace('-bit', '', $ThisBlock['compression_name']));
                     }
 
                     // Less accurate sample_rate calculation than the Extended block (#8) data (but better than nothing if Extended Block is not available)
-                    if(empty($thisfile_audio['sample_rate'])) {
+                    if (empty($thisfile_audio['sample_rate'])) {
                         // SR byte = 256 - (1000000 / sample_rate)
                         $thisfile_audio['sample_rate'] = getid3_lib::trunc(
                             (1000000 / (256 - $ThisBlock['sample_rate_id'])) / $thisfile_audio['channels']
@@ -117,7 +119,7 @@ class getid3_voc extends getid3_handler {
                     // Stereo: 65536 - (256000000 / (sample_rate * 2))
                     $ThisBlock['time_constant'] = getid3_lib::LittleEndian2Int(substr($BlockData, 4, 2));
                     $ThisBlock['pack_method'] = getid3_lib::LittleEndian2Int(substr($BlockData, 6, 1));
-                    $ThisBlock['stereo'] = (bool)getid3_lib::LittleEndian2Int(substr($BlockData, 7, 1));
+                    $ThisBlock['stereo'] = (bool) getid3_lib::LittleEndian2Int(substr($BlockData, 7, 1));
 
                     $thisfile_audio['channels'] = ($ThisBlock['stereo'] ? 2 : 1);
                     $thisfile_audio['sample_rate'] = getid3_lib::trunc(
@@ -127,7 +129,7 @@ class getid3_voc extends getid3_handler {
 
                 case 9:  // data block that supersedes blocks 1 and 8. Used for stereo, 16 bit
                     $BlockData .= $this->fread(12);
-                    if($info['avdataoffset'] <= $OriginalAVdataOffset) {
+                    if ($info['avdataoffset'] <= $OriginalAVdataOffset) {
                         $info['avdataoffset'] = $this->ftell();
                     }
                     $this->fseek($BlockSize - 12, SEEK_CUR);
@@ -138,7 +140,7 @@ class getid3_voc extends getid3_handler {
                     $ThisBlock['wFormat'] = getid3_lib::LittleEndian2Int(substr($BlockData, 10, 2));
 
                     $ThisBlock['compression_name'] = $this->VOCwFormatLookup($ThisBlock['wFormat']);
-                    if($this->VOCwFormatActualBitsPerSampleLookup($ThisBlock['wFormat'])) {
+                    if ($this->VOCwFormatActualBitsPerSampleLookup($ThisBlock['wFormat'])) {
                         $thisfile_voc['compressed_bits_per_sample'] =
                             $this->VOCwFormatActualBitsPerSampleLookup($ThisBlock['wFormat']);
                     }
@@ -154,22 +156,21 @@ class getid3_voc extends getid3_handler {
                     break;
             }
 
-            if(!empty($ThisBlock)) {
+            if (!empty($ThisBlock)) {
                 $ThisBlock['block_offset'] = $BlockOffset;
                 $ThisBlock['block_size'] = $BlockSize;
                 $ThisBlock['block_type_id'] = $BlockType;
                 $thisfile_voc['blocks'][] = $ThisBlock;
             }
 
-        }
-        while(!feof($this->getid3->fp) && ($BlockType != 0));
+        } while (!feof($this->getid3->fp) && ($BlockType != 0));
 
         // Terminator block doesn't have size field, so seek back 3 spaces
         $this->fseek(-3, SEEK_CUR);
 
         ksort($thisfile_voc['blocktypes']);
 
-        if(!empty($thisfile_voc['compressed_bits_per_sample'])) {
+        if (!empty($thisfile_voc['compressed_bits_per_sample'])) {
             $info['playtime_seconds'] =
                 (($info['avdataend'] - $info['avdataoffset']) * 8) / ($thisfile_voc['compressed_bits_per_sample'] * $thisfile_audio['channels'] * $thisfile_audio['sample_rate']);
             $thisfile_audio['bitrate'] = (($info['avdataend'] - $info['avdataoffset']) * 8) / $info['playtime_seconds'];
@@ -179,21 +180,23 @@ class getid3_voc extends getid3_handler {
     }
 
     /**
-     * @param int $index
+     * @param  int  $index
      *
      * @return string
      */
-    public function VOCcompressionTypeLookup($index) {
+    public function VOCcompressionTypeLookup($index)
+    {
         static $VOCcompressionTypeLookup = array(0 => '8-bit', 1 => '4-bit', 2 => '2.6-bit', 3 => '2-bit');
         return (isset($VOCcompressionTypeLookup[$index]) ? $VOCcompressionTypeLookup[$index] : 'Multi DAC ('.($index - 3).') channels');
     }
 
     /**
-     * @param int $index
+     * @param  int  $index
      *
      * @return string|false
      */
-    public function VOCwFormatLookup($index) {
+    public function VOCwFormatLookup($index)
+    {
         static $VOCwFormatLookup = array(
             0x0000 => '8-bit unsigned PCM',
             0x0001 => 'Creative 8-bit to 4-bit ADPCM',
@@ -208,11 +211,12 @@ class getid3_voc extends getid3_handler {
     }
 
     /**
-     * @param int $index
+     * @param  int  $index
      *
      * @return int|false
      */
-    public function VOCwFormatActualBitsPerSampleLookup($index) {
+    public function VOCwFormatActualBitsPerSampleLookup($index)
+    {
         static $VOCwFormatLookup = array(
             0x0000 => 8,
             0x0001 => 4,

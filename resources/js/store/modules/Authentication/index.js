@@ -65,12 +65,12 @@ const moduleAuthentication = {
         hasToken: state => !!state.token,
         can: state => (permissionName) => {
             // Check if the user is authenticated, and if so, if he has the required permission
-            if(state.authenticated) {
+            if (state.authenticated) {
                 return state.user.can(permissionName);
             }
 
             // Check if the guest-role exists, and if so, check if it has the required permission
-            if(state.guestRole) {
+            if (state.guestRole) {
                 return state.guestRole.can(permissionName);
             }
 
@@ -81,9 +81,9 @@ const moduleAuthentication = {
 
     actions: {
         login({
-            commit,
-            dispatch
-        }, login) {
+                  commit,
+                  dispatch
+              }, login) {
             return new Promise((resolve, reject) => { // The Promise used for router redirect in login
                 commit(AUTH_REQUEST);
 
@@ -112,8 +112,7 @@ const moduleAuthentication = {
 
                     try {
                         msg = err.data.message;
-                    }
-                    catch(e) {
+                    } catch (e) {
                         //Fallback to default error message
                         msg = err.message;
                     }
@@ -150,8 +149,7 @@ const moduleAuthentication = {
 
                     try {
                         msg = err.response.data.message;
-                    }
-                    catch(e) {
+                    } catch (e) {
                         //Fallback to default error message
                         msg = err.message;
                     }
@@ -198,8 +196,7 @@ const moduleAuthentication = {
 
                     try {
                         msg = err.response.data.message;
-                    }
-                    catch(e) {
+                    } catch (e) {
                         //Fallback to default error message
                         msg = err.message;
                     }

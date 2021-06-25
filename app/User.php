@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
@@ -9,8 +10,9 @@ use Spatie\Permission\Traits\HasPermissions;
 use Spatie\Permission\Traits\HasRoles;
 use Spatie\Permission\Traits\RefreshesPermissionCache;
 
-class User extends Authenticatable {
-    use HasApiTokens, Notifiable, HasRoles, HasPermissions, RefreshesPermissionCache;
+class User extends Authenticatable
+{
+    use HasApiTokens, Notifiable, HasRoles, HasPermissions, RefreshesPermissionCache, HasFactory;
 
     /**
      * The attributes that are mass assignable.
@@ -33,7 +35,8 @@ class User extends Authenticatable {
      */
     protected $casts = ['email_verified_at' => 'datetime',];
 
-    public function uploads() {
+    public function uploads()
+    {
         return $this->hasMany(Upload::class);
     }
 }

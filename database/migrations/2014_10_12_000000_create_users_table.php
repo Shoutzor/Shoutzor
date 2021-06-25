@@ -6,16 +6,18 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Schema;
 
-class CreateUsersTable extends Migration {
+class CreateUsersTable extends Migration
+{
     /**
      * Run the migrations.
      *
      * @return void
      */
-    public function up() {
+    public function up()
+    {
         Schema::create(
             'users',
-            function(Blueprint $table) {
+            function (Blueprint $table) {
                 $table->id();
                 $table->string('username')->unique();
                 $table->string('email')->unique();
@@ -39,7 +41,8 @@ class CreateUsersTable extends Migration {
      *
      * @return void
      */
-    public function down() {
+    public function down()
+    {
         Schema::dropIfExists('users');
     }
 }
