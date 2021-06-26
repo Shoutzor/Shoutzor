@@ -4,6 +4,7 @@ namespace App\HealthCheck;
 
 use App\Helpers\Filesystem;
 use Exception;
+use Illuminate\Support\Facades\Artisan;
 use JetBrains\PhpStorm\Pure;
 
 class SymlinkHealthCheck extends BaseHealthCheck
@@ -69,17 +70,21 @@ class SymlinkHealthCheck extends BaseHealthCheck
             return $result;
         }
 
+        # Remove broken symlinks
         $errors = [];
-
         foreach ($this->symlinks as $symlinkLocation => $targetLocation) {
             try {
-                symlink($targetLocation, $symlinkLocation);
+                if(is_link($symlinkLocation) && !file_exists($symlinkLocation)) {
+                    rmdir($symlinkLocation);
+                }
             } catch (Exception $e) {
-                $errors[] = "Could not create symlink from $targetLocation to $symlinkLocation";
+                $errors[] = "Could not remove broken symlink at $symlinkLocation, reason: " . $e->getMessage();
             }
         }
 
-        if (count($errors) === 0) {
+        $exitCode = Artisan::call('storage:link');
+
+        if(count($errors) === 0 && $exitCode === 0) {
             $result->setFixed(true);
             $result->setMessage('Symlinks created');
         } else {
