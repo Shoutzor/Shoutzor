@@ -15,6 +15,8 @@ class Authorize extends \Illuminate\Auth\Middleware\Authorize
      */
     public function handle($request, Closure $next, $ability, ...$models)
     {
+        dd($request);
+
         $user = Auth::guard('api')->user();
 
         // Check if the user is authenticated

@@ -1,6 +1,9 @@
 <?php
 
 return [
+    'installed' => env('SHOUTZOR_INSTALLED', 'false'),
+    'version' => env('SHOUTZOR_VERSION', '1.0'),
+
     'useFilenameIfUntitled' => 1,
     'uploadDurationLimit' => 5,
     'parserLastRun' => 0,

@@ -9,7 +9,7 @@
           <h2 class="mb-3 text-center">Loading shoutz0r</h2>
 
           <div class="text-center">
-            <p>Loading API information, please wait</p>
+            <p>Fetching data, please wait</p>
             <div class="spinner-border" role="status"></div>
           </div>
         </div>

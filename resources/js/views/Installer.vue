@@ -6,7 +6,10 @@
           <img alt="Shoutz0r logo" src="@static/images/shoutzor-logo-large.png" class="logo">
         </div>
 
-        <router-view></router-view>
+        <router-view
+          :showNextButton="showNextButton"
+          :updateButtonText="updateButtonText"
+          :updateButtonLoading="updateButtonLoading"></router-view>
 
         <div class="row align-items-center mt-3">
           <div class="col-4">
@@ -23,12 +26,12 @@
           </div>
           <div class="col">
             <div class="btn-list justify-content-end">
-              <router-link v-if="next !== null" :to="{ name: next }" class="btn btn-primary">
-                Continue
+              <router-link v-if="showButton && next !== null" :to="{ name: next }" class="btn btn-primary">
+                Next Step
               </router-link>
-              <a v-else class="btn btn-primary" href="#">
-                Finish
-              </a>
+              <button v-else-if="showButton === false" class="btn btn-primary" v-on:click="buttonClickProxy">
+                {{ buttonText }}
+              </button>
             </div>
           </div>
         </div>
@@ -38,8 +41,18 @@
 </template>
 
 <script>
+import Vue from 'vue';
+
 export default {
   name: "Installer",
+
+  data() {
+    return {
+      showButton: true,
+      buttonIsLoading: false,
+      buttonText: ''
+    }
+  },
 
   computed: {
     progress: function() {
@@ -54,9 +67,29 @@ export default {
 
       if(routes.length > currentItem + 1) {
         return routes[currentItem + 1].name;
-      } else {
+      }
+      else {
         return null;
       }
+    }
+  },
+
+  methods: {
+    showNextButton(show) {
+      this.showButton = show;
+    },
+
+    updateButtonLoading(isLoading) {
+      this.buttonIsLoading = isLoading;
+    },
+
+    updateButtonText(text) {
+      this.buttonText = text;
+    },
+
+    // This method just emits an event so child-views can trigger their onClick listener
+    buttonClickProxy() {
+      Vue.bus.emit('buttonClicked');
     }
   }
 }

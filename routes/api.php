@@ -27,6 +27,13 @@ Route::post('system/health/fix', 'SystemApiController@fixHealth');
 
 /*
  * --------------------------------------------------------------------------
+ * Routes within this group only work for the installer
+ * --------------------------------------------------------------------------
+ */
+Route::get('installer/getDatabaseFields', 'InstallerApiController@getDatabaseFields');
+
+/*
+ * --------------------------------------------------------------------------
  * Routes within this group require to be authenticated
  * --------------------------------------------------------------------------
  */

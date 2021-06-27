@@ -1,4 +1,5 @@
 import Vue from "vue";
+import VueBus from 'vue-bus';
 import router from "./router/app-installer";
 import App from "@js/views/App";
 import VueTablerIcons from 'vue-tabler-icons';
@@ -14,6 +15,7 @@ const app = new Vue({
 });
 
 Vue.use(VueTablerIcons);
+Vue.use(VueBus);
 
 app.$mount('#installer');
 
