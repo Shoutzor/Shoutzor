@@ -4,17 +4,6 @@
       <h1>Setup</h1>
       <p class="text-muted">This installer will guide you through the installation of Shoutz0r</p>
     </div>
-
-    <div class="hr-text hr-text-center hr-text-spaceless">Healthcheck</div>
-
-    <health-checker
-        id="healthcheck"
-        ref="healthcheck"
-        autoFixButtonClasses="btn btn-primary"
-        refreshButtonClasses="btn btn-light"
-        refreshButtonText="refresh"
-        v-bind:showTitle="false"
-    ></health-checker>
   </div>
 </template>
 
@@ -24,10 +13,3 @@ export default {
   components: {}
 };
 </script>
-
-<style lang="scss">
-#healthcheck {
-  padding: 5px;
-  margin-top: 5px;
-}
-</style>

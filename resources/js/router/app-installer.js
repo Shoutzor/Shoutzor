@@ -3,19 +3,24 @@ import VueRouter from "vue-router";
 
 //Views
 import InstallerStartView from "@js/views/installer/start";
+import InstallerHealthCheckView from "@js/views/installer/healthcheck";
+import InstallerDatabaseView from "@js/views/installer/database";
 
 Vue.use(VueRouter);
 
 //Routes
 const routes = [{
-    name: 'installer',
+    name: 'installer-start',
     path: '/',
-    component: InstallerStartView,
-    children: [{
-        name: 'installer-start',
-        path: 'start',
-        component: InstallerStartView
-    }]
+    component: InstallerStartView
+}, {
+    name: 'installer-healthcheck',
+    path: '/healthcheck',
+    component: InstallerHealthCheckView
+}, {
+    name: 'installer-database',
+    path: '/database',
+    component: InstallerDatabaseView
 }];
 
 const router = new VueRouter({
