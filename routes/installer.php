@@ -8,3 +8,4 @@ use Illuminate\Support\Facades\Route;
  * --------------------------------------------------------------------------
  */
 Route::get('database/getFields', 'InstallerDatabaseController@getDatabaseFields');
+Route::post('database/configureDatabase', 'InstallerDatabaseController@configureDatabaseSettings');

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Installer;
 
 use App\Http\Controllers\Controller;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
@@ -24,7 +25,7 @@ class InstallerDatabaseController extends Controller
                     'default' => 'localhost'
                 ],
                 'port' => [
-                    'validate' => 'required|number',
+                    'validate' => 'required|numeric|integer',
                     'dotconfig' => 'database.connections.mysql.port',
                     'type' => 'text',
                     'default' => '3306'
@@ -56,7 +57,7 @@ class InstallerDatabaseController extends Controller
                     'default' => 'localhost'
                 ],
                 'port' => [
-                    'validate' => 'required|number',
+                    'validate' => 'required|numeric|integer',
                     'dotconfig' => 'database.connections.pgsql.port',
                     'type' => 'text',
                     'default' => '5432'
@@ -88,7 +89,7 @@ class InstallerDatabaseController extends Controller
                     'default' => 'localhost'
                 ],
                 'port' => [
-                    'validate' => 'required|number',
+                    'validate' => 'required|numeric|integer',
                     'dotconfig' => 'database.connections.pgsql.port',
                     'type' => 'text',
                     'default' => '1433'
@@ -124,7 +125,6 @@ class InstallerDatabaseController extends Controller
     {
         // Create initial result array
         $result = [
-            'validated' => false,
             'connection' => false,
             'messages' => []
         ];
@@ -139,7 +139,7 @@ class InstallerDatabaseController extends Controller
         ]);
 
         // Validate the provided database type
-        if($dbTypeValidator->fails()) {
+        if ($dbTypeValidator->fails()) {
             $result['messages']['dbtype'] = 'Invalid database type provided';
             return response()->json($result, 200);
         }
@@ -148,22 +148,24 @@ class InstallerDatabaseController extends Controller
         $selectedDbValues = $this->dbValues[$request->dbtype];
 
         // Validate the provided values
-        $errors = $request->validate(array_map(function($item) {
+        $errors = Validator::make($request->all(), array_map(function ($item) {
             return $item['validate'];
         }, $selectedDbValues));
 
+        $errors = $errors->errors()->getMessages();
+        $errors = array_map(function ($item) {
+            return $item[0];
+        }, $errors);
+
         // Check if any validation errors occurred
-        if(count($errors) > 0) {
+        if (count($errors) > 0) {
             $result['messages'] = $errors;
             return response()->json($result, 200);
         }
 
-        // Config values have passed basic validation
-        $result['validated'] = true;
-
         // Create an array for the new config values
         $configValues = [];
-        foreach($selectedDbValues as $name=>$item) {
+        foreach ($selectedDbValues as $name => $item) {
             $configValues[$item['dotconfig']] = $request->$name;
         }
 
@@ -173,11 +175,9 @@ class InstallerDatabaseController extends Controller
         // Test database connection
         try {
             DB::connection()->getPdo();
-
             $result['connection'] = true;
-            $result['messages'][] = 'Database settings have been set';
-        } catch (\Exception $e) {
-            $result['messages'][] = $e->getMessage();
+        } catch (Exception $e) {
+            $result['messages']['general'] = $e->getMessage();
         }
 
         return response()->json($result, 200);

@@ -29,7 +29,10 @@
               <router-link v-if="showButton && next !== null" :to="{ name: next }" class="btn btn-primary">
                 Next Step
               </router-link>
-              <button v-else-if="showButton === false" class="btn btn-primary" v-on:click="buttonClickProxy">
+              <button
+                  v-else-if="showButton === false"
+                  v-on:click="buttonClickProxy"
+                  :class="(buttonIsLoading ? 'btn-loading' : '') + ' btn btn-primary'">
                 {{ buttonText }}
               </button>
             </div>
@@ -58,7 +61,11 @@ export default {
     progress: function() {
       let routes = this.$router.options.routes;
       let currentItem = routes.map(e => e.name).indexOf(this.$route.name);
-      return Math.round((100 / routes.length) * (currentItem));
+      if(currentItem > 0) {
+        return Math.round((100 / (routes.length - 1)) * currentItem);
+      } else {
+        return 0;
+      }
     },
 
     next: function() {

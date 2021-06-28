@@ -5,6 +5,7 @@ import VueRouter from "vue-router";
 import InstallerStartView from "@js/views/installer/start";
 import InstallerHealthCheckView from "@js/views/installer/healthcheck";
 import InstallerDatabaseView from "@js/views/installer/database";
+import InstallerFinishView from "@js/views/installer/finish";
 
 Vue.use(VueRouter);
 
@@ -21,6 +22,10 @@ const routes = [{
     name: 'installer-database',
     path: '/database',
     component: InstallerDatabaseView
+}, {
+    name: 'installer-finish',
+    path: '/finish',
+    component: InstallerFinishView
 }];
 
 const router = new VueRouter({
