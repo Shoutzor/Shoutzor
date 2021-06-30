@@ -2,10 +2,17 @@
 
 [![License](https://img.shields.io/github/license/xorinzor/shoutz0r.svg?style=flat)](https://www.gnu.org/licenses/gpl-3.0.en.html)
 
-Shoutz0r - Easily setup a music system on your event! (Such as LAN-Parties!)\
-Comes with autoDJ to keep the music going when no song requests have been added by users.
+Shoutz0r - A media voting system perfect for events such as lan-parties!\
+Comes with autoDJ to keep requests going when no requests have been added by users.
+
+Shoutz0r gives users a platform to upload different kinds of media, and vote on what they would like to hear.\
+The queue can be generated based on the amount of votes, or as a regular queue (first come, first serve).
+
 
 Built using the Laravel Framework and Vue components.
+
+### To setup:
+When the app is deployed, visit `/install` to run the Shoutz0r installer.
 
 ### To setup from source:
 
