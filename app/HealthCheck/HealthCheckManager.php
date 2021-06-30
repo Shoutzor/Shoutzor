@@ -12,39 +12,55 @@ class HealthCheckManager
         $this->healthChecks = [];
     }
 
-    public function registerHealthCheck(BaseHealthCheck $healthCheck): void
+    public function registerHealthCheck(BaseHealthCheck $healthCheck, $isInstallCheck = false): void
     {
-        $this->healthChecks[] = $healthCheck;
+        $this->healthChecks[] = [
+            'check' => $healthCheck,
+            'isInstallCheck' => $isInstallCheck
+        ];
     }
 
-    public function getHealthStatus(): array
+    public function getHealthStatus($includeInstallSteps = false): array
     {
         $data = [];
 
         foreach ($this->healthChecks as $check) {
-            $check->checkHealth();
-            $data[] = $check->toArray();
+            //Check if marked as an install step, then skip it if we don't want these included.
+            if($check['isInstallCheck'] && !$includeInstallSteps) {
+                continue;
+            }
+
+            $healthCheck = $check['check'];
+            $healthCheck->checkHealth();
+            $data[] = $healthCheck->toArray();
         }
 
         return $data;
     }
 
-    public function performAutoFix(): array
+    public function performAutoFix($includeInstallSteps = false): array
     {
         $data = [];
         $success = true;
 
         foreach ($this->healthChecks as $check) {
+            //Check if marked as an install step, then skip it if we don't want these included.
+            if($check['isInstallCheck'] && !$includeInstallSteps) {
+                continue;
+            }
+
+            $healthCheck = $check['check'];
+
             # Each healthcheck needs to be aware if it's healthy first.
-            $check->checkHealth();
+            $healthCheck->checkHealth();
 
             # Skip healthchecks that are already healthy
-            if ($check->isHealthy()) {
+            if ($healthCheck->isHealthy()) {
                 continue;
             }
 
             # Next, we can perform the fix
-            $result = $check->fix();
+            $result = $healthCheck->fix();
 
             // Check if any of the automatic repairs failed
             if ($result->isFixed() === false) {
@@ -52,7 +68,7 @@ class HealthCheckManager
             }
 
             $data[] = [
-                'name' => $check->getName(),
+                'name' => $healthCheck->getName(),
                 'result' => $result->getMessage()
             ];
         }

@@ -14,6 +14,7 @@
         refreshButtonClasses="btn btn-light"
         refreshButtonText="refresh"
         v-bind:showTitle="false"
+        v-bind:showInstallSteps="true"
     ></health-checker>
   </div>
 </template>
@@ -21,7 +22,10 @@
 <script>
 export default {
   name: "installer-healthcheck-view",
-  components: {}
+
+  props: {
+    showNextButton: { type: Function }
+  }
 };
 </script>
 

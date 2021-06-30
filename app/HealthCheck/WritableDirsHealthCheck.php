@@ -21,7 +21,6 @@ class WritableDirsHealthCheck extends BaseHealthCheck
         );
 
         $this->directories = $directories;
-        $this->isHealthy = false;
         $this->errors = [];
     }
 
@@ -64,12 +63,6 @@ class WritableDirsHealthCheck extends BaseHealthCheck
     {
         // Not quite sure how to fix this by code. IMO a sysadmin should do this manually.
         $result = new HealthCheckFixResult();
-
-        if ($this->isHealthy()) {
-            $result->setFixed(true);
-            $result->setMessage('No fix required');
-            return $result;
-        }
 
         $success = true;
         $actions = [];

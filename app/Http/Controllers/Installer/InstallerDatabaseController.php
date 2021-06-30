@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
+use Jackiedo\DotenvEditor\Facades\DotenvEditor;
 
 class InstallerDatabaseController extends Controller
 {
@@ -21,30 +22,35 @@ class InstallerDatabaseController extends Controller
                 'host' => [
                     'validate' => 'required|string',
                     'dotconfig' => 'database.connections.mysql.host',
+                    'dotenv' => 'DB_HOST',
                     'type' => 'text',
                     'default' => 'localhost'
                 ],
                 'port' => [
                     'validate' => 'required|numeric|integer',
                     'dotconfig' => 'database.connections.mysql.port',
+                    'dotenv' => 'DB_PORT',
                     'type' => 'text',
                     'default' => '3306'
                 ],
                 'database' => [
                     'validate' => 'required|string',
                     'dotconfig' => 'database.connections.mysql.database',
+                    'dotenv' => 'DB_DATABASE',
                     'type' => 'text',
                     'default' => 'shoutzor'
                 ],
                 'username' => [
                     'validate' => 'required|string',
                     'dotconfig' => 'database.connections.mysql.username',
+                    'dotenv' => 'DB_USERNAME',
                     'type' => 'text',
                     'default' => 'shoutzor'
                 ],
                 'password' => [
                     'validate' => 'required|string',
                     'dotconfig' => 'database.connections.mysql.password',
+                    'dotenv' => 'DB_PASSWORD',
                     'type' => 'password',
                     'default' => ''
                 ]
@@ -53,30 +59,35 @@ class InstallerDatabaseController extends Controller
                 'host' => [
                     'validate' => 'required|string',
                     'dotconfig' => 'database.connections.pgsql.host',
+                    'dotenv' => 'DB_HOST',
                     'type' => 'text',
                     'default' => 'localhost'
                 ],
                 'port' => [
                     'validate' => 'required|numeric|integer',
                     'dotconfig' => 'database.connections.pgsql.port',
+                    'dotenv' => 'DB_PORT',
                     'type' => 'text',
                     'default' => '5432'
                 ],
                 'database' => [
                     'validate' => 'required|string',
                     'dotconfig' => 'database.connections.pgsql.database',
+                    'dotenv' => 'DB_DATABASE',
                     'type' => 'text',
                     'default' => 'shoutzor'
                 ],
                 'username' => [
                     'validate' => 'required|string',
                     'dotconfig' => 'database.connections.pgsql.username',
+                    'dotenv' => 'DB_USERNAME',
                     'type' => 'text',
                     'default' => 'shoutzor'
                 ],
                 'password' => [
                     'validate' => 'required|string',
                     'dotconfig' => 'database.connections.pgsql.password',
+                    'dotenv' => 'DB_PASSWORD',
                     'type' => 'password',
                     'default' => ''
                 ]
@@ -84,31 +95,36 @@ class InstallerDatabaseController extends Controller
             'sqlsrv' => [
                 'host' => [
                     'validate' => 'required|string',
-                    'dotconfig' => 'database.connections.pgsql.host',
+                    'dotconfig' => 'database.connections.sqlsrv.host',
+                    'dotenv' => 'DB_HOST',
                     'type' => 'text',
                     'default' => 'localhost'
                 ],
                 'port' => [
                     'validate' => 'required|numeric|integer',
-                    'dotconfig' => 'database.connections.pgsql.port',
+                    'dotconfig' => 'database.connections.sqlsrv.port',
+                    'dotenv' => 'DB_PORT',
                     'type' => 'text',
                     'default' => '1433'
                 ],
                 'database' => [
                     'validate' => 'required|string',
-                    'dotconfig' => 'database.connections.pgsql.database',
+                    'dotconfig' => 'database.connections.sqlsrv.database',
+                    'dotenv' => 'DB_DATABASE',
                     'type' => 'text',
                     'default' => 'shoutzor'
                 ],
                 'username' => [
                     'validate' => 'required|string',
-                    'dotconfig' => 'database.connections.pgsql.username',
+                    'dotconfig' => 'database.connections.sqlsrv.username',
+                    'dotenv' => 'DB_USERNAME',
                     'type' => 'text',
                     'default' => 'shoutzor'
                 ],
                 'password' => [
                     'validate' => 'required|string',
-                    'dotconfig' => 'database.connections.pgsql.password',
+                    'dotconfig' => 'database.connections.sqlsrv.password',
+                    'dotenv' => 'DB_PASSWORD',
                     'type' => 'password',
                     'default' => ''
                 ]
@@ -164,18 +180,25 @@ class InstallerDatabaseController extends Controller
         }
 
         // Create an array for the new config values
-        $configValues = [];
+        $dotConfigValues = [];
+        $dotEnvValues = [];
         foreach ($selectedDbValues as $name => $item) {
-            $configValues[$item['dotconfig']] = $request->$name;
+            $dotConfigValues[$item['dotconfig']] = $request->$name;
+            $dotEnvValues[$item['dotenv']] = $request->$name;
         }
 
-        // Set the new config values
-        config($configValues);
+        // Load the new config values in the current session
+        config($dotConfigValues);
 
         // Test database connection
         try {
             DB::connection()->getPdo();
             $result['connection'] = true;
+
+            //Write the values to the .env file
+            $editor = DotenvEditor::load(app_path('.env'));
+            $editor->setKey('DB_CONNECTION', $request->dbtype);
+            $editor->setKeys($dotEnvValues);
         } catch (Exception $e) {
             $result['messages']['general'] = $e->getMessage();
         }

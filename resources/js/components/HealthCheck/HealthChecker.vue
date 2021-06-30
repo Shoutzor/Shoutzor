@@ -26,7 +26,7 @@
         <div v-else class="card-status-start bg-green"></div>
         <div class="card-body">
           <h3 class="card-title">Automatic repair result(s)</h3>
-          <p v-if="repairError">A failure occured while requesting the automatic repair</p>
+          <p v-if="repairError">A failure occurred while requesting the automatic repair</p>
           <p v-for="result in repairResult.data" v-else class="repair-result"><strong>{{ result.name }}:</strong> <span
               class="pre-text">{{ result.result }}</span></p>
         </div>
@@ -96,6 +96,11 @@ export default {
       type: String,
       required: false,
       default: 'btn btn-pill btn-sm'
+    },
+    showInstallSteps: {
+      type: Boolean,
+      required: false,
+      default: false
     }
   },
 
@@ -131,8 +136,8 @@ export default {
     needsFixing() {
       let result = false;
 
-      this.healthData.forEach(async function (item) {
-        if (item.healthy === false) {
+      this.healthData.forEach(async function(item) {
+        if(item.healthy === false) {
           result = true;
         }
       });
@@ -153,7 +158,7 @@ export default {
 
     doHealthCheck() {
       this.loading = true;
-      axios.get('/api/system/health')
+      axios.get('/api/system/health', {params: {showInstallSteps: this.showInstallSteps}})
           .then(response => {
             this.healthData = response.data;
           })
@@ -162,12 +167,12 @@ export default {
           })
           .finally(() => {
             this.loading = false;
-          })
+          });
     },
 
     attemptRepair() {
       this.repairLoading = true;
-      axios.post('/api/system/health/fix')
+      axios.post('/api/system/health/fix', {showInstallSteps: this.showInstallSteps})
           .then(response => {
             this.repairResult = response.data;
             this.doHealthCheck();
@@ -177,7 +182,7 @@ export default {
           })
           .finally(() => {
             this.repairLoading = false;
-          })
+          });
     }
   }
 }

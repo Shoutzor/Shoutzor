@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\HealthCheck\CacheHealthCheck;
+use App\HealthCheck\EnsureFileHealthCheck;
 use App\HealthCheck\HealthCheckManager;
 use App\HealthCheck\SymlinkHealthCheck;
 use App\HealthCheck\WritableDirsHealthCheck;
@@ -22,7 +23,7 @@ class AppServiceProvider extends ServiceProvider
     public function register()
     {
         $this->healthCheckManager = new HealthCheckManager();
-        $this->healthCheckManager->registerHealthcheck(new SymlinkHealthCheck(config('filesystems.links')));
+        $this->healthCheckManager->registerHealthcheck(new SymlinkHealthCheck(config('filesystems.links')), false);
         $this->healthCheckManager->registerHealthCheck(
             new WritableDirsHealthCheck(
                 [
@@ -31,9 +32,18 @@ class AppServiceProvider extends ServiceProvider
                     Filesystem::correctDS(storage_path('app/public/artist/')),
                     Filesystem::correctDS(storage_path('app/public/packages/'))
                 ]
-            )
+            ),
+            false
         );
-        $this->healthCheckManager->registerHealthcheck(new CacheHealthCheck());
+        $this->healthCheckManager->registerHealthcheck(new CacheHealthCheck(), false);
+        $this->healthCheckManager->registerHealthcheck(
+            new EnsureFileHealthCheck(
+                [
+                    base_path('.env') => base_path('.env.template')
+                ]
+            ),
+            true
+        );
 
         $this->app->instance(HealthCheckManager::class, $this->healthCheckManager);
     }

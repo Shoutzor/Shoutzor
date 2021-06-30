@@ -24,7 +24,6 @@ class SymlinkHealthCheck extends BaseHealthCheck
         );
 
         $this->symlinks = $symlinks;
-        $this->isHealthy = false;
         $this->errors = [];
     }
 
@@ -62,13 +61,6 @@ class SymlinkHealthCheck extends BaseHealthCheck
     public function fix(): HealthCheckFixResult
     {
         $result = new HealthCheckFixResult();
-
-        # No need to perform a fix if we're healthy.
-        if ($this->isHealthy()) {
-            $result->setFixed(true);
-            $result->setMessage('Symlinks healthy, no fix required.');
-            return $result;
-        }
 
         # Remove broken symlinks
         $errors = [];

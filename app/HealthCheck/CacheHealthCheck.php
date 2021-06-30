@@ -22,8 +22,6 @@ class CacheHealthCheck extends BaseHealthCheck
             'Checks if the cache store functions correctly',
             "Cache store '$this->store' functions correctly"
         );
-
-        $this->isHealthy = false;
     }
 
     public function checkHealth(): void
@@ -51,13 +49,6 @@ class CacheHealthCheck extends BaseHealthCheck
     public function fix(): HealthCheckFixResult
     {
         $result = new HealthCheckFixResult();
-
-        # No need to perform a fix if we're healthy.
-        if ($this->isHealthy()) {
-            $result->setFixed(true);
-            $result->setMessage('Cache store healthy, no fix required.');
-            return $result;
-        }
 
         $result->setFixed(false);
         $result->setMessage("Unable to automatically fix the cache store. Manual fix required.");
