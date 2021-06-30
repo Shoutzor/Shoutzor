@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Installer;
 use App\Http\Controllers\Controller;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
@@ -196,9 +197,13 @@ class InstallerDatabaseController extends Controller
             $result['connection'] = true;
 
             //Write the values to the .env file
-            $editor = DotenvEditor::load(app_path('.env'));
-            $editor->setKey('DB_CONNECTION', $request->dbtype);
-            $editor->setKeys($dotEnvValues);
+            $editor = DotenvEditor::load();
+            $editor->setKey('DB_CONNECTION', $request->dbtype)
+                ->setKeys($dotEnvValues)
+                ->save();
+
+            # Clear the cache config
+            Artisan::call('config:cache');
         } catch (Exception $e) {
             $result['messages']['general'] = $e->getMessage();
         }
