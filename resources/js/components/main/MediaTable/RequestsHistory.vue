@@ -52,7 +52,7 @@
 <script>
 import moment from "moment";
 import Request from "@js/models/Request";
-import BeautifiedTime from "@js/components/date/BeautifiedTime";
+import BeautifiedTime from "@js/components/global/date/BeautifiedTime";
 
 export default {
   components: {

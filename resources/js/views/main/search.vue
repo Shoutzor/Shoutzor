@@ -95,8 +95,8 @@
 </template>
 
 <script>
-import ComingUp from "@js/components/MediaTable/ComingUp";
-import ArtistList from "../../components/media/ArtistList";
+import ComingUp from "@js/components/main/MediaTable/ComingUp";
+import ArtistList from "@js/components/main/media/ArtistList";
 
 export default {
   name: "search-view",

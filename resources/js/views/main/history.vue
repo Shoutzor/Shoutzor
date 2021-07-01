@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import RequestsHistory from "@js/components/MediaTable/RequestsHistory";
+import RequestsHistory from "@js/components/main/MediaTable/RequestsHistory";
 
 export default {
   name: "dashboard-view",

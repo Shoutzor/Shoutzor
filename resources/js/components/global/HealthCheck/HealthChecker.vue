@@ -56,7 +56,7 @@
 
 <script>
 import axios from "axios";
-import HealthStatus from "@js/components/HealthCheck/HealthStatus";
+import HealthStatus from "@js/components/global/HealthCheck/HealthStatus";
 
 export default {
   components: {HealthStatus},

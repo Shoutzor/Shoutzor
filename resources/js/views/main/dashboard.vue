@@ -21,8 +21,8 @@
 </template>
 
 <script>
-import NowPlaying from "@js/components/MediaTable/NowPlaying";
-import ComingUp from "@js/components/MediaTable/ComingUp";
+import NowPlaying from "@js/components/main/MediaTable/NowPlaying";
+import ComingUp from "@js/components/main/MediaTable/ComingUp";
 
 export default {
   name: "dashboard-view",

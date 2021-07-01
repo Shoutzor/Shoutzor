@@ -1,18 +1,16 @@
 <template>
   <div class="card card-sm">
     <div class="card-body d-flex">
-            <span
-                v-if="healthy === true"
-                class="avatar healthStatus bg-green-lt">
-                <check-icon class="healthStatus-icon"></check-icon>
-            </span>
-      <span
+      <StatusIcon
+          v-if="healthy === true"
+          classes="bg-green-lt"
+          iconName="check-icon"></StatusIcon>
+      <StatusIcon
           v-else
-          class="avatar healthStatus bg-red-lt">
-                <alert-circle-icon class="healthStatus-icon"></alert-circle-icon>
-            </span>
+          classes="bg-red-lt"
+          iconName="alert-circle-icon"></StatusIcon>
 
-      <div class="ms-3">
+      <div class="ms-3 w-100">
         <div class="strong">{{ name }}</div>
         <div class="pre-text">{{ status }}</div>
       </div>
@@ -21,7 +19,10 @@
 </template>
 
 <script>
+import StatusIcon from "@js/components/global/status/StatusIcon";
+
 export default {
+  components: {StatusIcon},
   props: {
     healthy: {
       type: Boolean,

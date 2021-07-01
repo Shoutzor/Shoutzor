@@ -8,9 +8,9 @@
 import Vue from "vue";
 import {mapGetters} from 'vuex';
 import Shoutzor from "@js/views/Shoutzor";
-import LoginScreen from "@js/components/login/LoginScreen";
+import LoginScreen from "@js/components/main/login/LoginScreen";
 import store from "@js/store/index";
-import LoadScreen from "../components/loader/LoadScreen";
+import LoadScreen from "@js/components/global/loader/LoadScreen";
 
 export default {
   name: "App",

@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import LoginForm from "@js/components/login/LoginForm";
+import LoginForm from "@js/components/main/login/LoginForm";
 
 export default {
   name: 'headerTop',

@@ -9,3 +9,11 @@ use Illuminate\Support\Facades\Route;
  */
 Route::get('database/getFields', 'InstallerDatabaseController@getDatabaseFields');
 Route::post('database/configureDatabase', 'InstallerDatabaseController@configureDatabaseSettings');
+
+Route::get('setup', 'InstallerSetupController@getSetupSteps');
+Route::prefix('setup')->group(function() {
+    Route::get('migrate-database', 'InstallerSetupController@doMigrateDatabase');
+    Route::get('generate-keys', 'InstallerSetupController@doPassportInstall');
+    Route::get('seed-database', 'InstallerSetupController@doDatabaseSeeding');
+    Route::get('cache-config', 'InstallerSetupController@doCacheConfig');
+});

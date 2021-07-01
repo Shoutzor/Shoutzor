@@ -32,7 +32,7 @@
 </template>
 
 <script>
-import LoginForm from "@js/components/login/LoginForm";
+import LoginForm from "@js/components/main/login/LoginForm";
 import {mapGetters} from "vuex";
 
 export default {

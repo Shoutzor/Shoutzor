@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import HealthChecker from "@js/components/HealthCheck/HealthChecker";
+import HealthChecker from "@js/components/global/HealthCheck/HealthChecker";
 
 export default {
   name: "admin-dashboard",
