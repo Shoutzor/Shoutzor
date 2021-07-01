@@ -7,7 +7,8 @@
         </div>
 
         <router-view
-          :showNextButton="showNextButton"
+          :showNextButton="updateShowNextButton"
+          :showCustomButton="updateShowCustomButton"
           :updateButtonText="updateButtonText"
           :updateButtonLoading="updateButtonLoading"></router-view>
 
@@ -30,7 +31,7 @@
                 Next Step
               </router-link>
               <button
-                  v-else-if="showButton === false"
+                  v-else-if="showButton === false && showCustomButton === true"
                   v-on:click="buttonClickProxy"
                   :class="(buttonIsLoading ? 'btn-loading' : '') + ' btn btn-primary'">
                 {{ buttonText }}
@@ -52,8 +53,17 @@ export default {
   data() {
     return {
       showButton: true,
+      showCustomButton: true,
       buttonIsLoading: false,
       buttonText: ''
+    }
+  },
+
+  watch: {
+    //This makes sure that if a custom button is hidden, this wont stay this way.
+    //ie: every route will work with the same default values.
+    $route(to, from) {
+      this.resetButtonValues();
     }
   },
 
@@ -82,8 +92,19 @@ export default {
   },
 
   methods: {
-    showNextButton(show) {
+    resetButtonValues() {
+      this.showButton = true;
+      this.showCustomButton = true;
+      this.buttonText = 'Next step';
+      this.buttonIsLoading = false;
+    },
+
+    updateShowNextButton(show) {
       this.showButton = show;
+    },
+
+    updateShowCustomButton(show) {
+      this.showCustomButton = show;
     },
 
     updateButtonLoading(isLoading) {

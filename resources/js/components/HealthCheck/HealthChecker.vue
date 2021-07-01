@@ -62,6 +62,16 @@ export default {
   components: {HealthStatus},
 
   props: {
+    isAllHealthy: {
+      type: Function,
+      required: false,
+      default: (isAllHealthy) => {}
+    },
+    showInstallSteps: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
     showHeader: {
       type: Boolean,
       required: false,
@@ -96,11 +106,6 @@ export default {
       type: String,
       required: false,
       default: 'btn btn-pill btn-sm'
-    },
-    showInstallSteps: {
-      type: Boolean,
-      required: false,
-      default: false
     }
   },
 
@@ -111,12 +116,23 @@ export default {
       errored: false,
       repairLoading: false,
       repairError: false,
-      repairResult: []
+      repairResult: [],
+      isInitialized: false
     };
   },
 
   mounted() {
     this.doHealthCheck();
+  },
+
+  watch: {
+    healthData: function(val) {
+      if(this.isInitialized === false || this.errored === true) {
+        this.isAllHealthy(false);
+      } else {
+        this.isAllHealthy(!this.needsFixing());
+      }
+    }
   },
 
   methods: {
@@ -127,6 +143,7 @@ export default {
       this.repairLoading = false;
       this.repairError = false;
       this.repairResult = [];
+      this.isInitialized = false;
     },
 
     isLoading() {
@@ -158,9 +175,12 @@ export default {
 
     doHealthCheck() {
       this.loading = true;
+      this.isAllHealthy(false);
+
       axios.get('/api/system/health', {params: {showInstallSteps: this.showInstallSteps}})
           .then(response => {
             this.healthData = response.data;
+            this.isInitialized = true;
           })
           .catch(err => {
             this.errored = true;

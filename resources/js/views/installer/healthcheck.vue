@@ -15,6 +15,7 @@
         refreshButtonText="refresh"
         v-bind:showTitle="false"
         v-bind:showInstallSteps="true"
+        :isAllHealthy="healthCheckStateUpdate"
     ></health-checker>
   </div>
 </template>
@@ -24,7 +25,19 @@ export default {
   name: "installer-healthcheck-view",
 
   props: {
-    showNextButton: { type: Function }
+    showNextButton: { type: Function },
+    showCustomButton: { type: Function }
+  },
+
+  mounted() {
+    this.showNextButton(false);
+    this.showCustomButton(false);
+  },
+
+  methods: {
+    healthCheckStateUpdate: function(healthy) {
+      this.showNextButton(healthy);
+    }
   }
 };
 </script>
