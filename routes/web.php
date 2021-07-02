@@ -14,4 +14,6 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', 'HomeController@index')->name('home');
-Route::get('/install', 'UpdateController@install')->name('installer');
+
+// The middleware prevents this route from working once shoutz0r is installed
+Route::get('/install', 'UpdateController@install')->middleware('installer')->name('installer');
