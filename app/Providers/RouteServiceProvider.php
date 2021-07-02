@@ -8,11 +8,19 @@ use Illuminate\Support\Facades\Route;
 class RouteServiceProvider extends ServiceProvider
 {
     /**
-     * The path to the "home" route for your application.
+     * The path to the "home" route
      *
      * @var string
      */
     public const HOME = '/';
+
+    /**
+     * The path to the "installer" route
+     *
+     * @var string
+     */
+    public const INSTALLER = '/install';
+
     /**
      * This namespace is applied to your controller routes.
      *

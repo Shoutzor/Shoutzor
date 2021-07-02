@@ -6,15 +6,15 @@ use App\Providers\RouteServiceProvider;
 use Closure;
 use Illuminate\Auth\Access\Response;
 
-class RedirectIfInstalled
+class RedirectIfNotInstalled
 {
     public function handle($request, Closure $next)
     {
-        if (config('shoutzor.installed') === false) {
+        if (config('shoutzor.installed') === true) {
             Response::allow();
             return $next($request);
         }
 
-        return redirect(RouteServiceProvider::HOME);
+        return redirect(RouteServiceProvider::INSTALLER);
     }
 }
