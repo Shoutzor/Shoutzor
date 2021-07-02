@@ -47,10 +47,11 @@ export default {
       this.showNextButton(false);
       this.showCustomButton(false);
 
-      if(!this.isInstalled && !this.isActive) {
+      if(!isInstalled && !isActive) {
         this.showCustomButton(true);
       }
-      else if(this.isInstalled) {
+      else if(isInstalled) {
+        console.log("showing Next button");
         this.showNextButton(true);
       }
     }

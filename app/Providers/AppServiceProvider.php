@@ -36,6 +36,18 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        //For security reasons, only register the passport commands & migrations when installing
+        if(config('shoutzor.installed') === false) {
+            $this->loadMigrationsFrom(base_path('vendor/laravel/passport/database/migrations'));
+
+            $this->commands([
+                InstallCommand::class,
+                ClientCommand::class,
+                KeysCommand::class,
+            ]);
+        }
+
+        //Register the system healthchecks
         $this->healthCheckManager->registerHealthcheck(new SymlinkHealthCheck(config('filesystems.links')), false);
         $this->healthCheckManager->registerHealthCheck(
             new WritableDirsHealthCheck(
@@ -57,11 +69,5 @@ class AppServiceProvider extends ServiceProvider
             ),
             true
         );
-
-        $this->commands([
-            InstallCommand::class,
-            ClientCommand::class,
-            KeysCommand::class,
-        ]);
     }
 }

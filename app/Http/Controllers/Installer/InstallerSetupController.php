@@ -40,9 +40,9 @@ class InstallerSetupController extends Controller
                 'status' => -1
             ],
             [
-                'name' => 'Refresh config cache',
-                'description' => 'combines all configuration options into a single cache file to improve performance',
-                'slug' => 'cache-config',
+                'name' => 'Finishing up',
+                'description' => 'Finalize the installation',
+                'slug' => 'finish-install',
                 'running' => false,
                 'status' => -1
             ]
@@ -111,7 +111,7 @@ class InstallerSetupController extends Controller
         return response()->json($result, 200);
     }
 
-    public function doCacheConfig(Request $request)
+    public function doFinishInstall(Request $request)
     {
         // Create initial result array
         $result = [
@@ -120,7 +120,14 @@ class InstallerSetupController extends Controller
         ];
 
         try {
-            # Clear the cache config
+            # Set installed to true
+            config(['shoutzor.installed' => true]);
+
+            // Set installed to true in the .env file too
+            $editor = DotenvEditor::load();
+            $editor->setKey('SHOUTZOR_INSTALLED', "true")->save();
+
+            # Rebuild the config cache
             Artisan::call('config:cache');
         } catch (Exception $e) {
             $result['status'] = 0;

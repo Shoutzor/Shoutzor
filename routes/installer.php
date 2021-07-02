@@ -15,5 +15,5 @@ Route::prefix('setup')->group(function() {
     Route::get('migrate-database', 'InstallerSetupController@doMigrateDatabase');
     Route::get('generate-keys', 'InstallerSetupController@doPassportInstall');
     Route::get('seed-database', 'InstallerSetupController@doDatabaseSeeding');
-    Route::get('cache-config', 'InstallerSetupController@doCacheConfig');
+    Route::get('finish-install', 'InstallerSetupController@doFinishInstall');
 });
