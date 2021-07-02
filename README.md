@@ -12,21 +12,15 @@ The queue can be generated based on the amount of votes, or as a regular queue (
 Built using the Laravel Framework and Vue components.
 
 ### To setup:
-When the app is deployed, visit `/install` to run the Shoutz0r installer.
-
-### To setup from source:
-
-For deployment, checkout the masterbranch.\
-If you want to work on Shoutz0r, make sure to use the development branch.
-
-0. Open a terminal and navigate to the directory where these project files reside
-1. Run `php artisan migrate:fresh --seed`
-2. Run `php artisan passport:install --force`
-3. Optionally: for development run `php artisan db:seed --class=DevelopmentSeeder`
-4. If you're going to work on the front-end, make sure to run `npm run watch`. If not, a simple `npm run dev` will
-   suffice.
+When the app is deployed, just visit the site to start the setup process.\
+The installer will guide you through it.
 
 The Shoutz0r app should now be ready for use!
+
+Optionally: for development run `php artisan db:seed --class=DevelopmentSeeder`
+If you're going to work on the front-end, make sure to run `npm run watch`.
+
+
 
 ### Thanks to
 
