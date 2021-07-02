@@ -18,73 +18,77 @@ use Illuminate\Support\Facades\Route;
  * These routes are always available
  * --------------------------------------------------------------------------
  */
-Route::post('auth/login', 'AuthApiController@login');
-Route::get('role/guest', 'RoleApiController@guest');
-Route::get('permission/user', 'PermissionApiController@user');
-
 Route::get('system/health/', 'SystemApiController@getHealthStatus');
 Route::post('system/health/fix', 'SystemApiController@fixHealth');
 
-/*
- * --------------------------------------------------------------------------
- * Routes within this group only work for the installer
- * --------------------------------------------------------------------------
- */
-Route::get('installer/getDatabaseFields', 'InstallerApiController@getDatabaseFields');
 
 /*
  * --------------------------------------------------------------------------
- * Routes within this group require to be authenticated
+ * Routes within this group require Shoutz0r to be installed
  * --------------------------------------------------------------------------
  */
 Route::group(
-    ['middleware' => 'auth:api'],
-    function() {
-        Route::get('auth/logout', 'AuthApiController@logout');
-        Route::get('auth/user', 'AuthApiController@user');
-        Route::get('role/user', 'RoleApiController@user');
+    ['middleware' => 'install.finished'],
+    function () {
+        Route::post('auth/login', 'AuthApiController@login');
+        Route::get('role/guest', 'RoleApiController@guest');
+        Route::get('permission/user', 'PermissionApiController@user');
 
         /*
          * --------------------------------------------------------------------------
-         * Routes within this group require the website.access permission
+         * Routes within this group require to be authenticated
          * --------------------------------------------------------------------------
          */
         Route::group(
-            ['middleware' => 'can:website.access'],
-            function() {
-                Route::post('auth/register', 'AuthApiController@register');
-                Route::get('album/get/{id}', 'AlbumApiController@get')->where('id', '[0-9]+');
-                Route::get('artist/get/{id}', 'ArtistApiController@get')->where('id', '[0-9]+');
-                Route::get('request', 'RequestApiController@index');
-                Route::post('upload', 'UploadApiController@store')->middleware('can:upload');
-            }
-        );
+            ['middleware' => 'auth:api'],
+            function () {
+                Route::get('auth/logout', 'AuthApiController@logout');
+                Route::get('auth/user', 'AuthApiController@user');
+                Route::get('role/user', 'RoleApiController@user');
 
-        /*
-        * --------------------------------------------------------------------------
-        * Routes within this group require the website.access permission
-        * --------------------------------------------------------------------------
-        */
-        Route::group(
-            ['middleware' => 'can:admin.access'],
-            function() {
-                Route::get('permission/user/{id?}', 'PermissionApiController@user')->middleware(
-                    'can:admin.permissions.permission.get'
-                )->where('id', '[0-9]+');
-                Route::get('permission/get/{id?}', 'PermissionApiController@get')->middleware(
-                    'can:admin.permissions.permission.get'
-                )->where('id', '[0-9]+');
-                Route::get('role/get/{id?}', 'RoleApiController@get')
-                     ->middleware('can:admin.permissions.role.get')
-                     ->where('id', '[0-9]+');
-
-                //Admin - Packages
+                /*
+                 * --------------------------------------------------------------------------
+                 * Routes within this group require the website.access permission
+                 * --------------------------------------------------------------------------
+                 */
                 Route::group(
-                    ['middleware' => 'can:admin.packages'],
-                    function() {
-                        Route::get('package', 'PackageApiController@installed');
-                        Route::post('package/enable', 'PackageApiController@enable');
-                        Route::post('package/disable', 'PackageApiController@disable');
+                    ['middleware' => 'can:website.access'],
+                    function () {
+                        Route::post('auth/register', 'AuthApiController@register');
+                        Route::get('album/get/{id}', 'AlbumApiController@get')->where('id', '[0-9]+');
+                        Route::get('artist/get/{id}', 'ArtistApiController@get')->where('id', '[0-9]+');
+                        Route::get('request', 'RequestApiController@index');
+                        Route::post('upload', 'UploadApiController@store')->middleware('can:upload');
+                    }
+                );
+
+                /*
+                * --------------------------------------------------------------------------
+                * Routes within this group require the website.access permission
+                * --------------------------------------------------------------------------
+                */
+                Route::group(
+                    ['middleware' => 'can:admin.access'],
+                    function () {
+                        Route::get('permission/user/{id?}', 'PermissionApiController@user')->middleware(
+                            'can:admin.permissions.permission.get'
+                        )->where('id', '[0-9]+');
+                        Route::get('permission/get/{id?}', 'PermissionApiController@get')->middleware(
+                            'can:admin.permissions.permission.get'
+                        )->where('id', '[0-9]+');
+                        Route::get('role/get/{id?}', 'RoleApiController@get')
+                            ->middleware('can:admin.permissions.role.get')
+                            ->where('id', '[0-9]+');
+
+                        //Admin - Packages
+                        Route::group(
+                            ['middleware' => 'can:admin.packages'],
+                            function () {
+                                Route::get('package', 'PackageApiController@installed');
+                                Route::post('package/enable', 'PackageApiController@enable');
+                                Route::post('package/disable', 'PackageApiController@disable');
+                            }
+                        );
                     }
                 );
             }
