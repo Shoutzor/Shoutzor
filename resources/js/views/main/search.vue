@@ -95,14 +95,12 @@
 </template>
 
 <script>
-import ComingUp from "@js/components/main/MediaTable/ComingUp";
 import ArtistList from "@js/components/main/media/ArtistList";
 
 export default {
   name: "search-view",
   components: {
-    ArtistList,
-    ComingUp
+    ArtistList
   }
 };
 </script>

@@ -7,14 +7,20 @@
         </div>
       </div>
     </div>
-    <div class="row row-cards">
+    <div v-if="useQueue" class="row row-cards">
       <div class="col-sm-12">
-        <h2 class="comingup-header">Coming up</h2>
-        <div class="card mediaplayer">
+        <h2 class="title-header">Coming up</h2>
+        <div class="card">
           <div class="table-responsive">
             <coming-up></coming-up>
           </div>
         </div>
+      </div>
+    </div>
+    <div v-else class="row row-cards">
+      <div class="col-sm-12">
+        <h2 class="title-header">Current votes</h2>
+        <popular-votes></popular-votes>
       </div>
     </div>
   </div>
@@ -22,19 +28,27 @@
 
 <script>
 import NowPlaying from "@js/components/main/MediaTable/NowPlaying";
-import ComingUp from "@js/components/main/MediaTable/ComingUp";
+import ComingUp from "@js/components/main/queue/ComingUp";
+import PopularVotes from "@js/components/main/vote/PopularVotes";
 
 export default {
   name: "dashboard-view",
   components: {
+    PopularVotes,
     NowPlaying,
     ComingUp
+  },
+
+  data() {
+    return {
+      useQueue: false
+    };
   }
 };
 </script>
 
 <style lang="scss" scoped>
-.comingup-header {
+.title-header {
   margin: 1rem 0 0.5rem;
   opacity: 0.25;
   font-size: 2rem;

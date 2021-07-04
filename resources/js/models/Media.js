@@ -1,3 +1,4 @@
+import Vue from "vue";
 import {Model} from '@vuex-orm/core';
 
 import Album from "./Album";
