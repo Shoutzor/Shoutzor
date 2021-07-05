@@ -6,21 +6,21 @@
 
 <script>
 export default {
-  props: {
-    iconName: {
-      Type: String,
-      required: true
-    },
-    classes: {
-      Type: String,
-      required: false,
-      default: ''
-    },
-    iconClasses: {
-      Type: String,
-      required: false,
-      default: ''
+    props: {
+        iconName: {
+            Type: String,
+            required: true
+        },
+        classes: {
+            Type: String,
+            required: false,
+            default: ''
+        },
+        iconClasses: {
+            Type: String,
+            required: false,
+            default: ''
+        }
     }
-  }
 }
 </script>

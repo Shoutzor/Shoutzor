@@ -40,7 +40,7 @@ export default {
 
   methods: {
     onButtonClick() {
-      Vue.bus.emit('setupProgressRetry');
+      Vue.bus.emit('setup.retry');
     },
 
     onInstallStateUpdate(isActive, isInstalled) {

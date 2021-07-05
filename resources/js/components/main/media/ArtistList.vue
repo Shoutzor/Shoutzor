@@ -1,5 +1,5 @@
 <template>
-  <div v-if="artists !== null" class="artists">
+    <div v-if="artists !== null" class="artists">
         <span v-for="(artist, index) in artists"
               :key="artist.id"
         >
@@ -9,17 +9,17 @@
                 class="artist"
             >{{ artist.name }}</router-link>
         </span>
-  </div>
+    </div>
 </template>
 
 <script>
 export default {
-  props: ['artists']
+    props: ['artists']
 }
 </script>
 
 <style lang="scss">
 a.artist {
-  color: inherit;
+    color: inherit;
 }
 </style>
