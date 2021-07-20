@@ -17,6 +17,8 @@ The installer will guide you through it.
 
 The Shoutz0r app should now be ready for use!
 
+The default login is admin/admin
+
 Optionally: for development run `php artisan db:seed --class=DevelopmentSeeder`
 If you're going to work on the front-end, make sure to run `npm run watch`.
 
