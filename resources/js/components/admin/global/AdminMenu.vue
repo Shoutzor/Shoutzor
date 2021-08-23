@@ -57,7 +57,7 @@
                         </router-link>
                         <router-link
                             v-slot="{ href, navigate, isExactActive }"
-                            :to="{name: 'admin-packages'}"
+                            :to="{name: 'admin-modules'}"
                         >
                             <li :class="['nav-item', isExactActive && 'active']">
                                 <a :href="href"
@@ -67,7 +67,7 @@
                                         <ThreedCubeSphereIcon class="icon"></ThreedCubeSphereIcon>
                                     </span>
                                     <span class="nav-link-title">
-                                      Packages
+                                      Modules
                                     </span>
                                 </a>
                             </li>

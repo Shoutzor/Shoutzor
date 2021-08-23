@@ -42,7 +42,7 @@ class FillPermissions extends Migration
 
         $this->createPermission('admin.access', '(dis)allows accessing the admin panel and sub-pages', [$admin]);
 
-        $this->createPermission('admin.packages', '(dis)allows managing shoutzor packages', [$admin]);
+        $this->createPermission('admin.modules', '(dis)allows managing shoutzor modules', [$admin]);
 
         $this->createPermission(
             'admin.permissions.permission.get',

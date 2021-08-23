@@ -82,11 +82,11 @@ Route::group(
 
                         //Admin - Packages
                         Route::group(
-                            ['middleware' => 'can:admin.packages'],
+                            ['middleware' => 'can:admin.modules'],
                             function () {
-                                Route::get('package', 'PackageApiController@installed');
-                                Route::post('package/enable', 'PackageApiController@enable');
-                                Route::post('package/disable', 'PackageApiController@disable');
+                                Route::get('modules', 'ModuleApiController@get');
+                                Route::post('modules/enable', 'ModuleApiController@enable');
+                                Route::post('modules/disable', 'ModuleApiController@disable');
                             }
                         );
                     }

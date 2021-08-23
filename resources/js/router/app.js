@@ -13,7 +13,7 @@ import AdminUsers from "@js/views/admin/users";
 import AdminRoles from "@js/views/admin/roles";
 import AdminRolesList from "@js/views/admin/roles/list";
 import AdminRolesEdit from "@js/views/admin/roles/edit";
-import AdminPackages from "@js/views/admin/packages";
+import AdminModules from "@js/views/admin/modules";
 
 Vue.use(VueRouter);
 
@@ -81,9 +81,9 @@ const routes = [{
             })
         }]
     }, {
-        name: 'admin-packages',
-        path: 'packages',
-        component: AdminPackages
+        name: 'admin-modules',
+        path: 'modules',
+        component: AdminModules
     }]
 }];
 

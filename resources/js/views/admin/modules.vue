@@ -1,8 +1,8 @@
 <template>
   <div class="row row-cards">
     <div class="col-sm-12">
-      <h1>Installed packages</h1>
-      <package-list></package-list>
+      <h1>Installed modules</h1>
+      <module-list></module-list>
     </div>
   </div>
 </template>

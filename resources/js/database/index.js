@@ -6,7 +6,7 @@ import AlbumMedia from '@js/models/AlbumMedia'
 import Artist from '@js/models/Artist'
 import ArtistMedia from '@js/models/ArtistMedia'
 import Media from '@js/models/Media'
-import Package from '@js/models/Package'
+import Module from '@js/models/Module'
 import Request from '@js/models/Request'
 import Task from '@js/models/Task'
 import Permission from '@js/models/Permission'
@@ -24,7 +24,7 @@ database.register(AlbumMedia);
 database.register(Artist);
 database.register(ArtistMedia);
 database.register(Media);
-database.register(Package);
+database.register(Module);
 database.register(Task);
 database.register(Permission);
 database.register(Role);

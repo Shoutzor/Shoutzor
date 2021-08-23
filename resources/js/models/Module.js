@@ -1,12 +1,12 @@
 import {Model} from '@vuex-orm/core';
 
-export default class Package extends Model {
-    static entity = 'packages'
+export default class Module extends Model {
+    static entity = 'modules'
     static apiConfig = {
         actions: {
             fetch: {
                 method: 'get',
-                url: '/api/package'
+                url: '/api/modules'
             }
         }
     }

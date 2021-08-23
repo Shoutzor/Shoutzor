@@ -3,27 +3,23 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Package;
-use App\Packages\PackageManager;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
-class PackageApiController extends Controller
+class ModuleApiController extends Controller
 {
     public function __construct()
     {
         //$this->pm = app(PackageManager::class);
     }
 
-    public function installed(Request $request)
+    public function get(Request $request)
     {
-        $request->validate(['id' => 'string']);
-
         return response()->json([], 200);
     }
 
     /**
-     * Enable a package
+     * Enable a Module
      *
      * @param  Request  $request
      * @return JsonResponse
@@ -33,11 +29,11 @@ class PackageApiController extends Controller
         $request->validate(['id' => 'string']);
 
         //Return the failed response
-        return response()->json(['message' => 'Package not found'], 400);
+        return response()->json(['message' => 'Module not found'], 400);
     }
 
     /**
-     * Disable a package
+     * Disable a Module
      *
      * @param  Request  $request
      * @return JsonResponse
@@ -47,7 +43,7 @@ class PackageApiController extends Controller
         $request->validate(['id' => 'string']);
 
         //Return the failed response
-        return response()->json(['message' => 'Package not found'], 400);
+        return response()->json(['message' => 'Module not found'], 400);
     }
 
 }
