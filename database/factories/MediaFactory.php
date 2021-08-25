@@ -16,7 +16,9 @@ class MediaFactory extends Factory
             'title' => $this->faker->title(),
             'filename' => 'example.mp3', //TODO: use $this->faker->file()
             'duration' => $this->faker->numberBetween(30, 500),
-            'is_video' => false
+            'hash' => hash_file('sha512', 'filename_here'),
+            'is_video' => false,
+            'source' => 'audio'
         ];
     }
 }

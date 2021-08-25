@@ -42,8 +42,8 @@ class UploadProcessor
 
             // Move the media file from the temp upload directory to its persistent directory
             Storage::move(
-                $this->tempMediaDir.$upload->filename,
-                $this->mediaDir.$media->filename
+                $this->tempMediaDir . $upload->filename,
+                $this->mediaDir . $media->filename
             );
 
             // Save the media instance to the database
@@ -88,7 +88,7 @@ class UploadProcessor
         );
 
         # Calculate the CRC hash of the file
-        $media->crc = hash_file('crc32', $media->filename);
+        $media->hash = hash_file('sha512', $media->filename);
 
         # Get the duration of the file
         $media->duration = $this->getDuration($media);
@@ -119,7 +119,7 @@ class UploadProcessor
      */
     private function checkIfUnique(Media $media)
     {
-        $exist = Media::query()->where('crc', $media->crc)->first();
+        $exist = Media::query()->where('hash', $media->hash)->first();
 
         if ($exist) {
             throw new UploadFailedFinalException("A file with the same CRC-hash is already in the database");

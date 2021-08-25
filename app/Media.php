@@ -17,7 +17,7 @@ class Media extends Model
      * @var string
      */
     protected $table = 'media';
-    protected $fillable = ['title', 'filename', 'duration', 'is_video'];
+    protected $fillable = ['title', 'filename', 'crc', 'duration', 'is_video', 'image', 'source'];
 
     public function albums()
     {

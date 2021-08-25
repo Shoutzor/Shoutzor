@@ -1,19 +1,21 @@
 <template>
     <div class="card votecard" v-on:click="onVoteClick">
-        <div :style="'background-image: url(images/'+media.album[0].image+')'" class="card-body">
+        <div :style="'background-image: url('+ media.coverImage +')'" class="card-body">
             <div class="info">
                 <div class="d-flex align-items-center">
-                    <div class="subheader artists">{{ media.artist }}</div>
+                    <div class="subheader authors">
+                        {{ media.artist }}
+                    </div>
                 </div>
                 <div class="h1 mb-3 title">{{ media.title }}</div>
                 <div class="voteresult d-flex">
-                    <div>{{ media.votes }} Votes ({{ media.percentage }}%)</div>
+                    <div>{{ votes }} Votes ({{ percentage }}%)</div>
                 </div>
             </div>
         </div>
         <div class="progress progress-sm">
-            <div :aria-valuenow="media.percentage" :style="'width: '+media.percentage+'%;'" aria-valuemax="100" aria-valuemin="0" class="progress-bar" role="progressbar">
-                <span class="visually-hidden">{{ media.percentage }}% Complete</span>
+            <div :aria-valuenow="percentage" :style="'width: '+percentage+'%;'" aria-valuemax="100" aria-valuemin="0" class="progress-bar" role="progressbar">
+                <span class="visually-hidden">{{ percentage }}% of total votes</span>
             </div>
         </div>
     </div>
@@ -21,9 +23,14 @@
 
 <script>
 import Vue from "vue";
+import Media from "@js/models/Media";
 
 export default {
-    props: ['media'],
+    props: {
+        media: Media,
+        votes: Number,
+        percentage: Number
+    },
 
     methods: {
         onVoteClick() {

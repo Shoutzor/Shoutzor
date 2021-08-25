@@ -19,7 +19,7 @@ class CreateMediaTable extends Migration
                 $table->bigIncrements('id');
                 $table->string('title');
                 $table->string('filename');
-                $table->string('crc', 32);
+                $table->char('hash', 128);
                 $table->boolean('is_video');
                 $table->smallInteger('duration')->unsigned();
             }

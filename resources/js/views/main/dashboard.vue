@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import NowPlaying from "@js/components/main/MediaTable/NowPlaying";
+import NowPlaying from "@js/components/main/media/NowPlaying";
 import ComingUp from "@js/components/main/queue/ComingUp";
 import PopularVotes from "@js/components/main/vote/PopularVotes";
 

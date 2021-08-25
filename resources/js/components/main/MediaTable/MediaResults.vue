@@ -17,6 +17,7 @@
             class="stamp mediasource stamp-md text-white mr-3">
           <font-awesome-icon
               :icon="media.source.icon"
+              :alt="media.source.name"
               class="mediasource-icon"></font-awesome-icon>
         </span>
                 <span v-else class="stamp mediasource unknown stamp-md text-white mr-3">

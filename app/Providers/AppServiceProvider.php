@@ -8,6 +8,8 @@ use App\HealthCheck\HealthCheckManager;
 use App\HealthCheck\SymlinkHealthCheck;
 use App\HealthCheck\WritableDirsHealthCheck;
 use App\Helpers\Filesystem;
+use App\MediaSource\MediaSource;
+use App\MediaSource\MediaSourceManager;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Passport\Console\ClientCommand;
 use Laravel\Passport\Console\InstallCommand;
@@ -16,6 +18,7 @@ use Laravel\Passport\Console\KeysCommand;
 class AppServiceProvider extends ServiceProvider
 {
 
+    private MediaSourceManager $mediaSourceManager;
     private HealthCheckManager $healthCheckManager;
 
     /**
@@ -25,7 +28,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $this->mediaSourceManager = new MediaSourceManager();
         $this->healthCheckManager = new HealthCheckManager();
+
+        $this->app->instance(MediaSourceManager::class, $this->mediaSourceManager);
         $this->app->instance(HealthCheckManager::class, $this->healthCheckManager);
     }
 
@@ -46,6 +52,11 @@ class AppServiceProvider extends ServiceProvider
                 KeysCommand::class,
             ]);
         }
+
+        // Register the default media filetype sources (local audio file & local video file)
+        // Other sources can be added as a module (ie: youtube, spotify, etc.)
+        $this->mediaSourceManager->registerSource(new MediaSource('audio', 'audio file', ''));
+        $this->mediaSourceManager->registerSource(new MediaSource('video', 'video file', ''));
 
         //Register the system healthchecks
         $this->healthCheckManager->registerHealthcheck(new SymlinkHealthCheck(config('filesystems.links')), false);
