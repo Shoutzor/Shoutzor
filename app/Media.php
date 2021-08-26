@@ -11,13 +11,8 @@ class Media extends Model
 
     const STORAGE_PATH = 'media/';
     public $timestamps = false;
-    /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
     protected $table = 'media';
-    protected $fillable = ['title', 'filename', 'crc', 'duration', 'is_video', 'image', 'source'];
+    protected $fillable = ['title', 'filename', 'hash', 'duration', 'is_video', 'image', 'source'];
 
     public function albums()
     {
