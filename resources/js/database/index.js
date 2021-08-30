@@ -15,6 +15,7 @@ import User from '@js/models/User'
 import RolePermission from "@js/models/RolePermission";
 import UserPermission from "@js/models/UserPermission";
 import UserRole from "@js/models/UserRole";
+import MediaVote from "@js/models/MediaVote";
 
 const database = new VuexORM.Database();
 
@@ -33,5 +34,6 @@ database.register(RolePermission);
 database.register(UserPermission);
 database.register(UserRole);
 database.register(Request);
+database.register(MediaVote);
 
 export default database

@@ -12,8 +12,6 @@ export default class Media extends Model {
     static entity = 'media'
 
     get coverImage() {
-        console.log("hi");
-        console.log(this.image);
         if(this.image.length > 0) {
             return this.image;
         }

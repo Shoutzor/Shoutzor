@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import Request from '@js/models/Request';
+import MediaVote from '@js/models/MediaVote';
 
 var updateDataHandle = null;
 var Shoutzor = {
@@ -35,9 +36,10 @@ var Shoutzor = {
 
         //Fetch the (new) data
         var requestData = Request.api().fetch();
+        var voteData = MediaVote.api().fetch();
 
         // Emit event to notify that the data has been updated once the promises are resolved
-        Promise.all([requestData]).finally(() => {
+        Promise.all([requestData, voteData]).finally(() => {
             Vue.bus.emit("app.data.update");
 
             //Set the new timeout to update the data again

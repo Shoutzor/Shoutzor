@@ -17,13 +17,10 @@ class CreateRequestsTable extends Migration
             'requests',
             function (Blueprint $table) {
                 $table->bigIncrements('id');
-                $table->unsignedBigInteger('media_id');
+                $table->foreignId('media_id')->constrained('media', 'id')->cascadeOnDelete();
                 $table->foreignId('user_id')->nullable()->constrained('users', 'id')->cascadeOnDelete();
                 $table->timestamp('requested_at')->useCurrent();
                 $table->timestamp('played_at')->nullable()->default(null);
-
-                $table->foreign('media_id')->references('id')->on('media')->cascadeOnDelete();
-
             }
         );
     }

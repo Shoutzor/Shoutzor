@@ -1,13 +1,13 @@
 <template>
     <div class="card votecard" v-on:click="onVoteClick">
-        <div :style="'background-image: url('+ media.coverImage +')'" class="card-body">
+        <div :style="'background-image: url('+ vote.media.coverImage +')'" class="card-body">
             <div class="info">
                 <div class="d-flex align-items-center">
                     <div class="subheader authors">
-                        {{ media.artist }}
+                        {{ vote.media.artist }}
                     </div>
                 </div>
-                <div class="h1 mb-3 title">{{ media.title }}</div>
+                <div class="h1 mb-3 title">{{ vote.media.title }}</div>
                 <div class="voteresult d-flex">
                     <div>{{ votes }} Votes ({{ percentage }}%)</div>
                 </div>
@@ -23,18 +23,18 @@
 
 <script>
 import Vue from "vue";
-import Media from "@js/models/Media";
+import MediaVote from "@js/models/MediaVote";
 
 export default {
     props: {
-        media: Media,
+        vote: MediaVote,
         votes: Number,
         percentage: Number
     },
 
     methods: {
         onVoteClick() {
-            Vue.bus.emit('votes.vote', this.media);
+            Vue.bus.emit('votes.vote', this.vote.media);
         }
     }
 }

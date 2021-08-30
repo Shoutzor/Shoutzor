@@ -59,12 +59,13 @@ Route::group(
                         Route::get('artist/get/{id}', 'ArtistApiController@get')->where('id', '[0-9]+');
                         Route::get('request', 'RequestApiController@index');
                         Route::post('upload', 'UploadApiController@store')->middleware('can:upload');
+                        Route::get('vote/count', 'VoteApiController@count');
                     }
                 );
 
                 /*
                 * --------------------------------------------------------------------------
-                * Routes within this group require the website.access permission
+                * Routes within this group require the admin.access permission
                 * --------------------------------------------------------------------------
                 */
                 Route::group(

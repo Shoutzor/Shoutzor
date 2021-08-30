@@ -20,7 +20,7 @@
     <div v-else class="row row-cards">
       <div class="col-sm-12">
         <h2 class="title-header">Current votes</h2>
-        <popular-votes></popular-votes>
+        <current-votes></current-votes>
       </div>
     </div>
   </div>
@@ -29,12 +29,12 @@
 <script>
 import NowPlaying from "@js/components/main/media/NowPlaying";
 import ComingUp from "@js/components/main/queue/ComingUp";
-import PopularVotes from "@js/components/main/vote/PopularVotes";
+import CurrentVotes from "@js/components/main/vote/CurrentVotes";
 
 export default {
   name: "dashboard-view",
   components: {
-    PopularVotes,
+    CurrentVotes,
     NowPlaying,
     ComingUp
   },

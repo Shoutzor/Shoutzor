@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateArtistMediaTable extends Migration
+class CreateVotesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,11 +14,11 @@ class CreateArtistMediaTable extends Migration
     public function up()
     {
         Schema::create(
-            'artist_media',
+            'votes',
             function (Blueprint $table) {
-                $table->foreignId('artist_id')->constrained('artists', 'id')->cascadeOnDelete();
+                $table->bigIncrements('id');
                 $table->foreignId('media_id')->constrained('media', 'id')->cascadeOnDelete();
-                $table->unique(['artist_id', 'media_id']);
+                $table->foreignId('user_id')->nullable()->constrained('users', 'id')->cascadeOnDelete();
             }
         );
     }
@@ -30,6 +30,6 @@ class CreateArtistMediaTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('artist_media');
+        Schema::dropIfExists('requests');
     }
 }
