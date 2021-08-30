@@ -38,7 +38,7 @@ export default {
         percentage: function() {
             // Make sure the vote prop has been properly passed
             // as well as prevent a divide by zero exception
-            if(typeof this.vote === undefined || this.vote.count === 0) {
+            if(typeof this.vote === undefined || this.vote.count === 0 || this.totalVotes === 0) {
                 return 0;
             }
 
@@ -48,7 +48,7 @@ export default {
 
     methods: {
         onVoteClick() {
-            Vue.bus.emit('votes.vote', this.vote.media);
+            Vue.bus.emit('votes.vote', this.vote);
         }
     }
 }
