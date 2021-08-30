@@ -1,10 +1,10 @@
 import Vue from "vue";
 import VueBus from 'vue-bus';
+import VueTablerIcons from 'vue-tabler-icons';
 import router from "./router/app";
 import store from "./store";
 import Shoutzor from "./plugin/Shoutzor";
 import App from "@js/views/App";
-import VueTablerIcons from 'vue-tabler-icons';
 
 //Recursively scan and add all Vue components
 const files = require.context('./', true, /\.vue$/i);

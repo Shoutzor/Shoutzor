@@ -15,13 +15,12 @@ class ProcessUpload implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    protected $upload;
+    protected Upload $upload;
 
     /**
      * Create a new job instance.
      *
-     * @param  Upload  $podcast
-     * @return void
+     * @param  Upload  $upload
      */
     public function __construct(Upload $upload)
     {

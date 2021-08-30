@@ -58,7 +58,7 @@ Route::group(
                         Route::get('album/get/{id}', 'AlbumApiController@get')->where('id', '[0-9]+');
                         Route::get('artist/get/{id}', 'ArtistApiController@get')->where('id', '[0-9]+');
                         Route::get('request', 'RequestApiController@index');
-                        Route::post('upload', 'UploadApiController@store')->middleware('can:upload');
+                        Route::post('upload', 'UploadApiController@store')->middleware('can:website.upload');
                         Route::get('vote/count', 'VoteApiController@count');
                     }
                 );

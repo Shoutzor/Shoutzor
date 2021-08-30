@@ -4,7 +4,7 @@
             <div class="info">
                 <div class="d-flex align-items-center">
                     <div class="subheader authors">
-                        {{ vote.media.artist }}
+                        <artist-list :artists="vote.media.artists" class="text-muted"></artist-list>
                     </div>
                 </div>
                 <div class="h1 mb-3 title">{{ vote.media.title }}</div>
