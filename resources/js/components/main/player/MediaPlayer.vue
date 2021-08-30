@@ -10,8 +10,8 @@
                     <artist-list :artists="currentRequest.media.artists" class="text-muted"></artist-list>
                 </div>
             </div>
-            <div v-else class="row row-sm align-items-center">
-                <div class="col-auto">
+            <div v-else class="row row-sm align-items-center ps-2">
+                <div class="col-auto ">
                     <question-mark-icon
                         class="rounded border"
                         height="48"
