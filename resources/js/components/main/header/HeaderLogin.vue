@@ -19,6 +19,7 @@ export default {
 
 <style lang="scss">
 .auth-dropdown {
+    right: 0;
     padding: 5px;
 
     button {

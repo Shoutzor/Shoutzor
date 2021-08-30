@@ -1,5 +1,5 @@
 <template>
-    <div class="dropdown-menu dropdown-menu-right">
+    <div class="dropdown-menu dropdown-menu-right user-dropdown">
         <router-link
             :to="{name: 'profile'}"
             class="dropdown-item"
@@ -27,3 +27,9 @@ export default {
     }
 }
 </script>
+
+<style lang="scss">
+.user-dropdown {
+    right: 0;
+}
+</style>
