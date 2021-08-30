@@ -9,7 +9,7 @@
                 </div>
                 <div class="h1 mb-3 title">{{ vote.media.title }}</div>
                 <div class="voteresult d-flex">
-                    <div>{{ votes }} Votes ({{ percentage }}%)</div>
+                    <div>{{ vote.count }} Votes ({{ percentage }}%)</div>
                 </div>
             </div>
         </div>
@@ -28,8 +28,22 @@ import MediaVote from "@js/models/MediaVote";
 export default {
     props: {
         vote: MediaVote,
-        votes: Number,
-        percentage: Number
+        totalVotes: {
+            type: Number,
+            default: 0
+        }
+    },
+
+    computed: {
+        percentage: function() {
+            // Make sure the vote prop has been properly passed
+            // as well as prevent a divide by zero exception
+            if(typeof this.vote === undefined || this.vote.count === 0) {
+                return 0;
+            }
+
+            return Math.round((this.vote.count / this.totalVotes) * 100);
+        }
     },
 
     methods: {
