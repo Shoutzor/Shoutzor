@@ -55,7 +55,7 @@ steps:
         git add .
         git commit --author "Azure Devops Pipeline <azure-devops@example.com>" -m "Updated phpDocs"
         git push
-        cd ~
+        cd ..
     displayName: 'Upload phpDoc to Shoutz0r Repo'
 
   - script: |
@@ -72,7 +72,7 @@ steps:
     displayName: 'Install MySQL'
 
   - script: |
-      cd ~/Shoutz0r-app
+      cd ./Shoutz0r-app
       cp .env.example .env
     displayName: 'Environment Setup'
 
