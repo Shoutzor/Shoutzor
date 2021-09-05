@@ -24,6 +24,7 @@ steps:
     persistCredentials: true
     clean: true
   - checkout: Shoutz0r
+    persistCredentials: true
 
   - script: |
       git config --global user.email "4212335+xorinzor@users.noreply.github.com"
@@ -50,7 +51,7 @@ steps:
         rm -rf *
         cp -r ../Shoutz0r-app/docs/* .
         git add .
-        git commit -m "Updated phpDocs"
+        git commit --author "Azure Devops Pipeline <azure-devops@example.com>" -m "Updated phpDocs"
         git push
         cd ~
     displayName: 'Upload phpDoc to Shoutz0r Repo'
