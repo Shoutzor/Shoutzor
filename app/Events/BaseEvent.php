@@ -5,10 +5,10 @@ namespace App\Events;
 use Symfony\Contracts\EventDispatcher\Event;
 
 /**
- * Class UploadAddedEvent
+ * Class BaseEvent
+ * Base Event class to be used by other Events of Shoutz0r
  *
  * @package App\Events
- * Gets called when a file has been uploaded, the file wont be parsed until UploadProcessingEvent is called
  */
 class BaseEvent extends Event
 {

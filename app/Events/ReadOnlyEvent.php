@@ -6,9 +6,9 @@ use Exception;
 
 /**
  * Class ReadOnlyEvent
+ * Creates a read-only event, this cannot be marked invalid or stopped from propagating.
  *
  * @package App\Events
- * Creates a read-only event, this cannot be marked invalid or stopped from propagating.
  */
 class ReadOnlyEvent extends BaseEvent
 {
