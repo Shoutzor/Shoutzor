@@ -27,6 +27,8 @@ steps:
     persistCredentials: true
 
   - script: |
+      pwd
+      tree -d
       git config --global user.email "4212335+xorinzor@users.noreply.github.com"
       git config --global user.name "xorinzor"
     displayName: 'Configure GIT'
