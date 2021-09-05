@@ -19,6 +19,8 @@ steps:
 
   - script: |
       sudo apt-get install git
+      git config --global user.email "devops@azure.com"
+      git config --global user.name "Azure Devops Pipeline"
     displayName: 'Install GIT'
 
   - script: |
@@ -31,18 +33,22 @@ steps:
     displayName: 'Use PHP version $(phpVersion)'
 
   - script: |
+        git clone https://github.com/xorinzor/Shoutz0r.git ./shoutz0r-app
+    displayName: 'Clone Shoutz0r App Repo'
+
+  - script: |
       wget https://phpdoc.org/phpDocumentor.phar
-      php phpDocumentor.phar -d app -t docs
+      php phpDocumentor.phar -d ./shoutz0r-app/app -t ./shoutz0r-app/docs
     displayName: 'Generate phpDoc'
 
   - script: |
-        git clone https://github.com/xorinzor/Shoutz0r.git ./git
-        cd ./git
+        git clone https://github.com/xorinzor/Shoutz0r.git ./shoutz0r
+        cd ./shoutz0r
         rm -rf *
-        cp -r ../docs/* .
+        cp -r ../shoutz0r-app/docs/* .
         git commit -m "Updated phpDocs"
         git push        
-    displayName: 'Upload phpDoc to Shoutz0r Repo'
+n    displayName: 'Upload phpDoc to Shoutz0r Repo'
 
   - script: |
       curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
@@ -58,6 +64,7 @@ steps:
     displayName: 'Install MySQL'
 
   - script: |
+      cd ~/shoutz0r-app
       cp .env.example .env
     displayName: 'Environment Setup'
 
