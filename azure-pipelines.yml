@@ -38,7 +38,7 @@ steps:
   - script: phive install --trust-gpg-keys 67F861C3D889C656 phpDocumentor
     displayName: 'install phpDocumentor'
 
-  - script: phpDocumentor -d app -t docs
+  - script: phpdoc -d app -t docs
     displayName: 'Generate phpDoc'
 
   - script: |
