@@ -47,8 +47,8 @@ steps:
         rm -rf *
         cp -r ../shoutz0r-app/docs/* .
         git commit -m "Updated phpDocs"
-        git push        
-n    displayName: 'Upload phpDoc to Shoutz0r Repo'
+        git push
+    displayName: 'Upload phpDoc to Shoutz0r Repo'
 
   - script: |
       curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
