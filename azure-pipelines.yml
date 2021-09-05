@@ -12,13 +12,17 @@ pool:
 variables:
   phpVersion: 8
 
+resources:
+  repositories:
+    - repository: Shoutz0r
+      type: github
+      name: xorinzor/Shoutz0r
+
 steps:
   - checkout: self
     persistCredentials: true
     clean: true
-  - checkout: xorinzor/Shoutz0r
-    persistCredentials: true
-    clean: true
+  - checkout: Shoutz0r
 
   - script: |
       tree -d
