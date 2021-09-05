@@ -14,6 +14,10 @@ variables:
 
 steps:
   - script: |
+      sudo apt-get install git
+    displayName: 'Install GIT'
+
+  - script: |
       sudo update-alternatives --set php /usr/bin/php$(phpVersion)
       sudo update-alternatives --set phar /usr/bin/phar$(phpVersion)
       sudo update-alternatives --set phpdbg /usr/bin/phpdbg$(phpVersion)
@@ -25,20 +29,29 @@ steps:
   - script: |
       wget -O phive.phar https://phar.io/releases/phive.phar
       wget -O phive.phar.asc https://phar.io/releases/phive.phar.asc
-      gpg --keyserver hkps://keys.openpgp.org --recv-keys 0x9D8A98B29B2D5D79
-      gpg --verify phive.phar.asc phive.phar
-      chmod +x phive.phar
+      sudo gpg --keyserver hkps://keys.openpgp.org --recv-keys 0x9D8A98B29B2D5D79
+      sudo gpg --verify phive.phar.asc phive.phar
+      sudo chmod +x phive.phar
       sudo mv phive.phar /usr/local/bin/phive
     displayName: 'Install PHIVE'
   
   - script: |
       phive install phpDocumentor
-      chmod +x phpDocumentor.phar
-      mv phpDocumentor.phar /usr/local/bin/phpDocumentor
+      sudo chmod +x phpDocumentor.phar
+      sudo mv phpDocumentor.phar /usr/local/bin/phpDocumentor
     displayName: 'install phpDocumentor'
 
   - script: phpDocumentor -d app -t docs
     displayName: 'Generate phpDoc'
+
+  - script: |
+        git clone https://github.com/xorinzor/Shoutz0r.git ./git
+        cd ./git
+        rm -rf *
+        cp -r ../docs/* .
+        git commit -m "Updated phpDocs"
+        git push        
+    displayName: 'Upload phpDoc to Shoutz0r Repo'
 
   - script: |
       curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
