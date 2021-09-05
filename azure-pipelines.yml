@@ -26,6 +26,11 @@ steps:
   - checkout: Shoutz0r
 
   - script: |
+      git config --global user.email "4212335+xorinzor@users.noreply.github.com"
+      git config --global user.name "AzureDevops-Pipeline"
+    displayName: 'Configure GIT'
+
+  - script: |
       sudo update-alternatives --set php /usr/bin/php$(phpVersion)
       sudo update-alternatives --set phar /usr/bin/phar$(phpVersion)
       sudo update-alternatives --set phpdbg /usr/bin/phpdbg$(phpVersion)
