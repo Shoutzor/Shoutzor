@@ -23,6 +23,24 @@ steps:
     displayName: 'Use PHP version $(phpVersion)'
 
   - script: |
+      wget -O phive.phar https://phar.io/releases/phive.phar
+      wget -O phive.phar.asc https://phar.io/releases/phive.phar.asc
+      gpg --keyserver hkps://keys.openpgp.org --recv-keys 0x9D8A98B29B2D5D79
+      gpg --verify phive.phar.asc phive.phar
+      chmod +x phive.phar
+      sudo mv phive.phar /usr/local/bin/phive
+    displayName: 'Install PHIVE'
+  
+  - script: |
+      phive install phpDocumentor
+      chmod +x phpDocumentor.phar
+      mv phpDocumentor.phar /usr/local/bin/phpDocumentor
+    displayName: 'install phpDocumentor'
+
+  - script: phpDocumentor -d app -t docs
+    displayName: 'Generate phpDoc'
+
+  - script: |
       curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
       sudo apt-get install -y build-essential debconf-utils screen
       sudo apt-get install -y unzip xvfb autogen autoconf libtool pkg-config nasm
