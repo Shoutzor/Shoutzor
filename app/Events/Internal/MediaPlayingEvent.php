@@ -7,9 +7,9 @@ use App\Media;
 
 /**
  * Class MediaPlayingEvent
+ * Gets called when a media object started playing on Shoutz0r
  *
  * @package App\Events
- * Gets called when a media object started playing on Shoutz0r
  */
 class MediaPlayingEvent extends ReadOnlyEvent
 {

@@ -7,9 +7,9 @@ use App\Upload;
 
 /**
  * Class UploadProcessingEvent
+ * Gets called when an upload from the queue is being processed
  *
  * @package App\Events
- * Gets called when an upload from the queue is being processed
  */
 class UploadProcessingEvent extends ReadOnlyEvent
 {

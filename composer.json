@@ -11,6 +11,7 @@
     "php": "^8.0",
     "ext-curl": "*",
     "ext-json": "*",
+    "beyondcode/laravel-websockets": "^1.12",
     "caffeinated/modules": "^6.3",
     "fideloper/proxy": "^4.2",
     "fruitcake/laravel-cors": "^1.0",

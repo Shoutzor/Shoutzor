@@ -7,9 +7,9 @@ use App\Media;
 
 /**
  * Class AlbumSearchEvent
+ * Gets called when shoutz0r (or a plugin) should search for an Album for the give media file
  *
  * @package App\Events
- * Gets called when shoutz0r (or a plugin) should search for an Album for the give media file
  */
 class AlbumSearchEvent extends ReadOnlyEvent
 {

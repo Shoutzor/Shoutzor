@@ -7,9 +7,9 @@ use App\Events\ReadOnlyEvent;
 
 /**
  * Class AlbumCreateEvent
+ * Gets called when an album gets added to Shoutz0r
  *
  * @package App\Events
- * Gets called when an album gets added to Shoutz0r
  */
 class AlbumCreateEvent extends ReadOnlyEvent
 {

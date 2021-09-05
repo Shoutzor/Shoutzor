@@ -7,9 +7,9 @@ use App\Events\ReadOnlyEvent;
 
 /**
  * Class ArtistCreateEvent
+ * Gets called when an artist gets added to Shoutz0r
  *
  * @package App\Events
- * Gets called when an artist gets added to Shoutz0r
  */
 class ArtistCreateEvent extends ReadOnlyEvent
 {

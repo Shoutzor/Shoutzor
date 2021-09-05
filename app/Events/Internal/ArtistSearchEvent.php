@@ -7,9 +7,9 @@ use App\Media;
 
 /**
  * Class ArtistSearchEvent
+ * Gets called when shoutz0r (or a plugin) should search for an Artist for the give media file
  *
  * @package App\Events
- * Gets called when shoutz0r (or a plugin) should search for an Artist for the give media file
  */
 class ArtistSearchEvent extends ReadOnlyEvent
 {

@@ -8,9 +8,9 @@ use App\Upload;
 
 /**
  * Class UploadFinishedEvent
+ * Gets called when an upload from the queue has finished processing
  *
  * @package App\Events
- * Gets called when an upload from the queue has finished processing
  */
 class UploadFinishedEvent extends ReadOnlyEvent
 {

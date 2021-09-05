@@ -7,9 +7,9 @@ use App\Upload;
 
 /**
  * Class UploadFailedEvent
+ * Gets called when an upload from the queue has been processed, but was deemed invalid
  *
  * @package App\Events
- * Gets called when an upload from the queue has been processed, but was deemed invalid
  */
 class UploadFailedEvent extends ReadOnlyEvent
 {

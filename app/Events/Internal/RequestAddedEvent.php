@@ -7,9 +7,9 @@ use App\Request;
 
 /**
  * Class RequestAddedEvent
+ * Gets called when a request is added to the Queue
  *
  * @package App\Events
- * Gets called when a request is added to the Queue
  */
 class RequestAddedEvent extends ReadOnlyEvent
 {

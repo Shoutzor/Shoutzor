@@ -49,7 +49,11 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Throwable $exception)
     {
-        return response()->json($exception, 500);
+        return response()->json([
+            'message' => 'a server error occurred, check the log for more information'
+        ], 500);
+
+        //return response()->json($exception, 500);
         //return parent::render($request, $exception);
     }
 }

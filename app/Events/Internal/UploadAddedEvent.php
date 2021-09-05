@@ -7,9 +7,9 @@ use App\Upload;
 
 /**
  * Class UploadAddedEvent
+ * Gets called when a file has been uploaded, the file wont be parsed until UploadProcessingEvent is called
  *
  * @package App\Events
- * Gets called when a file has been uploaded, the file wont be parsed until UploadProcessingEvent is called
  */
 class UploadAddedEvent extends BaseEvent
 {
