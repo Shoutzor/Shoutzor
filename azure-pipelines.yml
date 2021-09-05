@@ -27,18 +27,8 @@ steps:
     displayName: 'Use PHP version $(phpVersion)'
 
   - script: |
-      wget -O phive.phar https://phar.io/releases/phive.phar
-      wget -O phive.phar.asc https://phar.io/releases/phive.phar.asc
-      sudo gpg --keyserver hkps://keys.openpgp.org --recv-keys 0x9D8A98B29B2D5D79
-      sudo gpg --verify phive.phar.asc phive.phar
-      sudo chmod +x phive.phar
-      sudo mv phive.phar /usr/local/bin/phive
-    displayName: 'Install PHIVE'
-  
-  - script: phive install --trust-gpg-keys 67F861C3D889C656 phpDocumentor
-    displayName: 'install phpDocumentor'
-
-  - script: phpdoc -d app -t docs
+      wget https://phpdoc.org/phpDocumentor.phar
+      php phpDocumentor.phar -d app -t docs
     displayName: 'Generate phpDoc'
 
   - script: |
