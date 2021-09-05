@@ -26,13 +26,6 @@ steps:
   - checkout: Shoutz0r
 
   - script: |
-      tree -d
-      sudo apt-get install git
-      git config --global user.email "devops@azure.com"
-      git config --global user.name "AzureDevopsPipeline"
-    displayName: 'Install GIT'
-
-  - script: |
       sudo update-alternatives --set php /usr/bin/php$(phpVersion)
       sudo update-alternatives --set phar /usr/bin/phar$(phpVersion)
       sudo update-alternatives --set phpdbg /usr/bin/phpdbg$(phpVersion)
@@ -43,16 +36,17 @@ steps:
 
   - script: |
       wget https://phpdoc.org/phpDocumentor.phar
-      php phpDocumentor.phar -d ./app -t ./docs
-    displayName: 'Generate phpDoc'
+      php phpDocumentor.phar -d ./Shoutz0r-app/app -t ./Shoutz0r-app/docs
+    displayName: 'Generate phpDoc for Shoutz0r-app'
 
   - script: |
-        git clone https://github.com/xorinzor/Shoutz0r.git ./shoutz0r
-        cd ./shoutz0r
+        cd ./Shoutz0r
         rm -rf *
-        cp -r ../shoutz0r-app/docs/* .
+        cp -r ../Shoutz0r-app/docs/* .
+        git add .
         git commit -m "Updated phpDocs"
         git push
+        cd ~
     displayName: 'Upload phpDoc to Shoutz0r Repo'
 
   - script: |
@@ -69,7 +63,7 @@ steps:
     displayName: 'Install MySQL'
 
   - script: |
-      cd ~/shoutz0r-app
+      cd ~/Shoutz0r-app
       cp .env.example .env
     displayName: 'Environment Setup'
 
