@@ -10,7 +10,7 @@ pool:
   vmImage: 'ubuntu-latest'
 
 variables:
-  phpVersion: 7.4
+  phpVersion: 8
 
 steps:
   - checkout: self
@@ -20,7 +20,7 @@ steps:
   - script: |
       sudo apt-get install git
       git config --global user.email "devops@azure.com"
-      git config --global user.name "Azure Devops Pipeline"
+      git config --global user.name "AzureDevopsPipeline"
     displayName: 'Install GIT'
 
   - script: |
@@ -33,12 +33,8 @@ steps:
     displayName: 'Use PHP version $(phpVersion)'
 
   - script: |
-        git clone https://github.com/xorinzor/Shoutz0r.git ./shoutz0r-app
-    displayName: 'Clone Shoutz0r App Repo'
-
-  - script: |
       wget https://phpdoc.org/phpDocumentor.phar
-      php phpDocumentor.phar -d ./shoutz0r-app/app -t ./shoutz0r-app/docs
+      php phpDocumentor.phar -d ./app -t ./docs
     displayName: 'Generate phpDoc'
 
   - script: |
