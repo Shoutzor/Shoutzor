@@ -36,7 +36,7 @@ steps:
     displayName: 'Install PHIVE'
   
   - script: |
-      phive install phpDocumentor
+      phive install --trust-gpg-keys 67F861C3D889C656 phpDocumentor
       sudo chmod +x phpDocumentor.phar
       sudo mv phpDocumentor.phar /usr/local/bin/phpDocumentor
     displayName: 'install phpDocumentor'
