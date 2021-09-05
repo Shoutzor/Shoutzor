@@ -46,7 +46,7 @@ steps:
 
   - script: |
         cd ./Shoutz0r
-        git pull master
+        git switch master
         rm -rf *
         cp -r ../Shoutz0r-app/docs/* .
         git add .
