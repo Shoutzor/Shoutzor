@@ -13,6 +13,10 @@ variables:
   phpVersion: 7.4
 
 steps:
+  - checkout: self
+    persistCredentials: true
+    clean: true
+
   - script: |
       sudo apt-get install git
     displayName: 'Install GIT'
