@@ -16,7 +16,7 @@ steps:
   - checkout: self
     persistCredentials: true
     clean: true
-  - checkout: xorinzor/Shoutz0r
+  - checkout: Shoutz0r
     persistCredentials: true
     clean: true
 
