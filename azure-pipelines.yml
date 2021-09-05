@@ -16,6 +16,7 @@ resources:
   repositories:
     - repository: Shoutz0r
       type: github
+      endpoint: github.com_xorinzor
       name: xorinzor/Shoutz0r
 
 steps:
