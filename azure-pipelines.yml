@@ -73,7 +73,7 @@ steps:
 
   - script: |
       cd ./Shoutz0r-app
-      cp .env.example .env
+      cp .env.template .env
     displayName: 'Environment Setup'
 
   - script: |
