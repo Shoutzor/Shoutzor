@@ -8,8 +8,9 @@ Comes with autoDJ to keep requests going when no requests have been added by use
 Shoutz0r gives users a platform to upload different kinds of media, and vote on what they would like to hear.\
 The queue can be generated based on the amount of votes, or as a regular queue (first come, first serve).
 
-
 Built using the Laravel Framework and Vue components.
+
+Documentation can be found over at [shoutzor.com]()
 
 ### To setup:
 When the app is deployed, just visit the site to start the setup process.\
