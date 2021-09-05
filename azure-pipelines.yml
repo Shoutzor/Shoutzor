@@ -67,9 +67,13 @@ steps:
   - script: |
       sudo apt-get install -y mysql-server
       sudo systemctl start mysql.service
-      sudo mysql -uroot -proot -e "use mysql; ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'laravel'; FLUSH PRIVILEGES;"
-      sudo mysql -uroot -plaravel -e 'create database laravel;'
-    displayName: 'Install MySQL'
+      sudo mysql -uroot -proot -e "\
+        use mysql;\
+        CREATE USER 'shoutzor'@'%' IDENTIFIED WITH mysql_native_password BY 'shoutzor';\
+        CREATE DATABASE shoutzor;\
+        GRANT ALL ON shoutzor.* TO 'shoutzor'@'%';\
+        FLUSH PRIVILEGES;"
+    displayName: 'Install MySQL & Create user/db'
 
   - script: |
       cd ./Shoutz0r-app
