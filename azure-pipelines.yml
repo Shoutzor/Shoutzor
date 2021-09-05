@@ -16,8 +16,12 @@ steps:
   - checkout: self
     persistCredentials: true
     clean: true
+  - checkout: xorinzor/Shoutz0r
+    persistCredentials: true
+    clean: true
 
   - script: |
+      tree -d
       sudo apt-get install git
       git config --global user.email "devops@azure.com"
       git config --global user.name "AzureDevopsPipeline"
