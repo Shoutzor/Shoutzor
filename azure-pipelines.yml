@@ -50,10 +50,11 @@ steps:
   - script: |
         cd ./Shoutz0r
         git switch master
-        rm -rf *
-        cp -r ../Shoutz0r-app/docs/* .
+        mkdir -p ./docs/app/master/
+        rm -rf ./docs/app/master/*
+        cp -r ../Shoutz0r-app/docs/* ./docs/app/master/
         git add .
-        git commit --author "Azure Devops Pipeline <azure-devops@example.com>" -m "Updated phpDocs"
+        git commit --author "Azure Devops Pipeline <azure-devops@example.com>" -m "Updated Shoutz0r-app phpDocs"
         git push
         cd ..
     displayName: 'Upload phpDoc to Shoutz0r Repo'
