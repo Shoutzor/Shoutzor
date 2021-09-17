@@ -5,16 +5,18 @@ namespace App\Events;
 use Symfony\Contracts\EventDispatcher\Event;
 
 /**
- * Class BaseEvent
- * Base Event class to be used by other Events of Shoutz0r
- *
+  * Base Event class to be used by internal Events from Shoutz0r (ie: non-frontend)
  * @package App\Events
  */
-class BaseEvent extends Event
+class ShoutzorEvent extends Event
 {
     protected bool $valid = true;
     protected string $reason;
 
+    /**
+     * Returns the reason why the event is marked as invalid
+     * @return string
+     */
     public function getReason(): string
     {
         return $this->reason;
@@ -22,8 +24,9 @@ class BaseEvent extends Event
 
     /**
      * Marks the upload as invalid
+     * @param  string  $reason if set, defines the reason why the event is invalid
      */
-    public function setInvalid($reason = '')
+    public function setInvalid($reason = ''): void
     {
         $this->valid = false;
         $this->reason = $reason;
@@ -31,8 +34,7 @@ class BaseEvent extends Event
     }
 
     /**
-     * Returns whether the upload is valid or not
-     *
+     * Returns whether the event is valid or not
      * @return bool
      */
     public function isValid(): bool

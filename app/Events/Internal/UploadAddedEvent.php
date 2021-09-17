@@ -2,7 +2,7 @@
 
 namespace App\Events\Internal;
 
-use App\Events\BaseEvent;
+use App\Events\ShoutzorEvent;
 use App\Upload;
 
 /**
@@ -11,7 +11,7 @@ use App\Upload;
  *
  * @package App\Events
  */
-class UploadAddedEvent extends BaseEvent
+class UploadAddedEvent extends ShoutzorEvent
 {
     public const NAME = 'upload.added';
 

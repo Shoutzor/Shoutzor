@@ -23,7 +23,11 @@ class Handler extends ExceptionHandler
      *
      * @var array
      */
-    protected $dontFlash = ['password', 'password_confirmation',];
+    protected $dontFlash = [
+        'password',
+        'password_confirmation',
+        'api_token'
+    ];
 
     /**
      * Report or log an exception.
@@ -31,7 +35,7 @@ class Handler extends ExceptionHandler
      * @param  Throwable  $exception
      * @return void
      *
-     * @throws Exception
+     * @throws Throwable
      */
     public function report(Throwable $exception)
     {

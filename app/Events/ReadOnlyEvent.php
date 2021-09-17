@@ -5,13 +5,15 @@ namespace App\Events;
 use Exception;
 
 /**
- * Class ReadOnlyEvent
- * Creates a read-only event, this cannot be marked invalid or stopped from propagating.
- *
+ * Creates a read-only event, this event cannot be marked as invalid or stopped from propagating.
  * @package App\Events
  */
-class ReadOnlyEvent extends BaseEvent
+class ReadOnlyEvent extends ShoutzorEvent
 {
+    /**
+     * Will throw an exception when called, since you cannot stop propagation of a ReadOnlyEvent
+     * @throws Exception
+     */
     public function stopPropagation(): void
     {
         //Ignore.
@@ -19,25 +21,27 @@ class ReadOnlyEvent extends BaseEvent
     }
 
     /**
-     * Marks the upload as invalid
-     *
+     * Will throw an exception when called, since you cannot mark a ReadOnlyEvent as invalid
      * @throws Exception
      */
-    public function setInvalid($reason = '')
+    public function setInvalid($reason = ''): void
     {
         throw new Exception("Something tried marking a read-only event as invalid");
     }
 
     /**
-     * Returns whether the upload is valid or not
-     *
-     * @return bool
+     * Returns if the event is valid. This will always be true for a ReadOnlyEvent.
+     * @return bool will always be true
      */
     public function isValid(): bool
     {
         return true;
     }
 
+    /**
+     * Returns if the propagation of this event should be stopped. This will always be false for a ReadOnlyEvent.
+     * @return bool will always be false
+     */
     public function isPropagationStopped(): bool
     {
         return false;
