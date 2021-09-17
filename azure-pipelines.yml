@@ -22,22 +22,26 @@ steps:
     persistCredentials: true
 
   - script: |
+      pwd
       cd ./Shoutz0r-app
       cp .env.template .env
     displayName: 'Environment Setup'
 
   - script: |
-      sudo composer self-update
+      pwd
+      composer self-update
       composer install --no-interaction --prefer-dist --no-suggest
       composer --version
     displayName: 'Install Composer Packages'
 
   - script: |
-      sudo npm update
+      pwd
+      npm update
     displayName: 'Install NPM Packages'
 
   - script: |
-      sudo npm run production
+      pwd
+      npm run production
     displayName: 'Build resource files with NPM & Webpack'
 
   - script: |
