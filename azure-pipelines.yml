@@ -28,24 +28,20 @@ jobs:
         displayName: 'Environment Setup'
 
       - script: |
-          cd ./Shoutz0r-app
           sudo composer self-update
           composer install --no-interaction --prefer-dist --no-suggest
           composer --version
         displayName: 'Install Composer Packages'
 
       - script: |
-          cd ./Shoutz0r-app
           npm install
         displayName: 'Install NPM Packages'
 
       - script: |
-          cd ./Shoutz0r-app
           npm run production
         displayName: 'Build resource files with NPM & Webpack'
 
       - script: |
-          cd ./Shoutz0r-app
           docker-compose up -d
         displayName: 'Create docker containers'
 
