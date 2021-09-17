@@ -14,90 +14,101 @@ resources:
       endpoint: github.com_xorinzor
       name: xorinzor/Shoutz0r
 
-steps:
-  - checkout: self
-    persistCredentials: true
-    clean: true
-  - checkout: Shoutz0r
-    persistCredentials: true
+jobs:
+  - job: 'PHPUnit_Shoutz0rApp'
+    displayName: 'Run PHPUnit for Shoutz0r-app'
+    steps:
+      - checkout: self
+        persistCredentials: true
+        clean: true
 
-  - script: |
-      cd ./Shoutz0r-app
-      cp .env.template .env
-    displayName: 'Environment Setup'
+      - script: |
+          cd ./Shoutz0r-app
+          cp .env.template .env
+        displayName: 'Environment Setup'
 
-  - script: |
-      cd ./Shoutz0r-app
-      sudo composer self-update
-      composer install --no-interaction --prefer-dist --no-suggest
-      composer --version
-    displayName: 'Install Composer Packages'
+      - script: |
+          cd ./Shoutz0r-app
+          sudo composer self-update
+          composer install --no-interaction --prefer-dist --no-suggest
+          composer --version
+        displayName: 'Install Composer Packages'
 
-  - script: |
-      cd ./Shoutz0r-app
-      npm install
-    displayName: 'Install NPM Packages'
+      - script: |
+          cd ./Shoutz0r-app
+          npm install
+        displayName: 'Install NPM Packages'
 
-  - script: |
-      cd ./Shoutz0r-app
-      npm run production
-    displayName: 'Build resource files with NPM & Webpack'
+      - script: |
+          cd ./Shoutz0r-app
+          npm run production
+        displayName: 'Build resource files with NPM & Webpack'
 
-  - script: |
-      cd ./Shoutz0r-app
-      docker-compose up
-    displayName: 'Create docker containers'
+      - script: |
+          cd ./Shoutz0r-app
+          docker-compose up -d
+        displayName: 'Create docker containers'
 
-  - script: |
-      git config --global user.email "4212335+xorinzor@users.noreply.github.com"
-      git config --global user.name "xorinzor"
-    displayName: 'Configure GIT'
+    #  - script: |
+    #      php artisan key:generate --force
+    #      php artisan passport:install --force
+    #      php artisan migrate:fresh --force
+    #      php artisan db:seed --force
+    #    displayName: 'Running Migrations'
 
-  - script: |
-      sudo update-alternatives --set php /usr/bin/php$(phpVersion)
-      sudo update-alternatives --set phar /usr/bin/phar$(phpVersion)
-      sudo update-alternatives --set phpdbg /usr/bin/phpdbg$(phpVersion)
-      sudo update-alternatives --set php-cgi /usr/bin/php-cgi$(phpVersion)
-      sudo update-alternatives --set phar.phar /usr/bin/phar.phar$(phpVersion)
-      php -version
-    displayName: 'Use PHP version $(phpVersion)'
+    #  - script: |
+    #      vendor/bin/phpunit --log-junit tests/Results/TEST-phpunit-junit.xml
+    #    displayName: 'Running Unit Tests'
 
-  - script: |
-      wget https://phpdoc.org/phpDocumentor.phar
-      php phpDocumentor.phar -d ./Shoutz0r-app/app -t ./Shoutz0r-app/docs
-    displayName: 'Generate phpDoc for Shoutz0r-app'
+    # Publish Test Results to Azure Pipelines/TFS
+    #  - task: PublishTestResults@2
+    #    inputs:
+    #      testRunner: 'JUnit' # Options: JUnit, NUnit, VSTest, xUnit
+    #      testResultsFiles: '**/TEST-*.xml'
+    #      searchFolder: '$(System.DefaultWorkingDirectory)/tests/Results' # Optional
+    #      mergeTestResults: false # Optional
+    #      #testRunTitle: # Optional
+    #      #buildPlatform: # Optional
+    #      #buildConfiguration: # Optional
+    #      #publishRunAttachments: true # Optional
+    #    condition: always()
 
-  - script: |
-        cd ./Shoutz0r
-        git switch master
-        mkdir -p ./docs/app/master/
-        rm -rf ./docs/app/master/*
-        cp -r ../Shoutz0r-app/docs/* ./docs/app/master/
-        git add .
-        git commit --author "Azure Devops Pipeline <azure-devops@example.com>" -m "Updated Shoutz0r-app phpDocs"
-        git push
-    displayName: 'Upload phpDoc to Shoutz0r Repo'
+  - job: 'updateDocs_Shoutz0rApp'
+    displayName: 'Update Shoutz0r-app PHPDoc'
+    dependsOn: 'PHPUnit_Shoutz0rApp'
+    steps:
+      - checkout: self
+        persistCredentials: true
+        clean: true
+      - checkout: Shoutz0r
+        persistCredentials: true
 
-#  - script: |
-#      php artisan key:generate --force
-#      php artisan passport:install --force
-#      php artisan migrate:fresh --force
-#      php artisan db:seed --force
-#    displayName: 'Running Migrations'
+      - script: |
+          git config --global user.email "4212335+xorinzor@users.noreply.github.com"
+          git config --global user.name "xorinzor"
+        displayName: 'Configure GIT'
 
-#  - script: |
-#      vendor/bin/phpunit --log-junit tests/Results/TEST-phpunit-junit.xml
-#    displayName: 'Running Unit Tests'
+      - script: |
+          sudo update-alternatives --set php /usr/bin/php$(phpVersion)
+          sudo update-alternatives --set phar /usr/bin/phar$(phpVersion)
+          sudo update-alternatives --set phpdbg /usr/bin/phpdbg$(phpVersion)
+          sudo update-alternatives --set php-cgi /usr/bin/php-cgi$(phpVersion)
+          sudo update-alternatives --set phar.phar /usr/bin/phar.phar$(phpVersion)
+          php -version
+        displayName: 'Use PHP version $(phpVersion)'
 
-  # Publish Test Results to Azure Pipelines/TFS
-#  - task: PublishTestResults@2
-#    inputs:
-#      testRunner: 'JUnit' # Options: JUnit, NUnit, VSTest, xUnit
-#      testResultsFiles: '**/TEST-*.xml'
-#      searchFolder: '$(System.DefaultWorkingDirectory)/tests/Results' # Optional
-#      mergeTestResults: false # Optional
-#      #testRunTitle: # Optional
-#      #buildPlatform: # Optional
-#      #buildConfiguration: # Optional
-#      #publishRunAttachments: true # Optional
-#    condition: always()
+      - script: |
+          wget https://phpdoc.org/phpDocumentor.phar
+          php phpDocumentor.phar -d ./Shoutz0r-app/app -t ./Shoutz0r-app/docs
+        displayName: 'Generate phpDoc for Shoutz0r-app'
+
+      - script: |
+          cd ./Shoutz0r
+          git switch master
+          mkdir -p ./docs/app/master/
+          rm -rf ./docs/app/master/*
+          cp -r ../Shoutz0r-app/docs/* ./docs/app/master/
+          git add .
+          git commit --author "Azure Devops Pipeline <azure-devops@example.com>" -m "Updated Shoutz0r-app phpDocs"
+          git push
+        displayName: 'Upload phpDoc to Shoutz0r Repo'
