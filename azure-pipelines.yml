@@ -42,8 +42,8 @@ jobs:
         displayName: 'Build resource files with NPM & Webpack'
 
       - script: |
-          docker-compose up -d
-        displayName: 'Create docker containers'
+          docker-compose -f docker-compose.yml -f docker-compose.test.yml run phpunit
+        displayName: 'Run PHPUnit'
 
     #  - script: |
     #      php artisan key:generate --force
