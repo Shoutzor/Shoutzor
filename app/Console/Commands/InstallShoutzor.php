@@ -103,6 +103,12 @@ class InstallShoutzor extends Command
             // Perform the auto-fix
             $result = app(HealthCheckManager::class)->performAutoFix(true);
 
+            // Print the results of the auto-fix
+            foreach($result['data'] as $fix) {
+                $this->line('[HealthCheck] ' . $fix['name'] . ' Auto-fix result:');
+                $this->line($fix['result']);
+            }
+
             // Check if any of the health-checks still failed
             if($result['result'] === false) {
                 throw new Exception('Auto-fix failed on one or more healtchecks, manual fix required');

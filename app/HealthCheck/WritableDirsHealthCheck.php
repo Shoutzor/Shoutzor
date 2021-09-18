@@ -30,7 +30,7 @@ class WritableDirsHealthCheck extends BaseHealthCheck
         if ($this->isHealthy()) {
             return $this->status;
         } else {
-            return "The following errors require a manual fix:\n".implode("\n", $this->errors);
+            return "The following errors may require a manual fix:\n".implode("\n", $this->errors);
         }
     }
 
