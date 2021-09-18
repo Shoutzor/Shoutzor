@@ -131,6 +131,14 @@ class InstallShoutzor extends Command
                 if(file_exists(base_path('.env')) === false) {
                     throw new Exception('.env file not found in application root! Exiting.');
                 }
+
+                // Rebuild config cache
+                $step = $this->installer->rebuildConfigCache();
+
+                // Check if rebuilding the config cache worked
+                if($step->succeeded() === false) {
+                    throw new Exception('Failed to rebuild the config cache, reason: ' . $step->getOutput());
+                }
             }
 
             //Fetch the valid DB settings
@@ -138,12 +146,12 @@ class InstallShoutzor extends Command
 
             // if --useenv is in-use, fetch the values from the .env file, otherwise, ask the user.
             if($useEnv) {
-                $dbtype = config('DB_CONNECTION');
-                $host = config('DB_HOST');
-                $port = config('DB_PORT');
-                $database = config('DB_DATABASE');
-                $username = config('DB_USERNAME');
-                $password = config('DB_PASSWORD');
+                $dbtype = config('database.default');
+                $host = config($dbFields[$dbtype]['host']['dotconfig']);
+                $port = config($dbFields[$dbtype]['port']['dotconfig']);
+                $database = config($dbFields[$dbtype]['database']['dotconfig']);
+                $username = config($dbFields[$dbtype]['username']['dotconfig']);
+                $password = config($dbFields[$dbtype]['password']['dotconfig']);
 
                 $step = $this->installer->configureSql($dbtype, $host, $port, $database, $username, $password);
 
@@ -179,7 +187,7 @@ class InstallShoutzor extends Command
             // Run each installation step in-order
             foreach($installationSteps as $step) {
                 // Dynamic method, the method names are in the array
-                $this->installer->$step['method']();
+                $this->installer->{$step['method']}();
             }
         } catch (Exception $e) {
             throw new Exception('Installation failed, reason: ' . $e->getMessage());

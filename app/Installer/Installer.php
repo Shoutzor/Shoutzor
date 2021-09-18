@@ -270,7 +270,6 @@ class Installer {
         // Test database connection
         try {
             DB::connection()->getPdo();
-            $result['connection'] = true;
 
             //Write the values to the .env file
             $editor = DotenvEditor::load();
@@ -282,6 +281,7 @@ class Installer {
             Artisan::call('config:cache');
         } catch (Exception $e) {
             $exception = $e;
+            $success = false;
         }
 
         return new InstallStepResult($success, Artisan::output(), $exception);
@@ -365,6 +365,26 @@ class Installer {
             $editor->setKey('SHOUTZOR_INSTALLED', "true")->save();
 
             # Rebuild the config cache
+            Artisan::call('config:cache');
+        } catch (Exception $e) {
+            $success = false;
+            $exception = $e;
+        }
+
+        return new InstallStepResult($success, Artisan::output(), $exception);
+    }
+
+    /**
+     * rebuilds the config cache
+     * @return InstallStepResult
+     */
+    public function rebuildConfigCache(): InstallStepResult
+    {
+        $success = true;
+        $exception = null;
+
+        try {
+            # Execute the database migrations
             Artisan::call('config:cache');
         } catch (Exception $e) {
             $success = false;
