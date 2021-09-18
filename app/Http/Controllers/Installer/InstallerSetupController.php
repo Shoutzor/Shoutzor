@@ -3,136 +3,64 @@
 namespace App\Http\Controllers\Installer;
 
 use App\Http\Controllers\Controller;
-use Exception;
+use App\Installer\Installer;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\Rule;
-use Jackiedo\DotenvEditor\Facades\DotenvEditor;
 
 class InstallerSetupController extends Controller
 {
-    private array $installSteps;
+    private Installer $installer;
 
     public function __construct()
     {
-        $this->installSteps = [
-            [
-                'name' => 'Database migrations',
-                'description' => 'Creates tables and indexes in the database',
-                'slug' => 'migrate-database',
-                'running' => false,
-                'status' => -1
-            ],
-            [
-                'name' => 'Generate Encryption Keys',
-                'description' => 'creates the encryption keys needed to generate secure access tokens',
-                'slug' => 'generate-keys',
-                'running' => false,
-                'status' => -1
-            ],
-            [
-                'name' => 'Database seeding',
-                'description' => 'Adds initial data to the database',
-                'slug' => 'seed-database',
-                'running' => false,
-                'status' => -1
-            ],
-            [
-                'name' => 'Finishing up',
-                'description' => 'Finalize the installation',
-                'slug' => 'finish-install',
-                'running' => false,
-                'status' => -1
-            ]
-        ];
+        $this->installer = new Installer();
     }
 
-    public function getSetupSteps(Request $request)
+    public function getSetupSteps(Request $request): JsonResponse
     {
-        return response()->json($this->installSteps, 200);
+        return response()->json($this->installer->getSteps(), 200);
     }
 
-    public function doMigrateDatabase(Request $request)
+    public function doMigrateDatabase(Request $request): JsonResponse
     {
-        // Create initial result array
+        $step = $this->installer->migrateDatabase();
         $result = [
-            'status' => 1,
-            'error' => ''
+            'status' => $step->succeeded() ? 1 : 0,
+            'error' => $step->getException()?->getMessage() ?? ''
         ];
-
-        try {
-            # Clear the cache config
-            Artisan::call('migrate --force');
-        } catch (Exception $e) {
-            $result['status'] = 0;
-            $result['error'] = $e->getMessage();
-        }
 
         return response()->json($result, 200);
     }
 
-    public function doPassportInstall(Request $request)
+    public function doPassportInstall(Request $request): JsonResponse
     {
-        // Create initial result array
+        $step = $this->installer->installPassport();
         $result = [
-            'status' => 1,
-            'error' => ''
+            'status' => $step->succeeded() ? 1 : 0,
+            'error' => $step->getException()?->getMessage() ?? ''
         ];
-
-        try {
-            # Run the passport:install command
-            Artisan::call('passport:install --force');
-        } catch (Exception $e) {
-            $result['status'] = 0;
-            $result['error'] = $e->getMessage();
-        }
 
         return response()->json($result, 200);
     }
 
-    public function doDatabaseSeeding(Request $request)
+    public function doDatabaseSeeding(Request $request): JsonResponse
     {
-        // Create initial result array
+        $step = $this->installer->seedDatabase();
         $result = [
-            'status' => 1,
-            'error' => ''
+            'status' => $step->succeeded() ? 1 : 0,
+            'error' => $step->getException()?->getMessage() ?? ''
         ];
-
-        try {
-            # Seed the database
-            Artisan::call('db:seed');
-        } catch (Exception $e) {
-            $result['status'] = 0;
-            $result['error'] = $e->getMessage();
-        }
 
         return response()->json($result, 200);
     }
 
-    public function doFinishInstall(Request $request)
+    public function doFinishInstall(Request $request): JsonResponse
     {
-        // Create initial result array
+        $step = $this->installer->finishInstall();
         $result = [
-            'status' => 1,
-            'error' => ''
+            'status' => $step->succeeded() ? 1 : 0,
+            'error' => $step->getException()?->getMessage() ?? ''
         ];
-
-        try {
-            # Set installed to true
-            config(['shoutzor.installed' => true]);
-
-            // Set installed to true in the .env file too
-            $editor = DotenvEditor::load();
-            $editor->setKey('SHOUTZOR_INSTALLED', "true")->save();
-
-            # Rebuild the config cache
-            Artisan::call('config:cache');
-        } catch (Exception $e) {
-            $result['status'] = 0;
-            $result['error'] = $e->getMessage();
-        }
 
         return response()->json($result, 200);
     }
