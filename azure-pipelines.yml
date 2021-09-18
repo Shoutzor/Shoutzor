@@ -28,6 +28,10 @@ jobs:
         displayName: 'Environment Setup'
 
       - script: |
+          docker-compose -f docker-compose.yml -f docker-compose.test.yml up -d mysql
+        displayName: 'Start MySQL container in background (to prepare)'
+
+      - script: |
           sudo composer self-update
           composer install --no-interaction --prefer-dist --no-suggest
           composer --version
@@ -40,6 +44,10 @@ jobs:
       - script: |
           npm run production
         displayName: 'Build resource files with NPM & Webpack'
+
+      - script: |
+          docker-compose -f docker-compose.yml -f docker-compose.test.yml run php php /code/artisan shoutzor:install --useenv
+        displayName: 'Run the CLI installer'
 
       - script: |
           docker-compose -f docker-compose.yml -f docker-compose.test.yml run phpunit
