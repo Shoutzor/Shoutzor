@@ -24,7 +24,8 @@
     "spatie/laravel-permission": "^3.17",
     "symfony/event-dispatcher": "^5.1",
     "symfony/filesystem": "^5.1",
-    "symfony/finder": "^5.1"
+    "symfony/finder": "^5.1",
+    "ext-pdo": "*"
   },
   "require-dev": {
     "facade/ignition": "^2.3.6",

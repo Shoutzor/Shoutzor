@@ -9,8 +9,8 @@ use Illuminate\Support\Facades\Route;
  * --------------------------------------------------------------------------
  */
 Route::group(['middleware' => 'can.install'], function() {
-    Route::get('database/getFields', 'InstallerDatabaseController@getDatabaseFields');
-    Route::post('database/configureDatabase', 'InstallerDatabaseController@configureDatabaseSettings');
+    Route::get('database/getFields', 'InstallerSetupController@getDatabaseFields');
+    Route::post('database/configureDatabase', 'InstallerSetupController@configureDatabaseSettings');
 
     Route::get('setup', 'InstallerSetupController@getSetupSteps');
     Route::prefix('setup')->group(function() {

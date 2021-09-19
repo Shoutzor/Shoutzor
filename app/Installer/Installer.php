@@ -269,6 +269,7 @@ class Installer {
 
         // Test database connection
         try {
+            // Test the PDO connection
             DB::connection()->getPdo();
 
             //Write the values to the .env file
@@ -279,12 +280,14 @@ class Installer {
 
             # Clear the cache config
             Artisan::call('config:cache');
+        } catch (\PDOException $e) {
+            return new InstallStepResult($success, $e->getMessage(), $exception);
         } catch (Exception $e) {
             $exception = $e;
             $success = false;
         }
 
-        return new InstallStepResult($success, Artisan::output(), $exception);
+        return new InstallStepResult($success, Artisan::output() ?: $exception?->getMessage() ?? '', $exception);
     }
 
     /**
@@ -304,7 +307,7 @@ class Installer {
             $exception = $e;
         }
 
-        return new InstallStepResult($success, Artisan::output(), $exception);
+        return new InstallStepResult($success, Artisan::output() ?: $exception?->getMessage() ?? '', $exception);
     }
 
     /**
@@ -324,7 +327,7 @@ class Installer {
             $exception = $e;
         }
 
-        return new InstallStepResult($success, Artisan::output(), $exception);
+        return new InstallStepResult($success, Artisan::output() ?: $exception?->getMessage() ?? '', $exception);
     }
 
     /**
@@ -344,7 +347,7 @@ class Installer {
             $exception = $e;
         }
 
-        return new InstallStepResult($success, Artisan::output(), $exception);
+        return new InstallStepResult($success, Artisan::output() ?: $exception?->getMessage() ?? '', $exception);
     }
 
     /**
@@ -371,7 +374,7 @@ class Installer {
             $exception = $e;
         }
 
-        return new InstallStepResult($success, Artisan::output(), $exception);
+        return new InstallStepResult($success, Artisan::output() ?: $exception?->getMessage() ?? '', $exception);
     }
 
     /**
@@ -391,6 +394,6 @@ class Installer {
             $exception = $e;
         }
 
-        return new InstallStepResult($success, Artisan::output(), $exception);
+        return new InstallStepResult($success, Artisan::output() ?: $exception?->getMessage() ?? '', $exception);
     }
 }

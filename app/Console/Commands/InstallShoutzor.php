@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Exceptions\formValidationException;
 use App\HealthCheck\HealthCheckManager;
 use App\Installer\Installer;
 use \Exception;
@@ -127,76 +128,109 @@ class InstallShoutzor extends Command
     private function performInstall($useEnv) {
         $this->info('Starting installation');
 
-        try {
-            // Check if the useEnv option is in-use
-            if($useEnv) {
-                // Inform the user about the --useenv option being used.
-                $this->info('--useenv is used, existing .env file will be used.');
+        // Check if the useEnv option is in-use
+        if($useEnv) {
+            // Inform the user about the --useenv option being used.
+            $this->info('--useenv is used, existing .env file will be used.');
 
-                // Check if the .env file actually exists
-                if(file_exists(base_path('.env')) === false) {
-                    throw new Exception('.env file not found in application root! Exiting.');
-                }
-
-                // Rebuild config cache
-                $step = $this->installer->rebuildConfigCache();
-
-                // Check if rebuilding the config cache worked
-                if($step->succeeded() === false) {
-                    throw new Exception('Failed to rebuild the config cache, reason: ' . $step->getOutput());
-                }
+            // Check if the .env file actually exists
+            if(file_exists(base_path('.env')) === false) {
+                throw new Exception('.env file not found in application root! Exiting.');
             }
 
-            //Fetch the valid DB settings
-            $dbFields = $this->installer->getDbFields();
+            // Rebuild config cache
+            $step = $this->installer->rebuildConfigCache();
 
-            // if --useenv is in-use, fetch the values from the .env file, otherwise, ask the user.
-            if($useEnv) {
-                $dbtype = config('database.default');
-                $host = config($dbFields[$dbtype]['host']['dotconfig']);
-                $port = config($dbFields[$dbtype]['port']['dotconfig']);
-                $database = config($dbFields[$dbtype]['database']['dotconfig']);
-                $username = config($dbFields[$dbtype]['username']['dotconfig']);
-                $password = config($dbFields[$dbtype]['password']['dotconfig']);
+            // Check if rebuilding the config cache worked
+            if($step->succeeded() === false) {
+                throw new Exception('Failed to rebuild the config cache, reason: ' . $step->getOutput());
+            }
+        }
+
+        //Fetch the valid DB settings
+        $dbFields = $this->installer->getDbFields();
+
+        // if --useenv is in-use, fetch the values from the .env file, otherwise, ask the user.
+        if($useEnv) {
+            $this->info("Configuring SQL settings using the config values in the environment file");
+
+            $dbtype = config('database.default');
+            $host = config($dbFields[$dbtype]['host']['dotconfig']);
+            $port = config($dbFields[$dbtype]['port']['dotconfig']);
+            $database = config($dbFields[$dbtype]['database']['dotconfig']);
+            $username = config($dbFields[$dbtype]['username']['dotconfig']);
+            $password = config($dbFields[$dbtype]['password']['dotconfig']);
+
+            $step = $this->installer->configureSql($dbtype, $host, $port, $database, $username, $password);
+
+            // Check if SQL configuration succeeded, if not, exit with error.
+            if($step->succeeded()) {
+                $this->info("SQL Configuration succeeded");
+            } else {
+                // Check if it's a formValidation exception, or regular exception
+                if($step->getException() instanceof formValidationException) {
+                    // $errors will now contain formValidationFieldError[] from the exception
+                    $errors = $step->getException()->getErrors();
+
+                    // Convert the array of formValidationFieldError objects into an array
+                    foreach($errors as $e) {
+                        $this->error($e->getField() . ": " . $e->getMessage());
+                    }
+
+                    throw new Exception('SQL Configuration failed, reason: Validation failed');
+                } else {
+                    throw new Exception('SQL Configuration failed, reason: '.$step->getOutput());
+                }
+            }
+        } else {
+            $this->info("Configuring SQL settings");
+
+            // Create a loop, this way the user can keep trying if the configuration fails.
+            while(true) {
+                // Ask the user what database type we should be configuring
+                $dbtype = $this->choice('Enter the sql type', array_keys($dbFields), 0);
+                $host = $this->anticipate('Enter the hostname of the sql server [ie: localhost or 127.0.0.1]', ['localhost', '127.0.0.1']);
+                $port = $this->anticipate('Enter the port of the sql server [ie: '.$dbFields[$dbtype]['port']['default'].']', [$dbFields[$dbtype]['port']['default']]);
+                $database = $this->anticipate('Enter the name of the database [ie: shoutzor]', ['shoutzor']);
+                $username = $this->anticipate('Enter the username of the SQL account [ie: shoutzor]', ['shoutzor']);
+                $password = $this->secret('Enter the password of the SQL account');
 
                 $step = $this->installer->configureSql($dbtype, $host, $port, $database, $username, $password);
 
-                // Check if SQL configuration succeeded, if not, exit with error.
-                if($step->succeeded() === false) {
-                    throw new Exception('SQL Configuration failed, reason: ' . $step->getOutput());
-                }
-            } else {
-                $sqlConfig = false;
+                //Check if the SQL configuration succeeded, if so: break the loop
+                if($step->succeeded()) {
+                    $this->info("SQL Configuration succeeded");
+                    break;
+                } else {
+                    // Check if it's a formValidation exception, or regular exception
+                    if($step->getException() instanceof formValidationException) {
+                        // $errors will now contain formValidationFieldError[] from the exception
+                        $errors = $step->getException()->getErrors();
 
-                // Create a loop, this way the user can keep trying if the configuration fails.
-                while($sqlConfig === false) {
-                    // Ask the user what database type we should be configuring
-                    $dbtype = $this->choice('Enter the sql type', array_keys($dbFields), 0);
-                    $host = $this->anticipate('Enter the hostname of the sql server [ie: localhost or 127.0.0.1]', ['localhost', '127.0.0.1']);
-                    $port = $this->anticipate('Enter the port of the sql server [ie: '.$dbFields[$dbtype]['port']['default'].']', [$dbFields[$dbtype]['port']['default']]);
-                    $database = $this->anticipate('Enter the name of the database [ie: shoutzor]', ['shoutzor']);
-                    $username = $this->anticipate('Enter the username of the SQL account [ie: shoutzor]', ['shoutzor']);
-                    $password = $this->secret('Enter the password of the SQL account');
-
-                    $step = $this->installer->configureSql($dbtype, $host, $port, $database, $username, $password);
-
-                    //Check if the SQL configuration succeeded, if so: break the loop
-                    if($step->succeeded()) {
-                        $sqlConfig = true;
+                        // Convert the array of formValidationFieldError objects into an array
+                        foreach($errors as $e) {
+                            $this->error($e->getField() . ": " . $e->getMessage());
+                        }
+                    } else {
+                        // Configuration failed, display error and restart the loop
+                        $this->error("SQL Configuration failed, reason: " . $step->getOutput());
                     }
                 }
             }
+        }
 
-            // Retrieve the installation steps from the installer
-            $installationSteps = $this->installer->getSteps();
+        // Retrieve the installation steps from the installer
+        $installationSteps = $this->installer->getSteps();
 
-            // Run each installation step in-order
-            foreach($installationSteps as $step) {
-                // Dynamic method, the method names are in the array
-                $this->installer->{$step['method']}();
+        // Run each installation step in-order
+        foreach($installationSteps as $step) {
+            $this->info("Executing installation step '" . $step['name'] . "': " . $step['description']);
+            // Dynamic method, the method names are in the array
+            $stepResult = $this->installer->{$step['method']}();
+
+            if($stepResult->succeeded() === false) {
+                throw new Exception("Installation step failed. Reason: " . $stepResult->getOutput());
             }
-        } catch (Exception $e) {
-            throw new Exception('Installation failed, reason: ' . $e->getMessage());
         }
 
         $this->info('Installation finished!');
