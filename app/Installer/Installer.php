@@ -30,6 +30,14 @@ class Installer {
     {
         $this->installSteps = [
             [
+                'name' => 'Generate App Key',
+                'description' => 'Generates an APP_KEY in the env file',
+                'slug' => 'generate-app-key',
+                'running' => false,
+                'status' => -1,
+                'method' => 'generateAppKey'
+            ],
+            [
                 'name' => 'Database migrations',
                 'description' => 'Creates tables and indexes in the database',
                 'slug' => 'migrate-database',
@@ -285,6 +293,26 @@ class Installer {
         } catch (Exception $e) {
             $exception = $e;
             $success = false;
+        }
+
+        return new InstallStepResult($success, Artisan::output() ?: $exception?->getMessage() ?? '', $exception);
+    }
+
+    /**
+     * Executes the artisan key:generate command to generate an APP_KEY
+     * @return InstallStepResult
+     */
+    public function generateAppKey(): InstallStepResult
+    {
+        $success = true;
+        $exception = null;
+
+        try {
+            # Execute the database migrations
+            Artisan::call('key:generate --force');
+        } catch (Exception $e) {
+            $success = false;
+            $exception = $e;
         }
 
         return new InstallStepResult($success, Artisan::output() ?: $exception?->getMessage() ?? '', $exception);

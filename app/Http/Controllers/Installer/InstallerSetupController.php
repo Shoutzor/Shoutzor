@@ -69,6 +69,22 @@ class InstallerSetupController extends Controller
     }
 
     /**
+     * Performs the key:generate step
+     * @param  Request  $request
+     * @return JsonResponse
+     */
+    public function doGenerateAppKey(Request $request): JsonResponse
+    {
+        $step = $this->installer->generateAppKey();
+        $result = [
+            'status' => $step->succeeded() ? 1 : 0,
+            'error' => $step->getException()?->getMessage() ?? ''
+        ];
+
+        return response()->json($result, 200);
+    }
+
+    /**
      * Performs the migrate database step
      * @param  Request  $request
      * @return JsonResponse

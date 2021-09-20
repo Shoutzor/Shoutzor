@@ -2,10 +2,7 @@ version: '3.8'
 services:
   phpunit:
     image: 'php:8-cli'
-    restart: never
     volumes:
       - ./:/code
-    links:
-      - php
     working_dir: /code
     entrypoint: vendor/bin/phpunit
