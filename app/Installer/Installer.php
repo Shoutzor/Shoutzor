@@ -341,7 +341,7 @@ class Installer {
 
         try {
             # Seed the database
-            Artisan::call('db:seed');
+            Artisan::call('db:seed --force');
         } catch (Exception $e) {
             $success = false;
             $exception = $e;
