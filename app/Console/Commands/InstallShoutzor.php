@@ -157,6 +157,16 @@ class InstallShoutzor extends Command
             $dbtype = config('database.default');
             $host = config($dbFields[$dbtype]['host']['dotconfig']);
             $port = config($dbFields[$dbtype]['port']['dotconfig']);
+
+            $this->line("Testing connection to $host:$port...");
+
+            if (!$socket = @fsockopen($host, $port, $errno, $errstr, 3)) {
+                throw new Exception("Could not connect to $host:$port; please ensure the correct hostname/IP address & port are used, and not being blocked by a firewall.");
+            } else {
+                $this->info("Connection success!");
+                fclose($socket);
+            }
+
             $database = config($dbFields[$dbtype]['database']['dotconfig']);
             $username = config($dbFields[$dbtype]['username']['dotconfig']);
             $password = config($dbFields[$dbtype]['password']['dotconfig']);
@@ -191,6 +201,18 @@ class InstallShoutzor extends Command
                 $dbtype = $this->choice('Enter the sql type', array_keys($dbFields), 0);
                 $host = $this->anticipate('Enter the hostname of the sql server [ie: localhost or 127.0.0.1]', ['localhost', '127.0.0.1']);
                 $port = $this->anticipate('Enter the port of the sql server [ie: '.$dbFields[$dbtype]['port']['default'].']', [$dbFields[$dbtype]['port']['default']]);
+
+                $this->line("Testing connection to $host:$port...");
+
+                if (!$socket = @fsockopen($host, $port, $errno, $errstr, 3)) {
+                    $this->error("Could not connect to $host:$port; please ensure the correct hostname/IP address & port are used, and not being blocked by a firewall.");
+                    fclose($socket);
+                    continue;
+                } else {
+                    $this->info("Connection success!");
+                    fclose($socket);
+                }
+
                 $database = $this->anticipate('Enter the name of the database [ie: shoutzor]', ['shoutzor']);
                 $username = $this->anticipate('Enter the username of the SQL account [ie: shoutzor]', ['shoutzor']);
                 $password = $this->secret('Enter the password of the SQL account');

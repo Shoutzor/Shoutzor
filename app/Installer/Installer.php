@@ -281,7 +281,7 @@ class Installer {
             # Clear the cache config
             Artisan::call('config:cache');
         } catch (\PDOException $e) {
-            return new InstallStepResult($success, $e->getMessage(), $exception);
+            return new InstallStepResult(false, $e->getMessage(), $e);
         } catch (Exception $e) {
             $exception = $e;
             $success = false;

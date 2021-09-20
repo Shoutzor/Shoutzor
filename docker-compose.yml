@@ -11,7 +11,9 @@ services:
       - php
 
   php:
-    image: 'php:8-fpm'
+    build:
+      context: .
+      dockerfile: Dockerfile
     volumes:
       - ./:/code
     links:
