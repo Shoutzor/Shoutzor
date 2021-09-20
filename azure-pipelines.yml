@@ -67,6 +67,15 @@ stages:
             displayName: 'Create testing .env file'
 
           - task: DockerCompose@0
+            displayName: 'Rebuild config cache'
+            inputs:
+              action: Run a Docker Compose command
+              dockerComposeFile: docker-compose.yml
+              additionalDockerComposeFiles: docker-compose.test.yml
+              projectName: shoutzor
+              dockerComposeCommand: run php php /code/artisan config:cache
+
+          - task: DockerCompose@0
             displayName: 'Run PHPUnit'
             inputs:
               action: Run a Docker Compose command
