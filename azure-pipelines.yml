@@ -62,6 +62,10 @@ stages:
               projectName: shoutzor
               dockerComposeCommand: run php php /code/artisan shoutzor:install --useenv
 
+          - script: |
+              cp .env .env.testing
+            displayName: 'Create testing .env file'
+
           - task: DockerCompose@0
             displayName: 'Run PHPUnit'
             inputs:
