@@ -123,6 +123,9 @@ export default {
                         })
                         .catch(err => {
                             this.errored = true;
+
+                            //Install failed
+                            this.installStateUpdate(false, false);
                         });
         }
     }
