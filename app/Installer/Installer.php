@@ -15,192 +15,181 @@ class Installer {
 
     /**
      * Contains the installer steps in the correct order of execution
+     * The slug must consist of (lowercase) a-z or dashes only!
      * @var array[]
      */
-    private array $installSteps;
+    public static array $installSteps = [
+        [
+            'name' => 'Generate App Key',
+            'description' => 'Generates an APP_KEY in the env file',
+            'slug' => 'generate-app-key',
+            'running' => false,
+            'status' => -1,
+            'method' => 'generateAppKey'
+        ],
+        [
+            'name' => 'Database migrations',
+            'description' => 'Creates tables and indexes in the database',
+            'slug' => 'migrate-database',
+            'running' => false,
+            'status' => -1,
+            'method' => 'migrateDatabase'
+        ],
+        [
+            'name' => 'Generate Encryption Keys',
+            'description' => 'creates the encryption keys needed to generate secure access tokens',
+            'slug' => 'generate-keys',
+            'running' => false,
+            'status' => -1,
+            'method' => 'installPassport'
+        ],
+        [
+            'name' => 'Database seeding',
+            'description' => 'Adds initial data to the database',
+            'slug' => 'seed-database',
+            'running' => false,
+            'status' => -1,
+            'method' => 'seedDatabase'
+        ],
+        [
+            'name' => 'Generate cache',
+            'description' => 'Generate cache to speed up requests',
+            'slug' => 'generate-cache',
+            'running' => false,
+            'status' => -1,
+            'method' => 'generateCache'
+        ],
+        [
+            'name' => 'Finishing up',
+            'description' => 'Finalize the installation',
+            'slug' => 'finish-install',
+            'running' => false,
+            'status' => -1,
+            'method' => 'finishInstall'
+        ]
+    ];
 
     /**
      * This array defines the valid fields for each database type.
      * As well as relevant information such as the validation requirements, type, dotconfig and dotenv keys.
      * @var string[][][]
      */
-    private array $dbValues;
+    public static array $dbFields = [
+        'mysql' => [
+            'host' => [
+                'validate' => 'required|string',
+                'dotconfig' => 'database.connections.mysql.host',
+                'dotenv' => 'DB_HOST',
+                'type' => 'text',
+                'default' => 'localhost'
+            ],
+            'port' => [
+                'validate' => 'required|numeric|integer',
+                'dotconfig' => 'database.connections.mysql.port',
+                'dotenv' => 'DB_PORT',
+                'type' => 'text',
+                'default' => '3306'
+            ],
+            'database' => [
+                'validate' => 'required|string',
+                'dotconfig' => 'database.connections.mysql.database',
+                'dotenv' => 'DB_DATABASE',
+                'type' => 'text',
+                'default' => 'shoutzor'
+            ],
+            'username' => [
+                'validate' => 'required|string',
+                'dotconfig' => 'database.connections.mysql.username',
+                'dotenv' => 'DB_USERNAME',
+                'type' => 'text',
+                'default' => 'shoutzor'
+            ],
+            'password' => [
+                'validate' => 'required|string',
+                'dotconfig' => 'database.connections.mysql.password',
+                'dotenv' => 'DB_PASSWORD',
+                'type' => 'password',
+                'default' => ''
+            ]
+        ],
+        'pgsql' => [
+            'host' => [
+                'validate' => 'required|string',
+                'dotconfig' => 'database.connections.pgsql.host',
+                'dotenv' => 'DB_HOST',
+                'type' => 'text',
+                'default' => 'localhost'
+            ],
+            'port' => [
+                'validate' => 'required|numeric|integer',
+                'dotconfig' => 'database.connections.pgsql.port',
+                'dotenv' => 'DB_PORT',
+                'type' => 'text',
+                'default' => '5432'
+            ],
+            'database' => [
+                'validate' => 'required|string',
+                'dotconfig' => 'database.connections.pgsql.database',
+                'dotenv' => 'DB_DATABASE',
+                'type' => 'text',
+                'default' => 'shoutzor'
+            ],
+            'username' => [
+                'validate' => 'required|string',
+                'dotconfig' => 'database.connections.pgsql.username',
+                'dotenv' => 'DB_USERNAME',
+                'type' => 'text',
+                'default' => 'shoutzor'
+            ],
+            'password' => [
+                'validate' => 'required|string',
+                'dotconfig' => 'database.connections.pgsql.password',
+                'dotenv' => 'DB_PASSWORD',
+                'type' => 'password',
+                'default' => ''
+            ]
+        ],
+        'sqlsrv' => [
+            'host' => [
+                'validate' => 'required|string',
+                'dotconfig' => 'database.connections.sqlsrv.host',
+                'dotenv' => 'DB_HOST',
+                'type' => 'text',
+                'default' => 'localhost'
+            ],
+            'port' => [
+                'validate' => 'required|numeric|integer',
+                'dotconfig' => 'database.connections.sqlsrv.port',
+                'dotenv' => 'DB_PORT',
+                'type' => 'text',
+                'default' => '1433'
+            ],
+            'database' => [
+                'validate' => 'required|string',
+                'dotconfig' => 'database.connections.sqlsrv.database',
+                'dotenv' => 'DB_DATABASE',
+                'type' => 'text',
+                'default' => 'shoutzor'
+            ],
+            'username' => [
+                'validate' => 'required|string',
+                'dotconfig' => 'database.connections.sqlsrv.username',
+                'dotenv' => 'DB_USERNAME',
+                'type' => 'text',
+                'default' => 'shoutzor'
+            ],
+            'password' => [
+                'validate' => 'required|string',
+                'dotconfig' => 'database.connections.sqlsrv.password',
+                'dotenv' => 'DB_PASSWORD',
+                'type' => 'password',
+                'default' => ''
+            ]
+        ]
+    ];
 
     public function __construct()
     {
-        $this->installSteps = [
-            [
-                'name' => 'Generate App Key',
-                'description' => 'Generates an APP_KEY in the env file',
-                'slug' => 'generate-app-key',
-                'running' => false,
-                'status' => -1,
-                'method' => 'generateAppKey'
-            ],
-            [
-                'name' => 'Database migrations',
-                'description' => 'Creates tables and indexes in the database',
-                'slug' => 'migrate-database',
-                'running' => false,
-                'status' => -1,
-                'method' => 'migrateDatabase'
-            ],
-            [
-                'name' => 'Generate Encryption Keys',
-                'description' => 'creates the encryption keys needed to generate secure access tokens',
-                'slug' => 'generate-keys',
-                'running' => false,
-                'status' => -1,
-                'method' => 'installPassport'
-            ],
-            [
-                'name' => 'Database seeding',
-                'description' => 'Adds initial data to the database',
-                'slug' => 'seed-database',
-                'running' => false,
-                'status' => -1,
-                'method' => 'seedDatabase'
-            ],
-            [
-                'name' => 'Finishing up',
-                'description' => 'Finalize the installation',
-                'slug' => 'finish-install',
-                'running' => false,
-                'status' => -1,
-                'method' => 'finishInstall'
-            ]
-        ];
-
-        $this->dbValues = [
-            'mysql' => [
-                'host' => [
-                    'validate' => 'required|string',
-                    'dotconfig' => 'database.connections.mysql.host',
-                    'dotenv' => 'DB_HOST',
-                    'type' => 'text',
-                    'default' => 'localhost'
-                ],
-                'port' => [
-                    'validate' => 'required|numeric|integer',
-                    'dotconfig' => 'database.connections.mysql.port',
-                    'dotenv' => 'DB_PORT',
-                    'type' => 'text',
-                    'default' => '3306'
-                ],
-                'database' => [
-                    'validate' => 'required|string',
-                    'dotconfig' => 'database.connections.mysql.database',
-                    'dotenv' => 'DB_DATABASE',
-                    'type' => 'text',
-                    'default' => 'shoutzor'
-                ],
-                'username' => [
-                    'validate' => 'required|string',
-                    'dotconfig' => 'database.connections.mysql.username',
-                    'dotenv' => 'DB_USERNAME',
-                    'type' => 'text',
-                    'default' => 'shoutzor'
-                ],
-                'password' => [
-                    'validate' => 'required|string',
-                    'dotconfig' => 'database.connections.mysql.password',
-                    'dotenv' => 'DB_PASSWORD',
-                    'type' => 'password',
-                    'default' => ''
-                ]
-            ],
-            'pgsql' => [
-                'host' => [
-                    'validate' => 'required|string',
-                    'dotconfig' => 'database.connections.pgsql.host',
-                    'dotenv' => 'DB_HOST',
-                    'type' => 'text',
-                    'default' => 'localhost'
-                ],
-                'port' => [
-                    'validate' => 'required|numeric|integer',
-                    'dotconfig' => 'database.connections.pgsql.port',
-                    'dotenv' => 'DB_PORT',
-                    'type' => 'text',
-                    'default' => '5432'
-                ],
-                'database' => [
-                    'validate' => 'required|string',
-                    'dotconfig' => 'database.connections.pgsql.database',
-                    'dotenv' => 'DB_DATABASE',
-                    'type' => 'text',
-                    'default' => 'shoutzor'
-                ],
-                'username' => [
-                    'validate' => 'required|string',
-                    'dotconfig' => 'database.connections.pgsql.username',
-                    'dotenv' => 'DB_USERNAME',
-                    'type' => 'text',
-                    'default' => 'shoutzor'
-                ],
-                'password' => [
-                    'validate' => 'required|string',
-                    'dotconfig' => 'database.connections.pgsql.password',
-                    'dotenv' => 'DB_PASSWORD',
-                    'type' => 'password',
-                    'default' => ''
-                ]
-            ],
-            'sqlsrv' => [
-                'host' => [
-                    'validate' => 'required|string',
-                    'dotconfig' => 'database.connections.sqlsrv.host',
-                    'dotenv' => 'DB_HOST',
-                    'type' => 'text',
-                    'default' => 'localhost'
-                ],
-                'port' => [
-                    'validate' => 'required|numeric|integer',
-                    'dotconfig' => 'database.connections.sqlsrv.port',
-                    'dotenv' => 'DB_PORT',
-                    'type' => 'text',
-                    'default' => '1433'
-                ],
-                'database' => [
-                    'validate' => 'required|string',
-                    'dotconfig' => 'database.connections.sqlsrv.database',
-                    'dotenv' => 'DB_DATABASE',
-                    'type' => 'text',
-                    'default' => 'shoutzor'
-                ],
-                'username' => [
-                    'validate' => 'required|string',
-                    'dotconfig' => 'database.connections.sqlsrv.username',
-                    'dotenv' => 'DB_USERNAME',
-                    'type' => 'text',
-                    'default' => 'shoutzor'
-                ],
-                'password' => [
-                    'validate' => 'required|string',
-                    'dotconfig' => 'database.connections.sqlsrv.password',
-                    'dotenv' => 'DB_PASSWORD',
-                    'type' => 'password',
-                    'default' => ''
-                ]
-            ]
-        ];
-    }
-
-    /**
-     * Returns the installation steps
-     * @return array[]
-     */
-    public function getSteps(): array {
-        return $this->installSteps;
-    }
-
-    /**
-     * Returns the valid database fields that can be used for configuring the database.
-     * These fields contain information such as what their relevant dotconfig and dotenv values are
-     * @return string[][][]
-     */
-    public function getDbFields(): array {
-        return $this->dbValues;
     }
 
     /**
@@ -232,7 +221,7 @@ class Installer {
             'dbtype' => [
                 'required',
                 'string',
-                Rule::in(array_keys($this->dbValues))
+                Rule::in(array_keys(self::$dbFields))
             ]
         ]);
 
@@ -243,7 +232,7 @@ class Installer {
         }
 
         // Select the fields to use based on the selected database type
-        $selectedDbValues = $this->dbValues[$settingParams['dbtype']];
+        $selectedDbValues = self::$dbFields[$settingParams['dbtype']];
 
         // Validate the provided values
         $errors = Validator::make($settingParams, array_map(function ($item) {
@@ -370,6 +359,29 @@ class Installer {
         try {
             # Seed the database
             Artisan::call('db:seed --force');
+        } catch (Exception $e) {
+            $success = false;
+            $exception = $e;
+        }
+
+        return new InstallStepResult($success, Artisan::output() ?: $exception?->getMessage() ?? '', $exception);
+    }
+
+    /**
+     * Generates laravel cache for things like Routes & Views to speed up requests
+     * @return InstallStepResult
+     */
+    public function generateCache(): InstallStepResult
+    {
+        $success = true;
+        $exception = null;
+
+        try {
+            # Generate route cache
+            Artisan::call('route:cache');
+
+            # Generate view cache
+            Artisan::call('view:cache');
         } catch (Exception $e) {
             $success = false;
             $exception = $e;

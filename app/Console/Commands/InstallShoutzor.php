@@ -148,7 +148,7 @@ class InstallShoutzor extends Command
         }
 
         //Fetch the valid DB settings
-        $dbFields = $this->installer->getDbFields();
+        $dbFields = Installer::$dbFields;
 
         // if --useenv is in-use, fetch the values from the .env file, otherwise, ask the user.
         if($useEnv) {
@@ -242,7 +242,7 @@ class InstallShoutzor extends Command
         }
 
         // Retrieve the installation steps from the installer
-        $installationSteps = $this->installer->getSteps();
+        $installationSteps = Installer::$installSteps;
 
         // Run each installation step in-order
         foreach($installationSteps as $step) {
