@@ -49,7 +49,6 @@
 </template>
 
 <script>
-import Vue from 'vue';
 import axios from "axios";
 
 export default {
@@ -86,7 +85,7 @@ export default {
   },
 
   created() {
-    Vue.bus.on('buttonClicked', this.onButtonClick);
+    this.emitter.on('buttonClicked', this.onButtonClick);
   },
 
   mounted() {

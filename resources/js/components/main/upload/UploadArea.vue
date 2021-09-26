@@ -19,13 +19,13 @@ export default {
     }),
 
     mounted() {
-        this.$bus.on('dragover', this.onDragOver);
-        this.$bus.on('dragleave', this.onDragLeave);
+        this.emitter.on('dragover', this.onDragOver);
+        this.emitter.on('dragleave', this.onDragLeave);
     },
 
-    beforeDestroy() {
-        this.$bus.off('dragover', this.onDragOver);
-        this.$bus.off('dragleave', this.onDragLeave);
+    beforeUnmount() {
+        this.emitter.off('dragover', this.onDragOver);
+        this.emitter.off('dragleave', this.onDragLeave);
     },
 
     methods: {
@@ -50,13 +50,13 @@ export default {
             e.preventDefault();
             var dt = e.dataTransfer;
             if(dt.types && (dt.types.indexOf ? dt.types.indexOf('Files') !== -1 : dt.types.contains('Files'))) {
-                this.$bus.emit('upload-file', e.dataTransfer.files);
+                this.emitter.emit('upload-file', e.dataTransfer.files);
             }
         },
 
         onFileSelect(e) {
             if(e.target.files !== undefined) {
-                this.$bus.emit('upload-file', e.target.files);
+                this.emitter.emit('upload-file', e.target.files);
             }
         }
     }

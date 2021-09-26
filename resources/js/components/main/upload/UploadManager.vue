@@ -29,18 +29,18 @@ export default {
         status: {
             handler(val) {
                 //Whenever the upload status changes, emit an update event for the UploadProgress component
-                this.$bus.emit('upload-status', this.status);
+                this.emitter.emit('upload-status', this.status);
             },
             deep: true
         }
     },
 
     mounted() {
-        this.$bus.on('upload-file', this.uploadFiles);
+        this.emitter.on('upload-file', this.uploadFiles);
     },
 
-    beforeDestroy() {
-        this.$bus.off('upload-file', this.uploadFiles);
+    beforeUnmount() {
+        this.emitter.off('upload-file', this.uploadFiles);
     },
 
     methods: {

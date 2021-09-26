@@ -1,10 +1,10 @@
 <template>
   <div>
-    <header-top v-on:scroll.native="handleScroll"></header-top>
+    <header-top></header-top>
     <header-menu></header-menu>
 
     <div id="main-content">
-      <simplebar ref="scroll" class="simplebar-main" data-simplebar-auto-hide="true">
+      <perfect-scrollbar ref="scroll">
         <div class="page">
           <div class="content">
             <div class="container-xl">
@@ -12,7 +12,7 @@
             </div>
           </div>
         </div>
-      </simplebar>
+      </perfect-scrollbar>
     </div>
 
     <media-player></media-player>
@@ -21,12 +21,18 @@
 </template>
 
 <script>
-import simplebar from 'simplebar-vue';
+import HeaderTop from '@js/components/main/header/HeaderTop';
+import HeaderMenu from '@js/components/main/header/HeaderMenu';
+import MediaPlayer from '@js/components/main/player/MediaPlayer';
+import UploadManager from '@js/components/main/upload/UploadManager';
 
 export default {
   name: "Shoutzor",
   components: {
-    simplebar
+      HeaderTop,
+      HeaderMenu,
+      MediaPlayer,
+      UploadManager
   },
   mounted() {
     //Add a scroll-event listener for when the user scrolls through the main content section
@@ -37,7 +43,7 @@ export default {
     document.addEventListener('dragleave', this.onDragLeave);
     document.addEventListener('drop', this.onDrop);
   },
-  beforeDestroy() {
+  beforeUnmount() {
     //Remove the scroll event listener
     this.$refs.scroll.scrollElement.removeEventListener("scroll", this.onContentScroll);
 
@@ -48,7 +54,7 @@ export default {
   },
   methods: {
     onContentScroll(event) {
-      this.$bus.emit('main-content-scroll', {
+      this.emitter.emit('main-content-scroll', {
         scrollX: event.target.scrollLeft,
         scrollY: event.target.scrollTop
       });
@@ -56,24 +62,24 @@ export default {
 
     onDragOver(event) {
       event.preventDefault();
-      this.$bus.emit('dragover', event);
+      this.emitter.emit('dragover', event);
     },
 
     onDragLeave(event) {
       event.preventDefault();
-      this.$bus.emit('dragleave', event);
+      this.emitter.emit('dragleave', event);
     },
 
     onDrop(event) {
       event.preventDefault();
-      this.$bus.emit('drop', event);
+      this.emitter.emit('drop', event);
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-.simplebar-main {
+.ps {
   width: 100%;
   height: 100%;
 }

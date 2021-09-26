@@ -1,37 +1,39 @@
-import Vue from "vue";
-import VueBus from 'vue-bus';
+import { createApp, configureCompat } from 'vue';
+import mitt from 'mitt';
+import PerfectScrollbar from 'vue3-perfect-scrollbar';
 import Echo from  'laravel-echo';
-import VueEcho from 'vue-echo-laravel';
-import VueTablerIcons from 'vue-tabler-icons';
+import { BootstrapIconsPlugin  } from 'bootstrap-icons-vue';
+import http from './http';
 import router from "./router/app";
 import store from "./store";
-import Shoutzor from "./plugin/Shoutzor";
-import App from "@js/views/App";
+import Shoutzor from "./plugins/Shoutzor";
+import App from "@js/views/App.vue";
 
-//Recursively scan and add all Vue components
-const files = require.context('./', true, /\.vue$/i);
-files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default));
+// use @vue/compat new render API
+configureCompat({ RENDER_FUNCTION: false });
+
+const emitter = mitt();
+
+window.io = require('socket.io-client');
 
 // Create the laravel Echo connection instance
-const EchoInstance = new Echo({
+const echoInstance = new Echo({
     broadcaster: 'socket.io',
     host: window.location.hostname + ':6001',
     namespace: 'App.Events',
+    forceTLS: true
 });
 
-//Create our Vue instance
-const app = new Vue({
-    components: {App},
-    router,
-    store
-});
+// Create the Vue App instance
+const app = createApp(App);
 
-Vue.use(VueEcho, EchoInstance);
-Vue.use(VueTablerIcons);
-Vue.use(VueBus);
-Vue.use(Shoutzor);
+app.config.globalProperties.emitter = emitter;
+app.config.globalProperties.echo = echoInstance;
 
-app.$mount('#shoutzor');
-
-//Load other components
-require('./bootstrap');
+app.use(http)
+   .use(router)
+   .use(store)
+   .use(Shoutzor)
+   .use(PerfectScrollbar)
+   .use(BootstrapIconsPlugin)
+   .mount('#shoutzor');

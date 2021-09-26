@@ -22,7 +22,6 @@
 </template>
 
 <script>
-import Vue from "vue";
 import MediaVote from "@js/models/MediaVote";
 
 export default {
@@ -48,7 +47,7 @@ export default {
 
     methods: {
         onVoteClick() {
-            Vue.bus.emit('votes.vote', this.vote);
+            this.emitter.emit('votes.vote', this.vote);
         }
     }
 }

@@ -2,23 +2,28 @@ const mix = require('laravel-mix');
 
 mix.webpackConfig({
     module: {
-        rules: [{
-            test: /\.css$/i,
-            use: [{
-                loader: 'css-loader'
-            }]
-        }]
+        rules: [
+            {
+                test: /\.css$/i,
+                use: [{
+                    loader: 'css-loader'
+                }]
+            }
+        ]
     },
     resolve: {
         extensions: ['.js', '.vue', '.json', '.scss', '.sass', '.css'],
         alias: {
-            'vue$': 'vue/dist/vue.esm.js',
+            vue: "@vue/compat",
             '@js': __dirname + '/resources/js',
             '@scss': __dirname + '/resources/scss',
             '@static': __dirname + '/resources/static'
+        },
+        fallback: {
+            "stream": require.resolve("stream-browserify")
         }
     }
-})
+});
 
 /*
  |--------------------------------------------------------------------------
@@ -30,17 +35,23 @@ mix.webpackConfig({
  | file for the application as well as bundling up all the JS files.
  |
  */
-
 mix.sass('resources/scss/app.scss', 'public/css')
     .js('resources/js/app.js', 'public/js')
-    .options({
-        globalVueStyles: __dirname + '/resources/scss/_variables.scss'
+    .vue({
+        globalStyles: __dirname + '/resources/scss/_global-style.scss',
+        options: {
+            compilerOptions: {
+                compatConfig: {
+                    RENDER_FUNCTION: false
+                },
+            },
+        }
     });
 
 mix.sass('resources/scss/app-installer.scss', 'public/css')
     .js('resources/js/app-installer.js', 'public/js')
-    .options({
-        globalVueStyles: __dirname + '/resources/scss/_variables.scss'
+    .vue({
+        globalStyles: __dirname + '/resources/scss/_global-style.scss'
     });
 
 mix.copy('resources/static/images/shoutzor-logo-large.png', 'public/images');

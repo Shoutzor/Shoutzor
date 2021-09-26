@@ -49,19 +49,29 @@
 
 <script>
 import { mapGetters } from 'vuex';
+import HeaderUser from './HeaderUser';
+import HeaderLogin from "./HeaderLogin";
+import HeaderSearch from "./HeaderSearch";
+import HeaderMenu from "./HeaderMenu";
 
 export default {
     name: 'headerTop',
+    components: {
+        HeaderUser,
+        HeaderLogin,
+        HeaderSearch,
+        HeaderMenu
+    },
     computed: mapGetters({
         isAuthenticated: 'isAuthenticated',
         user: 'getUser',
         can: 'can'
     }),
     created() {
-        this.$bus.on('main-content-scroll', this.handleScroll);
+        this.emitter.on('main-content-scroll', this.handleScroll);
     },
-    beforeDestroy() {
-        this.$bus.off('main-content-scroll', this.handleScroll);
+    beforeUnmount() {
+        this.emitter.off('main-content-scroll', this.handleScroll);
     },
     methods: {
         handleScroll(event) {
@@ -83,20 +93,22 @@ export default {
 </script>
 
 <style lang="scss">
+@use 'sass:math';
+
 #navbar-top {
     width: 100%;
     z-index: 999;
     background: $body-bg;
     transition: box-shadow 0.2s ease;
 
-    @media (min-width: map-get($grid-breakpoints, lg)) {
+    @include media-breakpoint-up(lg) {
         position: fixed;
         top: 0;
         height: $navbar-height;
     }
 
     .container-fluid {
-        @media (min-width: map-get($grid-breakpoints, lg)) {
+        @include media-breakpoint-up(lg) {
             padding-left: 0;
         }
 
@@ -105,7 +117,7 @@ export default {
             position: absolute;
             left: 50%;
             width: $header-search-width;
-            margin-left: -$header-search-width / 2;
+            margin-left: math.div(-$header-search-width, 2);
 
             @media (max-width: map-get($grid-breakpoints, lg)) {
                 position: relative;
@@ -128,7 +140,7 @@ export default {
             -webkit-filter: none;
             filter: none;
 
-            @media (min-width: map-get($grid-breakpoints, lg)) {
+            @include media-breakpoint-up(lg) {
                 display: flex;
                 justify-content: center;
                 width: $sidebar-width;

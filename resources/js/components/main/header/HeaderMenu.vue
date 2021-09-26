@@ -1,8 +1,8 @@
 <template>
-    <aside id="navbar-left" class="navbar navbar-vertical navbar-expand-lg">
-        <simplebar class="simplebar-menu" data-simplebar-auto-hide="true">
+    <aside id="navbar-left" class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark">
+        <perfect-scrollbar>
             <div class="container">
-                <div id="navbar-left-menu" class="collapse navbar-collapse">
+                <div id="navbar-left-menu">
                     <span class="navbar-text pt-lg-3">Music zone</span>
                     <ul class="navbar-nav">
                         <li class="nav-item">
@@ -11,7 +11,7 @@
                                 class="nav-link"
                             >
                                     <span class="nav-link-icon">
-                                        <home-icon></home-icon>
+                                        <b-icon-house></b-icon-house>
                                     </span>
                                 <span class="nav-link-title">Dashboard</span>
                             </router-link>
@@ -22,7 +22,7 @@
                                 class="nav-link"
                             >
                                     <span class="nav-link-icon">
-                                        <history-icon></history-icon>
+                                        <b-icon-clock-history></b-icon-clock-history>
                                     </span>
                                 <span class="nav-link-title">History</span>
                             </router-link>
@@ -33,7 +33,7 @@
                                 class="nav-link"
                             >
                                     <span class="nav-link-icon">
-                                        <star-icon></star-icon>
+                                        <b-icon-star></b-icon-star>
                                     </span>
                                 <span class="nav-link-title">Most Played</span>
                             </router-link>
@@ -55,13 +55,12 @@
                     </ul>
                 </div>
             </div>
-        </simplebar>
+        </perfect-scrollbar>
     </aside>
 </template>
 
 <script>
 import { mapGetters } from 'vuex';
-import simplebar from 'simplebar-vue';
 import HeaderSearch from "./HeaderSearch";
 
 export default {
@@ -71,19 +70,19 @@ export default {
         can: 'can'
     }),
     components: {
-        HeaderSearch,
-        simplebar
+        HeaderSearch
     }
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 #navbar-left {
-    background: $light-mix;
+    background: $body-bg;
     -webkit-box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.1);
     -moz-box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.1);
     box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.1);
     top: $navbar-height;
+    width: 280px;
 
     .align-bottom {
         margin-top: auto;
@@ -119,12 +118,12 @@ export default {
         color: #fff !important;
     }
 
-    .simplebar-menu {
+    .ps {
         width: 100%;
         height: 100%;
     }
 
-    @media (max-width: map-get($grid-breakpoints, lg)) {
+    @include media-breakpoint-down(lg) {
         top: 0;
         min-height: 0;
         padding-top: 0;

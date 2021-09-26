@@ -29,8 +29,6 @@
 </template>
 
 <script>
-import Vue from "vue";
-
 export default {
     props: {
         hasHeader: {
@@ -129,11 +127,11 @@ export default {
 
     methods: {
         onCancelButtonClick() {
-            Vue.bus.emit('modal.cancel');
+            this.emitter.emit('modal.cancel');
         },
 
         onConfirmButtonClick() {
-            Vue.bus.emit('modal.confirm');
+            this.emitter.emit('modal.confirm');
         },
 
         showModal(data = {}) {

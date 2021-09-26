@@ -29,11 +29,11 @@ export default {
     },
 
     mounted() {
-        this.$bus.on('upload-status', this.uploadStatusUpdate);
+        this.emitter.on('upload-status', this.uploadStatusUpdate);
     },
 
-    beforeDestroy() {
-        this.$bus.off('upload-status', this.uploadStatusUpdate);
+    beforeUnmount() {
+        this.emitter.off('upload-status', this.uploadStatusUpdate);
     },
 
     methods: {

@@ -45,8 +45,6 @@
 </template>
 
 <script>
-import Vue from 'vue';
-
 export default {
   name: "Installer",
 
@@ -117,7 +115,7 @@ export default {
 
     // This method just emits an event so child-views can trigger their onClick listener
     buttonClickProxy() {
-      Vue.bus.emit('buttonClicked');
+      this.emitter.emit('buttonClicked');
     }
   }
 }

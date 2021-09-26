@@ -122,7 +122,7 @@ export default {
         }
     }
 
-    @media (max-width: map-get($grid-breakpoints, lg)) {
+    @include media-breakpoint-down(lg) {
         height: 150px;
 
         .track-background > .album-image {
@@ -147,7 +147,7 @@ export default {
         }
     }
 
-    @media (max-width: map-get($grid-breakpoints, md)) {
+    @include media-breakpoint-down(md) {
         .track-background > .album-image {
             min-width: 200%;
             top: -150%;

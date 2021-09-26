@@ -5,11 +5,10 @@
 </template>
 
 <script>
-import Vue from "vue";
 import {mapGetters} from 'vuex';
+import store from "@js/store/index";
 import Shoutzor from "@js/views/Shoutzor";
 import LoginScreen from "@js/components/main/login/LoginScreen";
-import store from "@js/store/index";
 import LoadScreen from "@js/components/global/loader/LoadScreen";
 
 export default {
@@ -41,16 +40,9 @@ export default {
 
     //Wait for both updates to finish loading
     Promise.all([resumeSession, updateGuestRole]).finally(() => {
-      this.loaded = true;
-      Vue.bus.emit('app.ready');
+        this.loaded = true;
+        this.emitter.emit('app.ready');
     })
   }
 }
 </script>
-
-<style lang="scss" scoped>
-.simplebar-main {
-  width: 100%;
-  height: 100%;
-}
-</style>

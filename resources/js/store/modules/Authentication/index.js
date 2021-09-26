@@ -3,7 +3,6 @@ import User from "@js/models/User";
 import Role from "@js/models/Role";
 import {AUTH_FAILED, AUTH_GUEST, AUTH_LOGOUT, AUTH_REQUEST, AUTH_SUCCESS} from "@js/store/mutation-types";
 import store from "@js/store/index";
-import Vue from "vue";
 
 const moduleAuthentication = {
     state: () => ({
@@ -28,7 +27,7 @@ const moduleAuthentication = {
             state.authenticated = true;
 
             // Emit an auth.state event to indicate our authenticated-state has changed
-            Vue.bus.emit('auth.state', {
+            this.emitter.emit('auth.state', {
                 authenticated: state.authenticated,
                 user: state.user
             });
@@ -39,7 +38,7 @@ const moduleAuthentication = {
             state.authenticated = false;
 
             // Emit event
-            Vue.bus.emit('auth.fail');
+            this.emitter.emit('auth.fail');
         },
         [AUTH_LOGOUT](state) {
             state.status = '';
@@ -48,7 +47,7 @@ const moduleAuthentication = {
             state.authenticated = false;
 
             // Emit an auth.state event to indicate our authenticated-state has changed
-            Vue.bus.emit('auth.state', {
+            this.emitter.emit('auth.state', {
                 authenticated: state.authenticated,
                 user: state.user
             });

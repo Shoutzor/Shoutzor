@@ -1,94 +1,81 @@
-import Vue from "vue";
-import VueRouter from "vue-router";
+import {createRouter, createWebHistory} from "vue-router";
 import store from "@js/store/index";
-//Views
-import DashboardView from "@js/views/main/dashboard";
-import HistoryView from "@js/views/main/history";
-import UploadView from "@js/views/main/upload";
-import SearchView from "@js/views/main/search";
-import UserSettingsView from "@js/views/user/settings";
-import AdminView from "@js/views/admin/index";
-import AdminDashboard from "@js/views/admin/dashboard";
-import AdminUsers from "@js/views/admin/users";
-import AdminRoles from "@js/views/admin/roles";
-import AdminRolesList from "@js/views/admin/roles/list";
-import AdminRolesEdit from "@js/views/admin/roles/edit";
-import AdminModules from "@js/views/admin/modules";
 
-Vue.use(VueRouter);
+function loadView(view) {
+    return () => import(`@js/views/${view}.vue`);
+}
 
-//Routes
-const routes = [{
-    name: 'dashboard',
-    path: '/',
-    component: DashboardView
-}, {
-    name: 'history',
-    path: '/history',
-    component: HistoryView
-}, {
-    name: 'popular',
-    path: '/popular',
-    component: DashboardView
-}, {
-    name: 'upload',
-    path: '/upload',
-    component: UploadView,
-    meta: {requiresAuth: true}
-}, {
-    name: 'artist',
-    path: '/artist',
-    component: DashboardView
-}, {
-    name: 'search',
-    path: '/search',
-    component: SearchView
-}, {
-    name: 'profile',
-    path: '/profile',
-    component: UserSettingsView,
-    meta: {requiresAuth: true}
-}, {
-    name: 'admin',
-    path: '/admin',
-    component: AdminView,
-    meta: {
-        requiresAuth: true,
-        requiresPermission: 'admin.access'
-    },
-    children: [{
-        name: 'admin-dashboard',
-        path: 'dashboard',
-        component: AdminDashboard
+const router = createRouter({
+    hashbang: false,
+    history: createWebHistory(),
+    routes: [{
+        name: 'dashboard',
+        path: '/',
+        component: loadView('main/dashboard')
     }, {
-        name: 'admin-users',
-        path: 'users',
-        component: AdminUsers
+        name: 'history',
+        path: '/history',
+        component: loadView('main/history')
     }, {
-        name: 'admin-roles',
-        path: 'roles',
-        component: AdminRoles,
+        name: 'popular',
+        path: '/popular',
+        component: loadView('main/dashboard')
+    }, {
+        name: 'upload',
+        path: '/upload',
+        component: loadView('main/upload'),
+        meta: {requiresAuth: true}
+    }, {
+        name: 'artist',
+        path: '/artist',
+        component: loadView('main/dashboard')
+    }, {
+        name: 'search',
+        path: '/search',
+        component: loadView('main/search')
+    }, {
+        name: 'profile',
+        path: '/profile',
+        component: loadView('main/user/settings'),
+        meta: {requiresAuth: true}
+    }, {
+        name: 'admin',
+        path: '/admin',
+        component: loadView('admin/index'),
+        meta: {
+            requiresAuth: true,
+            requiresPermission: 'admin.access'
+        },
         children: [{
-            name: 'admin-roles-list',
-            path: 'list',
-            component: AdminRolesList
+            name: 'admin-dashboard',
+            path: 'dashboard',
+            component: loadView('admin/dashboard')
         }, {
-            name: 'admin-roles-edit',
-            path: 'edit/:roleId',
-            component: AdminRolesEdit,
-            props: ({params}) => ({
-                roleId: Number.parseInt(params.roleId, 10) || null
-            })
+            name: 'admin-users',
+            path: 'users',
+            component: loadView('admin/users')
+        }, {
+            name: 'admin-roles',
+            path: 'roles',
+            component: loadView('admin/roles'),
+            children: [{
+                name: 'admin-roles-list',
+                path: 'list',
+                component: loadView('admin/roles/list')
+            }, {
+                name: 'admin-roles-edit',
+                path: 'edit/:roleId',
+                component: loadView('admin/roles/edit'),
+                props: ({params}) => ({
+                    roleId: Number.parseInt(params.roleId, 10) || null
+                })
+            }]
+        }, {
+            name: 'admin-modules',
+            path: 'modules',
+            component: loadView('admin/modules')
         }]
-    }, {
-        name: 'admin-modules',
-        path: 'modules',
-        component: AdminModules
     }]
-}];
-
-const router = new VueRouter({
-    routes // short for `routes: routes`
 });
 
 //Authentication check
@@ -104,4 +91,7 @@ router.beforeEach((to, from, next) => {
     }
 });
 
-export default router;
+export default (app) => {
+    app.router = router;
+    app.use(router);
+}

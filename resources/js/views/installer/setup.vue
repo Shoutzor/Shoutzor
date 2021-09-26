@@ -17,8 +17,6 @@
 </template>
 
 <script>
-import Vue from "vue";
-
 export default {
   name: "installer-healthcheck-view",
 
@@ -29,7 +27,7 @@ export default {
   },
 
   created() {
-    Vue.bus.on('buttonClicked', this.onButtonClick);
+    this.emitter.on('buttonClicked', this.onButtonClick);
   },
 
   mounted() {
@@ -40,7 +38,7 @@ export default {
 
   methods: {
     onButtonClick() {
-      Vue.bus.emit('setup.retry');
+      this.emitter.emit('setup.retry');
     },
 
     onInstallStateUpdate(isActive, isInstalled) {

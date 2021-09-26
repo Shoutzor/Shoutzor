@@ -1,16 +1,16 @@
-// Body
-$body-bg: #f8fafc;
+/*
+ * options from: https://getbootstrap.com/docs/5.1/customize/options/
+ */
+$enable-rounded: false;
+$enable-negative-margins: false; // Disabled by default, might be useful in the future: https://getbootstrap.com/docs/5.1/utilities/spacing/#negative-margin
 
 // Typography
 $font-family-sans-serif: "Ubuntu", sans-serif;
 $font-size-base: 0.9rem;
-$line-height-base: 1.6;
 
-//The Tabler function for using @import is busted, somehow a newline will be added in the import statement, breaking it.
-//Aside of this, I want to load this font using async, as to not block the rendering. Therefor I am disabling this var.
-$google-font: false;
-
-// Colors
+/*
+ * Colors: https://getbootstrap.com/docs/5.1/customize/color/
+ */
 $blue: #467fcf;
 $indigo: #6574cd;
 $purple: #a55eea;
@@ -35,7 +35,13 @@ $danger: #cd201f;
 $light: #f8f9fa;
 $dark: #343a40;
 
-$text-muted-opacity: 0.53;
+// Body
+$body-bg: $dark;
+$body-color: $light;
+
+/*
+ * Shoutz0r variables
+ */
 
 //Brand colors
 $brand-color-none: #467fcf;
@@ -50,8 +56,3 @@ $player-height: 4.5rem;
 
 $header-search-width: 15rem;
 
-//
-// Other variable files, these MUST come last
-//
-@import "~@tabler/core/src/scss/variables";
-@import "~@tabler/core/src/scss/bootstrap-config";

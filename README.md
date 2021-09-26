@@ -5,7 +5,7 @@
 Shoutz0r - A media voting system perfect for events such as lan-parties!\
 Comes with autoDJ to keep requests going when no requests have been added by users.
 
-Shoutz0r gives users a platform to upload different kinds of media, and vote on what they would like to hear.\
+Shoutz0r gives users a platform to upload different kinds of media, and vote on what they would like to hear or watch (yes it supports videos too!).\
 The queue can be generated based on the amount of votes, or as a regular queue (first come, first serve).
 
 Built using the Laravel Framework and Vue components.

@@ -22,7 +22,6 @@
 </template>
 
 <script>
-import Vue from "vue";
 import axios from "axios";
 import SetupStep from "@js/components/installer/setup/SetupStep";
 
@@ -48,7 +47,7 @@ export default {
     },
 
     created() {
-        Vue.bus.on('setup.retry', this.onRetryButtonClick);
+        this.emitter.on('setup.retry', this.onRetryButtonClick);
     },
 
     mounted() {

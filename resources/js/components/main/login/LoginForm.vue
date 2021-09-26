@@ -34,7 +34,7 @@ export default {
             loading: false
         }
     },
-    beforeDestroy() {
+    beforeUnmount() {
         this.errors = [];
         this.username = null;
         this.password = null;
