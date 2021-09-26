@@ -1,62 +1,60 @@
 <template>
-    <aside id="navbar-left" class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark">
-        <perfect-scrollbar>
-            <div class="container">
-                <div id="navbar-left-menu">
-                    <span class="navbar-text pt-lg-3">Music zone</span>
-                    <ul class="navbar-nav">
-                        <li class="nav-item">
-                            <router-link
-                                :to="{name: 'dashboard'}"
-                                class="nav-link"
-                            >
-                                    <span class="nav-link-icon">
-                                        <b-icon-house></b-icon-house>
-                                    </span>
-                                <span class="nav-link-title">Dashboard</span>
-                            </router-link>
-                        </li>
-                        <li class="nav-item">
-                            <router-link
-                                :to="{name: 'history'}"
-                                class="nav-link"
-                            >
-                                    <span class="nav-link-icon">
-                                        <b-icon-clock-history></b-icon-clock-history>
-                                    </span>
-                                <span class="nav-link-title">History</span>
-                            </router-link>
-                        </li>
-                        <li class="nav-item">
-                            <router-link
-                                :to="{name: 'popular'}"
-                                class="nav-link"
-                            >
-                                    <span class="nav-link-icon">
-                                        <b-icon-star></b-icon-star>
-                                    </span>
-                                <span class="nav-link-title">Most Played</span>
-                            </router-link>
-                        </li>
-                    </ul>
-                    <span v-if="isAuthenticated" class="navbar-text pt-lg-3">Your zone</span>
-                    <ul v-if="isAuthenticated" class="navbar-nav">
-                        <li v-if="can('website.upload')" class="nav-item">
-                            <router-link
-                                :to="{name: 'upload'}"
-                                class="nav-link"
-                            >
-                                    <span class="nav-link-icon">
-                                        <cloud-upload-icon></cloud-upload-icon>
-                                    </span>
-                                <span class="nav-link-title">Upload manager</span>
-                            </router-link>
-                        </li>
-                    </ul>
-                </div>
+    <nav id="navbar-left" class="col-md-3 col-lg-2 d-md-block sidebar collapse">
+        <div class="position-sticky">
+            <div id="navbar-left-menu">
+                <span class="sidebar-heading d-flex justify-content-between align-items-center px-3 mb-1 text-muted">Music zone</span>
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <router-link
+                            :to="{name: 'dashboard'}"
+                            class="nav-link"
+                        >
+                                <span class="nav-link-icon">
+                                    <b-icon-house></b-icon-house>
+                                </span>
+                            <span class="nav-link-title">Dashboard</span>
+                        </router-link>
+                    </li>
+                    <li class="nav-item">
+                        <router-link
+                            :to="{name: 'history'}"
+                            class="nav-link"
+                        >
+                                <span class="nav-link-icon">
+                                    <b-icon-clock-history></b-icon-clock-history>
+                                </span>
+                            <span class="nav-link-title">History</span>
+                        </router-link>
+                    </li>
+                    <li class="nav-item">
+                        <router-link
+                            :to="{name: 'popular'}"
+                            class="nav-link"
+                        >
+                                <span class="nav-link-icon">
+                                    <b-icon-star></b-icon-star>
+                                </span>
+                            <span class="nav-link-title">Most Played</span>
+                        </router-link>
+                    </li>
+                </ul>
+                <span v-if="isAuthenticated" class="navbar-text pt-lg-3">Your zone</span>
+                <ul v-if="isAuthenticated" class="navbar-nav">
+                    <li v-if="can('website.upload')" class="nav-item">
+                        <router-link
+                            :to="{name: 'upload'}"
+                            class="nav-link"
+                        >
+                                <span class="nav-link-icon">
+                                    <cloud-upload-icon></cloud-upload-icon>
+                                </span>
+                            <span class="nav-link-title">Upload manager</span>
+                        </router-link>
+                    </li>
+                </ul>
             </div>
-        </perfect-scrollbar>
-    </aside>
+        </div>
+    </nav>
 </template>
 
 <script>
@@ -81,8 +79,8 @@ export default {
     -webkit-box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.1);
     -moz-box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.1);
     box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.1);
-    top: $navbar-height;
-    width: 280px;
+    padding-top: $navbar-height;
+    min-height: calc(100vh - #{$navbar-height});
 
     .align-bottom {
         margin-top: auto;

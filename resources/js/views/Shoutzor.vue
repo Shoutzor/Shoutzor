@@ -1,18 +1,23 @@
 <template>
   <div>
     <header-top></header-top>
-    <header-menu></header-menu>
 
-    <div id="main-content">
-      <perfect-scrollbar ref="scroll">
-        <div class="page">
-          <div class="content">
-            <div class="container-xl">
-              <router-view></router-view>
-            </div>
-          </div>
+    <div id="wrapper" class="container-fluid">
+        <div class="row">
+          <header-menu></header-menu>
+
+          <main id="main-content" class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+              <perfect-scrollbar ref="scroll">
+                  <div class="page">
+                      <div class="content">
+                          <div class="container-xl">
+                              <router-view></router-view>
+                          </div>
+                      </div>
+                  </div>
+              </perfect-scrollbar>
+          </main>
         </div>
-      </perfect-scrollbar>
     </div>
 
     <media-player></media-player>
@@ -79,6 +84,14 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+#wrapper {
+    margin-top: $navbar-height;
+
+    main {
+        padding-bottom: $player-height;
+    }
+}
+
 .ps {
   width: 100%;
   height: 100%;
