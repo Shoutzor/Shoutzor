@@ -10,7 +10,7 @@ The queue can be generated based on the amount of votes, or as a regular queue (
 
 Built using the Laravel Framework and Vue components.
 
-Documentation can be found over at [shoutzor.com]()
+Documentation can be found over at [shoutzor.com](https://www.shoutzor.com)
 
 ### To setup:
 When the app is deployed, just visit the site to start the setup process.\
