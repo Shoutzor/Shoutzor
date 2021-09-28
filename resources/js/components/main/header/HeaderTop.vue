@@ -1,5 +1,5 @@
 <template>
-    <header id="navbar-top" class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
+    <header id="navbar-top" class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 showShadow">
         <router-link
             :to="{name: 'dashboard'}"
             class="navbar-brand col-md-3 col-lg-2 me-0 px-3"
@@ -11,11 +11,6 @@
         </button>
         <div class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
             <header-search></header-search>
-        </div>
-        <div class="navbar-nav">
-            <div class="nav-item text-nowrap">
-                <a class="nav-link px-3" href="#">Sign out</a>
-            </div>
         </div>
         <div v-if="isAuthenticated" class="dropdown me-lg-1">
             <a class="text-reset dropdown-toggle" data-bs-toggle="dropdown" href="#">
@@ -49,15 +44,13 @@ import { mapGetters } from 'vuex';
 import HeaderUser from './HeaderUser';
 import HeaderLogin from "./HeaderLogin";
 import HeaderSearch from "./HeaderSearch";
-import HeaderMenu from "./HeaderMenu";
 
 export default {
     name: 'headerTop',
     components: {
         HeaderUser,
         HeaderLogin,
-        HeaderSearch,
-        HeaderMenu
+        HeaderSearch
     },
     computed: mapGetters({
         isAuthenticated: 'isAuthenticated',

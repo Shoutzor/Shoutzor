@@ -12,11 +12,11 @@
             </div>
             <div v-else class="row row-sm align-items-center ps-2">
                 <div class="col-auto ">
-                    <question-mark-icon
+                    <b-icon-question
                         class="rounded border"
                         height="48"
                         width="48"
-                    ></question-mark-icon>
+                    ></b-icon-question>
                 </div>
                 <div class="col">
                     <span class="track-title">Now playing: Unavailable</span>
@@ -25,27 +25,27 @@
         </div>
         <div class="media-control">
             <div id="media-controls">
-                <thumb-up-icon
+                <b-icon-hand-thumbs-up
                     v-if="isAuthenticated"
                     class="upvote"
-                ></thumb-up-icon>
+                ></b-icon-hand-thumbs-up>
                 <div id="playbutton">
-                    <player-play-icon
+                    <b-icon-play
                         v-if="playerStatus === PlayerState.STOPPED"
                         @click="play"
-                    ></player-play-icon>
+                    ></b-icon-play>
 
                     <div v-if="playerStatus === PlayerState.LOADING" class="spinner-border" role="status"></div>
 
-                    <player-stop-icon
+                    <b-icon-stop
                         v-if="playerStatus === PlayerState.PLAYING"
                         @click="stop"
-                    ></player-stop-icon>
+                    ></b-icon-stop>
                 </div>
-                <thumb-down-icon
+                <b-icon-hand-thumbs-down
                     v-if="isAuthenticated"
                     class="downvote"
-                ></thumb-down-icon>
+                ></b-icon-hand-thumbs-down>
             </div>
             <div id="media-progress">
                 <span>01:45</span>
@@ -57,17 +57,17 @@
             </div>
         </div>
         <div class="extra-control">
-            <device-tv-icon
+            <b-icon-tv
                 v-if="hasVideo && playerStatus !== PlayerState.STOPPED"
                 id="video-control"
                 @click="handleVideoButtonClick"
             >
-            </device-tv-icon>
+            </b-icon-tv>
 
             <div id="volume-control" class="btn-group dropup">
-                <volume-icon
+                <b-icon-volume-up
                     data-toggle="dropdown"
-                ></volume-icon>
+                ></b-icon-volume-up>
                 <div class="dropdown-menu" v-on:click.stop>
                     <vue-slider
                         v-model="volume"
@@ -85,14 +85,16 @@
 </template>
 
 <script>
-import Request from '@js/models/Request';
-import VueSlider from 'vue-slider-component';
-import PlayerState from "@js/store/modules/MediaPlayer/PlayerState";
 import { mapGetters } from "vuex";
+import VueSlider from 'vue-slider-component';
+import Request from '@js/models/Request';
+import PlayerState from "@js/store/modules/MediaPlayer/PlayerState";
+import ArtistList from "@js/components/global/media/ArtistList";
 
 export default {
     components: {
-        VueSlider
+        VueSlider,
+        ArtistList
     },
     data() {
         return {
@@ -206,7 +208,7 @@ export default {
     z-index: 9999;
     position: fixed;
     bottom: 0;
-    border-top: 1px solid darken($body-bg, 10%);
+    border-top: 1px solid darken($body-bg, 3%);
     display: flex;
     flex: 1 1 auto;
 

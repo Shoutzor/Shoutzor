@@ -6,11 +6,11 @@
         <div class="row">
           <header-menu></header-menu>
 
-          <main id="main-content" class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+          <main id="main-content" class="col">
               <perfect-scrollbar ref="scroll">
                   <div class="page">
                       <div class="content">
-                          <div class="container-xl">
+                          <div class="container-fluid">
                               <router-view></router-view>
                           </div>
                       </div>
@@ -89,6 +89,7 @@ export default {
 
     main {
         padding-bottom: $player-height;
+        background: url('@static/images/main-content-noise-bg.png');
     }
 }
 

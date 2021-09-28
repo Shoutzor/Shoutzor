@@ -1,20 +1,22 @@
 <template>
-    <div v-if="currentRequest" class="col-sm-12 nowplaying">
-        <div class="track-background">
-            <img class="album-image" v-bind:src="currentRequest.media.coverImage" />
-            <div class="album-overlay"></div>
-        </div>
-        <div class="track-content card card-aside">
-            <img alt="album image" class="album-image card-aside-column" v-bind:src="currentRequest.media.coverImage" />
-            <div class="track-info card-body d-flex flex-column mt-auto">
-                <h3 v-if="currentRequest.media !== null">{{ currentRequest.media.title }}</h3>
-                <artist-list :artists="currentRequest.media.artists"></artist-list>
+    <div v-if="currentRequest" class="card">
+        <div class="col-sm-12 nowplaying">
+            <div class="track-background">
+                <img class="album-image" v-bind:src="currentRequest.media.coverImage" />
+                <div class="album-overlay"></div>
+            </div>
+            <div class="track-content card card-aside">
+                <img alt="album image" class="album-image card-aside-column" v-bind:src="currentRequest.media.coverImage" />
+                <div class="track-info card-body d-flex flex-column mt-auto">
+                    <h3 v-if="currentRequest.media !== null">{{ currentRequest.media.title }}</h3>
+                    <artist-list :artists="currentRequest.media.artists"></artist-list>
 
-                <div class="d-flex align-items-center mt-auto">
-                    <div class="requested-by pl-3">
-                        <small class="text-muted">Requested by</small>
-                        <div v-if="currentRequest.user !== null">{{ currentRequest.user.name }}</div>
-                        <div v-if="currentRequest.user === null">AutoDJ</div>
+                    <div class="d-flex align-items-center mt-auto">
+                        <div class="requested-by pl-3">
+                            <small class="text-muted">Requested by</small>
+                            <div v-if="currentRequest.user !== null">{{ currentRequest.user.name }}</div>
+                            <div v-if="currentRequest.user === null">AutoDJ</div>
+                        </div>
                     </div>
                 </div>
             </div>

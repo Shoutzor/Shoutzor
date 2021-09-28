@@ -2,9 +2,7 @@
   <div>
     <div class="row row-cards">
       <div class="col-sm-12">
-        <div class="card">
-          <now-playing></now-playing>
-        </div>
+        <now-playing></now-playing>
       </div>
     </div>
     <div v-if="useQueue" class="row row-cards">

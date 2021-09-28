@@ -1,16 +1,6 @@
 <template>
-    <form v-on:submit.prevent="searchAction">
-        <div class="input-icon">
-            <span class="input-icon-addon">
-                <search-icon
-                    class="icon"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    width="24"
-                ></search-icon>
-            </span>
-            <input v-model="q" class="form-control" placeholder="Search…" type="text">
-        </div>
+    <form v-on:submit.prevent="searchAction" class="d-flex">
+        <input v-model="q" class="form-control" placeholder="Search…" type="text">
     </form>
 </template>
 

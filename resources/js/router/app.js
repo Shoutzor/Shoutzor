@@ -1,4 +1,4 @@
-import {createRouter, createWebHistory} from "vue-router";
+import {createRouter, createWebHashHistory} from "vue-router";
 import store from "@js/store/index";
 
 function loadView(view) {
@@ -6,8 +6,7 @@ function loadView(view) {
 }
 
 const router = createRouter({
-    hashbang: false,
-    history: createWebHistory(),
+    history: createWebHashHistory(),
     routes: [{
         name: 'dashboard',
         path: '/',
