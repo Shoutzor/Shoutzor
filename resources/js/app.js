@@ -7,6 +7,7 @@ import http from './http';
 import router from "./router/app";
 import store from "./store";
 import Shoutzor from "./plugins/Shoutzor";
+import Player from "@js/store/modules/MediaPlayer/Player";
 import App from "@js/views/App.vue";
 
 // use @vue/compat new render API
@@ -29,6 +30,7 @@ const app = createApp(App);
 
 app.config.globalProperties.emitter = emitter;
 app.config.globalProperties.echo = echoInstance;
+app.config.globalProperties.player = Player;
 
 app.use(http)
    .use(router)

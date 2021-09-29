@@ -5,9 +5,9 @@
         </div>
 
         <form id="auth-login-form" class="mb-0" @submit.prevent="login">
-            <input v-model="username" name="username" placeholder="Username" type="text"
+            <input v-model="username" name="username" placeholder="Username" type="text" autocomplete="username"
                    v-bind:class="[errors.includes('username') ? 'is-invalid' : '', 'form-control']" />
-            <input v-model="password" name="password" placeholder="Password" type="password"
+            <input v-model="password" name="password" placeholder="Password" type="password" autocomplete="current-password"
                    v-bind:class="[errors.includes('password') ? 'is-invalid' : '', 'form-control', 'mt-1']" />
             <label class="form-check mt-1" data-children-count="1">
                 <input v-model="remember_me" class="form-check-input" type="checkbox" />

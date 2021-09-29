@@ -25,9 +25,13 @@
 </template>
 
 <script>
+import ArtistList from "@js/components/global/media/ArtistList";
 import Request from '@js/models/Request';
 
 export default {
+    components: {
+        ArtistList
+    },
     computed: {
         currentRequest: () => Request.query()
                                      .where((r) => {

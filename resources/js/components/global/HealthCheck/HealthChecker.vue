@@ -129,13 +129,16 @@ export default {
     },
 
     watch: {
-        healthData: function(val) {
-            if(this.isInitialized === false || this.errored === true) {
-                this.isAllHealthy(false);
-            }
-            else {
-                this.isAllHealthy(!this.needsFixing());
-            }
+        healthData: {
+            handler(val, oldVal) {
+                if(this.isInitialized === false || this.errored === true) {
+                    this.isAllHealthy(false);
+                }
+                else {
+                    this.isAllHealthy(!this.needsFixing());
+                }
+            },
+            deep: true
         }
     },
 

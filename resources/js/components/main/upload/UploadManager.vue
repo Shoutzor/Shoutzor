@@ -16,20 +16,23 @@ export default {
     },
 
     watch: {
-        files: function() {
-            //When a file is uploading, it will be shifted from the this.files stack.
-            //Therefor we need to increment it by 1
-            if(this.isUploading === true) {
-                this.status.totalFiles = this.files.length + 1;
-            }
-            else {
-                this.status.totalFiles = this.files.length;
-            }
+        files: {
+            handler(val, oldVal) {
+                //When a file is uploading, it will be shifted from the this.files stack.
+                //Therefor we need to increment it by 1
+                if(this.isUploading === true) {
+                    this.status.totalFiles = val.length + 1;
+                }
+                else {
+                    this.status.totalFiles = val.length;
+                }
+            },
+            deep: true
         },
         status: {
-            handler(val) {
+            handler(val, oldVal) {
                 //Whenever the upload status changes, emit an update event for the UploadProgress component
-                this.emitter.emit('upload-status', this.status);
+                this.emitter.emit('upload-status', val);
             },
             deep: true
         }

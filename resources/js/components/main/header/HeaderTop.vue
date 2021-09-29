@@ -1,5 +1,5 @@
 <template>
-    <header id="navbar-top" class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 showShadow">
+    <header id="navbar-top" class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0">
         <router-link
             :to="{name: 'dashboard'}"
             class="navbar-brand col-md-3 col-lg-2 me-0 px-3"
@@ -56,29 +56,7 @@ export default {
         isAuthenticated: 'isAuthenticated',
         user: 'getUser',
         can: 'can'
-    }),
-    created() {
-        this.emitter.on('main-content-scroll', this.handleScroll);
-    },
-    beforeUnmount() {
-        this.emitter.off('main-content-scroll', this.handleScroll);
-    },
-    methods: {
-        handleScroll(event) {
-            var navbar = document.querySelector('#navbar-top');
-
-            if(event.scrollY > 0) {
-                if(!navbar.classList.contains('showShadow')) {
-                    navbar.classList.add('showShadow');
-                }
-            }
-            else {
-                if(navbar.classList.contains('showShadow')) {
-                    navbar.classList.remove('showShadow');
-                }
-            }
-        }
-    }
+    })
 }
 </script>
 
@@ -89,7 +67,9 @@ export default {
     width: 100%;
     z-index: 999;
     background: $body-bg;
-    transition: box-shadow 0.2s ease;
+    -webkit-box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.2);
+    box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.2);
 
     @include media-breakpoint-up(lg) {
         position: fixed;
@@ -137,13 +117,8 @@ export default {
         .navbar-brand-image {
             -webkit-filter: brightness(0) invert(1);
             filter: brightness(0) invert(1);
+            padding: 8px;
         }
-    }
-
-    &.showShadow {
-        -webkit-box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.2);
-        -moz-box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.2);
-        box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.2);
     }
 }
 </style>

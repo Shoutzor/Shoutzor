@@ -56,14 +56,14 @@ export default {
     align-items: center;
     justify-content: center;
     height: 100%;
-}
 
-#container {
-    flex: none;
-    height: initial;
-}
+    #container {
+        flex: none;
+        height: initial;
 
-#logo {
-    filter: brightness(0) invert(1);
+        #logo {
+            filter: brightness(0) invert(1);
+        }
+    }
 }
 </style>

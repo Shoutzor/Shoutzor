@@ -121,17 +121,17 @@ export default {
 
     mounted() {
         //Initialize
-        this.$player.initialize(document.querySelector("#mediaPlayerSource"), null, false);
+        this.player.initialize(document.querySelector("#mediaPlayerSource"), null, false);
     },
 
     methods: {
         play() {
-            this.$store.dispatch('MediaPlayer/play', this.url);
+            this.store.dispatch('MediaPlayer/play', this.url);
         },
 
         stop() {
             this.hideVideo();
-            this.$store.dispatch('MediaPlayer/stop');
+            this.store.dispatch('MediaPlayer/stop');
         },
 
         // Handle changes from the volume slider
@@ -141,7 +141,7 @@ export default {
                 volume = volume / 100;
             }
 
-            this.$player.setVolume(volume);
+            this.player.setVolume(volume);
         },
 
         // Handle showing / hiding the video stream (if available)
@@ -173,12 +173,12 @@ export default {
         },
 
         setLowVideoQuality() {
-            this.$player.updateSettings({'streaming': {'abr': {'autoSwitchBitrate': {'video': false}}}});
-            this.$player.setQualityFor("video", 0);
+            this.player.updateSettings({'streaming': {'abr': {'autoSwitchBitrate': {'video': false}}}});
+            this.player.setQualityFor("video", 0);
         },
 
         setHighVideoQuality() {
-            this.$player.updateSettings({'streaming': {'abr': {'autoSwitchBitrate': {'video': true}}}});
+            this.player.updateSettings({'streaming': {'abr': {'autoSwitchBitrate': {'video': true}}}});
         }
     }
 }

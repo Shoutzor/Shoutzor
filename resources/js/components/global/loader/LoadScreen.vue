@@ -35,14 +35,6 @@ export default {
 #container {
     flex: none;
     height: initial;
-
-    .card {
-        border: 1px solid darken($body-bg, 5%);
-
-        .card-body {
-            background: lighten($body-bg, 5%);
-        }
-    }
 }
 
 #logo {

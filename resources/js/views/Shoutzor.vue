@@ -40,31 +40,18 @@ export default {
       UploadManager
   },
   mounted() {
-    //Add a scroll-event listener for when the user scrolls through the main content section
-    this.$refs.scroll.scrollElement.addEventListener("scroll", this.onContentScroll);
-
     //Add file-drag event listeners
     document.addEventListener('dragover', this.onDragOver);
     document.addEventListener('dragleave', this.onDragLeave);
     document.addEventListener('drop', this.onDrop);
   },
   beforeUnmount() {
-    //Remove the scroll event listener
-    this.$refs.scroll.scrollElement.removeEventListener("scroll", this.onContentScroll);
-
     //Remove file-drag event listeners
     document.removeEventListener('dragover', this.onDragOver);
     document.removeEventListener('dragleave', this.onDragLeave);
     document.removeEventListener('drop', this.onDrop);
   },
   methods: {
-    onContentScroll(event) {
-      this.emitter.emit('main-content-scroll', {
-        scrollX: event.target.scrollLeft,
-        scrollY: event.target.scrollTop
-      });
-    },
-
     onDragOver(event) {
       event.preventDefault();
       this.emitter.emit('dragover', event);
