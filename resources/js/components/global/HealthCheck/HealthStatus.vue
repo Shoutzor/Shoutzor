@@ -4,11 +4,11 @@
             <StatusIcon
                 v-if="healthy === true"
                 classes="bg-green-lt"
-                iconName="check-icon"></StatusIcon>
+                iconName="b-icon-check2"></StatusIcon>
             <StatusIcon
                 v-else
                 classes="bg-red-lt"
-                iconName="alert-circle-icon"></StatusIcon>
+                iconName="b-icon-exclamation-circle"></StatusIcon>
 
             <div class="ms-3 w-100">
                 <div class="strong">{{ name }}</div>

@@ -6,10 +6,9 @@
             <div v-if="enableRefreshButton"
                  :class="refreshButtonClasses"
                  class="ms-2 refreshButton"
-                 @click="onRefreshButtonClick()"
-            >
+                 @click="onRefreshButtonClick()">
                 <span v-if="refreshButtonText !== ''" class="refreshText">{{ refreshButtonText }}</span>
-                <refresh-icon v-if="isLoading()" class="refreshIcon sm-2"></refresh-icon>
+                <b-icon-arrow-counterclockwise v-if="isLoading()" class="refreshIcon sm-2"></b-icon-arrow-counterclockwise>
                 <div v-else class="spinner-border spinner-border-sm ms-2" role="status"></div>
             </div>
 
@@ -27,9 +26,7 @@
                 <div class="card-body">
                     <h3 class="card-title">Automatic repair result(s)</h3>
                     <p v-if="repairError">A failure occurred while requesting the automatic repair</p>
-                    <p v-for="result in repairResult.data" v-else class="repair-result"><strong>{{
-                            result.name
-                                                                                                }}:</strong> <span
+                    <p v-for="result in repairResult.data" v-else class="repair-result"><strong>{{ result.name }}:</strong> <span
                         class="pre-text">{{ result.result }}</span></p>
                 </div>
             </div>

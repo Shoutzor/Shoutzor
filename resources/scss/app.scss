@@ -1,22 +1,8 @@
-// Import the bootstrap theme
-@import "theme";
-
 //Include the vue3-perfect-scrollbar module styling
 @import "~vue3-perfect-scrollbar/dist/vue3-perfect-scrollbar.css";
 
+// Import the bootstrap theme
+@import "theme";
+
 // Shoutz0r App-loader component styling
 @import "components/app-loader";
-
-//Disable selecting text
-* {
-  -webkit-touch-callout: none; /* iOS Safari */
-  -webkit-user-select: none; /* Safari */
-  -khtml-user-select: none; /* Konqueror HTML */
-  -moz-user-select: none; /* Old versions of Firefox */
-  -ms-user-select: none; /* Internet Explorer/Edge */
-  user-select: none; /* Non-prefixed version, currently supported by Chrome, Edge, Opera and Firefox */
-}
-
-.alert {
-    background: #2f353a;
-}

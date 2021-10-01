@@ -1,5 +1,19 @@
+//Disable selecting text
+* {
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+    -khtml-user-select: none; /* Konqueror HTML */
+    -moz-user-select: none; /* Old versions of Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none; /* Non-prefixed version, currently supported by Chrome, Edge, Opera and Firefox */
+}
+
 body {
   overflow: hidden !important;
+}
+
+.alert {
+    background: #2f353a;
 }
 
 /* Disable the button outline when it's pressed */
@@ -18,4 +32,51 @@ body {
     .card-body {
         background: lighten($body-bg, 5%);
     }
+}
+
+.filter-invert {
+    -webkit-filter: brightness(0) invert(1);
+    filter: brightness(0) invert(1);
+}
+
+/*
+ * This has been copied from the previous Tabler.io CSS Framework
+ */
+@each $color, $value in map-merge($colors, (dark: $dark, muted: $text-muted, white: $white)) {
+    .bg-#{"" + $color} {
+        background: $value;
+    }
+
+    .text-#{"" + $color} {
+        color: $value !important;
+    }
+
+    .bg-#{"" + $color}-lt {
+        color: $value !important;
+        background: shift-color($value, -10%) !important;
+    }
+}
+
+/*
+ * This has been copied from the previous Tabler.io CSS Framework
+ */
+.avatar {
+    position: relative;
+    width: 2.5rem;
+    height: 2.5rem;
+    font-size: calc(2.5rem / 2.8571429);
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #656d77;
+    text-align: center;
+    text-transform: uppercase;
+    vertical-align: bottom;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background: #f0f2f6 no-repeat center/cover;
+    border-radius: 4px;
 }

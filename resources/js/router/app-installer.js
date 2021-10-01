@@ -1,4 +1,4 @@
-import {createRouter, createWebHistory} from "vue-router";
+import { createRouter, createMemoryHistory } from "vue-router";
 
 //Views
 import InstallerStartView from "@js/views/installer/start";
@@ -8,8 +8,8 @@ import InstallerSetupView from "@js/views/installer/setup";
 import InstallerFinishView from "@js/views/installer/finish";
 
 const router = createRouter({
-    hashbang: false,
-    history: createWebHistory(),
+    hashbang: true,
+    history: createMemoryHistory(),
     routes: [
         {
             name: 'installer-start',

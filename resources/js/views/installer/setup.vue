@@ -1,7 +1,7 @@
 <template>
   <div class="card card-md">
-    <div class="card-body text-center py-4 p-sm-4">
-      <h1>Setup</h1>
+    <div class="card-body bg-white text-center py-4 p-sm-4">
+      <h1 class="text-gray-dark">Setup</h1>
       <p class="text-muted">Please wait while the installer finishes the installation of Shoutz0r</p>
     </div>
 
@@ -17,6 +17,8 @@
 </template>
 
 <script>
+import SetupProgress from "@js/components/installer/setup/SetupProgress";
+
 export default {
   name: "installer-healthcheck-view",
 

@@ -1,7 +1,7 @@
 <template>
   <div class="card card-md">
-    <div class="card-body text-center py-4 p-sm-4">
-      <h1>Healthcheck</h1>
+    <div class="card-body bg-white text-center py-4 p-sm-4">
+      <h1 class="text-gray-dark">Healthcheck</h1>
       <p class="text-muted">Make sure all health checks are green before continuing. This ensures Shoutz0r will function correctly.</p>
     </div>
 
@@ -21,6 +21,8 @@
 </template>
 
 <script>
+import HealthChecker from "@js/components/global/HealthCheck/HealthChecker";
+
 export default {
   name: "installer-healthcheck-view",
 
@@ -28,6 +30,10 @@ export default {
     showNextButton: { type: Function },
     showCustomButton: { type: Function }
   },
+
+    components: {
+      HealthChecker
+    },
 
   mounted() {
     this.showNextButton(false);

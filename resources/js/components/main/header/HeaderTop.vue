@@ -4,7 +4,7 @@
             :to="{name: 'dashboard'}"
             class="navbar-brand col-md-3 col-lg-2 me-0 px-3"
         >
-            <img alt="Shoutz0r logo" class="navbar-brand-image" src="@static/images/shoutzor-logo-header.png">
+            <img alt="Shoutz0r logo" class="navbar-brand-image filter-invert" src="@static/images/shoutzor-logo-header.png">
         </router-link>
         <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -115,8 +115,6 @@ export default {
         }
 
         .navbar-brand-image {
-            -webkit-filter: brightness(0) invert(1);
-            filter: brightness(0) invert(1);
             padding: 8px;
         }
     }
