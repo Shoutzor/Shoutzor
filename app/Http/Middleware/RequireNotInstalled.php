@@ -6,7 +6,7 @@ use App\Providers\RouteServiceProvider;
 use Closure;
 use Illuminate\Auth\Access\Response;
 
-class RedirectIfInstalled
+class RequireNotInstalled
 {
     public function handle($request, Closure $next)
     {
@@ -15,6 +15,6 @@ class RedirectIfInstalled
             return $next($request);
         }
 
-        return redirect(RouteServiceProvider::HOME);
+        return redirect(RouteServiceProvider::HOME, 301);
     }
 }

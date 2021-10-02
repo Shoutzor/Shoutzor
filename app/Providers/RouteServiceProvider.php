@@ -77,7 +77,7 @@ class RouteServiceProvider extends ServiceProvider
      */
     protected function mapWebRoutes()
     {
-        Route::middleware('web')->namespace($this->namespace)->group(base_path('routes/web.php'));
+        Route::middleware('web')->middleware('api')->namespace($this->namespace)->group(base_path('routes/web.php'));
     }
 
     /**
@@ -89,6 +89,6 @@ class RouteServiceProvider extends ServiceProvider
      */
     protected function mapInstallerRoutes()
     {
-        Route::prefix('installer')->namespace($this->namespace.'\Installer')->group(base_path('routes/installer.php'));
+        Route::prefix('installer')->middleware('api')->namespace($this->namespace.'\Installer')->group(base_path('routes/installer.php'));
     }
 }

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div v-if="showHeader" class="d-flex align-items-center">
+        <div v-if="showHeader" class="d-flex justify-content-end">
             <h3 v-if="showTitle">Health Check</h3>
 
             <div v-if="enableRefreshButton"
@@ -32,7 +32,7 @@
             </div>
         </div>
 
-        <div v-if="loading" class="card card-sm">
+        <div v-if="loading" class="card card-sm rounded-0">
             <div class="card-body">
                 <div class="spinner-border" role="status"></div>
             </div>
@@ -45,7 +45,7 @@
             v-bind="check">
         </health-status>
 
-        <div v-else class="card card-sm">
+        <div v-else class="card card-sm rounded-0">
             <div class="card-body">
                 No health checks found
             </div>

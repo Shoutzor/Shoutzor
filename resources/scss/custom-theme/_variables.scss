@@ -1,7 +1,7 @@
 /*
  * options from: https://getbootstrap.com/docs/5.1/customize/options/
  */
-$enable-rounded: false;
+$enable-rounded: true;
 $enable-negative-margins: false; // Disabled by default, might be useful in the future: https://getbootstrap.com/docs/5.1/utilities/spacing/#negative-margin
 
 // Typography
@@ -34,6 +34,32 @@ $warning: #f1c40f;
 $danger: #cd201f;
 $light: #f8f9fa;
 $dark: #343a40;
+
+$colors: (
+    "blue": $blue,
+    "indigo": $indigo,
+    "purple": $purple,
+    "pink": $pink,
+    "red": $red,
+    "orange": $orange,
+    "yellow": $yellow,
+    "green": $green,
+    "teal": $teal,
+    "cyan": $cyan,
+    "white": $white,
+    "gray": $gray,
+    "gray-dark": $gray-dark,
+    "azure": $azure,
+    "lime": $lime,
+    "primary": $primary,
+    "secondary": $secondary,
+    "success": $success,
+    "info": $info,
+    "warning": $warning,
+    "danger": $danger,
+    "light": $light,
+    "dark": $dark
+);
 
 // Body
 $body-bg: $dark;

@@ -26,7 +26,11 @@ import axios from "axios";
 import SetupStep from "@js/components/installer/setup/SetupStep";
 
 export default {
-    components: {SetupStep},
+    name: "setup-progress",
+
+    components: {
+        SetupStep
+    },
 
     props: {
         installStateUpdate: {

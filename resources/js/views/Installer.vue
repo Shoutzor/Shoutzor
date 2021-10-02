@@ -28,12 +28,13 @@
                         </div>
                         <div class="col">
                             <div class="d-flex justify-content-end">
-                                <router-link v-if="showButton && next !== null" :to="{ name: next }" class="btn btn-primary">
+                                <router-link v-if="showButton && next !== null" :to="{ name: next }" class="btn btn-primary text-white">
                                     Next Step
                                 </router-link>
                                 <button
                                     v-else-if="showButton === false && showCustomButton === true"
-                                    :class="(buttonIsLoading ? 'btn-loading' : '') + ' btn btn-primary'"
+                                    class = "btn btn-primary text-white"
+                                    :class="(buttonIsLoading ? 'btn-loading' : '')"
                                     v-on:click="buttonClickProxy">
                                     {{ buttonText }}
                                 </button>

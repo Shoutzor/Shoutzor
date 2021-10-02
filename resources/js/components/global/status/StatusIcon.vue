@@ -1,5 +1,5 @@
 <template>
-  <span :class="classes + ' avatar'">
+  <span class="statusIcon avatar" :class="classes">
     <component :is="iconName" :class="iconClasses"></component>
   </span>
 </template>
