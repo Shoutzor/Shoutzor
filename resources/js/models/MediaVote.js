@@ -18,8 +18,8 @@ export default class MediaVote extends Model {
 
     static fields() {
         return {
-            id: this.number(null),
-            media_id: this.number(null),
+            id: this.uid(null),
+            media_id: this.uid(null),
             media: this.belongsTo(Media, 'media_id'),
             count: this.number(null)
         }

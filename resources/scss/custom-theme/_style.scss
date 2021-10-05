@@ -36,7 +36,7 @@ body {
 }
 
 /*
- * This has been copied from the previous Tabler.io CSS Framework
+ * This has been copied from the Tabler.io CSS Framework
  */
 @each $color, $value in map-merge($colors, (dark: $dark, muted: $text-muted, white: $white)) {
     .bg-#{"" + $color} {
@@ -53,7 +53,7 @@ body {
 }
 
 /*
- * This has been copied from the previous Tabler.io CSS Framework
+ * This has been copied from the Tabler.io CSS Framework
  */
 .avatar {
     position: relative;
@@ -76,6 +76,9 @@ body {
     border-radius: 4px;
 }
 
+/*
+ * Enables objects with this class to spin around
+ */
 .rotate {
     animation: spin 4s infinite linear;
 }

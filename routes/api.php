@@ -21,7 +21,6 @@ use Illuminate\Support\Facades\Route;
 Route::get('system/health/', 'SystemApiController@getHealthStatus');
 Route::post('system/health/fix', 'SystemApiController@fixHealth');
 
-
 /*
  * --------------------------------------------------------------------------
  * Routes within this group require Shoutz0r to be installed
@@ -80,16 +79,6 @@ Route::group(
                         Route::get('role/get/{id?}', 'RoleApiController@get')
                             ->middleware('can:admin.permissions.role.get')
                             ->where('id', '[0-9]+');
-
-                        //Admin - Packages
-                        Route::group(
-                            ['middleware' => 'can:admin.modules'],
-                            function () {
-                                Route::get('modules', 'ModuleApiController@get');
-                                Route::post('modules/enable', 'ModuleApiController@enable');
-                                Route::post('modules/disable', 'ModuleApiController@disable');
-                            }
-                        );
                     }
                 );
             }

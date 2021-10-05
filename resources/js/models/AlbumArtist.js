@@ -7,8 +7,8 @@ export default class AlbumArtist extends Model {
 
     static fields() {
         return {
-            album_id: this.number(null),
-            artist_id: this.number(null)
+            album_id: this.uid(null),
+            artist_id: this.uid(null)
         }
     }
 }

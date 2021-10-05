@@ -2,12 +2,13 @@
 
 namespace App;
 
+use App\Traits\UsesUUID;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Request extends Model
 {
-    use HasFactory;
+    use UsesUUID, HasFactory;
 
     const CREATED_AT = 'requested_at';
     const UPDATED_AT = 'played_at';
@@ -17,8 +18,8 @@ class Request extends Model
         return $this->belongsTo('App\Media');
     }
 
-    public function user()
+    public function users()
     {
-        return $this->belongsTo('App\User');
+        return $this->belongsToMany('App\User');
     }
 }

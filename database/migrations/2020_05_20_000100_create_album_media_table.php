@@ -16,8 +16,8 @@ class CreateAlbumMediaTable extends Migration
         Schema::create(
             'album_media',
             function (Blueprint $table) {
-                $table->foreignId('album_id')->constrained('albums', 'id')->cascadeOnDelete();
-                $table->foreignId('media_id')->constrained('media', 'id')->cascadeOnDelete();
+                $table->foreignUuid('album_id')->constrained('albums', 'id')->cascadeOnDelete();
+                $table->foreignUuid('media_id')->constrained('media', 'id')->cascadeOnDelete();
                 $table->unique(['album_id', 'media_id']);
             }
         );

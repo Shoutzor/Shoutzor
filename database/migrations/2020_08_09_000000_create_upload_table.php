@@ -16,9 +16,9 @@ class CreateUploadTable extends Migration
         Schema::create(
             'uploads',
             function (Blueprint $table) {
-                $table->bigIncrements('id');
+                $table->uuid('id')->primary();
                 $table->string('filename');
-                $table->foreignId('user_id')->constrained('users', 'id')->cascadeOnDelete();
+                $table->foreignUuid('user_id')->constrained('users', 'id')->cascadeOnDelete();
                 $table->smallInteger('status')->unsigned();
             }
         );

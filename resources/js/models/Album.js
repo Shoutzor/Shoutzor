@@ -28,7 +28,7 @@ export default class Album extends Model {
 
     static fields() {
         return {
-            id: this.number(null),
+            id: this.uid(null),
             title: this.string(''),
             summary: this.string(''),
             image: this.string(''),

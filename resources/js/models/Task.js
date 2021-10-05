@@ -6,7 +6,7 @@ export default class Task extends Model {
 
     static fields() {
         return {
-            user_id: this.number(null).nullable(),
+            user_id: this.uid(null).nullable(),
             user: this.hasOne(User, 'id', 'user_id'),
             filename: this.string(''),
             size: this.number(0),

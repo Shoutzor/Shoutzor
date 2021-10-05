@@ -3,13 +3,14 @@
 namespace App;
 
 use App\Events\Internal\AlbumCreateEvent;
+use App\Traits\UsesUUID;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 
 class Album extends Model
 {
-    use HasFactory;
+    use UsesUUID, HasFactory;
 
     /**
      * Indicates if the model should be timestamped.
@@ -22,11 +23,7 @@ class Album extends Model
     {
         $event = new AlbumCreateEvent($album);
         app(EventDispatcher::class)->dispatch($event);
-
-        //Check if the album already exists
-        if ($event->exists() === false) {
-            $album->save();
-        }
+        $album->save();
     }
 
     public function artists()

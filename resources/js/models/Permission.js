@@ -18,7 +18,7 @@ export default class Permission extends Model {
 
     static fields() {
         return {
-            id: this.number(null),
+            id: this.uid(null),
             name: this.string(''),
             description: this.string('')
         }

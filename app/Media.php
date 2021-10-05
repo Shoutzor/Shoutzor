@@ -2,12 +2,13 @@
 
 namespace App;
 
+use App\Traits\UsesUUID;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Media extends Model
 {
-    use HasFactory;
+    use UsesUUID, HasFactory;
 
     const STORAGE_PATH = 'media/';
     public $timestamps = false;

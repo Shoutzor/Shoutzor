@@ -13,12 +13,11 @@ class MediaFactory extends Factory
     public function definition()
     {
         return [
-            'title' => $this->faker->title(),
-            'filename' => 'example.mp3', //TODO: use $this->faker->file()
+            'title' => $this->faker->realTextBetween(8, 40),
+            'filename' => 'example.mp3', //TODO: use $this->faker->file() ?
             'duration' => $this->faker->numberBetween(30, 500),
-            'hash' => hash_file('sha512', 'filename_here'),
-            'is_video' => false,
-            'source' => 'audio'
+            'hash' => hash('sha512', $this->faker->text(50)),
+            'is_video' => false
         ];
     }
 }

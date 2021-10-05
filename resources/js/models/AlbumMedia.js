@@ -7,8 +7,8 @@ export default class AlbumMedia extends Model {
 
     static fields() {
         return {
-            album_id: this.number(null),
-            media_id: this.number(null)
+            album_id: this.uid(null),
+            media_id: this.uid(null)
         }
     }
 }

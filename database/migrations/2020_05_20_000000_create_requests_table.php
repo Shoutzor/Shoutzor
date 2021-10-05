@@ -16,9 +16,8 @@ class CreateRequestsTable extends Migration
         Schema::create(
             'requests',
             function (Blueprint $table) {
-                $table->bigIncrements('id');
-                $table->foreignId('media_id')->constrained('media', 'id')->cascadeOnDelete();
-                $table->foreignId('user_id')->nullable()->constrained('users', 'id')->cascadeOnDelete();
+                $table->uuid('id')->primary();
+                $table->foreignUuid('media_id')->constrained('media', 'id')->cascadeOnDelete();
                 $table->timestamp('requested_at')->useCurrent();
                 $table->timestamp('played_at')->nullable()->default(null);
             }

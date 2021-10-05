@@ -1,5 +1,5 @@
-<!doctype html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-<html lang="en" dir="ltr">
+<!doctype html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" dir="ltr">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport"

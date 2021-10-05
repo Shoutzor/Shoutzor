@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Traits\UsesUUID;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -12,7 +13,7 @@ use Spatie\Permission\Traits\RefreshesPermissionCache;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, Notifiable, HasRoles, HasPermissions, RefreshesPermissionCache, HasFactory;
+    use UsesUUID, HasApiTokens, Notifiable, HasRoles, HasPermissions, RefreshesPermissionCache, HasFactory;
 
     /**
      * The attributes that are mass assignable.

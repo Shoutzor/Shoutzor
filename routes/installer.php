@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Route;
  * The steps & URL slugs are defined in App\Installer\Installer:$installSteps
  * --------------------------------------------------------------------------
  */
-Route::group(['middleware' => 'can.install'], function() {
+Route::group(['middleware' => 'install.required'], function() {
     Route::get('database/getFields', 'InstallerSetupController@getDatabaseFields');
     Route::post('database/configureDatabase', 'InstallerSetupController@configureDatabaseSettings');
 

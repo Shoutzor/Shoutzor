@@ -11,6 +11,15 @@ import {defaultAlbumImage} from "../config";
 export default class Media extends Model {
     static entity = 'media'
 
+    static apiConfig = {
+        actions: {
+            fetch: {
+                method: 'get',
+                url: '/api/media/get'
+            }
+        }
+    }
+
     get coverImage() {
         if(this.image.length > 0) {
             return this.image;
@@ -25,7 +34,7 @@ export default class Media extends Model {
 
     static fields() {
         return {
-            id: this.number(null),
+            id: this.uid(null),
             title: this.string('Untitled'),
             filename: this.string(''),
             duration: this.number(0),

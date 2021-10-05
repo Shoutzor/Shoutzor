@@ -16,8 +16,8 @@ class CreateAlbumArtistTable extends Migration
         Schema::create(
             'album_artist',
             function (Blueprint $table) {
-                $table->foreignId('album_id')->constrained('albums', 'id')->cascadeOnDelete();
-                $table->foreignId('artist_id')->constrained('artists', 'id')->cascadeOnDelete();
+                $table->foreignUuid('album_id')->constrained('albums', 'id')->cascadeOnDelete();
+                $table->foreignUuid('artist_id')->constrained('artists', 'id')->cascadeOnDelete();
                 $table->unique(['album_id', 'artist_id']);
             }
         );

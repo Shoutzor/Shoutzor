@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateMediaTable extends Migration
+class CreateRequestUserTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,14 +14,11 @@ class CreateMediaTable extends Migration
     public function up()
     {
         Schema::create(
-            'media',
+            'request_user',
             function (Blueprint $table) {
-                $table->uuid('id')->primary();
-                $table->string('title');
-                $table->string('filename');
-                $table->char('hash', 128);
-                $table->boolean('is_video');
-                $table->smallInteger('duration')->unsigned();
+                $table->foreignUuid('request_id')->constrained('requests', 'id')->cascadeOnDelete();
+                $table->foreignUuid('user_id')->constrained('users', 'id')->cascadeOnDelete();
+                $table->unique(['request_id', 'user_id']);
             }
         );
     }
@@ -33,6 +30,6 @@ class CreateMediaTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('media');
+        Schema::dropIfExists('request_user');
     }
 }

@@ -2,9 +2,16 @@
 
 namespace Database\Seeders;
 
+use App\Album;
+use App\Artist;
+use App\Media;
+use App\Request;
 use App\User;
+use App\Vote;
 use Exception;
+use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Carbon;
 
 class DevelopmentSeeder extends Seeder
 {
@@ -16,56 +23,42 @@ class DevelopmentSeeder extends Seeder
      */
     public function run()
     {
-        // Create 30 dummy users
-        User::factory()->count(30)->create();
-
-        /*
-         *
-         * All of the code below will be moved to their own module(s).
-         *
+        /*// Create 10 dummy users
+        User::factory()->count(10)->create();
 
         // Create 10 Albums
-        Album::factory()->count(20)->create();
+        Album::factory()->count(10)->create();
 
-        // Create 20 Artists and give each 0-10 albums
+        // Create 10 Artists and give each 0-10 albums
         Artist::factory()
-            ->count(20)
-            ->state(
-                new Sequence(
-                    fn() => ['albums' => Album::all()->random(random_int(0, 10))]
-                )
-            )
+            ->count(10)
+            ->hasAlbums(5)
             ->create();
 
-        // Create 50 media items, each containing 0-10 artists and 0-10 albums
-        Media::factory()->count(50)->state(
-            new Sequence(
-                fn() => [
-                    'albums' => Album::all()->random(random_int(0, 10)),
-                    'artists' => fn() => Artist::all()->random(random_int(0, 10))
-                ]
-            )
-        )->create();
+        // Create 20 media items, each containing 0-10 artists and 0-10 albums
+        Media::factory()
+            ->count(20)
+            ->hasAlbums(5)
+            ->hasArtists(5)
+            ->create();
+
+        // Create some votes
+        Vote::factory()
+                ->count(20)
+                ->create();
 
         // Create some requests
-        Request::factory()->count(20)->state(
-            new Sequence(
-                fn() => [
-                    'user' => (random_int(0, 2) === 0 ? null : User::all()->random(1)),
-                    'media' => Media::all()->random(1)
-                ]
-            )
-        )->create();
+        Request::factory()
+            ->count(10)
+            ->create();*/
 
         // Create some history
-        Request::factory()->count(20)->state(
-            new Sequence(
-                fn() => [
-                    'user' => (random_int(0, 2) === 0 ? null : User::all()->random(1)),
-                    'media' => Media::all()->random(1),
+        Request::factory()
+               ->count(5)
+                ->hasUsers(3)
+                ->state(new Sequence(fn($sequence) => [
                     'played_at' => Carbon::now()->addMinutes(random_int(-2000, 0))
-                ]
-            )
-        )->create();*/
+                ]))
+               ->create();
     }
 }

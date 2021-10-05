@@ -2,10 +2,13 @@
 
 namespace App;
 
+use App\Traits\UsesUUID;
 use Illuminate\Database\Eloquent\Model;
 
 class Upload extends Model
 {
+    use UsesUUID;
+
     const STATUS_QUEUED = 0; # In queue to be processed
     const STATUS_PROCESSING = 1; # Currently being processed
     const STATUS_FAILED_RETRY = 2; # Processing failed, retry allowed.
