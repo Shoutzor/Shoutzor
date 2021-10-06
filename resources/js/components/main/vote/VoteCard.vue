@@ -23,6 +23,7 @@
 
 <script>
 import MediaVote from "@js/models/MediaVote";
+import ArtistList from "@js/components/global/media/ArtistList";
 
 export default {
     props: {
@@ -31,6 +32,10 @@ export default {
             type: Number,
             default: 0
         }
+    },
+
+    components: {
+        ArtistList
     },
 
     computed: {
@@ -70,7 +75,7 @@ export default {
     .info {
         background: linear-gradient(90deg, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 1) 40%, rgba(0, 0, 0, 0) 100%);
         padding: 0.75rem;
-        height: 100%;
+        height: 8rem;
 
         .title {
             font-size: 1.25rem !important;

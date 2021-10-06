@@ -82,6 +82,6 @@ export default {
 
 .ps {
   width: 100%;
-  height: 100%;
+  height: calc(100vh - (#{$navbar-height} + #{$player-height}));
 }
 </style>
