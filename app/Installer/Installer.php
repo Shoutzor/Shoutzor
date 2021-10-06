@@ -436,4 +436,24 @@ class Installer {
 
         return new InstallStepResult($success, Artisan::output() ?: $exception?->getMessage() ?? '', $exception);
     }
+
+    /**
+     * Runs the seeder that aids during development
+     * @return InstallStepResult
+     */
+    public function developmentSeedDatabase(): InstallStepResult
+    {
+        $success = true;
+        $exception = null;
+
+        try {
+            # Seed the database
+            Artisan::call('db:seed --class=DevelopmentSeeder --force');
+        } catch (Exception $e) {
+            $success = false;
+            $exception = $e;
+        }
+
+        return new InstallStepResult($success, Artisan::output() ?: $exception?->getMessage() ?? '', $exception);
+    }
 }

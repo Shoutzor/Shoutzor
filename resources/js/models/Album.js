@@ -5,7 +5,10 @@ import Artist from './Artist';
 import AlbumArtist from './AlbumArtist';
 import AlbumMedia from './AlbumMedia';
 
-import {defaultAlbumImage} from "../config";
+import {
+    defaultAlbumImage,
+    publicStoragePath
+} from "../config";
 
 export default class Album extends Model {
     static entity = 'albums';
@@ -23,7 +26,7 @@ export default class Album extends Model {
             return defaultAlbumImage;
         }
 
-        return this.image;
+        return publicStoragePath + this.image;
     }
 
     static fields() {

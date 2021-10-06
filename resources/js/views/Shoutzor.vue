@@ -75,13 +75,14 @@ export default {
     margin-top: $navbar-height;
 
     main {
+        padding-top: 1rem;
         padding-bottom: $player-height;
         background: url('@static/images/main-content-noise-bg.png');
     }
 }
 
 .ps {
-  width: 100%;
-  height: calc(100vh - (#{$navbar-height} + #{$player-height}));
+    width: 100%;
+    height: calc(100vh - (#{$navbar-height} + #{$player-height}));
 }
 </style>

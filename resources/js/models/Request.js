@@ -19,7 +19,6 @@ export default class Request extends Model {
         return {
             id: this.uid(null),
             media_id: this.uid(null),
-            user_id: this.uid(null).nullable(),
             media: this.belongsTo(Media, 'media_id'),
             users: this.belongsToMany(User, RequestUser, 'request_id', 'user_id'),
             requested_at: this.attr(null),

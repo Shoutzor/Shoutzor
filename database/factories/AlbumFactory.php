@@ -31,7 +31,7 @@ class AlbumFactory extends Factory
         return [
             'title' => $this->faker->title(),
             'summary' => $this->faker->paragraph(),
-            'image' => $this->faker->image($this->albumImageLocation, 640, 640, false),
+            'image' => 'album/' . $this->faker->image($this->albumImageLocation, 640, 640, 'abstract', false),
         ];
     }
 }

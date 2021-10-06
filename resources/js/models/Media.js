@@ -6,7 +6,10 @@ import Artist from "./Artist";
 import ArtistMedia from "./ArtistMedia";
 import MediaSource from "./MediaSource";
 
-import {defaultAlbumImage} from "../config";
+import {
+    publicStoragePath,
+    defaultAlbumImage
+} from "../config";
 
 export default class Media extends Model {
     static entity = 'media'
@@ -22,7 +25,7 @@ export default class Media extends Model {
 
     get coverImage() {
         if(this.image.length > 0) {
-            return this.image;
+            return publicStoragePath + this.image;
         }
 
         if (this.albums !== null && this.albums.length > 0) {

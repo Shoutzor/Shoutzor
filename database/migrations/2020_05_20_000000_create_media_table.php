@@ -19,6 +19,7 @@ class CreateMediaTable extends Migration
                 $table->uuid('id')->primary();
                 $table->string('title');
                 $table->string('filename');
+                $table->string('image');
                 $table->char('hash', 128);
                 $table->boolean('is_video');
                 $table->smallInteger('duration')->unsigned();

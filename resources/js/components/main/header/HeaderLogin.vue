@@ -1,5 +1,5 @@
 <template>
-    <div class="dropdown-menu dropdown-menu-right auth-dropdown">
+    <div class="dropdown-menu dropdown-menu-end dropdown-menu-dark auth-dropdown">
         <login-form></login-form>
 
         <div class="dropdown-divider"></div>
@@ -19,7 +19,6 @@ export default {
 
 <style lang="scss">
 .auth-dropdown {
-    right: 0;
     padding: 5px;
 
     button {

@@ -7,6 +7,7 @@ import Artist from '@js/models/Artist'
 import ArtistMedia from '@js/models/ArtistMedia'
 import Media from '@js/models/Media'
 import Request from '@js/models/Request'
+import RequestUser from '@js/models/RequestUser'
 import Task from '@js/models/Task'
 import Permission from '@js/models/Permission'
 import Role from '@js/models/Role'
@@ -26,12 +27,13 @@ database.register(ArtistMedia);
 database.register(Media);
 database.register(Task);
 database.register(Permission);
+database.register(Request);
+database.register(RequestUser);
 database.register(Role);
 database.register(User);
 database.register(RolePermission);
 database.register(UserPermission);
 database.register(UserRole);
-database.register(Request);
 database.register(MediaVote);
 
 export default database

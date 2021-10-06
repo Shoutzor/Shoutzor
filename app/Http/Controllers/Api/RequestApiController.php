@@ -10,7 +10,7 @@ class RequestApiController extends Controller
 
     public function index()
     {
-        $requests = Request::with(['Media', 'Media.Artists', 'Media.Albums', 'User'])->get();
+        $requests = Request::with(['Media', 'Media.Artists', 'Media.Albums', 'Users'])->get();
 
         return response()->json($requests, 200);
     }

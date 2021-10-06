@@ -31,7 +31,7 @@ class ArtistFactory extends Factory
         return [
             'name' => $this->faker->name(),
             'summary' => $this->faker->paragraph(),
-            'image' => $this->faker->image($this->artistImageLocation, 640, 640, false),
+            'image' => 'artist/' . $this->faker->image($this->artistImageLocation, 640, 640, 'nightlife', false),
         ];
     }
 }

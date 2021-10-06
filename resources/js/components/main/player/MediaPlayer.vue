@@ -111,8 +111,10 @@ export default {
                                      .where((r) => {
                                          return r.played_at !== null;
                                      })
+                                     .orderBy('requested_at', 'asc')
                                      .with(["media.artists|albums", "user"])
-                                     .last(), ...mapGetters({
+                                     .first(),
+        ...mapGetters({
             isAuthenticated: 'isAuthenticated',
             playerStatus: 'MediaPlayer/getPlayerState',
             hasVideo: 'MediaPlayer/hasVideo'

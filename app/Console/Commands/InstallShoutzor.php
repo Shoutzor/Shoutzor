@@ -17,9 +17,10 @@ class InstallShoutzor extends Command
     /**
      * The name and signature of the console command.
      * --useenv indicates that the existing .env file should be used during installation.
+     * --dev indicates that this is a development environment and will populate the database with dummy data
      * @var string
      */
-    protected $signature = 'shoutzor:install {--useenv}';
+    protected $signature = 'shoutzor:install {--useenv} {--dev}';
 
     /**
      * The console command description.
@@ -64,7 +65,7 @@ class InstallShoutzor extends Command
             $useEnv = $this->option('useenv');
 
             $this->checkHealth();
-            $this->performInstall($useEnv);
+            $this->performInstall($useEnv, $this->option('dev'));
         } catch(Exception $e) {
             $this->error($e->getMessage());
             return 1;
@@ -125,7 +126,7 @@ class InstallShoutzor extends Command
      * Performs the actual installation of Shoutzor
      * @throws Exception
      */
-    private function performInstall($useEnv) {
+    private function performInstall($useEnv, $isDev) {
         $this->info('Starting installation');
 
         // Check if the useEnv option is in-use
@@ -250,6 +251,14 @@ class InstallShoutzor extends Command
             // Dynamic method, the method names are in the array
             $stepResult = $this->installer->{$step['method']}();
 
+            if($stepResult->succeeded() === false) {
+                throw new Exception("Installation step failed. Reason: " . $stepResult->getOutput());
+            }
+        }
+
+        if($isDev) {
+            $this->info('Seeding database with the DevelopmentSeeder');
+            $this->installer->developmentSeedDatabase();
             if($stepResult->succeeded() === false) {
                 throw new Exception("Installation step failed. Reason: " . $stepResult->getOutput());
             }

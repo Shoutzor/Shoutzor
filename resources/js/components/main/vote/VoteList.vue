@@ -1,9 +1,7 @@
 <template>
     <div class="mediaVotes">
-        <div class="row row-deck row-cards">
-            <div v-for="vote in votes" class="col-sm-6 col-lg-3">
-                <vote-card v-bind:vote="vote" v-bind:totalVotes="totalVotes"></vote-card>
-            </div>
+        <div class="row">
+            <vote-card v-for="vote in votes" :vote="vote" :totalVotes="totalVotes"></vote-card>
         </div>
     </div>
 </template>
@@ -19,19 +17,16 @@ export default {
 
     computed: {
         votes: () => MediaVote.query()
-                         .orderBy('count', 'desc')
-                         .with(["media.artist"])
-                         .get(),
+                              .orderBy('count', 'desc')
+                              .with(["media.artist"])
+                              .limit(10)
+                              .get(),
 
         totalVotes: function() {
             return this.votes.reduce((total, vote) => {
                 return total + vote.count
             }, 0)
         }
-    },
-
-    created() {
-        MediaVote.api().fetch();
     }
 }
 </script>

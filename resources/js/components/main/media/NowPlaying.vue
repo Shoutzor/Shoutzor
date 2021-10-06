@@ -1,22 +1,20 @@
 <template>
-    <div v-if="currentRequest" class="card">
-        <div class="col-sm-12 nowplaying">
-            <div class="track-background">
-                <img class="album-image" v-bind:src="currentRequest.media.coverImage" />
-                <div class="album-overlay"></div>
-            </div>
-            <div class="track-content card card-aside">
-                <img alt="album image" class="album-image card-aside-column" v-bind:src="currentRequest.media.coverImage" />
-                <div class="track-info card-body d-flex flex-column mt-auto">
-                    <h3 v-if="currentRequest.media !== null">{{ currentRequest.media.title }}</h3>
-                    <artist-list :artists="currentRequest.media.artists"></artist-list>
+    <div v-if="currentRequest" class="col nowplaying">
+        <div class="track-background">
+            <img class="album-image" :src="currentRequest.media.coverImage" />
+            <div class="album-overlay"></div>
+        </div>
+        <div class="track-content card card-aside">
+            <img alt="album image" class="album-image card-aside-column" :src="currentRequest.media.coverImage" />
+            <div class="track-info card-body d-flex flex-column mt-auto">
+                <h3 v-if="currentRequest.media !== null">{{ currentRequest.media.title }}</h3>
+                <artist-list :artists="currentRequest.media.artists"></artist-list>
 
-                    <div class="d-flex align-items-center mt-auto">
-                        <div class="requested-by pl-3">
-                            <small class="text-muted">Requested by</small>
-                            <div v-if="currentRequest.user !== null">{{ currentRequest.user.name }}</div>
-                            <div v-if="currentRequest.user === null">AutoDJ</div>
-                        </div>
+                <div class="d-flex align-items-center mt-auto">
+                    <div class="requested-by pl-3">
+                        <small class="text-muted">Requested by</small>
+                        <div v-if="currentRequest.users !== null && currentRequest.length > 0"><artist-list :artists="currentRequest.users"></artist-list></div>
+                        <div v-if="currentRequest.users === null || currentRequest.length === 0">AutoDJ</div>
                     </div>
                 </div>
             </div>
@@ -37,8 +35,9 @@ export default {
                                      .where((r) => {
                                          return r.played_at !== null;
                                      })
-                                     .with(["media.artists|albums", "user"])
-                                     .last()
+                                     .orderBy('requested_at', 'asc')
+                                     .with(["media.artists|albums", "users"])
+                                     .first()
     }
 }
 </script>

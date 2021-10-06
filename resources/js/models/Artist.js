@@ -3,7 +3,10 @@ import {Model} from '@vuex-orm/core';
 import Media from './Media';
 import ArtistMedia from './ArtistMedia';
 
-import {defaultArtistImage} from "../config";
+import {
+    defaultArtistImage,
+    publicStoragePath
+} from "../config";
 
 export default class Artist extends Model {
     static entity = 'artists';
@@ -13,7 +16,7 @@ export default class Artist extends Model {
             return defaultArtistImage;
         }
 
-        return this.image;
+        return publicStoragePath + this.image;
     }
 
     static fields() {

@@ -1,4 +1,5 @@
 import { createApp, configureCompat } from 'vue';
+import { Dropdown } from 'bootstrap';
 import mitt from 'mitt';
 import PerfectScrollbar from 'vue3-perfect-scrollbar';
 import Echo from  'laravel-echo';
@@ -6,7 +7,6 @@ import { BootstrapIconsPlugin  } from 'bootstrap-icons-vue';
 import http from './http';
 import router from "./router/app";
 import store from "./store";
-import Shoutzor from "./plugins/Shoutzor";
 import Player from "@js/store/modules/MediaPlayer/Player";
 import App from "@js/views/App.vue";
 
@@ -35,7 +35,6 @@ app.config.globalProperties.player = Player;
 app.use(http)
    .use(router)
    .use(store)
-   .use(Shoutzor)
    .use(PerfectScrollbar)
    .use(BootstrapIconsPlugin)
    .mount('#shoutzor');

@@ -93,16 +93,17 @@ export default {
             .nav-item {
                 .nav-link {
                     color: $gray;
+                    font-size: 1rem;
 
                     &.router-link-exact-active {
                         color: $white !important;
                     }
-                }
 
-                .svg {
-                    width: 1.3rem;
-                    height: 1.3rem;
-                    margin: 5px 7px 5px 0;
+                    .svg {
+                        width: 1.1rem !important;
+                        height: 1.1rem !important;
+                        margin: 5px 7px 5px 0;
+                    }
                 }
             }
         }
