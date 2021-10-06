@@ -20,4 +20,12 @@ class RequestFactory extends Factory
             }
         ];
     }
+
+    public function configure()
+    {
+        return $this->afterCreating(function (Request $request) {
+            $users = User::inRandomOrder()->limit(random_int(0,5))->get();
+            $request->users()->saveMany($users);
+        });
+    }
 }
