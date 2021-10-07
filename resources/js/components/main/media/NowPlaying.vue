@@ -13,8 +13,8 @@
                 <div class="d-flex align-items-center mt-auto">
                     <div class="requested-by pl-3">
                         <small class="text-muted">Requested by</small>
-                        <div v-if="currentRequest.users !== null && currentRequest.length > 0"><artist-list :artists="currentRequest.users"></artist-list></div>
-                        <div v-if="currentRequest.users === null || currentRequest.length === 0">AutoDJ</div>
+                        <template v-if="currentRequest.users !== null && currentRequest.users.length > 0"><user-list :users="currentRequest.users"></user-list></template>
+                        <template v-if="currentRequest.users === null || currentRequest.users.length === 0">AutoDJ</template>
                     </div>
                 </div>
             </div>
@@ -24,11 +24,13 @@
 
 <script>
 import ArtistList from "@js/components/global/media/ArtistList";
+import UserList from "@js/components/global/media/UserList";
 import Request from '@js/models/Request';
 
 export default {
     components: {
-        ArtistList
+        ArtistList,
+        UserList
     },
     computed: {
         currentRequest: () => Request.query()
@@ -93,6 +95,7 @@ export default {
             padding: 0.5rem 0.5rem 0.1rem 0.5rem;
             color: #FFF;
             text-shadow: 0 0 4px #000;
+            background-color: transparent !important;
 
             h3 {
                 font-size: 1.4rem;
@@ -110,14 +113,6 @@ export default {
 
                 .text-muted {
                     color: #929394 !important;
-                }
-            }
-
-            a.artist, .upvote, .downvote {
-                color: #fff;
-
-                &:hover {
-                    color: $gray;
                 }
             }
 

@@ -1,6 +1,6 @@
 <template>
-    <div class="col votecard" v-on:click="onVoteClick">
-        <div :style="'background-image: url('+ vote.media.coverImage +')'" class="votecard-body">
+    <div class="col votecard dark" v-on:click="onVoteClick" ref="voteCard">
+        <div class="votecard-body" :style="'background-image: url('+ vote.media.coverImage +')'">
             <div class="info">
                 <div class="d-flex align-items-center">
                     <div class="subheader authors">
@@ -53,7 +53,31 @@ export default {
     methods: {
         onVoteClick() {
             this.emitter.emit('votes.vote', this.vote);
+        },
+
+        updateVotecardColor() {
+            if(typeof this.vote === undefined) {
+                return;
+            }
+
+            this.fac.getColorAsync(this.vote.media.coverImage)
+                .then(color => {
+                    // Set the color of the votecard based on the avg. color of it's cover image
+                    this.$refs.voteCard.style.setProperty('--voteCardColor', color.hex);
+
+                    // Update the class of the votecard based on the avg. color of it's cover image
+                    this.$refs.voteCard.classList.remove(color.isDark ? 'light' : 'dark');
+                    this.$refs.voteCard.classList.add(color.isDark ? 'dark' : 'light');
+                });
         }
+    },
+
+    mounted() {
+        this.updateVotecardColor();
+    },
+
+    updated() {
+        this.updateVotecardColor();
     }
 }
 </script>
@@ -63,17 +87,22 @@ export default {
     position: relative;
     overflow: hidden;
     border-radius: 5px;
-    min-width: 300px;
+    --width: 260px;
+    min-width: var(--width);
+    width: var(--width);
+    max-width: var(--width);
     padding: 0;
     margin: 5px;
+    color: #fff;
+    text-shadow: 0 0 4px rgb(0 0 0);
+    --voteCardColor: $gray;
 
     &:hover {
-        box-shadow: 0 0 10px #282b2d;
+        box-shadow: 0 0 10px var(--voteCardColor);
         cursor: pointer;
     }
 
     .votecard-body {
-        background-color: rgba(0, 0, 0, 0.1);
         background-repeat: no-repeat;
         background-size: cover;
         background-image: url("~@static/images/album_cover_placeholder.jpg");
@@ -81,12 +110,16 @@ export default {
         padding: 0;
 
         .info {
-            background: linear-gradient(90deg, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 1) 40%, rgba(0, 0, 0, 0) 100%);
             padding: 0.75rem;
             height: 8rem;
+            background-image: linear-gradient(90deg, var(--voteCardColor) 0%, var(--voteCardColor) 40%, rgba(0, 0, 0, 0) 100%);
 
             .title {
-                font-size: 1.15rem !important;
+                font-size: 1rem !important;
+            }
+
+            .voteresult {
+                font-size: 0.75rem;
             }
         }
     }
@@ -101,7 +134,7 @@ export default {
         border-radius: 0;
 
         .progress-bar {
-            background-color: rgba(200, 200, 200, 0.2);
+            background-size: 4rem 4rem;
             background-image: linear-gradient(
                     45deg,
                     rgba(255, 255, 255, .1) 25%,
@@ -112,7 +145,18 @@ export default {
                     transparent 75%,
                     transparent
             );
-            background-size: 4rem 4rem;
+        }
+    }
+
+    &.light {
+        .progress .progress-bar {
+            background-color: rgba(0, 0, 0, 0.2);
+        }
+    }
+
+    &.dark {
+        .progress .progress-bar {
+            background-color: rgba(200, 200, 200, 0.2);
         }
     }
 }

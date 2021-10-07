@@ -12,6 +12,15 @@ body {
   overflow: hidden !important;
 }
 
+a {
+    color: $white;
+    text-decoration: none;
+}
+
+a:hover {
+    color: darken($white, 15%);
+}
+
 /* Disable the button outline when it's pressed */
 .btn-primary:focus, .btn-primary.focus, .btn:focus, .btn.focus {
   box-shadow: none !important;

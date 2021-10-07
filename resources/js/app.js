@@ -1,6 +1,7 @@
 import { createApp, configureCompat } from 'vue';
 import { Dropdown } from 'bootstrap';
 import mitt from 'mitt';
+import FastAverageColor from "fast-average-color";
 import PerfectScrollbar from 'vue3-perfect-scrollbar';
 import Echo from  'laravel-echo';
 import { BootstrapIconsPlugin  } from 'bootstrap-icons-vue';
@@ -31,6 +32,7 @@ const app = createApp(App);
 app.config.globalProperties.emitter = emitter;
 app.config.globalProperties.echo = echoInstance;
 app.config.globalProperties.player = Player;
+app.config.globalProperties.fac = new FastAverageColor();
 
 app.use(http)
    .use(router)
