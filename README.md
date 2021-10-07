@@ -28,3 +28,9 @@ If you're going to work on the front-end, make sure to run `npm run watch`.
 ### Thanks to
 
 [JetBrains](https://www.jetbrains.com/?from=Shoutz0r)
+
+### Sponsor this project
+
+Shoutz0r is being developed entirely in my spare time. \
+If you like this project, please consider sponsoring it using the button in the sidebar of this repo (or [click here](https://github.com/sponsors/xorinzor) ).\
+Every little bit helps to buy me a beer or pizza, which keeps me going!

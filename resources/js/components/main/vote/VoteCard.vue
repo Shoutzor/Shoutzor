@@ -1,14 +1,14 @@
 <template>
     <div class="col votecard dark" v-on:click="onVoteClick" ref="voteCard">
         <div class="votecard-body" :style="'background-image: url('+ vote.media.coverImage +')'">
-            <div class="info">
+            <div class="info d-flex flex-wrap">
                 <div class="d-flex align-items-center">
                     <div class="subheader authors">
                         <artist-list :artists="vote.media.artists" class="text-muted"></artist-list>
                     </div>
                 </div>
-                <div class="h1 mb-3 title">{{ vote.media.title }}</div>
-                <div class="voteresult d-flex">
+                <div class="h1 title">{{ vote.media.title }}</div>
+                <div class="voteresult">
                     <div>{{ vote.count }} Votes ({{ percentage }}%)</div>
                 </div>
             </div>
@@ -116,10 +116,13 @@ export default {
 
             .title {
                 font-size: 1rem !important;
+                line-height: 1rem;
             }
 
             .voteresult {
                 font-size: 0.75rem;
+                line-height: 0.75rem;
+                align-self: flex-end;
             }
         }
     }
