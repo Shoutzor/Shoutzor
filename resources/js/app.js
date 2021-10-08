@@ -10,7 +10,7 @@ import router from "./router/app";
 import store from "./store";
 import Player from "@js/store/modules/MediaPlayer/Player";
 import App from "@js/views/App.vue";
-import ShoutzorPlugin from "@js/plugins/Shoutzor";
+import ShoutzorPlugin from "@js/plugins/Shoutzor/plugin";
 
 // use @vue/compat new render API
 configureCompat({ RENDER_FUNCTION: false });
@@ -34,6 +34,8 @@ app.config.globalProperties.emitter = emitter;
 app.config.globalProperties.echo = echoInstance;
 app.config.globalProperties.player = Player;
 app.config.globalProperties.fac = new FastAverageColor();
+
+store.$emitter = emitter;
 
 app.use(http)
    .use(router)

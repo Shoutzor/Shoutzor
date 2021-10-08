@@ -6,8 +6,6 @@ import moduleMediaPlayer from "@js/store/modules/MediaPlayer";
 
 const debug = process.env.NODE_ENV !== 'production'
 
-//app.config.globalProperties.$player = Player;
-
 export default createStore({
     strict: debug,
     plugins: [VuexORM.install(database)],

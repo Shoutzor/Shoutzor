@@ -27,7 +27,7 @@ const moduleAuthentication = {
             state.authenticated = true;
 
             // Emit an auth.state event to indicate our authenticated-state has changed
-            this.emitter.emit('auth.state', {
+            this.$emitter.emit('auth.state', {
                 authenticated: state.authenticated,
                 user: state.user
             });
@@ -38,7 +38,7 @@ const moduleAuthentication = {
             state.authenticated = false;
 
             // Emit event
-            this.emitter.emit('auth.fail');
+            this.$emitter.emit('auth.fail');
         },
         [AUTH_LOGOUT](state) {
             state.status = '';
@@ -47,7 +47,7 @@ const moduleAuthentication = {
             state.authenticated = false;
 
             // Emit an auth.state event to indicate our authenticated-state has changed
-            this.emitter.emit('auth.state', {
+            this.$emitter.emit('auth.state', {
                 authenticated: state.authenticated,
                 user: state.user
             });
