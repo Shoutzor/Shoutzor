@@ -66,9 +66,10 @@
 
             <div id="volume-control" class="btn-group dropup">
                 <b-icon-volume-up
-                    data-toggle="dropdown"
+                    data-bs-toggle="dropdown"
+                    data-bs-auto-close="outside"
                 ></b-icon-volume-up>
-                <div class="dropdown-menu" v-on:click.stop>
+                <div class="dropdown-menu bg-dark" v-on:click.stop>
                     <vue-slider
                         v-model="volume"
                         direction="btt"
@@ -280,6 +281,7 @@ export default {
             .progress {
                 margin: 0 0.5rem;
                 height: 0.35rem;
+                width: 100%;
             }
 
             & > span {
@@ -315,6 +317,10 @@ export default {
                 min-width: 22px;
                 max-width: 22px;
                 height: 140px;
+
+                .vue-slider {
+                    height: 100% !important;
+                }
             }
         }
     }

@@ -1,5 +1,5 @@
 <template>
-    <table class="table table-outline table-vcenter text-nowrap card-table">
+    <table class="table table-outline table-vcenter text-nowrap card-table bg-dark">
         <thead>
         <tr>
             <th class="text-center"></th>
@@ -30,7 +30,7 @@
                 <artist-list :artists="request.media.artists" class="small text-muted"></artist-list>
             </td>
             <td>
-                <div v-if="request.user !== null">{{ request.user.username }}</div>
+                <user-list v-if="request.users !== null" :users="request.media.users" class="small text-muted"></user-list>
                 <div v-else>AutoDJ</div>
             </td>
             <td>
@@ -53,10 +53,14 @@
 import moment from "moment";
 import Request from "@js/models/Request";
 import BeautifiedTime from "@js/components/global/date/BeautifiedTime";
+import ArtistList from "@js/components/global/media/ArtistList";
+import UserList from "@js/components/global/media/UserList";
 
 export default {
     components: {
-        BeautifiedTime
+        BeautifiedTime,
+        ArtistList,
+        UserList
     },
     computed: {
         history: () => Request.query().where((r) => {

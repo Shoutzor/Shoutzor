@@ -12,7 +12,7 @@
             </div>
             <ul v-if="isAuthenticated" class="d-flex justify-content-end nav">
                 <li class="nav-item dropdown">
-                    <a class="nav-link link-light dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <a class="nav-link link-light dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
                         <div>{{ user.username}}</div>
                         <div class="mt-1 small text-muted">Administrator</div>
                     </a>
@@ -21,7 +21,7 @@
             </ul>
             <ul v-else class="d-flex justify-content-end nav">
                 <li class="nav-item dropdown">
-                    <a class="nav-link link-light dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <a class="nav-link link-light dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
                         Login / Register
                     </a>
                     <header-login></header-login>
