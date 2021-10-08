@@ -129,6 +129,7 @@ export default {
 
     methods: {
         play() {
+            console.log(this);
             this.store.dispatch('MediaPlayer/play', this.url);
         },
 

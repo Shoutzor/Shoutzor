@@ -18,7 +18,7 @@ export default {
     computed: {
         votes: () => MediaVote.query()
                               .orderBy('count', 'desc')
-                              .with(["media.artist"])
+                              .with(["media.artists"])
                               .limit(10)
                               .get(),
 

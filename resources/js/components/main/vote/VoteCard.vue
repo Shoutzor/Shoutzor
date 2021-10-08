@@ -1,13 +1,12 @@
 <template>
     <div class="col votecard dark" v-on:click="onVoteClick" ref="voteCard">
         <div class="votecard-body" :style="'background-image: url('+ vote.media.coverImage +')'">
-            <div class="info d-flex flex-wrap">
-                <div class="d-flex align-items-center">
-                    <div class="subheader authors">
-                        <artist-list :artists="vote.media.artists" class="text-muted"></artist-list>
-                    </div>
+            <div class="info">
+                <div class="title mb-1">{{ vote.media.title }}</div>
+                <div class="subheader authors" v-if="vote.media.artists.length > 0">
+                    <template v-if="vote.media.artists.length === 1">{{ vote.media.artists[0].name }}</template>
+                    <template v-else>Various Artists</template>
                 </div>
-                <div class="h1 title">{{ vote.media.title }}</div>
                 <div class="voteresult">
                     <div>{{ vote.count }} Votes ({{ percentage }}%)</div>
                 </div>
@@ -23,7 +22,6 @@
 
 <script>
 import MediaVote from "@js/models/MediaVote";
-import ArtistList from "@js/components/global/media/ArtistList";
 
 export default {
     props: {
@@ -32,10 +30,6 @@ export default {
             type: Number,
             default: 0
         }
-    },
-
-    components: {
-        ArtistList
     },
 
     computed: {
@@ -110,6 +104,7 @@ export default {
         padding: 0;
 
         .info {
+            position: relative;
             padding: 0.75rem;
             height: 8rem;
             background-image: linear-gradient(90deg, var(--voteCardColor) 0%, var(--voteCardColor) 40%, rgba(0, 0, 0, 0) 100%);
@@ -119,7 +114,13 @@ export default {
                 line-height: 1rem;
             }
 
+            .authors {
+                text-shadow: none;
+            }
+
             .voteresult {
+                position: absolute;
+                bottom: 5px;
                 font-size: 0.75rem;
                 line-height: 0.75rem;
                 align-self: flex-end;
@@ -152,12 +153,20 @@ export default {
     }
 
     &.light {
+        .info .authors {
+            color: $gray-dark;
+        }
+
         .progress .progress-bar {
             background-color: rgba(0, 0, 0, 0.2);
         }
     }
 
     &.dark {
+        .info .authors {
+            color: $gray-light;
+        }
+
         .progress .progress-bar {
             background-color: rgba(200, 200, 200, 0.2);
         }

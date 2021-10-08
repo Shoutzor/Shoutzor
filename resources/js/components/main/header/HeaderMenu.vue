@@ -9,7 +9,7 @@
                             :to="{name: 'dashboard'}"
                             class="nav-link"
                         >
-                            <b-icon-house></b-icon-house>
+                            <b-icon-house-fill></b-icon-house-fill>
                             Dashboard
                         </router-link>
                     </li>
