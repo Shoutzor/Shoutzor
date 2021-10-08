@@ -10,6 +10,7 @@ import router from "./router/app";
 import store from "./store";
 import Player from "@js/store/modules/MediaPlayer/Player";
 import App from "@js/views/App.vue";
+import ShoutzorPlugin from "@js/plugins/Shoutzor";
 
 // use @vue/compat new render API
 configureCompat({ RENDER_FUNCTION: false });
@@ -37,6 +38,7 @@ app.config.globalProperties.fac = new FastAverageColor();
 app.use(http)
    .use(router)
    .use(store)
+   .use(ShoutzorPlugin)
    .use(PerfectScrollbar)
    .use(BootstrapIconsPlugin)
    .mount('#shoutzor');
