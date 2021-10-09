@@ -29,18 +29,11 @@
                     v-if="isAuthenticated"
                     class="upvote"
                 ></b-icon-hand-thumbs-up>
-                <div id="playbutton">
-                    <b-icon-play
-                        v-if="playerStatus === PlayerState.STOPPED"
-                        @click="play"
-                    ></b-icon-play>
+                <div id="playbutton" @click="onPlayPauseClick">
+                    <b-icon-play-fill v-if="playerStatus === PlayerState.STOPPED" class="play"></b-icon-play-fill>
+                    <b-icon-stop-fill v-if="playerStatus === PlayerState.PLAYING" class="stop"></b-icon-stop-fill>
 
-                    <div v-if="playerStatus === PlayerState.LOADING" class="spinner-border" role="status"></div>
-
-                    <b-icon-stop
-                        v-if="playerStatus === PlayerState.PLAYING"
-                        @click="stop"
-                    ></b-icon-stop>
+                    <div v-if="playerStatus === PlayerState.LOADING" class="spinner-border loading" role="status"></div>
                 </div>
                 <b-icon-hand-thumbs-down
                     v-if="isAuthenticated"
@@ -57,12 +50,10 @@
             </div>
         </div>
         <div class="extra-control">
-            <b-icon-tv
-                v-if="hasVideo && playerStatus !== PlayerState.STOPPED"
-                id="video-control"
-                @click="handleVideoButtonClick"
-            >
-            </b-icon-tv>
+            <div id="video-control" v-if="hasVideo && playerStatus !== PlayerState.STOPPED" @click="handleVideoButtonClick">
+                <b-icon-tv></b-icon-tv>
+            </div>
+
 
             <div id="volume-control" class="btn-group dropup">
                 <b-icon-volume-up
@@ -128,14 +119,21 @@ export default {
     },
 
     methods: {
-        play() {
-            console.log(this);
-            this.store.dispatch('MediaPlayer/play', this.url);
-        },
-
-        stop() {
-            this.hideVideo();
-            this.store.dispatch('MediaPlayer/stop');
+        onPlayPauseClick() {
+            switch(this.playerStatus) {
+                // Stop playing when clicked
+                case PlayerState.PLAYING:
+                    this.hideVideo();
+                    this.$store.dispatch('MediaPlayer/stop');
+                    break;
+                // Start playing when clicked
+                case PlayerState.STOPPED:
+                    this.$store.dispatch('MediaPlayer/play', this.url);
+                    break;
+                // Probably loading, do nothing when clicked.
+                default:
+                    break;
+            }
         },
 
         // Handle changes from the volume slider
@@ -247,30 +245,40 @@ export default {
         }
 
         #playbutton {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
             width: 2.5rem;
             height: 2.5rem;
             border: 1px solid $gray;
             border-radius: 50%;
             text-align: center;
 
-            & > svg {
-                width: 1.5rem;
-                height: 1.5rem;
-                margin: 0.45rem;
+            svg {
+                width: 1.8rem;
+                height: 1.8rem;
+
+                &.play {
+                    padding-left: 0.15rem;
+                }
             }
 
             .spinner-border {
-                margin-top: 7px;
+                width: 1.5rem;
+                height: 1.5rem;
             }
         }
 
         .upvote {
+            cursor: pointer;
             margin-right: 1.25rem;
             width: 1.2rem;
             height: 1.2rem;
         }
 
         .downvote {
+            cursor: pointer;
             margin-left: 1.25rem;
             width: 1.2rem;
             height: 1.2rem;
@@ -308,12 +316,16 @@ export default {
         }
 
         #video-control {
+            cursor: pointer;
+
             &.active {
                 color: $green;
             }
         }
 
         #volume-control {
+            cursor: pointer;
+
             .dropdown-menu {
                 min-width: 22px;
                 max-width: 22px;
