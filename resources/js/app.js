@@ -13,7 +13,10 @@ import App from "@js/views/App.vue";
 import ShoutzorPlugin from "@js/plugins/Shoutzor/plugin";
 
 // use @vue/compat new render API
-configureCompat({ RENDER_FUNCTION: false });
+configureCompat({
+    RENDER_FUNCTION: false,
+    COMPONENT_V_MODEL: false
+});
 
 const emitter = mitt();
 

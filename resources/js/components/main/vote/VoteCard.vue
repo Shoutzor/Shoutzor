@@ -8,7 +8,7 @@
                     <template v-else>Various Artists</template>
                 </div>
                 <div class="voteresult">
-                    <div>{{ vote.count }} Votes ({{ percentage }}%)</div>
+                    <div>{{ vote.count }} Vote(s) ({{ percentage }}%)</div>
                 </div>
             </div>
         </div>
@@ -50,7 +50,7 @@ export default {
         },
 
         updateVotecardColor() {
-            if(typeof this.vote === undefined) {
+            if(typeof this.vote === undefined || typeof this.vote.media.coverImage === undefined) {
                 return;
             }
 

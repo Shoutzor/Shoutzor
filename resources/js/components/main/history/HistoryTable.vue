@@ -10,41 +10,34 @@
         </tr>
         </thead>
         <tbody v-if="history && history.length > 0">
-        <tr v-for="request in historyFormatted">
-            <td class="text-center mediatype-column">
-                        <span
-                            v-if="request.media.is_video === true"
-                            class="avatar mediatype video bg-orange-lt"
-                        >
-                            <movie-icon class="mediasource-icon"></movie-icon>
-                        </span>
-                <span
-                    v-else
-                    class="avatar mediatype audio bg-azure-lt"
-                >
-                            <music-icon class="mediasource-icon"></music-icon>
-                        </span>
-            </td>
-            <td>
-                <div>{{ request.media.title }}</div>
-                <artist-list :artists="request.media.artists" class="small text-muted"></artist-list>
-            </td>
-            <td>
-                <user-list v-if="request.users !== null" :users="request.media.users" class="small text-muted"></user-list>
-                <div v-else>AutoDJ</div>
-            </td>
-            <td>
-                <beautified-time :time="request.media.duration"></beautified-time>
-            </td>
-            <td>
-                <div>{{ request.played_at }}</div>
-            </td>
-        </tr>
+            <tr v-for="request in historyFormatted">
+                <td class="text-center mediatype-column">
+                    <span
+                        :class="request.media.is_video ? 'bg-orange' : 'bg-blue'"
+                        class="avatar mediatype audio bg-azure-lt">
+                        <component :is="request.media.is_video ? 'b-icon-film' : 'b-icon-music-note-beamed'" class="mediasource-icon"></component>
+                    </span>
+                </td>
+                <td>
+                    <div>{{ request.media.title }}</div>
+                    <artist-list :artists="request.media.artists" class="small text-muted"></artist-list>
+                </td>
+                <td>
+                    <div v-if="request.users !== null && request.users.length > 0">{{ request.users.length }} user(s)</div>
+                    <div v-else>AutoDJ</div>
+                </td>
+                <td>
+                    <beautified-time :time="request.media.duration"></beautified-time>
+                </td>
+                <td>
+                    <div>{{ request.played_at }}</div>
+                </td>
+            </tr>
         </tbody>
         <tbody v-else>
-        <tr>
-            <td colspan="5">No songs in queue</td>
-        </tr>
+            <tr>
+                <td colspan="5">No songs in queue</td>
+            </tr>
         </tbody>
     </table>
 </template>
@@ -57,15 +50,18 @@ import ArtistList from "@js/components/global/media/ArtistList";
 import UserList from "@js/components/global/media/UserList";
 
 export default {
+    name: 'historyTable',
+
     components: {
         BeautifiedTime,
         ArtistList,
         UserList
     },
+
     computed: {
         history: () => Request.query().where((r) => {
             return r.played_at !== null;
-        }).orderBy('played_at', 'desc').with(["media.artists", "user"]).get(),
+        }).orderBy('played_at', 'desc').with(["media.artists", "users"]).get(),
 
         historyFormatted: function() {
             return this.history.filter(function(request) {
@@ -82,10 +78,8 @@ export default {
     thead td {
         border-bottom: 1px solid rgb(226, 227, 227);
     }
-
     .mediatype-column {
         width: 50px;
-
         .avatar.mediatype {
             font-size: 24px !important;
         }

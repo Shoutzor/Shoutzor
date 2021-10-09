@@ -2,32 +2,20 @@
   <div>
     <div class="row row-cards">
       <div class="col-sm-12">
-        <h2 class="comingup-header">History</h2>
-        <div class="card mediaplayer">
-          <div class="table-responsive">
-            <requests-history></requests-history>
-          </div>
-        </div>
+        <h2 class="category-header">History</h2>
+        <history-table></history-table>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import RequestsHistory from "@js/components/main/MediaTable/RequestsHistory";
+import HistoryTable from "@js/components/main/history/HistoryTable";
 
 export default {
-  name: "dashboard-view",
-  components: {
-    RequestsHistory
-  }
+    name: "dashboard-view",
+    components: {
+        HistoryTable
+    }
 };
 </script>
-
-<style lang="scss" scoped>
-.comingup-header {
-  margin: 1rem 0 0.5rem;
-  opacity: 0.25;
-  font-size: 2rem;
-}
-</style>

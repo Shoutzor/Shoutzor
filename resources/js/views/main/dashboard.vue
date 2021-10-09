@@ -7,7 +7,7 @@
     </div>
     <div v-if="useQueue" class="row row-cards">
       <div class="col-sm-12">
-        <h2 class="title-header">Coming up</h2>
+        <h2 class="category-header">Coming up</h2>
         <div class="card">
           <div class="table-responsive">
             <coming-up></coming-up>
@@ -17,7 +17,7 @@
     </div>
     <div v-else class="row row-cards">
       <div class="col-sm-12">
-        <h2 class="title-header">Current votes</h2>
+        <h2 class="category-header">Current votes</h2>
         <vote-list></vote-list>
       </div>
     </div>
@@ -44,11 +44,3 @@ export default {
   }
 };
 </script>
-
-<style lang="scss" scoped>
-.title-header {
-  margin: 1rem 0 0.5rem;
-  opacity: 0.25;
-  font-size: 2rem;
-}
-</style>
