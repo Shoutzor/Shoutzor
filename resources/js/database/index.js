@@ -1,8 +1,6 @@
 import VuexORM from '@vuex-orm/core'
 
 import Album from '@js/models/Album'
-import AlbumArtist from '@js/models/AlbumArtist'
-import AlbumMedia from '@js/models/AlbumMedia'
 import Artist from '@js/models/Artist'
 import ArtistMedia from '@js/models/ArtistMedia'
 import Media from '@js/models/Media'
@@ -20,8 +18,6 @@ import MediaVote from "@js/models/MediaVote";
 const database = new VuexORM.Database();
 
 database.register(Album);
-database.register(AlbumArtist);
-database.register(AlbumMedia);
 database.register(Artist);
 database.register(ArtistMedia);
 database.register(Media);

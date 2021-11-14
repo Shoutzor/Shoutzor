@@ -23,6 +23,7 @@ class CreateMediaTable extends Migration
                 $table->char('hash', 128);
                 $table->boolean('is_video');
                 $table->smallInteger('duration')->unsigned();
+                $table->foreignUuid('album_id')->nullable()->default(null)->constrained('albums', 'id');
             }
         );
     }

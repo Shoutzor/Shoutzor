@@ -104,7 +104,7 @@ export default {
                                          return r.played_at !== null;
                                      })
                                      .orderBy('requested_at', 'asc')
-                                     .with(["media.artists|albums", "user"])
+                                     .with(["media.artists|album", "user"])
                                      .first(),
         ...mapGetters({
             isAuthenticated: 'isAuthenticated',

@@ -6,6 +6,7 @@ use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -54,8 +55,21 @@ class Handler extends ExceptionHandler
     public function render($request, Throwable $exception)
     {
         if($request->is('api/*')) {
+            if($exception instanceof NotFoundHttpException) {
+                return response()->json([
+                    'message' => 'The requested page was not found'
+                ], 404);
+            }
+
+            if(config('app.debug') == false) {
+                return response()->json([
+                    'message' => 'a server error occurred, check the log for more information'
+                ], 500);
+            }
+
             return response()->json([
-                'message' => 'a server error occurred, check the log for more information'
+                'message' => 'a server error occurred, check the log or response JSON for more information',
+                'exception' => $exception
             ], 500);
         }
         else {

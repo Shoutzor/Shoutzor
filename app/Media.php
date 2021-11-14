@@ -13,11 +13,11 @@ class Media extends Model
     const STORAGE_PATH = 'media/';
     public $timestamps = false;
     protected $table = 'media';
-    protected $fillable = ['title', 'filename', 'hash', 'duration', 'is_video', 'image', 'source'];
+    protected $fillable = ['title', 'filename', 'hash', 'duration', 'is_video', 'image', 'source', 'album_id'];
 
-    public function albums()
+    public function album()
     {
-        return $this->belongsToMany('App\Album');
+        return $this->belongsTo('App\Album');
     }
 
     public function artists()

@@ -1,9 +1,10 @@
 <template>
-    <table class="table table-outline table-vcenter text-nowrap card-table bg-dark">
+    <table class="table table-hover table-vcenter text-nowrap card-table bg-dark">
         <thead>
         <tr>
-            <th class="text-center"></th>
+            <th></th>
             <th>Media</th>
+            <th>Album</th>
             <th>Requested by</th>
             <th>Duration</th>
             <th>Time played</th>
@@ -21,6 +22,13 @@
                 <td>
                     <div>{{ request.media.title }}</div>
                     <artist-list :artists="request.media.artists" class="small text-muted"></artist-list>
+                </td>
+                <td>
+                    <div v-if="request.media.album !== null">
+                        <router-link
+                            :to="{ name:'album', params:{ id: request.media.album.id } }"
+                            class="album"
+                        >{{ request.media.album.title}}</router-link></div>
                 </td>
                 <td>
                     <div v-if="request.users !== null && request.users.length > 0">{{ request.users.length }} user(s)</div>
@@ -61,7 +69,7 @@ export default {
     computed: {
         history: () => Request.query().where((r) => {
             return r.played_at !== null;
-        }).orderBy('played_at', 'desc').with(["media.artists", "users"]).get(),
+        }).orderBy('played_at', 'desc').with(["media.artists|album", "users"]).get(),
 
         historyFormatted: function() {
             return this.history.filter(function(request) {

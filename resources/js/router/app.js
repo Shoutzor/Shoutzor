@@ -29,6 +29,10 @@ const router = createRouter({
         path: '/artist',
         component: loadView('main/dashboard')
     }, {
+        name: 'album',
+        path: '/album',
+        component: loadView('main/dashboard')
+    }, {
         name: 'search',
         path: '/search',
         component: loadView('main/search')

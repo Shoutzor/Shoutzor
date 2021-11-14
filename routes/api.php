@@ -13,6 +13,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::pattern('id', '[0-9]+');
+Route::pattern('uuid', '[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}');
+Route::get('album/get/{uuid}', 'AlbumApiController@get');
 /*
  * --------------------------------------------------------------------------
  * These routes are always available
@@ -54,8 +57,8 @@ Route::group(
                     ['middleware' => 'can:website.access'],
                     function () {
                         Route::post('auth/register', 'AuthApiController@register');
-                        Route::get('album/get/{id}', 'AlbumApiController@get')->where('id', '[0-9]+');
-                        Route::get('artist/get/{id}', 'ArtistApiController@get')->where('id', '[0-9]+');
+                        //Route::get('album/get/{uuid}', 'AlbumApiController@get');
+                        Route::get('artist/get/{uuid}', 'ArtistApiController@get');
                         Route::get('request', 'RequestApiController@index');
                         Route::post('upload', 'UploadApiController@store')->middleware('can:website.upload');
                         Route::get('vote/count', 'VoteApiController@count');
@@ -70,15 +73,14 @@ Route::group(
                 Route::group(
                     ['middleware' => 'can:admin.access'],
                     function () {
-                        Route::get('permission/user/{id?}', 'PermissionApiController@user')->middleware(
-                            'can:admin.permissions.permission.get'
-                        )->where('id', '[0-9]+');
+                        Route::get('permission/user/{uuid?}', 'PermissionApiController@user')->middleware(
+                            'can:admin.permissions.user.get'
+                        );
                         Route::get('permission/get/{id?}', 'PermissionApiController@get')->middleware(
                             'can:admin.permissions.permission.get'
-                        )->where('id', '[0-9]+');
+                        );
                         Route::get('role/get/{id?}', 'RoleApiController@get')
-                            ->middleware('can:admin.permissions.role.get')
-                            ->where('id', '[0-9]+');
+                            ->middleware('can:admin.permissions.role.get');
                     }
                 );
             }

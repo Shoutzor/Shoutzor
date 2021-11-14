@@ -43,20 +43,14 @@ class PermissionApiController extends Controller
      * @param  string  $type
      * @return JsonResponse an array of permissions
      */
-    public function user(Request $request, int $id = null, string $type = "all")
+    public function user(Request $request, string $uuid = null, string $type = "all")
     {
-        if ($id) {
-            if ($request->user()->hasPermissionTo('admin.permissions.permission.get') === false) {
-                return response()->json(
-                    ['message' => 'You do not have the admin.permissions.permission.get permission'],
-                    403
-                );
-            }
+        if ($uuid) {
 
-            $user = User::find($id);
+            $user = User::find($uuid);
 
             if (!$user) {
-                return response()->json(['message' => 'No user with this ID could be found'], 404);
+                return response()->json(['message' => 'No user with ID '.$uuid.' could be found'], 404);
             }
         } else {
             $user = $request->user();

@@ -35,14 +35,12 @@ class DevelopmentSeeder extends Seeder
         $this->command->info("Generating artists");
         Artist::factory()
             ->count(10)
-            ->hasAlbums(5)
             ->create();
 
         // Create 20 media items, each containing 0-10 artists and 0-10 albums
         $this->command->info("Generating Media items");
         Media::factory()
             ->count(20)
-            ->hasAlbums(5)
             ->hasArtists(5)
             ->create();
 

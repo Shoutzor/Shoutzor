@@ -95,6 +95,11 @@ export default {
                     color: $gray;
                     font-size: 1rem;
 
+                    &:hover {
+                        color: lighten($gray, 10%);
+                        text-decoration: none;
+                    }
+
                     &.router-link-exact-active {
                         color: $white !important;
                     }

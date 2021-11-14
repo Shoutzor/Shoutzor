@@ -1,7 +1,6 @@
 import {Model} from '@vuex-orm/core';
 
 import Album from "./Album";
-import AlbumMedia from "./AlbumMedia";
 import Artist from "./Artist";
 import ArtistMedia from "./ArtistMedia";
 import MediaSource from "./MediaSource";
@@ -28,8 +27,8 @@ export default class Media extends Model {
             return publicStoragePath + this.image;
         }
 
-        if (this.albums !== null && this.albums.length > 0) {
-            return this.albums[0].albumImage;
+        if (this.album !== null) {
+            return this.album.albumImage;
         }
 
         return defaultAlbumImage;
@@ -43,8 +42,9 @@ export default class Media extends Model {
             duration: this.number(0),
             is_video: this.boolean(false),
             image: this.string(''),
+            album_id: this.uid(null),
             source: this.belongsTo(MediaSource, 'media_id'),
-            albums: this.belongsToMany(Album, AlbumMedia, 'media_id', 'album_id'),
+            album: this.belongsTo(Album, 'album_id'),
             artists: this.belongsToMany(Artist, ArtistMedia, 'media_id', 'artist_id')
         }
     }

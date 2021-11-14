@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Album;
 use App\Media;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Collection;
@@ -42,7 +43,8 @@ class MediaFactory extends Factory
             'duration' => $this->faker->numberBetween(30, 500),
             'hash' => hash('sha512', $this->faker->text(50)),
             'image' => $this->coinflip() ? '' : 'media/' . $this->faker->image($this->mediaImageLocation, 640, 640, '', false),
-            'is_video' => false
+            'is_video' => false,
+            'album_id' => Album::inRandomOrder()->first()->id
         ];
     }
 }

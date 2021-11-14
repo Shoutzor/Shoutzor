@@ -9,12 +9,17 @@ use Illuminate\Http\Request;
 class AlbumApiController extends Controller
 {
 
-    public function get(Request $request, int $id)
+    public function get(Request $request, string $uuid)
     {
-        $album = Album::find($id);
+        try {
+            $album = Album::with(['artists', 'media.artists'])->find($uuid);
+            dd($album);
+        } catch(\Exception $e) {
+            dd($e);
+        }
 
         if (!$album) {
-            return response()->json(['message' => 'Album with id '.$id.' not found'], 404);
+            return response()->json(['message' => 'Album with id '.$uuid.' not found'], 404);
         }
 
         return response()->json($album->toArray(), 200);

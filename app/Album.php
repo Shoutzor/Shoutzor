@@ -28,11 +28,11 @@ class Album extends Model
 
     public function artists()
     {
-        return $this->belongsToMany('App\Artist');
+        return $this->hasManyThrough('App\Artist', 'App\Media', 'media_id', 'album_id', 'album_id', '');
     }
 
     public function media()
     {
-        return $this->belongsToMany('App\Media');
+        return $this->hasMany('App\Media');
     }
 }

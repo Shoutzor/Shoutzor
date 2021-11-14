@@ -2,8 +2,7 @@ import {Model} from '@vuex-orm/core';
 
 import Media from './Media';
 import Artist from './Artist';
-import AlbumArtist from './AlbumArtist';
-import AlbumMedia from './AlbumMedia';
+import ArtistMedia from './ArtistMedia';
 
 import {
     defaultAlbumImage,
@@ -29,14 +28,17 @@ export default class Album extends Model {
         return publicStoragePath + this.image;
     }
 
+    get artists() {
+        return this.media.artists;
+    }
+
     static fields() {
         return {
             id: this.uid(null),
             title: this.string(''),
             summary: this.string(''),
             image: this.string(''),
-            artists: this.belongsToMany(Artist, AlbumArtist, 'album_id', 'artist_id'),
-            media: this.belongsToMany(Media, AlbumMedia, 'album_id', 'media_id')
+            media: this.hasMany(Media, 'album_id')
         }
     }
 }
