@@ -30,10 +30,9 @@ Optionally: for development run `php artisan db:seed --class=DevelopmentSeeder`
 If you're going to work on the front-end, make sure to run `npm run watch`.
 
 
-
-### Thanks to
-
-[JetBrains](https://www.jetbrains.com/?from=Shoutz0r)
+### Kindly supported by
+* [JetBrains](https://www.jetbrains.com/?from=Shoutz0r)
+* [Navicat](https://www.navicat.com/)
 
 ### Sponsor this project
 

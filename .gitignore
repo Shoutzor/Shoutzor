@@ -13,3 +13,4 @@ yarn-error.log
 .rnd
 mix-manifest.json
 package-lock.json
+composer.phar
