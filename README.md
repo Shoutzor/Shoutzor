@@ -19,7 +19,13 @@ Built using the Laravel Framework and Vue components.
 Documentation can be found over at [shoutzor.com](https://www.shoutzor.com)
 
 ### To setup:
-When the app is deployed, just visit the site to start the setup process.\
+Currently there's a few hoops to go through. These should be resolved on the proper release.
+
+Run `docker-compose up` or for development Run `docker-compose -f docker-compose.yml -f docker-compose.dev.yml up`
+
+Ensure you have Composer installed and Run `composer install`
+
+Next up just visit the site to start the setup process.\
 The installer will guide you through it.
 
 The Shoutz0r app should now be ready for use!
