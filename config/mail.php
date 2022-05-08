@@ -29,7 +29,7 @@ return [
     | mailers below. You are free to add additional mailers as required.
     |
     | Supported: "smtp", "sendmail", "mailgun", "ses",
-    |            "postmark", "log", "array"
+    |            "postmark", "log", "array", "failover"
     |
     */
 
@@ -42,20 +42,41 @@ return [
             'username' => env('MAIL_USERNAME'),
             'password' => env('MAIL_PASSWORD'),
             'timeout' => null,
-            'auth_mode' => null,
         ],
 
-        'ses' => ['transport' => 'ses',],
+        'ses' => [
+            'transport' => 'ses',
+        ],
 
-        'mailgun' => ['transport' => 'mailgun',],
+        'mailgun' => [
+            'transport' => 'mailgun',
+        ],
 
-        'postmark' => ['transport' => 'postmark',],
+        'postmark' => [
+            'transport' => 'postmark',
+        ],
 
-        'sendmail' => ['transport' => 'sendmail', 'path' => '/usr/sbin/sendmail -bs',],
+        'sendmail' => [
+            'transport' => 'sendmail',
+            'path' => env('MAIL_SENDMAIL_PATH', '/usr/sbin/sendmail -bs -i'),
+        ],
 
-        'log' => ['transport' => 'log', 'channel' => env('MAIL_LOG_CHANNEL'),],
+        'log' => [
+            'transport' => 'log',
+            'channel' => env('MAIL_LOG_CHANNEL'),
+        ],
 
-        'array' => ['transport' => 'array',],
+        'array' => [
+            'transport' => 'array',
+        ],
+
+        'failover' => [
+            'transport' => 'failover',
+            'mailers' => [
+                'smtp',
+                'log',
+            ],
+        ],
     ],
 
     /*
@@ -69,7 +90,10 @@ return [
     |
     */
 
-    'from' => ['address' => env('MAIL_FROM_ADDRESS', 'hello@example.com'), 'name' => env('MAIL_FROM_NAME', 'Example'),],
+    'from' => [
+        'address' => env('MAIL_FROM_ADDRESS', 'hello@example.com'),
+        'name' => env('MAIL_FROM_NAME', 'Example'),
+    ],
 
     /*
     |--------------------------------------------------------------------------
@@ -85,7 +109,9 @@ return [
     'markdown' => [
         'theme' => 'default',
 
-        'paths' => [resource_path('views/vendor/mail'),],
+        'paths' => [
+            resource_path('views/vendor/mail'),
+        ],
     ],
 
 ];

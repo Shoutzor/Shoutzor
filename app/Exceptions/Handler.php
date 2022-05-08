@@ -2,78 +2,49 @@
 
 namespace App\Exceptions;
 
-use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
-use Illuminate\Http\Request;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
 
 class Handler extends ExceptionHandler
 {
     /**
+     * A list of exception types with their corresponding custom log levels.
+     *
+     * @var array<class-string<\Throwable>, \Psr\Log\LogLevel::*>
+     */
+    protected $levels = [
+        //
+    ];
+
+    /**
      * A list of the exception types that are not reported.
      *
-     * @var array
+     * @var array<int, class-string<\Throwable>>
      */
-    protected $dontReport = [//
+    protected $dontReport = [
+        //
     ];
 
     /**
      * A list of the inputs that are never flashed for validation exceptions.
      *
-     * @var array
+     * @var array<int, string>
      */
     protected $dontFlash = [
+        'current_password',
         'password',
         'password_confirmation',
-        'api_token'
     ];
 
     /**
-     * Report or log an exception.
+     * Register the exception handling callbacks for the application.
      *
-     * @param  Throwable  $exception
      * @return void
-     *
-     * @throws Throwable
      */
-    public function report(Throwable $exception)
+    public function register()
     {
-        parent::report($exception);
-    }
-
-    /**
-     * Render an exception into an HTTP response.
-     *
-     * @param  Request  $request
-     * @param  Throwable  $exception
-     * @return Response
-     *
-     * @throws Throwable
-     */
-    public function render($request, Throwable $exception)
-    {
-        if($request->is('api/*')) {
-            if($exception instanceof NotFoundHttpException) {
-                return response()->json([
-                    'message' => 'The requested page was not found'
-                ], 404);
-            }
-
-            if(config('app.debug') == false) {
-                return response()->json([
-                    'message' => 'a server error occurred, check the log for more information'
-                ], 500);
-            }
-
-            return response()->json([
-                'message' => 'a server error occurred, check the log or response JSON for more information',
-                'exception' => $exception
-            ], 500);
-        }
-        else {
-            return parent::render($request, $exception);
-        }
+        $this->reportable(function (Throwable $e) {
+            //
+        });
     }
 }

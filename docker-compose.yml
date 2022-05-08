@@ -29,8 +29,8 @@ services:
     networks:
       - shoutzor-backend
     environment:
-      MYSQL_DATABASE: "${DB_DATABASE}"
-      MYSQL_ROOT_PASSWORD: "${DB_PASSWORD}"
+      - MYSQL_DATABASE=${DB_DATABASE:?MYSQL_DB_NOT_PROVIDED}
+      - MYSQL_ROOT_PASSWORD=${DB_PASSWORD:?MYSQL_PASSWORD_NOT_PROVIDED}
 
 networks:
    shoutzor-frontend: {}

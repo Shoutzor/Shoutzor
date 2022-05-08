@@ -2,9 +2,12 @@ server {
     listen ${NGINX_PORT};
     server_name ${NGINX_HOST};
 
+    error_log /dev/stderr;
+    access_log /dev/stdout;
+
     root /code/public;
     index index.php;
-    
+
     add_header X-Frame-Options "SAMEORIGIN";
     add_header X-Content-Type-Options "nosniff";
 
