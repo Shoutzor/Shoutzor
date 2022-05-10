@@ -1,0 +1,118 @@
+//Disable selecting text
+* {
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+    -khtml-user-select: none; /* Konqueror HTML */
+    -moz-user-select: none; /* Old versions of Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none; /* Non-prefixed version, currently supported by Chrome, Edge, Opera and Firefox */
+}
+
+.antialiased {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  overflow: hidden !important;
+}
+
+a {
+    color: $white;
+    text-decoration: none;
+
+    &:hover {
+        color: darken($white, 15%);
+        text-decoration: underline;
+    }
+}
+
+/* Disable the button outline when it's pressed */
+.btn-primary:focus, .btn-primary.focus, .btn:focus, .btn.focus {
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+.table {
+    border-color: transparent;
+}
+
+.table-responsive {
+  margin-bottom: 0 !important;
+}
+
+.card {
+    border: 1px solid darken($body-bg, 5%);
+
+    .card-body {
+        background: lighten($body-bg, 5%);
+    }
+}
+
+.filter-invert {
+    -webkit-filter: brightness(0) invert(1);
+    filter: brightness(0) invert(1);
+}
+
+/*
+ * This has been copied from the Tabler.io CSS Framework
+ */
+@each $color, $value in map-merge($colors, (dark: $dark, muted: $text-muted, white: $white)) {
+    .bg-#{"" + $color} {
+        background: $value !important;
+    }
+
+    .text-#{"" + $color} {
+        color: $value !important;
+    }
+
+    .bg-#{"" + $color}-lt {
+        background: shift-color($value, -10%) !important;
+    }
+}
+
+/*
+ * This has been copied from the Tabler.io CSS Framework
+ */
+.avatar {
+    position: relative;
+    width: 2.5rem;
+    height: 2.5rem;
+    font-size: calc(2.5rem / 2.8571429);
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #656d77;
+    text-align: center;
+    text-transform: uppercase;
+    vertical-align: bottom;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background: #f0f2f6 no-repeat center/cover;
+    border-radius: 4px;
+}
+
+/*
+ * Enables objects with this class to spin around
+ */
+.rotate {
+    animation: spin 4s infinite linear;
+}
+
+@keyframes spin {
+    from {
+        transform:rotate(0deg);
+    }
+    to {
+        transform:rotate(359deg);
+    }
+}
+
+.category-header {
+    margin: 1rem 0 0.5rem;
+    opacity: 0.25;
+    font-size: 2rem;
+}
