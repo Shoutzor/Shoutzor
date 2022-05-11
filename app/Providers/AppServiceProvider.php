@@ -7,6 +7,7 @@ use App\HealthCheck\EnsureFileHealthCheck;
 use App\HealthCheck\HealthCheckManager;
 use App\HealthCheck\SymlinkHealthCheck;
 use App\HealthCheck\WritableDirsHealthCheck;
+use App\HealthCheck\WritableFilesHealthCheck;
 use App\Helpers\Filesystem;
 use App\MediaSource\MediaSource;
 use App\MediaSource\MediaSourceManager;
@@ -59,19 +60,6 @@ class AppServiceProvider extends ServiceProvider
         $this->mediaSourceManager->registerSource(new MediaSource('video', 'video file', ''));
 
         //Register the system healthchecks
-        $this->healthCheckManager->registerHealthcheck(new SymlinkHealthCheck(config('filesystems.links')), false);
-        $this->healthCheckManager->registerHealthCheck(
-            new WritableDirsHealthCheck(
-                [
-                    Filesystem::correctDS(storage_path()),
-                    Filesystem::correctDS(storage_path('app/public/album/')),
-                    Filesystem::correctDS(storage_path('app/public/artist/')),
-                    Filesystem::correctDS(storage_path('app/public/packages/'))
-                ]
-            ),
-            false
-        );
-        $this->healthCheckManager->registerHealthcheck(new CacheHealthCheck(), false);
         $this->healthCheckManager->registerHealthcheck(
             new EnsureFileHealthCheck(
                 [
@@ -80,5 +68,28 @@ class AppServiceProvider extends ServiceProvider
             ),
             true
         );
+
+        $this->healthCheckManager->registerHealthCheck(
+            new WritableFilesHealthCheck(
+                [
+                    Filesystem::correctDS(base_path('.env'))
+                ]
+            ),
+            false
+        );
+        $this->healthCheckManager->registerHealthCheck(
+            new WritableDirsHealthCheck(
+                [
+                    Filesystem::correctDS(public_path()),
+                    Filesystem::correctDS(storage_path()),
+                    Filesystem::correctDS(storage_path('app/public/album/')),
+                    Filesystem::correctDS(storage_path('app/public/artist/')),
+                    Filesystem::correctDS(storage_path('app/public/packages/'))
+                ]
+            ),
+            false
+        );
+        $this->healthCheckManager->registerHealthcheck(new SymlinkHealthCheck(config('filesystems.links')), false);
+        $this->healthCheckManager->registerHealthcheck(new CacheHealthCheck(), false);
     }
 }

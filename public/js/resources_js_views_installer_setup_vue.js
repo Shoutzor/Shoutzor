@@ -148,11 +148,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 break;
 
               case 20:
-                _this.installStateUpdate(false, true);
+                // Check if the installation has finished, or if it errored-out.
+                if (_this.active === true) {
+                  _this.installStateUpdate(false, true);
 
-                _this.active = false;
+                  _this.active = false;
+                }
 
-              case 22:
+              case 21:
               case "end":
                 return _context.stop();
             }

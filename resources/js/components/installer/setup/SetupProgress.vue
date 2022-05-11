@@ -101,8 +101,11 @@ export default {
                 }
             }
 
-            this.installStateUpdate(false, true);
-            this.active = false;
+            // Check if the installation has finished, or if it errored-out.
+            if(this.active === true) {
+                this.installStateUpdate(false, true);
+                this.active = false;
+            }
         },
 
         getInstallationSteps() {

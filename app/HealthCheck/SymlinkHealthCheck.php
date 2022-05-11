@@ -74,7 +74,12 @@ class SymlinkHealthCheck extends BaseHealthCheck
             }
         }
 
-        $exitCode = Artisan::call('storage:link');
+        try {
+            $exitCode = Artisan::call('storage:link');
+        } catch(Exception $e) {
+            $exitCode = -1;
+            $errors[] = $e->getMessage();
+        }
 
         if(count($errors) === 0 && $exitCode === 0) {
             $result->setFixed(true);

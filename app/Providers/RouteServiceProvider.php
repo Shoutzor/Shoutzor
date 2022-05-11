@@ -54,7 +54,7 @@ class RouteServiceProvider extends ServiceProvider
                 ->namespace($this->namespace)
                 ->group(base_path('routes/web.php'));
 
-            Route::middleware('api')
+            Route::middleware('installer')
                 ->prefix('installer')
                 ->namespace($this->namespace.'\Installer')
                 ->group(base_path('routes/installer.php'));
