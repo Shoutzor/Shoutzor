@@ -11,6 +11,7 @@ class RequireInstalled
     public function handle($request, Closure $next)
     {
         if (config('shoutzor.installed') === true) {
+
             Response::allow();
             return $next($request);
         }
