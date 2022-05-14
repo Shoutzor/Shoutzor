@@ -155,6 +155,19 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/league/uri" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/fig/http-message-util" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/jackiedo/path-helper" />
+      <excludeFolder url="file://$MODULE_DIR$/.idea/commandlinetools" />
+      <excludeFolder url="file://$MODULE_DIR$/storage/app/public/album" />
+      <excludeFolder url="file://$MODULE_DIR$/storage/app/public/artist" />
+      <excludeFolder url="file://$MODULE_DIR$/storage/app/public/packages" />
+      <excludeFolder url="file://$MODULE_DIR$/storage/framework/cache/data/05" />
+      <excludeFolder url="file://$MODULE_DIR$/storage/framework/cache/data/85" />
+      <excludeFolder url="file://$MODULE_DIR$/storage/framework/cache/data/91" />
+      <excludeFolder url="file://$MODULE_DIR$/storage/framework/cache/data/d2" />
+      <excludeFolder url="file://$MODULE_DIR$/storage/framework/cache/data/e1" />
+      <excludeFolder url="file://$MODULE_DIR$/storage/framework/cache/data/eb" />
+      <excludeFolder url="file://$MODULE_DIR$/.storybook" />
+      <excludeFolder url="file://$MODULE_DIR$/storybook-static" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
