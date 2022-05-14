@@ -157,6 +157,7 @@ stages:
             persistCredentials: true
 
           - script: |
+              cd ./Shoutz0r-app
               npm run build-storybook
             displayName: 'Generate Storybook for Shoutz0r-app'
 
@@ -175,18 +176,21 @@ stages:
             displayName: 'Prepare Shoutz0r repo'
 
           - script: |
+              cd ./Shoutz0r
               mkdir -p ./docs/app/master/
               rm -rf ./docs/app/master/*
               cp -r ../Shoutz0r-app/docs/* ./docs/app/master/
             displayName: 'Add generated phpDoc to Shoutz0r Repo'
 
           - script: |
+              cd ./Shoutz0r
               mkdir -p ./storybook/app/master/
               rm -rf ./storybook/app/master/*
               cp -r ../Shoutz0r-app/storybook-static/* ./storybook/app/master/
             displayName: 'Add generated Storybook to Shoutz0r Repo'
 
           - script: |
+              cd ./Shoutz0r
               git add .
               git commit --author "Azure Devops Pipeline <azure-devops@example.com>" -m "Updated Shoutz0r-app phpDocs"
               git push
