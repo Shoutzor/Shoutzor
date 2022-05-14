@@ -57,23 +57,6 @@ a {
 /*
  * This has been copied from the Tabler.io CSS Framework
  */
-@each $color, $value in map-merge($colors, (dark: $dark, muted: $text-muted, white: $white)) {
-    .bg-#{"" + $color} {
-        background: $value !important;
-    }
-
-    .text-#{"" + $color} {
-        color: $value !important;
-    }
-
-    .bg-#{"" + $color}-lt {
-        background: shift-color($value, -10%) !important;
-    }
-}
-
-/*
- * This has been copied from the Tabler.io CSS Framework
- */
 .avatar {
     position: relative;
     width: 2.5rem;

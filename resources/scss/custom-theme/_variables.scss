@@ -1,3 +1,10 @@
+// Shoutz0r Color pallete
+$darkest-color: #212121;
+$dark-color: #313131;
+$normal-color: #414141;
+$primary-color: #CA3E47;
+$secondary-color: #899594;
+
 /*
  * options from: https://getbootstrap.com/docs/5.1/customize/options/
  */
@@ -11,54 +18,20 @@ $font-size-base: 0.9rem;
 /*
  * Colors: https://getbootstrap.com/docs/5.1/customize/color/
  */
-$blue: #467fcf;
-$indigo: #6574cd;
-$purple: #a55eea;
-$pink: #f66d9b;
-$red: #cd201f;
-$orange: #fd9644;
-$yellow: #f1c40f;
-$green: #5eba00;
-$teal: #2bcbba;
-$cyan: #17a2b8;
-$white: #fff;
-$gray-light: #c8c8c8;
-$gray: #868e96;
-$gray-dark: #343a40;
-$azure: #45aaf2;
-$lime: #7bd235;
-$primary: #467fcf;
-$secondary: #868e96;
-$success: #5eba00;
-$info: #45aaf2;
-$warning: #f1c40f;
-$danger: #cd201f;
+$gray-light: $normal-color;
+$gray: $dark-color;
+$gray-dark: $darkest-color;
+$primary: $primary-color;
+$secondary: $secondary-color;
+$dark: $darkest-color;
 $light: #f8f9fa;
-$dark: #343a40;
 
 $colors: (
-    "blue": $blue,
-    "indigo": $indigo,
-    "purple": $purple,
-    "pink": $pink,
-    "red": $red,
-    "orange": $orange,
-    "yellow": $yellow,
-    "green": $green,
-    "teal": $teal,
-    "cyan": $cyan,
-    "white": $white,
+    "gray-light": $gray-light,
     "gray": $gray,
     "gray-dark": $gray-dark,
-    "azure": $azure,
-    "lime": $lime,
     "primary": $primary,
     "secondary": $secondary,
-    "success": $success,
-    "info": $info,
-    "warning": $warning,
-    "danger": $danger,
-    "light": $light,
     "dark": $dark
 );
 
@@ -82,10 +55,3 @@ $sidebar-width: 15rem;
 $player-height: 4.5rem;
 
 $header-search-width: 15rem;
-
-// Color pallete
-$darkest-color: #212121;
-$dark-color: #313131;
-$normal-color: #414141;
-$primary-color: #CA3E47;
-$secondary-color: #899594;
