@@ -110,8 +110,8 @@ stages:
 
   - stage: generateDocs
     jobs:
-      - job: 'updateDocs_Shoutz0rApp'
-        displayName: 'Update Shoutz0r-app PHPDoc'
+      - job: 'prepare_Shoutz0rApp'
+        displayName: 'Install Shoutz0r-app requirements'
         steps:
           - checkout: self
             persistCredentials: true
@@ -133,18 +133,61 @@ stages:
               php -version
             displayName: 'Use PHP version $(phpVersion)'
 
+      - job: 'updateDocs_Shoutz0rApp'
+        displayName: 'Update Shoutz0r-app PHPDoc'
+        steps:
+          - checkout: self
+            persistCredentials: true
+            clean: true
+          - checkout: Shoutz0r
+            persistCredentials: true
+
           - script: |
               wget https://phpdoc.org/phpDocumentor.phar
               php phpDocumentor.phar -d ./Shoutz0r-app/app -t ./Shoutz0r-app/docs
             displayName: 'Generate phpDoc for Shoutz0r-app'
 
+      - job: 'updateStorybook_Shoutz0rApp'
+        displayName: 'Update Shoutz0r-app Storybook'
+        steps:
+          - checkout: self
+            persistCredentials: true
+            clean: true
+          - checkout: Shoutz0r
+            persistCredentials: true
+
+          - script: |
+              npm run build-storybook
+            displayName: 'Generate Storybook for Shoutz0r-app'
+
+      - job: 'uploadDocs_Shoutz0rApp'
+        displayName: 'Upload generated Shoutz0r-app docs'
+        steps:
+          - checkout: self
+            persistCredentials: true
+            clean: true
+          - checkout: Shoutz0r
+            persistCredentials: true
+
           - script: |
               cd ./Shoutz0r
               git switch master
+            displayName: 'Prepare Shoutz0r repo'
+
+          - script: |
               mkdir -p ./docs/app/master/
               rm -rf ./docs/app/master/*
               cp -r ../Shoutz0r-app/docs/* ./docs/app/master/
+            displayName: 'Add generated phpDoc to Shoutz0r Repo'
+
+          - script: |
+              mkdir -p ./storybook/app/master/
+              rm -rf ./storybook/app/master/*
+              cp -r ../Shoutz0r-app/storybook-static/* ./storybook/app/master/
+            displayName: 'Add generated Storybook to Shoutz0r Repo'
+
+          - script: |
               git add .
               git commit --author "Azure Devops Pipeline <azure-devops@example.com>" -m "Updated Shoutz0r-app phpDocs"
               git push
-            displayName: 'Upload phpDoc to Shoutz0r Repo'
+            displayName: 'Upload changes to Shoutz0r Repo'
