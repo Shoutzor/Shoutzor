@@ -3,6 +3,7 @@
 namespace App\HealthCheck;
 
 use App\Helpers\Filesystem;
+use Exception;
 use JetBrains\PhpStorm\Pure;
 
 class EnsureFileHealthCheck extends BaseHealthCheck
@@ -16,7 +17,7 @@ class EnsureFileHealthCheck extends BaseHealthCheck
         array $files
     ) {
         parent::__construct(
-            'Files',
+            'Files accessible',
             'Checks if all configured files are created',
             'All files are created and accessible'
         );
@@ -57,7 +58,11 @@ class EnsureFileHealthCheck extends BaseHealthCheck
         $errors = [];
         foreach ($this->files as $fileLocation => $templateLocation) {
             if(is_readable($fileLocation) === false) {
-                if(!copy($templateLocation, $fileLocation)) {
+                try {
+                    if (!copy($templateLocation, $fileLocation)) {
+                        throw new Exception();
+                    }
+                } catch(Exception $e) {
                     $errors[] = "Failed to copy the template from $templateLocation to $fileLocation";
                 }
             }

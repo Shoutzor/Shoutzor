@@ -1,76 +1,66 @@
 {
-  "name": "xorinzor/shoutz0r",
-  "type": "project",
-  "description": "A media voting system perfect for events, (lan-)parties, or at work!",
-  "keywords": [
-    "shoutz0r",
-    "shoutzor",
-    "music",
-    "video",
-    "media"
-  ],
-  "license": "GPL-3.0-only",
-  "require": {
-    "php": "^8.0",
-    "ext-curl": "*",
-    "ext-json": "*",
-    "ext-pdo": "*",
-    "beyondcode/laravel-websockets": "^1.12",
-    "caffeinated/modules": "^6.3.1",
-    "fideloper/proxy": "^4.4.1",
-    "fruitcake/laravel-cors": "^1.0.6",
-    "guzzlehttp/guzzle": "^7.3.0",
-    "jackiedo/dotenv-editor": "^1.2",
-    "laravel/framework": "^8.61.0",
-    "laravel/passport": "^10.1.3",
-    "laravel/tinker": "^2.6.1",
-    "laravel/ui": "^3.3",
-    "spatie/laravel-permission": "^3.18",
-    "symfony/event-dispatcher": "^5.3.7",
-    "symfony/filesystem": "^5.3.4",
-    "symfony/finder": "^5.3.7"
-  },
-  "require-dev": {
-    "facade/ignition": "^2.13.1",
-    "fakerphp/faker": "^1.16",
-    "mockery/mockery": "^1.4.4",
-    "nunomaduro/collision": "^5.10",
-    "phpunit/phpunit": "^9.5.9"
-  },
-  "config": {
-    "optimize-autoloader": true,
-    "preferred-install": "dist",
-    "sort-packages": true
-  },
-  "extra": {
-    "laravel": {
-      "dont-discover": []
-    }
-  },
-  "autoload": {
-    "psr-4": {
-      "App\\": "app/",
-      "Database\\Factories\\": "database/factories/",
-      "Database\\Seeders\\": "database/seeders/"
-    }
-  },
-  "autoload-dev": {
-    "psr-4": {
-      "Tests\\": "tests/"
-    }
-  },
-  "minimum-stability": "dev",
-  "prefer-stable": true,
-  "scripts": {
-    "post-autoload-dump": [
-      "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
-      "@php artisan package:discover --ansi"
-    ],
-    "post-root-package-install": [
-      "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
-    ],
-    "post-create-project-cmd": [
-      "@php artisan key:generate --ansi"
-    ]
-  }
+    "name": "laravel/laravel",
+    "type": "project",
+    "description": "The Laravel Framework.",
+    "keywords": ["framework", "laravel"],
+    "license": "MIT",
+    "require": {
+        "php": "^8.0.2",
+        "ext-pdo": "*",
+        "beyondcode/laravel-websockets": "^1.13",
+        "guzzlehttp/guzzle": "^7.2",
+        "jackiedo/dotenv-editor": "^2.0",
+        "laravel/framework": "^9.11",
+        "laravel/passport": "^10.4",
+        "laravel/tinker": "^2.7",
+        "nuwave/lighthouse": "^5.48",
+        "spatie/laravel-permission": "^5.5",
+        "tightenco/ziggy": "^1.0"
+    },
+    "require-dev": {
+        "fakerphp/faker": "^1.9.1",
+        "mockery/mockery": "^1.4.4",
+        "nunomaduro/collision": "^6.1",
+        "phpunit/phpunit": "^9.5.10",
+        "spatie/laravel-ignition": "^1.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/",
+            "Database\\Factories\\": "database/factories/",
+            "Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "post-autoload-dump": [
+            "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
+            "@php artisan package:discover --ansi"
+        ],
+        "post-update-cmd": [
+            "@php artisan vendor:publish --tag=laravel-assets --ansi --force"
+        ],
+        "post-root-package-install": [
+            "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
+        ],
+        "post-create-project-cmd": [
+            "@php artisan key:generate --ansi"
+        ]
+    },
+    "extra": {
+        "laravel": {
+            "dont-discover": []
+        }
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "preferred-install": "dist",
+        "sort-packages": true
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }

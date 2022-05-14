@@ -27,7 +27,6 @@ class AuthServiceProvider extends ServiceProvider
 
         Gate::after(
             function ($user, $ability, $result, $arguments) {
-
                 if (!$user) {
                     $role = Role::findByName('guest');
 

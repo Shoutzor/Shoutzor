@@ -1,0 +1,18 @@
+{
+    "/js/app.js": "/js/app.js",
+    "/js/app-installer.js": "/js/app-installer.js",
+    "/css/app.css": "/css/app.css",
+    "/css/app-installer.css": "/css/app-installer.css",
+    "/images/shoutzor-logo-large.png": "/images/shoutzor-logo-large.png",
+    "/images/appicon/android-chrome-192x192.png": "/images/appicon/android-chrome-192x192.png",
+    "/images/appicon/android-chrome-512x512.png": "/images/appicon/android-chrome-512x512.png",
+    "/images/appicon/apple-touch-icon.png": "/images/appicon/apple-touch-icon.png",
+    "/images/appicon/browserconfig.xml": "/images/appicon/browserconfig.xml",
+    "/images/appicon/favicon-16x16.png": "/images/appicon/favicon-16x16.png",
+    "/images/appicon/favicon-32x32.png": "/images/appicon/favicon-32x32.png",
+    "/images/appicon/favicon.ico": "/images/appicon/favicon.ico",
+    "/images/appicon/mstile-150x150.png": "/images/appicon/mstile-150x150.png",
+    "/images/appicon/original icon.png": "/images/appicon/original icon.png",
+    "/images/appicon/safari-pinned-tab.svg": "/images/appicon/safari-pinned-tab.svg",
+    "/images/appicon/site.webmanifest": "/images/appicon/site.webmanifest"
+}

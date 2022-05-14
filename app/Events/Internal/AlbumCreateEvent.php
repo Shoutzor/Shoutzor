@@ -2,8 +2,8 @@
 
 namespace App\Events\Internal;
 
-use App\Album;
 use App\Events\ReadOnlyEvent;
+use App\Models\Album;
 
 /**
  * Class AlbumCreateEvent

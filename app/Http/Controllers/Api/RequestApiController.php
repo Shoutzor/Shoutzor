@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Request;
+use App\Models\Request;
 
 class RequestApiController extends Controller
 {

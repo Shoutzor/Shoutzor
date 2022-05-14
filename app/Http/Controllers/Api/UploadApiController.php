@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Events\Internal\UploadAddedEvent;
 use App\Http\Controllers\Controller;
 use App\Jobs\ProcessUpload;
-use App\Upload;
+use App\Models\Upload;
 use Illuminate\Http\Request;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 

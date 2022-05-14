@@ -2,12 +2,12 @@
 
 namespace Database\Seeders;
 
-use App\Album;
-use App\Artist;
-use App\Media;
-use App\Request;
-use App\User;
-use App\Vote;
+use App\Models\Album;
+use App\Models\Artist;
+use App\Models\Media;
+use App\Models\Request;
+use App\Models\User;
+use App\Models\Vote;
 use Exception;
 use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Database\Seeder;

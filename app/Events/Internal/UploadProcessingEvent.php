@@ -3,7 +3,7 @@
 namespace App\Events\Internal;
 
 use App\Events\ReadOnlyEvent;
-use App\Upload;
+use App\Models\Upload;
 
 /**
  * Class UploadProcessingEvent

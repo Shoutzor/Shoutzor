@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Vote;
+use App\Models\Vote;
 use Illuminate\Support\Facades\DB;
 
 class VoteApiController extends Controller

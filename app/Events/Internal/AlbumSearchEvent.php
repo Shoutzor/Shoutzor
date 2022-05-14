@@ -3,7 +3,7 @@
 namespace App\Events\Internal;
 
 use App\Events\ReadOnlyEvent;
-use App\Media;
+use App\Models\Media;
 
 /**
  * Class AlbumSearchEvent

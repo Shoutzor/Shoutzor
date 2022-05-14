@@ -2,8 +2,8 @@
 
 namespace App\Jobs;
 
+use App\Models\Upload;
 use App\Processors\UploadProcessor;
-use App\Upload;
 use DateTime;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;

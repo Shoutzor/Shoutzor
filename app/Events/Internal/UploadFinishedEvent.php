@@ -3,8 +3,8 @@
 namespace App\Events\Internal;
 
 use App\Events\ReadOnlyEvent;
-use App\Media;
-use App\Upload;
+use App\Models\Media;
+use App\Models\Upload;
 
 /**
  * Class UploadFinishedEvent

@@ -3,7 +3,7 @@
 namespace App\Events\Internal;
 
 use App\Events\ReadOnlyEvent;
-use App\Request;
+use App\Models\Request;
 
 /**
  * Class RequestAddedEvent

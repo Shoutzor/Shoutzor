@@ -2,8 +2,8 @@
 
 namespace Shoutz0r\AcoustId\Lib;
 
-use App\Media;
-use App\Upload;
+use App\Models\Media;
+use App\Models\Upload;
 use Symfony\Component\Process\Process;
 
 class AcoustId

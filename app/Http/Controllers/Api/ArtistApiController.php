@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Artist;
 use App\Http\Controllers\Controller;
+use App\Models\Artist;
 use Illuminate\Http\Request;
 
 class ArtistApiController extends Controller

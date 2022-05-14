@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Album;
 use App\Http\Controllers\Controller;
+use App\Models\Album;
 use Illuminate\Http\Request;
 
 class AlbumApiController extends Controller

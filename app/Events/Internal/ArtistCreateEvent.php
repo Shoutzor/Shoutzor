@@ -2,8 +2,8 @@
 
 namespace App\Events\Internal;
 
-use App\Artist;
 use App\Events\ReadOnlyEvent;
+use App\Models\Artist;
 
 /**
  * Class ArtistCreateEvent

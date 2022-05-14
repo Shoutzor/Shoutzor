@@ -202,7 +202,7 @@ class Installer {
      * @param  string  $password
      * @return InstallStepResult
      */
-    public function configureSql(string $dbtype, string $host, string $port, string $database, string $username, string $password): InstallStepResult
+    public function configureSql(?string $dbtype, ?string $host, ?string $port, ?string $database, ?string $username, ?string $password): InstallStepResult
     {
         $settingParams = [
             'dbtype' => $dbtype,
@@ -246,11 +246,13 @@ class Installer {
 
         // Check if any validation errors occurred
         if (count($errors) > 0) {
+            $validationErrors = [];
+
             foreach($errors as $name=>$error) {
                 $validationErrors[] = new formValidationFieldError($name, $error);
             }
 
-            return new InstallStepResult(false, '', new formValidationException($exception));
+            return new InstallStepResult(false, '', new formValidationException($validationErrors));
         }
 
         // Create an array for the new config values

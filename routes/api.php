@@ -1,4 +1,5 @@
 <?php
+use Illuminate\Foundation\Application;
 
 use Illuminate\Support\Facades\Route;
 
@@ -15,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::pattern('id', '[0-9]+');
 Route::pattern('uuid', '[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}');
-Route::get('album/get/{uuid}', 'AlbumApiController@get');
+
 /*
  * --------------------------------------------------------------------------
  * These routes are always available
@@ -38,6 +39,23 @@ Route::group(
 
         /*
          * --------------------------------------------------------------------------
+         * Routes within this group require the website.access permission
+         * --------------------------------------------------------------------------
+         */
+        Route::group(
+            ['middleware' => 'can:website.access'],
+            function () {
+                Route::post('auth/register', 'AuthApiController@register');
+                Route::get('album/get/{uuid}', 'AlbumApiController@get');
+                Route::get('artist/get/{uuid}', 'ArtistApiController@get');
+                Route::get('request', 'RequestApiController@index');
+                Route::post('upload', 'UploadApiController@store')->middleware('can:website.upload');
+                Route::get('vote/count', 'VoteApiController@count');
+            }
+        );
+
+        /*
+         * --------------------------------------------------------------------------
          * Routes within this group require to be authenticated
          * --------------------------------------------------------------------------
          */
@@ -47,23 +65,6 @@ Route::group(
                 Route::get('auth/logout', 'AuthApiController@logout');
                 Route::get('auth/user', 'AuthApiController@user');
                 Route::get('role/user', 'RoleApiController@user');
-
-                /*
-                 * --------------------------------------------------------------------------
-                 * Routes within this group require the website.access permission
-                 * --------------------------------------------------------------------------
-                 */
-                Route::group(
-                    ['middleware' => 'can:website.access'],
-                    function () {
-                        Route::post('auth/register', 'AuthApiController@register');
-                        //Route::get('album/get/{uuid}', 'AlbumApiController@get');
-                        Route::get('artist/get/{uuid}', 'ArtistApiController@get');
-                        Route::get('request', 'RequestApiController@index');
-                        Route::post('upload', 'UploadApiController@store')->middleware('can:website.upload');
-                        Route::get('vote/count', 'VoteApiController@count');
-                    }
-                );
 
                 /*
                 * --------------------------------------------------------------------------
