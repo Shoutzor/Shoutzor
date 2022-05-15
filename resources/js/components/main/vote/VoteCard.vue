@@ -164,7 +164,7 @@ export default {
 
     &.dark {
         .info .authors {
-            color: $gray-light;
+            color: $white;
         }
 
         .progress .progress-bar {

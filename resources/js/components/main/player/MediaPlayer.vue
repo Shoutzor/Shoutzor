@@ -1,13 +1,13 @@
 <template>
-    <div id="audio-player">
+    <div class="audio-player">
         <div class="media-info">
-            <div v-if="currentRequest && currentRequest.media !== null" class="row row-sm align-items-center ps-2">
+            <div v-if="nowPlaying" class="row row-sm align-items-center ps-2">
                 <div class="col-auto">
-                    <img class="rounded" height="48" v-bind:src="currentRequest.media.coverImage" width="48">
+                    <img class="rounded" height="48" v-bind:src="nowPlaying.media.coverImage" width="48">
                 </div>
                 <div class="col">
-                    <span class="track-title">{{ currentRequest.media.title }}</span>
-                    <artist-list :artists="currentRequest.media.artists" class="text-muted"></artist-list>
+                    <span class="track-title">{{ nowPlaying.media.title }}</span>
+                    <artist-list :artists="nowPlaying.media.artists" class="text-muted"></artist-list>
                 </div>
             </div>
             <div v-else class="row row-sm align-items-center ps-2">
@@ -23,13 +23,13 @@
                 </div>
             </div>
         </div>
-        <div class="media-control">
-            <div id="media-controls">
+        <div class="media-control-container">
+            <div class="media-controls">
                 <b-icon-hand-thumbs-up
                     v-if="isAuthenticated"
                     class="upvote"
                 ></b-icon-hand-thumbs-up>
-                <div id="playbutton" @click="onPlayPauseClick">
+                <div class="playbutton" @click="onPlayPauseClick">
                     <b-icon-play-fill v-if="playerStatus === PlayerState.STOPPED" class="play"></b-icon-play-fill>
                     <b-icon-stop-fill v-if="playerStatus === PlayerState.PLAYING" class="stop"></b-icon-stop-fill>
 
@@ -40,7 +40,7 @@
                     class="downvote"
                 ></b-icon-hand-thumbs-down>
             </div>
-            <div id="media-progress">
+            <div class="media-progress">
                 <span>01:45</span>
                 <div class="progress">
                     <div aria-valuemax="100" aria-valuemin="0" aria-valuenow="42" class="progress-bar bg-blue" role="progressbar"
@@ -50,12 +50,11 @@
             </div>
         </div>
         <div class="extra-control">
-            <div id="video-control" v-if="hasVideo && playerStatus !== PlayerState.STOPPED" @click="handleVideoButtonClick">
+            <div class="video-control" v-if="videoEnabled && playerStatus !== PlayerState.STOPPED" @click="handleVideoButtonClick">
                 <b-icon-tv></b-icon-tv>
             </div>
 
-
-            <div id="volume-control" class="btn-group dropup">
+            <div class="volume-control" class="btn-group dropup">
                 <b-icon-volume-up
                     data-bs-toggle="dropdown"
                     data-bs-auto-close="outside"
@@ -71,14 +70,14 @@
                 </div>
             </div>
         </div>
-
-        <video id="mediaPlayerSource"></video>
     </div>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
 import VueSlider from 'vue-slider-component';
+import "~vue-slider-component/theme/default.css";
+
 import Request from '@js/models/Request';
 import PlayerState from "@js/store/modules/MediaPlayer/PlayerState";
 import ArtistList from "@js/components/global/media/ArtistList";
@@ -99,7 +98,7 @@ export default {
     },
 
     computed: {
-        currentRequest: () => Request.query()
+        nowPlaying: () => Request.query()
                                      .where((r) => {
                                          return r.played_at !== null;
                                      })
@@ -109,7 +108,7 @@ export default {
         ...mapGetters({
             isAuthenticated: 'isAuthenticated',
             playerStatus: 'MediaPlayer/getPlayerState',
-            hasVideo: 'MediaPlayer/hasVideo'
+            videoEnabled: 'MediaPlayer/hasVideo'
         })
     },
 
@@ -187,30 +186,13 @@ export default {
 </script>
 
 <style lang="scss">
-@import "~vue-slider-component/theme/default.css";
-
-#mediaPlayerSource {
-    display: none;
-
-    &.visible {
-        display: block;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: calc(100% - #{$player-height});
-        background: #000;
-    }
-}
-
-#audio-player {
+.audio-player {
     width: 100%;
-    height: $player-height;
+    height: 4.5rem;
     background: $body-bg;
     z-index: 9999;
     position: fixed;
     bottom: 0;
-    border-top: 1px solid darken($body-bg, 3%);
     display: flex;
     flex: 1 1 auto;
 
@@ -220,7 +202,7 @@ export default {
         align-items: center;
     }
 
-    #media-controls {
+    .media-controls {
         margin-top: 0.5rem;
         margin-bottom: 0.1rem;
     }
@@ -233,7 +215,7 @@ export default {
         }
     }
 
-    .media-control {
+    .media-control-container {
         justify-content: center;
         flex-direction: column;
         max-width: 500px;
@@ -244,7 +226,7 @@ export default {
             flex-direction: row;
         }
 
-        #playbutton {
+        .playbutton {
             display: flex;
             align-items: center;
             justify-content: center;
@@ -284,7 +266,7 @@ export default {
             height: 1.2rem;
         }
 
-        #media-progress {
+        .media-progress {
             width: 100%;
 
             .progress {
@@ -315,7 +297,7 @@ export default {
             height: 1.25rem;
         }
 
-        #video-control {
+        .video-control {
             cursor: pointer;
 
             &.active {
@@ -323,7 +305,7 @@ export default {
             }
         }
 
-        #volume-control {
+        .volume-control {
             cursor: pointer;
 
             .dropdown-menu {

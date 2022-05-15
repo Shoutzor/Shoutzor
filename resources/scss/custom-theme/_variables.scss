@@ -1,39 +1,22 @@
 // Shoutz0r Color pallete
-$darkest-color: #212121;
-$dark-color: #313131;
-$normal-color: #414141;
-$primary-color: #CA3E47;
-$secondary-color: #899594;
+// Variables available at: https://getbootstrap.com/docs/5.2/customize/color/
+$yellow: #CFCF40;
+$green: #45AB35;
+$orange: #CF7D40;
+$red: #CF4040;
+$pink: #A63374;
+$blue: #354F8B;
+$indigo: #4C378F;
+$purple: #6A308A;
+$gray: #414141;
+$gray-dark: #313131;
+$white: #f8f9fa;
+$black: #212121;
 
-/*
- * options from: https://getbootstrap.com/docs/5.1/customize/options/
- */
-$enable-rounded: true;
-$enable-negative-margins: false; // Disabled by default, might be useful in the future: https://getbootstrap.com/docs/5.1/utilities/spacing/#negative-margin
-
-// Typography
-$font-family-sans-serif: "Ubuntu", sans-serif;
-$font-size-base: 0.9rem;
-
-/*
- * Colors: https://getbootstrap.com/docs/5.1/customize/color/
- */
-$gray-light: $normal-color;
-$gray: $dark-color;
-$gray-dark: $darkest-color;
-$primary: $primary-color;
-$secondary: $secondary-color;
-$dark: $darkest-color;
-$light: #f8f9fa;
-
-$colors: (
-    "gray-light": $gray-light,
-    "gray": $gray,
-    "gray-dark": $gray-dark,
-    "primary": $primary,
-    "secondary": $secondary,
-    "dark": $dark
-);
+$primary: $red;
+$secondary: #899594;
+$dark: $black;
+$light: $white;
 
 // Body
 $body-bg: $dark;
@@ -52,6 +35,16 @@ $brand-color-youtube: #FF0000;
 //Element sizes
 $navbar-height: 3.5rem;
 $sidebar-width: 15rem;
-$player-height: 4.5rem;
 
 $header-search-width: 15rem;
+
+
+/*
+ * options from: https://getbootstrap.com/docs/5.1/customize/options/
+ */
+$enable-rounded: true;
+$enable-negative-margins: false; // Disabled by default, might be useful in the future: https://getbootstrap.com/docs/5.1/utilities/spacing/#negative-margin
+
+// Typography
+$font-family-sans-serif: "Ubuntu", sans-serif;
+$font-size-base: 0.9rem;
