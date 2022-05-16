@@ -1,7 +1,7 @@
-import BaseProgressbar from '../resources/components/BaseProgressbar';
+import BaseProgressbar from '@components/BaseProgressbar';
 
 export default {
-  title: 'base/Progressbar',
+  title: 'base/BaseProgressbar',
   component: BaseProgressbar,
   argTypes: {
       minValue: {
@@ -19,7 +19,7 @@ export default {
       currentValue: {
           name: 'Current value',
           type: { name: 'number', required: true },
-          defaultValue: 42,
+          defaultValue: 0,
           description: 'The current value of the progressbar'
       },
       preText: {
@@ -64,4 +64,25 @@ Default.args = {
     currentValue: 42,
     preText: "text before",
     postText: "text after"
+};
+
+export const Striped = Template.bind({});
+Striped.args = {
+    minValue: 0,
+    maxValue: 100,
+    currentValue: 42,
+    preText: "text before",
+    postText: "text after",
+    isStriped: true
+};
+
+export const Animated = Template.bind({});
+Animated.args = {
+    minValue: 0,
+    maxValue: 100,
+    currentValue: 42,
+    preText: "text before",
+    postText: "text after",
+    isStriped: true,
+    isAnimated: true
 };

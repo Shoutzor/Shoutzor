@@ -1,0 +1,25 @@
+.playbutton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    width: 2.5rem;
+    height: 2.5rem;
+    border: 1px solid $gray;
+    border-radius: 50%;
+    text-align: center;
+
+    svg {
+        width: 1.8rem;
+        height: 1.8rem;
+
+        &.play {
+            padding-left: 0.15rem;
+        }
+    }
+
+    .spinner-border {
+    width: 1.5rem;
+    height: 1.5rem;
+    }
+}

@@ -10,7 +10,15 @@
 </template>
 
 <script>
+import './UserList.css';
+
 export default {
-    props: ['users']
+    name: 'user-list',
+    props: {
+        users: {
+            type: Array,
+            default: []
+        }
+    }
 }
 </script>

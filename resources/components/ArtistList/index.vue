@@ -3,7 +3,7 @@
         <span v-for="(artist, index) in artists"
               :key="artist.id"
         >
-            <template v-if="index != 0">, </template>
+            <template v-if="index !== 0">, </template>
             <router-link
                 :to="{ name:'artist', params:{ id: artist.id } }"
                 class="artist"
@@ -13,13 +13,15 @@
 </template>
 
 <script>
+import './ArtistList.css';
+
 export default {
-    props: ['artists']
+    name: 'artist-list',
+    props: {
+        artists: {
+            type: Array,
+            default: []
+        }
+    }
 }
 </script>
-
-<style lang="scss">
-a.artist {
-    color: inherit;
-}
-</style>

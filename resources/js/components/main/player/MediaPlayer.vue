@@ -21,33 +21,15 @@
                 <div class="col">
                     <span class="track-title">Now playing: Unavailable</span>
                 </div>
-            </div>
+            </div>;
         </div>
         <div class="media-control-container">
             <div class="media-controls">
-                <b-icon-hand-thumbs-up
-                    v-if="isAuthenticated"
-                    class="upvote"
-                ></b-icon-hand-thumbs-up>
-                <div class="playbutton" @click="onPlayPauseClick">
-                    <b-icon-play-fill v-if="playerStatus === PlayerState.STOPPED" class="play"></b-icon-play-fill>
-                    <b-icon-stop-fill v-if="playerStatus === PlayerState.PLAYING" class="stop"></b-icon-stop-fill>
-
-                    <div v-if="playerStatus === PlayerState.LOADING" class="spinner-border loading" role="status"></div>
-                </div>
-                <b-icon-hand-thumbs-down
-                    v-if="isAuthenticated"
-                    class="downvote"
-                ></b-icon-hand-thumbs-down>
+                <b-icon-hand-thumbs-up v-if="isAuthenticated" class="upvote"></b-icon-hand-thumbs-up>
+                <play-button @click="onPlayPauseClick" :state="playerStatus"></play-button>
+                <b-icon-hand-thumbs-down v-if="isAuthenticated" class="downvote"></b-icon-hand-thumbs-down>
             </div>
-            <div class="media-progress">
-                <span>01:45</span>
-                <div class="progress">
-                    <div aria-valuemax="100" aria-valuemin="0" aria-valuenow="42" class="progress-bar bg-blue" role="progressbar"
-                         style="width: 42%"></div>
-                </div>
-                <span>4:31</span>
-            </div>
+            <base-progressbar :pre-text="'01:45'" :post-text="'4:31'" :current-value="42"></base-progressbar>
         </div>
         <div class="extra-control">
             <div class="video-control" v-if="videoEnabled && playerStatus !== PlayerState.STOPPED" @click="handleVideoButtonClick">
@@ -76,14 +58,18 @@
 <script>
 import { mapGetters } from "vuex";
 import VueSlider from 'vue-slider-component';
-import "~vue-slider-component/theme/default.css";
+
+import BaseProgressbar from "@components/BaseProgressbar";
+import PlayButton from "@components/PlayButton";
+import ArtistList from "@components/ArtistList";
 
 import Request from '@js/models/Request';
 import PlayerState from "@js/store/modules/MediaPlayer/PlayerState";
-import ArtistList from "@js/components/global/media/ArtistList";
 
 export default {
     components: {
+        BaseProgressbar,
+        PlayButton,
         VueSlider,
         ArtistList
     },
@@ -224,32 +210,6 @@ export default {
             display: flex;
             align-items: center;
             flex-direction: row;
-        }
-
-        .playbutton {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            width: 2.5rem;
-            height: 2.5rem;
-            border: 1px solid $gray;
-            border-radius: 50%;
-            text-align: center;
-
-            svg {
-                width: 1.8rem;
-                height: 1.8rem;
-
-                &.play {
-                    padding-left: 0.15rem;
-                }
-            }
-
-            .spinner-border {
-                width: 1.5rem;
-                height: 1.5rem;
-            }
         }
 
         .upvote {

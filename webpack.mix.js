@@ -15,6 +15,7 @@ mix.webpackConfig({
         extensions: ['.js', '.vue', '.json', '.scss', '.sass', '.css'],
         alias: {
             vue: "@vue/compat",
+            '@components': __dirname + '/resources/components',
             '@js': __dirname + '/resources/js',
             '@scss': __dirname + '/resources/scss',
             '@static': __dirname + '/resources/static'
