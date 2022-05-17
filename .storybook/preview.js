@@ -1,3 +1,8 @@
+import { app } from '@storybook/vue3';
+import { BootstrapIconsPlugin  } from 'bootstrap-icons-vue';
+
+app.use(BootstrapIconsPlugin);
+
 export const parameters = {
     actions: { argTypesRegex: "^on[A-Z].*" },
     controls: {

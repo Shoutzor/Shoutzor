@@ -5,6 +5,8 @@
 </template>
 
 <script>
+import 'bootstrap-icons-vue';
+
 export default {
     props: {
         iconName: {
@@ -12,14 +14,14 @@ export default {
             required: true
         },
         classes: {
-            Type: String,
+            Type: Array,
             required: false,
-            default: ''
+            default: []
         },
         iconClasses: {
-            Type: String,
+            Type: Array,
             required: false,
-            default: ''
+            default: []
         }
     }
 }

@@ -1,0 +1,4 @@
+.load-screen {
+    opacity: 1 !important;
+    z-index: 99999 !important;
+}

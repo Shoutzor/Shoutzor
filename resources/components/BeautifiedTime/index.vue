@@ -32,10 +32,17 @@ function formatTime(seconds) {
 }
 
 export default {
-    props: ['time'],
-    data: function() {
+    name: 'beautified-time',
+    props: {
+        seconds: {
+            type: Number,
+            required: true
+        }
+    },
+
+    data() {
         return {
-            displayTime: formatTime(this.time)
+            displayTime: formatTime(this.seconds)
         }
     }
 }
