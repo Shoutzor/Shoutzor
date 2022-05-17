@@ -1,0 +1,8 @@
+.pre-text {
+    white-space: pre-wrap;
+}
+
+.statusIcon > svg {
+    width: 1.5rem;
+    height: 1.5rem;
+}

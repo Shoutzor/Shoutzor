@@ -13,6 +13,10 @@
     -moz-osx-font-smoothing: grayscale;
 }
 
+.text-prewrap {
+    white-space: pre-wrap;
+}
+
 body {
   overflow: hidden !important;
 }

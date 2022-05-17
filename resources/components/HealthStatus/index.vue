@@ -3,11 +3,11 @@
         <div class="card-body d-flex">
             <StatusIcon
                 v-if="healthy === true"
-                classes="bg-green-lt text-white"
+                classes="bg-success text-white"
                 iconName="b-icon-check2"></StatusIcon>
             <StatusIcon
                 v-else
-                classes="bg-red-lt text-white"
+                classes="bg-danger text-white"
                 iconName="b-icon-exclamation-circle"></StatusIcon>
 
             <div class="ms-3 w-100">
@@ -19,10 +19,13 @@
 </template>
 
 <script>
-import StatusIcon from "@js/components/global/status/StatusIcon";
+import "./HealthStatus.css";
+
+import StatusIcon from "@components/StatusIcon";
 
 export default {
-    components: {StatusIcon},
+    name: 'health-status',
+    components: { StatusIcon },
     props: {
         healthy: {
             type: Boolean,
@@ -40,14 +43,3 @@ export default {
     }
 }
 </script>
-
-<style lang="scss">
-.pre-text {
-    white-space: pre-wrap;
-}
-
-.statusIcon > svg {
-    width: 1.5rem;
-    height: 1.5rem;
-}
-</style>

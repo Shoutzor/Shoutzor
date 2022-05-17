@@ -10,7 +10,7 @@
 <script>
 import './PlayButton.scss'
 import { BIconPlayFill, BIconStopFill } from 'bootstrap-icons-vue';
-import { reactive, computed } from 'vue';
+import { reactive } from 'vue';
 
 export default {
     name: 'play-button',
