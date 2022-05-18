@@ -5,18 +5,53 @@ $green: #45AB35;
 $orange: #CF7D40;
 $red: #CF4040;
 $pink: #A63374;
-$blue: #354F8B;
+$teal: #2bcbba;
+$cyan: #00E4E4;
+$blue: #4C6FF0;
 $indigo: #4C378F;
-$purple: #6A308A;
+$purple: #724BF0;
+$azure: #45aaf2;
+$lime: #7bd235;
 $gray: #414141;
 $gray-dark: #313131;
 $white: #f8f9fa;
 $black: #212121;
 
-$primary: $red;
+$primary: $blue;
 $secondary: #899594;
 $dark: $black;
 $light: $white;
+
+$success: $green;
+$danger: $red;
+$info: $azure;
+$warning: $orange;
+
+$theme-colors: (
+    "blue": $blue,
+    "indigo": $indigo,
+    "purple": $purple,
+    "pink": $pink,
+    "red": $red,
+    "orange": $orange,
+    "yellow": $yellow,
+    "green": $green,
+    "teal": $teal,
+    "cyan": $cyan,
+    "white": $white,
+    "gray": $gray,
+    "gray-dark": $gray-dark,
+    "azure": $azure,
+    "lime": $lime,
+    "primary": $primary,
+    "secondary": $secondary,
+    "success": $success,
+    "info": $info,
+    "warning": $warning,
+    "danger": $danger,
+    "light": $light,
+    "dark": $dark
+);
 
 // Body
 $body-bg: $dark;

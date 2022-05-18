@@ -12,7 +12,7 @@
 
                 <div class="d-flex align-items-center mt-auto">
                     <div class="requested-by pl-3">
-                        <small class="text-muted">Requested by</small>
+                        <small class="text-muted me-1">Requested by</small>
                         <template v-if="requestedBy.length > 0"><user-list :users="requestedBy"></user-list></template>
                         <template v-else>AutoDJ</template>
                     </div>

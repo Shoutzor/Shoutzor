@@ -12,7 +12,7 @@
 
             <div class="ms-3 w-100">
                 <div class="fw-bold">{{ name }}</div>
-                <div class="pre-text">{{ status }}</div>
+                <div class="pre-text">{{ description }}</div>
             </div>
         </div>
     </div>
@@ -35,7 +35,7 @@ export default {
             type: String,
             required: true
         },
-        status: {
+        description: {
             type: String,
             required: false,
             default: ''

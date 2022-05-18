@@ -7,20 +7,17 @@ export default {
       healthy: {
           name: 'Healthy',
           type: { name: 'boolean', required: true },
-          defaultValue: 0,
           description: 'Whether the health-check is healthy or not'
       },
       name: {
           name: 'Name',
           type: { name: 'string', required: true },
-          defaultValue: 100,
           description: 'The name of the health-check'
       },
-      status: {
-          name: 'Status',
+      description: {
+          name: 'Description',
           type: { name: 'string', required: false },
-          defaultValue: 0,
-          description: 'The status of the health-check, used to provide feedback to the user'
+          description: 'A basic description of the health-check'
       }
   },
 };
@@ -36,13 +33,13 @@ const Template = (args) => ({
 export const Success = Template.bind({});
 Success.args = {
     healthy: true,
-    name: 'Demo Status',
-    status: 'Systems are reporting a win in this sector, sir.'
+    name: 'Disk Status',
+    description: 'Checks for read/write errors'
 };
 
 export const Failure = Template.bind({});
 Failure.args = {
     healthy: false,
     name: 'Demo Status',
-    status: 'Sir, the user does not seem impressed.'
+    description: 'Checks for read/write errors'
 };

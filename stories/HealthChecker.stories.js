@@ -73,23 +73,23 @@ Example.args = {
     isLoading: false,
     healthChecks: [{
         healthy: true,
-        name: 'First Demo healthcheck',
-        status: 'Checking if that one thing is correct'
+        name: 'Disk checker',
+        description: 'Checks for read/write errors'
     }, {
         healthy: false,
-        name: 'Second Demo healthcheck',
-        status: 'But also checking that other thing'
+        name: 'File Copy',
+        description: 'Copy installation files'
     }],
     repairResult: {
         result: true,
         data: [
             {
-                name: 'First Demo healthcheck',
-                result: 'Succeeded in fixing that issue!'
+                name: 'Disk checker',
+                result: 'No problems found'
             },
             {
-                name: 'Second Demo healthcheck',
-                result: 'Oops, we\'re gonna need some manual help here.'
+                name: 'File Copy',
+                result: 'Failed to copy files: no disk space left'
             }
         ]
     }

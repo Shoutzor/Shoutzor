@@ -26,16 +26,16 @@ const Template = (args) => ({
   template: '<now-playing v-bind="args" />',
 });
 
-import TempCover from '@static/images/album_cover_placeholder.jpg';
+import TempCover from '@static/images/album_temp.jpg';
 
 export const Example = Template.bind({});
 Example.args = {
     media: {
-        title: 'Dark Horse',
+        title: 'Ghosts \'n stuff',
         coverImage: TempCover,
         artists: [{
             id: 1,
-            name: 'Katy Perry'
+            name: 'Deadmau5'
         }]
     },
     requestedBy: []
