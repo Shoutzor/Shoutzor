@@ -1,5 +1,5 @@
 <template>
-    <div v-if="users !== null" class="users">
+    <div class="users">
         <span v-for="(user, index) in users"
               :key="user.id"
         >
@@ -17,7 +17,8 @@ export default {
     props: {
         users: {
             type: Array,
-            default: []
+            default: [],
+            required: true
         }
     }
 }

@@ -1,5 +1,5 @@
 <template>
-    <div v-if="artists !== null" class="artists">
+    <div class="artists">
         <span v-for="(artist, index) in artists"
               :key="artist.id"
         >
@@ -20,7 +20,8 @@ export default {
     props: {
         artists: {
             type: Array,
-            default: []
+            default: [],
+            required: true
         }
     }
 }

@@ -36,7 +36,7 @@
             </div>
         </div>
 
-        <template v-else-if="healthChecks">
+        <template v-else-if="healthChecks.length > 0">
             <health-status
                 v-for="check in healthChecks"
                 v-bind:key="check.name"

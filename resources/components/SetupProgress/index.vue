@@ -6,7 +6,7 @@
             </div>
         </div>
 
-        <template v-else-if="setupSteps">
+        <template v-else-if="setupSteps.length > 0">
             <setup-step
                 v-for="step in setupSteps"
                 v-bind:key="step.name"
