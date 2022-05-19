@@ -3,15 +3,15 @@
         <div v-if="showHeader" class="d-flex justify-content-end">
             <h3 v-if="showTitle">{{ headerTitle }}</h3>
 
-            <div v-if="showRefreshButton" class="btn btn-secondary ms-2 mb-2" @click="onRefreshButtonClick">
+            <base-button v-if="showRefreshButton" :disabled="isLoading" :classes="['btn-secondary', 'ms-2', 'mb-2']" @click="$emit('healthcheckRefresh')">
                 <span v-if="refreshButtonText" class="refreshText me-1">{{ refreshButtonText }}</span>
                 <b-icon-arrow-counterclockwise v-if="isLoading === false" class="refreshIcon ms-1"></b-icon-arrow-counterclockwise>
-                <div v-else class="spinner-border spinner-border-sm" role="status"></div>
-            </div>
+                <base-spinner v-else :small="true"></base-spinner>
+            </base-button>
 
-            <button v-if="showRepairButton" class="btn btn-primary ms-2 mb-2" @click="onRepairButtonClick">
+            <base-button v-if="showRepairButton" :disabled="isLoading" :classes="['btn-primary', 'ms-2', 'mb-2']" @click="$emit('healthcheckRepair')">
                 Attempt automatic repair
-            </button>
+            </base-button>
         </div>
 
         <div v-if="repairResult" class="mb-2">
@@ -32,7 +32,7 @@
 
         <div v-if="isLoading" class="card card-sm rounded-0">
             <div class="card-body">
-                <div class="spinner-border" role="status"></div>
+                <base-spinner></base-spinner>
             </div>
         </div>
 
@@ -53,13 +53,14 @@
 </template>
 
 <script>
-import {reactive} from "vue";
+import BaseButton from "@components/BaseButton";
+import BaseSpinner from "@components/BaseSpinner";
 import HealthStatus from "@components/HealthStatus";
 
 export default {
     name: 'health-checker',
 
-    components: { HealthStatus },
+    components: { BaseButton, BaseSpinner, HealthStatus },
 
     props: {
         healthChecks: {
@@ -106,21 +107,6 @@ export default {
             type: Boolean,
             required: false,
             default: false
-        }
-    },
-
-    emits: ['refreshButtonClick', 'repairButtonClick'],
-
-    setup(props, { emit }) {
-        props = reactive(props);
-
-        return {
-            onRefreshButtonClick() {
-                emit('refreshButtonClick');
-            },
-            onRepairButtonClick() {
-                emit('repairButtonClick')
-            }
         }
     }
 }
