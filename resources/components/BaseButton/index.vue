@@ -1,5 +1,5 @@
 <template>
-    <button :class="classes" :disabled="disabled" class="btn" :style="styles" @click="onClick">
+    <button :class="classes" :disabled="disabled" class="btn" :style="styles" @click="onClick" :type="type">
         <slot></slot>
     </button>
 </template>
@@ -11,6 +11,11 @@ export default {
     name: 'base-button',
 
     props: {
+        type: {
+            type: String,
+            required: false,
+            default: 'button'
+        },
         classes: {
             type: Array,
             required: false,

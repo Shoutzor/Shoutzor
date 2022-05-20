@@ -1,0 +1,104 @@
+.audio-player {
+    width: 100%;
+    height: 4.5rem;
+    display: flex;
+    flex: 1 1 auto;
+
+    & > div {
+        display: flex;
+        flex: 1;
+        align-items: center;
+    }
+
+    .media-controls {
+        margin-top: 0.5rem;
+        margin-bottom: 0.1rem;
+    }
+
+    .media-info {
+        justify-content: flex-start;
+
+        .artists {
+            font-size: 0.75rem;
+        }
+    }
+
+    .media-control-container {
+        justify-content: center;
+        flex-direction: column;
+        max-width: 500px;
+
+        & > div {
+            display: flex;
+            align-items: center;
+            flex-direction: row;
+        }
+
+        .upvote {
+            cursor: pointer;
+            margin-right: 1.25rem;
+            width: 1.2rem;
+            height: 1.2rem;
+        }
+
+        .downvote {
+            cursor: pointer;
+            margin-left: 1.25rem;
+            width: 1.2rem;
+            height: 1.2rem;
+        }
+
+        .media-progress {
+            width: 100%;
+
+            .progress {
+                margin: 0 0.5rem;
+                height: 0.35rem;
+                width: 100%;
+            }
+
+            & > span {
+                font-size: 0.75rem;
+            }
+        }
+    }
+
+    .extra-control {
+        justify-content: flex-end;
+
+        a {
+            color: inherit;
+        }
+
+        & > * {
+            margin-right: 1.5rem;
+        }
+
+        svg {
+            width: 1.25rem;
+            height: 1.25rem;
+        }
+
+        .video-control {
+            cursor: pointer;
+
+            &.active {
+                color: $green;
+            }
+        }
+
+        .volume-control {
+            cursor: pointer;
+
+            .dropdown-menu {
+                min-width: 22px;
+                max-width: 22px;
+                height: 140px;
+
+                .vue-slider {
+                    height: 100% !important;
+                }
+            }
+        }
+    }
+}
