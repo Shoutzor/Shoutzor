@@ -39,6 +39,13 @@
 
 <script>
 export default {
-    props: ['role']
+    name: 'role-item',
+
+    props: {
+        role: {
+            type: Object,
+            required: true
+        }
+    }
 }
 </script>

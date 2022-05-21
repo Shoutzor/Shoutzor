@@ -12,6 +12,16 @@
 
 <script>
 export default {
-    props: ['permission', 'hasPermission']
+    name: 'permission-item',
+    props: {
+        permission: {
+            type: Object,
+            required: true
+        },
+        hasPermission: {
+            type: Boolean,
+            required: true
+        }
+    }
 }
 </script>
