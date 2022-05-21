@@ -1,5 +1,5 @@
 <template>
-    <form action="" class="upload-area" enctype="multipart/form-data" method="post" v-on:drop="onDrop">
+    <form action="" class="upload-area" enctype="multipart/form-data" method="post" @drop="onDrop">
         <div class="box_input">
             <file-upload-icon class="box_icon"></file-upload-icon>
             <input id="file" class="box_file" data-multiple-caption="{count} files selected" multiple name="files[]"
@@ -40,9 +40,8 @@ export default {
         },
 
         onDragLeave(e) {
-            var scopeId = this.$options._scopeId;
             this.dragTimer = window.setTimeout(function() {
-                document.querySelector(".upload-area[" + scopeId + "]").classList.remove("showarea");
+                document.querySelector(".upload-area[" + this.$options._scopeId + "]").classList.remove("showarea");
             }, 25);
         },
 

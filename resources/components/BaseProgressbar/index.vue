@@ -1,7 +1,7 @@
 <template>
-    <div class="base-progressbar">
-        <span v-if="preText">{{ preText }}</span>
-        <div class="progress">
+    <div class="base-progressbar d-flex align-items-center">
+        <span v-if="preText" class="me-1">{{ preText }}</span>
+        <div class="progress flex-fill">
             <div
                 role="progressbar"
                 :aria-valuemin="minValue"
@@ -10,7 +10,7 @@
                 :class="classes"
                 :style="styles"></div>
         </div>
-        <span v-if="postText">{{ postText }}</span>
+        <span v-if="postText" class="ms-1">{{ postText }}</span>
     </div>
 </template>
 
