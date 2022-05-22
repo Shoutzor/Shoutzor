@@ -2,11 +2,12 @@
     <input
         :type="type"
         :name="name"
+        :value="value"
         :placeholder="placeholder"
         :class="classes"
         :autocomplete="autocomplete"
         @input="handleInput"
-        :aria-label="name"/>
+        :aria-label="name" />
 </template>
 
 <script>
@@ -19,7 +20,10 @@ export default {
         type: {
             type: String,
             required: false,
-            default: 'text'
+            default: 'text',
+            validator: function (value) {
+                return ['text', 'password', 'email'].indexOf(value) !== -1;
+            }
         },
         name: {
             type: String,
@@ -51,6 +55,8 @@ export default {
             default: false
         }
     },
+
+    emits: ['input'],
 
     data () {
         return {

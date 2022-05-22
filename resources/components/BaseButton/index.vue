@@ -1,8 +1,6 @@
 <template>
     <button
-        :type="type"
         :class="classes"
-        class="btn"
         :disabled="disabled"
         :style="styles"
         @click="onClick" >
@@ -17,16 +15,6 @@ export default {
     name: 'base-button',
 
     props: {
-        type: {
-            type: String,
-            required: false,
-            default: 'button'
-        },
-        classes: {
-            type: Array,
-            required: false,
-            default: []
-        },
         disabled: {
             type: Boolean,
             required: false,
@@ -43,6 +31,9 @@ export default {
             onClick() {
                 emit('click');
             },
+            classes: computed(() => ({
+                'btn': true
+            })),
             styles: computed(() => ({
                 'pointer-events': props.disabled ? 'none' : 'auto'
             }))

@@ -4,6 +4,11 @@ export default {
   title: 'base/BaseAlert',
   component: BaseAlert,
   argTypes: {
+      type: {
+          name: 'Type',
+          type: { name: 'select', required: true },
+          options: ['danger', 'warning', 'info', 'success'],
+      },
       classes: {
           name: 'Style classes',
           type: { name: 'array', required: false },

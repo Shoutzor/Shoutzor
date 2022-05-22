@@ -24,13 +24,13 @@ const Template = (args) => ({
 export const Normal = Template.bind({});
 Normal.args = {
     slot: `Click me`,
-    classes: ['btn-primary']
+    class: ['btn-primary']
 };
 
 export const Disabled = Template.bind({});
 Disabled.args = {
     slot: `You can't click me`,
-    classes: ['btn-primary'],
+    class: ['btn-primary'],
     disabled: true
 };
 

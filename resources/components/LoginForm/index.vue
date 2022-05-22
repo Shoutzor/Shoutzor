@@ -2,7 +2,7 @@
     <div class="loginform">
         <base-alert v-if="error" :type="error.type">{{ error.message }}</base-alert>
 
-        <form class="auth-login-form" class="mb-0" @submit.prevent="login">
+        <form class="auth-login-form mb-0" @submit="onLogin">
             <base-input :hasError="error.source.includes('username')" v-model="username" name="username" autocomplete="username" />
             <base-input :hasError="error.source.includes('password')" v-model="password" name="password" autocomplete="current-password" class="mt-1" />
 
@@ -27,20 +27,24 @@ import BaseSpinner from "@components/BaseSpinner";
 
 export default {
     name: 'login-form',
+
     components: {
         BaseSpinner,
         BaseButton,
         BaseInput,
         BaseAlert
     },
+
     props: {
         username: {
             type: String,
-            required: false
+            required: false,
+            default: ''
         },
         password: {
             type: String,
-            required: false
+            required: false,
+            default: ''
         },
         remember_me: {
             type: Boolean,
@@ -56,6 +60,14 @@ export default {
             type: Object,
             required: false,
             default: null
+        }
+    },
+
+    emits: ['login'],
+
+    methods: {
+        onLogin() {
+            emit('login');
         }
     }
 }
