@@ -10,7 +10,7 @@
                 <div class="strong">{{ name }}</div>
                 <div class="text-prewrap">{{ description }}</div>
 
-                <base-alert v-if="status === 0" :classes="['alert-danger', 'mt-1', 'w-100']">
+                <base-alert v-if="status === 0" :type="'danger'" class="mt-1 w-100">
                     <p><strong>An error occured:</strong></p>
                     {{ error }}
                 </base-alert>
@@ -20,9 +20,10 @@
 </template>
 
 <script>
+import {computed, reactive} from "vue";
+
 import BaseAlert from "@components/BaseAlert";
 import StatusIcon from "@components/StatusIcon";
-import {computed, reactive} from "vue";
 
 export default {
     name: "setup-step",

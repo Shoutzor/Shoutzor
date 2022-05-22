@@ -1,5 +1,5 @@
 <template>
-    <div :id="id" class="modal modal-blur fade" role="dialog">
+    <div :id="id" :class="classes" role="dialog">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div v-if="hasStatus" class="modal-status" :class="statusClass"></div>
@@ -104,7 +104,7 @@ export default {
     data() {
         return {
             data: {},
-            show: false
+            show: true
         }
     },
 
@@ -115,11 +115,19 @@ export default {
 
         return {
             onCancelClick() {
+                this.show = false;
                 emit('cancelClick', props.id);
             },
             onConfirmClick() {
+                this.show = false;
                 emit('confirmClick', props.id);
-            }
+            },
+            classes: computed(() => ({
+                'modal': true,
+                'modal-blur': true,
+                'fade': true,
+                'show': this.show
+            }))
         }
     }
 }

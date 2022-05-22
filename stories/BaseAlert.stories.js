@@ -17,29 +17,29 @@ const Template = (args) => ({
   setup() {
     return { args };
   },
-  template: `<base-alert v-bind="args"><template v-slot>${args.slot}</template></base-alert>`,
+  template: `<base-alert v-bind="args">${args.slot}</base-alert>`,
 });
 
 export const Error = Template.bind({});
 Error.args = {
     slot: `<p><strong>Error!</strong></p><p>This is some kind of message!</p>`,
-    classes: ['alert-danger']
+    type: 'danger'
 };
 
 export const Success = Template.bind({});
 Success.args = {
     slot: `<p><strong>Success!</strong></p><p>This is some kind of message!</p>`,
-    classes: ['alert-success']
+    type: 'success'
 };
 
 export const Warning = Template.bind({});
 Warning.args = {
     slot: `<p><strong>Warning!</strong></p><p>This is some kind of message!</p>`,
-    classes: ['alert-warning']
+    type: 'warning'
 };
 
 export const Info = Template.bind({});
 Info.args = {
     slot: `<p><strong>Info!</strong></p><p>This is some kind of message!</p>`,
-    classes: ['alert-info']
+    type: 'info'
 };
