@@ -2,7 +2,7 @@
     <div class="loginform">
         <base-alert v-if="error" :type="error.type">{{ error.message }}</base-alert>
 
-        <form class="auth-login-form mb-0" @submit="onLogin">
+        <form class="auth-login-form mb-0" @submit.prevent="onLogin">
             <base-input :hasError="fieldError.includes('username')" v-model="username" name="username" placeholder="Username" autocomplete="username" />
             <base-input :hasError="fieldError.includes('password')" v-model="password" name="password" placeholder="Password" autocomplete="current-password" class="mt-1" />
 
@@ -20,6 +20,8 @@
 </template>
 
 <script>
+import { ref, reactive } from "vue";
+
 import BaseAlert from "@components/BaseAlert";
 import BaseButton from "@components/BaseButton";
 import BaseInput from "@components/BaseInput";
@@ -36,16 +38,6 @@ export default {
     },
 
     props: {
-        username: {
-            type: String,
-            required: false,
-            default: ''
-        },
-        password: {
-            type: String,
-            required: false,
-            default: ''
-        },
         remember_me: {
             type: Boolean,
             required: false,
@@ -68,11 +60,34 @@ export default {
         }
     },
 
+    data() {
+        return {
+            username: '',
+            password: ''
+        }
+    },
+
     emits: ['login'],
 
-    methods: {
-        onLogin() {
-            emit('login');
+    setup(props, { emit }) {
+        props = reactive(props);
+
+        return {
+            onLogin() {
+                // TODO: fix this.
+
+                console.log({
+                    username: this.username,
+                    password: this.password,
+                    remember_me: props.remember_me
+                });
+
+                emit('login', {
+                    username: this.username,
+                    password: this.password,
+                    remember_me: this.remember_me
+                });
+            }
         }
     }
 }
