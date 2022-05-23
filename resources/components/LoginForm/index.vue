@@ -3,8 +3,8 @@
         <base-alert v-if="error" :type="error.type">{{ error.message }}</base-alert>
 
         <form class="auth-login-form mb-0" @submit="onLogin">
-            <base-input :hasError="error.source.includes('username')" v-model="username" name="username" autocomplete="username" />
-            <base-input :hasError="error.source.includes('password')" v-model="password" name="password" autocomplete="current-password" class="mt-1" />
+            <base-input :hasError="fieldError.includes('username')" v-model="username" name="username" placeholder="Username" autocomplete="username" />
+            <base-input :hasError="fieldError.includes('password')" v-model="password" name="password" placeholder="Password" autocomplete="current-password" class="mt-1" />
 
             <label class="form-check mt-1" data-children-count="1">
                 <input v-model="remember_me" class="form-check-input" type="checkbox" />
@@ -60,6 +60,11 @@ export default {
             type: Object,
             required: false,
             default: null
+        },
+        fieldError: {
+            type: Array,
+            required: false,
+            default: []
         }
     },
 
