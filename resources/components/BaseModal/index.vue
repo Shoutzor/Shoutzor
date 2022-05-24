@@ -1,25 +1,24 @@
 <template>
-    <div :id="id" :class="classes" role="dialog">
-        <div class="modal-dialog modal-dialog-centered">
+    <div :id="id" :class="classes" role="dialog" tabindex="-1">
+        <div class="modal-dialog">
             <div class="modal-content">
-                <div v-if="hasStatus" class="modal-status" :class="statusClass"></div>
                 <div v-if="hasHeader" class="modal-header">
                     <h5 class="modal-title">{{ title }}</h5>
                 </div>
                 <div class="modal-body">
-                    <slot :data="data"></slot>
+                    <slot></slot>
                 </div>
                 <div v-if="hasFooter" class="modal-footer">
                     <base-button
                         v-if="hasCancelButton"
                         @click="onCancelClick"
-                        :classes="cancelButtonClass">
+                        class="btn btn-secondary me-auto">
                         {{ cancelButton }}
                     </base-button>
                     <base-button
                         v-if="hasConfirmButton"
                         @click="onConfirmClick"
-                        :classes="confirmButtonClass">
+                        class="btn btn-primary">
                         {{ confirmButton }}
                     </base-button>
                 </div>
@@ -29,8 +28,10 @@
 </template>
 
 <script>
+import "./BaseModal.scss";
+
+import {computed, reactive} from "vue";
 import BaseButton from "@components/BaseButton";
-import {computed, reactive} from "vue/dist/vue";
 
 export default {
     name: 'base-modal',
@@ -43,46 +44,6 @@ export default {
         id: {
             type: String,
             required: true
-        },
-        hasHeader: {
-            type: Boolean,
-            required: false,
-            default: true
-        },
-        hasStatus: {
-            type: Boolean,
-            required: false,
-            default: false
-        },
-        hasFooter: {
-            type: Boolean,
-            required: false,
-            default: true
-        },
-        hasCancelButton: {
-            type: Boolean,
-            required: false,
-            default: true
-        },
-        hasConfirmButton: {
-            type: Boolean,
-            required: false,
-            default: true
-        },
-        statusClass: {
-            type: Array,
-            required: false,
-            default: []
-        },
-        cancelButtonClass: {
-            type: String,
-            required: false,
-            default: 'me-auto'
-        },
-        confirmButtonClass: {
-            type: String,
-            required: false,
-            default: 'btn-primary'
         },
         title: {
             type: String,
@@ -98,13 +59,31 @@ export default {
             type: String,
             required: false,
             default: 'Confirm'
-        }
-    },
-
-    data() {
-        return {
-            data: {},
-            show: true
+        },
+        show: {
+            type: Boolean,
+            required: false,
+            default: false
+        },
+        hasHeader: {
+            type: Boolean,
+            required: false,
+            default: true
+        },
+        hasFooter: {
+            type: Boolean,
+            required: false,
+            default: true
+        },
+        hasCancelButton: {
+            type: Boolean,
+            required: false,
+            default: true
+        },
+        hasConfirmButton: {
+            type: Boolean,
+            required: false,
+            default: true
         }
     },
 
@@ -115,18 +94,16 @@ export default {
 
         return {
             onCancelClick() {
-                this.show = false;
                 emit('cancelClick', props.id);
             },
             onConfirmClick() {
-                this.show = false;
                 emit('confirmClick', props.id);
             },
             classes: computed(() => ({
                 'modal': true,
                 'modal-blur': true,
                 'fade': true,
-                'show': this.show
+                'show': props.show
             }))
         }
     }
