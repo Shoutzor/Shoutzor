@@ -49,6 +49,7 @@ export default {
         return {
             classes: computed(() => ({
                 'table': true,
+                'table-dark': true,
                 'card-table': true,
                 'align-middle': true,
                 'table-sm': props.compact,
