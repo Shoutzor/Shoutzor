@@ -10,28 +10,14 @@
             {{ role.description }}
         </td>
         <td data-label="Actions">
-            <div class="btn-list flex-nowrap">
-                <router-link
-                    :to="{
-                        name: 'admin-roles-edit',
-                        params: { roleId: role.id }
-                    }"
-                    class="btn btn-white">
+            <div class="btn-group" role="group">
+                <button id="btnGroupDrop1" type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                     Edit
-                </router-link>
-                <div class="dropdown">
-                    <button class="btn btn-white dropdown-toggle align-text-top" data-boundary="viewport" data-toggle="dropdown">
-                        Actions
-                    </button>
-                    <div class="dropdown-menu dropdown-menu-right">
-                        <a class="dropdown-item" href="#">
-                            Clone
-                        </a>
-                        <a v-if="role.protected === false" class="dropdown-item" href="#">
-                            Delete
-                        </a>
-                    </div>
-                </div>
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                    <li><a class="dropdown-item" href="#" @click.prevent="$emit('role-clone', role.id)">Clone</a></li>
+                    <li><a v-if="role.protected === false" class="dropdown-item" href="#" @click.prevent="$emit('role-delete', role.id)">Delete</a></li>
+                </ul>
             </div>
         </td>
     </tr>
@@ -46,6 +32,8 @@ export default {
             type: Object,
             required: true
         }
-    }
+    },
+
+    emits: ['role-clone', 'role-delete']
 }
 </script>
