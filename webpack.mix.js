@@ -52,7 +52,7 @@ mix.sass('resources/scss/app.scss', 'public/css')
 mix.sass('resources/scss/app-installer.scss', 'public/css')
     .js('resources/js/app-installer.js', 'public/js')
     .vue({
-        globalStyles: __dirname + '/resources/scss/_global-style.scss'
+        globalStyles: __dirname + '/resources/scss/app.scss'
     });
 
 mix.copy('resources/static/images/shoutzor-logo-large.png', 'public/images');

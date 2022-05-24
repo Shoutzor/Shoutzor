@@ -1,6 +1,6 @@
 <template>
     <div :class="classes" role="status">
-        <span class="sr-only">Loading...</span>
+        <span class="visually-hidden">Loading...</span>
     </div>
 </template>
 
