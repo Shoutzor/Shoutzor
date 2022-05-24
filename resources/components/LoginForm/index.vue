@@ -60,28 +60,17 @@ export default {
         }
     },
 
-    data() {
-        return {
-            username: '',
-            password: ''
-        }
-    },
-
     emits: ['login'],
 
     setup(props, { emit }) {
+        const username = ref("test");
+        const password = ref("b");
         props = reactive(props);
 
         return {
+            username,
+            password,
             onLogin() {
-                // TODO: fix this.
-
-                console.log({
-                    username: this.username,
-                    password: this.password,
-                    remember_me: props.remember_me
-                });
-
                 emit('login', {
                     username: this.username,
                     password: this.password,

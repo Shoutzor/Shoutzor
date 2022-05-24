@@ -1,8 +1,8 @@
 <template>
     <input
+        v-model="value"
         :type="type"
         :name="name"
-        :value="value"
         :placeholder="placeholder"
         :class="classes"
         :autocomplete="autocomplete"
@@ -58,18 +58,6 @@ export default {
 
     emits: ['input'],
 
-    data () {
-        return {
-            content: this.value
-        }
-    },
-
-    methods: {
-        handleInput (e) {
-            this.$emit('input', this.content)
-        }
-    },
-
     setup(props, { emit }) {
         props = reactive(props);
 
@@ -79,7 +67,10 @@ export default {
                 'form-control-sm': props.size === 'small',
                 'form-control-lg': props.size === 'large',
                 'is-invalid': props.hasError
-            }))
+            })),
+            handleInput (e) {
+                emit('input', props.value);
+            }
         }
     }
 }
