@@ -52,13 +52,13 @@
 
 <script>
 import moment from "moment";
-import Request from "@js/models/Request";
-import BeautifiedTime from "@js/components/global/date/BeautifiedTime";
-import ArtistList from "@js/components/global/media/ArtistList";
-import UserList from "@js/components/global/media/UserList";
+
+import BeautifiedTime from "@components/BeautifiedTime";
+import ArtistList from "@components/ArtistList";
+import UserList from "@components/UserList";
 
 export default {
-    name: 'historyTable',
+    name: 'history-table',
 
     components: {
         BeautifiedTime,
@@ -66,11 +66,11 @@ export default {
         UserList
     },
 
-    computed: {
-        history: () => Request.query().where((r) => {
-            return r.played_at !== null;
-        }).orderBy('played_at', 'desc').with(["media.artists|album", "users"]).get(),
+    props: {
+        history: []
+    },
 
+    computed: {
         historyFormatted: function() {
             return this.history.filter(function(request) {
                 request.played_at = moment(request.played_at).format("hh:mm:ss DD-MM-YYYY");
