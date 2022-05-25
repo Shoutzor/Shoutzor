@@ -1,8 +1,6 @@
 {
     "/js/app.js": "/js/app.js",
-    "/js/app-installer.js": "/js/app-installer.js",
     "/css/app.css": "/css/app.css",
-    "/css/app-installer.css": "/css/app-installer.css",
     "/images/shoutzor-logo-large.png": "/images/shoutzor-logo-large.png",
     "/images/appicon/android-chrome-192x192.png": "/images/appicon/android-chrome-192x192.png",
     "/images/appicon/android-chrome-512x512.png": "/images/appicon/android-chrome-512x512.png",

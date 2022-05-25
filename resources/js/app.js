@@ -21,7 +21,6 @@ const app = createApp(App);
 app.config.globalProperties.echo = echoInstance;
 
 app.use(router)
-   .use(store)
    .use(PerfectScrollbar)
    .use(BootstrapIconsPlugin)
    .mount('#shoutzor');

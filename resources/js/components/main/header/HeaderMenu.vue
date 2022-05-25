@@ -50,15 +50,10 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
 import HeaderSearch from "./HeaderSearch";
 
 export default {
-    name: 'headerMenu',
-    computed: mapGetters({
-        isAuthenticated: 'isAuthenticated',
-        can: 'can'
-    }),
+    name: 'header-menu',
     components: {
         HeaderSearch
     }

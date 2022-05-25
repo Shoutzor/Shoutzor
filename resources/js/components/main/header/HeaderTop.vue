@@ -8,7 +8,7 @@
                 <img alt="Shoutz0r logo" class="navbar-brand-image filter-invert" src="@static/images/shoutzor-logo-header.png">
             </router-link>
             <div class="d-flex justify-content-center">
-                <header-search></header-search>
+                <header-search />
             </div>
             <ul v-if="isAuthenticated" class="d-flex justify-content-end nav">
                 <li class="nav-item dropdown">
@@ -16,7 +16,7 @@
                         <div>{{ user.username}}</div>
                         <div class="mt-1 small text-muted">Administrator</div>
                     </a>
-                    <header-user></header-user>
+                    <header-user />
                 </li>
             </ul>
             <ul v-else class="d-flex justify-content-end nav">
@@ -24,38 +24,47 @@
                     <a class="nav-link link-light dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
                         Login / Register
                     </a>
-                    <header-login></header-login>
+                    <header-login />
                 </li>
             </ul>
-            <div v-if="isAuthenticated && can('admin.access')" class="d-flex justify-content-end nav">
-                <router-link
-                    :to="{name: 'admin-dashboard'}"
-                    class="btn btn-sm btn-outline-primary"
-                >Admin panel
-                </router-link>
+            <div v-if="isAuthenticated && isAdministrator" class="d-flex justify-content-end nav">
+                <base-button class="btn-sm btn-outline-primary">Admin panel</base-button>
             </div>
         </div>
     </header>
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
 import HeaderUser from './HeaderUser';
 import HeaderLogin from "./HeaderLogin";
 import HeaderSearch from "./HeaderSearch";
+import BaseButton from "../../../../components/BaseButton";
 
 export default {
     name: 'headerTop',
     components: {
+        BaseButton,
         HeaderUser,
         HeaderLogin,
         HeaderSearch
     },
-    computed: mapGetters({
-        isAuthenticated: 'isAuthenticated',
-        user: 'getUser',
-        can: 'can'
-    })
+    props: {
+        isAuthenticated: {
+            type: Boolean,
+            required: false,
+            default: false
+        },
+        isAdministrator: {
+            type: Boolean,
+            required: false,
+            default: false
+        },
+        user: {
+            type: Object,
+            required: false,
+            default: null
+        }
+    }
 }
 </script>
 

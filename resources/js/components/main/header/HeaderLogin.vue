@@ -1,6 +1,6 @@
 <template>
     <div class="dropdown-menu dropdown-menu-end dropdown-menu-dark auth-dropdown">
-        <login-form></login-form>
+        <login-form />
 
         <div class="dropdown-divider"></div>
 
@@ -9,10 +9,10 @@
 </template>
 
 <script>
-import LoginForm from "@js/components/main/login/LoginForm";
+import LoginForm from "@components/LoginForm";
 
 export default {
-    name: 'headerTop',
+    name: 'header-login',
     components: {LoginForm}
 }
 </script>

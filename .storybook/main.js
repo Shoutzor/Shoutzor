@@ -22,6 +22,8 @@ module.exports = {
             ]
         });
 
+        console.log(config.module.rules);
+
         config.resolve.extensions = ['.js', '.vue', '.json', '.scss', '.sass', '.css'];
         config.resolve.alias = {
             ...config.resolve.alias,

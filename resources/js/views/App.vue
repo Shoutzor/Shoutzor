@@ -25,7 +25,7 @@ export default {
         hasAccess: {
             type: Boolean,
             required: false,
-            default: false
+            default: true
         }
     }
 }

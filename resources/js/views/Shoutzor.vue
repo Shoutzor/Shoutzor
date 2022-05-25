@@ -1,17 +1,17 @@
 <template>
-  <div>
-    <header-top></header-top>
+  <template>
+    <header-top />
 
     <div id="wrapper" class="container-fluid">
         <div class="row">
-          <header-menu></header-menu>
+          <header-menu />
 
           <main id="main-content" class="col">
               <perfect-scrollbar ref="scroll">
                   <div class="page">
                       <div class="content">
                           <div class="container-fluid">
-                              <router-view></router-view>
+                              <router-view />
                           </div>
                       </div>
                   </div>
@@ -20,15 +20,13 @@
         </div>
     </div>
 
-    <media-player></media-player>
-    <upload-manager></upload-manager>
-  </div>
+    <media-player />
+  </template>
 </template>
 
 <script>
 import HeaderTop from '@js/components/main/header/HeaderTop';
 import HeaderMenu from '@js/components/main/header/HeaderMenu';
-import UploadManager from '@js/components/main/upload/UploadManager';
 import MediaPlayer from '@components/MediaPlayer';
 
 export default {
@@ -36,8 +34,7 @@ export default {
   components: {
       HeaderTop,
       HeaderMenu,
-      MediaPlayer,
-      UploadManager
+      MediaPlayer
   }
 }
 </script>

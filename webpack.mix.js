@@ -1,20 +1,10 @@
 const mix = require('laravel-mix');
+const path = require("path");
 
 mix.webpackConfig({
-    module: {
-        rules: [
-            {
-                test: /\.css$/i,
-                use: [{
-                    loader: 'css-loader'
-                }]
-            }
-        ]
-    },
     resolve: {
         extensions: ['.js', '.vue', '.json', '.scss', '.sass', '.css'],
         alias: {
-            vue: "@vue/compat",
             '@components': __dirname + '/resources/components',
             '@js': __dirname + '/resources/js',
             '@scss': __dirname + '/resources/scss',
@@ -39,21 +29,15 @@ mix.webpackConfig({
 mix.sass('resources/scss/app.scss', 'public/css')
     .js('resources/js/app.js', 'public/js')
     .vue({
-        globalStyles: __dirname + '/resources/scss/_global-style.scss',
-        options: {
-            compilerOptions: {
-                compatConfig: {
-                    RENDER_FUNCTION: false
-                },
-            },
-        }
+        globalStyles: __dirname + '/resources/scss/app.scss',
     });
 
+/*
 mix.sass('resources/scss/app-installer.scss', 'public/css')
     .js('resources/js/app-installer.js', 'public/js')
     .vue({
         globalStyles: __dirname + '/resources/scss/app.scss'
-    });
+    });*/
 
 mix.copy('resources/static/images/shoutzor-logo-large.png', 'public/images');
 mix.copy('resources/static/images/appicon', 'public/images/appicon');

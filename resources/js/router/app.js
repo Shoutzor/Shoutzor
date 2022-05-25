@@ -1,5 +1,4 @@
 import {createRouter, createWebHashHistory} from "vue-router";
-import store from "@js/store/index";
 
 function loadView(view) {
     return () => import(`@js/views/${view}.vue`);
@@ -11,7 +10,8 @@ const router = createRouter({
         name: 'dashboard',
         path: '/',
         component: loadView('main/dashboard')
-    }, {
+    },
+/*    {
         name: 'history',
         path: '/history',
         component: loadView('main/history')
@@ -78,11 +78,12 @@ const router = createRouter({
             path: 'modules',
             component: loadView('admin/modules')
         }]
-    }]
+    }*/
+    ]
 });
 
 //Authentication check
-router.beforeEach((to, from, next) => {
+/*router.beforeEach((to, from, next) => {
     if (to.matched.some(record => record.meta.requiresAuth)) {
         if (store.getters.hasToken) {
             next()
@@ -92,7 +93,7 @@ router.beforeEach((to, from, next) => {
     } else {
         next()
     }
-});
+});*/
 
 export default (app) => {
     app.router = router;

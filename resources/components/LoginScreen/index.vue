@@ -1,6 +1,6 @@
 <template>
     <div class="wrapper">
-        <div class="container" class="container-tight py-6">
+        <div class="container container-tight py-6">
             <div class="text-center mb-4">
                 <img class="logo" alt="Shoutz0r logo" src="@static/images/shoutzor-logo-header.png">
             </div>

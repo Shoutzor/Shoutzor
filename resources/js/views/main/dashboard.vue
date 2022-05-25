@@ -10,7 +10,7 @@
         <h2 class="category-header">Coming up</h2>
         <div class="card">
           <div class="table-responsive">
-            <coming-up></coming-up>
+            <comingup-table :queue="queue" />
           </div>
         </div>
       </div>
@@ -18,7 +18,6 @@
     <div v-else class="row row-cards">
       <div class="col-sm-12">
         <h2 class="category-header">Current votes</h2>
-        <vote-list></vote-list>
       </div>
     </div>
   </div>
@@ -26,21 +25,25 @@
 
 <script>
 import NowPlaying from "@components/NowPlaying";
-import ComingUp from "@components/ComingUp";
-import VoteList from "@js/components/main/vote/VoteList";
+import ComingupTable from "@components/ComingupTable";
 
 export default {
-  name: "dashboard-view",
-  components: {
-    NowPlaying,
-    ComingUp,
-    VoteList
-  },
-
-  data() {
-    return {
-      useQueue: false
-    };
-  }
+    name: "dashboard-view",
+    components: {
+        NowPlaying,
+        ComingupTable,
+    },
+    props: {
+        useQueue: {
+            type: Object,
+            required: false,
+            default: false
+        },
+        queue: {
+            type: Array,
+            required: false,
+            default: []
+        }
+    }
 };
 </script>
