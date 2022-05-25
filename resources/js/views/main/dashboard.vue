@@ -25,8 +25,8 @@
 </template>
 
 <script>
-import NowPlaying from "@js/components/main/media/NowPlaying";
-import ComingUp from "@js/components/main/queue/ComingUp";
+import NowPlaying from "@components/NowPlaying";
+import ComingUp from "@components/ComingUp";
 import VoteList from "@js/components/main/vote/VoteList";
 
 export default {

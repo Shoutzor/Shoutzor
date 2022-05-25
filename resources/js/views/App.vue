@@ -1,38 +1,32 @@
 <template>
-  <shoutzor v-if="loaded && can('website.access')"></shoutzor>
-  <login-screen v-else-if="loaded && can('website.access') === false"></login-screen>
-  <load-screen message="Loading data, please wait" v-else></load-screen>
+    <load-screen v-if="loading" message="Loading data, please wait" />
+    <shoutzor v-else-if="hasAccess" />
+    <login-screen v-else />
 </template>
 
 <script>
-import {mapGetters} from 'vuex';
+import LoadScreen from "@components/LoadScreen";
 import Shoutzor from "@js/views/Shoutzor";
-import LoginScreen from "@js/components/main/login/LoginScreen";
-import LoadScreen from "@js/components/global/loader/LoadScreen";
+import LoginScreen from "@components/LoginScreen";
 
 export default {
-  name: "App",
-  components: {
-    LoadScreen,
-    LoginScreen,
-    Shoutzor
-  },
-  computed: mapGetters({
-    can: 'can'
-  }),
-  data() {
-    return {
-      loaded: false
+    name: "App",
+    components: {
+        LoadScreen,
+        LoginScreen,
+        Shoutzor
+    },
+    props: {
+        loading: {
+            type: Boolean,
+            required: false,
+            default: false
+        },
+        hasAccess: {
+            type: Boolean,
+            required: false,
+            default: false
+        }
     }
-  },
-
-  /**
-   * @emits app.ready when the Shoutzor views have finished initializing
-   */
-  created() {
-    this.emitter.on('app.ready', () => {
-        this.loaded = true;
-    })
-  }
 }
 </script>

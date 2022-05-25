@@ -16,7 +16,6 @@
     "@popperjs/core": "^2.11.5",
     "@rollup/plugin-commonjs": "^20.0.0",
     "@vue/babel-helper-vue-jsx-merge-props": "^1.2.1",
-    "@vue/compat": "^3.2.19",
     "@vue/compiler-sfc": "^3.2.19",
     "@vuex-orm/core": "^0.36.4",
     "@vuex-orm/plugin-axios": "^0.9.4",
@@ -27,12 +26,10 @@
     "cross-env": "^7.0.3",
     "css-loader": "^6.7.1",
     "dashjs": "^4.4.0",
-    "fast-average-color": "^7.1.0",
     "file-loader": "^6.2.0",
     "jquery": "^3.6.0",
     "laravel-echo": "^1.11.7",
     "laravel-mix": "^6.0.43",
-    "mitt": "^3.0.0",
     "moment": "^2.29.1",
     "postcss": "^8.4.13",
     "resolve-url-loader": "^4.0.0",
@@ -47,7 +44,6 @@
     "vue-router": "^4.0.15",
     "vue-slider-component": "^4.0.0-beta.4",
     "vue3-perfect-scrollbar": "^1.6.0",
-    "vuex": "^4.0.2",
     "webpack": "^5.72.1"
   },
   "devDependencies": {

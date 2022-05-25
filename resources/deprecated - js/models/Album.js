@@ -7,7 +7,7 @@ import ArtistMedia from './ArtistMedia';
 import {
     defaultAlbumImage,
     publicStoragePath
-} from "../config";
+} from "../../js/config";
 
 export default class Album extends Model {
     static entity = 'albums';

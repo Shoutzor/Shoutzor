@@ -8,7 +8,7 @@ import MediaSource from "./MediaSource";
 import {
     publicStoragePath,
     defaultAlbumImage
-} from "../config";
+} from "../../js/config";
 
 export default class Media extends Model {
     static entity = 'media'
