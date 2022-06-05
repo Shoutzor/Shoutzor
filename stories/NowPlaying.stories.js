@@ -26,11 +26,12 @@ const Template = (args) => ({
   template: '<now-playing v-bind="args" />',
 });
 
-import TempCover from '@static/images/album_temp.jpg';
+import { Media } from "@models/Media";
 
 export const Example = Template.bind({});
 Example.args = {
     media: {
+        ...Media,
         title: 'Ghosts \'n stuff',
         coverImage: TempCover,
         artists: [{

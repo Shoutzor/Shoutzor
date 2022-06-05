@@ -1,5 +1,4 @@
 const mix = require('laravel-mix');
-const path = require("path");
 
 mix.webpackConfig({
     resolve: {
@@ -7,6 +6,7 @@ mix.webpackConfig({
         alias: {
             '@components': __dirname + '/resources/components',
             '@js': __dirname + '/resources/js',
+            '@models': __dirname + '/resources/js/models',
             '@scss': __dirname + '/resources/scss',
             '@static': __dirname + '/resources/static'
         },

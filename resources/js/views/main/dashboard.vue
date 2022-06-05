@@ -35,7 +35,7 @@ export default {
     },
     props: {
         useQueue: {
-            type: Object,
+            type: Boolean,
             required: false,
             default: false
         },

@@ -6,7 +6,7 @@ import ArtistMedia from './ArtistMedia';
 import {
     defaultArtistImage,
     publicStoragePath
-} from "../../js/config";
+} from "@js/config";
 
 export default class Artist extends Model {
     static entity = 'artists';

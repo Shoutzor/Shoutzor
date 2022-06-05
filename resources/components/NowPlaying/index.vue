@@ -25,6 +25,8 @@
 <script>
 import "./NowPlaying.scss";
 
+import { Media } from "@models/Media";
+
 import ArtistList from "@components/ArtistList";
 import UserList from "@components/UserList";
 
@@ -36,7 +38,8 @@ export default {
     props: {
         media: {
             type: Object,
-            required: true
+            required: true,
+            default: Media
         },
         requestedBy: {
             type: Array,

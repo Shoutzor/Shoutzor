@@ -4,7 +4,7 @@ import {
     MEDIA_PLAYING,
     MEDIA_STOPPED
 } from "@js/store/mutation-types";
-import PlayerState from './PlayerState';
+import PlayerState from '../../../../js/models/PlayerState';
 import dashjs from "dashjs";
 import Player from "./Player";
 

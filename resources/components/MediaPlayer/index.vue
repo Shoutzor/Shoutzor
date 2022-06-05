@@ -2,7 +2,7 @@
     <div class="audio-player d-flex flex-wrap justify-content-between">
         <div class="media-info d-inline-flex align-items-center order-1 order-md-0">
             <div class="album-image d-inline-block pe-1">
-                <img v-if="nowPlaying" class="rounded" height="48" v-bind:src="nowPlaying.coverImage" width="48">
+                <img v-if="nowPlaying" class="rounded" height="48" :src="nowPlaying.image" width="48">
                 <b-icon-question v-else class="rounded border" height="48" width="48" />
             </div>
             <div class="track-info d-inline-block">
@@ -15,16 +15,16 @@
         </div>
         <div class="media-control-container d-flex flex-fill flex-column flex-wrap align-items-center order-0 order-md-1">
             <div class="media-controls d-flex flex-fill align-items-center justify-content-center">
-                <b-icon-hand-thumbs-up v-if="isAuthenticated" @click="$emit('mediaplayerUpvote')" class="upvote me-3" />
+                <b-icon-hand-thumbs-up v-if="isAuthenticated && nowPlaying" @click="$emit('mediaplayerUpvote')" class="upvote me-3" />
                 <play-button @click="$emit('mediaplayerPlay')" :state="playerStatus"></play-button>
-                <b-icon-hand-thumbs-down v-if="isAuthenticated" @click="$emit('mediaplayerDownvote')" class="downvote ms-3" />
+                <b-icon-hand-thumbs-down v-if="isAuthenticated && nowPlaying" @click="$emit('mediaplayerDownvote')" class="downvote ms-3" />
             </div>
 
-            <div class="mt-2 d-flex flex-fill">
+            <div v-if="nowPlaying !== null" class="mt-2 d-flex flex-fill">
                 <base-progressbar
-                    :pre-text="nowPlaying.timePassed"
-                    :post-text="nowPlaying.timeRemaining"
-                    :current-value="nowPlaying.percentagePlayed"
+                    :pre-text="timePassed || ''"
+                    :post-text="timeRemaining || ''"
+                    :current-value="percentagePlayed || 0"
                     class="col" />
             </div>
         </div>
@@ -50,7 +50,9 @@
 <script>
 import "./MediaPlayer.scss";
 
-import {computed, reactive} from "vue";
+import { PlayerState } from "@models/PlayerState";
+import { Media } from "@models/Media";
+
 import VueSlider from 'vue-slider-component';
 import { Dropdown } from 'bootstrap';
 
@@ -70,7 +72,7 @@ export default {
         nowPlaying: {
             type: Object,
             required: false,
-            default: null
+            default: Media
         },
         volume: {
             type: Number,
@@ -91,6 +93,27 @@ export default {
             type: Boolean,
             required: false,
             default: false
+        },
+        timePassed: {
+            type: String,
+            required: false,
+            default: ""
+        },
+        timeRemaining: {
+            type: String,
+            required: false,
+            default: ""
+        },
+        percentagePlayed: {
+            type: Number,
+            required: false,
+            default: 0
+        },
+    },
+
+    data() {
+        return {
+            PlayerState
         }
     },
 

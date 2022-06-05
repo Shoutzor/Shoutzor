@@ -1,22 +1,22 @@
 <template>
     <header id="navbar-top" class="navbar navbar-dark fixed-top p-0">
         <div class="container-fluid">
-            <router-link
-                :to="{name: 'dashboard'}"
-                class="navbar-brand"
-            >
-                <img alt="Shoutz0r logo" class="navbar-brand-image filter-invert" src="@static/images/shoutzor-logo-header.png">
+            <router-link :to="{name: 'dashboard'}" class="navbar-brand">
+                <img alt="logo" class="navbar-brand-image filter-invert" src="@static/images/shoutzor-logo-header.png">
             </router-link>
-            <div class="d-flex justify-content-center">
-                <header-search />
-            </div>
             <ul v-if="isAuthenticated" class="d-flex justify-content-end nav">
                 <li class="nav-item dropdown">
                     <a class="nav-link link-light dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
                         <div>{{ user.username}}</div>
                         <div class="mt-1 small text-muted">Administrator</div>
                     </a>
-                    <header-user />
+                    <div class="dropdown-menu dropdown-menu-right user-dropdown">
+                        <router-link :to="{name: 'profile'}" class="dropdown-item">
+                            Profile
+                        </router-link>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#" @click.prevent="$emit('logout')">Logout</a>
+                    </div>
                 </li>
             </ul>
             <ul v-else class="d-flex justify-content-end nav">
@@ -24,7 +24,13 @@
                     <a class="nav-link link-light dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
                         Login / Register
                     </a>
-                    <header-login />
+                    <div class="dropdown-menu dropdown-menu-end dropdown-menu-dark auth-dropdown">
+                        <login-form />
+
+                        <div class="dropdown-divider"></div>
+
+                        <button class="btn btn-secondary" type="button">Register</button>
+                    </div>
                 </li>
             </ul>
             <div v-if="isAuthenticated && isAdministrator" class="d-flex justify-content-end nav">
@@ -35,18 +41,14 @@
 </template>
 
 <script>
-import HeaderUser from './HeaderUser';
-import HeaderLogin from "./HeaderLogin";
-import HeaderSearch from "./HeaderSearch";
-import BaseButton from "../../../../components/BaseButton";
+import BaseButton from "@components/BaseButton";
+import LoginForm from "@components/LoginForm";
 
 export default {
-    name: 'headerTop',
+    name: 'the-header',
     components: {
         BaseButton,
-        HeaderUser,
-        HeaderLogin,
-        HeaderSearch
+        LoginForm
     },
     props: {
         isAuthenticated: {

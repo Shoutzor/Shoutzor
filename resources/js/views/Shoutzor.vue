@@ -1,10 +1,10 @@
 <template>
   <template>
-    <header-top />
+    <the-header :isAuthenticated="false" />
 
     <div id="wrapper" class="container-fluid">
         <div class="row">
-          <header-menu />
+          <the-menu :isAuthenticated="false" />
 
           <main id="main-content" class="col">
               <perfect-scrollbar ref="scroll">
@@ -20,20 +20,20 @@
         </div>
     </div>
 
-    <media-player />
+    <media-player :volume="100" :playerStatus="'stopped'"/>
   </template>
 </template>
 
 <script>
-import HeaderTop from '@js/components/main/header/HeaderTop';
-import HeaderMenu from '@js/components/main/header/HeaderMenu';
+import TheHeader from '@components/TheHeader';
+import TheMenu from '@components/TheMenu';
 import MediaPlayer from '@components/MediaPlayer';
 
 export default {
   name: "Shoutzor",
   components: {
-      HeaderTop,
-      HeaderMenu,
+      TheHeader,
+      TheMenu,
       MediaPlayer
   }
 }

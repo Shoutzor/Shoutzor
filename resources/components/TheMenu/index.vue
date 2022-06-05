@@ -15,7 +15,7 @@
                     </li>
                     <li class="nav-item">
                         <router-link
-                            :to="{name: 'history'}"
+                            :to="{name: 'dashboard'}"
                             class="nav-link"
                         >
                             <b-icon-clock-history></b-icon-clock-history>
@@ -24,7 +24,7 @@
                     </li>
                     <li class="nav-item">
                         <router-link
-                            :to="{name: 'popular'}"
+                            :to="{name: 'dashboard'}"
                             class="nav-link"
                         >
                             <b-icon-star></b-icon-star>
@@ -34,9 +34,9 @@
                 </ul>
                 <span v-if="isAuthenticated" class="sidebar-heading d-flex justify-content-between align-items-center px-3 mb-1 text-muted">Your zone</span>
                 <ul v-if="isAuthenticated" class="nav flex-column">
-                    <li v-if="can('website.upload')" class="nav-item">
+                    <li class="nav-item">
                         <router-link
-                            :to="{name: 'upload'}"
+                            :to="{name: 'dashboard'}"
                             class="nav-link"
                         >
                             <b-icon-cloud-upload></b-icon-cloud-upload>
@@ -50,63 +50,15 @@
 </template>
 
 <script>
-import HeaderSearch from "./HeaderSearch";
-
 export default {
-    name: 'header-menu',
-    components: {
-        HeaderSearch
+    name: 'the-menu',
+
+    props: {
+        isAuthenticated: {
+            type: Boolean,
+            required: false,
+            default: false
+        },
     }
 }
 </script>
-
-<style lang="scss" scoped>
-#navbar-left {
-    background: $body-bg;
-    -webkit-box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.1);
-    -moz-box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.1);
-    box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.1);
-    padding-top: 0;
-    z-index: 999;
-
-    @include media-breakpoint-up(lg) {
-        padding-top: 1rem;
-        width: 250px;
-        min-height: calc(100vh - #{$navbar-height});
-    }
-
-    .align-bottom {
-        margin-top: auto;
-    }
-
-    #navbar-left-menu {
-        padding-top: 0;
-
-        .nav {
-            flex-grow: 0;
-
-            .nav-item {
-                .nav-link {
-                    color: $gray;
-                    font-size: 1rem;
-
-                    &:hover {
-                        color: lighten($gray, 10%);
-                        text-decoration: none;
-                    }
-
-                    &.router-link-exact-active {
-                        color: $white !important;
-                    }
-
-                    .svg {
-                        width: 1.1rem !important;
-                        height: 1.1rem !important;
-                        margin: 5px 7px 5px 0;
-                    }
-                }
-            }
-        }
-    }
-}
-</style>
