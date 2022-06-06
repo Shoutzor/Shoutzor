@@ -28,6 +28,14 @@
               media="print" onload="this.media='all'"/>
         <link rel="stylesheet" href="{{ asset('css/app.css') }}"/>
 
+        <script type="text/javascript">
+            window.Laravel = {
+                APP_DEBUG: <?php echo config('app.debug'); ?>,
+                APP_ENV: '<?php echo config('app.env'); ?>',
+                APP_URL: '<?php echo config('app.url'); ?>'
+            };
+        </script>
+
         <!-- Scripts -->
         <script src="{{ asset('js/app.js') }}" async></script>
     </head>
