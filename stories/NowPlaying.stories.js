@@ -26,14 +26,13 @@ const Template = (args) => ({
   template: '<now-playing v-bind="args" />',
 });
 
-import { Media } from "@models/Media";
+import { defaultAlbumImage } from "@js/config";
 
 export const Example = Template.bind({});
 Example.args = {
     media: {
-        ...Media,
         title: 'Ghosts \'n stuff',
-        coverImage: TempCover,
+        coverImage: defaultAlbumImage,
         artists: [{
             id: 1,
             name: 'Deadmau5'

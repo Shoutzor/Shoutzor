@@ -8,10 +8,10 @@ export default {
       onMediaplayerUpvote: {},
       onMediaplayerDownvote: {},
       onMediaplayerVideo: {},
-      nowPlaying: {
-          name: 'Now Playing',
+      currentMedia: {
+          name: 'Current Media',
           type: { name: 'object', required: true },
-          description: 'The media to show as well as the player status'
+          description: 'The media that is currently played by shoutzor'
       },
       requestedBy: {
           name: 'Requested by',
@@ -54,7 +54,7 @@ import TempCover from '@static/images/album_temp.jpg';
 
 export const Example = Template.bind({});
 Example.args = {
-    nowPlaying: {
+    currentMedia: {
         title: 'Ghosts \'n stuff',
         coverImage: TempCover,
         artists: [{

@@ -16,3 +16,6 @@ yarn-error.log
 /.idea
 /.vscode
 /storybook-static
+schema-directives.graphql
+programmatic-types.graphql
+_lighthouse_ide_helper.php

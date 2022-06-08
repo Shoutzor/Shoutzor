@@ -2,28 +2,28 @@
     <div class="audio-player d-flex flex-wrap justify-content-between">
         <div class="media-info d-inline-flex align-items-center order-1 order-md-0">
             <div class="album-image d-inline-block pe-1">
-                <img v-if="nowPlaying" class="rounded" height="48" :src="nowPlaying.image" width="48">
+                <img v-if="currentMedia" class="rounded" height="48" :src="currentMedia.image" width="48">
                 <b-icon-question v-else class="rounded border" height="48" width="48" />
             </div>
             <div class="track-info d-inline-block">
-                <template v-if="nowPlaying">
-                    <span class="track-title">{{ nowPlaying.title }}</span>
-                    <artist-list :artists="nowPlaying.artists" class="text-muted" />
+                <template v-if="currentMedia">
+                    <span class="track-title">{{ currentMedia.title }}</span>
+                    <artist-list :artists="currentMedia.artists" class="text-muted" />
                 </template>
                 <span v-else class="track-title">Now playing: Unavailable</span>
             </div>
         </div>
         <div class="media-control-container d-flex flex-fill flex-column flex-wrap align-items-center order-0 order-md-1">
             <div class="media-controls d-flex flex-fill align-items-center justify-content-center">
-                <b-icon-hand-thumbs-up v-if="isAuthenticated && nowPlaying" @click="$emit('mediaplayerUpvote')" class="upvote me-3" />
+                <b-icon-hand-thumbs-up v-if="isAuthenticated && currentMedia" @click="$emit('mediaplayerUpvote')" class="upvote me-3" />
                 <play-button @click="$emit('mediaplayerPlay')" :state="playerStatus"></play-button>
-                <b-icon-hand-thumbs-down v-if="isAuthenticated && nowPlaying" @click="$emit('mediaplayerDownvote')" class="downvote ms-3" />
+                <b-icon-hand-thumbs-down v-if="isAuthenticated && currentMedia" @click="$emit('mediaplayerDownvote')" class="downvote ms-3" />
             </div>
 
-            <div v-if="nowPlaying !== null" class="mt-2 d-flex flex-fill">
+            <div v-if="currentMedia" class="mt-2 d-flex flex-fill">
                 <base-progressbar
                     :pre-text="timePassed || ''"
-                    :post-text="timeRemaining || ''"
+                    :post-text="timeDuration || ''"
                     :current-value="percentagePlayed || 0"
                     class="col" />
             </div>
@@ -50,12 +50,10 @@
 <script>
 import "./MediaPlayer.scss";
 
-import { PlayerState } from "@models/PlayerState";
-import { Media } from "@models/Media";
-
 import VueSlider from 'vue-slider-component';
 import { Dropdown } from 'bootstrap';
 
+import { PlayerState } from "@models/PlayerState";
 import BaseProgressbar from "@components/BaseProgressbar";
 import PlayButton from "@components/PlayButton";
 import ArtistList from "@components/ArtistList";
@@ -68,11 +66,16 @@ export default {
         PlayButton,
         ArtistList
     },
+    data() {
+        return {
+            PlayerState
+        }
+    },
     props: {
-        nowPlaying: {
+        currentMedia: {
             type: Object,
             required: false,
-            default: Media
+            default: {}
         },
         volume: {
             type: Number,
@@ -93,27 +96,21 @@ export default {
             type: Boolean,
             required: false,
             default: false
-        },
-        timePassed: {
-            type: String,
-            required: false,
-            default: ""
-        },
-        timeRemaining: {
-            type: String,
-            required: false,
-            default: ""
-        },
-        percentagePlayed: {
-            type: Number,
-            required: false,
-            default: 0
-        },
+        }
     },
 
-    data() {
-        return {
-            PlayerState
+    computed: {
+        timePassed() {
+            return 0;
+        },
+
+        timeDuration() {
+            return this.currentMedia ? this.currentMedia.duration : null;
+        },
+
+        percentagePlayed() {
+            //TODO calculate from timePassed and timeDuration
+            return 42;
         }
     },
 

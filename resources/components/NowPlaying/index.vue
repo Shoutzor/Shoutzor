@@ -1,11 +1,11 @@
 <template>
     <div class="nowplaying">
         <div class="track-background">
-            <img class="album-image" :src="media.coverImage" />
+            <img class="album-image" :src="media.image" />
             <div class="album-overlay"></div>
         </div>
         <div class="track-content card card-aside">
-            <img alt="album image" class="album-image card-aside-column" :src="media.coverImage" />
+            <img alt="album image" class="album-image card-aside-column" :src="media.image" />
             <div class="track-info card-body d-flex flex-column mt-auto">
                 <h3>{{ media.title }}</h3>
                 <artist-list :artists="media.artists"></artist-list>
@@ -25,12 +25,16 @@
 <script>
 import "./NowPlaying.scss";
 
-import { Media } from "@models/Media";
-
 import ArtistList from "@components/ArtistList";
 import UserList from "@components/UserList";
 
 export default {
+    data() {
+        return {
+            loading: false,
+            media: {}
+        }
+    },
     components: {
         ArtistList,
         UserList
@@ -39,7 +43,7 @@ export default {
         media: {
             type: Object,
             required: true,
-            default: Media
+            default: {}
         },
         requestedBy: {
             type: Array,
