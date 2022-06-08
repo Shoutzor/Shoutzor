@@ -3,22 +3,39 @@ scalar DateTime @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Date
 
 "Indicates what fields are available at the top level of a query operation."
 type Query {
-    "Find a single user by an identifying attribute."
     user(
-      id: ID @eq @rules(apply: ["prohibits:email", "required_without:email"])
-      email: String @eq @rules(apply: ["prohibits:id", "required_without:id", "email"])
+      id: ID @eq @rules(apply: ["prohibits:username", "required_without:username"])
+      username: String @eq @rules(apply: ["prohibits:id", "required_without:id", "username"])
     ): User @find
 
-    "Filters by username. Accepts SQL LIKE wildcards `%` and `_`."
     users(
       username: String @where(operator: "like")
     ): [User!]! @paginate(defaultCount: 10)
 
+    media(id: ID @eq): Media @find
+    medias(
+        title: String @where(operator: "like")
+    ): [Media!]! @paginate(defaultCount: 10)
 
-    media(
-        id: ID @eq @rules(apply: ["prohibits:email", "required_without:email"])
-    ): Media @find
+    artist(id: ID @eq): Artist @find
+    artists(
+        name: String @where(operator: "like")
+    ): [Artist!]! @paginate(defaultCount: 10)
+
+    album(id: ID @eq): Album @find
+    albums(
+        title: String @where(operator: "like")
+    ): [Album!]! @paginate(defaultCount: 10)
+
+    request(id: ID @eq): Request @find
+    requests: [Request!]! @paginate(defaultCount: 20)
+    role(id: ID @eq): Role @find
+    roles: [Role!]!
+    permission(id: ID @eq): Permission @find
+    permissions: [Permission!]! @paginate(defaultCount: 20)
 }
+
+union searchResult = Media | Album | Artist
 
 "Account of a person who utilizes this application."
 type User {
