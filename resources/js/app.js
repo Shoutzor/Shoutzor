@@ -24,13 +24,11 @@ const apolloClient = new ApolloClient({
 })
 
 // Create the Vue App instance
-const app = createApp({
+const app = createApp(App, {
     setup () {
         provide(DefaultApolloClient, apolloClient)
-    },
-
-    render: () => h(App),
-})
+    }
+});
 
 app.use(router)
    .use(PerfectScrollbar)

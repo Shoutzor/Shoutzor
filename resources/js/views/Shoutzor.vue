@@ -1,7 +1,7 @@
 <template>
-  <template>
     <the-header :isAuthenticated="false" />
 
+    <h1>test</h1>
     <div id="wrapper" class="container-fluid">
         <div class="row">
           <the-menu :isAuthenticated="false" />
@@ -21,7 +21,6 @@
     </div>
 
     <media-player :volume="100" :playerStatus="'stopped'"/>
-  </template>
 </template>
 
 <script>

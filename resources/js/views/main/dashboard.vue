@@ -1,26 +1,24 @@
 <template>
-  <div>
-    <div class="row row-cards">
-      <div class="col-sm-12">
-        <now-playing></now-playing>
-      </div>
-    </div>
-    <div v-if="useQueue" class="row row-cards">
-      <div class="col-sm-12">
-        <h2 class="category-header">Coming up</h2>
-        <div class="card">
-          <div class="table-responsive">
-            <comingup-table :queue="queue" />
-          </div>
+    <div>
+        <div class="row row-cards">
+            <div class="col-sm-12">
+                <!--        <now-playing></now-playing>-->
+            </div>
         </div>
-      </div>
+        <div class="row row-cards">
+            <div v-if="useQueue" class="col-sm-12">
+                <h2 class="category-header">Coming up</h2>
+                <div class="card">
+                    <div class="table-responsive">
+                        <comingup-table :queue="queue" />
+                    </div>
+                </div>
+            </div>
+            <div v-else class="col-sm-12">
+                <h2 class="category-header">Current votes</h2>
+            </div>
+        </div>
     </div>
-    <div v-else class="row row-cards">
-      <div class="col-sm-12">
-        <h2 class="category-header">Current votes</h2>
-      </div>
-    </div>
-  </div>
 </template>
 
 <script>

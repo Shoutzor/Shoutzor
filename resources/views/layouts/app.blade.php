@@ -30,7 +30,7 @@
 
         <script type="text/javascript">
             window.Laravel = {
-                APP_DEBUG: <?php echo config('app.debug'); ?>,
+                APP_DEBUG: <?php echo config('app.debug') ? 'true' : 'false'; ?>,
                 APP_ENV: '<?php echo config('app.env'); ?>',
                 APP_URL: '<?php echo config('app.url'); ?>'
             };
