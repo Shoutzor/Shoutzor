@@ -43,6 +43,8 @@ This will set up a basic and simple docker network with a few containers pre-con
 
 For development environments you should run: `docker-compose -f docker-compose.yml -f docker-compose.dev.yml up`
 
+When your docker is up and running, make sure to run `composer install-shoutzor` in the `php` container.
+
 Please note that I will not be providing support on any issues regarding docker itself.\
 By using Docker I expect you to have the required knowledge about how it works.
 
