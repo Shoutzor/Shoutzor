@@ -8,3 +8,5 @@ RUN apt update && apt install -y git zip unzip npm
 
 # Install PDO MySQL driver
 RUN docker-php-ext-install pdo pdo_mysql
+
+WORKDIR /code
