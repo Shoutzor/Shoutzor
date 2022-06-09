@@ -28,6 +28,13 @@ return [
          * make sure to return spec-compliant responses in case an error is thrown.
          */
         'middleware' => [
+            /*
+             * forbids GET requests, and POST requests which can be created using HTML forms.
+             * Other request types and POST requests with a Content-Type that can not be set from
+             * HTML forms are passed along.
+             */
+            Nuwave\Lighthouse\Support\Http\Middleware\EnsureXHR::class,
+
             \Nuwave\Lighthouse\Support\Http\Middleware\AcceptJson::class,
 
             // Logs in a user if they are authenticated. In contrast to Laravel's 'auth'
