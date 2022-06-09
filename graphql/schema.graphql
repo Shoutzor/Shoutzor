@@ -100,12 +100,10 @@ type Query {
     requests: [Request!]! @paginate(defaultCount: 20)
 
     role(id: ID! @eq): Role @find
-    roles: [Role!]!
+    roles: [Role!]! @paginate(defaultCount: 10)
 
     permission(id: ID! @eq): Permission @find
     permissions(
         name: String! @where(operator: "like")
     ): [Permission!]! @paginate(defaultCount: 20)
-
-    search(q: String!): [SearchResult!]!
 }
