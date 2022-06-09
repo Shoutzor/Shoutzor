@@ -43,7 +43,7 @@ stages:
               dockerComposeFile: docker-compose.yml
               additionalDockerComposeFiles: docker-compose.test.yml
               projectName: shoutzor
-              dockerComposeCommand: run php composer install-shoutzor
+              dockerComposeCommand: run php composer install-shoutzor-dev
 
           - script: |
               cp .env .env.testing
