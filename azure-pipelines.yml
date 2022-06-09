@@ -36,28 +36,14 @@ stages:
               projectName: shoutzor
               dockerComposeCommand: up -d mysql
 
-          - script: |
-              sudo composer self-update
-              composer install --no-interaction --prefer-dist --no-suggest
-              composer --version
-            displayName: 'Install Composer Packages'
-
-          - script: |
-              npm install
-            displayName: 'Install NPM Packages'
-
-          - script: |
-              npm run production
-            displayName: 'Build resource files with NPM & Webpack'
-
           - task: DockerCompose@0
-            displayName: 'Run Shoutzor CLI Installer'
+            displayName: 'Install Shoutzor via composer'
             inputs:
               action: Run a Docker Compose command
               dockerComposeFile: docker-compose.yml
               additionalDockerComposeFiles: docker-compose.test.yml
               projectName: shoutzor
-              dockerComposeCommand: run php php /code/artisan shoutzor:install --useenv
+              dockerComposeCommand: run php composer install-shoutzor
 
           - script: |
               cp .env .env.testing
@@ -80,27 +66,3 @@ stages:
               additionalDockerComposeFiles: docker-compose.test.yml
               projectName: shoutzor
               dockerComposeCommand: run phpunit
-
-        #  - script: |
-        #      php artisan key:generate --force
-        #      php artisan passport:install --force
-        #      php artisan migrate:fresh --force
-        #      php artisan db:seed --force
-        #    displayName: 'Running Migrations'
-
-        #  - script: |
-        #      vendor/bin/phpunit --log-junit tests/Results/TEST-phpunit-junit.xml
-        #    displayName: 'Running Unit Tests'
-
-        # Publish Test Results to Azure Pipelines/TFS
-        #  - task: PublishTestResults@2
-        #    inputs:
-        #      testRunner: 'JUnit' # Options: JUnit, NUnit, VSTest, xUnit
-        #      testResultsFiles: '**/TEST-*.xml'
-        #      searchFolder: '$(System.DefaultWorkingDirectory)/tests/Results' # Optional
-        #      mergeTestResults: false # Optional
-        #      #testRunTitle: # Optional
-        #      #buildPlatform: # Optional
-        #      #buildConfiguration: # Optional
-        #      #publishRunAttachments: true # Optional
-        #    condition: always()
