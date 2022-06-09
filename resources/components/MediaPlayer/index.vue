@@ -59,6 +59,7 @@ import PlayButton from "@components/PlayButton";
 import ArtistList from "@components/ArtistList";
 
 export default {
+    name: 'media-player',
     components: {
         Dropdown,
         VueSlider,

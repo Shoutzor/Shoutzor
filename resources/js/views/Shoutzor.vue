@@ -1,7 +1,6 @@
 <template>
-    <the-header :isAuthenticated="false" />
+    <the-header id="header" :isAuthenticated="false" />
 
-    <h1>test</h1>
     <div id="wrapper" class="container-fluid">
         <div class="row">
           <the-menu :isAuthenticated="false" />
@@ -20,7 +19,7 @@
         </div>
     </div>
 
-    <media-player :volume="100" :playerStatus="'stopped'"/>
+    <media-player id="media-player" :volume="100" :playerStatus="'stopped'"/>
 </template>
 
 <script>

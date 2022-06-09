@@ -17,10 +17,6 @@
     white-space: pre-wrap;
 }
 
-body {
-  overflow: hidden !important;
-}
-
 a {
     color: $white;
     text-decoration: none;
@@ -102,4 +98,38 @@ a {
     margin: 1rem 0 0.5rem;
     opacity: 0.25;
     font-size: 2rem;
+}
+
+/*
+ * Main Theme Structure
+ */
+body {
+    overflow: hidden !important;
+    height: 100vh;
+}
+
+#shoutzor {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-content: flex-start;
+    align-items: stretch;
+    min-height: 100%;
+}
+
+#header {
+    order: 1;
+    flex: 0 1 auto;
+}
+
+#wrapper {
+    order: 2;
+    flex: 1 1 auto;
+}
+
+#media-player {
+    order: 3;
+    flex: 0 1 auto;
+    height: 4.5rem;
 }
