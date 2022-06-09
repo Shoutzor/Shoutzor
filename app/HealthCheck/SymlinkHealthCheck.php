@@ -67,7 +67,7 @@ class SymlinkHealthCheck extends BaseHealthCheck
         foreach ($this->symlinks as $symlinkLocation => $targetLocation) {
             try {
                 if(is_link($symlinkLocation) && !file_exists($symlinkLocation)) {
-                    rmdir($symlinkLocation);
+                    unlink($symlinkLocation);
                 }
             } catch (Exception $e) {
                 $errors[] = "Could not remove broken symlink at $symlinkLocation, reason: " . $e->getMessage();
