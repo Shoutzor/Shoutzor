@@ -6,3 +6,5 @@ services:
       - ./:/code
     working_dir: /code
     entrypoint: vendor/bin/phpunit
+    networks:
+      - shoutzor-backend

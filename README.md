@@ -20,6 +20,8 @@ Documentation can be found over at [shoutzor.com](https://www.shoutzor.com)
 ### To setup:
 Currently there's a few hoops to go through. These should be resolved on the proper release.
 
+First off, optionally edit the values in `.env.template`. These will be used during setup.
+
 For production environments:
 - Ensure you have composer and npm installed
 - Run `composer install-shoutzor`
@@ -28,7 +30,7 @@ For development environments:
 - Ensure you have composer and npm installed
 - Run `composer install-shoutzor-dev`
 
-The Shoutz0r app should now be ready for use!
+The Shoutz0r app should now be ready for use! You can optionally remove the `.env.template` file now, it has been copied to `.env`.
 
 The default login is admin/admin
 
