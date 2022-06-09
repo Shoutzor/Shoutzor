@@ -7,6 +7,7 @@ services:
     volumes:
       - ./:/code:ro
       - ./site.conf.template:/etc/nginx/templates/site.conf.template:ro
+    working_dir: /code
     networks:
       - shoutzor-frontend
     environment:
@@ -20,6 +21,7 @@ services:
     volumes:
       - ./:/code
       - ./php-fpm.conf:/usr/local/etc/php-fpm.d/zzz-shoutzor.conf:ro
+    working_dir: /code
     networks:
       - shoutzor-frontend
       - shoutzor-backend
