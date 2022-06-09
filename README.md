@@ -20,20 +20,32 @@ Documentation can be found over at [shoutzor.com](https://www.shoutzor.com)
 ### To setup:
 Currently there's a few hoops to go through. These should be resolved on the proper release.
 
-Run `docker-compose up` or for development Run `docker-compose -f docker-compose.yml -f docker-compose.dev.yml up`
+For production environments:
+- Ensure you have composer and npm installed
+- Run `composer install-shoutzor`
 
-Ensure you have Composer installed and Run `composer install`
-
-Next up just visit the site to start the setup process.\
-The installer will guide you through it.
+For development environments:
+- Ensure you have composer and npm installed
+- Run `composer install-shoutzor-dev`
 
 The Shoutz0r app should now be ready for use!
 
 The default login is admin/admin
 
-Optionally: for development run `php artisan db:seed --class=DevelopmentSeeder`
 If you're going to work on the front-end, make sure to run `npm run watch`.
 
+### Docker setup:
+
+For production environments you can simply run `docker-compose up`. \
+This will set up a basic and simple docker network with a few containers pre-configured for use.
+
+For development environments you should run: `docker-compose -f docker-compose.yml -f docker-compose.dev.yml up`
+
+Please note that I will not be providing support on any issues regarding docker itself.\
+By using Docker I expect you to have the required knowledge about how it works.
+
+If you have improvements however, by all means please create a discussion or issue (or even better, a pull-request).\
+I'm always open for feedback.
 
 ### Kindly supported by
 * [JetBrains](https://www.jetbrains.com/?from=Shoutz0r)

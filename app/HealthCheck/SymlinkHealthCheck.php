@@ -43,7 +43,7 @@ class SymlinkHealthCheck extends BaseHealthCheck
             clearstatcache(false, $symlinkLocation);
             if (Filesystem::isSymbolicLink($symlinkLocation) === false) {
                 $healthCheck = false;
-                $caughtErrors[] = "Missing symlink: $symlinkLocation";
+                $caughtErrors[] = "Missing symlink: $symlinkLocation -> $targetLocation";
                 continue;
             }
 
@@ -78,7 +78,7 @@ class SymlinkHealthCheck extends BaseHealthCheck
             $exitCode = Artisan::call('storage:link');
         } catch(Exception $e) {
             $exitCode = -1;
-            $errors[] = $e->getMessage();
+            $errors[] = "Failed to perform storage:link, reason: " . $e->getMessage();
         }
 
         if(count($errors) === 0 && $exitCode === 0) {

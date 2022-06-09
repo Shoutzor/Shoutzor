@@ -51,6 +51,32 @@
         ],
         "post-create-project-cmd": [
             "@php artisan key:generate --ansi"
+        ],
+        "install-shoutzor": [
+            "@composer install --optimize-autoloader --no-dev",
+            "@composer setup-shoutzor",
+            "@composer optimize-shoutzor",
+            "npm ci",
+            "npm run production",
+            "@php artisan shoutzor:install --useenv"
+        ],
+        "install-shoutzor-dev": [
+            "@composer install --optimize-autoloader",
+            "@composer setup-shoutzor",
+            "@composer optimize-shoutzor",
+            "npm ci",
+            "npm run dev",
+            "@php artisan shoutzor:install --useenv --dev"
+        ],
+        "setup-shoutzor": [
+            "@php artisan key:generate",
+            "@php artisan passport:install --force"
+        ],
+        "optimize-shoutzor": [
+            "@php artisan config:cache",
+            "@php artisan route:cache",
+            "@php artisan view:cache",
+            "@php artisan optimize"
         ]
     },
     "extra": {
