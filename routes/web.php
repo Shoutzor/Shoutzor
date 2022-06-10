@@ -13,5 +13,4 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', 'HomeController@index')->middleware('install.finished')->name('home');
-Route::get('/install', 'UpdateController@install')->middleware('install.required')->name('installer');
+Route::get('/', 'HomeController@index')->name('home');

@@ -20,13 +20,6 @@ class RouteServiceProvider extends ServiceProvider
     public const HOME = '/';
 
     /**
-     * The path to the "installer" route
-     *
-     * @var string
-     */
-    public const INSTALLER = '/install';
-
-    /**
      * This namespace is applied to your controller routes.
      *
      * In addition, it is set as the URL generator's root namespace.
@@ -53,11 +46,6 @@ class RouteServiceProvider extends ServiceProvider
             Route::middleware('web')
                 ->namespace($this->namespace)
                 ->group(base_path('routes/web.php'));
-
-            Route::middleware('installer')
-                ->prefix('installer')
-                ->namespace($this->namespace.'\Installer')
-                ->group(base_path('routes/installer.php'));
         });
     }
 
