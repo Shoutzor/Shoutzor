@@ -1,4 +1,5 @@
 const mix = require('laravel-mix');
+require('laravel-mix-purgecss');
 
 mix.webpackConfig({
     resolve: {
@@ -26,18 +27,20 @@ mix.webpackConfig({
  | file for the application as well as bundling up all the JS files.
  |
  */
-mix.sass('resources/scss/app.scss', 'public/css')
-    .js('resources/js/app.js', 'public/js')
+mix.js('resources/js/app.js', 'public/js')
     .vue({
         globalStyles: __dirname + '/resources/scss/app.scss',
+    })
+    .sass('resources/scss/app.scss', 'public/css')
+    .purgeCss({
+        enabled: true,
+        // Some of our CSS is not properly detected, thus requiring whitelisting.
+        safelist: [
+            /^dropdown/,
+            /data-bs-popper/, //Some bootstrap classes are generated with this data tag
+            /^ps/ // vue-perfect-scrollbar classes
+        ]
     });
-
-/*
-mix.sass('resources/scss/app-installer.scss', 'public/css')
-    .js('resources/js/app-installer.js', 'public/js')
-    .vue({
-        globalStyles: __dirname + '/resources/scss/app.scss'
-    });*/
 
 mix.copy('resources/static/images/shoutzor-logo-large.png', 'public/images');
 mix.copy('resources/static/images/appicon', 'public/images/appicon');

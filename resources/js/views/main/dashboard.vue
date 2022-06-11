@@ -2,7 +2,7 @@
     <div>
         <div class="row row-cards">
             <div class="col-sm-12">
-                <!--        <now-playing></now-playing>-->
+                <now-playing></now-playing>
             </div>
         </div>
         <div class="row row-cards">
@@ -35,7 +35,7 @@ export default {
         useQueue: {
             type: Boolean,
             required: false,
-            default: false
+            default: true
         },
         queue: {
             type: Array,

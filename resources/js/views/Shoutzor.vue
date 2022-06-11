@@ -2,16 +2,12 @@
     <the-header id="header" :isAuthenticated="false" />
 
     <div id="wrapper" class="d-flex flex-nowrap">
-      <the-menu :isAuthenticated="false" class="d-flex flex-column flex-shrink-0 p-3" />
+      <the-menu :isAuthenticated="false" class="flex-column flex-shrink-0 p-3" />
 
       <main id="main-content" class="d-flex flex-column flex-grow-1">
           <perfect-scrollbar ref="scroll">
-              <div class="page">
-                  <div class="content">
-                      <div class="container-fluid">
-                          <router-view />
-                      </div>
-                  </div>
+              <div class="container">
+                  <router-view />
               </div>
           </perfect-scrollbar>
       </main>
