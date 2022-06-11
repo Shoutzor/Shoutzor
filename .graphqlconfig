@@ -1,15 +1,15 @@
 {
-  "name": "Shoutz0r GraphQL Schema",
-  "schemaPath": "graphql/schema.graphql",
-  "extensions": {
-    "endpoints": {
-      "Default GraphQL Endpoint": {
-        "url": "${env:APP_URL}/graphql",
-        "headers": {
-          "user-agent": "Apollo GraphQL"
-        },
-        "introspect": false
-      }
+    "name": "Shoutz0r GraphQL Schema",
+    "schemaPath": "graphql/schema.graphql",
+    "extensions": {
+        "endpoints": {
+            "shoutzor": {
+                "url": "${env:APP_URL}/graphql",
+                "headers": {
+                    "user-agent": "Apollo GraphQL"
+                },
+                "introspect": false
+            }
+        }
     }
-  }
 }

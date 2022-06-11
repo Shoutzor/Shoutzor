@@ -32,7 +32,8 @@
             window.Laravel = {
                 APP_DEBUG: <?php echo config('app.debug') ? 'true' : 'false'; ?>,
                 APP_ENV: '<?php echo config('app.env'); ?>',
-                APP_URL: '<?php echo config('app.url'); ?>'
+                APP_URL: '<?php echo config('app.url'); ?>',
+                APP_BASE_URL: '<?php echo parse_url(config('app.url'), PHP_URL_HOST); ?>'
             };
         </script>
 

@@ -3,3 +3,7 @@ services:
   mysql:
     ports:
       - "3306:3306"
+
+  echo:
+    ports:
+      - "9601:9601"

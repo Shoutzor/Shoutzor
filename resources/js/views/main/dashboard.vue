@@ -24,6 +24,7 @@
 <script>
 import NowPlaying from "@components/NowPlaying";
 import ComingupTable from "@components/ComingupTable";
+import gql from "graphql-tag";
 
 export default {
     name: "dashboard-view",
@@ -31,16 +32,32 @@ export default {
         NowPlaying,
         ComingupTable,
     },
+    data() {
+        return {
+            queue: []
+        }
+    },
+    apollo: {
+        queue: gql`query {
+          requests {
+            paginatorInfo{
+              total
+              hasMorePages
+            }
+            data {
+              id
+              media
+              votes
+              requested_at
+            }
+          }
+        }`
+    },
     props: {
         useQueue: {
             type: Boolean,
             required: false,
             default: true
-        },
-        queue: {
-            type: Array,
-            required: false,
-            default: []
         }
     }
 };

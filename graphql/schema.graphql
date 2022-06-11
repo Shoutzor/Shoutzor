@@ -43,7 +43,6 @@ type Artist {
 type Request {
     id: ID!
     media: Media! @belongsTo
-    users: [User!]! @belongsToMany
     votes: [Vote!]! @belongsTo
     requested_at: DateTime!
     played_at: DateTime
