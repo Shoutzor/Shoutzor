@@ -16,10 +16,6 @@
             </div>
             <div v-else class="col-sm-12">
                 <h2 class="category-header">Current votes</h2>
-                <h2 class="category-header">Current votes</h2>
-                <h2 class="category-header">Current votes</h2>
-                <h2 class="category-header">Current votes</h2><h2 class="category-header">Current votes</h2><h2 class="category-header">Current votes</h2><h2 class="category-header">Current votes</h2><h2 class="category-header">Current votes</h2><h2 class="category-header">Current votes</h2><h2 class="category-header">Current votes</h2><h2 class="category-header">Current votes</h2><h2 class="category-header">Current votes</h2><h2 class="category-header">Current votes</h2><h2 class="category-header">Current votes</h2><h2 class="category-header">Current votes</h2><h2 class="category-header">Current votes</h2><h2 class="category-header">Current votes</h2><h2 class="category-header">Current votes</h2><h2 class="category-header">Current votes</h2><h2 class="category-header">Current votes</h2><h2 class="category-header">Current votes</h2><h2 class="category-header">Current votes</h2><h2 class="category-header">Current votes</h2><h2 class="category-header">Current votes</h2><h2 class="category-header">Current votes</h2>
-
             </div>
         </div>
     </div>

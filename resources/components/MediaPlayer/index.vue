@@ -20,7 +20,7 @@
                 <b-icon-hand-thumbs-down v-if="isAuthenticated && currentMedia" @click="$emit('mediaplayerDownvote')" class="downvote ms-3" />
             </div>
 
-            <div v-if="currentMedia" class="mt-2 d-flex flex-fill">
+            <div v-if="currentMedia" class="mt-1 mb-1 d-flex flex-fill">
                 <base-progressbar
                     :pre-text="timePassed || ''"
                     :post-text="timeDuration || ''"
