@@ -1,0 +1,8 @@
+type Album {
+    id: ID!
+    title: String!
+    summary: String!
+    image: String
+    artists: [Artist!]! @hasMany
+    media: [Media!]! @hasMany
+}

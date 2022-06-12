@@ -1,0 +1,4 @@
+type Vote {
+    request: Request! @belongsTo
+    user: User! @belongsTo
+}

@@ -1,106 +1,63 @@
-"A datetime string with format `Y-m-d H:i:s`, e.g. `2018-05-23 13:43:32`."
-scalar DateTime @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\DateTime")
-
-type User {
-    id: ID!
-    username: String!
-    email: String!
-    email_verified_at: DateTime
-    created_at: DateTime!
-    updated_at: DateTime!
-    role: Role! @hasOne
-}
-
-type Media {
-    id: ID!
-    title: String!
-    duration: Int!
-    is_video: Boolean!
-    image: String
-    source: String!
-    album: Album @belongsTo
-    artists: [Artist!] @belongsToMany
-}
-
-type Album {
-    id: ID!
-    title: String!
-    summary: String!
-    image: String
-    artists: [Artist!]! @hasMany
-    media: [Media!]! @hasMany
-}
-
-type Artist {
-    id: ID!
-    name: String!
-    summary: String!
-    image: String
-    albums: [Album!]! @belongsToMany
-    media: [Media!]! @belongsToMany
-}
-
-type Request {
-    id: ID!
-    media: Media! @belongsTo
-    votes: [Vote!]! @belongsToMany
-    requested_by: User @hasOne
-    requested_at: DateTime!
-    played_at: DateTime
-    vote_count: Int! @count(model: "Vote")
-}
-
-type Vote {
-    request: Request! @belongsTo
-    user: User! @belongsTo
-}
-
-type Role {
-    id: ID!
-    name: String!
-    description: String!
-    protected: Boolean!
-    permissions: [Permission!]! @hasMany
-}
-
-type Permission {
-    id: ID!
-    name: String!
-    description: String!
-}
+#import scalar/*.graphql
+#import type/*.graphql
+#import enum/*.graphql
+#import input/*.graphql
 
 type Query {
+    "Fetch single user"
     user(
         id: ID @eq @rules(apply: ["prohibits:username", "required_without:username"])
         username: String @eq @rules(apply: ["prohibits:id", "required_without:id", "username"])
     ): User @find
 
+    "Fetch multiple users"
     users(
         username: String! @where(operator: "like")
     ): [User!]! @paginate(defaultCount: 10)
 
+    "Fetch media file"
     media(id: ID! @eq): Media @find
+
+    "Fetch multiple media files"
     medias(
         title: String! @where(operator: "like")
     ): [Media!]! @paginate(defaultCount: 10)
 
+    "Fetch artist"
     artist(id: ID! @eq): Artist @find
+
+    "Fetch multiple artists"
     artists(
         name: String! @where(operator: "like")
     ): [Artist!]! @paginate(defaultCount: 10)
 
+    "Fetch album"
     album(id: ID! @eq): Album @find
+
+    "Fetch multiple albums"
     albums(
         title: String! @where(operator: "like")
     ): [Album!]! @paginate(defaultCount: 10)
 
+    "Fetch Request"
     request(id: ID! @eq): Request @find
-    requests: [Request!]! @paginate(defaultCount: 10)
 
+    "Fetch multiple requests"
+    requests(
+        where: _ @whereConditions(columns: ["played_at"])
+        orderBy: RequestsOrderBy @orderBy
+    ): [Request!]! @orderBy(column: "requested_at" direction: ASC) @paginate(defaultCount: 10)
+
+    "Fetch Role"
     role(id: ID! @eq): Role @find
+
+    "Fetch all roles"
     roles: [Role!]! @paginate(defaultCount: 10)
 
+    "Fetch Permission"
     permission(id: ID! @eq): Permission @find
+
+    "Fetch multiple permissions"
     permissions(
         name: String! @where(operator: "like")
     ): [Permission!]! @paginate(defaultCount: 20)

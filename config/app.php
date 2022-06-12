@@ -195,6 +195,11 @@ return [
         App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+
+        /*
+         * GraphQL Service Providers
+         */
+        \Nuwave\Lighthouse\WhereConditions\WhereConditionsServiceProvider::class,
     ],
 
     /*

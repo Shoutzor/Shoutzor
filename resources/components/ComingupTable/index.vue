@@ -68,7 +68,6 @@
 import BaseTable from "@components/BaseTable";
 import ArtistList from "@components/ArtistList";
 import BeautifiedTime from "@components/BeautifiedTime";
-import BaseSpinner from "@components/BaseSpinner";
 
 import { useQuery } from "@vue/apollo-composable";
 import gql from "graphql-tag";
@@ -102,7 +101,6 @@ const REQUESTS_QUERY = gql`
 
 export default {
     components: {
-        BaseSpinner,
         BaseTable,
         ArtistList,
         BeautifiedTime

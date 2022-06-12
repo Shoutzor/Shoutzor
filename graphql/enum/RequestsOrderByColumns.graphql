@@ -1,0 +1,5 @@
+"Allowed column names for Query.requests.orderBy"
+enum RequestsOrderByColumns {
+    REQUESTED_AT @enum(value: "requested_at")
+    PLAYED_AT @enum(value: "played_at")
+}
