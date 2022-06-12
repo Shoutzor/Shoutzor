@@ -9,9 +9,7 @@
             <div v-if="useQueue" class="col-sm-12">
                 <h2 class="category-header">Coming up</h2>
                 <div class="card">
-                    <div class="table-responsive">
-                        <comingup-table :queue="queue" />
-                    </div>
+                    <comingup-table />
                 </div>
             </div>
             <div v-else class="col-sm-12">
@@ -24,34 +22,12 @@
 <script>
 import NowPlaying from "@components/NowPlaying";
 import ComingupTable from "@components/ComingupTable";
-import gql from "graphql-tag";
 
 export default {
     name: "dashboard-view",
     components: {
         NowPlaying,
         ComingupTable,
-    },
-    data() {
-        return {
-            queue: []
-        }
-    },
-    apollo: {
-        queue: gql`query {
-          requests {
-            paginatorInfo{
-              total
-              hasMorePages
-            }
-            data {
-              id
-              media
-              votes
-              requested_at
-            }
-          }
-        }`
     },
     props: {
         useQueue: {

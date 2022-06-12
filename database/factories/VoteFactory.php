@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Models\Media;
+use App\Models\Request;
 use App\Models\User;
 use App\Models\Vote;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -18,8 +18,8 @@ class VoteFactory extends Factory
             'user_id' => function() {
                 return User::inRandomOrder()->first()->id;
             },
-            'media_id' => function() {
-                return Media::inRandomOrder()->first()->id;
+            'request_id' => function() {
+                return Request::inRandomOrder()->first()->id;
             }
         ];
     }

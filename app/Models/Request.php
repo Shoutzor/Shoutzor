@@ -18,7 +18,12 @@ class Request extends Model
         return $this->belongsTo('App\Models\Media');
     }
 
-    public function users()
+    public function requested_by()
+    {
+        return $this->hasOne('App\Models\User', 'id', 'requested_by');
+    }
+
+    public function votes()
     {
         return $this->belongsToMany('App\Models\User');
     }

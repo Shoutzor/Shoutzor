@@ -18,6 +18,7 @@ class CreateRequestsTable extends Migration
             function (Blueprint $table) {
                 $table->uuid('id')->primary();
                 $table->foreignUuid('media_id')->constrained('media', 'id')->cascadeOnDelete();
+                $table->foreignUuid('requested_by')->nullable()->constrained('users', 'id')->nullonDelete();
                 $table->timestamp('requested_at')->useCurrent();
                 $table->timestamp('played_at')->nullable()->default(null);
             }

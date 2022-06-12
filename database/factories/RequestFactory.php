@@ -17,6 +17,9 @@ class RequestFactory extends Factory
         return [
             'media_id' => function() {
                 return Media::inRandomOrder()->first()->id;
+            },
+            'requested_by' => function() {
+                return null;
             }
         ];
     }
@@ -24,8 +27,10 @@ class RequestFactory extends Factory
     public function configure()
     {
         return $this->afterCreating(function (Request $request) {
-            $users = User::inRandomOrder()->limit(random_int(0,5))->get();
-            $request->users()->saveMany($users);
+            if(random_int(0,5) > 2) {
+                $request->requested_by = User::inRandomOrder()->first()->id;
+                $request->save();
+            }
         });
     }
 }

@@ -17,8 +17,9 @@ class CreateVotesTable extends Migration
             'votes',
             function (Blueprint $table) {
                 $table->uuid('id')->primary();
-                $table->foreignUuid('media_id')->constrained('media', 'id')->cascadeOnDelete();
+                $table->foreignUuid('request_id')->constrained('requests', 'id')->cascadeOnDelete();
                 $table->foreignUuid('user_id')->nullable()->constrained('users', 'id')->cascadeOnDelete();
+                $table->timestamp('voted_at')->useCurrent();
             }
         );
     }
@@ -30,6 +31,6 @@ class CreateVotesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('requests');
+        Schema::dropIfExists('votes');
     }
 }

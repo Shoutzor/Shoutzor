@@ -1,12 +1,13 @@
-import { createApp, provide, h } from 'vue'
+import { createApp, provide } from 'vue'
 import PerfectScrollbar from 'vue3-perfect-scrollbar';
 import { BootstrapIconsPlugin  } from 'bootstrap-icons-vue';
 import Echo from 'laravel-echo';
 import router from "./router/app";
 import App from "@js/views/App.vue";
 import { DefaultApolloClient } from '@vue/apollo-composable'
-import {ApolloClient, ApolloLink, HttpLink, InMemoryCache } from '@apollo/client/core'
+import { ApolloClient, ApolloLink, HttpLink, InMemoryCache, split } from '@apollo/client/core'
 import { createLighthouseSubscriptionLink } from "@thekonz/apollo-lighthouse-subscription-link";
+import {getMainDefinition} from "@apollo/client/utilities";
 
 window.Pusher = require('pusher-js');
 
@@ -28,24 +29,33 @@ const httpLink = new HttpLink({
     uri: window.Laravel.APP_URL + '/graphql',
 })
 
-const link = ApolloLink.from([
+// using the ability to split links, you can send data to each link
+// depending on what kind of operation is being sent
+const link = split(
+    // split based on operation type
+    ({ query }) => {
+        const definition = getMainDefinition(query);
+        console.log(definition);
+        return (
+            definition.kind === "OperationDefinition" &&
+            definition.operation === "subscription"
+        )
+    },
     createLighthouseSubscriptionLink(echoClient),
     httpLink
-]);
+)
 
 // Create the apollo client
 const apolloClient = new ApolloClient({
     link,
     cache: new InMemoryCache(),
     connectToDevTools: window.Laravel.APP_DEBUG
-})
+});
 
 // Create the Vue App instance
-const app = createApp(App, {
-    setup () {
-        provide(DefaultApolloClient, apolloClient)
-    }
-});
+const app = createApp(App);
+
+app.provide(DefaultApolloClient, apolloClient);
 
 app.use(router)
    .use(PerfectScrollbar)

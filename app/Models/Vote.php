@@ -10,12 +10,13 @@ class Vote extends Model
 {
     use UsesUUID, HasFactory;
 
-    public $incrementing = false;
     public $timestamps = false;
 
-    public function media()
+    protected $fillable = ['voted_at'];
+
+    public function request()
     {
-        return $this->belongsTo('App\Models\Media');
+        return $this->belongsTo('App\Models\Request');
     }
 
     public function user()

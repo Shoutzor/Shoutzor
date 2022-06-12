@@ -44,17 +44,17 @@ class DevelopmentSeeder extends Seeder
             ->hasArtists(5)
             ->create();
 
-        // Create some votes
-        $this->command->info("Generating Votes");
-        Vote::factory()
-                ->count(20)
-                ->create();
-
         // Create some requests
         $this->command->info("Generating Requests");
         Request::factory()
             ->count(10)
             ->create();
+
+        // Create some votes
+        $this->command->info("Generating Votes");
+        Vote::factory()
+                ->count(20)
+                ->create();
 
         // Create some history
         $this->command->info("Generating Request History");

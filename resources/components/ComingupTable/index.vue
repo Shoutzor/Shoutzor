@@ -6,86 +6,117 @@
                 <th>Media</th>
                 <th>Requested by</th>
                 <th>Duration</th>
-                <th>Est. Time played</th>
             </tr>
         </template>
 
-        <template v-slot v-if="queue.length > 0">
-            <tr v-for="request in queueWithPlaytime">
-                <td class="text-center mediatype-column">
-                    <span v-if="!!request.media.is_video" class="avatar mediatype video bg-orange-lt">
-                        <b-icon-film class="mediasource-icon"></b-icon-film>
-                    </span>
-                    <span v-else class="avatar mediatype audio bg-azure-lt">
-                        <b-icon-music-note-beamed class="mediasource-icon"></b-icon-music-note-beamed>
-                    </span>
-                </td>
-                <td>
-                    <div>{{ request.media.title }}</div>
-                    <artist-list :artists="request.media.artists" class="small text-muted"></artist-list>
-                </td>
-                <td>
-                    <div v-if="request.user !== null">{{ request.user.username }}</div>
-                    <div v-else>AutoDJ</div>
-                </td>
-                <td>
-                    <beautified-time :time="request.media.duration"></beautified-time>
-                </td>
-                <td>
-                    <div>{{ request.playtime }}</div>
-                </td>
-            </tr>
-        </template>
-        <template v-slot v-else>
-            <tr>
-                <td colspan="5">No songs in queue</td>
-            </tr>
+        <template v-slot>
+            <template v-if="loading">
+                <tr class="placeholder-glow">
+                    <td class="text-center mediatype-column">
+                        <span class="avatar mediatype placeholder"></span>
+                    </td>
+                    <td class="w-75">
+                        <div><span class="placeholder col-7"></span></div>
+                        <span class="placeholder placeholder-xs col-4"></span>
+                    </td>
+                    <td>
+                        <span class="placeholder col-10"></span>
+                    </td>
+                    <td>
+                        <span class="placeholder col-10"></span>
+                    </td>
+                </tr>
+            </template>
+            <template v-else-if="error">
+                <tr>
+                    <td colspan="4">Something went wrong while attempting to fetch the queue</td>
+                </tr>
+            </template>
+            <template v-else-if="queue.length > 0">
+                <tr v-for="request in queue" :key="request.id">
+                    <td class="text-center mediatype-column">
+                        <span v-if="!!request.media.is_video" class="avatar mediatype video bg-orange-lt">
+                            <b-icon-film class="mediasource-icon"></b-icon-film>
+                        </span>
+                        <span v-else class="avatar mediatype audio bg-azure-lt">
+                            <b-icon-music-note-beamed class="mediasource-icon"></b-icon-music-note-beamed>
+                        </span>
+                    </td>
+                    <td>
+                        <div>{{ request.media.title }}</div>
+                        <artist-list :artists="request.media.artists" class="small text-muted"></artist-list>
+                    </td>
+                    <td>
+                        <div v-if="request.requested_by !== null">{{ request.requested_by.username }}</div>
+                        <div v-else>AutoDJ</div>
+                    </td>
+                    <td>
+                        <beautified-time :seconds="request.media.duration"></beautified-time>
+                    </td>
+                </tr>
+            </template>
+            <template v-else>
+                <tr>
+                    <td colspan="4">No songs in queue</td>
+                </tr>
+            </template>
         </template>
     </base-table>
 </template>
 
 <script>
-import moment from "moment";
-
 import BaseTable from "@components/BaseTable";
 import ArtistList from "@components/ArtistList";
 import BeautifiedTime from "@components/BeautifiedTime";
+import BaseSpinner from "@components/BaseSpinner";
+
+import { useQuery } from "@vue/apollo-composable";
+import gql from "graphql-tag";
+import { computed } from "vue";
+
+const REQUESTS_QUERY = gql`
+    query getRequests {
+      requests {
+        paginatorInfo{
+          total
+          hasMorePages
+        }
+        data {
+          id
+          media {
+            title
+            is_video
+            duration
+            artists {
+              id,
+              name
+            }
+          }
+          requested_at
+          requested_by {
+            username
+          }
+        }
+      }
+    }`;
 
 export default {
     components: {
+        BaseSpinner,
         BaseTable,
         ArtistList,
         BeautifiedTime
     },
+    setup() {
+        const { result, loading, error } = useQuery(REQUESTS_QUERY);
 
-    props: {
-        lastPlayed: [],
-        queue: [],
-    },
-    computed: {
-        queueWithPlaytime: function() {
-            let lastPlayedDate;
-            let now = moment();
+        const queue = computed(() => result?.value?.requests?.data ?? []);
 
-            //Check if something has been played yet
-            if(this.lastPlayed === null) {
-                lastPlayedDate = now;
-            }
-            else {
-                //Calculate the end-time of the song that has been played last
-                lastPlayedDate = moment(this.lastPlayed.played_at).add(this.lastPlayed.media.duration, 'seconds');
-
-                //If the end-time is in the past, fast-forward to this point in time.
-                if(lastPlayedDate.isBefore()) {
-                    lastPlayedDate = now;
-                }
-            }
-
-            return this.queue.filter(function(item) {
-                item.playtime = lastPlayedDate.format("hh:mm:ss");
-                lastPlayedDate.add(item.media.duration, 'seconds');
-                return item;
-            });
+        return {
+            result,
+            loading,
+            error,
+            queue
         }
     }
 }

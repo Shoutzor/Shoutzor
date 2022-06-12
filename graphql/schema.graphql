@@ -43,7 +43,8 @@ type Artist {
 type Request {
     id: ID!
     media: Media! @belongsTo
-    votes: [Vote!]! @belongsTo
+    votes: [Vote!]! @belongsToMany
+    requested_by: User @hasOne
     requested_at: DateTime!
     played_at: DateTime
     vote_count: Int! @count(model: "Vote")
@@ -67,8 +68,6 @@ type Permission {
     name: String!
     description: String!
 }
-
-union SearchResult = Media | Album | Artist
 
 type Query {
     user(
@@ -96,7 +95,7 @@ type Query {
     ): [Album!]! @paginate(defaultCount: 10)
 
     request(id: ID! @eq): Request @find
-    requests: [Request!]! @paginate(defaultCount: 20)
+    requests: [Request!]! @paginate(defaultCount: 10)
 
     role(id: ID! @eq): Role @find
     roles: [Role!]! @paginate(defaultCount: 10)

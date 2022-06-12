@@ -11,7 +11,7 @@ const router = createRouter({
         path: '/',
         component: loadView('main/dashboard')
     },
-/*    {
+    {
         name: 'history',
         path: '/history',
         component: loadView('main/history')
@@ -41,7 +41,8 @@ const router = createRouter({
         path: '/profile',
         component: loadView('main/user/settings'),
         meta: {requiresAuth: true}
-    }, {
+    },
+    /*{
         name: 'admin',
         path: '/admin',
         component: loadView('admin/index'),
