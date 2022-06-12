@@ -84,7 +84,8 @@ class AppServiceProvider extends ServiceProvider
                     Filesystem::correctDS(storage_path()),
                     Filesystem::correctDS(storage_path('app/public/album/')),
                     Filesystem::correctDS(storage_path('app/public/artist/')),
-                    Filesystem::correctDS(storage_path('app/public/packages/'))
+                    Filesystem::correctDS(storage_path('app/public/packages/')),
+                    Filesystem::correctDS(storage_path('app/public/media/'))
                 ]
             ),
             false
