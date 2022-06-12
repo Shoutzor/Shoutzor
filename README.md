@@ -30,6 +30,7 @@ For production environments:
 For development environments:
 - Ensure you have composer and npm installed
 - Run `composer install-shoutzor-dev`
+- Optionally Run `composer add-mock-data` this will run a seeder to add fake data
 
 The Shoutz0r app should now be ready for use! You can optionally remove the `.env.template` file now, it has been copied to `.env`.
 
