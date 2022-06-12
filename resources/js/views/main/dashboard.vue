@@ -6,14 +6,11 @@
             </div>
         </div>
         <div class="row row-cards">
-            <div v-if="useQueue" class="col-sm-12">
+            <div class="col-sm-12">
                 <h2 class="category-header">Coming up</h2>
                 <div class="card">
                     <comingup-table />
                 </div>
-            </div>
-            <div v-else class="col-sm-12">
-                <h2 class="category-header">Current votes</h2>
             </div>
         </div>
     </div>
@@ -28,13 +25,6 @@ export default {
     components: {
         NowPlaying,
         ComingupTable,
-    },
-    props: {
-        useQueue: {
-            type: Boolean,
-            required: false,
-            default: true
-        }
     }
 };
 </script>
