@@ -33,12 +33,11 @@ export default {
 
 <style lang="scss" scoped>
 #wrapper {
-    margin-top: $navbar-height;
+    padding-top: calc($navbar-height + 1.5rem);
+    padding-bottom: 0.5rem;
 }
 
 #wrapper main {
-    background: url('@static/images/main-content-noise-bg.png');
-
     .ps {
         flex: 1 1 auto;
         height: 0; // Required to make content scrollable, see: https://stackoverflow.com/a/14964944/1024322

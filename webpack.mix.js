@@ -38,7 +38,8 @@ mix.js('resources/js/app.js', 'public/js')
         safelist: [
             /^dropdown/,
             /data-bs-popper/, //Some bootstrap classes are generated with this data tag
-            /^ps/ // vue-perfect-scrollbar classes
+            /^ps/, // vue-perfect-scrollbar classes
+            "router-link-exact-active" //Since this class is added via JS it's not detected by PurgeCSS
         ]
     });
 

@@ -10,13 +10,13 @@
                     </router-link>
                 </li>
                 <li class="nav-item">
-                    <router-link :to="{name: 'dashboard'}" class="nav-link">
+                    <router-link :to="{name: 'history'}" class="nav-link">
                         <b-icon-clock-history></b-icon-clock-history>
                         History
                     </router-link>
                 </li>
                 <li class="nav-item">
-                    <router-link :to="{name: 'dashboard'}" class="nav-link">
+                    <router-link :to="{name: 'popular'}" class="nav-link">
                         <b-icon-star></b-icon-star>
                         Most Played
                     </router-link>
