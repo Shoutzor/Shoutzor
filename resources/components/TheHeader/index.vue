@@ -26,10 +26,6 @@
                     </a>
                     <div class="dropdown-menu dropdown-menu-end dropdown-menu-dark auth-dropdown">
                         <login-form />
-
-                        <div class="dropdown-divider"></div>
-
-                        <button class="btn btn-secondary" type="button">Register</button>
                     </div>
                 </li>
             </ul>
@@ -41,6 +37,8 @@
 </template>
 
 <script>
+import "./TheHeader.scss";
+
 import BaseButton from "@components/BaseButton";
 import LoginForm from "@components/LoginForm";
 
@@ -69,68 +67,3 @@ export default {
     }
 }
 </script>
-
-<style lang="scss">
-@use "sass:math";
-
-.dropdown .dropdown-menu {
-    width: 250px
-}
-
-#navbar-top {
-    width: 100%;
-    z-index: 999;
-    background: $body-bg;
-    -webkit-box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.2);
-    -moz-box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.2);
-    box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.2);
-
-    @include media-breakpoint-up(lg) {
-        position: fixed;
-        top: 0;
-        height: $navbar-height;
-    }
-
-    .header-search-container {
-        display: flex;
-        position: absolute;
-        left: 50%;
-        width: $header-search-width;
-        margin-left: math.div(-$header-search-width, 2);
-
-        @media (max-width: map-get($grid-breakpoints, lg)) {
-            position: relative;
-            left: 0;
-            width: 100%;
-            margin-left: 0;
-        }
-
-        form {
-            flex-grow: 1;
-        }
-    }
-
-    .adminpanel-button {
-        margin-right: 0.5rem;
-        margin-left: -0.5rem;
-    }
-
-    .navbar-brand {
-        -webkit-filter: none;
-        filter: none;
-
-        @include media-breakpoint-up(lg) {
-            display: flex;
-            justify-content: center;
-            width: $sidebar-width;
-            height: $navbar-height;
-            margin: 0;
-            padding: 0;
-        }
-
-        .navbar-brand-image {
-            padding: 8px;
-        }
-    }
-}
-</style>

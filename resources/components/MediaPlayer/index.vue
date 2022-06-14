@@ -25,8 +25,8 @@
 
             <div class="mt-1 mb-1 d-flex flex-fill">
                 <base-progressbar
-                    :pre-text="timePassed || ''"
-                    :post-text="timeDuration || ''"
+                    :pre-text="timePassed + '' || ''"
+                    :post-text="timeDuration + '' || ''"
                     :current-value="percentagePlayed || 0"
                     class="col" />
             </div>
@@ -146,7 +146,7 @@ export default {
         },
 
         timeDuration() {
-            return this.currentMedia ? this.currentMedia.duration : null;
+            return this.nowplaying?.media?.duration;
         },
 
         percentagePlayed() {

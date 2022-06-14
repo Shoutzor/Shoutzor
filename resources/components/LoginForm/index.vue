@@ -1,5 +1,5 @@
 <template>
-    <div class="loginform">
+    <div class="login-form">
         <base-alert v-if="error" :type="error.type">{{ error.message }}</base-alert>
 
         <form class="auth-login-form mb-0" @submit.prevent="onLogin">
@@ -15,11 +15,15 @@
                 <template v-if="loading"><base-spinner /></template>
                 <template v-else>Login</template>
             </base-button>
+
+            <base-button :disabled="loading" class="btn btn-secondary mt-2 ms-1" type="button">Register</base-button>
         </form>
     </div>
 </template>
 
 <script>
+import "./LoginForm.scss";
+
 import { ref, reactive } from "vue";
 
 import BaseAlert from "@components/BaseAlert";
