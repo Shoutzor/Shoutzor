@@ -8,9 +8,7 @@
         <div class="row row-cards">
             <div class="col-sm-12">
                 <h2 class="category-header">Coming up</h2>
-                <div class="card">
-                    <comingup-table />
-                </div>
+                <comingup-table />
             </div>
         </div>
     </div>

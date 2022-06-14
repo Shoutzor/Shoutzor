@@ -1,26 +1,29 @@
 <template>
-    <div class="audio-player d-flex flex-wrap justify-content-between">
-        <div class="media-info d-inline-flex align-items-center order-1 order-md-0">
+    <div class="audio-player d-flex flex-wrap justify-content-between container-fluid">
+        <div class="media-info d-inline-flex flex-grow-1 flex-shrink-0 flex-basis-0 align-items-center order-1 order-md-0">
             <div class="album-image d-inline-block pe-1">
-                <img v-if="currentMedia" class="rounded" height="48" :src="currentMedia.image" width="48">
-                <b-icon-question v-else class="rounded border" height="48" width="48" />
+                <div v-if="loading" class="rounded">
+                    <base-spinner></base-spinner>
+                </div>
+                <img v-else class="rounded" :src="nowplaying.image ?? defaultMediaImage"  alt="media image"/>
             </div>
             <div class="track-info d-inline-block">
-                <template v-if="currentMedia">
-                    <span class="track-title">{{ currentMedia.title }}</span>
-                    <artist-list :artists="currentMedia.artists" class="text-muted" />
+                <span v-if="error" class="track-title">Now playing: Unavailable</span>
+                <span v-else-if="loading" class="track-title">Loading..</span>
+                <template v-else>
+                    <span class="track-title">{{ nowplaying.media.title }}</span>
+                    <artist-list :artists="nowplaying.media.artists" class="text-muted" />
                 </template>
-                <span v-else class="track-title">Now playing: Unavailable</span>
             </div>
         </div>
         <div class="media-control-container d-flex flex-fill flex-column flex-wrap align-items-center order-0 order-md-1">
             <div class="media-controls d-flex flex-fill align-items-center justify-content-center">
-                <b-icon-hand-thumbs-up v-if="isAuthenticated && currentMedia" @click="$emit('mediaplayerUpvote')" class="upvote me-3" />
-                <play-button @click="$emit('mediaplayerPlay')" :state="playerStatus"></play-button>
-                <b-icon-hand-thumbs-down v-if="isAuthenticated && currentMedia" @click="$emit('mediaplayerDownvote')" class="downvote ms-3" />
+                <b-icon-hand-thumbs-up v-if="isAuthenticated && !!error && !loading" @click="$emit('mediaplayerUpvote')" class="upvote me-3" />
+                <play-button @click="$emit('mediaplayerPlay')" :state="playerStatus" class="mt-1"></play-button>
+                <b-icon-hand-thumbs-down v-if="isAuthenticated && !!error && !loading" @click="$emit('mediaplayerDownvote')" class="downvote ms-3" />
             </div>
 
-            <div v-if="currentMedia" class="mt-1 mb-1 d-flex flex-fill">
+            <div class="mt-1 mb-1 d-flex flex-fill">
                 <base-progressbar
                     :pre-text="timePassed || ''"
                     :post-text="timeDuration || ''"
@@ -28,7 +31,7 @@
                     class="col" />
             </div>
         </div>
-        <div class="extra-control d-inline-flex align-items-center order-2">
+        <div class="extra-control d-inline-flex flex-grow-1 flex-shrink-0 flex-basis-0 align-items-center justify-content-end order-2">
             <div class="video-control" v-if="videoEnabled && playerStatus !== PlayerState.STOPPED" @click="$emit('mediaplayerVideo')">
                 <b-icon-tv />
             </div>
@@ -57,27 +60,64 @@ import { PlayerState } from "@models/PlayerState";
 import BaseProgressbar from "@components/BaseProgressbar";
 import PlayButton from "@components/PlayButton";
 import ArtistList from "@components/ArtistList";
+import BaseSpinner from "@components/BaseSpinner";
+import gql from "graphql-tag";
+import {useQuery} from "@vue/apollo-composable";
+import {computed} from "vue";
+
+import { defaultMediaImage } from "@js/config";
+
+const NOWPLAYING_QUERY = gql`
+    query getLastPlayed {
+      requests(
+        first: 1
+        orderBy: { column: "played_at", order: DESC }
+      ) {
+        data {
+          id
+          media {
+            id
+            title
+            image
+            duration
+            artists {
+              id,
+              name
+            }
+          }
+        }
+      }
+    }`;
 
 export default {
     name: 'media-player',
     components: {
+        BaseSpinner,
+        BaseProgressbar,
         Dropdown,
         VueSlider,
-        BaseProgressbar,
         PlayButton,
         ArtistList
     },
     data() {
         return {
+            defaultMediaImage,
             PlayerState
         }
     },
+    setup() {
+        const { result, loading, error } = useQuery(NOWPLAYING_QUERY);
+
+        const nowplaying = computed(() => result?.value?.requests?.data[0] ?? {});
+
+        return {
+            result,
+            loading,
+            error,
+            nowplaying
+        }
+    },
     props: {
-        currentMedia: {
-            type: Object,
-            required: false,
-            default: {}
-        },
         volume: {
             type: Number,
             required: true,

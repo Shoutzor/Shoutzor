@@ -55,13 +55,10 @@ const LASTPLAYED_QUERY = gql`
         first: 1
         orderBy: { column: "played_at", order: DESC }
       ) {
-        paginatorInfo{
-          total
-          hasMorePages
-        }
         data {
           id
           media {
+            id
             title
             image
             artists {
@@ -70,6 +67,7 @@ const LASTPLAYED_QUERY = gql`
             }
           }
           requested_by {
+            id
             username
           }
         }

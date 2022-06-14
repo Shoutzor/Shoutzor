@@ -83,6 +83,7 @@ const REQUESTS_QUERY = gql`
         data {
           id
           media {
+            id
             title
             is_video
             duration
@@ -93,6 +94,7 @@ const REQUESTS_QUERY = gql`
           }
           requested_at
           requested_by {
+            id
             username
           }
         }

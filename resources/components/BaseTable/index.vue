@@ -18,6 +18,11 @@ export default {
     name: 'base-table',
 
     props: {
+        dark: {
+            type: Boolean,
+            required: false,
+            default: false
+        },
         hoverable: {
             type: Boolean,
             required: false,
@@ -28,7 +33,7 @@ export default {
             required: false,
             default: '',
             validator: function (value) {
-                return ['row', 'column'].indexOf(value) !== -1;
+                return ['', 'row', 'column'].indexOf(value) !== -1;
             },
         },
         border: {
@@ -49,7 +54,7 @@ export default {
         return {
             classes: computed(() => ({
                 'table': true,
-                'table-dark': true,
+                'table-dark': props.dark,
                 'card-table': true,
                 'align-middle': true,
                 'table-sm': props.compact,

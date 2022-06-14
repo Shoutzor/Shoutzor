@@ -39,6 +39,10 @@ a {
     }
 }
 
+.flex-basis-0 {
+    flex-basis: 0;
+}
+
 /* Disable the button outline when it's pressed */
 .btn-primary:focus, .btn-primary.focus, .btn:focus, .btn.focus {
   box-shadow: none !important;
@@ -143,6 +147,7 @@ body {
 }
 
 #media-player {
+    background: #212121;
     order: 3;
     flex: 0 1 auto;
     height: 4.5rem;
