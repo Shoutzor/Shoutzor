@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import HistoryTable from "@js/components/main/history/HistoryTable";
+import HistoryTable from "@components/HistoryTable";
 
 export default {
     name: "dashboard-view",

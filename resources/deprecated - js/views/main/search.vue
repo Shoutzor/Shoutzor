@@ -2,7 +2,7 @@
     <div>
         <div class="row row-cards">
             <div class="col-sm-12">
-                <h2 class="search-header">%i search results for "{{ $route.query.q }}"</h2>
+                <h2 class="search-header">%i search results for ""</h2>
             </div>
         </div>
         <div class="row row-cards">

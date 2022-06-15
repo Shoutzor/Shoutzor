@@ -67,8 +67,8 @@ export default {
     emits: ['login'],
 
     setup(props, { emit }) {
-        const username = ref("test");
-        const password = ref("b");
+        const username = ref("");
+        const password = ref("");
         props = reactive(props);
 
         return {

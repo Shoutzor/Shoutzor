@@ -2,6 +2,8 @@
 
 <script>
 export default {
+    name: "upload-manager",
+
     data() {
         return {
             files: [],

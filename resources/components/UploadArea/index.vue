@@ -14,6 +14,8 @@
 
 <script>
 export default {
+    name: "upload-area",
+
     data: () => ({
         dragTimer: null
     }),

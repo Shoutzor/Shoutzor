@@ -1,14 +1,16 @@
-import { createApp, provide } from 'vue'
-import PerfectScrollbar from 'vue3-perfect-scrollbar';
-import { BootstrapIconsPlugin  } from 'bootstrap-icons-vue';
 import Echo from 'laravel-echo';
 import router from "./router/app";
-import App from "@js/views/App.vue";
+import mitt from 'mitt';
+import PerfectScrollbar from 'vue3-perfect-scrollbar';
+import { createApp } from 'vue'
+import { BootstrapIconsPlugin  } from 'bootstrap-icons-vue';
 import { DefaultApolloClient } from '@vue/apollo-composable'
-import { ApolloClient, ApolloLink, HttpLink, InMemoryCache, split } from '@apollo/client/core'
+import { ApolloClient, HttpLink, InMemoryCache, split } from '@apollo/client/core'
 import { createLighthouseSubscriptionLink } from "@thekonz/apollo-lighthouse-subscription-link";
-import {getMainDefinition} from "@apollo/client/utilities";
+import { getMainDefinition } from "@apollo/client/utilities";
+import App from "@js/views/App.vue";
 
+const emitter = mitt();
 window.Pusher = require('pusher-js');
 
 let echoClient = new Echo({
@@ -56,6 +58,7 @@ const app = createApp(App);
 
 app.provide(DefaultApolloClient, apolloClient);
 
+app.config.globalProperties.emitter = emitter;
 app.use(router)
    .use(PerfectScrollbar)
    .use(BootstrapIconsPlugin)
