@@ -31,8 +31,8 @@ stages:
             displayName: 'Start MySQL container in background'
             inputs:
               action: Run a Docker Compose command
-              dockerComposeFile: docker-compose.yml
-              additionalDockerComposeFiles: docker-compose.test.yml
+              dockerComposeFile: docker/docker-compose.yml
+              additionalDockerComposeFiles: docker/docker-compose.test.yml
               projectName: shoutzor
               dockerComposeCommand: up -d mysql
 
@@ -40,8 +40,8 @@ stages:
             displayName: 'Install Shoutzor via composer'
             inputs:
               action: Run a Docker Compose command
-              dockerComposeFile: docker-compose.yml
-              additionalDockerComposeFiles: docker-compose.test.yml
+              dockerComposeFile: docker/docker-compose.yml
+              additionalDockerComposeFiles: docker/docker-compose.test.yml
               projectName: shoutzor
               dockerComposeCommand: run php composer install-shoutzor-dev
 
@@ -53,8 +53,8 @@ stages:
             displayName: 'Rebuild config cache'
             inputs:
               action: Run a Docker Compose command
-              dockerComposeFile: docker-compose.yml
-              additionalDockerComposeFiles: docker-compose.test.yml
+              dockerComposeFile: docker/docker-compose.yml
+              additionalDockerComposeFiles: docker/docker-compose.test.yml
               projectName: shoutzor
               dockerComposeCommand: run php php /code/artisan config:cache
 
@@ -62,7 +62,7 @@ stages:
             displayName: 'Run PHPUnit'
             inputs:
               action: Run a Docker Compose command
-              dockerComposeFile: docker-compose.yml
-              additionalDockerComposeFiles: docker-compose.test.yml
+              dockerComposeFile: docker/docker-compose.yml
+              additionalDockerComposeFiles: docker/docker-compose.test.yml
               projectName: shoutzor
               dockerComposeCommand: run phpunit

@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Traits\UsesUUID;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\File;
 
 class Media extends Model
 {
@@ -23,5 +24,10 @@ class Media extends Model
     public function artists()
     {
         return $this->belongsToMany('App\Models\Artist');
+    }
+
+    public function image()
+    {
+        return File::exists(storage_path('app/public/' . $this->image)) ? $this->image : '';
     }
 }
