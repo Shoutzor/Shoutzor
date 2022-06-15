@@ -32,7 +32,7 @@ stages:
             inputs:
               action: Run a Docker Compose command
               dockerComposeFile: docker/docker-compose.yml
-              additionalDockerComposeFiles: docker/docker-compose.test.yml
+              additionalDockerComposeFiles: docker-compose.test.yml
               projectName: shoutzor
               dockerComposeCommand: up -d mysql
 
@@ -41,7 +41,7 @@ stages:
             inputs:
               action: Run a Docker Compose command
               dockerComposeFile: docker/docker-compose.yml
-              additionalDockerComposeFiles: docker/docker-compose.test.yml
+              additionalDockerComposeFiles: docker-compose.test.yml
               projectName: shoutzor
               dockerComposeCommand: run php composer install-shoutzor-dev
 
@@ -54,7 +54,7 @@ stages:
             inputs:
               action: Run a Docker Compose command
               dockerComposeFile: docker/docker-compose.yml
-              additionalDockerComposeFiles: docker/docker-compose.test.yml
+              additionalDockerComposeFiles: docker-compose.test.yml
               projectName: shoutzor
               dockerComposeCommand: run php php /code/artisan config:cache
 
@@ -63,6 +63,6 @@ stages:
             inputs:
               action: Run a Docker Compose command
               dockerComposeFile: docker/docker-compose.yml
-              additionalDockerComposeFiles: docker/docker-compose.test.yml
+              additionalDockerComposeFiles: docker-compose.test.yml
               projectName: shoutzor
               dockerComposeCommand: run phpunit
