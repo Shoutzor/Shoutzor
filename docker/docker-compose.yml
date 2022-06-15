@@ -1,6 +1,8 @@
 version: '3.8'
 services:
   web:
+    env_file:
+      - ../.env
     image: 'nginx:latest'
     ports:
       - "80:80"
@@ -16,6 +18,8 @@ services:
       - NGINX_PORT=80
 
   php:
+    env_file:
+      - ../.env
     build:
       context: .
       dockerfile: Dockerfile
@@ -28,6 +32,8 @@ services:
       - shoutzor-backend
 
   mysql:
+    env_file:
+      - ../.env
     image: 'mysql:8'
     networks:
       - shoutzor-backend
@@ -36,6 +42,8 @@ services:
       - MYSQL_ROOT_PASSWORD=${DB_PASSWORD:?MYSQL_PASSWORD_NOT_PROVIDED}
 
   echo:
+    env_file:
+      - ../.env
     image: 'quay.io/soketi/soketi:1.1.0-16-debian'
     ports:
       - "6001:6001"
