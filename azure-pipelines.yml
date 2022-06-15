@@ -1,68 +1,68 @@
 pool:
-  vmImage: 'ubuntu-latest'
+    vmImage: 'ubuntu-latest'
 
 variables:
-  phpVersion: 8
+    phpVersion: 8
 
 resources:
-  repositories:
-    - repository: Shoutz0r
-      type: github
-      endpoint: github.com_xorinzor
-      name: xorinzor/Shoutz0r
+    repositories:
+        -   repository: Shoutz0r
+            type: github
+            endpoint: github.com_xorinzor
+            name: xorinzor/Shoutz0r
 
 stages:
 
-  - stage: unitTest
-    jobs:
-      - job: 'PHPUnit_Shoutz0rApp'
-        displayName: 'Run PHPUnit for Shoutz0r-app'
-        steps:
-          - checkout: self
-            persistCredentials: true
-            clean: true
+    -   stage: unitTest
+        jobs:
+            -   job: 'PHPUnit_Shoutz0rApp'
+                displayName: 'Run PHPUnit for Shoutz0r-app'
+                steps:
+                    -   checkout: self
+                        persistCredentials: true
+                        clean: true
 
-          - script: |
-              cd ./Shoutz0r-app
-              cp .env.template .env
-            displayName: 'Environment Setup'
+                    -   script: |
+                            cd ./Shoutz0r-app
+                            cp .env.template .env
+                        displayName: 'Environment Setup'
 
-          - task: DockerCompose@0
-            displayName: 'Start MySQL container in background'
-            inputs:
-              action: Run a Docker Compose command
-              dockerComposeFile: docker/docker-compose.yml
-              additionalDockerComposeFiles: docker-compose.test.yml
-              projectName: shoutzor
-              dockerComposeCommand: up -d mysql
+                    -   task: DockerCompose@0
+                        displayName: 'Start MySQL container in background'
+                        inputs:
+                            action: Run a Docker Compose command
+                            dockerComposeFile: docker-compose.yml
+                            additionalDockerComposeFiles: docker-compose.test.yml
+                            projectName: shoutzor
+                            dockerComposeCommand: up -d mysql
 
-          - task: DockerCompose@0
-            displayName: 'Install Shoutzor via composer'
-            inputs:
-              action: Run a Docker Compose command
-              dockerComposeFile: docker/docker-compose.yml
-              additionalDockerComposeFiles: docker-compose.test.yml
-              projectName: shoutzor
-              dockerComposeCommand: run php composer install-shoutzor-dev
+                    -   task: DockerCompose@0
+                        displayName: 'Install Shoutzor via composer'
+                        inputs:
+                            action: Run a Docker Compose command
+                            dockerComposeFile: docker-compose.yml
+                            additionalDockerComposeFiles: docker-compose.test.yml
+                            projectName: shoutzor
+                            dockerComposeCommand: run php composer install-shoutzor-dev
 
-          - script: |
-              cp .env .env.testing
-            displayName: 'Create testing .env file'
+                    -   script: |
+                            cp .env .env.testing
+                        displayName: 'Create testing .env file'
 
-          - task: DockerCompose@0
-            displayName: 'Rebuild config cache'
-            inputs:
-              action: Run a Docker Compose command
-              dockerComposeFile: docker/docker-compose.yml
-              additionalDockerComposeFiles: docker-compose.test.yml
-              projectName: shoutzor
-              dockerComposeCommand: run php php /code/artisan config:cache
+                    -   task: DockerCompose@0
+                        displayName: 'Rebuild config cache'
+                        inputs:
+                            action: Run a Docker Compose command
+                            dockerComposeFile: docker-compose.yml
+                            additionalDockerComposeFiles: docker-compose.test.yml
+                            projectName: shoutzor
+                            dockerComposeCommand: run php php /code/artisan config:cache
 
-          - task: DockerCompose@0
-            displayName: 'Run PHPUnit'
-            inputs:
-              action: Run a Docker Compose command
-              dockerComposeFile: docker/docker-compose.yml
-              additionalDockerComposeFiles: docker-compose.test.yml
-              projectName: shoutzor
-              dockerComposeCommand: run phpunit
+                    -   task: DockerCompose@0
+                        displayName: 'Run PHPUnit'
+                        inputs:
+                            action: Run a Docker Compose command
+                            dockerComposeFile: docker-compose.yml
+                            additionalDockerComposeFiles: docker-compose.test.yml
+                            projectName: shoutzor
+                            dockerComposeCommand: run phpunit
