@@ -6,7 +6,7 @@
                 <div v-if="loading" class="rounded">
                     <base-spinner></base-spinner>
                 </div>
-                <img v-else class="rounded" :src="nowplaying.media.image ?? defaultMediaImage" alt="media image"/>
+                <img v-else v-media-image-fallback class="rounded" :src="nowplaying.media.image ?? defaultMediaImage" alt="media image"/>
             </div>
             <div class="track-info d-inline-block">
                 <span v-if="error" class="track-title">Now playing: Unavailable</span>

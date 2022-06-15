@@ -102,6 +102,8 @@ const REQUESTS_QUERY = gql`
     }`;
 
 export default {
+    name: "comingup-table",
+
     components: {
         BaseTable,
         ArtistList,
