@@ -18,7 +18,7 @@ class ImageManager
     /**
      * Creates new instance of Image Manager
      *
-     * @param  array  $config
+     * @param array $config
      */
     public function __construct(array $config = [])
     {
@@ -43,7 +43,7 @@ class ImageManager
     /**
      * Overrides configuration settings
      *
-     * @param  array  $config
+     * @param array $config
      *
      * @return self
      */
@@ -57,7 +57,7 @@ class ImageManager
     /**
      * Initiates an Image instance from different input types
      *
-     * @param  mixed  $data
+     * @param mixed $data
      *
      * @return Image
      */
@@ -94,9 +94,9 @@ class ImageManager
     /**
      * Creates an empty image canvas
      *
-     * @param  int  $width
-     * @param  int  $height
-     * @param  mixed  $background
+     * @param int $width
+     * @param int $height
+     * @param mixed $background
      *
      * @return Image
      */
@@ -109,9 +109,9 @@ class ImageManager
      * Create new cached image and run callback
      * (requires additional package intervention/imagecache)
      *
-     * @param  Closure  $callback
-     * @param  int  $lifetime
-     * @param  boolean  $returnObj
+     * @param Closure $callback
+     * @param int $lifetime
+     * @param boolean $returnObj
      *
      * @return Image
      */

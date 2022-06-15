@@ -14,7 +14,8 @@
                             <div class="spinner-border" role="status"></div>
                         </div>
                         <div v-else class="text-center">
-                            <base-alert type="danger" class="mb-2">You are not authorized to access the website</base-alert>
+                            <base-alert type="danger" class="mb-2">You are not authorized to access the website
+                            </base-alert>
                             <base-button class="mt-2" @click="$emit('logout')">Logout</base-button>
                         </div>
                     </div>

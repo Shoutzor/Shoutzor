@@ -16,7 +16,8 @@ class SymlinkHealthCheck extends BaseHealthCheck
     #[Pure]
     public function __construct(
         array $symlinks
-    ) {
+    )
+    {
         parent::__construct(
             'Symlinks',
             'Checks if all configured symlinks are created and accessible',
@@ -66,7 +67,7 @@ class SymlinkHealthCheck extends BaseHealthCheck
         $errors = [];
         foreach ($this->symlinks as $symlinkLocation => $targetLocation) {
             try {
-                if(is_link($symlinkLocation) && !file_exists($symlinkLocation)) {
+                if (is_link($symlinkLocation) && !file_exists($symlinkLocation)) {
                     unlink($symlinkLocation);
                 }
             } catch (Exception $e) {
@@ -76,12 +77,12 @@ class SymlinkHealthCheck extends BaseHealthCheck
 
         try {
             $exitCode = Artisan::call('storage:link');
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             $exitCode = -1;
             $errors[] = "Failed to perform storage:link, reason: " . $e->getMessage();
         }
 
-        if(count($errors) === 0 && $exitCode === 0) {
+        if (count($errors) === 0 && $exitCode === 0) {
             $result->setFixed(true);
             $result->setMessage('Symlinks created');
         } else {

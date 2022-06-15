@@ -13,7 +13,7 @@ class RoleApiController extends Controller
     /**
      * Returns a single or all roles, requires the permission: admin.permissions.role.get
      *
-     * @param  int|null  $id
+     * @param int|null $id
      * @return JsonResponse an array of roles
      */
     public function get(int $id = null)
@@ -33,7 +33,7 @@ class RoleApiController extends Controller
      * Returns the roles of the requested, or authenticated user
      * Requesting the roles of other users requires the permission: admin.permissions.role.get
      *
-     * @param  Request  $request
+     * @param Request $request
      */
     public function user(Request $request, int $id = null)
     {

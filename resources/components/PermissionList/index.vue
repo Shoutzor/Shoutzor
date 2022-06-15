@@ -5,7 +5,7 @@
                 v-for="(permission, index) in permissions"
                 :key="permission.id"
                 :hasPermission="!!hasPermissions[index]"
-                :permission="permission" />
+                :permission="permission"/>
         </template>
     </div>
 </template>
@@ -14,7 +14,7 @@
 import PermissionItem from "@components/PermissionItem";
 
 export default {
-    components: { PermissionItem },
+    components: {PermissionItem},
     props: {
         permissions: {
             type: Array,

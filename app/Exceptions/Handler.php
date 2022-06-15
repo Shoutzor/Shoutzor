@@ -45,7 +45,7 @@ class Handler extends ExceptionHandler
     /**
      * Report or log an exception.
      *
-     * @param  Throwable  $exception
+     * @param Throwable $exception
      * @return void
      *
      * @throws Throwable
@@ -58,28 +58,28 @@ class Handler extends ExceptionHandler
     /**
      * Render an exception into an HTTP response.
      *
-     * @param  Request  $request
-     * @param  Throwable  $exception
+     * @param Request $request
+     * @param Throwable $exception
      * @return Response
      *
      * @throws Throwable
      */
     public function render($request, Throwable $exception)
     {
-        if($request->is('api/*')) {
-            if($exception instanceof NotFoundHttpException) {
+        if ($request->is('api/*')) {
+            if ($exception instanceof NotFoundHttpException) {
                 return response()->json([
                     'message' => 'The requested page was not found'
                 ], 404);
             }
 
-            if($exception instanceof UnauthorizedHttpException || $exception instanceof AuthorizationException) {
+            if ($exception instanceof UnauthorizedHttpException || $exception instanceof AuthorizationException) {
                 return response()->json([
                     'message' => 'You do not have the required permissions',
                 ], 403);
             }
 
-            if(config('app.debug') == false) {
+            if (config('app.debug') == false) {
                 return response()->json([
                     'message' => 'a server error occurred, check the log for more information'
                 ], 500);
@@ -89,8 +89,7 @@ class Handler extends ExceptionHandler
                 'message' => 'a server error occurred, check the log or response JSON for more information',
                 'exception' => $exception
             ], 500);
-        }
-        else {
+        } else {
             return parent::render($request, $exception);
         }
     }

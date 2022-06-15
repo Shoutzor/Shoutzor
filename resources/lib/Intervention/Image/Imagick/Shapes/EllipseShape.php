@@ -26,8 +26,8 @@ class EllipseShape extends AbstractShape
     /**
      * Create new ellipse instance
      *
-     * @param  int  $width
-     * @param  int  $height
+     * @param int $width
+     * @param int $height
      */
     public function __construct($width = null, $height = null)
     {
@@ -38,9 +38,9 @@ class EllipseShape extends AbstractShape
     /**
      * Draw ellipse instance on given image
      *
-     * @param  Image  $image
-     * @param  int  $x
-     * @param  int  $y
+     * @param Image $image
+     * @param int $x
+     * @param int $y
      * @return boolean
      */
     public function applyToImage(Image $image, $x = 0, $y = 0)

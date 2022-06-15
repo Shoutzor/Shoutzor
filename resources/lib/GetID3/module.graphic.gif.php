@@ -30,7 +30,7 @@ class getid3_gif extends getid3_handler
         $info['fileformat'] = 'gif';
         $info['video']['dataformat'] = 'gif';
         $info['video']['lossless'] = true;
-        $info['video']['pixel_aspect_ratio'] = (float) 1;
+        $info['video']['pixel_aspect_ratio'] = (float)1;
 
         $this->fseek($info['avdataoffset']);
         $GIFheader = $this->fread(13);
@@ -42,11 +42,11 @@ class getid3_gif extends getid3_handler
         $magic = 'GIF';
         if ($info['gif']['header']['raw']['identifier'] != $magic) {
             $this->error(
-                'Expecting "'.getid3_lib::PrintHexBytes(
+                'Expecting "' . getid3_lib::PrintHexBytes(
                     $magic
-                ).'" at offset '.$info['avdataoffset'].', found "'.getid3_lib::PrintHexBytes(
+                ) . '" at offset ' . $info['avdataoffset'] . ', found "' . getid3_lib::PrintHexBytes(
                     $info['gif']['header']['raw']['identifier']
-                ).'"'
+                ) . '"'
             );
             unset($info['fileformat']);
             unset($info['gif']);
@@ -73,14 +73,14 @@ class getid3_gif extends getid3_handler
         $info['video']['resolution_x'] = $info['gif']['header']['raw']['width'];
         $info['video']['resolution_y'] = $info['gif']['header']['raw']['height'];
         $info['gif']['version'] = $info['gif']['header']['raw']['version'];
-        $info['gif']['header']['flags']['global_color_table'] = (bool) ($info['gif']['header']['raw']['flags'] & 0x80);
+        $info['gif']['header']['flags']['global_color_table'] = (bool)($info['gif']['header']['raw']['flags'] & 0x80);
         if ($info['gif']['header']['raw']['flags'] & 0x80) {
             // Number of bits per primary color available to the original image, minus 1
             $info['gif']['header']['bits_per_pixel'] = 3 * ((($info['gif']['header']['raw']['flags'] & 0x70) >> 4) + 1);
         } else {
             $info['gif']['header']['bits_per_pixel'] = 0;
         }
-        $info['gif']['header']['flags']['global_color_sorted'] = (bool) ($info['gif']['header']['raw']['flags'] & 0x40);
+        $info['gif']['header']['flags']['global_color_sorted'] = (bool)($info['gif']['header']['raw']['flags'] & 0x40);
         if ($info['gif']['header']['flags']['global_color_table']) {
             // the number of bytes contained in the Global Color Table. To determine that
             // actual size of the color table, raise 2 to [the value of the field + 1]
@@ -164,7 +164,7 @@ class getid3_gif extends getid3_handler
 
                 case '!':
                     // GIF Extension Block
-                    $ExtensionBlockData = $NextBlockTest.$this->fread(2);
+                    $ExtensionBlockData = $NextBlockTest . $this->fread(2);
                     $ExtensionBlock = array();
                     $ExtensionBlock['function_code'] = getid3_lib::LittleEndian2Int(substr($ExtensionBlockData, 1, 1));
                     $ExtensionBlock['byte_length'] = getid3_lib::LittleEndian2Int(substr($ExtensionBlockData, 2, 1));
@@ -179,9 +179,9 @@ class getid3_gif extends getid3_handler
                                 getid3_lib::LittleEndian2Int(substr($ExtensionBlock['data'], 13, 2));
                         } else {
                             $this->warning(
-                                'Expecting 03 01 at offset '.($this->ftell() - 4).', found "'.getid3_lib::PrintHexBytes(
+                                'Expecting 03 01 at offset ' . ($this->ftell() - 4) . ', found "' . getid3_lib::PrintHexBytes(
                                     substr($ExtensionBlock['data'], 11, 2)
-                                ).'"'
+                                ) . '"'
                             );
                         }
                     }
@@ -206,7 +206,7 @@ class getid3_gif extends getid3_handler
     }
 
     /**
-     * @param  int  $bits
+     * @param int $bits
      *
      * @return float|int
      */
@@ -214,7 +214,7 @@ class getid3_gif extends getid3_handler
     {
         static $bitbuffer = '';
         while (strlen($bitbuffer) < $bits) {
-            $bitbuffer = str_pad(decbin(ord($this->fread(1))), 8, '0', STR_PAD_LEFT).$bitbuffer;
+            $bitbuffer = str_pad(decbin(ord($this->fread(1))), 8, '0', STR_PAD_LEFT) . $bitbuffer;
         }
         $value = bindec(substr($bitbuffer, 0 - $bits));
         $bitbuffer = substr($bitbuffer, 0, 0 - $bits);

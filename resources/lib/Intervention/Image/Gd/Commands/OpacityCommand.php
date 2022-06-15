@@ -10,7 +10,7 @@ class OpacityCommand extends AbstractCommand
     /**
      * Defines opacity of an image
      *
-     * @param  Image  $image
+     * @param Image $image
      * @return boolean
      */
     public function execute($image)

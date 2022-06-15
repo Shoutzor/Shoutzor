@@ -15,7 +15,7 @@ class ExifCommand extends AbstractCommand
      * Note: Windows PHP Users - in order to use this method you will need to
      * enable the mbstring and exif extensions within the php.ini file.
      *
-     * @param  Image  $image
+     * @param Image $image
      * @return boolean
      */
     public function execute($image)
@@ -28,7 +28,7 @@ class ExifCommand extends AbstractCommand
 
         // try to read exif data from image file
         try {
-            $data = @exif_read_data($image->dirname.'/'.$image->basename);
+            $data = @exif_read_data($image->dirname . '/' . $image->basename);
 
             if (!is_null($key) && is_array($data)) {
                 $data = array_key_exists($key, $data) ? $data[$key] : false;
@@ -38,7 +38,7 @@ class ExifCommand extends AbstractCommand
             throw new NotReadableException(
                 sprintf(
                     "Cannot read the Exif data from the filename (%s) provided ",
-                    $image->dirname.'/'.$image->basename
+                    $image->dirname . '/' . $image->basename
                 ), $e->getCode(), $e
             );
         }

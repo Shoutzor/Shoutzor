@@ -11,7 +11,7 @@ class StreamCommand extends AbstractCommand
      * Builds PSR7 stream based on image data. Method uses Guzzle PSR7
      * implementation as easiest choice.
      *
-     * @param  Image  $image
+     * @param Image $image
      * @return boolean
      */
     public function execute($image)

@@ -21,7 +21,7 @@ class DemoFilter implements FilterInterface
     /**
      * Creates new instance of filter
      *
-     * @param  int  $size
+     * @param int $size
      */
     public function __construct($size = null)
     {
@@ -31,7 +31,7 @@ class DemoFilter implements FilterInterface
     /**
      * Applies filter effects to given image
      *
-     * @param  Image  $image
+     * @param Image $image
      * @return Image
      */
     public function applyFilter(Image $image)

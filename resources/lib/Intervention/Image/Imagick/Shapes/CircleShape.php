@@ -16,7 +16,7 @@ class CircleShape extends EllipseShape
     /**
      * Create new instance of circle
      *
-     * @param  int  $diameter
+     * @param int $diameter
      */
     public function __construct($diameter = null)
     {
@@ -28,9 +28,9 @@ class CircleShape extends EllipseShape
     /**
      * Draw current circle on given image
      *
-     * @param  Image  $image
-     * @param  int  $x
-     * @param  int  $y
+     * @param Image $image
+     * @param int $x
+     * @param int $y
      * @return boolean
      */
     public function applyToImage(Image $image, $x = 0, $y = 0)

@@ -16,7 +16,7 @@ class UploadSubscriber implements EventSubscriberInterface
     /**
      * Handle the event.
      *
-     * @param  UploadProcessingEvent  $event
+     * @param UploadProcessingEvent $event
      * @return void
      */
     public function onProcessUpload(UploadProcessingEvent $event)

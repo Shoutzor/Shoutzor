@@ -12,10 +12,10 @@ class VoteApiController extends Controller
     public function count()
     {
         $votes = Vote::with(['Media', 'Media.Artists'])
-                    ->select('media_id', DB::raw('count(*) as count'))
-                    ->groupBy('media_id')
-                    ->get()
-                    ->toArray();
+            ->select('media_id', DB::raw('count(*) as count'))
+            ->groupBy('media_id')
+            ->get()
+            ->toArray();
 
         return response()->json($votes, 200);
     }

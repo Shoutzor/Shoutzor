@@ -23,7 +23,7 @@
 if (!defined('GETID3_INCLUDEPATH')) {
     throw new Exception('getid3.php MUST be included before calling getid3_writetags');
 }
-if (!include_once(GETID3_INCLUDEPATH.'getid3.lib.php')) {
+if (!include_once(GETID3_INCLUDEPATH . 'getid3.lib.php')) {
     throw new Exception('write.php depends on getid3.lib.php, which is missing.');
 }
 
@@ -142,7 +142,7 @@ class getid3_writetags
             $this->errors[] = 'filename is undefined in getid3_writetags';
             return false;
         } elseif (!file_exists($this->filename)) {
-            $this->errors[] = 'filename set to non-existant file "'.$this->filename.'" in getid3_writetags';
+            $this->errors[] = 'filename set to non-existant file "' . $this->filename . '" in getid3_writetags';
             return false;
         }
 
@@ -225,8 +225,8 @@ class getid3_writetags
             foreach ($this->tagformats as $requested_tag_format) {
                 if (!in_array($requested_tag_format, $AllowedTagFormats)) {
                     $errormessage =
-                        'Tag format "'.$requested_tag_format.'" is not allowed on "'.(isset($this->ThisFileInfo['fileformat']) ? $this->ThisFileInfo['fileformat'] : '');
-                    $errormessage .= (isset($this->ThisFileInfo['audio']['dataformat']) ? '.'.$this->ThisFileInfo['audio']['dataformat'] : '');
+                        'Tag format "' . $requested_tag_format . '" is not allowed on "' . (isset($this->ThisFileInfo['fileformat']) ? $this->ThisFileInfo['fileformat'] : '');
+                    $errormessage .= (isset($this->ThisFileInfo['audio']['dataformat']) ? '.' . $this->ThisFileInfo['audio']['dataformat'] : '');
                     $errormessage .= '" files';
                     $this->errors[] = $errormessage;
                     return false;
@@ -268,7 +268,7 @@ class getid3_writetags
             switch ($tagformat) {
                 case 'ape':
                     $GETID3_ERRORARRAY = &$this->errors;
-                    getid3_lib::IncludeDependency(GETID3_INCLUDEPATH.'write.apetag.php', __FILE__, true);
+                    getid3_lib::IncludeDependency(GETID3_INCLUDEPATH . 'write.apetag.php', __FILE__, true);
                     break;
 
                 case 'id3v1':
@@ -277,7 +277,7 @@ class getid3_writetags
                 case 'metaflac':
                 case 'real':
                     $GETID3_ERRORARRAY = &$this->errors;
-                    getid3_lib::IncludeDependency(GETID3_INCLUDEPATH.'write.'.$tagformat.'.php', __FILE__, true);
+                    getid3_lib::IncludeDependency(GETID3_INCLUDEPATH . 'write.' . $tagformat . '.php', __FILE__, true);
                     break;
 
                 case 'id3v2.2':
@@ -285,11 +285,11 @@ class getid3_writetags
                 case 'id3v2.4':
                 case 'id3v2':
                     $GETID3_ERRORARRAY = &$this->errors;
-                    getid3_lib::IncludeDependency(GETID3_INCLUDEPATH.'write.id3v2.php', __FILE__, true);
+                    getid3_lib::IncludeDependency(GETID3_INCLUDEPATH . 'write.id3v2.php', __FILE__, true);
                     break;
 
                 default:
-                    $this->errors[] = 'unknown tag format "'.$tagformat.'" in $tagformats in WriteTags()';
+                    $this->errors[] = 'unknown tag format "' . $tagformat . '" in $tagformats in WriteTags()';
                     return false;
                     break;
             }
@@ -341,11 +341,11 @@ class getid3_writetags
                     if ($ape_writer->tag_data = $this->FormatDataForAPE()) {
                         $ape_writer->filename = $this->filename;
                         if (($success = $ape_writer->WriteAPEtag()) === false) {
-                            $this->errors[] = 'WriteAPEtag() failed with message(s):<pre><ul><li>'.str_replace(
+                            $this->errors[] = 'WriteAPEtag() failed with message(s):<pre><ul><li>' . str_replace(
                                     "\n",
                                     '</li><li>',
                                     htmlentities(trim(implode("\n", $ape_writer->errors)))
-                                ).'</li></ul></pre>';
+                                ) . '</li></ul></pre>';
                         }
                     } else {
                         $this->errors[] = 'FormatDataForAPE() failed';
@@ -357,11 +357,11 @@ class getid3_writetags
                     if ($id3v1_writer->tag_data = $this->FormatDataForID3v1()) {
                         $id3v1_writer->filename = $this->filename;
                         if (($success = $id3v1_writer->WriteID3v1()) === false) {
-                            $this->errors[] = 'WriteID3v1() failed with message(s):<pre><ul><li>'.str_replace(
+                            $this->errors[] = 'WriteID3v1() failed with message(s):<pre><ul><li>' . str_replace(
                                     "\n",
                                     '</li><li>',
                                     htmlentities(trim(implode("\n", $id3v1_writer->errors)))
-                                ).'</li></ul></pre>';
+                                ) . '</li></ul></pre>';
                         }
                     } else {
                         $this->errors[] = 'FormatDataForID3v1() failed';
@@ -380,11 +380,11 @@ class getid3_writetags
                         unset($id3v2_writer_tag_data);
                         $id3v2_writer->filename = $this->filename;
                         if (($success = $id3v2_writer->WriteID3v2()) === false) {
-                            $this->errors[] = 'WriteID3v2() failed with message(s):<pre><ul><li>'.str_replace(
+                            $this->errors[] = 'WriteID3v2() failed with message(s):<pre><ul><li>' . str_replace(
                                     "\n",
                                     '</li><li>',
                                     htmlentities(trim(implode("\n", $id3v2_writer->errors)))
-                                ).'</li></ul></pre>';
+                                ) . '</li></ul></pre>';
                         }
                     } else {
                         $this->errors[] = 'FormatDataForID3v2() failed';
@@ -396,11 +396,11 @@ class getid3_writetags
                     if ($vorbiscomment_writer->tag_data = $this->FormatDataForVorbisComment()) {
                         $vorbiscomment_writer->filename = $this->filename;
                         if (($success = $vorbiscomment_writer->WriteVorbisComment()) === false) {
-                            $this->errors[] = 'WriteVorbisComment() failed with message(s):<pre><ul><li>'.str_replace(
+                            $this->errors[] = 'WriteVorbisComment() failed with message(s):<pre><ul><li>' . str_replace(
                                     "\n",
                                     '</li><li>',
                                     htmlentities(trim(implode("\n", $vorbiscomment_writer->errors)))
-                                ).'</li></ul></pre>';
+                                ) . '</li></ul></pre>';
                         }
                     } else {
                         $this->errors[] = 'FormatDataForVorbisComment() failed';
@@ -412,11 +412,11 @@ class getid3_writetags
                     if ($metaflac_writer->tag_data = $this->FormatDataForMetaFLAC()) {
                         $metaflac_writer->filename = $this->filename;
                         if (($success = $metaflac_writer->WriteMetaFLAC()) === false) {
-                            $this->errors[] = 'WriteMetaFLAC() failed with message(s):<pre><ul><li>'.str_replace(
+                            $this->errors[] = 'WriteMetaFLAC() failed with message(s):<pre><ul><li>' . str_replace(
                                     "\n",
                                     '</li><li>',
                                     htmlentities(trim(implode("\n", $metaflac_writer->errors)))
-                                ).'</li></ul></pre>';
+                                ) . '</li></ul></pre>';
                         }
                     } else {
                         $this->errors[] = 'FormatDataForMetaFLAC() failed';
@@ -428,11 +428,11 @@ class getid3_writetags
                     if ($real_writer->tag_data = $this->FormatDataForReal()) {
                         $real_writer->filename = $this->filename;
                         if (($success = $real_writer->WriteReal()) === false) {
-                            $this->errors[] = 'WriteReal() failed with message(s):<pre><ul><li>'.str_replace(
+                            $this->errors[] = 'WriteReal() failed with message(s):<pre><ul><li>' . str_replace(
                                     "\n",
                                     '</li><li>',
                                     htmlentities(trim(implode("\n", $real_writer->errors)))
-                                ).'</li></ul></pre>';
+                                ) . '</li></ul></pre>';
                         }
                     } else {
                         $this->errors[] = 'FormatDataForReal() failed';
@@ -440,7 +440,7 @@ class getid3_writetags
                     break;
 
                 default:
-                    $this->errors[] = 'Invalid tag format to write: "'.$tagformat.'"';
+                    $this->errors[] = 'Invalid tag format to write: "' . $tagformat . '"';
                     return false;
                     break;
             }
@@ -453,7 +453,7 @@ class getid3_writetags
     }
 
     /**
-     * @param  string[]  $TagFormatsToDelete
+     * @param string[] $TagFormatsToDelete
      *
      * @return bool
      */
@@ -466,9 +466,9 @@ class getid3_writetags
                     $id3v1_writer = new getid3_write_id3v1;
                     $id3v1_writer->filename = $this->filename;
                     if (($success = $id3v1_writer->RemoveID3v1()) === false) {
-                        $this->errors[] = 'RemoveID3v1() failed with message(s):<PRE><UL><LI>'.trim(
+                        $this->errors[] = 'RemoveID3v1() failed with message(s):<PRE><UL><LI>' . trim(
                                 implode('</LI><LI>', $id3v1_writer->errors)
-                            ).'</LI></UL></PRE>';
+                            ) . '</LI></UL></PRE>';
                     }
                     break;
 
@@ -476,9 +476,9 @@ class getid3_writetags
                     $id3v2_writer = new getid3_write_id3v2;
                     $id3v2_writer->filename = $this->filename;
                     if (($success = $id3v2_writer->RemoveID3v2()) === false) {
-                        $this->errors[] = 'RemoveID3v2() failed with message(s):<PRE><UL><LI>'.trim(
+                        $this->errors[] = 'RemoveID3v2() failed with message(s):<PRE><UL><LI>' . trim(
                                 implode('</LI><LI>', $id3v2_writer->errors)
-                            ).'</LI></UL></PRE>';
+                            ) . '</LI></UL></PRE>';
                     }
                     break;
 
@@ -486,9 +486,9 @@ class getid3_writetags
                     $ape_writer = new getid3_write_apetag;
                     $ape_writer->filename = $this->filename;
                     if (($success = $ape_writer->DeleteAPEtag()) === false) {
-                        $this->errors[] = 'DeleteAPEtag() failed with message(s):<PRE><UL><LI>'.trim(
+                        $this->errors[] = 'DeleteAPEtag() failed with message(s):<PRE><UL><LI>' . trim(
                                 implode('</LI><LI>', $ape_writer->errors)
-                            ).'</LI></UL></PRE>';
+                            ) . '</LI></UL></PRE>';
                     }
                     break;
 
@@ -496,9 +496,9 @@ class getid3_writetags
                     $vorbiscomment_writer = new getid3_write_vorbiscomment;
                     $vorbiscomment_writer->filename = $this->filename;
                     if (($success = $vorbiscomment_writer->DeleteVorbisComment()) === false) {
-                        $this->errors[] = 'DeleteVorbisComment() failed with message(s):<PRE><UL><LI>'.trim(
+                        $this->errors[] = 'DeleteVorbisComment() failed with message(s):<PRE><UL><LI>' . trim(
                                 implode('</LI><LI>', $vorbiscomment_writer->errors)
-                            ).'</LI></UL></PRE>';
+                            ) . '</LI></UL></PRE>';
                     }
                     break;
 
@@ -506,9 +506,9 @@ class getid3_writetags
                     $metaflac_writer = new getid3_write_metaflac;
                     $metaflac_writer->filename = $this->filename;
                     if (($success = $metaflac_writer->DeleteMetaFLAC()) === false) {
-                        $this->errors[] = 'DeleteMetaFLAC() failed with message(s):<PRE><UL><LI>'.trim(
+                        $this->errors[] = 'DeleteMetaFLAC() failed with message(s):<PRE><UL><LI>' . trim(
                                 implode('</LI><LI>', $metaflac_writer->errors)
-                            ).'</LI></UL></PRE>';
+                            ) . '</LI></UL></PRE>';
                     }
                     break;
 
@@ -516,9 +516,9 @@ class getid3_writetags
                     $lyrics3_writer = new getid3_write_lyrics3;
                     $lyrics3_writer->filename = $this->filename;
                     if (($success = $lyrics3_writer->DeleteLyrics3()) === false) {
-                        $this->errors[] = 'DeleteLyrics3() failed with message(s):<PRE><UL><LI>'.trim(
+                        $this->errors[] = 'DeleteLyrics3() failed with message(s):<PRE><UL><LI>' . trim(
                                 implode('</LI><LI>', $lyrics3_writer->errors)
-                            ).'</LI></UL></PRE>';
+                            ) . '</LI></UL></PRE>';
                     }
                     break;
 
@@ -526,14 +526,14 @@ class getid3_writetags
                     $real_writer = new getid3_write_real;
                     $real_writer->filename = $this->filename;
                     if (($success = $real_writer->RemoveReal()) === false) {
-                        $this->errors[] = 'RemoveReal() failed with message(s):<PRE><UL><LI>'.trim(
+                        $this->errors[] = 'RemoveReal() failed with message(s):<PRE><UL><LI>' . trim(
                                 implode('</LI><LI>', $real_writer->errors)
-                            ).'</LI></UL></PRE>';
+                            ) . '</LI></UL></PRE>';
                     }
                     break;
 
                 default:
-                    $this->errors[] = 'Invalid tag format to delete: "'.$DeleteTagFormat.'"';
+                    $this->errors[] = 'Invalid tag format to delete: "' . $DeleteTagFormat . '"';
                     return false;
                     break;
             }
@@ -554,7 +554,7 @@ class getid3_writetags
             switch ($tag_key) {
                 case 'ATTACHED_PICTURE':
                     // ATTACHED_PICTURE is ID3v2 only - ignore
-                    $this->warnings[] = '$data['.$tag_key.'] is assumed to be ID3v2 APIC data - NOT written to APE tag';
+                    $this->warnings[] = '$data[' . $tag_key . '] is assumed to be ID3v2 APIC data - NOT written to APE tag';
                     break;
 
                 default:
@@ -564,7 +564,7 @@ class getid3_writetags
                                 getid3_lib::iconv_fallback($this->tag_encoding, 'UTF-8', $value);
                         } else {
                             $this->warnings[] =
-                                '$data['.$tag_key.']['.$key.'] is not a string value - all of $data['.$tag_key.'] NOT written to APE tag';
+                                '$data[' . $tag_key . '][' . $key . '] is not a string value - all of $data[' . $tag_key . '] NOT written to APE tag';
                             unset($ape_tag_data[$tag_key]);
                             break;
                         }
@@ -577,8 +577,8 @@ class getid3_writetags
     }
 
     /**
-     * @param  string  $TagFormat
-     * @param  array  $tag_data
+     * @param string $TagFormat
+     * @param array $tag_data
      *
      * @return bool
      * @throws Exception
@@ -659,7 +659,7 @@ class getid3_writetags
     }
 
     /**
-     * @param  int  $id3v2_majorversion
+     * @param int $id3v2_majorversion
      *
      * @return array|false
      */
@@ -724,7 +724,7 @@ class getid3_writetags
 
                 case '':
                     $this->errors[] =
-                        'ID3v2: Skipping "'.$tag_key.'" because cannot match it to a known ID3v2 frame type';
+                        'ID3v2: Skipping "' . $tag_key . '" because cannot match it to a known ID3v2 frame type';
                     // some other data type, don't know how to handle it, ignore it
                     break;
 
@@ -766,7 +766,7 @@ class getid3_writetags
                                     $tag_data_id3v2[$ID3v2_framename][$key]['encodingid'] = 1;
                                     //$tag_data_id3v2[$ID3v2_framename][$key]['data']       = getid3_lib::iconv_fallback($this->tag_encoding, 'UTF-16', $value); // output is UTF-16LE+BOM or UTF-16BE+BOM depending on system architecture
                                     $tag_data_id3v2[$ID3v2_framename][$key]['data'] =
-                                        "\xFF\xFE".getid3_lib::iconv_fallback(
+                                        "\xFF\xFE" . getid3_lib::iconv_fallback(
                                             $this->tag_encoding,
                                             'UTF-16LE',
                                             $value
@@ -822,7 +822,7 @@ class getid3_writetags
                             getid3_lib::iconv_fallback($this->tag_encoding, 'UTF-8', $value);
                     } else {
                         $this->warnings[] =
-                            '$data['.$tag_key.']['.$key.'] is not a string value - all of $data['.$tag_key.'] NOT written to VorbisComment tag';
+                            '$data[' . $tag_key . '][' . $key . '] is not a string value - all of $data[' . $tag_key . '] NOT written to VorbisComment tag';
                         unset($tag_data_vorbiscomment[$tag_key]);
                         break;
                     }

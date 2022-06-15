@@ -7,7 +7,7 @@
         :class="classes"
         :autocomplete="autocomplete"
         @input="handleInput"
-        :aria-label="name" />
+        :aria-label="name"/>
 </template>
 
 <script>
@@ -58,7 +58,7 @@ export default {
 
     emits: ['input'],
 
-    setup(props, { emit }) {
+    setup(props, {emit}) {
         props = reactive(props);
 
         return {
@@ -68,7 +68,7 @@ export default {
                 'form-control-lg': props.size === 'large',
                 'is-invalid': props.hasError
             })),
-            handleInput (e) {
+            handleInput(e) {
                 emit('input', props.value);
             }
         }

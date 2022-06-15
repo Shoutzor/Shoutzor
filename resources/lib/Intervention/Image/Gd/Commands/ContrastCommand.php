@@ -10,7 +10,7 @@ class ContrastCommand extends AbstractCommand
     /**
      * Changes contrast of image
      *
-     * @param  Image  $image
+     * @param Image $image
      * @return boolean
      */
     public function execute($image)

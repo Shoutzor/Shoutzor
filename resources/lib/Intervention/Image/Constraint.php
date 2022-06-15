@@ -31,7 +31,7 @@ class Constraint
     /**
      * Create a new constraint based on size
      *
-     * @param  Size  $size
+     * @param Size $size
      */
     public function __construct(Size $size)
     {
@@ -51,12 +51,12 @@ class Constraint
     /**
      * Checks if given argument is fixed in current constraint
      *
-     * @param  int  $type
+     * @param int $type
      * @return boolean
      */
     public function isFixed($type)
     {
-        return (bool) ($this->fixed & (1 << $type));
+        return (bool)($this->fixed & (1 << $type));
     }
 
     /**
@@ -72,7 +72,7 @@ class Constraint
     /**
      * Fix the given argument in current constraint
      *
-     * @param  int  $type
+     * @param int $type
      * @return void
      */
     public function fix($type)

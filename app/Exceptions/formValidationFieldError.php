@@ -5,7 +5,8 @@ namespace App\Exceptions;
 /**
  * Used in App\Exception\formValidationException to indicate which fields have failed validation
  */
-class formValidationFieldError {
+class formValidationFieldError
+{
 
     /**
      * The field name which has failed validation
@@ -19,7 +20,8 @@ class formValidationFieldError {
      */
     private string $message;
 
-    public function __construct(string $name, string $message) {
+    public function __construct(string $name, string $message)
+    {
         $this->name = $name;
         $this->message = $message;
     }
@@ -28,7 +30,8 @@ class formValidationFieldError {
      * Returns the field name
      * @return string
      */
-    public function getField(): string {
+    public function getField(): string
+    {
         return $this->name;
     }
 
@@ -36,7 +39,8 @@ class formValidationFieldError {
      * Returns the reason
      * @return string
      */
-    public function getMessage(): string {
+    public function getMessage(): string
+    {
         return $this->message;
     }
 

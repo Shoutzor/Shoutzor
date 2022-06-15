@@ -11,7 +11,7 @@ class ColorizeCommand extends AbstractCommand
     /**
      * Changes balance of different RGB color channels
      *
-     * @param  Image  $image
+     * @param Image $image
      * @return boolean
      */
     public function execute($image)

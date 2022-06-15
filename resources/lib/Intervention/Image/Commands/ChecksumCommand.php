@@ -9,7 +9,7 @@ class ChecksumCommand extends AbstractCommand
     /**
      * Calculates checksum of given image
      *
-     * @param  Image  $image
+     * @param Image $image
      * @return boolean
      */
     public function execute($image)

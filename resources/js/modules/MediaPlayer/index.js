@@ -4,7 +4,7 @@ import {
     MEDIA_PLAYING,
     MEDIA_STOPPED
 } from "@models/mutation-types";
-import { PlayerState } from "@models/PlayerState";
+import {PlayerState} from "@models/PlayerState";
 import dashjs from "dashjs";
 import Player from "./Player";
 
@@ -45,9 +45,9 @@ const index = {
 
     actions: {
         play({
-            commit,
-            dispatch
-        }, url) {
+                 commit,
+                 dispatch
+             }, url) {
             return new Promise((resolve, reject) => {
                 Player.attachSource(url);
                 Player.play();
@@ -57,9 +57,9 @@ const index = {
         },
 
         stop({
-            commit,
-            dispatch
-        }) {
+                 commit,
+                 dispatch
+             }) {
             return new Promise((resolve, reject) => {
                 Player.pause();
                 Player.attachSource(null);
@@ -69,23 +69,23 @@ const index = {
         },
 
         handleEvent({
-            commit,
-            dispatch
-        }, e) {
+                        commit,
+                        dispatch
+                    }, e) {
             return new Promise((resolve, reject) => {
-                if(e.type === dashjs.MediaPlayer.events["STREAM_INITIALIZING"] || e.type === dashjs.MediaPlayer.events["PLAYBACK_WAITING"] || e.type === dashjs.MediaPlayer.events["PLAYBACK_STALLED"]) {
+                if (e.type === dashjs.MediaPlayer.events["STREAM_INITIALIZING"] || e.type === dashjs.MediaPlayer.events["PLAYBACK_WAITING"] || e.type === dashjs.MediaPlayer.events["PLAYBACK_STALLED"]) {
                     commit(MEDIA_LOADING);
                     return resolve();
                 }
                 //Playing
                 else {
-                    if(e.type === dashjs.MediaPlayer.events["PLAYBACK_PLAYING"]) {
+                    if (e.type === dashjs.MediaPlayer.events["PLAYBACK_PLAYING"]) {
                         commit(MEDIA_PLAYING, (Player.getTracksFor("video").length > 0));
                         return resolve();
                     }
                     //Stopped
                     else {
-                        if(e.type === dashjs.MediaPlayer.events["ERROR"] || e.type === dashjs.MediaPlayer.events["PLAYBACK_ERROR"] || e.type === dashjs.MediaPlayer.events["PLAYBACK_ENDED"] || e.type === dashjs.MediaPlayer.events["PLAYBACK_PAUSED"]) {
+                        if (e.type === dashjs.MediaPlayer.events["ERROR"] || e.type === dashjs.MediaPlayer.events["PLAYBACK_ERROR"] || e.type === dashjs.MediaPlayer.events["PLAYBACK_ENDED"] || e.type === dashjs.MediaPlayer.events["PLAYBACK_PAUSED"]) {
                             commit(MEDIA_STOPPED);
                             return resolve();
                         }

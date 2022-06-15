@@ -3,13 +3,16 @@
         <div v-if="showHeader" class="d-flex justify-content-end">
             <h3 v-if="showTitle">{{ headerTitle }}</h3>
 
-            <base-button v-if="showRefreshButton" :disabled="isLoading" :classes="['btn-secondary', 'ms-2', 'mb-2']" @click="$emit('healthcheckRefresh')">
+            <base-button v-if="showRefreshButton" :disabled="isLoading" :classes="['btn-secondary', 'ms-2', 'mb-2']"
+                         @click="$emit('healthcheckRefresh')">
                 <span v-if="refreshButtonText" class="refreshText me-1">{{ refreshButtonText }}</span>
-                <b-icon-arrow-counterclockwise v-if="isLoading === false" class="refreshIcon ms-1"></b-icon-arrow-counterclockwise>
+                <b-icon-arrow-counterclockwise v-if="isLoading === false"
+                                               class="refreshIcon ms-1"></b-icon-arrow-counterclockwise>
                 <base-spinner v-else :small="true"></base-spinner>
             </base-button>
 
-            <base-button v-if="showRepairButton" :disabled="isLoading" :classes="['btn-primary', 'ms-2', 'mb-2']" @click="$emit('healthcheckRepair')">
+            <base-button v-if="showRepairButton" :disabled="isLoading" :classes="['btn-primary', 'ms-2', 'mb-2']"
+                         @click="$emit('healthcheckRepair')">
                 Attempt automatic repair
             </base-button>
         </div>
@@ -60,7 +63,7 @@ import HealthStatus from "@components/HealthStatus";
 export default {
     name: 'health-checker',
 
-    components: { BaseButton, BaseSpinner, HealthStatus },
+    components: {BaseButton, BaseSpinner, HealthStatus},
 
     props: {
         healthChecks: {

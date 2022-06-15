@@ -29,11 +29,11 @@ class getid3_aa extends getid3_handler
         $magic = "\x57\x90\x75\x36";
         if (substr($AAheader, 4, 4) != $magic) {
             $this->error(
-                'Expecting "'.getid3_lib::PrintHexBytes(
+                'Expecting "' . getid3_lib::PrintHexBytes(
                     $magic
-                ).'" at offset '.$info['avdataoffset'].', found "'.getid3_lib::PrintHexBytes(
+                ) . '" at offset ' . $info['avdataoffset'] . ', found "' . getid3_lib::PrintHexBytes(
                     substr($AAheader, 4, 4)
-                ).'"'
+                ) . '"'
             );
             return false;
         }
@@ -45,7 +45,7 @@ class getid3_aa extends getid3_handler
         $info['fileformat'] = 'aa';
         $info['audio']['dataformat'] = 'aa';
         $this->error(
-            'Audible Audiobook (.aa) parsing not enabled in this version of getID3() ['.$this->getid3->version().']'
+            'Audible Audiobook (.aa) parsing not enabled in this version of getID3() [' . $this->getid3->version() . ']'
         );
         return false;
         $info['audio']['bitrate_mode'] = 'cbr'; // is it?
@@ -54,7 +54,7 @@ class getid3_aa extends getid3_handler
         $thisfile_aa['filesize'] = getid3_lib::BigEndian2Int(substr($AAheader, 0, 4));
         if ($thisfile_aa['filesize'] > ($info['avdataend'] - $info['avdataoffset'])) {
             $this->warning(
-                'Possible truncated file - expecting "'.$thisfile_aa['filesize'].'" bytes of data, only found '.($info['avdataend'] - $info['avdataoffset']).' bytes"'
+                'Possible truncated file - expecting "' . $thisfile_aa['filesize'] . '" bytes of data, only found ' . ($info['avdataend'] - $info['avdataoffset']) . ' bytes"'
             );
         }
 

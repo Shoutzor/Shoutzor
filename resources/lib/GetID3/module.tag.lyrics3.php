@@ -27,7 +27,7 @@ class getid3_lyrics3 extends getid3_handler
 
         if (!getid3_lib::intValueSupported($info['filesize'])) {
             $this->warning(
-                'Unable to check for Lyrics3 because file is larger than '.round(PHP_INT_MAX / 1073741824).'GB'
+                'Unable to check for Lyrics3 because file is larger than ' . round(PHP_INT_MAX / 1073741824) . 'GB'
             );
             return false;
         }
@@ -65,7 +65,7 @@ class getid3_lyrics3 extends getid3_handler
 
             // Lyrics3v2, no ID3v1, no APE
 
-            $lyrics3size = (int) strrev(substr(strrev($lyrics3_id3v1), 9, 6)) + 6 + strlen(
+            $lyrics3size = (int)strrev(substr(strrev($lyrics3_id3v1), 9, 6)) + 6 + strlen(
                     'LYRICS200'
                 ); // LSZ = lyrics + 'LYRICSBEGIN'; add 6-byte size field; add 'LYRICS200'
             $lyrics3offset = $info['filesize'] - $lyrics3size;
@@ -111,7 +111,7 @@ class getid3_lyrics3 extends getid3_handler
             if (!isset($info['ape'])) {
                 if (isset($info['lyrics3']['tag_offset_start'])) {
                     $GETID3_ERRORARRAY = &$info['warning'];
-                    getid3_lib::IncludeDependency(GETID3_INCLUDEPATH.'module.tag.apetag.php', __FILE__, true);
+                    getid3_lib::IncludeDependency(GETID3_INCLUDEPATH . 'module.tag.apetag.php', __FILE__, true);
                     $getid3_temp = new getID3();
                     $getid3_temp->openfile($this->getid3->filename);
                     $getid3_apetag = new getid3_apetag($getid3_temp);
@@ -137,9 +137,9 @@ class getid3_lyrics3 extends getid3_handler
     }
 
     /**
-     * @param  int  $endoffset
-     * @param  int  $version
-     * @param  int  $length
+     * @param int $endoffset
+     * @param int $version
+     * @param int $length
      *
      * @return bool
      */
@@ -151,7 +151,7 @@ class getid3_lyrics3 extends getid3_handler
 
         if (!getid3_lib::intValueSupported($endoffset)) {
             $this->warning(
-                'Unable to check for Lyrics3 because file is larger than '.round(PHP_INT_MAX / 1073741824).'GB'
+                'Unable to check for Lyrics3 because file is larger than ' . round(PHP_INT_MAX / 1073741824) . 'GB'
             );
             return false;
         }
@@ -173,10 +173,10 @@ class getid3_lyrics3 extends getid3_handler
             if (strpos($rawdata, 'LYRICSBEGIN') !== false) {
 
                 $this->warning(
-                    '"LYRICSBEGIN" expected at '.$endoffset.' but actually found at '.($endoffset + strpos(
+                    '"LYRICSBEGIN" expected at ' . $endoffset . ' but actually found at ' . ($endoffset + strpos(
                             $rawdata,
                             'LYRICSBEGIN'
-                        )).' - this is invalid for Lyrics3 v'.$version
+                        )) . ' - this is invalid for Lyrics3 v' . $version
                 );
                 $info['avdataend'] = $endoffset + strpos($rawdata, 'LYRICSBEGIN');
                 $rawdata = substr($rawdata, strpos($rawdata, 'LYRICSBEGIN'));
@@ -187,7 +187,7 @@ class getid3_lyrics3 extends getid3_handler
             } else {
 
                 $this->error(
-                    '"LYRICSBEGIN" expected at '.$endoffset.' but found "'.substr($rawdata, 0, 11).'" instead'
+                    '"LYRICSBEGIN" expected at ' . $endoffset . ' but found "' . substr($rawdata, 0, 11) . '" instead'
                 );
                 return false;
 
@@ -203,11 +203,11 @@ class getid3_lyrics3 extends getid3_handler
                     $this->Lyrics3LyricsTimestampParse($ParsedLyrics3);
                 } else {
                     $this->error(
-                        '"LYRICSEND" expected at '.($this->ftell() - 11 + $length - 9).' but found "'.substr(
+                        '"LYRICSEND" expected at ' . ($this->ftell() - 11 + $length - 9) . ' but found "' . substr(
                             $rawdata,
                             strlen($rawdata) - 9,
                             9
-                        ).'" instead'
+                        ) . '" instead'
                     );
                     return false;
                 }
@@ -220,7 +220,7 @@ class getid3_lyrics3 extends getid3_handler
                     $rawdata = $ParsedLyrics3['raw']['unparsed'];
                     while (strlen($rawdata) > 0) {
                         $fieldname = substr($rawdata, 0, 3);
-                        $fieldsize = (int) substr($rawdata, 3, 5);
+                        $fieldsize = (int)substr($rawdata, 3, 5);
                         $ParsedLyrics3['raw'][$fieldname] = substr($rawdata, 8, $fieldsize);
                         $rawdata = substr($rawdata, 3 + 5 + $fieldsize);
                     }
@@ -268,18 +268,18 @@ class getid3_lyrics3 extends getid3_handler
                     }
                 } else {
                     $this->error(
-                        '"LYRICS200" expected at '.($this->ftell() - 11 + $length - 9).' but found "'.substr(
+                        '"LYRICS200" expected at ' . ($this->ftell() - 11 + $length - 9) . ' but found "' . substr(
                             $rawdata,
                             strlen($rawdata) - 9,
                             9
-                        ).'" instead'
+                        ) . '" instead'
                     );
                     return false;
                 }
                 break;
 
             default:
-                $this->error('Cannot process Lyrics3 version '.$version.' (only v1 and v2)');
+                $this->error('Cannot process Lyrics3 version ' . $version . ' (only v1 and v2)');
                 return false;
                 break;
         }
@@ -302,7 +302,7 @@ class getid3_lyrics3 extends getid3_handler
     }
 
     /**
-     * @param  array  $Lyrics3data
+     * @param array $Lyrics3data
      *
      * @return bool
      */
@@ -324,7 +324,7 @@ class getid3_lyrics3 extends getid3_handler
                     if (isset($Lyrics3data['synchedlyrics'][$timestamp])) {
                         // timestamps only have a 1-second resolution, it's possible that multiple lines
                         // could have the same timestamp, if so, append
-                        $Lyrics3data['synchedlyrics'][$timestamp] .= "\r\n".$lyricline;
+                        $Lyrics3data['synchedlyrics'][$timestamp] .= "\r\n" . $lyricline;
                     } else {
                         $Lyrics3data['synchedlyrics'][$timestamp] = $lyricline;
                     }
@@ -339,20 +339,20 @@ class getid3_lyrics3 extends getid3_handler
     }
 
     /**
-     * @param  string  $rawtimestamp
+     * @param string $rawtimestamp
      *
      * @return int|false
      */
     public function Lyrics3Timestamp2Seconds($rawtimestamp)
     {
         if (preg_match('#^\\[([0-9]{2}):([0-9]{2})\\]$#', $rawtimestamp, $regs)) {
-            return (int) (($regs[1] * 60) + $regs[2]);
+            return (int)(($regs[1] * 60) + $regs[2]);
         }
         return false;
     }
 
     /**
-     * @param  string  $char
+     * @param string $char
      *
      * @return bool|null
      */

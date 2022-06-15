@@ -3,7 +3,7 @@
         :class="classes"
         :disabled="disabled"
         :style="styles"
-        @click="onClick" >
+        @click="onClick">
         <slot></slot>
     </button>
 </template>
@@ -24,7 +24,7 @@ export default {
 
     emits: ['click'],
 
-    setup(props, { emit }) {
+    setup(props, {emit}) {
         props = reactive(props);
 
         return {

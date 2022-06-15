@@ -39,10 +39,10 @@ class RectangleShape extends AbstractShape
     /**
      * Create new rectangle shape instance
      *
-     * @param  int  $x1
-     * @param  int  $y1
-     * @param  int  $x2
-     * @param  int  $y2
+     * @param int $x1
+     * @param int $y1
+     * @param int $x2
+     * @param int $y2
      */
     public function __construct($x1 = null, $y1 = null, $x2 = null, $y2 = null)
     {
@@ -55,9 +55,9 @@ class RectangleShape extends AbstractShape
     /**
      * Draw rectangle to given image at certain position
      *
-     * @param  Image  $image
-     * @param  int  $x
-     * @param  int  $y
+     * @param Image $image
+     * @param int $x
+     * @param int $y
      * @return boolean
      */
     public function applyToImage(Image $image, $x = 0, $y = 0)

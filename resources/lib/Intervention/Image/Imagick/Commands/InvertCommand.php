@@ -10,7 +10,7 @@ class InvertCommand extends AbstractCommand
     /**
      * Inverts colors of an image
      *
-     * @param  Image  $image
+     * @param Image $image
      * @return boolean
      */
     public function execute($image)

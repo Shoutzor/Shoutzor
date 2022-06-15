@@ -10,7 +10,7 @@ class BackupCommand extends AbstractCommand
     /**
      * Saves a backups of current state of image core
      *
-     * @param  Image  $image
+     * @param Image $image
      * @return boolean
      */
     public function execute($image)

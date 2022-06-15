@@ -8,7 +8,9 @@ class MediaSource
         private string $identifier,
         private string $name,
         private string $icon
-    ) {}
+    )
+    {
+    }
 
     public function getIdentifier(): string
     {

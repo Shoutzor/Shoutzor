@@ -10,7 +10,7 @@ class IptcCommand extends AbstractCommand
     /**
      * Read Iptc data from the given image
      *
-     * @param  Image  $image
+     * @param Image $image
      * @return boolean
      */
     public function execute($image)
@@ -22,7 +22,7 @@ class IptcCommand extends AbstractCommand
         $key = $this->argument(0)->value();
 
         $info = [];
-        @getimagesize($image->dirname.'/'.$image->basename, $info);
+        @getimagesize($image->dirname . '/' . $image->basename, $info);
 
         $data = [];
 

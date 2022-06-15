@@ -2,12 +2,12 @@ import Echo from 'laravel-echo';
 import router from "./router/app";
 import mitt from 'mitt';
 import PerfectScrollbar from 'vue3-perfect-scrollbar';
-import { createApp } from 'vue'
-import { BootstrapIconsPlugin  } from 'bootstrap-icons-vue';
-import { DefaultApolloClient } from '@vue/apollo-composable'
-import { ApolloClient, HttpLink, InMemoryCache, split } from '@apollo/client/core'
-import { createLighthouseSubscriptionLink } from "@thekonz/apollo-lighthouse-subscription-link";
-import { getMainDefinition } from "@apollo/client/utilities";
+import {createApp} from 'vue'
+import {BootstrapIconsPlugin} from 'bootstrap-icons-vue';
+import {DefaultApolloClient} from '@vue/apollo-composable'
+import {ApolloClient, HttpLink, InMemoryCache, split} from '@apollo/client/core'
+import {createLighthouseSubscriptionLink} from "@thekonz/apollo-lighthouse-subscription-link";
+import {getMainDefinition} from "@apollo/client/utilities";
 import App from "@js/views/App.vue";
 
 const emitter = mitt();
@@ -35,7 +35,7 @@ let echoClient = new Echo({
     forceTLS: process.env.MIX_PUSHER_SCHEME === 'https',
     encrypted: true,
     disableStats: true,
-    enabledTransports: [ 'ws', 'wss' ]
+    enabledTransports: ['ws', 'wss']
 });
 
 // HTTP connection to the API
@@ -49,7 +49,7 @@ const httpLink = new HttpLink({
 // depending on what kind of operation is being sent
 const link = split(
     // split based on operation type
-    ({ query }) => {
+    ({query}) => {
         const definition = getMainDefinition(query);
         return (
             definition.kind === "OperationDefinition" &&
@@ -79,6 +79,6 @@ app.provide(DefaultApolloClient, apolloClient);
 
 app.config.globalProperties.emitter = emitter;
 app.use(router)
-   .use(PerfectScrollbar)
-   .use(BootstrapIconsPlugin)
-   .mount('#shoutzor');
+    .use(PerfectScrollbar)
+    .use(BootstrapIconsPlugin)
+    .mount('#shoutzor');

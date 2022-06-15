@@ -50,9 +50,9 @@ class getid3_nsv extends getid3_handler
 
             default:
                 $this->error(
-                    'Expecting "NSVs" or "NSVf" at offset '.$info['avdataoffset'].', found "'.getid3_lib::PrintHexBytes(
+                    'Expecting "NSVs" or "NSVf" at offset ' . $info['avdataoffset'] . ', found "' . getid3_lib::PrintHexBytes(
                         $NSVheader
-                    ).'"'
+                    ) . '"'
                 );
                 return false;
                 break;
@@ -66,7 +66,7 @@ class getid3_nsv extends getid3_handler
     }
 
     /**
-     * @param  int  $fileoffset
+     * @param int $fileoffset
      *
      * @return bool
      */
@@ -82,7 +82,7 @@ class getid3_nsv extends getid3_handler
 
         if ($info['nsv']['NSVs']['identifier'] != 'NSVs') {
             $this->error(
-                'expected "NSVs" at offset ('.$fileoffset.'), found "'.$info['nsv']['NSVs']['identifier'].'" instead'
+                'expected "NSVs" at offset (' . $fileoffset . '), found "' . $info['nsv']['NSVs']['identifier'] . '" instead'
             );
             unset($info['nsv']['NSVs']);
             return false;
@@ -141,20 +141,20 @@ class getid3_nsv extends getid3_handler
         $info['nsv']['NSVs']['frame_rate'] = $this->NSVframerateLookup($info['nsv']['NSVs']['framerate_index']);
         $info['video']['frame_rate'] = $info['nsv']['NSVs']['frame_rate'];
         $info['video']['bits_per_sample'] = 24;
-        $info['video']['pixel_aspect_ratio'] = (float) 1;
+        $info['video']['pixel_aspect_ratio'] = (float)1;
 
         return true;
     }
 
     /**
-     * @param  int  $framerateindex
+     * @param int $framerateindex
      *
      * @return float|false
      */
     public static function NSVframerateLookup($framerateindex)
     {
         if ($framerateindex <= 127) {
-            return (float) $framerateindex;
+            return (float)$framerateindex;
         }
         static $NSVframerateLookup = array();
         if (empty($NSVframerateLookup)) {
@@ -168,8 +168,8 @@ class getid3_nsv extends getid3_handler
     }
 
     /**
-     * @param  int  $fileoffset
-     * @param  bool  $getTOCoffsets
+     * @param int $fileoffset
+     * @param bool $getTOCoffsets
      *
      * @return bool
      */
@@ -185,7 +185,7 @@ class getid3_nsv extends getid3_handler
 
         if ($info['nsv']['NSVf']['identifier'] != 'NSVf') {
             $this->error(
-                'expected "NSVf" at offset ('.$fileoffset.'), found "'.$info['nsv']['NSVf']['identifier'].'" instead'
+                'expected "NSVf" at offset (' . $fileoffset . '), found "' . $info['nsv']['NSVf']['identifier'] . '" instead'
             );
             unset($info['nsv']['NSVf']);
             return false;
@@ -200,7 +200,7 @@ class getid3_nsv extends getid3_handler
 
         if ($info['nsv']['NSVf']['file_size'] > $info['avdataend']) {
             $this->warning(
-                'truncated file - NSVf header indicates '.$info['nsv']['NSVf']['file_size'].' bytes, file actually '.$info['avdataend'].' bytes'
+                'truncated file - NSVf header indicates ' . $info['nsv']['NSVf']['file_size'] . ' bytes, file actually ' . $info['avdataend'] . ' bytes'
             );
         }
 
@@ -239,10 +239,10 @@ class getid3_nsv extends getid3_handler
 
         if (trim($info['nsv']['NSVf']['metadata']) != '') {
             $info['nsv']['NSVf']['metadata'] = str_replace('`', "\x01", $info['nsv']['NSVf']['metadata']);
-            $CommentPairArray = explode("\x01".' ', $info['nsv']['NSVf']['metadata']);
+            $CommentPairArray = explode("\x01" . ' ', $info['nsv']['NSVf']['metadata']);
             foreach ($CommentPairArray as $CommentPair) {
-                if (strstr($CommentPair, '='."\x01")) {
-                    list($key, $value) = explode('='."\x01", $CommentPair, 2);
+                if (strstr($CommentPair, '=' . "\x01")) {
+                    list($key, $value) = explode('=' . "\x01", $CommentPair, 2);
                     $info['nsv']['comments'][strtolower($key)][] = trim(str_replace("\x01", '', $value));
                 }
             }

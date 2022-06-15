@@ -208,8 +208,8 @@ class Image extends File
     /**
      * Creates a new Image instance
      *
-     * @param  AbstractDriver  $driver
-     * @param  mixed  $core
+     * @param AbstractDriver $driver
+     * @param mixed $core
      */
     public function __construct(AbstractDriver $driver = null, $core = null)
     {
@@ -221,8 +221,8 @@ class Image extends File
      * Magic method to catch all image calls
      * usually any AbstractCommand
      *
-     * @param  string  $name
-     * @param  Array  $arguments
+     * @param string $name
+     * @param Array $arguments
      * @return mixed
      */
     public function __call($name, $arguments)
@@ -234,9 +234,9 @@ class Image extends File
     /**
      * Saves encoded image in filesystem
      *
-     * @param  string  $path
-     * @param  int  $quality
-     * @param  string  $format
+     * @param string $path
+     * @param int $quality
+     * @param string $format
      * @return Image
      */
     public function save($path = null, $quality = null, $format = null)
@@ -267,8 +267,8 @@ class Image extends File
     /**
      * Starts encoding of current image
      *
-     * @param  string  $format
-     * @param  int  $quality
+     * @param string $format
+     * @param int $quality
      * @return Image
      */
     public function encode($format = null, $quality = 90)
@@ -279,7 +279,7 @@ class Image extends File
     /**
      * Runs a given filter on current image
      *
-     * @param  FiltersFilterInterface  $filter
+     * @param FiltersFilterInterface $filter
      * @return Image
      */
     public function filter(Filters\FilterInterface $filter)
@@ -300,7 +300,7 @@ class Image extends File
     /**
      * Sets current image driver
      *
-     * @param  AbstractDriver  $driver
+     * @param AbstractDriver $driver
      */
     public function setDriver(AbstractDriver $driver)
     {
@@ -322,7 +322,7 @@ class Image extends File
     /**
      * Sets current image resource
      *
-     * @param  mixed  $core
+     * @param mixed $core
      */
     public function setCore($core)
     {
@@ -334,7 +334,7 @@ class Image extends File
     /**
      * Returns current image backup
      *
-     * @param  string  $name
+     * @param string $name
      * @return mixed
      */
     public function getBackup($name = null)
@@ -351,7 +351,7 @@ class Image extends File
     /**
      * Checks if named backup exists
      *
-     * @param  string  $name
+     * @param string $name
      * @return bool
      */
     private function backupExists($name)
@@ -372,8 +372,8 @@ class Image extends File
     /**
      * Sets current image backup
      *
-     * @param  mixed  $resource
-     * @param  string  $name
+     * @param mixed $resource
+     * @param string $name
      * @return self
      */
     public function setBackup($resource, $name = null)
@@ -408,7 +408,7 @@ class Image extends File
     /**
      * Sets encoded image buffer
      *
-     * @param  string  $value
+     * @param string $value
      */
     public function setEncoded($value)
     {

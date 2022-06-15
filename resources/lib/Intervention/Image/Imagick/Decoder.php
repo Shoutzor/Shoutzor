@@ -15,7 +15,7 @@ class Decoder extends AbstractDecoder
     /**
      * Initiates new image from path in filesystem
      *
-     * @param  string  $path
+     * @param string $path
      * @return Image
      */
     public function initFromPath($path)
@@ -46,7 +46,7 @@ class Decoder extends AbstractDecoder
     /**
      * Initiates new image from Imagick object
      *
-     * @param  Imagick  $object
+     * @param Imagick $object
      * @return Image
      */
     public function initFromImagick(Imagick $object)
@@ -65,7 +65,7 @@ class Decoder extends AbstractDecoder
      * Turns object into one frame Imagick object
      * by removing all frames except first
      *
-     * @param  Imagick  $object
+     * @param Imagick $object
      * @return Imagick
      */
     private function removeAnimation(Imagick $object)
@@ -85,7 +85,7 @@ class Decoder extends AbstractDecoder
     /**
      * Initiates new image from GD resource
      *
-     * @param  Resource  $resource
+     * @param Resource $resource
      * @return Image
      */
     public function initFromGdResource($resource)
@@ -96,7 +96,7 @@ class Decoder extends AbstractDecoder
     /**
      * Initiates new image from binary data
      *
-     * @param  string  $data
+     * @param string $data
      * @return Image
      */
     public function initFromBinary($binary)

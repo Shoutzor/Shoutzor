@@ -21,7 +21,7 @@ abstract class AbstractDecoder
     /**
      * Creates new Decoder with data
      *
-     * @param  mixed  $data
+     * @param mixed $data
      */
     public function __construct($data = null)
     {
@@ -41,7 +41,7 @@ abstract class AbstractDecoder
     /**
      * Initiates new image from mixed data
      *
-     * @param  mixed  $data
+     * @param mixed $data
      * @return Image
      */
     public function init($data)
@@ -103,7 +103,7 @@ abstract class AbstractDecoder
     /**
      * Initiates new image from GD resource
      *
-     * @param  Resource  $resource
+     * @param Resource $resource
      * @return Image
      */
     abstract public function initFromGdResource($resource);
@@ -121,7 +121,7 @@ abstract class AbstractDecoder
     /**
      * Initiates new image from Imagick object
      *
-     * @param  Imagick  $object
+     * @param Imagick $object
      * @return Image
      */
     abstract public function initFromImagick(Imagick $object);
@@ -139,7 +139,7 @@ abstract class AbstractDecoder
     /**
      * Initiates new Image from Intervention\Image\Image
      *
-     * @param  Image  $object
+     * @param Image $object
      * @return Image
      */
     public function initFromInterventionImage($object)
@@ -160,7 +160,7 @@ abstract class AbstractDecoder
     /**
      * Initiates new image from path in filesystem
      *
-     * @param  string  $path
+     * @param string $path
      * @return Image
      */
     abstract public function initFromPath($path);
@@ -183,7 +183,7 @@ abstract class AbstractDecoder
     /**
      * Initiates new image from binary data
      *
-     * @param  string  $data
+     * @param string $data
      * @return Image
      */
     abstract public function initFromBinary($data);
@@ -195,13 +195,13 @@ abstract class AbstractDecoder
      */
     public function isUrl()
     {
-        return (bool) filter_var($this->data, FILTER_VALIDATE_URL);
+        return (bool)filter_var($this->data, FILTER_VALIDATE_URL);
     }
 
     /**
      * Init from given URL
      *
-     * @param  string  $url
+     * @param string $url
      * @return Image
      */
     public function initFromUrl($url)
@@ -210,7 +210,7 @@ abstract class AbstractDecoder
         $options = [
             'http' => [
                 'method' => "GET",
-                'header' => "Accept-language: en\r\n"."User-Agent: Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.2 (KHTML, like Gecko) Chrome/22.0.1216.0 Safari/537.2\r\n"
+                'header' => "Accept-language: en\r\n" . "User-Agent: Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.2 (KHTML, like Gecko) Chrome/22.0.1216.0 Safari/537.2\r\n"
             ]
         ];
 
@@ -220,7 +220,7 @@ abstract class AbstractDecoder
             return $this->initFromBinary($data);
         }
 
-        throw new NotReadableException("Unable to init from given url (".$url.").");
+        throw new NotReadableException("Unable to init from given url (" . $url . ").");
     }
 
     /**
@@ -246,7 +246,7 @@ abstract class AbstractDecoder
     /**
      * Init from given stream
      *
-     * @param  StreamInterface|resource  $stream
+     * @param StreamInterface|resource $stream
      * @return Image
      */
     public function initFromStream($stream)
@@ -299,7 +299,7 @@ abstract class AbstractDecoder
     /**
      * Parses and decodes binary image data from data-url
      *
-     * @param  string  $data_url
+     * @param string $data_url
      * @return string
      */
     private function decodeDataUrl($data_url)
@@ -357,6 +357,6 @@ abstract class AbstractDecoder
      */
     public function __toString()
     {
-        return (string) $this->data;
+        return (string)$this->data;
     }
 }

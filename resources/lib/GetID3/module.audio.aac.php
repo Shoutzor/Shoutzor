@@ -188,7 +188,7 @@ class getid3_aac extends getid3_handler
                     getid3_lib::Bin2Dec(substr($AACheaderBitstream, $bitoffset, 4));
                 $bitoffset += 4;
                 $info['aac']['program_configs'][$i]['mono_mixdown_present'] =
-                    (bool) getid3_lib::Bin2Dec(substr($AACheaderBitstream, $bitoffset, 1));
+                    (bool)getid3_lib::Bin2Dec(substr($AACheaderBitstream, $bitoffset, 1));
                 $bitoffset += 1;
                 if ($info['aac']['program_configs'][$i]['mono_mixdown_present']) {
                     $info['aac']['program_configs'][$i]['mono_mixdown_element_number'] =
@@ -196,7 +196,7 @@ class getid3_aac extends getid3_handler
                     $bitoffset += 4;
                 }
                 $info['aac']['program_configs'][$i]['stereo_mixdown_present'] =
-                    (bool) getid3_lib::Bin2Dec(substr($AACheaderBitstream, $bitoffset, 1));
+                    (bool)getid3_lib::Bin2Dec(substr($AACheaderBitstream, $bitoffset, 1));
                 $bitoffset += 1;
                 if ($info['aac']['program_configs'][$i]['stereo_mixdown_present']) {
                     $info['aac']['program_configs'][$i]['stereo_mixdown_element_number'] =
@@ -204,19 +204,19 @@ class getid3_aac extends getid3_handler
                     $bitoffset += 4;
                 }
                 $info['aac']['program_configs'][$i]['matrix_mixdown_idx_present'] =
-                    (bool) getid3_lib::Bin2Dec(substr($AACheaderBitstream, $bitoffset, 1));
+                    (bool)getid3_lib::Bin2Dec(substr($AACheaderBitstream, $bitoffset, 1));
                 $bitoffset += 1;
                 if ($info['aac']['program_configs'][$i]['matrix_mixdown_idx_present']) {
                     $info['aac']['program_configs'][$i]['matrix_mixdown_idx'] =
                         getid3_lib::Bin2Dec(substr($AACheaderBitstream, $bitoffset, 2));
                     $bitoffset += 2;
                     $info['aac']['program_configs'][$i]['pseudo_surround_enable'] =
-                        (bool) getid3_lib::Bin2Dec(substr($AACheaderBitstream, $bitoffset, 1));
+                        (bool)getid3_lib::Bin2Dec(substr($AACheaderBitstream, $bitoffset, 1));
                     $bitoffset += 1;
                 }
                 for ($j = 0; $j < $info['aac']['program_configs'][$i]['num_front_channel_elements']; $j++) {
                     $info['aac']['program_configs'][$i]['front_element_is_cpe'][$j] =
-                        (bool) getid3_lib::Bin2Dec(substr($AACheaderBitstream, $bitoffset, 1));
+                        (bool)getid3_lib::Bin2Dec(substr($AACheaderBitstream, $bitoffset, 1));
                     $bitoffset += 1;
                     $info['aac']['program_configs'][$i]['front_element_tag_select'][$j] =
                         getid3_lib::Bin2Dec(substr($AACheaderBitstream, $bitoffset, 4));
@@ -224,7 +224,7 @@ class getid3_aac extends getid3_handler
                 }
                 for ($j = 0; $j < $info['aac']['program_configs'][$i]['num_side_channel_elements']; $j++) {
                     $info['aac']['program_configs'][$i]['side_element_is_cpe'][$j] =
-                        (bool) getid3_lib::Bin2Dec(substr($AACheaderBitstream, $bitoffset, 1));
+                        (bool)getid3_lib::Bin2Dec(substr($AACheaderBitstream, $bitoffset, 1));
                     $bitoffset += 1;
                     $info['aac']['program_configs'][$i]['side_element_tag_select'][$j] =
                         getid3_lib::Bin2Dec(substr($AACheaderBitstream, $bitoffset, 4));
@@ -232,7 +232,7 @@ class getid3_aac extends getid3_handler
                 }
                 for ($j = 0; $j < $info['aac']['program_configs'][$i]['num_back_channel_elements']; $j++) {
                     $info['aac']['program_configs'][$i]['back_element_is_cpe'][$j] =
-                        (bool) getid3_lib::Bin2Dec(substr($AACheaderBitstream, $bitoffset, 1));
+                        (bool)getid3_lib::Bin2Dec(substr($AACheaderBitstream, $bitoffset, 1));
                     $bitoffset += 1;
                     $info['aac']['program_configs'][$i]['back_element_tag_select'][$j] =
                         getid3_lib::Bin2Dec(substr($AACheaderBitstream, $bitoffset, 4));
@@ -250,7 +250,7 @@ class getid3_aac extends getid3_handler
                 }
                 for ($j = 0; $j < $info['aac']['program_configs'][$i]['num_valid_cc_elements']; $j++) {
                     $info['aac']['program_configs'][$i]['cc_element_is_ind_sw'][$j] =
-                        (bool) getid3_lib::Bin2Dec(substr($AACheaderBitstream, $bitoffset, 1));
+                        (bool)getid3_lib::Bin2Dec(substr($AACheaderBitstream, $bitoffset, 1));
                     $bitoffset += 1;
                     $info['aac']['program_configs'][$i]['valid_cc_element_tag_select'][$j] =
                         getid3_lib::Bin2Dec(substr($AACheaderBitstream, $bitoffset, 4));
@@ -285,7 +285,7 @@ class getid3_aac extends getid3_handler
             }
             $info['playtime_seconds'] = (($info['avdataend'] - $info['avdataoffset']) * 8) / $info['audio']['bitrate'];
 
-            $info['audio']['encoder_options'] = $info['aac']['header_type'].' '.$info['aac']['header']['profile'];
+            $info['audio']['encoder_options'] = $info['aac']['header_type'] . ' ' . $info['aac']['header']['profile'];
 
             return true;
 
@@ -294,11 +294,11 @@ class getid3_aac extends getid3_handler
             unset($info['fileformat']);
             unset($info['aac']);
             $this->error(
-                'AAC-ADIF synch not found at offset '.$info['avdataoffset'].' (expected "ADIF", found "'.substr(
+                'AAC-ADIF synch not found at offset ' . $info['avdataoffset'] . ' (expected "ADIF", found "' . substr(
                     $AACheader,
                     0,
                     4
-                ).'" instead)'
+                ) . '" instead)'
             );
             return false;
 
@@ -307,8 +307,8 @@ class getid3_aac extends getid3_handler
     }
 
     /**
-     * @param  int  $profileid
-     * @param  int  $mpegversion
+     * @param int $profileid
+     * @param int $mpegversion
      *
      * @return string
      */
@@ -329,7 +329,7 @@ class getid3_aac extends getid3_handler
     }
 
     /**
-     * @param  int  $samplerateid
+     * @param int $samplerateid
      *
      * @return int|string
      */
@@ -358,7 +358,7 @@ class getid3_aac extends getid3_handler
     }
 
     /**
-     * @param  array  $program_configs
+     * @param array $program_configs
      *
      * @return int
      */
@@ -393,8 +393,8 @@ class getid3_aac extends getid3_handler
     }
 
     /**
-     * @param  int  $MaxFramesToScan
-     * @param  bool  $ReturnExtendedInfo
+     * @param int $MaxFramesToScan
+     * @param bool $ReturnExtendedInfo
      *
      * @return bool
      */
@@ -451,7 +451,7 @@ class getid3_aac extends getid3_handler
 
             if (!getid3_lib::intValueSupported($byteoffset)) {
                 $this->warning(
-                    'Unable to parse AAC file beyond '.$this->ftell().' (PHP does not support file operations beyond '.round(PHP_INT_MAX / 1073741824).'GB)'
+                    'Unable to parse AAC file beyond ' . $this->ftell() . ' (PHP does not support file operations beyond ' . round(PHP_INT_MAX / 1073741824) . 'GB)'
                 );
                 return false;
             }
@@ -462,7 +462,7 @@ class getid3_aac extends getid3_handler
             $substringlength = strlen($substring);
             if ($substringlength != 9) {
                 $this->error(
-                    'Failed to read 7 bytes at offset '.($this->ftell() - $substringlength).' (only read '.$substringlength.' bytes)'
+                    'Failed to read 7 bytes at offset ' . ($this->ftell() - $substringlength) . ' (only read ' . $substringlength . ' bytes)'
                 );
                 return false;
             }
@@ -474,9 +474,9 @@ class getid3_aac extends getid3_handler
             $info['aac']['header']['raw']['syncword'] = ($header1 & 0xFFF0) >> 4;
             if ($info['aac']['header']['raw']['syncword'] != 0x0FFF) {
                 $this->error(
-                    'Synch pattern (0x0FFF) not found at offset '.($this->ftell() - $substringlength).' (found 0x0'.strtoupper(
+                    'Synch pattern (0x0FFF) not found at offset ' . ($this->ftell() - $substringlength) . ' (found 0x0' . strtoupper(
                         dechex($info['aac']['header']['raw']['syncword'])
-                    ).' instead)'
+                    ) . ' instead)'
                 );
                 //if ($info['fileformat'] == 'aac') {
                 //	return true;
@@ -514,21 +514,21 @@ class getid3_aac extends getid3_handler
                 );
                 $info['aac']['header']['sample_frequency'] =
                     self::AACsampleRateLookup($info['aac']['header']['raw']['sample_rate_code']);
-                $info['aac']['header']['private'] = (bool) $info['aac']['header']['raw']['private_stream'];
-                $info['aac']['header']['original'] = (bool) $info['aac']['header']['raw']['original'];
-                $info['aac']['header']['home'] = (bool) $info['aac']['header']['raw']['home'];
+                $info['aac']['header']['private'] = (bool)$info['aac']['header']['raw']['private_stream'];
+                $info['aac']['header']['original'] = (bool)$info['aac']['header']['raw']['original'];
+                $info['aac']['header']['home'] = (bool)$info['aac']['header']['raw']['home'];
                 $info['aac']['header']['channels'] =
                     (($info['aac']['header']['raw']['channels_code'] == 7) ? 8 : $info['aac']['header']['raw']['channels_code']);
                 if ($ReturnExtendedInfo) {
                     $info['aac'][$framenumber]['copyright_id_bit'] =
-                        (bool) $info['aac']['header']['raw']['copyright_stream'];
+                        (bool)$info['aac']['header']['raw']['copyright_stream'];
                     $info['aac'][$framenumber]['copyright_id_start'] =
-                        (bool) $info['aac']['header']['raw']['copyright_start'];
+                        (bool)$info['aac']['header']['raw']['copyright_start'];
                 }
 
                 if ($info['aac']['header']['raw']['mpeg_layer'] != 0) {
                     $this->warning(
-                        'Layer error - expected "0", found "'.$info['aac']['header']['raw']['mpeg_layer'].'" instead'
+                        'Layer error - expected "0", found "' . $info['aac']['header']['raw']['mpeg_layer'] . '" instead'
                     );
                 }
                 if ($info['aac']['header']['sample_frequency'] == 0) {
@@ -594,7 +594,7 @@ class getid3_aac extends getid3_handler
                     (($info['avdataend'] - $info['avdataoffset']) * 8) / $info['playtime_seconds'];
                 ksort($info['aac']['bitrate_distribution']);
 
-                $info['audio']['encoder_options'] = $info['aac']['header_type'].' '.$info['aac']['header']['profile'];
+                $info['audio']['encoder_options'] = $info['aac']['header_type'] . ' ' . $info['aac']['header']['profile'];
 
                 return true;
 

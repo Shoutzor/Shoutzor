@@ -11,8 +11,8 @@ class Driver extends AbstractDriver
     /**
      * Creates new instance of driver
      *
-     * @param  Decoder  $decoder
-     * @param  Encoder  $encoder
+     * @param Decoder $decoder
+     * @param Encoder $encoder
      */
     public function __construct(Decoder $decoder = null, Encoder $encoder = null)
     {
@@ -37,9 +37,9 @@ class Driver extends AbstractDriver
     /**
      * Creates new image instance
      *
-     * @param  int  $width
-     * @param  int  $height
-     * @param  mixed  $background
+     * @param int $width
+     * @param int $height
+     * @param mixed $background
      * @return Image
      */
     public function newImage($width, $height, $background = null)
@@ -58,7 +58,7 @@ class Driver extends AbstractDriver
     /**
      * Reads given string into color object
      *
-     * @param  string  $value
+     * @param string $value
      * @return AbstractColor
      */
     public function parseColor($value)

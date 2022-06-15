@@ -70,7 +70,7 @@ class getid3_svg extends getid3_handler
             $info['video']['dataformat'] = 'svg';
             $info['video']['lossless'] = true;
             //$info['video']['bits_per_sample']    = 24;
-            $info['video']['pixel_aspect_ratio'] = (float) 1;
+            $info['video']['pixel_aspect_ratio'] = (float)1;
 
             if (!empty($info['svg']['svg']['sections']['width'])) {
                 $info['svg']['width'] = intval($info['svg']['svg']['sections']['width']);

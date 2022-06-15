@@ -22,8 +22,8 @@ class Html2Text
      *   <li>Information in the &lt;head&gt; is lost
      * </ul>
      *
-     * @param  string  $html  the input HTML
-     * @param  boolean  $ignore_error  Ignore xml parsing errors
+     * @param string $html the input HTML
+     * @param boolean $ignore_error Ignore xml parsing errors
      * @return string the HTML converted, as best as possible, to text
      * @throws Html2TextException if the HTML could not be loaded as a {@link \DOMDocument}
      */
@@ -84,7 +84,7 @@ class Html2Text
      * then \r becomes \n. This means that all newlines (Unix, Windows, Mac)
      * all become \ns.
      *
-     * @param  string  $text  text with any number of \r, \r\n and \n combinations
+     * @param string $text text with any number of \r, \r\n and \n combinations
      * @return string the fixed text
      */
     static function fixNewlines($text)
@@ -100,8 +100,8 @@ class Html2Text
     /**
      * Parse HTML into a DOMDocument
      *
-     * @param  string  $html  the input HTML
-     * @param  boolean  $ignore_error  Ignore xml parsing errors
+     * @param string $html the input HTML
+     * @param boolean $ignore_error Ignore xml parsing errors
      * @return DOMDocument the parsed document tree
      */
     static function getDocument($html, $ignore_error = false)
@@ -122,7 +122,7 @@ class Html2Text
             // If we do not do this, PHP will insert a paragraph tag around
             // the first block of text for some reason which can mess up
             // the newlines. See pre.html test for an example.
-            $html = '<body>'.$html.'</body>';
+            $html = '<body>' . $html . '</body>';
         }
 
         if ($ignore_error) {
@@ -148,7 +148,7 @@ class Html2Text
         if ($node instanceof DOMText) {
             // Replace whitespace characters with a space (equivilant to \s)
             if ($in_pre) {
-                $text = "\n".trim(static::renderText($node->wholeText), "\n\r\t ")."\n";
+                $text = "\n" . trim(static::renderText($node->wholeText), "\n\r\t ") . "\n";
 
                 // Remove trailing whitespace only
                 $text = preg_replace("/[ \t]*\n/im", "\n", $text);
@@ -161,7 +161,7 @@ class Html2Text
                 $text = preg_replace("/[\\t\\n\\f\\r ]+/im", " ", $text);
 
                 if (!static::isWhitespace($text) && ($prevName == 'p' || $prevName == 'div')) {
-                    return "\n".$text;
+                    return "\n" . $text;
                 }
                 return $text;
             }
@@ -182,7 +182,7 @@ class Html2Text
                 if ($prevName != null) {
                     $prefix = "\n";
                 }
-                return $prefix."---------------------------------------------------------------\n";
+                return $prefix . "---------------------------------------------------------------\n";
 
             case "style":
             case "head":
@@ -394,9 +394,9 @@ class Html2Text
 
             case "img":
                 if ($node->getAttribute("title")) {
-                    $output = "[".$node->getAttribute("title")."]";
+                    $output = "[" . $node->getAttribute("title") . "]";
                 } elseif ($node->getAttribute("alt")) {
-                    $output = "[".$node->getAttribute("alt")."]";
+                    $output = "[" . $node->getAttribute("alt") . "]";
                 } else {
                     $output = "";
                 }
@@ -411,7 +411,7 @@ class Html2Text
                 $output = static::processWhitespaceNewlines($output);
 
                 // add leading newline
-                $output = "\n".$output;
+                $output = "\n" . $output;
 
                 // prepend '> ' at the beginning of all lines
                 $output = preg_replace("/\n/im", "\n> ", $output);
@@ -420,7 +420,7 @@ class Html2Text
                 $output = preg_replace("/\n> >/im", "\n>>", $output);
 
                 // add another leading newline and trailing newlines
-                $output = "\n".$output."\n\n";
+                $output = "\n" . $output . "\n\n";
                 break;
             default:
                 // do nothing
@@ -488,7 +488,7 @@ class Html2Text
     /**
      * Remove leading or trailing spaces and excess empty lines from provided multiline text
      *
-     * @param  string  $text  multiline text any number of leading or trailing spaces or excess lines
+     * @param string $text multiline text any number of leading or trailing spaces or excess lines
      * @return string the fixed text
      */
     static function processWhitespaceNewlines($text)

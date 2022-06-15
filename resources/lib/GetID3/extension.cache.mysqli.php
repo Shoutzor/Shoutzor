@@ -93,11 +93,11 @@ class getID3_cached_mysqli extends getID3
     /**
      * constructor - see top of this file for cache type and cache_options
      *
-     * @param  string  $host
-     * @param  string  $database
-     * @param  string  $username
-     * @param  string  $password
-     * @param  string  $table
+     * @param string $host
+     * @param string $database
+     * @param string $username
+     * @param string $password
+     * @param string $table
      *
      * @throws Exception
      * @throws getid3_exception
@@ -118,7 +118,7 @@ class getID3_cached_mysqli extends getID3
 
         // Select database
         if (!$this->mysqli->select_db($database)) {
-            throw new Exception('Cannot use database '.$database);
+            throw new Exception('Cannot use database ' . $database);
         }
 
         // Set table
@@ -134,8 +134,8 @@ class getID3_cached_mysqli extends getID3
         // Check version number and clear cache if changed
         $version = '';
         $SQLquery = 'SELECT `value`';
-        $SQLquery .= ' FROM `'.$this->mysqli->real_escape_string($this->table).'`';
-        $SQLquery .= ' WHERE (`filename` = \''.$this->mysqli->real_escape_string(getID3::VERSION).'\')';
+        $SQLquery .= ' FROM `' . $this->mysqli->real_escape_string($this->table) . '`';
+        $SQLquery .= ' WHERE (`filename` = \'' . $this->mysqli->real_escape_string(getID3::VERSION) . '\')';
         $SQLquery .= ' AND (`hash` = \'getID3::VERSION\')';
         if ($this->cursor = $this->mysqli->query($SQLquery)) {
             list($version) = $this->cursor->fetch_array();
@@ -150,15 +150,15 @@ class getID3_cached_mysqli extends getID3
     /**
      * (re)create mysqli table
      *
-     * @param  bool  $drop
+     * @param bool $drop
      */
     private function create_table($drop = false)
     {
         if ($drop) {
-            $SQLquery = 'DROP TABLE IF EXISTS `'.$this->mysqli->real_escape_string($this->table).'`';
+            $SQLquery = 'DROP TABLE IF EXISTS `' . $this->mysqli->real_escape_string($this->table) . '`';
             $this->mysqli->query($SQLquery);
         }
-        $SQLquery = 'CREATE TABLE IF NOT EXISTS `'.$this->mysqli->real_escape_string($this->table).'` (';
+        $SQLquery = 'CREATE TABLE IF NOT EXISTS `' . $this->mysqli->real_escape_string($this->table) . '` (';
         $SQLquery .= '`hash` CHAR(32) NOT NULL DEFAULT \'\'';
         $SQLquery .= ', `filename` VARCHAR(1000) NOT NULL DEFAULT \'\'';
         $SQLquery .= ', `filesize` INT(11) NOT NULL DEFAULT \'0\'';
@@ -178,7 +178,7 @@ class getID3_cached_mysqli extends getID3
         // Check for table structure
         if ($this->db_structure_check) {
             $SQLquery = 'SHOW COLUMNS';
-            $SQLquery .= ' FROM `'.$this->mysqli->real_escape_string($this->table).'`';
+            $SQLquery .= ' FROM `' . $this->mysqli->real_escape_string($this->table) . '`';
             $SQLquery .= ' LIKE \'hash\'';
             $this->cursor = $this->mysqli->query($SQLquery);
             if ($this->cursor->num_rows == 0) {
@@ -207,20 +207,20 @@ class getID3_cached_mysqli extends getID3
      */
     public function clear_cache()
     {
-        $this->mysqli->query('TRUNCATE TABLE `'.$this->mysqli->real_escape_string($this->table).'`');
+        $this->mysqli->query('TRUNCATE TABLE `' . $this->mysqli->real_escape_string($this->table) . '`');
         $this->mysqli->query(
-            'INSERT INTO `'.$this->mysqli->real_escape_string(
+            'INSERT INTO `' . $this->mysqli->real_escape_string(
                 $this->table
-            ).'` (`hash`, `filename`, `filesize`, `filetime`, `analyzetime`, `value`) VALUES (\'getID3::VERSION\', \''.getID3::VERSION.'\', -1, -1, -1, \''.getID3::VERSION.'\')'
+            ) . '` (`hash`, `filename`, `filesize`, `filetime`, `analyzetime`, `value`) VALUES (\'getID3::VERSION\', \'' . getID3::VERSION . '\', -1, -1, -1, \'' . getID3::VERSION . '\')'
         );
     }
 
     /**
      * analyze file
      *
-     * @param  string  $filename
-     * @param  int  $filesize
-     * @param  string  $original_filename
+     * @param string $filename
+     * @param int $filesize
+     * @param string $original_filename
      *
      * @return mixed
      */
@@ -236,10 +236,10 @@ class getID3_cached_mysqli extends getID3
 
             // Lookup file
             $SQLquery = 'SELECT `value`';
-            $SQLquery .= ' FROM `'.$this->mysqli->real_escape_string($this->table).'`';
-            $SQLquery .= ' WHERE (`hash` = \''.$this->mysqli->real_escape_string(
-                    md5($filename.$filesize.$filetime)
-                ).'\')';
+            $SQLquery .= ' FROM `' . $this->mysqli->real_escape_string($this->table) . '`';
+            $SQLquery .= ' WHERE (`hash` = \'' . $this->mysqli->real_escape_string(
+                    md5($filename . $filesize . $filetime)
+                ) . '\')';
             $this->cursor = $this->mysqli->query($SQLquery);
             if ($this->cursor->num_rows > 0) {
                 // Hit
@@ -253,15 +253,15 @@ class getID3_cached_mysqli extends getID3
 
         // Save result
         if (file_exists($filename)) {
-            $SQLquery = 'INSERT INTO `'.$this->mysqli->real_escape_string(
+            $SQLquery = 'INSERT INTO `' . $this->mysqli->real_escape_string(
                     $this->table
-                ).'` (`hash`, `filename`, `filesize`, `filetime`, `analyzetime`, `value`) VALUES (';
-            $SQLquery .= '\''.$this->mysqli->real_escape_string(md5($filename.$filesize.$filetime)).'\'';
-            $SQLquery .= ', \''.$this->mysqli->real_escape_string($filename).'\'';
-            $SQLquery .= ', \''.$this->mysqli->real_escape_string($filesize).'\'';
-            $SQLquery .= ', \''.$this->mysqli->real_escape_string($filetime).'\'';
+                ) . '` (`hash`, `filename`, `filesize`, `filetime`, `analyzetime`, `value`) VALUES (';
+            $SQLquery .= '\'' . $this->mysqli->real_escape_string(md5($filename . $filesize . $filetime)) . '\'';
+            $SQLquery .= ', \'' . $this->mysqli->real_escape_string($filename) . '\'';
+            $SQLquery .= ', \'' . $this->mysqli->real_escape_string($filesize) . '\'';
+            $SQLquery .= ', \'' . $this->mysqli->real_escape_string($filetime) . '\'';
             $SQLquery .= ', UNIX_TIMESTAMP()';
-            $SQLquery .= ', \''.$this->mysqli->real_escape_string(base64_encode(serialize($analysis))).'\'';
+            $SQLquery .= ', \'' . $this->mysqli->real_escape_string(base64_encode(serialize($analysis))) . '\'';
             $SQLquery .= ')';
             $this->cursor = $this->mysqli->query($SQLquery);
         }

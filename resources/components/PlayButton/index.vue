@@ -9,12 +9,12 @@
 
 <script>
 import './PlayButton.scss'
-import { BIconPlayFill, BIconStopFill } from 'bootstrap-icons-vue';
-import { reactive } from 'vue';
+import {BIconPlayFill, BIconStopFill} from 'bootstrap-icons-vue';
+import {reactive} from 'vue';
 
 export default {
     name: 'play-button',
-    components: { BIconPlayFill, BIconStopFill },
+    components: {BIconPlayFill, BIconStopFill},
     props: {
         state: {
             type: String,
@@ -28,7 +28,7 @@ export default {
 
     emits: ['click'],
 
-    setup(props, { emit }) {
+    setup(props, {emit}) {
         props = reactive(props);
         return {
             onClick() {

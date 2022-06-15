@@ -77,24 +77,24 @@ class getid3_pcd extends getid3_handler
                     if ($PCDisVertical) {
                         $info['pcd']['data'][$PCD_width - $x][$y] = $this->YCbCr2RGB(
                             ord($PCD_data_Y1{$x}),
-                            ord($PCD_data_Cb{(int) floor($x / 2)}),
-                            ord($PCD_data_Cr{(int) floor($x / 2)})
+                            ord($PCD_data_Cb{(int)floor($x / 2)}),
+                            ord($PCD_data_Cr{(int)floor($x / 2)})
                         );
                         $info['pcd']['data'][$PCD_width - $x][$y + 1] = $this->YCbCr2RGB(
                             ord($PCD_data_Y2{$x}),
-                            ord($PCD_data_Cb{(int) floor($x / 2)}),
-                            ord($PCD_data_Cr{(int) floor($x / 2)})
+                            ord($PCD_data_Cb{(int)floor($x / 2)}),
+                            ord($PCD_data_Cr{(int)floor($x / 2)})
                         );
                     } else {
                         $info['pcd']['data'][$y][$x] = $this->YCbCr2RGB(
                             ord($PCD_data_Y1{$x}),
-                            ord($PCD_data_Cb{(int) floor($x / 2)}),
-                            ord($PCD_data_Cr{(int) floor($x / 2)})
+                            ord($PCD_data_Cb{(int)floor($x / 2)}),
+                            ord($PCD_data_Cr{(int)floor($x / 2)})
                         );
                         $info['pcd']['data'][$y + 1][$x] = $this->YCbCr2RGB(
                             ord($PCD_data_Y2{$x}),
-                            ord($PCD_data_Cb{(int) floor($x / 2)}),
-                            ord($PCD_data_Cr{(int) floor($x / 2)})
+                            ord($PCD_data_Cb{(int)floor($x / 2)}),
+                            ord($PCD_data_Cr{(int)floor($x / 2)})
                         );
                     }
                 }
@@ -118,9 +118,9 @@ class getid3_pcd extends getid3_handler
     }
 
     /**
-     * @param  int  $Y
-     * @param  int  $Cb
-     * @param  int  $Cr
+     * @param int $Y
+     * @param int $Cb
+     * @param int $Cr
      *
      * @return int
      */

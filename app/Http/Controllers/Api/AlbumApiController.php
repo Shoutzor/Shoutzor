@@ -14,12 +14,12 @@ class AlbumApiController extends Controller
         try {
             $album = Album::with(['artists', 'media.artists'])->find($uuid);
             dd($album);
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             dd($e);
         }
 
         if (!$album) {
-            return response()->json(['message' => 'Album with id '.$uuid.' not found'], 404);
+            return response()->json(['message' => 'Album with id ' . $uuid . ' not found'], 404);
         }
 
         return response()->json($album->toArray(), 200);

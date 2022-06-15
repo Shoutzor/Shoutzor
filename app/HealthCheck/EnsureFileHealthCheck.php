@@ -15,7 +15,8 @@ class EnsureFileHealthCheck extends BaseHealthCheck
     #[Pure]
     public function __construct(
         array $files
-    ) {
+    )
+    {
         parent::__construct(
             'Files accessible',
             'Checks if all configured files are created',
@@ -57,18 +58,18 @@ class EnsureFileHealthCheck extends BaseHealthCheck
 
         $errors = [];
         foreach ($this->files as $fileLocation => $templateLocation) {
-            if(is_readable($fileLocation) === false) {
+            if (is_readable($fileLocation) === false) {
                 try {
                     if (!copy($templateLocation, $fileLocation)) {
                         throw new Exception();
                     }
-                } catch(Exception $e) {
+                } catch (Exception $e) {
                     $errors[] = "Failed to copy the template from $templateLocation to $fileLocation";
                 }
             }
         }
 
-        if(count($errors) === 0) {
+        if (count($errors) === 0) {
             $result->setFixed(true);
             $result->setMessage('Files created');
         } else {

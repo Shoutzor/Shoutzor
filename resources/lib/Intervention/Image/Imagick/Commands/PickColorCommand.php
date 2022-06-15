@@ -11,7 +11,7 @@ class PickColorCommand extends AbstractCommand
     /**
      * Read color information from a certain position
      *
-     * @param  Image  $image
+     * @param Image $image
      * @return boolean
      */
     public function execute($image)

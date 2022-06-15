@@ -12,7 +12,8 @@ use DanielDeWit\LighthouseSanctum\Exceptions\HasApiTokensException;
  * Override the original class because that always expects an email & password combination
  * Shoutz0r however uses a username & password combination
  */
-class Login extends \DanielDeWit\LighthouseSanctum\GraphQL\Mutations\Login {
+class Login extends \DanielDeWit\LighthouseSanctum\GraphQL\Mutations\Login
+{
 
     /**
      * @param mixed $_
@@ -25,19 +26,19 @@ class Login extends \DanielDeWit\LighthouseSanctum\GraphQL\Mutations\Login {
         $userProvider = $this->createUserProvider();
 
         $user = $userProvider->retrieveByCredentials([
-            'username'    => $args['username'],
+            'username' => $args['username'],
             'password' => $args['password'],
         ]);
 
-        if (! $user || ! $userProvider->validateCredentials($user, $args)) {
+        if (!$user || !$userProvider->validateCredentials($user, $args)) {
             throw new AuthenticationException('The provided credentials are incorrect.');
         }
 
-        if ($user instanceof MustVerifyEmail && ! $user->hasVerifiedEmail()) {
+        if ($user instanceof MustVerifyEmail && !$user->hasVerifiedEmail()) {
             throw new AuthenticationException('Your email address is not verified.');
         }
 
-        if (! $user instanceof HasApiTokens) {
+        if (!$user instanceof HasApiTokens) {
             throw new HasApiTokensException($user);
         }
 

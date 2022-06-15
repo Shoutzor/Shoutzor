@@ -18,12 +18,12 @@ class MediaSourceManager
      * Shoutz0r uses this to know which files can be played,
      * as well as show the correct information for the file details (front-end)
      *
-     * @param  MediaSource  $source
+     * @param MediaSource $source
      * @throws Exception
      */
     public function registerSource(MediaSource $source): void
     {
-        if(array_key_exists($source->getIdentifier(), $this->source)) {
+        if (array_key_exists($source->getIdentifier(), $this->source)) {
             throw new Exception("MediaSource with the identifier '{$source->getIdentifier()}' already exists");
         }
 
@@ -33,10 +33,11 @@ class MediaSourceManager
     /**
      * Returns the matching MediaSource object for the provided identifier
      * will return null if unregistered
-     * @param  string  $identifier
+     * @param string $identifier
      * @return MediaSource|null
      */
-    public function getSource(string $identifier): ?MediaSource {
+    public function getSource(string $identifier): ?MediaSource
+    {
         return $this->source[$identifier];
     }
 
@@ -57,7 +58,7 @@ class MediaSourceManager
     {
         $result = [];
 
-        foreach($this->getSources() as $s) {
+        foreach ($this->getSources() as $s) {
             $result[] = $s->toArray();
         }
 

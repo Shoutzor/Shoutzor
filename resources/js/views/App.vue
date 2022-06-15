@@ -1,7 +1,7 @@
 <template>
-    <load-screen v-if="loading" message="Loading data, please wait" />
-    <shoutzor v-else-if="hasAccess" />
-    <login-screen v-else />
+    <load-screen v-if="loading" message="Loading data, please wait"/>
+    <shoutzor v-else-if="hasAccess"/>
+    <login-screen v-else/>
 </template>
 
 <script>

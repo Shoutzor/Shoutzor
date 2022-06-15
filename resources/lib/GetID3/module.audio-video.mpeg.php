@@ -14,7 +14,7 @@
 //                                                            ///
 /////////////////////////////////////////////////////////////////
 
-getid3_lib::IncludeDependency(GETID3_INCLUDEPATH.'module.audio.mp3.php', __FILE__, true);
+getid3_lib::IncludeDependency(GETID3_INCLUDEPATH . 'module.audio.mp3.php', __FILE__, true);
 
 class getid3_mpeg extends getid3_handler
 {
@@ -30,8 +30,8 @@ class getid3_mpeg extends getid3_handler
     const AUDIO_START = "\x00\x00\x01\xC0";
 
     /**
-     * @param  int  $VideoBitrate
-     * @param  int  $AudioBitrate
+     * @param int $VideoBitrate
+     * @param int $AudioBitrate
      *
      * @return float|int
      */
@@ -609,7 +609,7 @@ class getid3_mpeg extends getid3_handler
 
                         default:
                             $this->warning(
-                                'Unexpected $info[mpeg][video][raw][extension_start_code_identifier] value of '.$info['mpeg']['video']['raw']['extension_start_code_identifier']
+                                'Unexpected $info[mpeg][video][raw][extension_start_code_identifier] value of ' . $info['mpeg']['video']['raw']['extension_start_code_identifier']
                             );
                             break;
                     }
@@ -649,7 +649,7 @@ class getid3_mpeg extends getid3_handler
                         $time_code_separator =
                             ($GOPheader['drop_frame_flag'] ? ';' : ':'); // While non-drop time code is displayed with colons separating the digit pairs "HH:MM:SS:FF" drop frame is usually represented with a semi-colon (;) or period (.) as the divider between all the digit pairs "HH;MM;SS;FF", "HH.MM.SS.FF"
                         $GOPheader['time_code'] = sprintf(
-                            '%02d'.$time_code_separator.'%02d'.$time_code_separator.'%02d'.$time_code_separator.'%02d',
+                            '%02d' . $time_code_separator . '%02d' . $time_code_separator . '%02d' . $time_code_separator . '%02d',
                             $GOPheader['time_code_hours'],
                             $GOPheader['time_code_minutes'],
                             $GOPheader['time_code_seconds'],
@@ -886,10 +886,10 @@ class getid3_mpeg extends getid3_handler
     }
 
     /**
-     * @param  string  $bitstream
-     * @param  int  $bitstreamoffset
-     * @param  int  $bits_to_read
-     * @param  bool  $return_singlebit_as_boolean
+     * @param string $bitstream
+     * @param int $bitstreamoffset
+     * @param int $bits_to_read
+     * @param bool $return_singlebit_as_boolean
      *
      * @return bool|float|int
      */
@@ -898,20 +898,21 @@ class getid3_mpeg extends getid3_handler
         &$bitstreamoffset,
         $bits_to_read,
         $return_singlebit_as_boolean = true
-    ) {
+    )
+    {
         $return = bindec(substr($bitstream, $bitstreamoffset, $bits_to_read));
         $bitstreamoffset += $bits_to_read;
         if (($bits_to_read == 1) && $return_singlebit_as_boolean) {
-            $return = (bool) $return;
+            $return = (bool)$return;
         }
         return $return;
     }
 
     /**
-     * @param  int  $rawaspectratio
-     * @param  int  $mpeg_version
-     * @param  int  $width
-     * @param  int  $height
+     * @param int $rawaspectratio
+     * @param int $mpeg_version
+     * @param int $width
+     * @param int $height
      *
      * @return float
      */
@@ -938,7 +939,7 @@ class getid3_mpeg extends getid3_handler
             ),
             2 => array(0, 1, 1.3333, 1.7778, 2.2100, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
         );
-        $ratio = (float) (isset($lookup[$mpeg_version][$rawaspectratio]) ? $lookup[$mpeg_version][$rawaspectratio] : 0);
+        $ratio = (float)(isset($lookup[$mpeg_version][$rawaspectratio]) ? $lookup[$mpeg_version][$rawaspectratio] : 0);
         if ($mpeg_version == 2 && $ratio != 1) {
             // Calculate pixel aspect ratio from MPEG-2 display aspect ratio
             $ratio = $ratio * $height / $width;
@@ -947,8 +948,8 @@ class getid3_mpeg extends getid3_handler
     }
 
     /**
-     * @param  int  $rawaspectratio
-     * @param  int  $mpeg_version
+     * @param int $rawaspectratio
+     * @param int $mpeg_version
      *
      * @return string
      */
@@ -996,18 +997,18 @@ class getid3_mpeg extends getid3_handler
     }
 
     /**
-     * @param  int  $rawframerate
+     * @param int $rawframerate
      *
      * @return float
      */
     public static function videoFramerateLookup($rawframerate)
     {
         $lookup = array(0, 23.976, 24, 25, 29.97, 30, 50, 59.94, 60);
-        return (float) (isset($lookup[$rawframerate]) ? $lookup[$rawframerate] : 0);
+        return (float)(isset($lookup[$rawframerate]) ? $lookup[$rawframerate] : 0);
     }
 
     /**
-     * @param  int  $chroma_format
+     * @param int $chroma_format
      *
      * @return string
      */
@@ -1019,7 +1020,7 @@ class getid3_mpeg extends getid3_handler
     }
 
     /**
-     * @param  int  $video_format
+     * @param int $video_format
      *
      * @return string
      */
@@ -1032,7 +1033,7 @@ class getid3_mpeg extends getid3_handler
     }
 
     /**
-     * @param  int  $scalable_mode
+     * @param int $scalable_mode
      *
      * @return string
      */
@@ -1044,7 +1045,7 @@ class getid3_mpeg extends getid3_handler
     }
 
     /**
-     * @param  int  $picture_structure
+     * @param int $picture_structure
      *
      * @return string
      */

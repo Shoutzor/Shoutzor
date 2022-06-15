@@ -14,7 +14,7 @@
 //                                                            ///
 /////////////////////////////////////////////////////////////////
 
-getid3_lib::IncludeDependency(GETID3_INCLUDEPATH.'module.tag.id3v1.php', __FILE__, true);
+getid3_lib::IncludeDependency(GETID3_INCLUDEPATH . 'module.tag.id3v1.php', __FILE__, true);
 
 class getid3_write_id3v1
 {
@@ -90,9 +90,9 @@ class getid3_write_id3v1
             $this->setRealFileSize();
             if (($this->filesize <= 0) || !getid3_lib::intValueSupported($this->filesize)) {
                 $this->errors[] =
-                    'Unable to WriteID3v1('.$this->filename.') because filesize ('.$this->filesize.') is larger than '.round(
+                    'Unable to WriteID3v1(' . $this->filename . ') because filesize (' . $this->filesize . ') is larger than ' . round(
                         PHP_INT_MAX / 1073741824
-                    ).'GB';
+                    ) . 'GB';
                 return false;
             }
             if ($fp_source = fopen($this->filename, 'r+b')) {
@@ -119,11 +119,11 @@ class getid3_write_id3v1
                 return true;
 
             } else {
-                $this->errors[] = 'Could not fopen('.$this->filename.', "r+b")';
+                $this->errors[] = 'Could not fopen(' . $this->filename . ', "r+b")';
                 return false;
             }
         }
-        $this->errors[] = 'File is not writeable: '.$this->filename;
+        $this->errors[] = 'File is not writeable: ' . $this->filename;
         return false;
     }
 
@@ -161,9 +161,9 @@ class getid3_write_id3v1
             $this->setRealFileSize();
             if (($this->filesize <= 0) || !getid3_lib::intValueSupported($this->filesize)) {
                 $this->errors[] =
-                    'Unable to RemoveID3v1('.$this->filename.') because filesize ('.$this->filesize.') is larger than '.round(
+                    'Unable to RemoveID3v1(' . $this->filename . ') because filesize (' . $this->filesize . ') is larger than ' . round(
                         PHP_INT_MAX / 1073741824
-                    ).'GB';
+                    ) . 'GB';
                 return false;
             }
             if ($fp_source = fopen($this->filename, 'r+b')) {
@@ -178,10 +178,10 @@ class getid3_write_id3v1
                 return true;
 
             } else {
-                $this->errors[] = 'Could not fopen('.$this->filename.', "r+b")';
+                $this->errors[] = 'Could not fopen(' . $this->filename . ', "r+b")';
             }
         } else {
-            $this->errors[] = $this->filename.' is not writeable';
+            $this->errors[] = $this->filename . ' is not writeable';
         }
         return false;
     }

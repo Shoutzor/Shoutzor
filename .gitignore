@@ -19,3 +19,4 @@ yarn-error.log
 schema-directives.graphql
 programmatic-types.graphql
 _lighthouse_ide_helper.php
+componser.phar

@@ -8,7 +8,8 @@ use \Exception;
  * This class contains information about the step performed in the App\Installer\Installer class
  * such as: if it succeeded or not, what the response is, and possibly what exception was thrown
  */
-class InstallStepResult {
+class InstallStepResult
+{
 
     /**
      * Indicates if the install step has succeeded or not
@@ -29,11 +30,12 @@ class InstallStepResult {
     private ?Exception $exception;
 
     /**
-     * @param  bool  $success
-     * @param  string  $output
-     * @param  Exception|null  $exception
+     * @param bool $success
+     * @param string $output
+     * @param Exception|null $exception
      */
-    public function __construct(bool $success, string $output = '', ?Exception $exception = null) {
+    public function __construct(bool $success, string $output = '', ?Exception $exception = null)
+    {
         $this->success = $success;
         $this->output = $output;
         $this->exception = $exception;
@@ -43,7 +45,8 @@ class InstallStepResult {
      * Returns if the Install step has succeeded or not
      * @return bool
      */
-    public function succeeded() : bool {
+    public function succeeded(): bool
+    {
         return $this->success;
     }
 
@@ -51,7 +54,8 @@ class InstallStepResult {
      * Returns the output from the install step
      * @return string
      */
-    public function getOutput() : string {
+    public function getOutput(): string
+    {
         return $this->output;
     }
 
@@ -59,7 +63,8 @@ class InstallStepResult {
      * Returns the exception, if any; that has been thrown in the install step
      * @return Exception|null
      */
-    public function getException() : ?Exception {
+    public function getException(): ?Exception
+    {
         return $this->exception;
     }
 

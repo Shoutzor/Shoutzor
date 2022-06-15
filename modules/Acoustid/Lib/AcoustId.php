@@ -17,7 +17,7 @@ class AcoustId
     public function __construct(string $appKey)
     {
         $this->appKey = $appKey;
-        $this->fpcalc_bin = __DIR__.'../../resources/bin/fpcalc';
+        $this->fpcalc_bin = __DIR__ . '../../resources/bin/fpcalc';
     }
 
     public function parse(Upload $upload, Media $media)
@@ -71,9 +71,9 @@ class AcoustId
 
     public function parseFingerprint($duration, $fingerprint)
     {
-        $url = 'http://api.acoustid.org/v2/lookup?client='.$this->appKey;
-        $url .= '&meta=compress+recordings+sources+releasegroups&duration='.$duration;
-        $url .= '&fingerprint='.$fingerprint;
+        $url = 'http://api.acoustid.org/v2/lookup?client=' . $this->appKey;
+        $url .= '&meta=compress+recordings+sources+releasegroups&duration=' . $duration;
+        $url .= '&fingerprint=' . $fingerprint;
 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);

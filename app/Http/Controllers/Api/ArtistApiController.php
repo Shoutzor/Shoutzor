@@ -14,7 +14,7 @@ class ArtistApiController extends Controller
         $artist = Artist::find($uuid);
 
         if (!$artist) {
-            return response()->json(['message' => 'Album with id '.$uuid.' not found'], 404);
+            return response()->json(['message' => 'Album with id ' . $uuid . ' not found'], 404);
         }
 
         return response()->json($artist->toArray(), 200);

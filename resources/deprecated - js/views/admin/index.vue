@@ -1,15 +1,15 @@
 <template>
-  <div>
-    <admin-menu></admin-menu>
+    <div>
+        <admin-menu></admin-menu>
 
-    <div class="content">
-      <router-view></router-view>
+        <div class="content">
+            <router-view></router-view>
+        </div>
     </div>
-  </div>
 </template>
 
 <script>
 export default {
-  name: "admin-view"
+    name: "admin-view"
 };
 </script>

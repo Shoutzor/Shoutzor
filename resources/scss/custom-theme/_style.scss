@@ -55,8 +55,8 @@ a {
 
 /* Disable the button outline when it's pressed */
 .btn-primary:focus, .btn-primary.focus, .btn:focus, .btn.focus {
-  box-shadow: none !important;
-  outline: none !important;
+    box-shadow: none !important;
+    outline: none !important;
 }
 
 .table {
@@ -65,7 +65,7 @@ a {
 }
 
 .table-responsive {
-  margin-bottom: 0 !important;
+    margin-bottom: 0 !important;
 }
 
 .card {
@@ -114,10 +114,10 @@ a {
 
 @keyframes spin {
     from {
-        transform:rotate(0deg);
+        transform: rotate(0deg);
     }
     to {
-        transform:rotate(359deg);
+        transform: rotate(359deg);
     }
 }
 

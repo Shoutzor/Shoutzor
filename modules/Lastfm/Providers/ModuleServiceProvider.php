@@ -18,7 +18,7 @@ class ModuleServiceProvider extends ServiceProvider
         $this->loadTranslationsFrom(module_path('lastfm', 'Resources/Lang', 'app'), 'lastfm');
         $this->loadViewsFrom(module_path('lastfm', 'Resources/Views', 'app'), 'lastfm');
         $this->loadMigrationsFrom(module_path('lastfm', 'Database/Migrations', 'app'));
-        if(!$this->app->configurationIsCached()) {
+        if (!$this->app->configurationIsCached()) {
             $this->loadConfigsFrom(module_path('lastfm', 'Config', 'app'));
         }
         $this->loadFactoriesFrom(module_path('lastfm', 'Database/Factories', 'app'));
@@ -44,6 +44,6 @@ class ModuleServiceProvider extends ServiceProvider
      */
     protected function registerConfig()
     {
-        $this->publishes([__DIR__.'/config/config.php' => config_path('shoutzor_lastfm.php')], 'config');
+        $this->publishes([__DIR__ . '/config/config.php' => config_path('shoutzor_lastfm.php')], 'config');
     }
 }

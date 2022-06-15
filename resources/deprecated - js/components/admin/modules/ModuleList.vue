@@ -7,7 +7,8 @@
                      class="list-group-item">
                     <div :id="'module-' + pkg.id" class="row row-sm align-items-center">
                         <div class="col-auto">
-                            <img :src="'/storage/modules/' + m.id + '/' + m.icon" alt="package logo" class="rounded" height="48"
+                            <img :src="'/storage/modules/' + m.id + '/' + m.icon" alt="package logo" class="rounded"
+                                 height="48"
                                  width="48">
                         </div>
                         <div class="col">

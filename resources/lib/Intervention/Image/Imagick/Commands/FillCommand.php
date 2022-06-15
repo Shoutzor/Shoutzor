@@ -15,7 +15,7 @@ class FillCommand extends AbstractCommand
     /**
      * Fills image with color or pattern
      *
-     * @param  Image  $image
+     * @param Image $image
      * @return boolean
      */
     public function execute($image)

@@ -10,7 +10,7 @@ class ResizeCommand extends AbstractCommand
     /**
      * Resizes image dimensions
      *
-     * @param  Image  $image
+     * @param Image $image
      * @return boolean
      */
     public function execute($image)

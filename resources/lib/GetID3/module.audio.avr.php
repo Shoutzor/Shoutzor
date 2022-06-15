@@ -72,11 +72,11 @@ class getid3_avr extends getid3_handler
         $magic = '2BIT';
         if ($info['avr']['raw']['magic'] != $magic) {
             $this->error(
-                'Expecting "'.getid3_lib::PrintHexBytes(
+                'Expecting "' . getid3_lib::PrintHexBytes(
                     $magic
-                ).'" at offset '.$info['avdataoffset'].', found "'.getid3_lib::PrintHexBytes(
+                ) . '" at offset ' . $info['avdataoffset'] . ', found "' . getid3_lib::PrintHexBytes(
                     $info['avr']['raw']['magic']
-                ).'"'
+                ) . '"'
             );
             unset($info['fileformat']);
             unset($info['avr']);
@@ -115,7 +115,7 @@ class getid3_avr extends getid3_handler
 
         if (($info['avdataend'] - $info['avdataoffset']) != ($info['avr']['sample_length'] * (($info['avr']['bits_per_sample'] == 8) ? 1 : 2))) {
             $this->warning(
-                'Probable truncated file: expecting '.($info['avr']['sample_length'] * (($info['avr']['bits_per_sample'] == 8) ? 1 : 2)).' bytes of audio data, found '.($info['avdataend'] - $info['avdataoffset'])
+                'Probable truncated file: expecting ' . ($info['avr']['sample_length'] * (($info['avr']['bits_per_sample'] == 8) ? 1 : 2)) . ' bytes of audio data, found ' . ($info['avdataend'] - $info['avdataoffset'])
             );
         }
 

@@ -58,7 +58,7 @@ class InstallShoutzor extends Command
 
         try {
             // Running the installer while shoutzor is already installed will break & reset things. Bad idea.
-            if(config('shoutzor.installed')) {
+            if (config('shoutzor.installed')) {
                 throw new Exception('Shoutz0r is already installed, aborting.');
             }
 
@@ -66,7 +66,7 @@ class InstallShoutzor extends Command
 
             $this->checkHealth();
             $this->performInstall($useEnv, $this->option('dev'));
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             $this->error($e->getMessage());
             return 1;
         }
@@ -78,7 +78,8 @@ class InstallShoutzor extends Command
      * Runs the healthchecks and will perform an auto-fix if any issues are detected
      * @throws Exception
      */
-    private function checkHealth() {
+    private function checkHealth()
+    {
         $this->info('Performing installation health-check..');
 
         $checks = app(HealthCheckManager::class)->getHealthStatus(true);
@@ -87,32 +88,32 @@ class InstallShoutzor extends Command
         $healthy = true;
 
         // Iterate over every healthcheck
-        foreach($checks as $check) {
+        foreach ($checks as $check) {
             //Print the name & description of the healthcheck
             $this->line('[HealthCheck] ' . $check['name'] . ' - ' . $check['description']);
 
             // If unhealthy, print the reason
-            if($check['healthy'] === false) {
+            if ($check['healthy'] === false) {
                 $this->error($check['status']);
                 $healthy = false;
             }
         }
 
         // Check if any of the healthchecks returned an unhealthy status
-        if($healthy === false) {
+        if ($healthy === false) {
             $this->info('Found unhealthy healthchecks, performing auto-fix');
 
             // Perform the auto-fix
             $result = app(HealthCheckManager::class)->performAutoFix(true);
 
             // Print the results of the auto-fix
-            foreach($result['data'] as $fix) {
+            foreach ($result['data'] as $fix) {
                 $this->line('[HealthCheck] ' . $fix['name'] . ' Auto-fix result:');
                 $this->line($fix['result']);
             }
 
             // Check if any of the health-checks still failed
-            if($result['result'] === false) {
+            if ($result['result'] === false) {
                 throw new Exception('Auto-fix failed on one or more healtchecks, manual fix required');
             } else {
                 $this->info('Auto-fix succeeded in fixing the issues.');
@@ -126,16 +127,17 @@ class InstallShoutzor extends Command
      * Performs the actual installation of Shoutzor
      * @throws Exception
      */
-    private function performInstall($useEnv, $isDev) {
+    private function performInstall($useEnv, $isDev)
+    {
         $this->info('Starting installation');
 
         // Check if the useEnv option is in-use
-        if($useEnv) {
+        if ($useEnv) {
             // Inform the user about the --useenv option being used.
             $this->info('--useenv is used, existing .env file will be used.');
 
             // Check if the .env file actually exists
-            if(file_exists(base_path('.env')) === false) {
+            if (file_exists(base_path('.env')) === false) {
                 throw new Exception('.env file not found in application root! Exiting.');
             }
 
@@ -143,7 +145,7 @@ class InstallShoutzor extends Command
             $step = $this->installer->rebuildConfigCache();
 
             // Check if rebuilding the config cache worked
-            if($step->succeeded() === false) {
+            if ($step->succeeded() === false) {
                 throw new Exception('Failed to rebuild the config cache, reason: ' . $step->getOutput());
             }
         }
@@ -152,7 +154,7 @@ class InstallShoutzor extends Command
         $dbFields = Installer::$dbFields;
 
         // if --useenv is in-use, fetch the values from the .env file, otherwise, ask the user.
-        if($useEnv) {
+        if ($useEnv) {
             $this->info("Configuring SQL settings using the config values in the environment file");
 
             $dbtype = config('database.default');
@@ -175,33 +177,33 @@ class InstallShoutzor extends Command
             $step = $this->installer->configureSql($dbtype, $host, $port, $database, $username, $password);
 
             // Check if SQL configuration succeeded, if not, exit with error.
-            if($step->succeeded()) {
+            if ($step->succeeded()) {
                 $this->info("SQL Configuration succeeded");
             } else {
                 // Check if it's a formValidation exception, or regular exception
-                if($step->getException() instanceof formValidationException) {
+                if ($step->getException() instanceof formValidationException) {
                     // $errors will now contain formValidationFieldError[] from the exception
                     $errors = $step->getException()->getErrors();
 
                     // Convert the array of formValidationFieldError objects into an array
-                    foreach($errors as $e) {
+                    foreach ($errors as $e) {
                         $this->error($e->getField() . ": " . $e->getMessage());
                     }
 
                     throw new Exception('SQL Configuration failed, reason: Validation failed');
                 } else {
-                    throw new Exception('SQL Configuration failed, reason: '.$step->getOutput());
+                    throw new Exception('SQL Configuration failed, reason: ' . $step->getOutput());
                 }
             }
         } else {
             $this->info("Configuring SQL settings");
 
             // Create a loop, this way the user can keep trying if the configuration fails.
-            while(true) {
+            while (true) {
                 // Ask the user what database type we should be configuring
                 $dbtype = $this->choice('Enter the sql type', array_keys($dbFields), 0);
                 $host = $this->anticipate('Enter the hostname of the sql server [ie: localhost or 127.0.0.1]', ['localhost', '127.0.0.1']);
-                $port = $this->anticipate('Enter the port of the sql server [ie: '.$dbFields[$dbtype]['port']['default'].']', [$dbFields[$dbtype]['port']['default']]);
+                $port = $this->anticipate('Enter the port of the sql server [ie: ' . $dbFields[$dbtype]['port']['default'] . ']', [$dbFields[$dbtype]['port']['default']]);
 
                 $this->line("Testing connection to $host:$port...");
 
@@ -221,17 +223,17 @@ class InstallShoutzor extends Command
                 $step = $this->installer->configureSql($dbtype, $host, $port, $database, $username, $password);
 
                 //Check if the SQL configuration succeeded, if so: break the loop
-                if($step->succeeded()) {
+                if ($step->succeeded()) {
                     $this->info("SQL Configuration succeeded");
                     break;
                 } else {
                     // Check if it's a formValidation exception, or regular exception
-                    if($step->getException() instanceof formValidationException) {
+                    if ($step->getException() instanceof formValidationException) {
                         // $errors will now contain formValidationFieldError[] from the exception
                         $errors = $step->getException()->getErrors();
 
                         // Convert the array of formValidationFieldError objects into an array
-                        foreach($errors as $e) {
+                        foreach ($errors as $e) {
                             $this->error($e->getField() . ": " . $e->getMessage());
                         }
                     } else {
@@ -246,20 +248,20 @@ class InstallShoutzor extends Command
         $installationSteps = Installer::$installSteps;
 
         // Run each installation step in-order
-        foreach($installationSteps as $step) {
+        foreach ($installationSteps as $step) {
             $this->info("Executing installation step '" . $step['name'] . "': " . $step['description']);
             // Dynamic method, the method names are in the array
             $stepResult = $this->installer->{$step['method']}();
 
-            if($stepResult->succeeded() === false) {
+            if ($stepResult->succeeded() === false) {
                 throw new Exception("Installation step failed. Reason: " . $stepResult->getOutput());
             }
         }
 
-        if($isDev) {
+        if ($isDev) {
             $this->info('Seeding database with the DevelopmentSeeder');
             $this->installer->developmentSeedDatabase();
-            if($stepResult->succeeded() === false) {
+            if ($stepResult->succeeded() === false) {
                 throw new Exception("Installation step failed. Reason: " . $stepResult->getOutput());
             }
         }

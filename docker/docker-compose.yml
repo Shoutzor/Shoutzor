@@ -6,7 +6,7 @@ services:
       - "80:80"
       - "443:443"
     volumes:
-      - ./:/code:ro
+      - ../:/code:ro
       - ./site.conf.template:/etc/nginx/templates/site.conf.template:ro
     working_dir: /code
     networks:
@@ -20,7 +20,7 @@ services:
       context: .
       dockerfile: Dockerfile
     volumes:
-      - ./:/code
+      - ../:/code
       - ./php-fpm.conf:/usr/local/etc/php-fpm.d/zzz-shoutzor.conf:ro
     working_dir: /code
     networks:
@@ -51,5 +51,5 @@ services:
       - SOKETI_DEFAULT_APP_SECRET=${PUSHER_APP_SECRET}
 
 networks:
-   shoutzor-frontend: {}
-   shoutzor-backend: {}
+  shoutzor-frontend: { }
+  shoutzor-backend: { }

@@ -5,7 +5,7 @@ namespace App\Events;
 use Symfony\Contracts\EventDispatcher\Event;
 
 /**
-  * Base Event class to be used by internal Events from Shoutz0r (ie: non-frontend)
+ * Base Event class to be used by internal Events from Shoutz0r (ie: non-frontend)
  * @package App\Events
  */
 class ShoutzorEvent extends Event
@@ -24,7 +24,7 @@ class ShoutzorEvent extends Event
 
     /**
      * Marks the upload as invalid
-     * @param  string  $reason if set, defines the reason why the event is invalid
+     * @param string $reason if set, defines the reason why the event is invalid
      */
     public function setInvalid($reason = ''): void
     {

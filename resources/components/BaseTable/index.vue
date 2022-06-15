@@ -2,10 +2,10 @@
     <div class="table-responsive">
         <table :class="classes">
             <thead v-if="this.$slots.header">
-                <slot name="header"></slot>
+            <slot name="header"></slot>
             </thead>
             <tbody>
-                <slot></slot>
+            <slot></slot>
             </tbody>
         </table>
     </div>
@@ -48,7 +48,7 @@ export default {
         }
     },
 
-    setup(props, { emit }) {
+    setup(props, {emit}) {
         props = reactive(props);
 
         return {

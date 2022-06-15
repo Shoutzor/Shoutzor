@@ -75,9 +75,9 @@ class getid3_ac3 extends getid3_handler
             if (!$this->isDependencyFor('matroska')) {
                 unset($info['fileformat'], $info['ac3']);
                 return $this->error(
-                    'Expecting "'.dechex(self::syncword).'" at offset '.$info['avdataoffset'].', found "'.dechex(
+                    'Expecting "' . dechex(self::syncword) . '" at offset ' . $info['avdataoffset'] . ', found "' . dechex(
                         $this->AC3header['syncinfo']
-                    ).'"'
+                    ) . '"'
                 );
             }
         }
@@ -93,7 +93,7 @@ class getid3_ac3 extends getid3_handler
             $thisfile_ac3_raw_bsi['frmsizecod'] = $this->readHeaderBSI(6);   // 5.4.1.4
             if ($thisfile_ac3_raw_bsi['frmsizecod'] > 37) { // binary: 100101 - see Table 5.18 Frame Size Code Table (1 word = 16 bits)
                 $this->warning(
-                    'Unexpected ac3.bsi.frmsizecod value: '.$thisfile_ac3_raw_bsi['frmsizecod'].', bitrate not set correctly'
+                    'Unexpected ac3.bsi.frmsizecod value: ' . $thisfile_ac3_raw_bsi['frmsizecod'] . ', bitrate not set correctly'
                 );
             }
 
@@ -121,7 +121,7 @@ class getid3_ac3 extends getid3_handler
                 $thisfile_ac3['dolby_surround_mode'] = self::dolbySurroundModeLookup($thisfile_ac3_raw_bsi['dsurmod']);
             }
 
-            $thisfile_ac3_raw_bsi['flags']['lfeon'] = (bool) $this->readHeaderBSI(1);
+            $thisfile_ac3_raw_bsi['flags']['lfeon'] = (bool)$this->readHeaderBSI(1);
 
             // This indicates how far the average dialogue level is below digital 100 percent. Valid values are 1-31.
             // The value of 0 is reserved. The values of 1 to 31 are interpreted as -1 dB to -31 dB with respect to digital 100 percent.
@@ -129,7 +129,7 @@ class getid3_ac3 extends getid3_handler
                 $this->readHeaderBSI(5);                 // 5.4.2.8 dialnorm: Dialogue Normalization, 5 Bits
 
             $thisfile_ac3_raw_bsi['flags']['compr'] =
-                (bool) $this->readHeaderBSI(1);       // 5.4.2.9 compre: Compression Gain Word Exists, 1 Bit
+                (bool)$this->readHeaderBSI(1);       // 5.4.2.9 compre: Compression Gain Word Exists, 1 Bit
             if ($thisfile_ac3_raw_bsi['flags']['compr']) {
                 $thisfile_ac3_raw_bsi['compr'] =
                     $this->readHeaderBSI(8);                // 5.4.2.10 compr: Compression Gain Word, 8 Bits
@@ -137,31 +137,31 @@ class getid3_ac3 extends getid3_handler
             }
 
             $thisfile_ac3_raw_bsi['flags']['langcod'] =
-                (bool) $this->readHeaderBSI(1);     // 5.4.2.11 langcode: Language Code Exists, 1 Bit
+                (bool)$this->readHeaderBSI(1);     // 5.4.2.11 langcode: Language Code Exists, 1 Bit
             if ($thisfile_ac3_raw_bsi['flags']['langcod']) {
                 $thisfile_ac3_raw_bsi['langcod'] =
                     $this->readHeaderBSI(8);              // 5.4.2.12 langcod: Language Code, 8 Bits
             }
 
             $thisfile_ac3_raw_bsi['flags']['audprodinfo'] =
-                (bool) $this->readHeaderBSI(1);  // 5.4.2.13 audprodie: Audio Production Information Exists, 1 Bit
+                (bool)$this->readHeaderBSI(1);  // 5.4.2.13 audprodie: Audio Production Information Exists, 1 Bit
             if ($thisfile_ac3_raw_bsi['flags']['audprodinfo']) {
                 $thisfile_ac3_raw_bsi['mixlevel'] =
                     $this->readHeaderBSI(5);             // 5.4.2.14 mixlevel: Mixing Level, 5 Bits
                 $thisfile_ac3_raw_bsi['roomtyp'] =
                     $this->readHeaderBSI(2);             // 5.4.2.15 roomtyp: Room Type, 2 Bits
 
-                $thisfile_ac3['mixing_level'] = (80 + $thisfile_ac3_raw_bsi['mixlevel']).'dB';
+                $thisfile_ac3['mixing_level'] = (80 + $thisfile_ac3_raw_bsi['mixlevel']) . 'dB';
                 $thisfile_ac3['room_type'] = self::roomTypeLookup($thisfile_ac3_raw_bsi['roomtyp']);
             }
 
             $thisfile_ac3_raw_bsi['dialnorm2'] =
                 $this->readHeaderBSI(5);                // 5.4.2.16 dialnorm2: Dialogue Normalization, ch2, 5 Bits
             $thisfile_ac3['dialogue_normalization2'] =
-                '-'.$thisfile_ac3_raw_bsi['dialnorm2'].'dB';  // This indicates how far the average dialogue level is below digital 100 percent. Valid values are 1-31. The value of 0 is reserved. The values of 1 to 31 are interpreted as -1 dB to -31 dB with respect to digital 100 percent.
+                '-' . $thisfile_ac3_raw_bsi['dialnorm2'] . 'dB';  // This indicates how far the average dialogue level is below digital 100 percent. Valid values are 1-31. The value of 0 is reserved. The values of 1 to 31 are interpreted as -1 dB to -31 dB with respect to digital 100 percent.
 
             $thisfile_ac3_raw_bsi['flags']['compr2'] =
-                (bool) $this->readHeaderBSI(1);       // 5.4.2.17 compr2e: Compression Gain Word Exists, ch2, 1 Bit
+                (bool)$this->readHeaderBSI(1);       // 5.4.2.17 compr2e: Compression Gain Word Exists, ch2, 1 Bit
             if ($thisfile_ac3_raw_bsi['flags']['compr2']) {
                 $thisfile_ac3_raw_bsi['compr2'] =
                     $this->readHeaderBSI(8);               // 5.4.2.18 compr2: Compression Gain Word, ch2, 8 Bits
@@ -169,29 +169,29 @@ class getid3_ac3 extends getid3_handler
             }
 
             $thisfile_ac3_raw_bsi['flags']['langcod2'] =
-                (bool) $this->readHeaderBSI(1);    // 5.4.2.19 langcod2e: Language Code Exists, ch2, 1 Bit
+                (bool)$this->readHeaderBSI(1);    // 5.4.2.19 langcod2e: Language Code Exists, ch2, 1 Bit
             if ($thisfile_ac3_raw_bsi['flags']['langcod2']) {
                 $thisfile_ac3_raw_bsi['langcod2'] =
                     $this->readHeaderBSI(8);             // 5.4.2.20 langcod2: Language Code, ch2, 8 Bits
             }
 
             $thisfile_ac3_raw_bsi['flags']['audprodinfo2'] =
-                (bool) $this->readHeaderBSI(1); // 5.4.2.21 audprodi2e: Audio Production Information Exists, ch2, 1 Bit
+                (bool)$this->readHeaderBSI(1); // 5.4.2.21 audprodi2e: Audio Production Information Exists, ch2, 1 Bit
             if ($thisfile_ac3_raw_bsi['flags']['audprodinfo2']) {
                 $thisfile_ac3_raw_bsi['mixlevel2'] =
                     $this->readHeaderBSI(5);            // 5.4.2.22 mixlevel2: Mixing Level, ch2, 5 Bits
                 $thisfile_ac3_raw_bsi['roomtyp2'] =
                     $this->readHeaderBSI(2);            // 5.4.2.23 roomtyp2: Room Type, ch2, 2 Bits
 
-                $thisfile_ac3['mixing_level2'] = (80 + $thisfile_ac3_raw_bsi['mixlevel2']).'dB';
+                $thisfile_ac3['mixing_level2'] = (80 + $thisfile_ac3_raw_bsi['mixlevel2']) . 'dB';
                 $thisfile_ac3['room_type2'] = self::roomTypeLookup($thisfile_ac3_raw_bsi['roomtyp2']);
             }
 
             $thisfile_ac3_raw_bsi['copyright'] =
-                (bool) $this->readHeaderBSI(1);         // 5.4.2.24 copyrightb: Copyright Bit, 1 Bit
+                (bool)$this->readHeaderBSI(1);         // 5.4.2.24 copyrightb: Copyright Bit, 1 Bit
 
             $thisfile_ac3_raw_bsi['original'] =
-                (bool) $this->readHeaderBSI(1);         // 5.4.2.25 origbs: Original Bit Stream, 1 Bit
+                (bool)$this->readHeaderBSI(1);         // 5.4.2.25 origbs: Original Bit Stream, 1 Bit
 
             $thisfile_ac3_raw_bsi['flags']['timecod1'] = $this->readHeaderBSI(
                 2
@@ -213,7 +213,7 @@ class getid3_ac3 extends getid3_handler
                 $thisfile_ac3['timecode2'] += (($thisfile_ac3_raw_bsi['timecod2'] & 0x003F) >> 0) * ((1 / 30) / 60);  // The final 6 bits represents fractions of 1/64 of a frame, with valid values from 0�63
             }
 
-            $thisfile_ac3_raw_bsi['flags']['addbsi'] = (bool) $this->readHeaderBSI(1);
+            $thisfile_ac3_raw_bsi['flags']['addbsi'] = (bool)$this->readHeaderBSI(1);
             if ($thisfile_ac3_raw_bsi['flags']['addbsi']) {
                 $thisfile_ac3_raw_bsi['addbsi_length'] = $this->readHeaderBSI(
                         6
@@ -231,7 +231,7 @@ class getid3_ac3 extends getid3_handler
         } elseif ($thisfile_ac3_raw_bsi['bsid'] <= 16) { // E-AC3
 
             $this->error(
-                'E-AC3 parsing is incomplete and experimental in this version of getID3 ('.$this->getid3->version().'). Notably the bitrate calculations are wrong -- value might (or not) be correct, but it is not calculated correctly. Email info@getid3.org if you know how to calculate EAC3 bitrate correctly.'
+                'E-AC3 parsing is incomplete and experimental in this version of getID3 (' . $this->getid3->version() . '). Notably the bitrate calculations are wrong -- value might (or not) be correct, but it is not calculated correctly. Email info@getid3.org if you know how to calculate EAC3 bitrate correctly.'
             );
             $info['audio']['dataformat'] = 'eac3';
 
@@ -248,29 +248,29 @@ class getid3_ac3 extends getid3_handler
             $thisfile_ac3['bsi']['blocks_per_sync_frame'] =
                 self::blocksPerSyncFrame($thisfile_ac3_raw_bsi['numblkscod']);
             $thisfile_ac3_raw_bsi['acmod'] = $this->readHeaderBSI(3);
-            $thisfile_ac3_raw_bsi['flags']['lfeon'] = (bool) $this->readHeaderBSI(1);
+            $thisfile_ac3_raw_bsi['flags']['lfeon'] = (bool)$this->readHeaderBSI(1);
             $thisfile_ac3_raw_bsi['bsid'] = $this->readHeaderBSI(
                 5
             ); // we already know this from pre-parsing the version identifier, but re-read it to let the bitstream flow as intended
             $thisfile_ac3_raw_bsi['dialnorm'] = $this->readHeaderBSI(5);
-            $thisfile_ac3_raw_bsi['flags']['compr'] = (bool) $this->readHeaderBSI(1);
+            $thisfile_ac3_raw_bsi['flags']['compr'] = (bool)$this->readHeaderBSI(1);
             if ($thisfile_ac3_raw_bsi['flags']['compr']) {
                 $thisfile_ac3_raw_bsi['compr'] = $this->readHeaderBSI(8);
             }
             if ($thisfile_ac3_raw_bsi['acmod'] == 0) { // if 1+1 mode (dual mono, so some items need a second value)
                 $thisfile_ac3_raw_bsi['dialnorm2'] = $this->readHeaderBSI(5);
-                $thisfile_ac3_raw_bsi['flags']['compr2'] = (bool) $this->readHeaderBSI(1);
+                $thisfile_ac3_raw_bsi['flags']['compr2'] = (bool)$this->readHeaderBSI(1);
                 if ($thisfile_ac3_raw_bsi['flags']['compr2']) {
                     $thisfile_ac3_raw_bsi['compr2'] = $this->readHeaderBSI(8);
                 }
             }
             if ($thisfile_ac3_raw_bsi['strmtyp'] == 1) { // if dependent stream
-                $thisfile_ac3_raw_bsi['flags']['chanmap'] = (bool) $this->readHeaderBSI(1);
+                $thisfile_ac3_raw_bsi['flags']['chanmap'] = (bool)$this->readHeaderBSI(1);
                 if ($thisfile_ac3_raw_bsi['flags']['chanmap']) {
                     $thisfile_ac3_raw_bsi['chanmap'] = $this->readHeaderBSI(8);
                 }
             }
-            $thisfile_ac3_raw_bsi['flags']['mixmdat'] = (bool) $this->readHeaderBSI(1);
+            $thisfile_ac3_raw_bsi['flags']['mixmdat'] = (bool)$this->readHeaderBSI(1);
             if ($thisfile_ac3_raw_bsi['flags']['mixmdat']) { // Mixing metadata
                 if ($thisfile_ac3_raw_bsi['acmod'] > 2) { // if more than 2 channels
                     $thisfile_ac3_raw_bsi['dmixmod'] = $this->readHeaderBSI(2);
@@ -284,30 +284,30 @@ class getid3_ac3 extends getid3_handler
                     $thisfile_ac3_raw_bsi['lorosurmixlev'] = $this->readHeaderBSI(3);
                 }
                 if ($thisfile_ac3_raw_bsi['flags']['lfeon']) { // if the LFE channel exists
-                    $thisfile_ac3_raw_bsi['flags']['lfemixlevcod'] = (bool) $this->readHeaderBSI(1);
+                    $thisfile_ac3_raw_bsi['flags']['lfemixlevcod'] = (bool)$this->readHeaderBSI(1);
                     if ($thisfile_ac3_raw_bsi['flags']['lfemixlevcod']) {
                         $thisfile_ac3_raw_bsi['lfemixlevcod'] = $this->readHeaderBSI(5);
                     }
                 }
                 if ($thisfile_ac3_raw_bsi['strmtyp'] == 0) { // if independent stream
-                    $thisfile_ac3_raw_bsi['flags']['pgmscl'] = (bool) $this->readHeaderBSI(1);
+                    $thisfile_ac3_raw_bsi['flags']['pgmscl'] = (bool)$this->readHeaderBSI(1);
                     if ($thisfile_ac3_raw_bsi['flags']['pgmscl']) {
                         $thisfile_ac3_raw_bsi['pgmscl'] = $this->readHeaderBSI(6);
                     }
                     if ($thisfile_ac3_raw_bsi['acmod'] == 0) { // if 1+1 mode (dual mono, so some items need a second value)
-                        $thisfile_ac3_raw_bsi['flags']['pgmscl2'] = (bool) $this->readHeaderBSI(1);
+                        $thisfile_ac3_raw_bsi['flags']['pgmscl2'] = (bool)$this->readHeaderBSI(1);
                         if ($thisfile_ac3_raw_bsi['flags']['pgmscl2']) {
                             $thisfile_ac3_raw_bsi['pgmscl2'] = $this->readHeaderBSI(6);
                         }
                     }
-                    $thisfile_ac3_raw_bsi['flags']['extpgmscl'] = (bool) $this->readHeaderBSI(1);
+                    $thisfile_ac3_raw_bsi['flags']['extpgmscl'] = (bool)$this->readHeaderBSI(1);
                     if ($thisfile_ac3_raw_bsi['flags']['extpgmscl']) {
                         $thisfile_ac3_raw_bsi['extpgmscl'] = $this->readHeaderBSI(6);
                     }
                     $thisfile_ac3_raw_bsi['mixdef'] = $this->readHeaderBSI(2);
                     if ($thisfile_ac3_raw_bsi['mixdef'] == 1) { // mixing option 2
-                        $thisfile_ac3_raw_bsi['premixcmpsel'] = (bool) $this->readHeaderBSI(1);
-                        $thisfile_ac3_raw_bsi['drcsrc'] = (bool) $this->readHeaderBSI(1);
+                        $thisfile_ac3_raw_bsi['premixcmpsel'] = (bool)$this->readHeaderBSI(1);
+                        $thisfile_ac3_raw_bsi['drcsrc'] = (bool)$this->readHeaderBSI(1);
                         $thisfile_ac3_raw_bsi['premixcmpscl'] = $this->readHeaderBSI(3);
                     } elseif ($thisfile_ac3_raw_bsi['mixdef'] == 2) { // mixing option 3
                         $thisfile_ac3_raw_bsi['mixdata'] = $this->readHeaderBSI(12);
@@ -315,66 +315,66 @@ class getid3_ac3 extends getid3_handler
                         $mixdefbitsread = 0;
                         $thisfile_ac3_raw_bsi['mixdeflen'] = $this->readHeaderBSI(5);
                         $mixdefbitsread += 5;
-                        $thisfile_ac3_raw_bsi['flags']['mixdata2'] = (bool) $this->readHeaderBSI(1);
+                        $thisfile_ac3_raw_bsi['flags']['mixdata2'] = (bool)$this->readHeaderBSI(1);
                         $mixdefbitsread += 1;
                         if ($thisfile_ac3_raw_bsi['flags']['mixdata2']) {
-                            $thisfile_ac3_raw_bsi['premixcmpsel'] = (bool) $this->readHeaderBSI(1);
+                            $thisfile_ac3_raw_bsi['premixcmpsel'] = (bool)$this->readHeaderBSI(1);
                             $mixdefbitsread += 1;
-                            $thisfile_ac3_raw_bsi['drcsrc'] = (bool) $this->readHeaderBSI(1);
+                            $thisfile_ac3_raw_bsi['drcsrc'] = (bool)$this->readHeaderBSI(1);
                             $mixdefbitsread += 1;
                             $thisfile_ac3_raw_bsi['premixcmpscl'] = $this->readHeaderBSI(3);
                             $mixdefbitsread += 3;
-                            $thisfile_ac3_raw_bsi['flags']['extpgmlscl'] = (bool) $this->readHeaderBSI(1);
+                            $thisfile_ac3_raw_bsi['flags']['extpgmlscl'] = (bool)$this->readHeaderBSI(1);
                             $mixdefbitsread += 1;
                             if ($thisfile_ac3_raw_bsi['flags']['extpgmlscl']) {
                                 $thisfile_ac3_raw_bsi['extpgmlscl'] = $this->readHeaderBSI(4);
                                 $mixdefbitsread += 4;
                             }
-                            $thisfile_ac3_raw_bsi['flags']['extpgmcscl'] = (bool) $this->readHeaderBSI(1);
+                            $thisfile_ac3_raw_bsi['flags']['extpgmcscl'] = (bool)$this->readHeaderBSI(1);
                             $mixdefbitsread += 1;
                             if ($thisfile_ac3_raw_bsi['flags']['extpgmcscl']) {
                                 $thisfile_ac3_raw_bsi['extpgmcscl'] = $this->readHeaderBSI(4);
                                 $mixdefbitsread += 4;
                             }
-                            $thisfile_ac3_raw_bsi['flags']['extpgmrscl'] = (bool) $this->readHeaderBSI(1);
+                            $thisfile_ac3_raw_bsi['flags']['extpgmrscl'] = (bool)$this->readHeaderBSI(1);
                             $mixdefbitsread += 1;
                             if ($thisfile_ac3_raw_bsi['flags']['extpgmrscl']) {
                                 $thisfile_ac3_raw_bsi['extpgmrscl'] = $this->readHeaderBSI(4);
                             }
-                            $thisfile_ac3_raw_bsi['flags']['extpgmlsscl'] = (bool) $this->readHeaderBSI(1);
+                            $thisfile_ac3_raw_bsi['flags']['extpgmlsscl'] = (bool)$this->readHeaderBSI(1);
                             $mixdefbitsread += 1;
                             if ($thisfile_ac3_raw_bsi['flags']['extpgmlsscl']) {
                                 $thisfile_ac3_raw_bsi['extpgmlsscl'] = $this->readHeaderBSI(4);
                                 $mixdefbitsread += 4;
                             }
-                            $thisfile_ac3_raw_bsi['flags']['extpgmrsscl'] = (bool) $this->readHeaderBSI(1);
+                            $thisfile_ac3_raw_bsi['flags']['extpgmrsscl'] = (bool)$this->readHeaderBSI(1);
                             $mixdefbitsread += 1;
                             if ($thisfile_ac3_raw_bsi['flags']['extpgmrsscl']) {
                                 $thisfile_ac3_raw_bsi['extpgmrsscl'] = $this->readHeaderBSI(4);
                                 $mixdefbitsread += 4;
                             }
-                            $thisfile_ac3_raw_bsi['flags']['extpgmlfescl'] = (bool) $this->readHeaderBSI(1);
+                            $thisfile_ac3_raw_bsi['flags']['extpgmlfescl'] = (bool)$this->readHeaderBSI(1);
                             $mixdefbitsread += 1;
                             if ($thisfile_ac3_raw_bsi['flags']['extpgmlfescl']) {
                                 $thisfile_ac3_raw_bsi['extpgmlfescl'] = $this->readHeaderBSI(4);
                                 $mixdefbitsread += 4;
                             }
-                            $thisfile_ac3_raw_bsi['flags']['dmixscl'] = (bool) $this->readHeaderBSI(1);
+                            $thisfile_ac3_raw_bsi['flags']['dmixscl'] = (bool)$this->readHeaderBSI(1);
                             $mixdefbitsread += 1;
                             if ($thisfile_ac3_raw_bsi['flags']['dmixscl']) {
                                 $thisfile_ac3_raw_bsi['dmixscl'] = $this->readHeaderBSI(4);
                                 $mixdefbitsread += 4;
                             }
-                            $thisfile_ac3_raw_bsi['flags']['addch'] = (bool) $this->readHeaderBSI(1);
+                            $thisfile_ac3_raw_bsi['flags']['addch'] = (bool)$this->readHeaderBSI(1);
                             $mixdefbitsread += 1;
                             if ($thisfile_ac3_raw_bsi['flags']['addch']) {
-                                $thisfile_ac3_raw_bsi['flags']['extpgmaux1scl'] = (bool) $this->readHeaderBSI(1);
+                                $thisfile_ac3_raw_bsi['flags']['extpgmaux1scl'] = (bool)$this->readHeaderBSI(1);
                                 $mixdefbitsread += 1;
                                 if ($thisfile_ac3_raw_bsi['flags']['extpgmaux1scl']) {
                                     $thisfile_ac3_raw_bsi['extpgmaux1scl'] = $this->readHeaderBSI(4);
                                     $mixdefbitsread += 4;
                                 }
-                                $thisfile_ac3_raw_bsi['flags']['extpgmaux2scl'] = (bool) $this->readHeaderBSI(1);
+                                $thisfile_ac3_raw_bsi['flags']['extpgmaux2scl'] = (bool)$this->readHeaderBSI(1);
                                 $mixdefbitsread += 1;
                                 if ($thisfile_ac3_raw_bsi['flags']['extpgmaux2scl']) {
                                     $thisfile_ac3_raw_bsi['extpgmaux2scl'] = $this->readHeaderBSI(4);
@@ -382,19 +382,19 @@ class getid3_ac3 extends getid3_handler
                                 }
                             }
                         }
-                        $thisfile_ac3_raw_bsi['flags']['mixdata3'] = (bool) $this->readHeaderBSI(1);
+                        $thisfile_ac3_raw_bsi['flags']['mixdata3'] = (bool)$this->readHeaderBSI(1);
                         $mixdefbitsread += 1;
                         if ($thisfile_ac3_raw_bsi['flags']['mixdata3']) {
                             $thisfile_ac3_raw_bsi['spchdat'] = $this->readHeaderBSI(5);
                             $mixdefbitsread += 5;
-                            $thisfile_ac3_raw_bsi['flags']['addspchdat'] = (bool) $this->readHeaderBSI(1);
+                            $thisfile_ac3_raw_bsi['flags']['addspchdat'] = (bool)$this->readHeaderBSI(1);
                             $mixdefbitsread += 1;
                             if ($thisfile_ac3_raw_bsi['flags']['addspchdat']) {
                                 $thisfile_ac3_raw_bsi['spchdat1'] = $this->readHeaderBSI(5);
                                 $mixdefbitsread += 5;
                                 $thisfile_ac3_raw_bsi['spchan1att'] = $this->readHeaderBSI(2);
                                 $mixdefbitsread += 2;
-                                $thisfile_ac3_raw_bsi['flags']['addspchdat1'] = (bool) $this->readHeaderBSI(1);
+                                $thisfile_ac3_raw_bsi['flags']['addspchdat1'] = (bool)$this->readHeaderBSI(1);
                                 $mixdefbitsread += 1;
                                 if ($thisfile_ac3_raw_bsi['flags']['addspchdat1']) {
                                     $thisfile_ac3_raw_bsi['spchdat2'] = $this->readHeaderBSI(5);
@@ -411,27 +411,27 @@ class getid3_ac3 extends getid3_handler
                         unset($mixdefbitsread, $mixdata_bits, $mixdata_fill);
                     }
                     if ($thisfile_ac3_raw_bsi['acmod'] < 2) { // if mono or dual mono source
-                        $thisfile_ac3_raw_bsi['flags']['paninfo'] = (bool) $this->readHeaderBSI(1);
+                        $thisfile_ac3_raw_bsi['flags']['paninfo'] = (bool)$this->readHeaderBSI(1);
                         if ($thisfile_ac3_raw_bsi['flags']['paninfo']) {
                             $thisfile_ac3_raw_bsi['panmean'] = $this->readHeaderBSI(8);
                             $thisfile_ac3_raw_bsi['paninfo'] = $this->readHeaderBSI(6);
                         }
                         if ($thisfile_ac3_raw_bsi['acmod'] == 0) { // if 1+1 mode (dual mono, so some items need a second value)
-                            $thisfile_ac3_raw_bsi['flags']['paninfo2'] = (bool) $this->readHeaderBSI(1);
+                            $thisfile_ac3_raw_bsi['flags']['paninfo2'] = (bool)$this->readHeaderBSI(1);
                             if ($thisfile_ac3_raw_bsi['flags']['paninfo2']) {
                                 $thisfile_ac3_raw_bsi['panmean2'] = $this->readHeaderBSI(8);
                                 $thisfile_ac3_raw_bsi['paninfo2'] = $this->readHeaderBSI(6);
                             }
                         }
                     }
-                    $thisfile_ac3_raw_bsi['flags']['frmmixcfginfo'] = (bool) $this->readHeaderBSI(1);
+                    $thisfile_ac3_raw_bsi['flags']['frmmixcfginfo'] = (bool)$this->readHeaderBSI(1);
                     if ($thisfile_ac3_raw_bsi['flags']['frmmixcfginfo']) { // mixing configuration information
                         if ($thisfile_ac3_raw_bsi['numblkscod'] == 0) {
                             $thisfile_ac3_raw_bsi['blkmixcfginfo'][0] = $this->readHeaderBSI(5);
                         } else {
                             for ($blk = 0; $blk < $thisfile_ac3_raw_bsi['numblkscod']; $blk++) {
-                                $thisfile_ac3_raw_bsi['flags']['blkmixcfginfo'.$blk] = (bool) $this->readHeaderBSI(1);
-                                if ($thisfile_ac3_raw_bsi['flags']['blkmixcfginfo'.$blk]) { // mixing configuration information
+                                $thisfile_ac3_raw_bsi['flags']['blkmixcfginfo' . $blk] = (bool)$this->readHeaderBSI(1);
+                                if ($thisfile_ac3_raw_bsi['flags']['blkmixcfginfo' . $blk]) { // mixing configuration information
                                     $thisfile_ac3_raw_bsi['blkmixcfginfo'][$blk] = $this->readHeaderBSI(5);
                                 }
                             }
@@ -439,11 +439,11 @@ class getid3_ac3 extends getid3_handler
                     }
                 }
             }
-            $thisfile_ac3_raw_bsi['flags']['infomdat'] = (bool) $this->readHeaderBSI(1);
+            $thisfile_ac3_raw_bsi['flags']['infomdat'] = (bool)$this->readHeaderBSI(1);
             if ($thisfile_ac3_raw_bsi['flags']['infomdat']) { // Informational metadata
                 $thisfile_ac3_raw_bsi['bsmod'] = $this->readHeaderBSI(3);
-                $thisfile_ac3_raw_bsi['flags']['copyrightb'] = (bool) $this->readHeaderBSI(1);
-                $thisfile_ac3_raw_bsi['flags']['origbs'] = (bool) $this->readHeaderBSI(1);
+                $thisfile_ac3_raw_bsi['flags']['copyrightb'] = (bool)$this->readHeaderBSI(1);
+                $thisfile_ac3_raw_bsi['flags']['origbs'] = (bool)$this->readHeaderBSI(1);
                 if ($thisfile_ac3_raw_bsi['acmod'] == 2) { //  if in 2/0 mode
                     $thisfile_ac3_raw_bsi['dsurmod'] = $this->readHeaderBSI(2);
                     $thisfile_ac3_raw_bsi['dheadphonmod'] = $this->readHeaderBSI(2);
@@ -451,38 +451,38 @@ class getid3_ac3 extends getid3_handler
                 if ($thisfile_ac3_raw_bsi['acmod'] >= 6) { //  if both surround channels exist
                     $thisfile_ac3_raw_bsi['dsurexmod'] = $this->readHeaderBSI(2);
                 }
-                $thisfile_ac3_raw_bsi['flags']['audprodi'] = (bool) $this->readHeaderBSI(1);
+                $thisfile_ac3_raw_bsi['flags']['audprodi'] = (bool)$this->readHeaderBSI(1);
                 if ($thisfile_ac3_raw_bsi['flags']['audprodi']) {
                     $thisfile_ac3_raw_bsi['mixlevel'] = $this->readHeaderBSI(5);
                     $thisfile_ac3_raw_bsi['roomtyp'] = $this->readHeaderBSI(2);
-                    $thisfile_ac3_raw_bsi['flags']['adconvtyp'] = (bool) $this->readHeaderBSI(1);
+                    $thisfile_ac3_raw_bsi['flags']['adconvtyp'] = (bool)$this->readHeaderBSI(1);
                 }
                 if ($thisfile_ac3_raw_bsi['acmod'] == 0) { //  if 1+1 mode (dual mono, so some items need a second value)
-                    $thisfile_ac3_raw_bsi['flags']['audprodi2'] = (bool) $this->readHeaderBSI(1);
+                    $thisfile_ac3_raw_bsi['flags']['audprodi2'] = (bool)$this->readHeaderBSI(1);
                     if ($thisfile_ac3_raw_bsi['flags']['audprodi2']) {
                         $thisfile_ac3_raw_bsi['mixlevel2'] = $this->readHeaderBSI(5);
                         $thisfile_ac3_raw_bsi['roomtyp2'] = $this->readHeaderBSI(2);
-                        $thisfile_ac3_raw_bsi['flags']['adconvtyp2'] = (bool) $this->readHeaderBSI(1);
+                        $thisfile_ac3_raw_bsi['flags']['adconvtyp2'] = (bool)$this->readHeaderBSI(1);
                     }
                 }
                 if ($thisfile_ac3_raw_bsi['fscod'] < 3) { // if not half sample rate
-                    $thisfile_ac3_raw_bsi['flags']['sourcefscod'] = (bool) $this->readHeaderBSI(1);
+                    $thisfile_ac3_raw_bsi['flags']['sourcefscod'] = (bool)$this->readHeaderBSI(1);
                 }
             }
             if (($thisfile_ac3_raw_bsi['strmtyp'] == 0) && ($thisfile_ac3_raw_bsi['numblkscod'] != 3)) { //  if both surround channels exist
-                $thisfile_ac3_raw_bsi['flags']['convsync'] = (bool) $this->readHeaderBSI(1);
+                $thisfile_ac3_raw_bsi['flags']['convsync'] = (bool)$this->readHeaderBSI(1);
             }
             if ($thisfile_ac3_raw_bsi['strmtyp'] == 2) { //  if bit stream converted from AC-3
                 if ($thisfile_ac3_raw_bsi['numblkscod'] != 3) { // 6 blocks per syncframe
                     $thisfile_ac3_raw_bsi['flags']['blkid'] = 1;
                 } else {
-                    $thisfile_ac3_raw_bsi['flags']['blkid'] = (bool) $this->readHeaderBSI(1);
+                    $thisfile_ac3_raw_bsi['flags']['blkid'] = (bool)$this->readHeaderBSI(1);
                 }
                 if ($thisfile_ac3_raw_bsi['flags']['blkid']) {
                     $thisfile_ac3_raw_bsi['frmsizecod'] = $this->readHeaderBSI(6);
                 }
             }
-            $thisfile_ac3_raw_bsi['flags']['addbsi'] = (bool) $this->readHeaderBSI(1);
+            $thisfile_ac3_raw_bsi['flags']['addbsi'] = (bool)$this->readHeaderBSI(1);
             if ($thisfile_ac3_raw_bsi['flags']['addbsi']) {
                 $thisfile_ac3_raw_bsi['addbsil'] = $this->readHeaderBSI(6);
                 $thisfile_ac3_raw_bsi['addbsi'] = $this->readHeaderBSI(($thisfile_ac3_raw_bsi['addbsil'] + 1) * 8);
@@ -491,7 +491,7 @@ class getid3_ac3 extends getid3_handler
         } else {
 
             $this->error(
-                'Bit stream identification is version '.$thisfile_ac3_raw_bsi['bsid'].', but getID3() only understands up to version 16. Please submit a support ticket with a sample file.'
+                'Bit stream identification is version ' . $thisfile_ac3_raw_bsi['bsid'] . ', but getID3() only understands up to version 16. Please submit a support ticket with a sample file.'
             );
             unset($info['ac3']);
             return false;
@@ -506,7 +506,7 @@ class getid3_ac3 extends getid3_handler
         if ($thisfile_ac3_raw_bsi['fscod'] <= 3) {
             $info['audio']['sample_rate'] = $thisfile_ac3['sample_rate'];
         } else {
-            $this->warning('Unexpected ac3.bsi.fscod value: '.$thisfile_ac3_raw_bsi['fscod']);
+            $this->warning('Unexpected ac3.bsi.fscod value: ' . $thisfile_ac3_raw_bsi['fscod']);
         }
         if (isset($thisfile_ac3_raw_bsi['frmsizecod'])) {
             $thisfile_ac3['frame_length'] =
@@ -552,13 +552,13 @@ class getid3_ac3 extends getid3_handler
 
         $thisfile_ac3['channels_enabled'] =
             self::channelsEnabledLookup($thisfile_ac3_raw_bsi['acmod'], $thisfile_ac3_raw_bsi['flags']['lfeon']);
-        $thisfile_ac3['dialogue_normalization'] = '-'.$thisfile_ac3_raw_bsi['dialnorm'].'dB';
+        $thisfile_ac3['dialogue_normalization'] = '-' . $thisfile_ac3_raw_bsi['dialnorm'] . 'dB';
 
         return true;
     }
 
     /**
-     * @param  int  $length
+     * @param int $length
      *
      * @return float|int
      */
@@ -571,7 +571,7 @@ class getid3_ac3 extends getid3_handler
     }
 
     /**
-     * @param  int  $cmixlev
+     * @param int $cmixlev
      *
      * @return int|float|string|false
      */
@@ -590,7 +590,7 @@ class getid3_ac3 extends getid3_handler
     }
 
     /**
-     * @param  int  $surmixlev
+     * @param int $surmixlev
      *
      * @return int|float|string|false
      */
@@ -604,7 +604,7 @@ class getid3_ac3 extends getid3_handler
     }
 
     /**
-     * @param  int  $dsurmod
+     * @param int $dsurmod
      *
      * @return string|false
      */
@@ -620,7 +620,7 @@ class getid3_ac3 extends getid3_handler
     }
 
     /**
-     * @param  int  $compre
+     * @param int $compre
      *
      * @return float|int
      */
@@ -676,7 +676,7 @@ class getid3_ac3 extends getid3_handler
     }
 
     /**
-     * @param  int  $roomtyp
+     * @param int $roomtyp
      *
      * @return string|false
      */
@@ -692,7 +692,7 @@ class getid3_ac3 extends getid3_handler
     }
 
     /**
-     * @param  int  $numblkscod
+     * @param int $numblkscod
      *
      * @return int|false
      */
@@ -703,7 +703,7 @@ class getid3_ac3 extends getid3_handler
     }
 
     /**
-     * @param  int  $fscod2
+     * @param int $fscod2
      *
      * @return int|string|false
      */
@@ -720,7 +720,7 @@ class getid3_ac3 extends getid3_handler
     }
 
     /**
-     * @param  int  $fscod
+     * @param int $fscod
      *
      * @return int|string|false
      */
@@ -737,15 +737,15 @@ class getid3_ac3 extends getid3_handler
     }
 
     /**
-     * @param  int  $frmsizecod
-     * @param  int  $fscod
+     * @param int $frmsizecod
+     * @param int $fscod
      *
      * @return int|false
      */
     public static function frameSizeLookup($frmsizecod, $fscod)
     {
         // LSB is whether padding is used or not
-        $padding = (bool) ($frmsizecod & 0x01);
+        $padding = (bool)($frmsizecod & 0x01);
         $framesizeid = ($frmsizecod & 0x3E) >> 1;
 
         static $frameSizeLookup = array();
@@ -782,14 +782,14 @@ class getid3_ac3 extends getid3_handler
     }
 
     /**
-     * @param  int  $frmsizecod
+     * @param int $frmsizecod
      *
      * @return int|false
      */
     public static function bitrateLookup($frmsizecod)
     {
         // LSB is whether padding is used or not
-        $padding = (bool) ($frmsizecod & 0x01);
+        $padding = (bool)($frmsizecod & 0x01);
         $framesizeid = ($frmsizecod & 0x3E) >> 1;
 
         static $bitrateLookup = array(
@@ -817,8 +817,8 @@ class getid3_ac3 extends getid3_handler
     }
 
     /**
-     * @param  int  $bsmod
-     * @param  int  $acmod
+     * @param int $bsmod
+     * @param int $acmod
      *
      * @return string|false
      */
@@ -845,7 +845,7 @@ class getid3_ac3 extends getid3_handler
     }
 
     /**
-     * @param  int  $acmod
+     * @param int $acmod
      *
      * @return array|false
      */
@@ -866,8 +866,8 @@ class getid3_ac3 extends getid3_handler
     }
 
     /**
-     * @param  int  $acmod
-     * @param  bool  $lfeon
+     * @param int $acmod
+     * @param bool $lfeon
      *
      * @return array
      */
@@ -878,7 +878,7 @@ class getid3_ac3 extends getid3_handler
             'ch2' => ($acmod == 0),
             'left' => ($acmod > 1),
             'right' => ($acmod > 1),
-            'center' => (bool) ($acmod & 0x01),
+            'center' => (bool)($acmod & 0x01),
             'surround_mono' => false,
             'surround_left' => false,
             'surround_right' => false,

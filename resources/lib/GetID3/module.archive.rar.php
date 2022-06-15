@@ -44,7 +44,7 @@ class getid3_rar extends getid3_handler
                     rar_close($rp);
                     return true;
                 } else {
-                    $this->error('failed to rar_open('.$info['filename'].')');
+                    $this->error('failed to rar_open(' . $info['filename'] . ')');
                 }
             } else {
                 $this->error('RAR support does not appear to be available in this PHP installation');

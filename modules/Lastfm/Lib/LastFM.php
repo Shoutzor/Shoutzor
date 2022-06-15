@@ -83,11 +83,11 @@ class LastFM
     private function apiCall($method, $params)
     {
         //Create a base url
-        $url = self::API_URL.'?method='.$method.'&format=json'.'&api_key='.$this->apiKey;
+        $url = self::API_URL . '?method=' . $method . '&format=json' . '&api_key=' . $this->apiKey;
 
         //Add other parameters to the url
         foreach ($params as $key => $value) {
-            $url .= '&'.$key.'='.$value;
+            $url .= '&' . $key . '=' . $value;
         }
 
         $ch = curl_init();

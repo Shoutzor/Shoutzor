@@ -15,10 +15,10 @@ class RequestFactory extends Factory
     public function definition()
     {
         return [
-            'media_id' => function() {
+            'media_id' => function () {
                 return Media::inRandomOrder()->first()->id;
             },
-            'requested_by' => function() {
+            'requested_by' => function () {
                 return null;
             }
         ];
@@ -27,7 +27,7 @@ class RequestFactory extends Factory
     public function configure()
     {
         return $this->afterCreating(function (Request $request) {
-            if(random_int(0,5) > 2) {
+            if (random_int(0, 5) > 2) {
                 $request->requested_by = User::inRandomOrder()->first()->id;
                 $request->save();
             }

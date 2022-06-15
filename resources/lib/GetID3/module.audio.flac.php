@@ -14,7 +14,7 @@
 //                                                            ///
 /////////////////////////////////////////////////////////////////
 
-getid3_lib::IncludeDependency(GETID3_INCLUDEPATH.'module.audio.ogg.php', __FILE__, true);
+getid3_lib::IncludeDependency(GETID3_INCLUDEPATH . 'module.audio.ogg.php', __FILE__, true);
 
 /**
  * @tutorial http://flac.sourceforge.net/format.html
@@ -34,9 +34,9 @@ class getid3_flac extends getid3_handler
         $StreamMarker = $this->fread(4);
         if ($StreamMarker != self::syncword) {
             return $this->error(
-                'Expecting "'.getid3_lib::PrintHexBytes(
+                'Expecting "' . getid3_lib::PrintHexBytes(
                     self::syncword
-                ).'" at offset '.$info['avdataoffset'].', found "'.getid3_lib::PrintHexBytes($StreamMarker).'"'
+                ) . '" at offset ' . $info['avdataoffset'] . ', found "' . getid3_lib::PrintHexBytes($StreamMarker) . '"'
             );
         }
         $info['fileformat'] = 'flac';
@@ -58,14 +58,14 @@ class getid3_flac extends getid3_handler
             $BlockOffset = $this->ftell();
             $BlockHeader = $this->fread(4);
             $LBFBT = getid3_lib::BigEndian2Int(substr($BlockHeader, 0, 1));  // LBFBT = LastBlockFlag + BlockType
-            $LastBlockFlag = (bool) ($LBFBT & 0x80);
+            $LastBlockFlag = (bool)($LBFBT & 0x80);
             $BlockType = ($LBFBT & 0x7F);
             $BlockLength = getid3_lib::BigEndian2Int(substr($BlockHeader, 1, 3));
             $BlockTypeText = self::metaBlockTypeLookup($BlockType);
 
             if (($BlockOffset + 4 + $BlockLength) > $info['avdataend']) {
                 $this->warning(
-                    'METADATA_BLOCK_HEADER.BLOCK_TYPE ('.$BlockTypeText.') at offset '.$BlockOffset.' extends beyond end of file'
+                    'METADATA_BLOCK_HEADER.BLOCK_TYPE (' . $BlockTypeText . ') at offset ' . $BlockOffset . ' extends beyond end of file'
                 );
                 break;
             }
@@ -73,12 +73,12 @@ class getid3_flac extends getid3_handler
                 if ($BlockTypeText != 'reserved') {
                     // probably supposed to be zero-length
                     $this->warning(
-                        'METADATA_BLOCK_HEADER.BLOCK_LENGTH ('.$BlockTypeText.') at offset '.$BlockOffset.' is zero bytes'
+                        'METADATA_BLOCK_HEADER.BLOCK_LENGTH (' . $BlockTypeText . ') at offset ' . $BlockOffset . ' is zero bytes'
                     );
                     continue;
                 }
                 $this->error(
-                    'METADATA_BLOCK_HEADER.BLOCK_LENGTH ('.$BlockLength.') at offset '.$BlockOffset.' is invalid'
+                    'METADATA_BLOCK_HEADER.BLOCK_LENGTH (' . $BlockLength . ') at offset ' . $BlockOffset . ' is invalid'
                 );
                 break;
             }
@@ -138,7 +138,7 @@ class getid3_flac extends getid3_handler
 
                 default:
                     $this->warning(
-                        'Unhandled METADATA_BLOCK_HEADER.BLOCK_TYPE ('.$BlockType.') at offset '.$BlockOffset
+                        'Unhandled METADATA_BLOCK_HEADER.BLOCK_TYPE (' . $BlockType . ') at offset ' . $BlockOffset
                     );
             }
 
@@ -230,7 +230,7 @@ class getid3_flac extends getid3_handler
     }
 
     /**
-     * @param  int  $blocktype
+     * @param int $blocktype
      *
      * @return string
      */
@@ -249,7 +249,7 @@ class getid3_flac extends getid3_handler
     }
 
     /**
-     * @param  string  $BlockData
+     * @param string $BlockData
      *
      * @return bool
      */
@@ -284,7 +284,7 @@ class getid3_flac extends getid3_handler
     }
 
     /**
-     * @param  string  $BlockData
+     * @param string $BlockData
      *
      * @return array
      */
@@ -308,7 +308,7 @@ class getid3_flac extends getid3_handler
     }
 
     /**
-     * @param  string  $BlockData
+     * @param string $BlockData
      *
      * @return bool
      */
@@ -324,7 +324,7 @@ class getid3_flac extends getid3_handler
     }
 
     /**
-     * @param  int  $applicationid
+     * @param int $applicationid
      *
      * @return string
      */
@@ -383,7 +383,7 @@ class getid3_flac extends getid3_handler
     }
 
     /**
-     * @param  string  $BlockData
+     * @param string $BlockData
      *
      * @return bool
      */
@@ -420,7 +420,7 @@ class getid3_flac extends getid3_handler
     }
 
     /**
-     * @param  string  $BlockData
+     * @param string $BlockData
      *
      * @return bool
      */
@@ -445,7 +445,7 @@ class getid3_flac extends getid3_handler
     }
 
     /**
-     * @param  string  $BlockData
+     * @param string $BlockData
      *
      * @return bool
      */
@@ -458,7 +458,7 @@ class getid3_flac extends getid3_handler
         $info['flac']['CUESHEET']['lead_in_samples'] = getid3_lib::BigEndian2Int(substr($BlockData, $offset, 8));
         $offset += 8;
         $info['flac']['CUESHEET']['flags']['is_cd'] =
-            (bool) (getid3_lib::BigEndian2Int(substr($BlockData, $offset, 1)) & 0x80);
+            (bool)(getid3_lib::BigEndian2Int(substr($BlockData, $offset, 1)) & 0x80);
         $offset += 1;
 
         $offset += 258; // reserved
@@ -479,8 +479,8 @@ class getid3_flac extends getid3_handler
 
             $TrackFlagsRaw = getid3_lib::BigEndian2Int(substr($BlockData, $offset, 1));
             $offset += 1;
-            $info['flac']['CUESHEET']['tracks'][$TrackNumber]['flags']['is_audio'] = (bool) ($TrackFlagsRaw & 0x80);
-            $info['flac']['CUESHEET']['tracks'][$TrackNumber]['flags']['pre_emphasis'] = (bool) ($TrackFlagsRaw & 0x40);
+            $info['flac']['CUESHEET']['tracks'][$TrackNumber]['flags']['is_audio'] = (bool)($TrackFlagsRaw & 0x80);
+            $info['flac']['CUESHEET']['tracks'][$TrackNumber]['flags']['pre_emphasis'] = (bool)($TrackFlagsRaw & 0x40);
 
             $offset += 13; // reserved
 
@@ -530,7 +530,7 @@ class getid3_flac extends getid3_handler
             $picture['data'] = $this->fread($picture['datalength']);
         } else {
             $picture['data'] = $this->saveAttachment(
-                str_replace('/', '_', $picture['picturetype']).'_'.$this->ftell(),
+                str_replace('/', '_', $picture['picturetype']) . '_' . $this->ftell(),
                 $this->ftell(),
                 $picture['datalength'],
                 $picture['image_mime']
@@ -543,7 +543,7 @@ class getid3_flac extends getid3_handler
     }
 
     /**
-     * @param  int  $type_id
+     * @param int $type_id
      *
      * @return string
      */

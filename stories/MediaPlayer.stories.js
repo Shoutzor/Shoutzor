@@ -1,53 +1,53 @@
 import MediaPlayer from '@components/MediaPlayer';
 
 export default {
-  title: 'media/MediaPlayer',
-  component: MediaPlayer,
-  argTypes: {
-      onMediaplayerPlay: {},
-      onMediaplayerUpvote: {},
-      onMediaplayerDownvote: {},
-      onMediaplayerVideo: {},
-      currentMedia: {
-          name: 'Current Media',
-          type: { name: 'object', required: true },
-          description: 'The media that is currently played by shoutzor'
-      },
-      requestedBy: {
-          name: 'Requested by',
-          type: { name: 'array', required: false },
-          defaultValue: 100,
-          description: 'Array of users that requested the current media'
-      },
-      volume: {
-          name: 'Volume',
-          type: { name: 'number', required: true },
-          description: 'The player volume'
-      },
-      playerStatus: {
-          name: 'Player status',
-          type: { name: 'string', required: true },
-          description: 'The player status'
-      },
-      isAuthenticated: {
-          name: 'Is authenticated',
-          type: { name: 'boolean', required: false },
-          description: 'If the user is authenticated'
-      },
-      videoEnabled: {
-          name: 'Video Enabled',
-          type: { name: 'boolean', required: false },
-          description: 'If the stream supports video'
-      }
-  },
+    title: 'media/MediaPlayer',
+    component: MediaPlayer,
+    argTypes: {
+        onMediaplayerPlay: {},
+        onMediaplayerUpvote: {},
+        onMediaplayerDownvote: {},
+        onMediaplayerVideo: {},
+        currentMedia: {
+            name: 'Current Media',
+            type: {name: 'object', required: true},
+            description: 'The media that is currently played by shoutzor'
+        },
+        requestedBy: {
+            name: 'Requested by',
+            type: {name: 'array', required: false},
+            defaultValue: 100,
+            description: 'Array of users that requested the current media'
+        },
+        volume: {
+            name: 'Volume',
+            type: {name: 'number', required: true},
+            description: 'The player volume'
+        },
+        playerStatus: {
+            name: 'Player status',
+            type: {name: 'string', required: true},
+            description: 'The player status'
+        },
+        isAuthenticated: {
+            name: 'Is authenticated',
+            type: {name: 'boolean', required: false},
+            description: 'If the user is authenticated'
+        },
+        videoEnabled: {
+            name: 'Video Enabled',
+            type: {name: 'boolean', required: false},
+            description: 'If the stream supports video'
+        }
+    },
 };
 
 const Template = (args) => ({
-  components: { MediaPlayer },
-  setup() {
-    return { args };
-  },
-  template: '<media-player v-bind="args" />',
+    components: {MediaPlayer},
+    setup() {
+        return {args};
+    },
+    template: '<media-player v-bind="args" />',
 });
 
 import TempCover from '@static/images/album_temp.jpg';

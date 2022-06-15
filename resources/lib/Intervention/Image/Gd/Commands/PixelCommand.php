@@ -11,7 +11,7 @@ class PixelCommand extends AbstractCommand
     /**
      * Draws one pixel to a given image
      *
-     * @param  Image  $image
+     * @param Image $image
      * @return boolean
      */
     public function execute($image)

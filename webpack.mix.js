@@ -48,6 +48,6 @@ mix.js('resources/js/app.js', 'public/js')
 mix.copy('resources/static/images/shoutzor-logo-large.png', 'public/images');
 mix.copy('resources/static/images/appicon', 'public/images/appicon');
 
-if(mix.inProduction()) {
+if (mix.inProduction()) {
     mix.version();
 }

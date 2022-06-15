@@ -38,7 +38,7 @@ class Color extends AbstractColor
     /**
      * Initiates color object from integer
      *
-     * @param  int  $value
+     * @param int $value
      * @return AbstractColor
      */
     public function initFromInteger($value)
@@ -52,7 +52,7 @@ class Color extends AbstractColor
     /**
      * Initiates color object from given array
      *
-     * @param  array  $value
+     * @param array $value
      * @return AbstractColor
      */
     public function initFromArray($array)
@@ -81,7 +81,7 @@ class Color extends AbstractColor
     /**
      * Convert rgba alpha (0-1) value to gd value (0-127)
      *
-     * @param  float  $input
+     * @param float $input
      * @return int
      */
     private function alpha2gd($input)
@@ -98,7 +98,7 @@ class Color extends AbstractColor
     /**
      * Initiates color object from given string
      *
-     * @param  string  $value
+     * @param string $value
      * @return AbstractColor
      */
     public function initFromString($value)
@@ -114,9 +114,9 @@ class Color extends AbstractColor
     /**
      * Initiates color object from given R, G and B values
      *
-     * @param  int  $r
-     * @param  int  $g
-     * @param  int  $b
+     * @param int $r
+     * @param int $g
+     * @param int $b
      * @return AbstractColor
      */
     public function initFromRgb($r, $g, $b)
@@ -130,10 +130,10 @@ class Color extends AbstractColor
     /**
      * Initiates color object from given R, G, B and A values
      *
-     * @param  int  $r
-     * @param  int  $g
-     * @param  int  $b
-     * @param  float  $a
+     * @param int $r
+     * @param int $g
+     * @param int $b
+     * @param float $a
      * @return AbstractColor
      */
     public function initFromRgba($r, $g, $b, $a = 1)
@@ -147,7 +147,7 @@ class Color extends AbstractColor
     /**
      * Initiates color object from given ImagickPixel object
      *
-     * @param  ImagickPixel  $value
+     * @param ImagickPixel $value
      * @return AbstractColor
      */
     public function initFromObject($value)
@@ -168,7 +168,7 @@ class Color extends AbstractColor
     /**
      * Calculates hexadecimal value of current color instance
      *
-     * @param  string  $prefix
+     * @param string $prefix
      * @return string
      */
     public function getHex($prefix = '')
@@ -199,8 +199,8 @@ class Color extends AbstractColor
     /**
      * Determines if current color is different from given color
      *
-     * @param  AbstractColor  $color
-     * @param  int  $tolerance
+     * @param AbstractColor $color
+     * @param int $tolerance
      * @return boolean
      */
     public function differs(AbstractColor $color, $tolerance = 0)

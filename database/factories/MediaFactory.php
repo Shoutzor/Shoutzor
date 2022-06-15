@@ -27,10 +27,11 @@ class MediaFactory extends Factory
         $this->mediaImageLocation = storage_path('app/public/media');
     }
 
-    private function coinflip() {
+    private function coinflip()
+    {
         try {
             return random_int(0, 1) === 1;
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             return false;
         }
     }

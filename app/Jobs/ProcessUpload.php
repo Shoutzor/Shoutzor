@@ -20,7 +20,7 @@ class ProcessUpload implements ShouldQueue
     /**
      * Create a new job instance.
      *
-     * @param  Upload  $upload
+     * @param Upload $upload
      */
     public function __construct(Upload $upload)
     {
@@ -30,7 +30,7 @@ class ProcessUpload implements ShouldQueue
     /**
      * Execute the job.
      *
-     * @param  UploadProcessor  $processor
+     * @param UploadProcessor $processor
      * @return void
      */
     public function handle(UploadProcessor $processor)

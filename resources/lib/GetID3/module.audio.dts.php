@@ -67,10 +67,10 @@ class getid3_dts extends getid3_handler
 
             unset($info['fileformat']);
             return $this->error(
-                'Expecting "'.implode(
+                'Expecting "' . implode(
                     '| ',
                     array_map('getid3_lib::PrintHexBytes', self::$syncwords)
-                ).'" at offset '.$info['avdataoffset'].', found "'.getid3_lib::PrintHexBytes($sync).'"'
+                ) . '" at offset ' . $info['avdataoffset'] . ', found "' . getid3_lib::PrintHexBytes($sync) . '"'
             );
 
         }
@@ -96,32 +96,32 @@ class getid3_dts extends getid3_handler
 
         $info['dts']['raw']['frame_type'] = $this->readBinData($fhBS, 1);
         $info['dts']['raw']['deficit_samples'] = $this->readBinData($fhBS, 5);
-        $info['dts']['flags']['crc_present'] = (bool) $this->readBinData($fhBS, 1);
+        $info['dts']['flags']['crc_present'] = (bool)$this->readBinData($fhBS, 1);
         $info['dts']['raw']['pcm_sample_blocks'] = $this->readBinData($fhBS, 7);
         $info['dts']['raw']['frame_byte_size'] = $this->readBinData($fhBS, 14);
         $info['dts']['raw']['channel_arrangement'] = $this->readBinData($fhBS, 6);
         $info['dts']['raw']['sample_frequency'] = $this->readBinData($fhBS, 4);
         $info['dts']['raw']['bitrate'] = $this->readBinData($fhBS, 5);
-        $info['dts']['flags']['embedded_downmix'] = (bool) $this->readBinData($fhBS, 1);
-        $info['dts']['flags']['dynamicrange'] = (bool) $this->readBinData($fhBS, 1);
-        $info['dts']['flags']['timestamp'] = (bool) $this->readBinData($fhBS, 1);
-        $info['dts']['flags']['auxdata'] = (bool) $this->readBinData($fhBS, 1);
-        $info['dts']['flags']['hdcd'] = (bool) $this->readBinData($fhBS, 1);
+        $info['dts']['flags']['embedded_downmix'] = (bool)$this->readBinData($fhBS, 1);
+        $info['dts']['flags']['dynamicrange'] = (bool)$this->readBinData($fhBS, 1);
+        $info['dts']['flags']['timestamp'] = (bool)$this->readBinData($fhBS, 1);
+        $info['dts']['flags']['auxdata'] = (bool)$this->readBinData($fhBS, 1);
+        $info['dts']['flags']['hdcd'] = (bool)$this->readBinData($fhBS, 1);
         $info['dts']['raw']['extension_audio'] = $this->readBinData($fhBS, 3);
-        $info['dts']['flags']['extended_coding'] = (bool) $this->readBinData($fhBS, 1);
-        $info['dts']['flags']['audio_sync_insertion'] = (bool) $this->readBinData($fhBS, 1);
+        $info['dts']['flags']['extended_coding'] = (bool)$this->readBinData($fhBS, 1);
+        $info['dts']['flags']['audio_sync_insertion'] = (bool)$this->readBinData($fhBS, 1);
         $info['dts']['raw']['lfe_effects'] = $this->readBinData($fhBS, 2);
-        $info['dts']['flags']['predictor_history'] = (bool) $this->readBinData($fhBS, 1);
+        $info['dts']['flags']['predictor_history'] = (bool)$this->readBinData($fhBS, 1);
         if ($info['dts']['flags']['crc_present']) {
             $info['dts']['raw']['crc16'] = $this->readBinData($fhBS, 16);
         }
-        $info['dts']['flags']['mri_perfect_reconst'] = (bool) $this->readBinData($fhBS, 1);
+        $info['dts']['flags']['mri_perfect_reconst'] = (bool)$this->readBinData($fhBS, 1);
         $info['dts']['raw']['encoder_soft_version'] = $this->readBinData($fhBS, 4);
         $info['dts']['raw']['copy_history'] = $this->readBinData($fhBS, 2);
         $info['dts']['raw']['bits_per_sample'] = $this->readBinData($fhBS, 2);
-        $info['dts']['flags']['surround_es'] = (bool) $this->readBinData($fhBS, 1);
-        $info['dts']['flags']['front_sum_diff'] = (bool) $this->readBinData($fhBS, 1);
-        $info['dts']['flags']['surround_sum_diff'] = (bool) $this->readBinData($fhBS, 1);
+        $info['dts']['flags']['surround_es'] = (bool)$this->readBinData($fhBS, 1);
+        $info['dts']['flags']['front_sum_diff'] = (bool)$this->readBinData($fhBS, 1);
+        $info['dts']['flags']['surround_sum_diff'] = (bool)$this->readBinData($fhBS, 1);
         $info['dts']['raw']['dialog_normalization'] = $this->readBinData($fhBS, 4);
 
         $info['dts']['bitrate'] = self::bitrateLookup($info['dts']['raw']['bitrate']);
@@ -155,8 +155,8 @@ class getid3_dts extends getid3_handler
     }
 
     /**
-     * @param  string  $bin
-     * @param  int  $length
+     * @param string $bin
+     * @param int $length
      *
      * @return float|int
      */
@@ -169,7 +169,7 @@ class getid3_dts extends getid3_handler
     }
 
     /**
-     * @param  int  $index
+     * @param int $index
      *
      * @return int|string|false
      */
@@ -213,7 +213,7 @@ class getid3_dts extends getid3_handler
     }
 
     /**
-     * @param  int  $index
+     * @param int $index
      *
      * @return int|false
      */
@@ -224,7 +224,7 @@ class getid3_dts extends getid3_handler
     }
 
     /**
-     * @param  int  $index
+     * @param int $index
      *
      * @return int|string|false
      */
@@ -252,8 +252,8 @@ class getid3_dts extends getid3_handler
     }
 
     /**
-     * @param  int  $index
-     * @param  int  $version
+     * @param int $index
+     * @param int $version
      *
      * @return int|false
      */
@@ -271,7 +271,7 @@ class getid3_dts extends getid3_handler
     }
 
     /**
-     * @param  int  $index
+     * @param int $index
      *
      * @return int|false
      */
@@ -315,7 +315,7 @@ class getid3_dts extends getid3_handler
     }
 
     /**
-     * @param  int  $index
+     * @param int $index
      *
      * @return string
      */

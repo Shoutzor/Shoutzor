@@ -24,7 +24,7 @@ class ImageServiceProviderLaravel4 extends ServiceProvider
             // load imagecache config
             $app['config']->package(
                 'intervention/imagecache',
-                __DIR__.'/../../../../imagecache/src/config',
+                __DIR__ . '/../../../../imagecache/src/config',
                 'imagecache'
             );
             $config = $app['config'];
@@ -37,7 +37,7 @@ class ImageServiceProviderLaravel4 extends ServiceProvider
 
                 // setup image manipulator route
                 $app['router']->get(
-                    $config->get('imagecache::route').'/{template}/{filename}',
+                    $config->get('imagecache::route') . '/{template}/{filename}',
                     [
                         'as' => 'imagecache',
                         function ($template, $filename) use ($app, $config) {
@@ -48,7 +48,7 @@ class ImageServiceProviderLaravel4 extends ServiceProvider
                             // find file
                             foreach ($config->get('imagecache::paths') as $path) {
                                 // don't allow '..' in filenames
-                                $image_path = $path.'/'.str_replace('..', '', $filename);
+                                $image_path = $path . '/' . str_replace('..', '', $filename);
                                 if (file_exists($image_path) && is_file($image_path)) {
                                     break;
                                 } else {
@@ -97,9 +97,9 @@ class ImageServiceProviderLaravel4 extends ServiceProvider
                             return new IlluminateResponse(
                                 $content, 200, [
                                     'Content-Type' => $mime,
-                                    'Cache-Control' => 'max-age='.($config->get(
+                                    'Cache-Control' => 'max-age=' . ($config->get(
                                                 'imagecache::lifetime'
-                                            ) * 60).', public',
+                                            ) * 60) . ', public',
                                     'Etag' => md5($content)
                                 ]
                             );

@@ -3,11 +3,14 @@
         <base-alert v-if="error" type="danger">{{ error }}</base-alert>
 
         <form class="auth-login-form mb-0" @submit.prevent="login">
-            <base-input v-model="username" name="username" placeholder="Username" autocomplete="username" />
-            <base-input v-model="password" name="password" placeholder="Password" autocomplete="current-password" class="mt-1" />
+            <base-input v-model="username" name="username" placeholder="Username" autocomplete="username"/>
+            <base-input v-model="password" name="password" placeholder="Password" autocomplete="current-password"
+                        class="mt-1"/>
 
             <base-button :disabled="loading" type="submit" class="btn-primary mt-2">
-                <template v-if="loading"><base-spinner /></template>
+                <template v-if="loading">
+                    <base-spinner/>
+                </template>
                 <template v-else>Login</template>
             </base-button>
 
@@ -20,8 +23,8 @@
 import "./LoginForm.scss";
 
 import gql from "graphql-tag";
-import { ref, reactive } from "vue";
-import { useMutation } from "@vue/apollo-composable";
+import {ref, reactive} from "vue";
+import {useMutation} from "@vue/apollo-composable";
 
 import BaseAlert from "@components/BaseAlert";
 import BaseButton from "@components/BaseButton";
@@ -45,12 +48,12 @@ export default {
         BaseAlert
     },
 
-    setup(props, { emit }) {
+    setup(props, {emit}) {
         const username = ref("");
         const password = ref("");
         props = reactive(props);
 
-        const { mutate: login, loading, error, onDone } = useMutation(LOGIN_MUTATION, () => ({
+        const {mutate: login, loading, error, onDone} = useMutation(LOGIN_MUTATION, () => ({
             fetchPolicy: 'no-cache',
             variables: {
                 input: {

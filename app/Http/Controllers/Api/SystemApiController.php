@@ -11,7 +11,7 @@ class SystemApiController extends Controller
 
     public function getHealthStatus(Request $request)
     {
-        $showInstallSteps = (bool) $request->showInstallSteps;
+        $showInstallSteps = (bool)$request->showInstallSteps;
         $result = app(HealthCheckManager::class)->getHealthStatus($showInstallSteps);
 
         # Return the health status
@@ -20,7 +20,7 @@ class SystemApiController extends Controller
 
     public function fixHealth(Request $request)
     {
-        $showInstallSteps = (bool) $request->showInstallSteps;
+        $showInstallSteps = (bool)$request->showInstallSteps;
         $result = app(HealthCheckManager::class)->performAutoFix($showInstallSteps);
 
         return response()->json($result, 200);

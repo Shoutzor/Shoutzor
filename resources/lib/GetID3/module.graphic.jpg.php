@@ -28,7 +28,7 @@ class getid3_jpg extends getid3_handler
         $info['video']['dataformat'] = 'jpg';
         $info['video']['lossless'] = false;
         $info['video']['bits_per_sample'] = 24;
-        $info['video']['pixel_aspect_ratio'] = (float) 1;
+        $info['video']['pixel_aspect_ratio'] = (float)1;
 
         $this->fseek($info['avdataoffset']);
 
@@ -77,7 +77,7 @@ class getid3_jpg extends getid3_handler
                                         return false;
                                     }
 
-                                    $errcontext['info']['warning'][] = 'Error parsing EXIF data ('.$errstr.')';
+                                    $errcontext['info']['warning'][] = 'Error parsing EXIF data (' . $errstr . ')';
                                 }
                             );
 
@@ -86,16 +86,16 @@ class getid3_jpg extends getid3_handler
                             restore_error_handler();
                         } else {
                             $this->warning(
-                                'exif_read_data() cannot parse non-EXIF data in APP1 (expected "Exif", found "'.substr(
+                                'exif_read_data() cannot parse non-EXIF data in APP1 (expected "Exif", found "' . substr(
                                     $imageinfo['APP1'],
                                     0,
                                     4
-                                ).'")'
+                                ) . '")'
                             );
                         }
                     } else {
                         $this->warning(
-                            'EXIF parsing only available when '.(GETID3_OS_ISWINDOWS ? 'php_exif.dll enabled' : 'compiled with --enable-exif')
+                            'EXIF parsing only available when ' . (GETID3_OS_ISWINDOWS ? 'php_exif.dll enabled' : 'compiled with --enable-exif')
                         );
                     }
                 }
@@ -122,7 +122,7 @@ class getid3_jpg extends getid3_handler
                 for ($i = 0; $i < 4; $i++) {
                     $version_subparts[$i] = ord(substr($info['jpg']['exif']['GPS']['GPSVersion'], $i, 1));
                 }
-                $info['jpg']['exif']['GPS']['computed']['version'] = 'v'.implode('.', $version_subparts);
+                $info['jpg']['exif']['GPS']['computed']['version'] = 'v' . implode('.', $version_subparts);
             }
 
             if (isset($info['jpg']['exif']['GPS']['GPSDateStamp'])) {
@@ -187,7 +187,7 @@ class getid3_jpg extends getid3_handler
 
         }
 
-        getid3_lib::IncludeDependency(GETID3_INCLUDEPATH.'module.tag.xmp.php', __FILE__, true);
+        getid3_lib::IncludeDependency(GETID3_INCLUDEPATH . 'module.tag.xmp.php', __FILE__, true);
         if (isset($info['filenamepath'])) {
             $image_xmp = new Image_XMP($info['filenamepath']);
             $xmp_raw = $image_xmp->getAllTags();
@@ -196,7 +196,7 @@ class getid3_jpg extends getid3_handler
                     list($subsection, $tagname) = explode(':', $key);
                     $info['xmp'][$subsection][$tagname] = $this->CastAsAppropriate($value);
                 } else {
-                    $this->warning('XMP: expecting "<subsection>:<tagname>", found "'.$key.'"');
+                    $this->warning('XMP: expecting "<subsection>:<tagname>", found "' . $key . '"');
                 }
             }
         }
@@ -209,7 +209,7 @@ class getid3_jpg extends getid3_handler
     }
 
     /**
-     * @param  int  $iptc_record
+     * @param int $iptc_record
      *
      * @return string
      */
@@ -231,8 +231,8 @@ class getid3_jpg extends getid3_handler
     }
 
     /**
-     * @param  int  $iptc_record
-     * @param  int  $iptc_tagkey
+     * @param int $iptc_record
+     * @param int $iptc_tagkey
      *
      * @return string
      */
@@ -376,7 +376,7 @@ class getid3_jpg extends getid3_handler
     }
 
     /**
-     * @param  mixed  $value
+     * @param mixed $value
      *
      * @return mixed
      */
@@ -389,7 +389,7 @@ class getid3_jpg extends getid3_handler
         } elseif (preg_match('#^[0-9]+$#', $value)) {
             return getid3_lib::CastAsInt($value);
         } elseif (preg_match('#^[0-9\.]+$#', $value)) {
-            return (float) $value;
+            return (float)$value;
         }
         return $value;
     }

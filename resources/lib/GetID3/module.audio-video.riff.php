@@ -23,9 +23,9 @@
  * @todo Rewrite RIFF parser totally
  */
 
-getid3_lib::IncludeDependency(GETID3_INCLUDEPATH.'module.audio.mp3.php', __FILE__, true);
-getid3_lib::IncludeDependency(GETID3_INCLUDEPATH.'module.audio.ac3.php', __FILE__, true);
-getid3_lib::IncludeDependency(GETID3_INCLUDEPATH.'module.audio.dts.php', __FILE__, true);
+getid3_lib::IncludeDependency(GETID3_INCLUDEPATH . 'module.audio.mp3.php', __FILE__, true);
+getid3_lib::IncludeDependency(GETID3_INCLUDEPATH . 'module.audio.ac3.php', __FILE__, true);
+getid3_lib::IncludeDependency(GETID3_INCLUDEPATH . 'module.audio.dts.php', __FILE__, true);
 
 class getid3_riff extends getid3_handler
 {
@@ -105,9 +105,9 @@ class getid3_riff extends getid3_handler
                         if ($e->getCode() == 10) {
                             //$this->warning('RIFF parser: '.$e->getMessage());
                             $this->error(
-                                'AVI extends beyond '.round(
+                                'AVI extends beyond ' . round(
                                     PHP_INT_MAX / 1073741824
-                                ).'GB and PHP filesystem functions cannot read that far, playtime may be wrong'
+                                ) . 'GB and PHP filesystem functions cannot read that far, playtime may be wrong'
                             );
                             $this->warning('[avdataend] value may be incorrect, multiple AVIX chunks may be present');
                             break;
@@ -155,20 +155,20 @@ class getid3_riff extends getid3_handler
 
                         default:
                             if ($info['filesize'] == ($chunkdata['offset'] - 8 + 128)) {
-                                $DIVXTAG = $nextRIFFheader.$this->fread(128 - 12);
+                                $DIVXTAG = $nextRIFFheader . $this->fread(128 - 12);
                                 if (substr($DIVXTAG, -7) == 'DIVXTAG') {
                                     // DIVXTAG is supposed to be inside an IDVX chunk in a LIST chunk, but some bad encoders just slap it on the end of a file
                                     $this->warning(
-                                        'Found wrongly-structured DIVXTAG at offset '.($this->ftell() - 128).', parsing anyway'
+                                        'Found wrongly-structured DIVXTAG at offset ' . ($this->ftell() - 128) . ', parsing anyway'
                                     );
                                     $info['divxtag']['comments'] = self::ParseDIVXTAG($DIVXTAG);
                                     break 2;
                                 }
                             }
                             $this->warning(
-                                'Expecting "RIFF|JUNK|IDVX" at '.$nextRIFFoffset.', found "'.$nextRIFFheaderID.'" ('.getid3_lib::PrintHexBytes(
+                                'Expecting "RIFF|JUNK|IDVX" at ' . $nextRIFFoffset . ', found "' . $nextRIFFheaderID . '" (' . getid3_lib::PrintHexBytes(
                                     $nextRIFFheaderID
-                                ).') - skipping rest of file'
+                                ) . ') - skipping rest of file'
                             );
                             break 2;
 
@@ -182,7 +182,7 @@ class getid3_riff extends getid3_handler
 
             default:
                 $this->error(
-                    'Cannot parse RIFF (this is maybe not a RIFF / WAV / AVI file?) - expecting "FORM|RIFF|SDSS|RMP3" found "'.$RIFFsubtype.'" instead'
+                    'Cannot parse RIFF (this is maybe not a RIFF / WAV / AVI file?) - expecting "FORM|RIFF|SDSS|RMP3" found "' . $RIFFsubtype . '" instead'
                 );
                 //unset($info['fileformat']);
                 return false;
@@ -222,13 +222,13 @@ class getid3_riff extends getid3_handler
                     $thisfile_audio =
                         getid3_lib::array_merge_noclobber($thisfile_audio, $thisfile_riff_audio[$streamindex]);
                     if (substr($thisfile_audio['codec'], 0, strlen('unknown: 0x')) == 'unknown: 0x') {
-                        $this->warning('Audio codec = '.$thisfile_audio['codec']);
+                        $this->warning('Audio codec = ' . $thisfile_audio['codec']);
                     }
                     $thisfile_audio['bitrate'] = $thisfile_riff_audio[$streamindex]['bitrate'];
 
                     if (empty($info['playtime_seconds'])) { // may already be set (e.g. DTS-WAV)
                         $info['playtime_seconds'] =
-                            (float) ((($info['avdataend'] - $info['avdataoffset']) * 8) / $thisfile_audio['bitrate']);
+                            (float)((($info['avdataend'] - $info['avdataoffset']) * 8) / $thisfile_audio['bitrate']);
                     }
 
                     $thisfile_audio['lossless'] = false;
@@ -389,14 +389,14 @@ class getid3_riff extends getid3_handler
                     $thisfile_riff_WAVE_MEXT_0['raw']['sound_information'] =
                         getid3_lib::LittleEndian2Int(substr($thisfile_riff_WAVE_MEXT_0['data'], 0, 2));
                     $thisfile_riff_WAVE_MEXT_0['flags']['homogenous'] =
-                        (bool) ($thisfile_riff_WAVE_MEXT_0['raw']['sound_information'] & 0x0001);
+                        (bool)($thisfile_riff_WAVE_MEXT_0['raw']['sound_information'] & 0x0001);
                     if ($thisfile_riff_WAVE_MEXT_0['flags']['homogenous']) {
                         $thisfile_riff_WAVE_MEXT_0['flags']['padding'] =
                             ($thisfile_riff_WAVE_MEXT_0['raw']['sound_information'] & 0x0002) ? false : true;
                         $thisfile_riff_WAVE_MEXT_0['flags']['22_or_44'] =
-                            (bool) ($thisfile_riff_WAVE_MEXT_0['raw']['sound_information'] & 0x0004);
+                            (bool)($thisfile_riff_WAVE_MEXT_0['raw']['sound_information'] & 0x0004);
                         $thisfile_riff_WAVE_MEXT_0['flags']['free_format'] =
-                            (bool) ($thisfile_riff_WAVE_MEXT_0['raw']['sound_information'] & 0x0008);
+                            (bool)($thisfile_riff_WAVE_MEXT_0['raw']['sound_information'] & 0x0008);
 
                         $thisfile_riff_WAVE_MEXT_0['nominal_frame_size'] =
                             getid3_lib::LittleEndian2Int(substr($thisfile_riff_WAVE_MEXT_0['data'], 2, 2));
@@ -406,11 +406,11 @@ class getid3_riff extends getid3_handler
                     $thisfile_riff_WAVE_MEXT_0['raw']['anciliary_data_def'] =
                         getid3_lib::LittleEndian2Int(substr($thisfile_riff_WAVE_MEXT_0['data'], 8, 2));
                     $thisfile_riff_WAVE_MEXT_0['flags']['anciliary_data_left'] =
-                        (bool) ($thisfile_riff_WAVE_MEXT_0['raw']['anciliary_data_def'] & 0x0001);
+                        (bool)($thisfile_riff_WAVE_MEXT_0['raw']['anciliary_data_def'] & 0x0001);
                     $thisfile_riff_WAVE_MEXT_0['flags']['anciliary_data_free'] =
-                        (bool) ($thisfile_riff_WAVE_MEXT_0['raw']['anciliary_data_def'] & 0x0002);
+                        (bool)($thisfile_riff_WAVE_MEXT_0['raw']['anciliary_data_def'] & 0x0002);
                     $thisfile_riff_WAVE_MEXT_0['flags']['anciliary_data_right'] =
-                        (bool) ($thisfile_riff_WAVE_MEXT_0['raw']['anciliary_data_def'] & 0x0004);
+                        (bool)($thisfile_riff_WAVE_MEXT_0['raw']['anciliary_data_def'] & 0x0004);
                 }
 
                 if (isset($thisfile_riff_WAVE['cart'][0]['data'])) {
@@ -490,12 +490,12 @@ class getid3_riff extends getid3_handler
 
                         if ($SNDM_thisTagSize != (4 + 4 + 2 + 2 + $SNDM_thisTagDataSize)) {
                             $this->warning(
-                                'RIFF.WAVE.SNDM.data contains tag not expected length (expected: '.$SNDM_thisTagSize.', found: '.(4 + 4 + 2 + 2 + $SNDM_thisTagDataSize).') at offset '.$SNDM_startoffset.' (file offset '.($thisfile_riff_WAVE_SNDM_0['offset'] + $SNDM_startoffset).')'
+                                'RIFF.WAVE.SNDM.data contains tag not expected length (expected: ' . $SNDM_thisTagSize . ', found: ' . (4 + 4 + 2 + 2 + $SNDM_thisTagDataSize) . ') at offset ' . $SNDM_startoffset . ' (file offset ' . ($thisfile_riff_WAVE_SNDM_0['offset'] + $SNDM_startoffset) . ')'
                             );
                             break;
                         } elseif ($SNDM_thisTagSize <= 0) {
                             $this->warning(
-                                'RIFF.WAVE.SNDM.data contains zero-size tag at offset '.$SNDM_startoffset.' (file offset '.($thisfile_riff_WAVE_SNDM_0['offset'] + $SNDM_startoffset).')'
+                                'RIFF.WAVE.SNDM.data contains zero-size tag at offset ' . $SNDM_startoffset . ' (file offset ' . ($thisfile_riff_WAVE_SNDM_0['offset'] + $SNDM_startoffset) . ')'
                             );
                             break;
                         }
@@ -506,7 +506,7 @@ class getid3_riff extends getid3_handler
                             $thisfile_riff_WAVE_SNDM_0['parsed'][$parsedkey] = $SNDM_thisTagDataText;
                         } else {
                             $this->warning(
-                                'RIFF.WAVE.SNDM contains unknown tag "'.$SNDM_thisTagKey.'" at offset '.$SNDM_startoffset.' (file offset '.($thisfile_riff_WAVE_SNDM_0['offset'] + $SNDM_startoffset).')'
+                                'RIFF.WAVE.SNDM contains unknown tag "' . $SNDM_thisTagKey . '" at offset ' . $SNDM_startoffset . ' (file offset ' . ($thisfile_riff_WAVE_SNDM_0['offset'] + $SNDM_startoffset) . ')'
                             );
                         }
                     }
@@ -536,7 +536,7 @@ class getid3_riff extends getid3_handler
                         if (isset($parsedXML['SPEED']['TIMESTAMP_SAMPLES_SINCE_MIDNIGHT_LO']) && !empty($parsedXML['SPEED']['TIMESTAMP_SAMPLE_RATE']) && !empty($thisfile_riff_WAVE['iXML'][0]['timecode_rate'])) {
                             $samples_since_midnight = floatval(
                                 ltrim(
-                                    $parsedXML['SPEED']['TIMESTAMP_SAMPLES_SINCE_MIDNIGHT_HI'].$parsedXML['SPEED']['TIMESTAMP_SAMPLES_SINCE_MIDNIGHT_LO'],
+                                    $parsedXML['SPEED']['TIMESTAMP_SAMPLES_SINCE_MIDNIGHT_HI'] . $parsedXML['SPEED']['TIMESTAMP_SAMPLES_SINCE_MIDNIGHT_LO'],
                                     '0'
                                 )
                             );
@@ -563,13 +563,13 @@ class getid3_riff extends getid3_handler
                 if (!isset($thisfile_audio['bitrate']) && isset($thisfile_riff_audio[$streamindex]['bitrate'])) {
                     $thisfile_audio['bitrate'] = $thisfile_riff_audio[$streamindex]['bitrate'];
                     $info['playtime_seconds'] =
-                        (float) ((($info['avdataend'] - $info['avdataoffset']) * 8) / $thisfile_audio['bitrate']);
+                        (float)((($info['avdataend'] - $info['avdataoffset']) * 8) / $thisfile_audio['bitrate']);
                 }
 
                 if (!empty($info['wavpack'])) {
                     $thisfile_audio_dataformat = 'wavpack';
                     $thisfile_audio['bitrate_mode'] = 'vbr';
-                    $thisfile_audio['encoder'] = 'WavPack v'.$info['wavpack']['version'];
+                    $thisfile_audio['encoder'] = 'WavPack v' . $info['wavpack']['version'];
 
                     // Reset to the way it was - RIFF parsing will have messed this up
                     $info['avdataend'] = $Original['avdataend'];
@@ -590,7 +590,7 @@ class getid3_riff extends getid3_handler
                     // move the data chunk after all other chunks (if any)
                     // so that the RIFF parser doesn't see EOF when trying
                     // to skip over the data chunk
-                    $RIFFdata = substr($RIFFdata, 0, 36).substr($RIFFdata, 44).substr($RIFFdata, 36, 8);
+                    $RIFFdata = substr($RIFFdata, 0, 36) . substr($RIFFdata, 44) . substr($RIFFdata, 36, 8);
                     $getid3_riff = new getid3_riff($this->getid3);
                     $getid3_riff->ParseRIFFdata($RIFFdata);
                     unset($getid3_riff);
@@ -669,10 +669,10 @@ class getid3_riff extends getid3_handler
                             $riff_litewave['flags']['vbr_blocksize'] =
                                 ($riff_litewave_raw['compression_flags'] & 0x02) ? false : true;
                             $riff_litewave['flags']['seekpoints'] =
-                                (bool) ($riff_litewave_raw['compression_flags'] & 0x04);
+                                (bool)($riff_litewave_raw['compression_flags'] & 0x04);
 
                             $thisfile_audio['lossless'] = (($riff_litewave_raw['m_wQuality'] == 100) ? true : false);
-                            $thisfile_audio['encoder_options'] = '-q'.$riff_litewave['quality_factor'];
+                            $thisfile_audio['encoder_options'] = '-q' . $riff_litewave['quality_factor'];
                             break;
 
                         default:
@@ -696,7 +696,7 @@ class getid3_riff extends getid3_handler
                             } else {
                                 // Short by more than one byte, throw warning
                                 $this->warning(
-                                    'Probably truncated file - expecting '.$thisfile_riff[$RIFFsubtype]['data'][0]['size'].' bytes of data, only found '.($info['filesize'] - $info['avdataoffset']).' (short by '.($thisfile_riff[$RIFFsubtype]['data'][0]['size'] - ($info['filesize'] - $info['avdataoffset'])).' bytes)'
+                                    'Probably truncated file - expecting ' . $thisfile_riff[$RIFFsubtype]['data'][0]['size'] . ' bytes of data, only found ' . ($info['filesize'] - $info['avdataoffset']) . ' (short by ' . ($thisfile_riff[$RIFFsubtype]['data'][0]['size'] - ($info['filesize'] - $info['avdataoffset'])) . ' bytes)'
                                 );
                                 $info['avdataend'] = $info['filesize'];
                             }
@@ -707,13 +707,13 @@ class getid3_riff extends getid3_handler
                                 // output file appears to be incorrectly *not* padded to nearest WORD boundary
                                 // Output less severe warning
                                 $this->warning(
-                                    'File should probably be padded to nearest WORD boundary, but it is not (expecting '.$thisfile_riff[$RIFFsubtype]['data'][0]['size'].' bytes of data, only found '.($info['filesize'] - $info['avdataoffset']).' therefore short by '.($thisfile_riff[$RIFFsubtype]['data'][0]['size'] - ($info['filesize'] - $info['avdataoffset'])).' bytes)'
+                                    'File should probably be padded to nearest WORD boundary, but it is not (expecting ' . $thisfile_riff[$RIFFsubtype]['data'][0]['size'] . ' bytes of data, only found ' . ($info['filesize'] - $info['avdataoffset']) . ' therefore short by ' . ($thisfile_riff[$RIFFsubtype]['data'][0]['size'] - ($info['filesize'] - $info['avdataoffset'])) . ' bytes)'
                                 );
                                 $info['avdataend'] = $info['filesize'];
                             } else {
                                 // Short by more than one byte, throw warning
                                 $this->warning(
-                                    'Probably truncated file - expecting '.$thisfile_riff[$RIFFsubtype]['data'][0]['size'].' bytes of data, only found '.($info['filesize'] - $info['avdataoffset']).' (short by '.($thisfile_riff[$RIFFsubtype]['data'][0]['size'] - ($info['filesize'] - $info['avdataoffset'])).' bytes)'
+                                    'Probably truncated file - expecting ' . $thisfile_riff[$RIFFsubtype]['data'][0]['size'] . ' bytes of data, only found ' . ($info['filesize'] - $info['avdataoffset']) . ' (short by ' . ($thisfile_riff[$RIFFsubtype]['data'][0]['size'] - ($info['filesize'] - $info['avdataoffset'])) . ' bytes)'
                                 );
                                 $info['avdataend'] = $info['filesize'];
                             }
@@ -760,7 +760,7 @@ class getid3_riff extends getid3_handler
                     }
                     if ($info['avdataend'] > $info['filesize']) {
                         $this->warning(
-                            'Probably truncated file - expecting '.($info['avdataend'] - $info['avdataoffset']).' bytes of data, only found '.($info['filesize'] - $info['avdataoffset']).' (short by '.($info['avdataend'] - $info['filesize']).' bytes)'
+                            'Probably truncated file - expecting ' . ($info['avdataend'] - $info['avdataoffset']) . ' bytes of data, only found ' . ($info['filesize'] - $info['avdataoffset']) . ' (short by ' . ($info['avdataend'] - $info['filesize']) . ' bytes)'
                         );
                         $info['avdataend'] = $info['filesize'];
                     }
@@ -842,7 +842,7 @@ class getid3_riff extends getid3_handler
                         'copyrighted' => 0x00020010,
                     );
                     foreach ($flags as $flag => $value) {
-                        $thisfile_riff_raw_avih['flags'][$flag] = (bool) ($thisfile_riff_raw_avih['dwFlags'] & $value);
+                        $thisfile_riff_raw_avih['flags'][$flag] = (bool)($thisfile_riff_raw_avih['dwFlags'] & $value);
                     }
 
                     // shortcut
@@ -1007,7 +1007,7 @@ class getid3_riff extends getid3_handler
                                                     $thisfile_riff_raw_strf_strhfccType_streamindex['fourcc'];
                                             }
                                             $thisfile_video['codec'] = $thisfile_riff_video_current['codec'];
-                                            $thisfile_video['pixel_aspect_ratio'] = (float) 1;
+                                            $thisfile_video['pixel_aspect_ratio'] = (float)1;
                                             switch ($thisfile_riff_raw_strh_current['fccHandler']) {
                                                 case 'HFYU': // Huffman Lossless Codec
                                                 case 'IRAW': // Intel YUV Uncompressed
@@ -1042,7 +1042,7 @@ class getid3_riff extends getid3_handler
                                             break;
 
                                         default:
-                                            $this->warning('Unhandled fccType for stream ('.$i.'): "'.$strhfccType.'"');
+                                            $this->warning('Unhandled fccType for stream (' . $i . '): "' . $strhfccType . '"');
                                             break;
 
                                     }
@@ -1121,9 +1121,9 @@ class getid3_riff extends getid3_handler
                         $this->EitherEndian2Int(substr($thisfile_riff_CDDA_fmt_0['data'], 20, 4));
 
                     $thisfile_riff_CDDA_fmt_0['start_offset_seconds'] =
-                        (float) $thisfile_riff_CDDA_fmt_0['start_offset_frame'] / 75;
+                        (float)$thisfile_riff_CDDA_fmt_0['start_offset_frame'] / 75;
                     $thisfile_riff_CDDA_fmt_0['playtime_seconds'] =
-                        (float) $thisfile_riff_CDDA_fmt_0['playtime_frames'] / 75;
+                        (float)$thisfile_riff_CDDA_fmt_0['playtime_frames'] / 75;
                     $info['comments']['track_number'] = $thisfile_riff_CDDA_fmt_0['track_num'];
                     $info['playtime_seconds'] = $thisfile_riff_CDDA_fmt_0['playtime_seconds'];
 
@@ -1157,7 +1157,7 @@ class getid3_riff extends getid3_handler
                             // forget to pad end of file to make this actually work
                         } else {
                             $this->warning(
-                                'Probable truncated AIFF file: expecting '.$thisfile_riff[$RIFFsubtype]['SSND'][0]['size'].' bytes of audio data, only '.($info['filesize'] - $info['avdataoffset']).' bytes found'
+                                'Probable truncated AIFF file: expecting ' . $thisfile_riff[$RIFFsubtype]['SSND'][0]['size'] . ' bytes of audio data, only ' . ($info['filesize'] - $info['avdataoffset']) . ' bytes found'
                             );
                         }
                         $info['avdataend'] = $info['filesize'];
@@ -1176,7 +1176,7 @@ class getid3_riff extends getid3_handler
                     $thisfile_riff_audio['bits_per_sample'] =
                         getid3_lib::BigEndian2Int(substr($thisfile_riff_RIFFsubtype_COMM_0_data, 6, 2), true);
                     $thisfile_riff_audio['sample_rate'] =
-                        (int) getid3_lib::BigEndian2Float(substr($thisfile_riff_RIFFsubtype_COMM_0_data, 8, 10));
+                        (int)getid3_lib::BigEndian2Float(substr($thisfile_riff_RIFFsubtype_COMM_0_data, 8, 10));
 
                     if ($thisfile_riff[$RIFFsubtype]['COMM'][0]['size'] > 18) {
                         $thisfile_riff_audio['codec_fourcc'] = substr($thisfile_riff_RIFFsubtype_COMM_0_data, 18, 4);
@@ -1298,7 +1298,7 @@ class getid3_riff extends getid3_handler
                     $info['avdataend'] = $info['avdataoffset'] + $thisfile_riff[$RIFFsubtype]['BODY'][0]['size'];
                     if ($info['avdataend'] > $info['filesize']) {
                         $this->warning(
-                            'Probable truncated AIFF file: expecting '.$thisfile_riff[$RIFFsubtype]['BODY'][0]['size'].' bytes of audio data, only '.($info['filesize'] - $info['avdataoffset']).' bytes found'
+                            'Probable truncated AIFF file: expecting ' . $thisfile_riff[$RIFFsubtype]['BODY'][0]['size'] . ' bytes of audio data, only ' . ($info['filesize'] - $info['avdataoffset']) . ' bytes found'
                         );
                     }
                 }
@@ -1339,7 +1339,7 @@ class getid3_riff extends getid3_handler
 
                         default:
                             $this->warning(
-                                'Unexpected sCompression value in 8SVX.VHDR chunk - expecting 0 or 1, found "'.$thisfile_riff_RIFFsubtype_VHDR_0['sCompression'].'"'
+                                'Unexpected sCompression value in 8SVX.VHDR chunk - expecting 0 or 1, found "' . $thisfile_riff_RIFFsubtype_VHDR_0['sCompression'] . '"'
                             );
                             break;
                     }
@@ -1360,7 +1360,7 @@ class getid3_riff extends getid3_handler
 
                         default:
                             $this->warning(
-                                'Unexpected value in 8SVX.CHAN chunk - expecting 2 or 4 or 6, found "'.$ChannelsIndex.'"'
+                                'Unexpected value in 8SVX.CHAN chunk - expecting 2 or 4 or 6, found "' . $ChannelsIndex . '"'
                             );
                             break;
                     }
@@ -1388,7 +1388,7 @@ class getid3_riff extends getid3_handler
                 $info['mime_type'] = 'video/mpeg';
 
                 if (!empty($thisfile_riff['CDXA']['data'][0]['size'])) {
-                    getid3_lib::IncludeDependency(GETID3_INCLUDEPATH.'module.audio-video.mpeg.php', __FILE__, true);
+                    getid3_lib::IncludeDependency(GETID3_INCLUDEPATH . 'module.audio-video.mpeg.php', __FILE__, true);
 
                     $getid3_temp = new getID3();
                     $getid3_temp->openfile($this->getid3->filename, null, $this->getid3->fp);
@@ -1441,9 +1441,9 @@ class getid3_riff extends getid3_handler
                         $info['video']['resolution_y'] = $thisfile_riff['WEBP']['VP8 '][0]['height'];
                     } else {
                         $this->error(
-                            'Expecting 9D 01 2A at offset '.($thisfile_riff['WEBP']['VP8 '][0]['offset'] + 8 + 3).', found "'.getid3_lib::PrintHexBytes(
+                            'Expecting 9D 01 2A at offset ' . ($thisfile_riff['WEBP']['VP8 '][0]['offset'] + 8 + 3) . ', found "' . getid3_lib::PrintHexBytes(
                                 substr($WEBP_VP8_header, 3, 3)
-                            ).'"'
+                            ) . '"'
                         );
                     }
 
@@ -1460,16 +1460,16 @@ class getid3_riff extends getid3_handler
                         $thisfile_riff['WEBP']['VP8L'][0]['width'] = bindec(substr($width_height_flags, 18, 14)) + 1;
                         $thisfile_riff['WEBP']['VP8L'][0]['height'] = bindec(substr($width_height_flags, 4, 14)) + 1;
                         $thisfile_riff['WEBP']['VP8L'][0]['alpha_is_used'] =
-                            (bool) bindec(substr($width_height_flags, 3, 1));
+                            (bool)bindec(substr($width_height_flags, 3, 1));
                         $thisfile_riff['WEBP']['VP8L'][0]['version'] = bindec(substr($width_height_flags, 0, 3));
 
                         $info['video']['resolution_x'] = $thisfile_riff['WEBP']['VP8L'][0]['width'];
                         $info['video']['resolution_y'] = $thisfile_riff['WEBP']['VP8L'][0]['height'];
                     } else {
                         $this->error(
-                            'Expecting 2F at offset '.($thisfile_riff['WEBP']['VP8L'][0]['offset'] + 8).', found "'.getid3_lib::PrintHexBytes(
+                            'Expecting 2F at offset ' . ($thisfile_riff['WEBP']['VP8L'][0]['offset'] + 8) . ', found "' . getid3_lib::PrintHexBytes(
                                 substr($WEBP_VP8L_header, 0, 1)
-                            ).'"'
+                            ) . '"'
                         );
                     }
 
@@ -1478,7 +1478,7 @@ class getid3_riff extends getid3_handler
 
             default:
                 $this->error(
-                    'Unknown RIFF type: expecting one of (WAVE|RMP3|AVI |CDDA|AIFF|AIFC|8SVX|CDXA|WEBP), found "'.$RIFFsubtype.'" instead'
+                    'Unknown RIFF type: expecting one of (WAVE|RMP3|AVI |CDDA|AIFF|AIFC|8SVX|CDXA|WEBP), found "' . $RIFFsubtype . '" instead'
                 );
             //unset($info['fileformat']);
         }
@@ -1495,12 +1495,12 @@ class getid3_riff extends getid3_handler
                             $thisfile_riff[$RIFFsubtype]
                         )) {
                         $thisfile_riff[$RIFFsubtype][$ID3v2_key_good] = $thisfile_riff[$RIFFsubtype][$ID3v2_key_bad];
-                        $this->warning('mapping "'.$ID3v2_key_bad.'" chunk to "'.$ID3v2_key_good.'"');
+                        $this->warning('mapping "' . $ID3v2_key_bad . '" chunk to "' . $ID3v2_key_good . '"');
                     }
                 }
 
                 if (isset($thisfile_riff[$RIFFsubtype]['id3 '])) {
-                    getid3_lib::IncludeDependency(GETID3_INCLUDEPATH.'module.tag.id3v2.php', __FILE__, true);
+                    getid3_lib::IncludeDependency(GETID3_INCLUDEPATH . 'module.tag.id3v2.php', __FILE__, true);
 
                     $getid3_temp = new getID3();
                     $getid3_temp->openfile($this->getid3->filename, null, $this->getid3->fp);
@@ -1583,13 +1583,13 @@ class getid3_riff extends getid3_handler
         }
 
         if (isset($info['mpeg']['audio'])) {
-            $thisfile_audio_dataformat = 'mp'.$info['mpeg']['audio']['layer'];
+            $thisfile_audio_dataformat = 'mp' . $info['mpeg']['audio']['layer'];
             $thisfile_audio['sample_rate'] = $info['mpeg']['audio']['sample_rate'];
             $thisfile_audio['channels'] = $info['mpeg']['audio']['channels'];
             $thisfile_audio['bitrate'] = $info['mpeg']['audio']['bitrate'];
             $thisfile_audio['bitrate_mode'] = strtolower($info['mpeg']['audio']['bitrate_mode']);
             if (!empty($info['mpeg']['audio']['codec'])) {
-                $thisfile_audio['codec'] = $info['mpeg']['audio']['codec'].' '.$thisfile_audio['codec'];
+                $thisfile_audio['codec'] = $info['mpeg']['audio']['codec'] . ' ' . $thisfile_audio['codec'];
             }
             if (!empty($thisfile_audio['streams'])) {
                 foreach ($thisfile_audio['streams'] as $streamnumber => $streamdata) {
@@ -1633,8 +1633,8 @@ class getid3_riff extends getid3_handler
     }
 
     /**
-     * @param  string  $byteword
-     * @param  bool  $signed
+     * @param string $byteword
+     * @param bool $signed
      *
      * @return int|float|false
      */
@@ -1647,8 +1647,8 @@ class getid3_riff extends getid3_handler
     }
 
     /**
-     * @param  int  $startoffset
-     * @param  int  $maxoffset
+     * @param int $startoffset
+     * @param int $maxoffset
      *
      * @return array|false
      * @throws getid3_exception
@@ -1675,13 +1675,13 @@ class getid3_riff extends getid3_handler
                 //if (strlen(trim($chunkname, "\x00")) < 4) {
                 if (strlen($chunkname) < 4) {
                     $this->error(
-                        'Expecting chunk name at offset '.($this->ftell() - 8).' but found nothing. Aborting RIFF parsing.'
+                        'Expecting chunk name at offset ' . ($this->ftell() - 8) . ' but found nothing. Aborting RIFF parsing.'
                     );
                     break;
                 }
                 if (($chunksize == 0) && ($chunkname != 'JUNK')) {
                     $this->warning(
-                        'Chunk ('.$chunkname.') size at offset '.($this->ftell() - 4).' is zero. Aborting RIFF parsing.'
+                        'Chunk (' . $chunkname . ') size at offset ' . ($this->ftell() - 4) . ' is zero. Aborting RIFF parsing.'
                     );
                     break;
                 }
@@ -1724,7 +1724,7 @@ class getid3_riff extends getid3_handler
                                             if (isset($getid3_temp->info['mpeg']['audio'])) {
                                                 $info['mpeg']['audio'] = $getid3_temp->info['mpeg']['audio'];
                                                 $info['audio'] = $getid3_temp->info['audio'];
-                                                $info['audio']['dataformat'] = 'mp'.$info['mpeg']['audio']['layer'];
+                                                $info['audio']['dataformat'] = 'mp' . $info['mpeg']['audio']['layer'];
                                                 $info['audio']['sample_rate'] = $info['mpeg']['audio']['sample_rate'];
                                                 $info['audio']['channels'] = $info['mpeg']['audio']['channels'];
                                                 $info['audio']['bitrate'] = $info['mpeg']['audio']['bitrate'];
@@ -1848,14 +1848,14 @@ class getid3_riff extends getid3_handler
                                         $info['ac3'] = $getid3_temp->info['ac3'];
                                         if (!empty($getid3_temp->info['warning'])) {
                                             foreach ($getid3_temp->info['warning'] as $newerror) {
-                                                $this->warning('getid3_ac3() says: ['.$newerror.']');
+                                                $this->warning('getid3_ac3() says: [' . $newerror . ']');
                                             }
                                         }
                                     }
                                     unset($getid3_temp, $getid3_ac3);
 
                                 } elseif (preg_match(
-                                    '/^('.implode('|', array_map('preg_quote', getid3_dts::$syncwords)).')/',
+                                    '/^(' . implode('|', array_map('preg_quote', getid3_dts::$syncwords)) . ')/',
                                     $testData
                                 )) {
 
@@ -1872,7 +1872,7 @@ class getid3_riff extends getid3_handler
                                             $getid3_temp->info['playtime_seconds']; // may not match RIFF calculations since DTS-WAV often used 14/16 bit-word packing
                                         if (!empty($getid3_temp->info['warning'])) {
                                             foreach ($getid3_temp->info['warning'] as $newerror) {
-                                                $this->warning('getid3_dts() says: ['.$newerror.']');
+                                                $this->warning('getid3_dts() says: [' . $newerror . ']');
                                             }
                                         }
                                     }
@@ -1926,9 +1926,9 @@ class getid3_riff extends getid3_handler
                                     }
                                 } else {
                                     $this->warning(
-                                        'Chunk "'.$chunkname.'" at offset '.$this->ftell().' is unexpectedly larger than 1MB (claims to be '.number_format(
+                                        'Chunk "' . $chunkname . '" at offset ' . $this->ftell() . ' is unexpectedly larger than 1MB (claims to be ' . number_format(
                                             $chunksize
-                                        ).' bytes), skipping data'
+                                        ) . ' bytes), skipping data'
                                     );
                                     $this->fseek($chunksize, SEEK_CUR);
                                 }
@@ -2103,7 +2103,7 @@ class getid3_riff extends getid3_handler
                                 }
                                 if ($RIFFchunk[$chunkname][$thisindex]['parsed']['filelength'] && !empty($info['filesize']) && ($RIFFchunk[$chunkname][$thisindex]['parsed']['filelength'] != $info['filesize'])) {
                                     $this->warning(
-                                        'RIFF.WAVE.scot.filelength ('.$RIFFchunk[$chunkname][$thisindex]['parsed']['filelength'].') different from actual filesize ('.$info['filesize'].')'
+                                        'RIFF.WAVE.scot.filelength (' . $RIFFchunk[$chunkname][$thisindex]['parsed']['filelength'] . ') different from actual filesize (' . $info['filesize'] . ')'
                                     );
                                 }
                                 break;
@@ -2138,7 +2138,7 @@ class getid3_riff extends getid3_handler
 
         } catch (getid3_exception $e) {
             if ($e->getCode() == 10) {
-                $this->warning('RIFF parser: '.$e->getMessage());
+                $this->warning('RIFF parser: ' . $e->getMessage());
             } else {
                 throw $e;
             }
@@ -2148,7 +2148,7 @@ class getid3_riff extends getid3_handler
     }
 
     /**
-     * @param  string  $WavPackChunkData
+     * @param string $WavPackChunkData
      *
      * @return bool
      */
@@ -2189,34 +2189,34 @@ class getid3_riff extends getid3_handler
             $thisfile_wavpack['flags'] = array();
             $thisfile_wavpack_flags = &$thisfile_wavpack['flags'];
 
-            $thisfile_wavpack_flags['mono'] = (bool) ($thisfile_wavpack['flags_raw'] & 0x000001);
-            $thisfile_wavpack_flags['fast_mode'] = (bool) ($thisfile_wavpack['flags_raw'] & 0x000002);
-            $thisfile_wavpack_flags['raw_mode'] = (bool) ($thisfile_wavpack['flags_raw'] & 0x000004);
-            $thisfile_wavpack_flags['calc_noise'] = (bool) ($thisfile_wavpack['flags_raw'] & 0x000008);
-            $thisfile_wavpack_flags['high_quality'] = (bool) ($thisfile_wavpack['flags_raw'] & 0x000010);
-            $thisfile_wavpack_flags['3_byte_samples'] = (bool) ($thisfile_wavpack['flags_raw'] & 0x000020);
-            $thisfile_wavpack_flags['over_20_bits'] = (bool) ($thisfile_wavpack['flags_raw'] & 0x000040);
-            $thisfile_wavpack_flags['use_wvc'] = (bool) ($thisfile_wavpack['flags_raw'] & 0x000080);
-            $thisfile_wavpack_flags['noiseshaping'] = (bool) ($thisfile_wavpack['flags_raw'] & 0x000100);
-            $thisfile_wavpack_flags['very_fast_mode'] = (bool) ($thisfile_wavpack['flags_raw'] & 0x000200);
-            $thisfile_wavpack_flags['new_high_quality'] = (bool) ($thisfile_wavpack['flags_raw'] & 0x000400);
-            $thisfile_wavpack_flags['cancel_extreme'] = (bool) ($thisfile_wavpack['flags_raw'] & 0x000800);
-            $thisfile_wavpack_flags['cross_decorrelation'] = (bool) ($thisfile_wavpack['flags_raw'] & 0x001000);
-            $thisfile_wavpack_flags['new_decorrelation'] = (bool) ($thisfile_wavpack['flags_raw'] & 0x002000);
-            $thisfile_wavpack_flags['joint_stereo'] = (bool) ($thisfile_wavpack['flags_raw'] & 0x004000);
-            $thisfile_wavpack_flags['extra_decorrelation'] = (bool) ($thisfile_wavpack['flags_raw'] & 0x008000);
-            $thisfile_wavpack_flags['override_noiseshape'] = (bool) ($thisfile_wavpack['flags_raw'] & 0x010000);
-            $thisfile_wavpack_flags['override_jointstereo'] = (bool) ($thisfile_wavpack['flags_raw'] & 0x020000);
-            $thisfile_wavpack_flags['copy_source_filetime'] = (bool) ($thisfile_wavpack['flags_raw'] & 0x040000);
-            $thisfile_wavpack_flags['create_exe'] = (bool) ($thisfile_wavpack['flags_raw'] & 0x080000);
+            $thisfile_wavpack_flags['mono'] = (bool)($thisfile_wavpack['flags_raw'] & 0x000001);
+            $thisfile_wavpack_flags['fast_mode'] = (bool)($thisfile_wavpack['flags_raw'] & 0x000002);
+            $thisfile_wavpack_flags['raw_mode'] = (bool)($thisfile_wavpack['flags_raw'] & 0x000004);
+            $thisfile_wavpack_flags['calc_noise'] = (bool)($thisfile_wavpack['flags_raw'] & 0x000008);
+            $thisfile_wavpack_flags['high_quality'] = (bool)($thisfile_wavpack['flags_raw'] & 0x000010);
+            $thisfile_wavpack_flags['3_byte_samples'] = (bool)($thisfile_wavpack['flags_raw'] & 0x000020);
+            $thisfile_wavpack_flags['over_20_bits'] = (bool)($thisfile_wavpack['flags_raw'] & 0x000040);
+            $thisfile_wavpack_flags['use_wvc'] = (bool)($thisfile_wavpack['flags_raw'] & 0x000080);
+            $thisfile_wavpack_flags['noiseshaping'] = (bool)($thisfile_wavpack['flags_raw'] & 0x000100);
+            $thisfile_wavpack_flags['very_fast_mode'] = (bool)($thisfile_wavpack['flags_raw'] & 0x000200);
+            $thisfile_wavpack_flags['new_high_quality'] = (bool)($thisfile_wavpack['flags_raw'] & 0x000400);
+            $thisfile_wavpack_flags['cancel_extreme'] = (bool)($thisfile_wavpack['flags_raw'] & 0x000800);
+            $thisfile_wavpack_flags['cross_decorrelation'] = (bool)($thisfile_wavpack['flags_raw'] & 0x001000);
+            $thisfile_wavpack_flags['new_decorrelation'] = (bool)($thisfile_wavpack['flags_raw'] & 0x002000);
+            $thisfile_wavpack_flags['joint_stereo'] = (bool)($thisfile_wavpack['flags_raw'] & 0x004000);
+            $thisfile_wavpack_flags['extra_decorrelation'] = (bool)($thisfile_wavpack['flags_raw'] & 0x008000);
+            $thisfile_wavpack_flags['override_noiseshape'] = (bool)($thisfile_wavpack['flags_raw'] & 0x010000);
+            $thisfile_wavpack_flags['override_jointstereo'] = (bool)($thisfile_wavpack['flags_raw'] & 0x020000);
+            $thisfile_wavpack_flags['copy_source_filetime'] = (bool)($thisfile_wavpack['flags_raw'] & 0x040000);
+            $thisfile_wavpack_flags['create_exe'] = (bool)($thisfile_wavpack['flags_raw'] & 0x080000);
         }
 
         return true;
     }
 
     /**
-     * @param  int  $startoffset
-     * @param  int  $maxoffset
+     * @param int $startoffset
+     * @param int $maxoffset
      *
      * @return array|false
      *
@@ -2253,14 +2253,14 @@ class getid3_riff extends getid3_handler
             $AMVheader = $this->fread(284);
             if (substr($AMVheader, 0, 8) != 'hdrlamvh') {
                 throw new Exception(
-                    'expecting "hdrlamv" at offset '.($startoffset + 0).', found "'.substr($AMVheader, 0, 8).'"'
+                    'expecting "hdrlamv" at offset ' . ($startoffset + 0) . ', found "' . substr($AMVheader, 0, 8) . '"'
                 );
             }
             if (substr($AMVheader, 8, 4) != "\x38\x00\x00\x00") { // "amvh" chunk size, hardcoded to 0x38 = 56 bytes
                 throw new Exception(
-                    'expecting "0x38000000" at offset '.($startoffset + 8).', found "'.getid3_lib::PrintHexBytes(
+                    'expecting "0x38000000" at offset ' . ($startoffset + 8) . ', found "' . getid3_lib::PrintHexBytes(
                         substr($AMVheader, 8, 4)
-                    ).'"'
+                    ) . '"'
                 );
             }
             $RIFFchunk = array();
@@ -2283,36 +2283,36 @@ class getid3_riff extends getid3_handler
 
             // the rest is all hardcoded(?) and does not appear to be useful until you get to audio info at offset 256, even then everything is probably hardcoded
 
-            if (substr($AMVheader, 68, 20) != 'LIST'."\x00\x00\x00\x00".'strlstrh'."\x38\x00\x00\x00") {
+            if (substr($AMVheader, 68, 20) != 'LIST' . "\x00\x00\x00\x00" . 'strlstrh' . "\x38\x00\x00\x00") {
                 throw new Exception(
-                    'expecting "LIST<0x00000000>strlstrh<0x38000000>" at offset '.($startoffset + 68).', found "'.getid3_lib::PrintHexBytes(
+                    'expecting "LIST<0x00000000>strlstrh<0x38000000>" at offset ' . ($startoffset + 68) . ', found "' . getid3_lib::PrintHexBytes(
                         substr($AMVheader, 68, 20)
-                    ).'"'
+                    ) . '"'
                 );
             }
             // followed by 56 bytes of null: substr($AMVheader,  88, 56) -> 144
-            if (substr($AMVheader, 144, 8) != 'strf'."\x24\x00\x00\x00") {
+            if (substr($AMVheader, 144, 8) != 'strf' . "\x24\x00\x00\x00") {
                 throw new Exception(
-                    'expecting "strf<0x24000000>" at offset '.($startoffset + 144).', found "'.getid3_lib::PrintHexBytes(
+                    'expecting "strf<0x24000000>" at offset ' . ($startoffset + 144) . ', found "' . getid3_lib::PrintHexBytes(
                         substr($AMVheader, 144, 8)
-                    ).'"'
+                    ) . '"'
                 );
             }
             // followed by 36 bytes of null: substr($AMVheader, 144, 36) -> 180
 
-            if (substr($AMVheader, 188, 20) != 'LIST'."\x00\x00\x00\x00".'strlstrh'."\x30\x00\x00\x00") {
+            if (substr($AMVheader, 188, 20) != 'LIST' . "\x00\x00\x00\x00" . 'strlstrh' . "\x30\x00\x00\x00") {
                 throw new Exception(
-                    'expecting "LIST<0x00000000>strlstrh<0x30000000>" at offset '.($startoffset + 188).', found "'.getid3_lib::PrintHexBytes(
+                    'expecting "LIST<0x00000000>strlstrh<0x30000000>" at offset ' . ($startoffset + 188) . ', found "' . getid3_lib::PrintHexBytes(
                         substr($AMVheader, 188, 20)
-                    ).'"'
+                    ) . '"'
                 );
             }
             // followed by 48 bytes of null: substr($AMVheader, 208, 48) -> 256
-            if (substr($AMVheader, 256, 8) != 'strf'."\x14\x00\x00\x00") {
+            if (substr($AMVheader, 256, 8) != 'strf' . "\x14\x00\x00\x00") {
                 throw new Exception(
-                    'expecting "strf<0x14000000>" at offset '.($startoffset + 256).', found "'.getid3_lib::PrintHexBytes(
+                    'expecting "strf<0x14000000>" at offset ' . ($startoffset + 256) . ', found "' . getid3_lib::PrintHexBytes(
                         substr($AMVheader, 256, 8)
-                    ).'"'
+                    ) . '"'
                 );
             }
             // followed by 20 bytes of a modified WAVEFORMATEX:
@@ -2345,7 +2345,7 @@ class getid3_riff extends getid3_handler
 
         } catch (getid3_exception $e) {
             if ($e->getCode() == 10) {
-                $this->warning('RIFFAMV parser: '.$e->getMessage());
+                $this->warning('RIFFAMV parser: ' . $e->getMessage());
             } else {
                 throw $e;
             }
@@ -2355,8 +2355,8 @@ class getid3_riff extends getid3_handler
     }
 
     /**
-     * @param  string  $DIVXTAG
-     * @param  bool  $raw
+     * @param string $DIVXTAG
+     * @param bool $raw
      *
      * @return array
      */
@@ -2431,7 +2431,7 @@ class getid3_riff extends getid3_handler
     }
 
     /**
-     * @param  string  $WaveFormatExData
+     * @param string $WaveFormatExData
      *
      * @return array
      */
@@ -2463,7 +2463,7 @@ class getid3_riff extends getid3_handler
     }
 
     /**
-     * @param  int  $wFormatTag
+     * @param int $wFormatTag
      *
      * @return string
      */
@@ -2634,7 +2634,7 @@ class getid3_riff extends getid3_handler
          */
 
         return getid3_lib::EmbeddedLookup(
-            '0x'.str_pad(strtoupper(dechex($wFormatTag)), 4, '0', STR_PAD_LEFT),
+            '0x' . str_pad(strtoupper(dechex($wFormatTag)), 4, '0', STR_PAD_LEFT),
             $begin,
             __LINE__,
             __FILE__,
@@ -2643,7 +2643,7 @@ class getid3_riff extends getid3_handler
     }
 
     /**
-     * @param  string  $tagshortname
+     * @param string $tagshortname
      *
      * @return string
      */
@@ -2671,7 +2671,7 @@ class getid3_riff extends getid3_handler
     }
 
     /**
-     * @param  string  $RIFFdata
+     * @param string $RIFFdata
      *
      * @return bool
      */
@@ -2714,7 +2714,7 @@ class getid3_riff extends getid3_handler
     }
 
     /**
-     * @param  string  $fourcc
+     * @param string $fourcc
      *
      * @return string
      */
@@ -3113,8 +3113,8 @@ class getid3_riff extends getid3_handler
     }
 
     /**
-     * @param  string  $BITMAPINFOHEADER
-     * @param  bool  $littleEndian
+     * @param string $BITMAPINFOHEADER
+     * @param bool $littleEndian
      *
      * @return array
      */
@@ -3154,7 +3154,7 @@ class getid3_riff extends getid3_handler
             36,
             4
         ); // number of color indices that are considered important for displaying the bitmap. If this value is zero, all colors are important
-        $parsed = array_map('getid3_lib::'.($littleEndian ? 'Little' : 'Big').'Endian2Int', $parsed);
+        $parsed = array_map('getid3_lib::' . ($littleEndian ? 'Little' : 'Big') . 'Endian2Int', $parsed);
 
         $parsed['fourcc'] = substr($BITMAPINFOHEADER, 16, 4);  // compression identifier
 
@@ -3162,8 +3162,8 @@ class getid3_riff extends getid3_handler
     }
 
     /**
-     * @param  array  $RIFFinfoArray
-     * @param  array  $CommentsTargetArray
+     * @param array $RIFFinfoArray
+     * @param array $CommentsTargetArray
      *
      * @return bool
      */

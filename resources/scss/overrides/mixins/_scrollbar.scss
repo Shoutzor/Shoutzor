@@ -1,43 +1,43 @@
 @mixin scrollbar($is-dark: false) {
-  //
-  // Scrollbar for Firefox
-  //
-  @if ($is-dark) {
-    scrollbar-color: mix(#ffffff, $dark, 20%) transparent;
-  } @else {
-    scrollbar-color: $gray-400 $gray-500;
-  }
-
-  scrollbar-width: thin;
-
-  //
-  // Scrollbar for webkit browsers
-  //
-  &::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
-    transition: .3s background;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    border-radius: 5px;
-
+    //
+    // Scrollbar for Firefox
+    //
     @if ($is-dark) {
-      background: transparent;
+        scrollbar-color: mix(#ffffff, $dark, 20%) transparent;
     } @else {
-      background: $gray-400;
+        scrollbar-color: $gray-400 $gray-500;
     }
-  }
 
-  &::-webkit-scrollbar-corner {
-    background: transparent;
-  }
+    scrollbar-width: thin;
 
-  &:hover::-webkit-scrollbar-thumb {
-    background: $gray-500;
-
-    @if ($is-dark) {
-      background: mix(#ffffff, $dark, 20%);
+    //
+    // Scrollbar for webkit browsers
+    //
+    &::-webkit-scrollbar {
+        width: 6px;
+        height: 6px;
+        transition: .3s background;
     }
-  }
+
+    &::-webkit-scrollbar-thumb {
+        border-radius: 5px;
+
+        @if ($is-dark) {
+            background: transparent;
+        } @else {
+            background: $gray-400;
+        }
+    }
+
+    &::-webkit-scrollbar-corner {
+        background: transparent;
+    }
+
+    &:hover::-webkit-scrollbar-thumb {
+        background: $gray-500;
+
+        @if ($is-dark) {
+            background: mix(#ffffff, $dark, 20%);
+        }
+    }
 }

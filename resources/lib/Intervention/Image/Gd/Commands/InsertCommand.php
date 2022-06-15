@@ -10,7 +10,7 @@ class InsertCommand extends AbstractCommand
     /**
      * Insert another image into given image
      *
-     * @param  Image  $image
+     * @param Image $image
      * @return boolean
      */
     public function execute($image)

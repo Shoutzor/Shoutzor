@@ -44,11 +44,11 @@ class getid3_vqf extends getid3_handler
         $magic = 'TWIN';
         if ($thisfile_vqf_raw['header_tag'] != $magic) {
             $this->error(
-                'Expecting "'.getid3_lib::PrintHexBytes(
+                'Expecting "' . getid3_lib::PrintHexBytes(
                     $magic
-                ).'" at offset '.$info['avdataoffset'].', found "'.getid3_lib::PrintHexBytes(
+                ) . '" at offset ' . $info['avdataoffset'] . ', found "' . getid3_lib::PrintHexBytes(
                     $thisfile_vqf_raw['header_tag']
-                ).'"'
+                ) . '"'
             );
             unset($info['vqf']);
             unset($info['fileformat']);
@@ -75,7 +75,7 @@ class getid3_vqf extends getid3_handler
             $chunkoffset += 4;
             if ($ChunkSize > ($info['avdataend'] - $this->ftell())) {
                 $this->error(
-                    'Invalid chunk size ('.$ChunkSize.') for chunk "'.$ChunkName.'" at offset '.$ChunkBaseOffset
+                    'Invalid chunk size (' . $ChunkSize . ') for chunk "' . $ChunkName . '" at offset ' . $ChunkBaseOffset
                 );
                 break;
             }
@@ -102,7 +102,7 @@ class getid3_vqf extends getid3_handler
                     $info['audio']['channels'] = $thisfile_vqf_COMM['channel_mode'] + 1;
                     $info['audio']['sample_rate'] = $this->VQFchannelFrequencyLookup($thisfile_vqf_COMM['sample_rate']);
                     $info['audio']['bitrate'] = $thisfile_vqf_COMM['bitrate'] * 1000;
-                    $info['audio']['encoder_options'] = 'CBR'.ceil($info['audio']['bitrate'] / 1000);
+                    $info['audio']['encoder_options'] = 'CBR' . ceil($info['audio']['bitrate'] / 1000);
 
                     if ($info['audio']['bitrate'] == 0) {
                         $this->error('Corrupt VQF file: bitrate_audio == zero');
@@ -125,7 +125,7 @@ class getid3_vqf extends getid3_handler
                     break;
 
                 default:
-                    $this->warning('Unhandled chunk type "'.$ChunkName.'" at offset '.$ChunkBaseOffset);
+                    $this->warning('Unhandled chunk type "' . $ChunkName . '" at offset ' . $ChunkBaseOffset);
                     break;
             }
         }
@@ -139,14 +139,14 @@ class getid3_vqf extends getid3_handler
                 case 0:
                 case 1:
                     $this->warning(
-                        'Invalid DSIZ value "'.$thisfile_vqf['DSIZ'].'". This is known to happen with VQF files encoded by Ahead Nero, and seems to be its way of saying this is TwinVQF v'.($thisfile_vqf['DSIZ'] + 1).'.0'
+                        'Invalid DSIZ value "' . $thisfile_vqf['DSIZ'] . '". This is known to happen with VQF files encoded by Ahead Nero, and seems to be its way of saying this is TwinVQF v' . ($thisfile_vqf['DSIZ'] + 1) . '.0'
                     );
                     $info['audio']['encoder'] = 'Ahead Nero';
                     break;
 
                 default:
                     $this->warning(
-                        'Probable corrupted file - should be '.$thisfile_vqf['DSIZ'].' bytes, actually '.($info['avdataend'] - $info['avdataoffset'] - strlen(
+                        'Probable corrupted file - should be ' . $thisfile_vqf['DSIZ'] . ' bytes, actually ' . ($info['avdataend'] - $info['avdataoffset'] - strlen(
                                 'DATA'
                             ))
                     );
@@ -158,7 +158,7 @@ class getid3_vqf extends getid3_handler
     }
 
     /**
-     * @param  int  $frequencyid
+     * @param int $frequencyid
      *
      * @return int
      */
@@ -169,7 +169,7 @@ class getid3_vqf extends getid3_handler
     }
 
     /**
-     * @param  string  $shortname
+     * @param string $shortname
      *
      * @return string
      */

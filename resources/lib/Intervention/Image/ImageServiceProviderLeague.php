@@ -19,7 +19,7 @@ class ImageServiceProviderLeague extends AbstractServiceProvider
     /**
      * Constructor.
      *
-     * @param  array  $config
+     * @param array $config
      */
     public function __construct($config = [])
     {

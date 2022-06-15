@@ -42,7 +42,7 @@ class CacheHealthCheck extends BaseHealthCheck
             $this->isHealthy = true;
         } catch (Exception $e) {
             $this->isHealthy = false;
-            $this->status = "Error with Store '$this->store': ".$e->getMessage();
+            $this->status = "Error with Store '$this->store': " . $e->getMessage();
         }
     }
 

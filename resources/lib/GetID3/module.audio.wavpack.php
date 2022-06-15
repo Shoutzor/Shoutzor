@@ -44,9 +44,9 @@ class getid3_wavpack extends getid3_handler
             $magic = 'wvpk';
             if ($blockheader_magic != $magic) {
                 $this->error(
-                    'Expecting "'.getid3_lib::PrintHexBytes(
+                    'Expecting "' . getid3_lib::PrintHexBytes(
                         $magic
-                    ).'" at offset '.$blockheader_offset.', found "'.getid3_lib::PrintHexBytes($blockheader_magic).'"'
+                    ) . '" at offset ' . $blockheader_offset . ', found "' . getid3_lib::PrintHexBytes($blockheader_magic) . '"'
                 );
                 switch (isset($info['audio']['dataformat']) ? $info['audio']['dataformat'] : '') {
                     case 'wavpack':
@@ -83,7 +83,7 @@ class getid3_wavpack extends getid3_handler
 
                 if ($info['wavpack']['blockheader']['size'] >= 0x100000) {
                     $this->error(
-                        'Expecting WavPack block size less than "0x100000", found "'.$info['wavpack']['blockheader']['size'].'" at offset '.$info['wavpack']['blockheader']['offset']
+                        'Expecting WavPack block size less than "0x100000", found "' . $info['wavpack']['blockheader']['size'] . '" at offset ' . $info['wavpack']['blockheader']['offset']
                     );
                     switch (isset($info['audio']['dataformat']) ? $info['audio']['dataformat'] : '') {
                         case 'wavpack':
@@ -103,7 +103,7 @@ class getid3_wavpack extends getid3_handler
 
                 if (($info['wavpack']['blockheader']['major_version'] != 4) || (($info['wavpack']['blockheader']['minor_version'] < 4) && ($info['wavpack']['blockheader']['minor_version'] > 16))) {
                     $this->error(
-                        'Expecting WavPack version between "4.2" and "4.16", found version "'.$info['wavpack']['blockheader']['major_version'].'.'.$info['wavpack']['blockheader']['minor_version'].'" at offset '.$info['wavpack']['blockheader']['offset']
+                        'Expecting WavPack version between "4.2" and "4.16", found version "' . $info['wavpack']['blockheader']['major_version'] . '.' . $info['wavpack']['blockheader']['minor_version'] . '" at offset ' . $info['wavpack']['blockheader']['offset']
                     );
                     switch (isset($info['audio']['dataformat']) ? $info['audio']['dataformat'] : '') {
                         case 'wavpack':
@@ -133,27 +133,27 @@ class getid3_wavpack extends getid3_handler
                 $info['wavpack']['blockheader']['flags']['bytes_per_sample'] =
                     1 + ($info['wavpack']['blockheader']['flags_raw'] & 0x00000003);
                 $info['wavpack']['blockheader']['flags']['mono'] =
-                    (bool) ($info['wavpack']['blockheader']['flags_raw'] & 0x00000004);
+                    (bool)($info['wavpack']['blockheader']['flags_raw'] & 0x00000004);
                 $info['wavpack']['blockheader']['flags']['hybrid'] =
-                    (bool) ($info['wavpack']['blockheader']['flags_raw'] & 0x00000008);
+                    (bool)($info['wavpack']['blockheader']['flags_raw'] & 0x00000008);
                 $info['wavpack']['blockheader']['flags']['joint_stereo'] =
-                    (bool) ($info['wavpack']['blockheader']['flags_raw'] & 0x00000010);
+                    (bool)($info['wavpack']['blockheader']['flags_raw'] & 0x00000010);
                 $info['wavpack']['blockheader']['flags']['cross_decorrelation'] =
-                    (bool) ($info['wavpack']['blockheader']['flags_raw'] & 0x00000020);
+                    (bool)($info['wavpack']['blockheader']['flags_raw'] & 0x00000020);
                 $info['wavpack']['blockheader']['flags']['hybrid_noiseshape'] =
-                    (bool) ($info['wavpack']['blockheader']['flags_raw'] & 0x00000040);
+                    (bool)($info['wavpack']['blockheader']['flags_raw'] & 0x00000040);
                 $info['wavpack']['blockheader']['flags']['ieee_32bit_float'] =
-                    (bool) ($info['wavpack']['blockheader']['flags_raw'] & 0x00000080);
+                    (bool)($info['wavpack']['blockheader']['flags_raw'] & 0x00000080);
                 $info['wavpack']['blockheader']['flags']['int_32bit'] =
-                    (bool) ($info['wavpack']['blockheader']['flags_raw'] & 0x00000100);
+                    (bool)($info['wavpack']['blockheader']['flags_raw'] & 0x00000100);
                 $info['wavpack']['blockheader']['flags']['hybrid_bitrate_noise'] =
-                    (bool) ($info['wavpack']['blockheader']['flags_raw'] & 0x00000200);
+                    (bool)($info['wavpack']['blockheader']['flags_raw'] & 0x00000200);
                 $info['wavpack']['blockheader']['flags']['hybrid_balance_noise'] =
-                    (bool) ($info['wavpack']['blockheader']['flags_raw'] & 0x00000400);
+                    (bool)($info['wavpack']['blockheader']['flags_raw'] & 0x00000400);
                 $info['wavpack']['blockheader']['flags']['multichannel_initial'] =
-                    (bool) ($info['wavpack']['blockheader']['flags_raw'] & 0x00000800);
+                    (bool)($info['wavpack']['blockheader']['flags_raw'] & 0x00000800);
                 $info['wavpack']['blockheader']['flags']['multichannel_final'] =
-                    (bool) ($info['wavpack']['blockheader']['flags_raw'] & 0x00001000);
+                    (bool)($info['wavpack']['blockheader']['flags_raw'] & 0x00001000);
 
                 $info['audio']['lossless'] = !$info['wavpack']['blockheader']['flags']['hybrid'];
             }
@@ -176,10 +176,10 @@ class getid3_wavpack extends getid3_handler
                 // then the decoder simply ignores the metadata, but if it is zero
                 // then the decoder should quit because it means that an understanding
                 // of the metadata is required to correctly decode the audio.
-                $metablock['non_decoder'] = (bool) ($metablock['id'] & 0x20);
+                $metablock['non_decoder'] = (bool)($metablock['id'] & 0x20);
 
-                $metablock['padded_data'] = (bool) ($metablock['id'] & 0x40);
-                $metablock['large_block'] = (bool) ($metablock['id'] & 0x80);
+                $metablock['padded_data'] = (bool)($metablock['id'] & 0x40);
+                $metablock['large_block'] = (bool)($metablock['id'] & 0x80);
                 if ($metablock['large_block']) {
                     $metablockheader .= $this->fread(2);
                 }
@@ -226,12 +226,12 @@ class getid3_wavpack extends getid3_handler
 
                         default:
                             $this->warning(
-                                'Unexpected metablock type "0x'.str_pad(
+                                'Unexpected metablock type "0x' . str_pad(
                                     dechex($metablock['function_id']),
                                     2,
                                     '0',
                                     STR_PAD_LEFT
-                                ).'" at offset '.$metablock['offset']
+                                ) . '" at offset ' . $metablock['offset']
                             );
                             $this->fseek(
                                 $metablock['offset'] + ($metablock['large_block'] ? 4 : 2) + $metablock['size']
@@ -242,7 +242,7 @@ class getid3_wavpack extends getid3_handler
                     switch ($metablock['function_id']) {
                         case 0x21: // ID_RIFF_HEADER
                             getid3_lib::IncludeDependency(
-                                GETID3_INCLUDEPATH.'module.audio-video.riff.php',
+                                GETID3_INCLUDEPATH . 'module.audio-video.riff.php',
                                 __FILE__,
                                 true
                             );
@@ -268,9 +268,9 @@ class getid3_wavpack extends getid3_handler
 
                         case 0x22: // ID_RIFF_TRAILER
                             $metablockRIFFfooter =
-                                isset($metablockRIFFheader) ? $metablockRIFFheader : ''.$metablock['data'];
+                                isset($metablockRIFFheader) ? $metablockRIFFheader : '' . $metablock['data'];
                             getid3_lib::IncludeDependency(
-                                GETID3_INCLUDEPATH.'module.audio-video.riff.php',
+                                GETID3_INCLUDEPATH . 'module.audio-video.riff.php',
                                 __FILE__,
                                 true
                             );
@@ -293,13 +293,13 @@ class getid3_wavpack extends getid3_handler
 
                         case 0x23: // ID_REPLAY_GAIN
                             $this->warning(
-                                'WavPack "Replay Gain" contents not yet handled by getID3() in metablock at offset '.$metablock['offset']
+                                'WavPack "Replay Gain" contents not yet handled by getID3() in metablock at offset ' . $metablock['offset']
                             );
                             break;
 
                         case 0x24: // ID_CUESHEET
                             $this->warning(
-                                'WavPack "Cuesheet" contents not yet handled by getID3() in metablock at offset '.$metablock['offset']
+                                'WavPack "Cuesheet" contents not yet handled by getID3() in metablock at offset ' . $metablock['offset']
                             );
                             break;
 
@@ -307,46 +307,46 @@ class getid3_wavpack extends getid3_handler
                             $metablock['flags_raw'] = getid3_lib::LittleEndian2Int(substr($metablock['data'], 0, 3));
 
                             $metablock['flags']['adobe_mode'] =
-                                (bool) ($metablock['flags_raw'] & 0x000001); // "adobe" mode for 32-bit floats
-                            $metablock['flags']['fast_flag'] = (bool) ($metablock['flags_raw'] & 0x000002); // fast mode
+                                (bool)($metablock['flags_raw'] & 0x000001); // "adobe" mode for 32-bit floats
+                            $metablock['flags']['fast_flag'] = (bool)($metablock['flags_raw'] & 0x000002); // fast mode
                             $metablock['flags']['very_fast_flag'] =
-                                (bool) ($metablock['flags_raw'] & 0x000004); // double fast
+                                (bool)($metablock['flags_raw'] & 0x000004); // double fast
                             $metablock['flags']['high_flag'] =
-                                (bool) ($metablock['flags_raw'] & 0x000008); // high quality mode
+                                (bool)($metablock['flags_raw'] & 0x000008); // high quality mode
                             $metablock['flags']['very_high_flag'] =
-                                (bool) ($metablock['flags_raw'] & 0x000010); // double high (not used yet)
+                                (bool)($metablock['flags_raw'] & 0x000010); // double high (not used yet)
                             $metablock['flags']['bitrate_kbps'] =
-                                (bool) ($metablock['flags_raw'] & 0x000020); // bitrate is kbps, not bits / sample
+                                (bool)($metablock['flags_raw'] & 0x000020); // bitrate is kbps, not bits / sample
                             $metablock['flags']['auto_shaping'] =
-                                (bool) ($metablock['flags_raw'] & 0x000040); // automatic noise shaping
+                                (bool)($metablock['flags_raw'] & 0x000040); // automatic noise shaping
                             $metablock['flags']['shape_override'] =
-                                (bool) ($metablock['flags_raw'] & 0x000080); // shaping mode specified
+                                (bool)($metablock['flags_raw'] & 0x000080); // shaping mode specified
                             $metablock['flags']['joint_override'] =
-                                (bool) ($metablock['flags_raw'] & 0x000100); // joint-stereo mode specified
+                                (bool)($metablock['flags_raw'] & 0x000100); // joint-stereo mode specified
                             $metablock['flags']['copy_time'] =
-                                (bool) ($metablock['flags_raw'] & 0x000200); // copy file-time from source
+                                (bool)($metablock['flags_raw'] & 0x000200); // copy file-time from source
                             $metablock['flags']['create_exe'] =
-                                (bool) ($metablock['flags_raw'] & 0x000400); // create executable
+                                (bool)($metablock['flags_raw'] & 0x000400); // create executable
                             $metablock['flags']['create_wvc'] =
-                                (bool) ($metablock['flags_raw'] & 0x000800); // create correction file
+                                (bool)($metablock['flags_raw'] & 0x000800); // create correction file
                             $metablock['flags']['optimize_wvc'] =
-                                (bool) ($metablock['flags_raw'] & 0x001000); // maximize bybrid compression
+                                (bool)($metablock['flags_raw'] & 0x001000); // maximize bybrid compression
                             $metablock['flags']['quality_mode'] =
-                                (bool) ($metablock['flags_raw'] & 0x002000); // psychoacoustic quality mode
+                                (bool)($metablock['flags_raw'] & 0x002000); // psychoacoustic quality mode
                             $metablock['flags']['raw_flag'] =
-                                (bool) ($metablock['flags_raw'] & 0x004000); // raw mode (not implemented yet)
+                                (bool)($metablock['flags_raw'] & 0x004000); // raw mode (not implemented yet)
                             $metablock['flags']['calc_noise'] =
-                                (bool) ($metablock['flags_raw'] & 0x008000); // calc noise in hybrid mode
+                                (bool)($metablock['flags_raw'] & 0x008000); // calc noise in hybrid mode
                             $metablock['flags']['lossy_mode'] =
-                                (bool) ($metablock['flags_raw'] & 0x010000); // obsolete (for information)
+                                (bool)($metablock['flags_raw'] & 0x010000); // obsolete (for information)
                             $metablock['flags']['extra_mode'] =
-                                (bool) ($metablock['flags_raw'] & 0x020000); // extra processing mode
+                                (bool)($metablock['flags_raw'] & 0x020000); // extra processing mode
                             $metablock['flags']['skip_wvx'] =
-                                (bool) ($metablock['flags_raw'] & 0x040000); // no wvx stream w/ floats & big ints
+                                (bool)($metablock['flags_raw'] & 0x040000); // no wvx stream w/ floats & big ints
                             $metablock['flags']['md5_checksum'] =
-                                (bool) ($metablock['flags_raw'] & 0x080000); // compute & store MD5 signature
+                                (bool)($metablock['flags_raw'] & 0x080000); // compute & store MD5 signature
                             $metablock['flags']['quiet_mode'] =
-                                (bool) ($metablock['flags_raw'] & 0x100000); // don't report progress %
+                                (bool)($metablock['flags_raw'] & 0x100000); // don't report progress %
 
                             $info['wavpack']['config_flags'] = $metablock['flags'];
 
@@ -377,9 +377,9 @@ class getid3_wavpack extends getid3_handler
                                     strtolower(getid3_lib::PrintHexBytes($metablock['data'], true, false, false));
                             } else {
                                 $this->warning(
-                                    'Expecting 16 bytes of WavPack "MD5 Checksum" in metablock at offset '.$metablock['offset'].', but found '.strlen(
+                                    'Expecting 16 bytes of WavPack "MD5 Checksum" in metablock at offset ' . $metablock['offset'] . ', but found ' . strlen(
                                         $metablock['data']
-                                    ).' bytes'
+                                    ) . ' bytes'
                                 );
                             }
                             break;
@@ -411,7 +411,7 @@ class getid3_wavpack extends getid3_handler
 
         }
 
-        $info['audio']['encoder'] = 'WavPack v'.$info['wavpack']['blockheader']['major_version'].'.'.str_pad(
+        $info['audio']['encoder'] = 'WavPack v' . $info['wavpack']['blockheader']['major_version'] . '.' . str_pad(
                 $info['wavpack']['blockheader']['minor_version'],
                 2,
                 '0',
@@ -434,7 +434,7 @@ class getid3_wavpack extends getid3_handler
     }
 
     /**
-     * @param  int  $id
+     * @param int $id
      *
      * @return string
      */

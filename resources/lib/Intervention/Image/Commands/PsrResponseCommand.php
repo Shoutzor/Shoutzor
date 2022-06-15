@@ -16,7 +16,7 @@ class PsrResponseCommand extends AbstractCommand
      * streams and more "clean" streaming, however drivers has to be updated
      * first.
      *
-     * @param  Image  $image
+     * @param Image $image
      * @return boolean
      */
     public function execute($image)

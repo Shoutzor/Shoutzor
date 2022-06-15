@@ -10,8 +10,8 @@ class Filesystem
     /**
      * Find all files recursively in a directory
      *
-     * @param  string  $path  the directory to scan
-     * @param  string  $filter  the extensions of files to allow, can be regex
+     * @param string $path the directory to scan
+     * @param string $filter the extensions of files to allow, can be regex
      * @return array the files that have been found
      * @throws Exception
      */
@@ -43,8 +43,8 @@ class Filesystem
     /**
      * Checks if the filename matches (one of) the extension(s)
      *
-     * @param  string  $filename  the filename to check
-     * @param  array  $validExtensions  the valid extension(s)
+     * @param string $filename the filename to check
+     * @param array $validExtensions the valid extension(s)
      * @return bool true if matching
      */
     public static function hasFileExtension(string $filename, array $validExtensions): bool
@@ -57,7 +57,7 @@ class Filesystem
     /**
      * Gets the extension from the specified file
      *
-     * @param  string  $filename  the filename to get the extension from
+     * @param string $filename the filename to get the extension from
      * @return string the extension, empty if not applicable
      */
     public static function getFileExtension(string $filename): string
@@ -75,7 +75,7 @@ class Filesystem
     /**
      * Corrects the Directory Separators of a path to unix style
      *
-     * @param  string  $path
+     * @param string $path
      * @return string
      */
     public static function correctDS(string $path): string

@@ -19,11 +19,11 @@ export default {
 
     computed: {
         votes: () => MediaVote.query()
-                         .orderBy('count', 'desc')
-                         .with(["media.artist"])
-                         .get(),
+            .orderBy('count', 'desc')
+            .with(["media.artist"])
+            .get(),
 
-        totalVotes: function() {
+        totalVotes: function () {
             return this.votes.reduce((total, vote) => {
                 return total + vote.count
             }, 0)

@@ -10,7 +10,7 @@ class BlurCommand extends AbstractCommand
     /**
      * Applies blur effect on image
      *
-     * @param  Image  $image
+     * @param Image $image
      * @return boolean
      */
     public function execute($image)

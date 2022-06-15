@@ -12,7 +12,7 @@ class CropCommand extends ResizeCommand
     /**
      * Crop an image instance
      *
-     * @param  Image  $image
+     * @param Image $image
      * @return boolean
      */
     public function execute($image)

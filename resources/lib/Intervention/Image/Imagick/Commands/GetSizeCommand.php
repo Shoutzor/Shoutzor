@@ -12,7 +12,7 @@ class GetSizeCommand extends AbstractCommand
     /**
      * Reads size of given image instance in pixels
      *
-     * @param  Image  $image
+     * @param Image $image
      * @return boolean
      */
     public function execute($image)

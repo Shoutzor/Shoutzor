@@ -11,7 +11,7 @@ class RotateCommand extends AbstractCommand
     /**
      * Rotates image counter clockwise
      *
-     * @param  Image  $image
+     * @param Image $image
      * @return boolean
      */
     public function execute($image)

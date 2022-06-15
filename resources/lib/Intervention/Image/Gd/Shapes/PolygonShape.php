@@ -18,7 +18,7 @@ class PolygonShape extends AbstractShape
     /**
      * Create new polygon instance
      *
-     * @param  array  $points
+     * @param array $points
      */
     public function __construct($points)
     {
@@ -28,9 +28,9 @@ class PolygonShape extends AbstractShape
     /**
      * Draw polygon on given image
      *
-     * @param  Image  $image
-     * @param  int  $x
-     * @param  int  $y
+     * @param Image $image
+     * @param int $x
+     * @param int $y
      * @return boolean
      */
     public function applyToImage(Image $image, $x = 0, $y = 0)

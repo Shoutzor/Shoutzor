@@ -26,7 +26,7 @@ class ExifCommand extends BaseCommand
     /**
      * Read Exif data from the given image
      *
-     * @param  Image  $image
+     * @param Image $image
      * @return boolean
      */
     public function execute($image)
@@ -43,7 +43,7 @@ class ExifCommand extends BaseCommand
 
         $requestedKey = $this->argument(0)->value();
         if ($requestedKey !== null) {
-            $this->setOutput($core->getImageProperty('exif:'.$requestedKey));
+            $this->setOutput($core->getImageProperty('exif:' . $requestedKey));
             return true;
         }
 

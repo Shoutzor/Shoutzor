@@ -26,7 +26,7 @@ class HealthCheckManager
 
         foreach ($this->healthChecks as $check) {
             //Check if marked as an install step, then skip it if we don't want these included.
-            if($check['isInstallCheck'] && !$includeInstallSteps) {
+            if ($check['isInstallCheck'] && !$includeInstallSteps) {
                 continue;
             }
 
@@ -45,7 +45,7 @@ class HealthCheckManager
 
         foreach ($this->healthChecks as $check) {
             //Check if marked as an install step, then skip it if we don't want these included.
-            if($check['isInstallCheck'] && !$includeInstallSteps) {
+            if ($check['isInstallCheck'] && !$includeInstallSteps) {
                 continue;
             }
 

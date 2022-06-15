@@ -112,8 +112,8 @@ class getID3_cached_sqlite3 extends getID3
     private $table;
 
     /**
-     * @param  string  $table  holds name of sqlite table
-     * @param  boolean  $hide
+     * @param string $table holds name of sqlite table
+     * @param boolean $hide
      *
      * @throws getid3_exception
      * @throws Exception
@@ -126,9 +126,9 @@ class getID3_cached_sqlite3 extends getID3
         }
 
         $this->table = $table; // Set table
-        $file = dirname(__FILE__).'/'.basename(__FILE__, 'php').'sqlite';
+        $file = dirname(__FILE__) . '/' . basename(__FILE__, 'php') . 'sqlite';
         if ($hide) {
-            $file = dirname(__FILE__).'/.ht.'.basename(__FILE__, 'php').'sqlite';
+            $file = dirname(__FILE__) . '/.ht.' . basename(__FILE__, 'php') . 'sqlite';
         }
         $this->db = new SQLite3($file);
         $db = $this->db;
@@ -161,7 +161,7 @@ class getID3_cached_sqlite3 extends getID3
     /**
      * returns NULL if query is not found
      *
-     * @param  string  $name
+     * @param string $name
      *
      * @return null|string
      */
@@ -224,9 +224,9 @@ class getID3_cached_sqlite3 extends getID3
     /**
      * analyze file and cache them, if cached pull from the db
      *
-     * @param  string  $filename
-     * @param  integer  $filesize
-     * @param  string  $original_filename
+     * @param string $filename
+     * @param integer $filesize
+     * @param string $original_filename
      *
      * @return mixed|false
      */
@@ -274,7 +274,7 @@ class getID3_cached_sqlite3 extends getID3
      * This function is not in the MySQL extention, it's ment to speed up requesting multiple files
      * which is ideal for podcasting, playlists, etc.
      *
-     * @param  string  $dir  directory to search the cache database for
+     * @param string $dir directory to search the cache database for
      *
      * @return array return an array of matching id3 data
      */
@@ -297,7 +297,7 @@ class getID3_cached_sqlite3 extends getID3
      *
      * access as easy as $this->{case name}, returns NULL if query is not found
      *
-     * @param  string  $name
+     * @param string $name
      *
      * @return string
      * @deprecated use getQuery() instead

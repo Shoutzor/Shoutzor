@@ -7,11 +7,13 @@
 Shoutz0r - A media voting system perfect for events such as lan-parties!\
 Comes with autoDJ to keep requests going when no requests have been added by users.
 
-PLEASE NOTE: Shoutz0r is currently still under heavy development & lacks major functionality. If interested, please "watch" the repository to receive a notification when the first release is created.
+PLEASE NOTE: Shoutz0r is currently still under heavy development & lacks major functionality. If interested, please "
+watch" the repository to receive a notification when the first release is created.
 
 ![Preview Image](./screenshot.png)
 
-Shoutz0r gives users a platform to upload different kinds of media, and vote on what they would like to hear or watch (yes it supports videos too!).\
+Shoutz0r gives users a platform to upload different kinds of media, and vote on what they would like to hear or watch (
+yes it supports videos too!).\
 The queue can be generated based on the amount of votes, or as a regular queue (first come, first serve).
 
 Built using the Laravel Framework and Vue components.
@@ -19,26 +21,32 @@ Built using the Laravel Framework and Vue components.
 Documentation can be found over at [shoutzor.com](https://www.shoutzor.com)
 
 ### To setup:
+
 Currently there's a few hoops to go through. These should be resolved on the proper release.
 
 First off, optionally edit the values in `.env.template`. These will be used during setup.
 
 For production environments:
+
 - Ensure you have composer and npm installed
 - Run `composer install-shoutzor`
 
 For development environments:
+
 - Ensure you have composer and npm installed
 - Run `composer install-shoutzor-dev`
 - Optionally Run `composer add-mock-data` this will run a seeder to add fake data
 
-The Shoutz0r app should now be ready for use! You can optionally remove the `.env.template` file now, it has been copied to `.env`.
+The Shoutz0r app should now be ready for use! You can optionally remove the `.env.template` file now, it has been copied
+to `.env`.
 
 The default login is admin/admin
 
 If you're going to work on the front-end, make sure to run `npm run watch`.
 
 ### Docker setup:
+
+All docker files can be found in `/docker`.
 
 For production environments you can simply run `docker-compose up`. \
 This will set up a basic and simple docker network with a few containers pre-configured for use.
@@ -54,11 +62,13 @@ If you have improvements however, by all means please create a discussion or iss
 I'm always open for feedback.
 
 ### Kindly supported by
+
 * [JetBrains](https://www.jetbrains.com/?from=Shoutz0r)
 * [Navicat](https://www.navicat.com/)
 
 ### Sponsor this project
 
 Shoutz0r is being developed entirely in my spare time. \
-If you like this project, please consider sponsoring it using the button in the sidebar of this repo (or [click here](https://github.com/sponsors/xorinzor) ).\
+If you like this project, please consider sponsoring it using the button in the sidebar of this repo (
+or [click here](https://github.com/sponsors/xorinzor) ).\
 Every little bit helps to buy me a beer or pizza, which keeps me going!

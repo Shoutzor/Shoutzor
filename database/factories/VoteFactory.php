@@ -15,10 +15,10 @@ class VoteFactory extends Factory
     public function definition()
     {
         return [
-            'user_id' => function() {
+            'user_id' => function () {
                 return User::inRandomOrder()->first()->id;
             },
-            'request_id' => function() {
+            'request_id' => function () {
                 return Request::inRandomOrder()->first()->id;
             }
         ];

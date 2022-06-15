@@ -11,7 +11,8 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Jackiedo\DotenvEditor\Facades\DotenvEditor;
 
-class Installer {
+class Installer
+{
 
     /**
      * Contains the installer steps in the correct order of execution
@@ -186,12 +187,12 @@ class Installer {
 
     /**
      * Tests & Configures the SQL settings to use
-     * @param  string  $dbtype
-     * @param  string  $host
-     * @param  string  $port
-     * @param  string  $database
-     * @param  string  $username
-     * @param  string  $password
+     * @param string $dbtype
+     * @param string $host
+     * @param string $port
+     * @param string $database
+     * @param string $username
+     * @param string $password
      * @return InstallStepResult
      */
     public function configureSql(?string $dbtype, ?string $host, ?string $port, ?string $database, ?string $username, ?string $password): InstallStepResult
@@ -240,7 +241,7 @@ class Installer {
         if (count($errors) > 0) {
             $validationErrors = [];
 
-            foreach($errors as $name=>$error) {
+            foreach ($errors as $name => $error) {
                 $validationErrors[] = new formValidationFieldError($name, $error);
             }
 
@@ -266,8 +267,8 @@ class Installer {
             //Write the values to the .env file
             $editor = DotenvEditor::load();
             $editor->setKey('DB_CONNECTION', $settingParams['dbtype'])
-                   ->setKeys($dotEnvValues)
-                   ->save();
+                ->setKeys($dotEnvValues)
+                ->save();
 
             # Clear the cache config
             Artisan::call('config:cache');

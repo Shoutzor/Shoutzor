@@ -1,28 +1,28 @@
 import BaseAlert from '@components/BaseAlert';
 
 export default {
-  title: 'base/BaseAlert',
-  component: BaseAlert,
-  argTypes: {
-      type: {
-          name: 'Type',
-          type: { name: 'select', required: true },
-          options: ['danger', 'warning', 'info', 'success'],
-      },
-      classes: {
-          name: 'Style classes',
-          type: { name: 'array', required: false },
-          description: 'Classes for the alert'
-      }
-  },
+    title: 'base/BaseAlert',
+    component: BaseAlert,
+    argTypes: {
+        type: {
+            name: 'Type',
+            type: {name: 'select', required: true},
+            options: ['danger', 'warning', 'info', 'success'],
+        },
+        classes: {
+            name: 'Style classes',
+            type: {name: 'array', required: false},
+            description: 'Classes for the alert'
+        }
+    },
 };
 
 const Template = (args) => ({
-  components: { BaseAlert },
-  setup() {
-    return { args };
-  },
-  template: `<base-alert v-bind="args">${args.slot}</base-alert>`,
+    components: {BaseAlert},
+    setup() {
+        return {args};
+    },
+    template: `<base-alert v-bind="args">${args.slot}</base-alert>`,
 });
 
 export const Error = Template.bind({});

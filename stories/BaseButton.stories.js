@@ -1,24 +1,24 @@
 import BaseButton from '@components/BaseButton';
 
 export default {
-  title: 'base/BaseButton',
-  component: BaseButton,
-  argTypes: {
-      onClick: {},
-      classes: {
-          name: 'Style classes',
-          type: { name: 'array', required: false },
-          description: 'Classes for the alert'
-      }
-  },
+    title: 'base/BaseButton',
+    component: BaseButton,
+    argTypes: {
+        onClick: {},
+        classes: {
+            name: 'Style classes',
+            type: {name: 'array', required: false},
+            description: 'Classes for the alert'
+        }
+    },
 };
 
 const Template = (args) => ({
-  components: { BaseButton },
-  setup() {
-    return { args };
-  },
-  template: `<base-button v-bind="args"><template v-slot>${args.slot}</template></base-button>`,
+    components: {BaseButton},
+    setup() {
+        return {args};
+    },
+    template: `<base-button v-bind="args"><template v-slot>${args.slot}</template></base-button>`,
 });
 
 export const Normal = Template.bind({});

@@ -80,7 +80,7 @@ class UploadProcessor
         $media = new Media(
             [
                 'title' => '',
-                'filename' => Storage::get($this->tempMediaDir.$upload->filename),
+                'filename' => Storage::get($this->tempMediaDir . $upload->filename),
                 'crc' => 'invalid',
                 'duration' => 0,
                 'is_video' => false
@@ -101,7 +101,7 @@ class UploadProcessor
      */
     private function getDuration(Media $media)
     {
-        $info = $this->id3->analyze($this->tempMediaDir.'/'.$media->filename);
+        $info = $this->id3->analyze($this->tempMediaDir . '/' . $media->filename);
         $time = $info['playtime_string'];
         $time = explode(':', $time);
 

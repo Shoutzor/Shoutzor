@@ -38,9 +38,9 @@ abstract class AbstractEncoder
     /**
      * Process a given image
      *
-     * @param  Image  $image
-     * @param  string  $format
-     * @param  int  $quality
+     * @param Image $image
+     * @param string $format
+     * @param int $quality
      * @return Image
      */
     public function process(Image $image, $format = null, $quality = null)
@@ -132,7 +132,7 @@ abstract class AbstractEncoder
     /**
      * Sets image to process
      *
-     * @param  Image  $image
+     * @param Image $image
      */
     protected function setImage($image)
     {
@@ -142,7 +142,7 @@ abstract class AbstractEncoder
     /**
      * Determines output format
      *
-     * @param  string  $format
+     * @param string $format
      */
     protected function setFormat($format = null)
     {
@@ -158,7 +158,7 @@ abstract class AbstractEncoder
     /**
      * Determines output quality
      *
-     * @param  int  $quality
+     * @param int $quality
      */
     protected function setQuality($quality)
     {

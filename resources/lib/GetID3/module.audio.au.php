@@ -29,11 +29,11 @@ class getid3_au extends getid3_handler
         $magic = '.snd';
         if (substr($AUheader, 0, 4) != $magic) {
             $this->error(
-                'Expecting "'.getid3_lib::PrintHexBytes(
+                'Expecting "' . getid3_lib::PrintHexBytes(
                     $magic
-                ).'" (".snd") at offset '.$info['avdataoffset'].', found "'.getid3_lib::PrintHexBytes(
+                ) . '" (".snd") at offset ' . $info['avdataoffset'] . ', found "' . getid3_lib::PrintHexBytes(
                     substr($AUheader, 0, 4)
-                ).'"'
+                ) . '"'
             );
             return false;
         }
@@ -71,7 +71,7 @@ class getid3_au extends getid3_handler
 
         if (($info['avdataoffset'] + $thisfile_au['data_size']) > $info['avdataend']) {
             $this->warning(
-                'Possible truncated file - expecting "'.$thisfile_au['data_size'].'" bytes of audio data, only found '.($info['avdataend'] - $info['avdataoffset']).' bytes"'
+                'Possible truncated file - expecting "' . $thisfile_au['data_size'] . '" bytes of audio data, only found ' . ($info['avdataend'] - $info['avdataoffset']) . ' bytes"'
             );
         }
 
@@ -83,7 +83,7 @@ class getid3_au extends getid3_handler
     }
 
     /**
-     * @param  int  $id
+     * @param int $id
      *
      * @return string|false
      */
@@ -123,7 +123,7 @@ class getid3_au extends getid3_handler
     }
 
     /**
-     * @param  int  $id
+     * @param int $id
      *
      * @return int|false
      */
@@ -157,7 +157,7 @@ class getid3_au extends getid3_handler
     }
 
     /**
-     * @param  int  $id
+     * @param int $id
      *
      * @return int|false
      */

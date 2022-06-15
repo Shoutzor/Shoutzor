@@ -10,22 +10,20 @@ function formatTime(seconds) {
     let s = sec_num - (h * 3600) - (m * 60);
 
     //If hours eq 0, hide it
-    if(h === 0) {
+    if (h === 0) {
         h = "";
-    }
-    else {
-        if(h < 10) {
+    } else {
+        if (h < 10) {
             h = "0" + h + ":";
-        }
-        else {
+        } else {
             h = h + ":";
         }
     }
 
-    if(m < 10) {
+    if (m < 10) {
         m = "0" + m;
     }
-    if(s < 10) {
+    if (s < 10) {
         s = "0" + s;
     }
     return h + m + ':' + s;

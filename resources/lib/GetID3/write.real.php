@@ -99,9 +99,9 @@ class getid3_write_real
                 fseek($fp_source, $oldChunkInfo['.RMF']['offset']);
                 fwrite($fp_source, $new__RMF_tag_data);
             } else {
-                $this->errors[] = 'new .RMF tag ('.strlen(
+                $this->errors[] = 'new .RMF tag (' . strlen(
                         $new__RMF_tag_data
-                    ).' bytes) different length than old .RMF tag ('.$oldChunkInfo['.RMF']['length'].' bytes)';
+                    ) . ' bytes) different length than old .RMF tag (' . $oldChunkInfo['.RMF']['length'] . ' bytes)';
                 fclose($fp_source);
                 return false;
             }
@@ -112,9 +112,9 @@ class getid3_write_real
                 fseek($fp_source, $oldChunkInfo['PROP']['offset']);
                 fwrite($fp_source, $new_PROP_tag_data);
             } else {
-                $this->errors[] = 'new PROP tag ('.strlen(
+                $this->errors[] = 'new PROP tag (' . strlen(
                         $new_PROP_tag_data
-                    ).' bytes) different length than old PROP tag ('.$oldChunkInfo['PROP']['length'].' bytes)';
+                    ) . ' bytes) different length than old PROP tag (' . $oldChunkInfo['PROP']['length'] . ' bytes)';
                 fclose($fp_source);
                 return false;
             }
@@ -159,10 +159,10 @@ class getid3_write_real
                             return true;
                         }
                         unlink($tempfilename);
-                        $this->errors[] = 'FAILED: copy('.$tempfilename.', '.$this->filename.')';
+                        $this->errors[] = 'FAILED: copy(' . $tempfilename . ', ' . $this->filename . ')';
 
                     } else {
-                        $this->errors[] = 'Could not fopen("'.$tempfilename.'", "wb")';
+                        $this->errors[] = 'Could not fopen("' . $tempfilename . '", "wb")';
                     }
                 }
                 fclose($fp_source);
@@ -171,7 +171,7 @@ class getid3_write_real
             }
 
         }
-        $this->errors[] = 'Could not fopen("'.$this->filename.'", "r+b")';
+        $this->errors[] = 'Could not fopen("' . $this->filename . '", "r+b")';
         return false;
     }
 
@@ -215,17 +215,17 @@ class getid3_write_real
             $CONTchunk .= str_repeat("\x00", $this->paddedlength - strlen($CONTchunk) - 8);
         }
 
-        $CONTchunk = 'CONT'.getid3_lib::BigEndian2String(
+        $CONTchunk = 'CONT' . getid3_lib::BigEndian2String(
                 strlen($CONTchunk) + 8,
                 4
-            ).$CONTchunk; // CONT chunk identifier + chunk length
+            ) . $CONTchunk; // CONT chunk identifier + chunk length
 
         return $CONTchunk;
     }
 
     /**
-     * @param  array  $chunks
-     * @param  string  $new_CONT_tag_data
+     * @param array $chunks
+     * @param string $new_CONT_tag_data
      *
      * @return string
      */
@@ -264,15 +264,15 @@ class getid3_write_real
         $PROPchunk .= getid3_lib::BigEndian2String($chunks[$chunkNameKeys['PROP']]['num_streams'], 2);
         $PROPchunk .= getid3_lib::BigEndian2String($chunks[$chunkNameKeys['PROP']]['flags_raw'], 2);
 
-        $PROPchunk = 'PROP'.getid3_lib::BigEndian2String(
+        $PROPchunk = 'PROP' . getid3_lib::BigEndian2String(
                 strlen($PROPchunk) + 8,
                 4
-            ).$PROPchunk; // PROP chunk identifier + chunk length
+            ) . $PROPchunk; // PROP chunk identifier + chunk length
         return $PROPchunk;
     }
 
     /**
-     * @param  array  $chunks
+     * @param array $chunks
      *
      * @return string
      */
@@ -292,10 +292,10 @@ class getid3_write_real
         $RMFchunk .= getid3_lib::BigEndian2String($chunks[$chunkNameKeys['.RMF']]['file_version'], 4);
         $RMFchunk .= getid3_lib::BigEndian2String($newHeadersCount, 4);
 
-        $RMFchunk = '.RMF'.getid3_lib::BigEndian2String(
+        $RMFchunk = '.RMF' . getid3_lib::BigEndian2String(
                 strlen($RMFchunk) + 8,
                 4
-            ).$RMFchunk; // .RMF chunk identifier + chunk length
+            ) . $RMFchunk; // .RMF chunk identifier + chunk length
         return $RMFchunk;
     }
 
@@ -352,16 +352,16 @@ class getid3_write_real
                         return true;
                     }
                     unlink($tempfilename);
-                    $this->errors[] = 'FAILED: copy('.$tempfilename.', '.$this->filename.')';
+                    $this->errors[] = 'FAILED: copy(' . $tempfilename . ', ' . $this->filename . ')';
 
                 } else {
-                    $this->errors[] = 'Could not fopen("'.$tempfilename.'", "wb")';
+                    $this->errors[] = 'Could not fopen("' . $tempfilename . '", "wb")';
                 }
             }
             fclose($fp_source);
             return false;
         }
-        $this->errors[] = 'Could not fopen("'.$this->filename.'", "r+b")';
+        $this->errors[] = 'Could not fopen("' . $this->filename . '", "r+b")';
         return false;
     }
 

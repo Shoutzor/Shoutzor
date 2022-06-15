@@ -10,7 +10,7 @@ class PixelateCommand extends AbstractCommand
     /**
      * Applies a pixelation effect to a given image
      *
-     * @param  Image  $image
+     * @param Image $image
      * @return boolean
      */
     public function execute($image)

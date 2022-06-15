@@ -31,9 +31,9 @@ class Size
     /**
      * Creates a new Size instance
      *
-     * @param  int  $width
-     * @param  int  $height
-     * @param  Point  $pivot
+     * @param int $width
+     * @param int $height
+     * @param Point $pivot
      */
     public function __construct($width = null, $height = null, Point $pivot = null)
     {
@@ -45,7 +45,7 @@ class Size
     /**
      * Resize given Size to best fitting size of current size.
      *
-     * @param  Size  $size
+     * @param Size $size
      * @return Size
      */
     public function fit(Size $size, $position = 'center')
@@ -92,9 +92,9 @@ class Size
     /**
      * Resize to desired width and/or height
      *
-     * @param  int  $width
-     * @param  int  $height
-     * @param  Closure  $callback
+     * @param int $width
+     * @param int $height
+     * @param Closure $callback
      * @return Size
      */
     public function resize($width, $height, Closure $callback = null)
@@ -126,8 +126,8 @@ class Size
     /**
      * Scale size according to given constraints
      *
-     * @param  int  $height
-     * @param  Closure  $callback
+     * @param int $height
+     * @param Closure $callback
      * @return Size
      */
     private function resizeHeight($height, Closure $callback = null)
@@ -162,7 +162,7 @@ class Size
     /**
      * Runs constraints on current size
      *
-     * @param  Closure  $callback
+     * @param Closure $callback
      * @return Constraint
      */
     private function getConstraint(Closure $callback = null)
@@ -209,8 +209,8 @@ class Size
     /**
      * Scale size according to given constraints
      *
-     * @param  int  $width
-     * @param  Closure  $callback
+     * @param int $width
+     * @param Closure $callback
      * @return Size
      */
     private function resizeWidth($width, Closure $callback = null)
@@ -245,7 +245,7 @@ class Size
     /**
      * Checks if given size fits into current size
      *
-     * @param  Size  $size
+     * @param Size $size
      * @return boolean
      */
     public function fitsInto(Size $size)
@@ -256,8 +256,8 @@ class Size
     /**
      * Set the width and height absolutely
      *
-     * @param  int  $width
-     * @param  int  $height
+     * @param int $width
+     * @param int $height
      */
     public function set($width, $height)
     {
@@ -269,9 +269,9 @@ class Size
      * Aligns current size's pivot point to given position
      * and moves point automatically by offset.
      *
-     * @param  string  $position
-     * @param  int  $offset_x
-     * @param  int  $offset_y
+     * @param string $position
+     * @param int $offset_x
+     * @param int $offset_y
      * @return Size
      */
     public function align($position, $offset_x = 0, $offset_y = 0)
@@ -356,7 +356,7 @@ class Size
     /**
      * Set current pivot point
      *
-     * @param  Point  $point
+     * @param Point $point
      */
     public function setPivot(Point $point)
     {
@@ -367,7 +367,7 @@ class Size
      * Calculate the relative position to another Size
      * based on the pivot point settings of both sizes.
      *
-     * @param  Size  $size
+     * @param Size $size
      * @return Point
      */
     public function relativePosition(Size $size)

@@ -32,7 +32,7 @@ class getid3_zip extends getid3_handler
         $info['zip']['entries_count'] = 0;
 
         if (!getid3_lib::intValueSupported($info['filesize'])) {
-            $this->error('File is larger than '.round(PHP_INT_MAX / 1073741824).'GB, not supported by PHP');
+            $this->error('File is larger than ' . round(PHP_INT_MAX / 1073741824) . 'GB, not supported by PHP');
             return false;
         } else {
             $EOCDsearchData = '';
@@ -40,11 +40,11 @@ class getid3_zip extends getid3_handler
             while ($EOCDsearchCounter++ < 512) {
 
                 $this->fseek(-128 * $EOCDsearchCounter, SEEK_END);
-                $EOCDsearchData = $this->fread(128).$EOCDsearchData;
+                $EOCDsearchData = $this->fread(128) . $EOCDsearchData;
 
-                if (strstr($EOCDsearchData, 'PK'."\x05\x06")) {
+                if (strstr($EOCDsearchData, 'PK' . "\x05\x06")) {
 
-                    $EOCDposition = strpos($EOCDsearchData, 'PK'."\x05\x06");
+                    $EOCDposition = strpos($EOCDsearchData, 'PK' . "\x05\x06");
                     $this->fseek((-128 * $EOCDsearchCounter) + $EOCDposition, SEEK_END);
                     $info['zip']['end_central_directory'] = $this->ZIPparseEndOfCentralDirectory();
 
@@ -97,7 +97,7 @@ class getid3_zip extends getid3_handler
                             $info['zip']['entries'][] = $fileentry;
                         } else {
                             $this->warning(
-                                'Error parsing Local File Header at offset '.$central_directory_entry['entry_offset']
+                                'Error parsing Local File Header at offset ' . $central_directory_entry['entry_offset']
                             );
                         }
                     }
@@ -132,7 +132,7 @@ class getid3_zip extends getid3_handler
         // scan through actual file data entries, recover as much as possible from probable trucated file
         if ($info['zip']['compressed_size'] > ($info['filesize'] - 46 - 22)) {
             $this->error(
-                'Warning: Truncated file! - Total compressed file sizes ('.$info['zip']['compressed_size'].' bytes) is greater than filesize minus Central Directory and End Of Central Directory structures ('.($info['filesize'] - 46 - 22).' bytes)'
+                'Warning: Truncated file! - Total compressed file sizes (' . $info['zip']['compressed_size'] . ' bytes) is greater than filesize minus Central Directory and End Of Central Directory structures (' . ($info['filesize'] - 46 - 22) . ' bytes)'
             );
         }
         $this->error(
@@ -274,7 +274,7 @@ class getid3_zip extends getid3_handler
     }
 
     /**
-     * @param  int  $index
+     * @param int $index
      *
      * @return string
      */
@@ -307,7 +307,7 @@ class getid3_zip extends getid3_handler
     }
 
     /**
-     * @param  int  $index
+     * @param int $index
      *
      * @return string
      */
@@ -344,8 +344,8 @@ class getid3_zip extends getid3_handler
     }
 
     /**
-     * @param  int  $flagbytes
-     * @param  int  $compressionmethod
+     * @param int $flagbytes
+     * @param int $compressionmethod
      *
      * @return array
      */
@@ -353,20 +353,20 @@ class getid3_zip extends getid3_handler
     {
         // https://users.cs.jmu.edu/buchhofp/forensics/formats/pkzip-printable.html
         $ParsedFlags = array();
-        $ParsedFlags['encrypted'] = (bool) ($flagbytes & 0x0001);
+        $ParsedFlags['encrypted'] = (bool)($flagbytes & 0x0001);
         //                                                             0x0002 -- see below
         //                                                             0x0004 -- see below
-        $ParsedFlags['data_descriptor_used'] = (bool) ($flagbytes & 0x0008);
-        $ParsedFlags['enhanced_deflation'] = (bool) ($flagbytes & 0x0010);
-        $ParsedFlags['compressed_patched_data'] = (bool) ($flagbytes & 0x0020);
-        $ParsedFlags['strong_encryption'] = (bool) ($flagbytes & 0x0040);
+        $ParsedFlags['data_descriptor_used'] = (bool)($flagbytes & 0x0008);
+        $ParsedFlags['enhanced_deflation'] = (bool)($flagbytes & 0x0010);
+        $ParsedFlags['compressed_patched_data'] = (bool)($flagbytes & 0x0020);
+        $ParsedFlags['strong_encryption'] = (bool)($flagbytes & 0x0040);
         //                                                             0x0080 - unused
         //                                                             0x0100 - unused
         //                                                             0x0200 - unused
         //                                                             0x0400 - unused
-        $ParsedFlags['language_encoding'] = (bool) ($flagbytes & 0x0800);
+        $ParsedFlags['language_encoding'] = (bool)($flagbytes & 0x0800);
         //                                                             0x1000 - reserved
-        $ParsedFlags['mask_header_values'] = (bool) ($flagbytes & 0x2000);
+        $ParsedFlags['mask_header_values'] = (bool)($flagbytes & 0x2000);
         //                                                             0x4000 - reserved
         //                                                             0x8000 - reserved
 
@@ -399,8 +399,8 @@ class getid3_zip extends getid3_handler
     }
 
     /**
-     * @param  int  $DOSdate
-     * @param  int  $DOStime
+     * @param int $DOSdate
+     * @param int $DOStime
      *
      * @return int
      */
@@ -525,7 +525,7 @@ class getid3_zip extends getid3_handler
                 getid3_lib::LittleEndian2Int(substr($DataDescriptor, 0, 4));
             if ($LocalFileHeader['data_descriptor']['signature'] != 0x08074B50) { // "PK\x07\x08"
                 $this->getid3->warning(
-                    'invalid Local File Header Data Descriptor Signature at offset '.($this->ftell() - 16).' - expecting 08 07 4B 50, found '.getid3_lib::PrintHexBytes(
+                    'invalid Local File Header Data Descriptor Signature at offset ' . ($this->ftell() - 16) . ' - expecting 08 07 4B 50, found ' . getid3_lib::PrintHexBytes(
                         $LocalFileHeader['data_descriptor']['signature']
                     )
                 );
@@ -546,7 +546,7 @@ class getid3_zip extends getid3_handler
                             // $LocalFileHeader['compressed_size'] already set from Central Directory
                         } else {
                             $this->warning(
-                                'conflicting compressed_size from data_descriptor ('.$LocalFileHeader['data_descriptor']['compressed_size'].') vs Central Directory ('.$central_directory_entry['compressed_size'].') for file at offset '.$LocalFileHeader['offset']
+                                'conflicting compressed_size from data_descriptor (' . $LocalFileHeader['data_descriptor']['compressed_size'] . ') vs Central Directory (' . $central_directory_entry['compressed_size'] . ') for file at offset ' . $LocalFileHeader['offset']
                             );
                         }
 
@@ -555,7 +555,7 @@ class getid3_zip extends getid3_handler
                                 $LocalFileHeader['data_descriptor']['uncompressed_size'];
                         } else {
                             $this->warning(
-                                'conflicting uncompressed_size from data_descriptor ('.$LocalFileHeader['data_descriptor']['uncompressed_size'].') vs Central Directory ('.$central_directory_entry['uncompressed_size'].') for file at offset '.$LocalFileHeader['offset']
+                                'conflicting uncompressed_size from data_descriptor (' . $LocalFileHeader['data_descriptor']['uncompressed_size'] . ') vs Central Directory (' . $central_directory_entry['uncompressed_size'] . ') for file at offset ' . $LocalFileHeader['offset']
                             );
                         }
                         break;

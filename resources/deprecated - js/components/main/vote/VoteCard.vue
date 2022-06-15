@@ -13,7 +13,8 @@
             </div>
         </div>
         <div class="progress">
-            <div :aria-valuenow="percentage" :style="'width: '+percentage+'%;'" aria-valuemax="100" aria-valuemin="0" class="progress-bar" role="progressbar">
+            <div :aria-valuenow="percentage" :style="'width: '+percentage+'%;'" aria-valuemax="100" aria-valuemin="0"
+                 class="progress-bar" role="progressbar">
                 <span class="visually-hidden">{{ percentage }}% of total votes</span>
             </div>
         </div>
@@ -33,10 +34,10 @@ export default {
     },
 
     computed: {
-        percentage: function() {
+        percentage: function () {
             // Make sure the vote prop has been properly passed
             // as well as prevent a divide by zero exception
-            if(typeof this.vote === undefined || this.vote.count === 0 || this.totalVotes === 0) {
+            if (typeof this.vote === undefined || this.vote.count === 0 || this.totalVotes === 0) {
                 return 0;
             }
 
@@ -50,7 +51,7 @@ export default {
         },
 
         updateVotecardColor() {
-            if(typeof this.vote === undefined || typeof this.vote.media.coverImage === undefined) {
+            if (typeof this.vote === undefined || typeof this.vote.media.coverImage === undefined) {
                 return;
             }
 

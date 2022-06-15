@@ -28,18 +28,18 @@ class getid3_msoffice extends getid3_handler
         $magic = "\xD0\xCF\x11\xE0\xA1\xB1\x1A\xE1";
         if (substr($DOCFILEheader, 0, 8) != $magic) {
             $this->error(
-                'Expecting "'.getid3_lib::PrintHexBytes(
+                'Expecting "' . getid3_lib::PrintHexBytes(
                     $magic
-                ).'" at '.$info['avdataoffset'].', found '.getid3_lib::PrintHexBytes(
+                ) . '" at ' . $info['avdataoffset'] . ', found ' . getid3_lib::PrintHexBytes(
                     substr($DOCFILEheader, 0, 8)
-                ).' instead.'
+                ) . ' instead.'
             );
             return false;
         }
         $info['fileformat'] = 'msoffice';
 
         $this->error(
-            'MS Office (.doc, .xls, etc) parsing not enabled in this version of getID3() ['.$this->getid3->version().']'
+            'MS Office (.doc, .xls, etc) parsing not enabled in this version of getID3() [' . $this->getid3->version() . ']'
         );
         return false;
 

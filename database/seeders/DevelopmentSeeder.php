@@ -53,8 +53,8 @@ class DevelopmentSeeder extends Seeder
         // Create some votes
         $this->command->info("Generating Votes");
         Vote::factory()
-                ->count(20)
-                ->create();
+            ->count(20)
+            ->create();
 
         // Create some history
         $this->command->info("Generating Request History");

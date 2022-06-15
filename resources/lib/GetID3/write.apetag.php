@@ -14,7 +14,7 @@
 //                                                            ///
 /////////////////////////////////////////////////////////////////
 
-getid3_lib::IncludeDependency(GETID3_INCLUDEPATH.'module.tag.apetag.php', __FILE__, true);
+getid3_lib::IncludeDependency(GETID3_INCLUDEPATH . 'module.tag.apetag.php', __FILE__, true);
 
 class getid3_write_apetag
 {
@@ -189,7 +189,7 @@ class getid3_write_apetag
 
             $valuestring = '';
             foreach ($arrayofvalues as $value) {
-                $valuestring .= str_replace("\x00", '', $value)."\x00";
+                $valuestring .= str_replace("\x00", '', $value) . "\x00";
             }
             $valuestring = rtrim($valuestring, "\x00");
 
@@ -199,21 +199,21 @@ class getid3_write_apetag
             //$tagitem .= $this->GenerateAPEtagFlags(true, true, false, 0, false);
             $tagitem .= "\x00\x00\x00\x00";
 
-            $tagitem .= $this->CleanAPEtagItemKey($key)."\x00";
+            $tagitem .= $this->CleanAPEtagItemKey($key) . "\x00";
             $tagitem .= $valuestring;
 
             $items[] = $tagitem;
 
         }
 
-        return $this->GenerateAPEtagHeaderFooter($items, true).implode('', $items).$this->GenerateAPEtagHeaderFooter(
+        return $this->GenerateAPEtagHeaderFooter($items, true) . implode('', $items) . $this->GenerateAPEtagHeaderFooter(
                 $items,
                 false
             );
     }
 
     /**
-     * @param  string  $itemkey
+     * @param string $itemkey
      *
      * @return string
      */
@@ -239,8 +239,8 @@ class getid3_write_apetag
     }
 
     /**
-     * @param  array  $items
-     * @param  bool  $isheader
+     * @param array $items
+     * @param bool $isheader
      *
      * @return string
      */
@@ -262,11 +262,11 @@ class getid3_write_apetag
     }
 
     /**
-     * @param  bool  $header
-     * @param  bool  $footer
-     * @param  bool  $isheader
-     * @param  int  $encodingid
-     * @param  bool  $readonly
+     * @param bool $header
+     * @param bool $footer
+     * @param bool $isheader
+     * @param int $encodingid
+     * @param bool $readonly
      *
      * @return string
      */
@@ -276,7 +276,8 @@ class getid3_write_apetag
         $isheader = false,
         $encodingid = 0,
         $readonly = false
-    ) {
+    )
+    {
         $APEtagFlags = array_fill(0, 4, 0);
         if ($header) {
             $APEtagFlags[0] |= 0x80; // Tag contains a header
@@ -298,7 +299,7 @@ class getid3_write_apetag
             $APEtagFlags[3] |= 0x01; // Tag or Item is Read Only
         }
 
-        return chr($APEtagFlags[3]).chr($APEtagFlags[2]).chr($APEtagFlags[1]).chr($APEtagFlags[0]);
+        return chr($APEtagFlags[3]) . chr($APEtagFlags[2]) . chr($APEtagFlags[1]) . chr($APEtagFlags[0]);
     }
 
 }

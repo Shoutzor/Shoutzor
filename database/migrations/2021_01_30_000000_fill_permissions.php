@@ -60,7 +60,7 @@ class FillPermissions extends Migration
     /**
      * Create a role if it doesn't exist yet
      *
-     * @param  string  $name  the name of the role
+     * @param string $name the name of the role
      */
     private function createRole(string $name, string $description, bool $protected = false)
     {
@@ -76,8 +76,8 @@ class FillPermissions extends Migration
     /**
      * Create a permission if it doesn't exist yet.
      *
-     * @param  string  $name  the name of the permission
-     * @param  array  $roles  the roles to assign this permission to by default
+     * @param string $name the name of the permission
+     * @param array $roles the roles to assign this permission to by default
      */
     private function createPermission(string $name, string $description, array $roles = [])
     {

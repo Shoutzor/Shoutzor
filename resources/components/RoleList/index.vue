@@ -29,7 +29,7 @@ import RoleItem from "@components/RoleItem";
 
 export default {
     name: 'role-list',
-    components: { BaseTable, RoleItem },
+    components: {BaseTable, RoleItem},
     props: {
         roles: {
             type: Array,

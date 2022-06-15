@@ -25,9 +25,9 @@ abstract class AbstractDriver
     /**
      * Creates new image instance
      *
-     * @param  int  $width
-     * @param  int  $height
-     * @param  string  $background
+     * @param int $width
+     * @param int $height
+     * @param string $background
      * @return Image
      */
     abstract public function newImage($width, $height, $background);
@@ -35,7 +35,7 @@ abstract class AbstractDriver
     /**
      * Reads given string into color object
      *
-     * @param  string  $value
+     * @param string $value
      * @return AbstractColor
      */
     abstract public function parseColor($value);
@@ -53,7 +53,7 @@ abstract class AbstractDriver
     /**
      * Initiates new image from given input
      *
-     * @param  mixed  $data
+     * @param mixed $data
      * @return Image
      */
     public function init($data)
@@ -64,9 +64,9 @@ abstract class AbstractDriver
     /**
      * Encodes given image
      *
-     * @param  Image  $image
-     * @param  string  $format
-     * @param  int  $quality
+     * @param Image $image
+     * @param string $format
+     * @param int $quality
      * @return Image
      */
     public function encode($image, $format, $quality)
@@ -77,9 +77,9 @@ abstract class AbstractDriver
     /**
      * Executes named command on given image
      *
-     * @param  Image  $image
-     * @param  string  $name
-     * @param  array  $arguments
+     * @param Image $image
+     * @param string $name
+     * @param array $arguments
      * @return AbstractCommand
      */
     public function executeCommand($image, $name, $arguments)
@@ -94,12 +94,12 @@ abstract class AbstractDriver
     /**
      * Returns classname of given command name
      *
-     * @param  string  $name
+     * @param string $name
      * @return string
      */
     private function getCommandClassName($name)
     {
-        $name = mb_convert_case($name[0], MB_CASE_UPPER, 'utf-8').mb_substr($name, 1, mb_strlen($name));
+        $name = mb_convert_case($name[0], MB_CASE_UPPER, 'utf-8') . mb_substr($name, 1, mb_strlen($name));
 
         $drivername = $this->getDriverName();
         $classnameLocal = sprintf('\Intervention\Image\%s\Commands\%sCommand', $drivername, ucfirst($name));

@@ -57,7 +57,7 @@ class Image_XMP
     /**
      * Constructor
      *
-     * @param  string  $sFilename  - Name of the image file to access and extract XMP information from.
+     * @param string $sFilename - Name of the image file to access and extract XMP information from.
      */
     public function __construct($sFilename)
     {
@@ -69,7 +69,7 @@ class Image_XMP
             if ($xmp_data) {
                 $aXMP = $this->read_XMP_array_from_text($xmp_data);
                 if ($aXMP !== false) {
-                    $this->_aXMP = (array) $aXMP;
+                    $this->_aXMP = (array)$aXMP;
                     $this->_bXMPParse = true;
                 }
             }
@@ -79,7 +79,7 @@ class Image_XMP
     /**
      * Retrieves XMP information from an APP1 JPEG segment and returns the raw XML text as a string.
      *
-     * @param  string  $filename  - the filename of the JPEG file to read
+     * @param string $filename - the filename of the JPEG file to read
      * @return string|boolean $xmp_data - the string of raw XML text,
      *                         FALSE - if an APP 1 XMP segment could not be found, or if an error occured
      */
@@ -93,7 +93,7 @@ class Image_XMP
             // If we find an APP1 header,
             if (strcmp($jpeg_header_data[$i]['SegName'], 'APP1') == 0) {
                 // And if it has the Adobe XMP/RDF label (http://ns.adobe.com/xap/1.0/\x00) ,
-                if (strncmp($jpeg_header_data[$i]['SegData'], 'http://ns.adobe.com/xap/1.0/'."\x00", 29) == 0) {
+                if (strncmp($jpeg_header_data[$i]['SegData'], 'http://ns.adobe.com/xap/1.0/' . "\x00", 29) == 0) {
                     // Found a XMP/RDF block
                     // Return the XMP text
                     $xmp_data = substr($jpeg_header_data[$i]['SegData'], 29);
@@ -110,7 +110,7 @@ class Image_XMP
     /**
      * Reads all the JPEG header segments from an JPEG image file into an array
      *
-     * @param  string  $filename  - the filename of the JPEG file to read
+     * @param string $filename - the filename of the JPEG file to read
      * @return array|boolean  $headerdata - Array of JPEG header segments,
      *                         FALSE - if headers could not be read
      */
@@ -134,7 +134,7 @@ class Image_XMP
         // Check that the first two characters are 0xFF 0xD8  (SOI - Start of image)
         if ($data != "\xFF\xD8") {
             // No SOI (FF D8) at start of file - This probably isn't a JPEG file - close file and return;
-            echo '<p>This probably is not a JPEG file</p>'."\n";
+            echo '<p>This probably is not a JPEG file</p>' . "\n";
             fclose($filehnd);
             return false;
         }
@@ -213,7 +213,7 @@ class Image_XMP
      * Parses a string containing XMP data (XML), and returns an array
      * which contains all the XMP (XML) information.
      *
-     * @param  string  $xmltext  - a string containing the XMP data (XML) to be parsed
+     * @param string $xmltext - a string containing the XMP data (XML) to be parsed
      * @return array|boolean $xmp_array - an array containing all xmp details retrieved,
      *                        FALSE - couldn't parse the XMP data.
      */

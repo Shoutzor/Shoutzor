@@ -10,7 +10,7 @@ class InterlaceCommand extends AbstractCommand
     /**
      * Toggles interlaced encoding mode
      *
-     * @param  Image  $image
+     * @param Image $image
      * @return boolean
      */
     public function execute($image)

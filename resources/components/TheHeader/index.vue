@@ -6,8 +6,9 @@
             </router-link>
             <ul v-if="isAuthenticated" class="d-flex justify-content-end nav">
                 <li class="nav-item dropdown">
-                    <a class="nav-link link-light dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
-                        <div>{{ user.username}}</div>
+                    <a class="nav-link link-light dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink"
+                       role="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
+                        <div>{{ user.username }}</div>
                         <div class="mt-1 small text-muted">Administrator</div>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right user-dropdown">
@@ -21,11 +22,12 @@
             </ul>
             <ul v-else class="d-flex justify-content-end nav">
                 <li class="nav-item dropdown">
-                    <a class="nav-link link-light dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
+                    <a class="nav-link link-light dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink"
+                       role="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
                         Login / Register
                     </a>
                     <div class="dropdown-menu dropdown-menu-end dropdown-menu-dark auth-dropdown">
-                        <login-form />
+                        <login-form/>
                     </div>
                 </li>
             </ul>

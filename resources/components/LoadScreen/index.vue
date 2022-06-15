@@ -2,7 +2,7 @@
     <div class="load-screen text-center">
         <img src="@static/images/shoutzor-logo-small.png" alt="Shoutz0r logo">
         <div class="center-block">
-            <BaseSpinner class="mt-5" />
+            <BaseSpinner class="mt-5"/>
 
             <div v-if="message.length > 0" class="mt-3">
                 <p>{{ message }}</p>

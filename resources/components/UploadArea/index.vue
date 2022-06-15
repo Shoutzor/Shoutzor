@@ -3,7 +3,7 @@
         <div class="box_input">
             <file-upload-icon class="box_icon"></file-upload-icon>
             <input id="file" class="box_file" data-multiple-caption="{count} files selected" multiple name="files[]"
-                   type="file" @change="onFileSelect" />
+                   type="file" @change="onFileSelect"/>
             <label for="file">
                 <strong>Choose a file</strong>
                 <span class="box_dragndrop"> or drag it here</span>
@@ -33,16 +33,16 @@ export default {
     methods: {
         onDragOver(e) {
             var dt = e.dataTransfer;
-            if(dt.types && (dt.types.indexOf ? dt.types.indexOf('Files') !== -1 : dt.types.contains('Files'))) {
+            if (dt.types && (dt.types.indexOf ? dt.types.indexOf('Files') !== -1 : dt.types.contains('Files'))) {
                 document.querySelector(".upload-area[" + this.$options._scopeId + "]").classList.add("showarea");
-                if(this.dragTimer !== undefined) {
+                if (this.dragTimer !== undefined) {
                     window.clearTimeout(this.dragTimer);
                 }
             }
         },
 
         onDragLeave(e) {
-            this.dragTimer = window.setTimeout(function() {
+            this.dragTimer = window.setTimeout(function () {
                 document.querySelector(".upload-area[" + this.$options._scopeId + "]").classList.remove("showarea");
             }, 25);
         },
@@ -50,13 +50,13 @@ export default {
         onDrop(e) {
             e.preventDefault();
             var dt = e.dataTransfer;
-            if(dt.types && (dt.types.indexOf ? dt.types.indexOf('Files') !== -1 : dt.types.contains('Files'))) {
+            if (dt.types && (dt.types.indexOf ? dt.types.indexOf('Files') !== -1 : dt.types.contains('Files'))) {
                 this.emitter.emit('upload-file', e.dataTransfer.files);
             }
         },
 
         onFileSelect(e) {
-            if(e.target.files !== undefined) {
+            if (e.target.files !== undefined) {
                 this.emitter.emit('upload-file', e.target.files);
             }
         }

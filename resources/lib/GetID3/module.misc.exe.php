@@ -29,11 +29,11 @@ class getid3_exe extends getid3_handler
         $magic = 'MZ';
         if (substr($EXEheader, 0, 2) != $magic) {
             $this->error(
-                'Expecting "'.getid3_lib::PrintHexBytes(
+                'Expecting "' . getid3_lib::PrintHexBytes(
                     $magic
-                ).'" at offset '.$info['avdataoffset'].', found "'.getid3_lib::PrintHexBytes(
+                ) . '" at offset ' . $info['avdataoffset'] . ', found "' . getid3_lib::PrintHexBytes(
                     substr($EXEheader, 0, 2)
-                ).'"'
+                ) . '"'
             );
             return false;
         }
@@ -60,7 +60,7 @@ class getid3_exe extends getid3_handler
         $info['exe']['mz']['memory_minimum'] = $info['exe']['mz']['raw']['min_memory_paragraphs'] * 16;
         $info['exe']['mz']['memory_recommended'] = $info['exe']['mz']['raw']['max_memory_paragraphs'] * 16;
 
-        $this->error('EXE parsing not enabled in this version of getID3() ['.$this->getid3->version().']');
+        $this->error('EXE parsing not enabled in this version of getID3() [' . $this->getid3->version() . ']');
         return false;
 
     }

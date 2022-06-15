@@ -10,7 +10,7 @@ class DestroyCommand extends AbstractCommand
     /**
      * Destroys current image core and frees up memory
      *
-     * @param  Image  $image
+     * @param Image $image
      * @return boolean
      */
     public function execute($image)

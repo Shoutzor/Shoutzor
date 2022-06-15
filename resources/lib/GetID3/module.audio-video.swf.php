@@ -48,9 +48,9 @@ class getid3_swf extends getid3_handler
 
             default:
                 $this->error(
-                    'Expecting "FWS" or "CWS" at offset '.$info['avdataoffset'].', found "'.getid3_lib::PrintHexBytes(
+                    'Expecting "FWS" or "CWS" at offset ' . $info['avdataoffset'] . ', found "' . getid3_lib::PrintHexBytes(
                         $info['swf']['header']['signature']
-                    ).'"'
+                    ) . '"'
                 );
                 unset($info['swf']);
                 unset($info['fileformat']);
@@ -64,12 +64,12 @@ class getid3_swf extends getid3_handler
             $SWFHead = substr($SWFfileData, 0, 8);
             $SWFfileData = substr($SWFfileData, 8);
             if ($decompressed = @gzuncompress($SWFfileData)) {
-                $SWFfileData = $SWFHead.$decompressed;
+                $SWFfileData = $SWFHead . $decompressed;
             } else {
                 $this->error(
-                    'Error decompressing compressed SWF data ('.strlen(
+                    'Error decompressing compressed SWF data (' . strlen(
                         $SWFfileData
-                    ).' bytes compressed, should be '.($info['swf']['header']['length'] - 8).' bytes uncompressed)'
+                    ) . ' bytes compressed, should be ' . ($info['swf']['header']['length'] - 8) . ' bytes uncompressed)'
                 );
                 return false;
             }
@@ -100,7 +100,7 @@ class getid3_swf extends getid3_handler
         $info['video']['frame_rate'] = $info['swf']['header']['frame_rate'];
         $info['video']['resolution_x'] = intval(round($info['swf']['header']['frame_width'] / 20));
         $info['video']['resolution_y'] = intval(round($info['swf']['header']['frame_height'] / 20));
-        $info['video']['pixel_aspect_ratio'] = (float) 1;
+        $info['video']['pixel_aspect_ratio'] = (float)1;
 
         if (($info['swf']['header']['frame_count'] > 0) && ($info['swf']['header']['frame_rate'] > 0)) {
             $info['playtime_seconds'] = $info['swf']['header']['frame_count'] / $info['swf']['header']['frame_rate'];

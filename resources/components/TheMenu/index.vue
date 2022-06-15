@@ -22,7 +22,8 @@
                     </router-link>
                 </li>
             </ul>
-            <span v-if="isAuthenticated" class="sidebar-heading d-flex justify-content-between align-items-center px-3 mb-1 text-muted">Your zone</span>
+            <span v-if="isAuthenticated"
+                  class="sidebar-heading d-flex justify-content-between align-items-center px-3 mb-1 text-muted">Your zone</span>
             <ul v-if="isAuthenticated" class="nav flex-column">
                 <li class="nav-item">
                     <router-link :to="{name: 'dashboard'}" class="nav-link">

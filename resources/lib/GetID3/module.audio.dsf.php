@@ -14,7 +14,7 @@
 //                                                            ///
 /////////////////////////////////////////////////////////////////
 
-getid3_lib::IncludeDependency(GETID3_INCLUDEPATH.'module.tag.id3v2.php', __FILE__, true);
+getid3_lib::IncludeDependency(GETID3_INCLUDEPATH . 'module.tag.id3v2.php', __FILE__, true);
 
 class getid3_dsf extends getid3_handler
 {
@@ -39,11 +39,11 @@ class getid3_dsf extends getid3_handler
         $magic = 'DSD ';
         if ($info['dsf']['dsd']['magic'] != $magic) {
             $this->error(
-                'Expecting "'.getid3_lib::PrintHexBytes(
+                'Expecting "' . getid3_lib::PrintHexBytes(
                     $magic
-                ).'" at offset '.$info['avdataoffset'].', found "'.getid3_lib::PrintHexBytes(
+                ) . '" at offset ' . $info['avdataoffset'] . ', found "' . getid3_lib::PrintHexBytes(
                     $info['dsf']['dsd']['magic']
-                ).'"'
+                ) . '"'
             );
             unset($info['fileformat']);
             unset($info['audio']);
@@ -63,9 +63,9 @@ class getid3_dsf extends getid3_handler
         $magic = 'fmt ';
         if ($info['dsf']['fmt']['magic'] != $magic) {
             $this->error(
-                'Expecting "'.getid3_lib::PrintHexBytes(
+                'Expecting "' . getid3_lib::PrintHexBytes(
                     $magic
-                ).'" at offset '.$headeroffset.', found "'.getid3_lib::PrintHexBytes($info['dsf']['fmt']['magic']).'"'
+                ) . '" at offset ' . $headeroffset . ', found "' . getid3_lib::PrintHexBytes($info['dsf']['fmt']['magic']) . '"'
             );
             return false;
         }
@@ -77,9 +77,9 @@ class getid3_dsf extends getid3_handler
         );  // we have already read the entire DSD chunk, plus 12 bytes of FMT. We now want to read the size of FMT, plus 12 bytes into the next chunk to get magic and size.
         if (strlen($dsfheader) != ($info['dsf']['dsd']['dsd_chunk_size'] + $info['dsf']['fmt']['fmt_chunk_size'] + 12)) {
             $this->error(
-                'Expecting '.($info['dsf']['dsd']['dsd_chunk_size'] + $info['dsf']['fmt']['fmt_chunk_size']).' bytes header, found '.strlen(
+                'Expecting ' . ($info['dsf']['dsd']['dsd_chunk_size'] + $info['dsf']['fmt']['fmt_chunk_size']) . ' bytes header, found ' . strlen(
                     $dsfheader
-                ).' bytes'
+                ) . ' bytes'
             );
             return false;
         }
@@ -110,9 +110,9 @@ class getid3_dsf extends getid3_handler
         $magic = 'data';
         if ($info['dsf']['data']['magic'] != $magic) {
             $this->error(
-                'Expecting "'.getid3_lib::PrintHexBytes(
+                'Expecting "' . getid3_lib::PrintHexBytes(
                     $magic
-                ).'" at offset '.$headeroffset.', found "'.getid3_lib::PrintHexBytes($info['dsf']['data']['magic']).'"'
+                ) . '" at offset ' . $headeroffset . ', found "' . getid3_lib::PrintHexBytes($info['dsf']['data']['magic']) . '"'
             );
             return false;
         }
@@ -141,7 +141,7 @@ class getid3_dsf extends getid3_handler
     }
 
     /**
-     * @param  int  $channel_type_id
+     * @param int $channel_type_id
      *
      * @return string
      */

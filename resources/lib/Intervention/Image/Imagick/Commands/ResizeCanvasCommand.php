@@ -12,7 +12,7 @@ class ResizeCanvasCommand extends AbstractCommand
     /**
      * Resizes image boundaries
      *
-     * @param  Image  $image
+     * @param Image $image
      * @return boolean
      */
     public function execute($image)

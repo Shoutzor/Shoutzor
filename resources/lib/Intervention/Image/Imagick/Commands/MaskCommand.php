@@ -11,7 +11,7 @@ class MaskCommand extends AbstractCommand
     /**
      * Applies an alpha mask to an image
      *
-     * @param  Image  $image
+     * @param Image $image
      * @return boolean
      */
     public function execute($image)

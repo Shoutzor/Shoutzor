@@ -14,7 +14,7 @@
 //                                                            ///
 /////////////////////////////////////////////////////////////////
 
-getid3_lib::IncludeDependency(GETID3_INCLUDEPATH.'module.audio-video.riff.php', __FILE__, true);
+getid3_lib::IncludeDependency(GETID3_INCLUDEPATH . 'module.audio-video.riff.php', __FILE__, true);
 
 class getid3_la extends getid3_handler
 {
@@ -37,9 +37,9 @@ class getid3_la extends getid3_handler
                 $info['audio']['dataformat'] = 'la';
                 $info['audio']['lossless'] = true;
 
-                $info['la']['version_major'] = (int) substr($rawdata, $offset + 2, 1);
-                $info['la']['version_minor'] = (int) substr($rawdata, $offset + 3, 1);
-                $info['la']['version'] = (float) $info['la']['version_major'] + ($info['la']['version_minor'] / 10);
+                $info['la']['version_major'] = (int)substr($rawdata, $offset + 2, 1);
+                $info['la']['version_minor'] = (int)substr($rawdata, $offset + 3, 1);
+                $info['la']['version'] = (float)$info['la']['version_major'] + ($info['la']['version_minor'] / 10);
                 $offset += 4;
 
                 $info['la']['uncompressed_size'] = getid3_lib::LittleEndian2Int(substr($rawdata, $offset, 4));
@@ -52,11 +52,11 @@ class getid3_la extends getid3_handler
                 $WAVEchunk = substr($rawdata, $offset, 4);
                 if ($WAVEchunk !== 'WAVE') {
                     $this->error(
-                        'Expected "WAVE" ('.getid3_lib::PrintHexBytes(
+                        'Expected "WAVE" (' . getid3_lib::PrintHexBytes(
                             'WAVE'
-                        ).') at offset '.$offset.', found "'.$WAVEchunk.'" ('.getid3_lib::PrintHexBytes(
+                        ) . ') at offset ' . $offset . ', found "' . $WAVEchunk . '" (' . getid3_lib::PrintHexBytes(
                             $WAVEchunk
-                        ).') instead.'
+                        ) . ') instead.'
                     );
                     return false;
                 }
@@ -79,11 +79,11 @@ class getid3_la extends getid3_handler
                 $fmt_chunk = substr($rawdata, $offset, 4);
                 if ($fmt_chunk !== 'fmt ') {
                     $this->error(
-                        'Expected "fmt " ('.getid3_lib::PrintHexBytes(
+                        'Expected "fmt " (' . getid3_lib::PrintHexBytes(
                             'fmt '
-                        ).') at offset '.$offset.', found "'.$fmt_chunk.'" ('.getid3_lib::PrintHexBytes(
+                        ) . ') at offset ' . $offset . ', found "' . $fmt_chunk . '" (' . getid3_lib::PrintHexBytes(
                             $fmt_chunk
-                        ).') instead.'
+                        ) . ') instead.'
                     );
                     return false;
                 }
@@ -120,9 +120,9 @@ class getid3_la extends getid3_handler
 
                 $info['la']['raw']['flags'] = getid3_lib::LittleEndian2Int(substr($rawdata, $offset, 1));
                 $offset += 1;
-                $info['la']['flags']['seekable'] = (bool) ($info['la']['raw']['flags'] & 0x01);
+                $info['la']['flags']['seekable'] = (bool)($info['la']['raw']['flags'] & 0x01);
                 if ($info['la']['version'] >= 0.4) {
-                    $info['la']['flags']['high_compression'] = (bool) ($info['la']['raw']['flags'] & 0x02);
+                    $info['la']['flags']['high_compression'] = (bool)($info['la']['raw']['flags'] & 0x02);
                 }
 
                 $info['la']['original_crc'] = getid3_lib::LittleEndian2Int(substr($rawdata, $offset, 4));
@@ -163,7 +163,7 @@ class getid3_la extends getid3_handler
 
                     if ($info['la']['footerstart'] > $info['filesize']) {
                         $this->warning(
-                            'FooterStart value points to offset '.$info['la']['footerstart'].' which is beyond end-of-file ('.$info['filesize'].')'
+                            'FooterStart value points to offset ' . $info['la']['footerstart'] . ' which is beyond end-of-file (' . $info['filesize'] . ')'
                         );
                         $info['la']['footerstart'] = $info['filesize'];
                     }
@@ -188,7 +188,7 @@ class getid3_la extends getid3_handler
                                 $this->fseek($info['la']['footerstart']);
                                 $RIFFdata .= $this->fread($info['avdataend'] - $info['la']['footerstart']);
                             }
-                            $RIFFdata = 'RIFF'.getid3_lib::LittleEndian2String(strlen($RIFFdata), 4, false).$RIFFdata;
+                            $RIFFdata = 'RIFF' . getid3_lib::LittleEndian2String(strlen($RIFFdata), 4, false) . $RIFFdata;
                             fwrite($RIFF_fp, $RIFFdata, strlen($RIFFdata));
                             fclose($RIFF_fp);
 
@@ -201,7 +201,7 @@ class getid3_la extends getid3_handler
                                 $info['riff'] = $getid3_temp->info['riff'];
                             } else {
                                 $this->warning(
-                                    'Error parsing RIFF portion of La file: '.implode($getid3_temp->info['error'])
+                                    'Error parsing RIFF portion of La file: ' . implode($getid3_temp->info['error'])
                                 );
                             }
                             unset($getid3_temp, $getid3_riff);
@@ -215,9 +215,9 @@ class getid3_la extends getid3_handler
                 $info['avdataoffset'] = $info['avdataoffset'] + $offset;
 
                 $info['la']['compression_ratio'] =
-                    (float) (($info['avdataend'] - $info['avdataoffset']) / $info['la']['uncompressed_size']);
+                    (float)(($info['avdataend'] - $info['avdataoffset']) / $info['la']['uncompressed_size']);
                 $info['playtime_seconds'] =
-                    (float) ($info['la']['samples'] / $info['la']['sample_rate']) / $info['la']['channels'];
+                    (float)($info['la']['samples'] / $info['la']['sample_rate']) / $info['la']['channels'];
                 if ($info['playtime_seconds'] == 0) {
                     $this->error('Corrupt LA file: playtime_seconds == zero');
                     return false;
@@ -232,15 +232,15 @@ class getid3_la extends getid3_handler
             default:
                 if (substr($rawdata, $offset, 2) == 'LA') {
                     $this->error(
-                        'This version of getID3() ['.$this->getid3->version().'] does not support LA version '.substr(
+                        'This version of getID3() [' . $this->getid3->version() . '] does not support LA version ' . substr(
                             $rawdata,
                             $offset + 2,
                             1
-                        ).'.'.substr(
+                        ) . '.' . substr(
                             $rawdata,
                             $offset + 3,
                             1
-                        ).' which this appears to be - check http://getid3.sourceforge.net for updates.'
+                        ) . ' which this appears to be - check http://getid3.sourceforge.net for updates.'
                     );
                 } else {
                     $this->error('Not a LA (Lossless-Audio) file');
@@ -250,8 +250,8 @@ class getid3_la extends getid3_handler
         }
 
         $info['audio']['channels'] = $info['la']['channels'];
-        $info['audio']['sample_rate'] = (int) $info['la']['sample_rate'];
-        $info['audio']['encoder'] = 'LA v'.$info['la']['version'];
+        $info['audio']['sample_rate'] = (int)$info['la']['sample_rate'];
+        $info['audio']['encoder'] = 'LA v' . $info['la']['version'];
 
         return true;
     }

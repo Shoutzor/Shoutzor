@@ -47,9 +47,9 @@ class getid3_gzip extends getid3_handler
 
         if ($info['php_memory_limit'] && ($info['filesize'] > $info['php_memory_limit'])) {
             $this->error(
-                'File is too large ('.number_format(
+                'File is too large (' . number_format(
                     $info['filesize']
-                ).' bytes) to read into memory (limit: '.number_format($info['php_memory_limit'] / 1048576).'MB)'
+                ) . ' bytes) to read into memory (limit: ' . number_format($info['php_memory_limit'] / 1048576) . 'MB)'
             );
             return false;
         }
@@ -65,7 +65,7 @@ class getid3_gzip extends getid3_handler
                 if (strlen($arr_members[$i]) == 0) {
                     continue;
                 }
-                $buf = "\x1F\x8B\x08".$arr_members[$i];
+                $buf = "\x1F\x8B\x08" . $arr_members[$i];
 
                 $attr = unpack($unpack_header, substr($buf, 0, $start_length));
                 if (!$this->get_os_type(ord($attr['os']))) {
@@ -91,7 +91,7 @@ class getid3_gzip extends getid3_handler
             }
             $thisInfo = &$info['gzip']['member_header'][++$idx];
 
-            $buff = "\x1F\x8B\x08".$arr_members[$i];
+            $buff = "\x1F\x8B\x08" . $arr_members[$i];
 
             $attr = unpack($unpack_header, substr($buff, 0, $start_length));
             $thisInfo['filemtime'] = getid3_lib::LittleEndian2Int($attr['mtime']);
@@ -102,10 +102,10 @@ class getid3_gzip extends getid3_handler
             $thisInfo['raw']['xflags'] = ord($attr['xflags']);
             $thisInfo['raw']['flags'] = ord($attr['flags']);
 
-            $thisInfo['flags']['crc16'] = (bool) ($thisInfo['raw']['flags'] & 0x02);
-            $thisInfo['flags']['extra'] = (bool) ($thisInfo['raw']['flags'] & 0x04);
-            $thisInfo['flags']['filename'] = (bool) ($thisInfo['raw']['flags'] & 0x08);
-            $thisInfo['flags']['comment'] = (bool) ($thisInfo['raw']['flags'] & 0x10);
+            $thisInfo['flags']['crc16'] = (bool)($thisInfo['raw']['flags'] & 0x02);
+            $thisInfo['flags']['extra'] = (bool)($thisInfo['raw']['flags'] & 0x04);
+            $thisInfo['flags']['filename'] = (bool)($thisInfo['raw']['flags'] & 0x08);
+            $thisInfo['flags']['comment'] = (bool)($thisInfo['raw']['flags'] & 0x10);
 
             $thisInfo['compression'] = $this->get_xflag_type($thisInfo['raw']['xflags']);
 
@@ -231,8 +231,8 @@ class getid3_gzip extends getid3_handler
                         case 'tar':
                             // view TAR-file info
                             if (file_exists(
-                                    GETID3_INCLUDEPATH.$determined_format['include']
-                                ) && include_once(GETID3_INCLUDEPATH.$determined_format['include'])) {
+                                    GETID3_INCLUDEPATH . $determined_format['include']
+                                ) && include_once(GETID3_INCLUDEPATH . $determined_format['include'])) {
                                 if (($temp_tar_filename = tempnam(GETID3_TEMP_DIR, 'getID3')) === false) {
                                     // can't find anywhere to create a temp file, abort
                                     $this->error('Unable to create temp file to parse TAR inside GZIP file');
@@ -273,7 +273,7 @@ class getid3_gzip extends getid3_handler
     /**
      * Converts the OS type.
      *
-     * @param  string  $key
+     * @param string $key
      *
      * @return string
      */
@@ -302,7 +302,7 @@ class getid3_gzip extends getid3_handler
     /**
      * Converts the eXtra FLags.
      *
-     * @param  string  $key
+     * @param string $key
      *
      * @return string
      */

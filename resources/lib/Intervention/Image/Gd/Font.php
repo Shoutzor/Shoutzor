@@ -11,9 +11,9 @@ class Font extends AbstractFont
     /**
      * Draws font to given image at given position
      *
-     * @param  Image  $image
-     * @param  int  $posx
-     * @param  int  $posy
+     * @param Image $image
+     * @param int $posx
+     * @param int $posy
      * @return void
      */
     public function applyToImage(Image $image, $posx = 0, $posy = 0)
@@ -31,7 +31,7 @@ class Font extends AbstractFont
                 $valign = is_null($this->valign) ? 'bottom' : strtolower($this->valign);
 
                 // correction on position depending on v/h alignment
-                switch ($align.'-'.$valign) {
+                switch ($align . '-' . $valign) {
 
                     case 'center-top':
                         $posx = $posx - round(($box[6] + $box[4]) / 2);

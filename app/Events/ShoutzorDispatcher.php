@@ -9,7 +9,7 @@ class ShoutzorDispatcher extends EventDispatcher
     /**
      * Get all of the listeners for a given event name.
      *
-     * @param  string|null  $eventName
+     * @param string|null $eventName
      * @return array
      */
     public function getListeners(string $eventName = null)

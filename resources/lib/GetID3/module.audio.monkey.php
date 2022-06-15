@@ -42,11 +42,11 @@ class getid3_monkey extends getid3_handler
         $magic = 'MAC ';
         if ($thisfile_monkeysaudio_raw['magic'] != $magic) {
             $this->error(
-                'Expecting "'.getid3_lib::PrintHexBytes(
+                'Expecting "' . getid3_lib::PrintHexBytes(
                     $magic
-                ).'" at offset '.$info['avdataoffset'].', found "'.getid3_lib::PrintHexBytes(
+                ) . '" at offset ' . $info['avdataoffset'] . ', found "' . getid3_lib::PrintHexBytes(
                     $thisfile_monkeysaudio_raw['magic']
-                ).'"'
+                ) . '"'
             );
             unset($info['fileformat']);
             return false;
@@ -123,12 +123,12 @@ class getid3_monkey extends getid3_handler
             $offset += 4;
         }
 
-        $thisfile_monkeysaudio['flags']['8-bit'] = (bool) ($thisfile_monkeysaudio_raw['nFormatFlags'] & 0x0001);
-        $thisfile_monkeysaudio['flags']['crc-32'] = (bool) ($thisfile_monkeysaudio_raw['nFormatFlags'] & 0x0002);
-        $thisfile_monkeysaudio['flags']['peak_level'] = (bool) ($thisfile_monkeysaudio_raw['nFormatFlags'] & 0x0004);
-        $thisfile_monkeysaudio['flags']['24-bit'] = (bool) ($thisfile_monkeysaudio_raw['nFormatFlags'] & 0x0008);
-        $thisfile_monkeysaudio['flags']['seek_elements'] = (bool) ($thisfile_monkeysaudio_raw['nFormatFlags'] & 0x0010);
-        $thisfile_monkeysaudio['flags']['no_wav_header'] = (bool) ($thisfile_monkeysaudio_raw['nFormatFlags'] & 0x0020);
+        $thisfile_monkeysaudio['flags']['8-bit'] = (bool)($thisfile_monkeysaudio_raw['nFormatFlags'] & 0x0001);
+        $thisfile_monkeysaudio['flags']['crc-32'] = (bool)($thisfile_monkeysaudio_raw['nFormatFlags'] & 0x0002);
+        $thisfile_monkeysaudio['flags']['peak_level'] = (bool)($thisfile_monkeysaudio_raw['nFormatFlags'] & 0x0004);
+        $thisfile_monkeysaudio['flags']['24-bit'] = (bool)($thisfile_monkeysaudio_raw['nFormatFlags'] & 0x0008);
+        $thisfile_monkeysaudio['flags']['seek_elements'] = (bool)($thisfile_monkeysaudio_raw['nFormatFlags'] & 0x0010);
+        $thisfile_monkeysaudio['flags']['no_wav_header'] = (bool)($thisfile_monkeysaudio_raw['nFormatFlags'] & 0x0020);
         $thisfile_monkeysaudio['version'] = $thisfile_monkeysaudio_raw['nVersion'] / 1000;
         $thisfile_monkeysaudio['compression'] =
             $this->MonkeyCompressionLevelNameLookup($thisfile_monkeysaudio_raw['nCompressionLevel']);
@@ -207,14 +207,14 @@ class getid3_monkey extends getid3_handler
         }
 
         $info['audio']['bits_per_sample'] = $thisfile_monkeysaudio['bits_per_sample'];
-        $info['audio']['encoder'] = 'MAC v'.number_format($thisfile_monkeysaudio['version'], 2);
-        $info['audio']['encoder_options'] = ucfirst($thisfile_monkeysaudio['compression']).' compression';
+        $info['audio']['encoder'] = 'MAC v' . number_format($thisfile_monkeysaudio['version'], 2);
+        $info['audio']['encoder_options'] = ucfirst($thisfile_monkeysaudio['compression']) . ' compression';
 
         return true;
     }
 
     /**
-     * @param  int  $compressionlevel
+     * @param int $compressionlevel
      *
      * @return string
      */
@@ -232,8 +232,8 @@ class getid3_monkey extends getid3_handler
     }
 
     /**
-     * @param  int  $versionid
-     * @param  int  $compressionlevel
+     * @param int $versionid
+     * @param int $compressionlevel
      *
      * @return int
      */

@@ -10,7 +10,7 @@ class ResizeCommand extends AbstractCommand
     /**
      * Resizes image dimensions
      *
-     * @param  Image  $image
+     * @param Image $image
      * @return boolean
      */
     public function execute($image)
@@ -41,15 +41,15 @@ class ResizeCommand extends AbstractCommand
     /**
      * Wrapper function for 'imagecopyresampled'
      *
-     * @param  Image  $image
-     * @param  int  $dst_x
-     * @param  int  $dst_y
-     * @param  int  $src_x
-     * @param  int  $src_y
-     * @param  int  $dst_w
-     * @param  int  $dst_h
-     * @param  int  $src_w
-     * @param  int  $src_h
+     * @param Image $image
+     * @param int $dst_x
+     * @param int $dst_y
+     * @param int $src_x
+     * @param int $src_y
+     * @param int $dst_w
+     * @param int $dst_h
+     * @param int $src_w
+     * @param int $src_h
      * @return boolean
      */
     protected function modify($image, $dst_x, $dst_y, $src_x, $src_y, $dst_w, $dst_h, $src_w, $src_h)

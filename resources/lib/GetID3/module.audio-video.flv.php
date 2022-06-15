@@ -105,18 +105,18 @@ class getid3_flv extends getid3_handler
 
         if ($info['flv']['header']['signature'] != self::magic) {
             $this->error(
-                'Expecting "'.getid3_lib::PrintHexBytes(
+                'Expecting "' . getid3_lib::PrintHexBytes(
                     self::magic
-                ).'" at offset '.$info['avdataoffset'].', found "'.getid3_lib::PrintHexBytes(
+                ) . '" at offset ' . $info['avdataoffset'] . ', found "' . getid3_lib::PrintHexBytes(
                     $info['flv']['header']['signature']
-                ).'"'
+                ) . '"'
             );
             unset($info['flv'], $info['fileformat']);
             return false;
         }
 
-        $info['flv']['header']['hasAudio'] = (bool) ($TypeFlags & 0x04);
-        $info['flv']['header']['hasVideo'] = (bool) ($TypeFlags & 0x01);
+        $info['flv']['header']['hasAudio'] = (bool)($TypeFlags & 0x04);
+        $info['flv']['header']['hasVideo'] = (bool)($TypeFlags & 0x01);
 
         $FrameSizeDataLength = getid3_lib::BigEndian2Int($this->fread(4));
         $FLVheaderFrameLength = 9;
@@ -366,7 +366,7 @@ class getid3_flv extends getid3_handler
     }
 
     /**
-     * @param  int  $id
+     * @param int $id
      *
      * @return string|false
      */
@@ -394,7 +394,7 @@ class getid3_flv extends getid3_handler
     }
 
     /**
-     * @param  int  $id
+     * @param int $id
      *
      * @return int|false
      */
@@ -405,7 +405,7 @@ class getid3_flv extends getid3_handler
     }
 
     /**
-     * @param  int  $id
+     * @param int $id
      *
      * @return int|false
      */
@@ -416,7 +416,7 @@ class getid3_flv extends getid3_handler
     }
 
     /**
-     * @param  int  $id
+     * @param int $id
      *
      * @return string|false
      */
@@ -447,7 +447,7 @@ class AMFStream
     public $pos;
 
     /**
-     * @param  string  $bytes
+     * @param string $bytes
      */
     public function __construct(&$bytes)
     {
@@ -532,7 +532,7 @@ class AMFStream
     }
 
     /**
-     * @param  int  $length
+     * @param int $length
      *
      * @return string
      */
@@ -592,7 +592,7 @@ class AMFReader
     public $stream;
 
     /**
-     * @param  AMFStream  $stream
+     * @param AMFStream $stream
      */
     public function __construct(AMFStream $stream)
     {
@@ -732,7 +732,7 @@ class AMFReader
 
         while ($key = $this->stream->readUTF()) {
             if (is_numeric($key)) {
-                $key = (int) $key;
+                $key = (int)$key;
             }
             $data[$key] = $this->readData();
         }
@@ -816,7 +816,7 @@ class AVCSequenceParameterSetReader
     public $height;
 
     /**
-     * @param  string  $sps
+     * @param string $sps
      */
     public function __construct($sps)
     {
@@ -879,17 +879,17 @@ class AVCSequenceParameterSetReader
     }
 
     /**
-     * @param  int  $bits
+     * @param int $bits
      */
     public function skipBits($bits)
     {
         $newBits = $this->currentBits + $bits;
-        $this->currentBytes += (int) floor($newBits / 8);
+        $this->currentBytes += (int)floor($newBits / 8);
         $this->currentBits = $newBits % 8;
     }
 
     /**
-     * @param  int  $bits
+     * @param int $bits
      *
      * @return int
      */

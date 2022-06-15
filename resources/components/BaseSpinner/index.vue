@@ -31,7 +31,7 @@ export default {
         }
     },
 
-    setup(props, { emit }) {
+    setup(props, {emit}) {
         props = reactive(props);
         return {
             classes: computed(() => ({
@@ -40,8 +40,7 @@ export default {
                 'spinner-border-sm': props.small && props.type === 'border',
                 'spinner-grow-sm': props.small && props.type === 'grow'
             })),
-            styles: computed(() => ({
-            }))
+            styles: computed(() => ({}))
         }
     },
 };

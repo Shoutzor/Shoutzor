@@ -35,11 +35,11 @@ class getid3_tiff extends getid3_handler
                 break;
             default:
                 $this->error(
-                    'Invalid TIFF byte order identifier ('.substr(
+                    'Invalid TIFF byte order identifier (' . substr(
                         $TIFFheader,
                         0,
                         2
-                    ).') at offset '.$info['avdataoffset']
+                    ) . ') at offset ' . $info['avdataoffset']
                 );
                 return false;
                 break;
@@ -148,7 +148,7 @@ class getid3_tiff extends getid3_handler
                     case 12: // DOUBLE Double precision (8-byte) IEEE format
                     default:
                         $this->warning(
-                            'unhandled IFD field type '.$CurrentIFD['fields'][$i]['raw']['type'].' for IFD entry '.$i
+                            'unhandled IFD field type ' . $CurrentIFD['fields'][$i]['raw']['type'] . ' for IFD entry ' . $i
                         );
                         break;
                 }
@@ -199,7 +199,7 @@ class getid3_tiff extends getid3_handler
                         $xmpkey = (isset($info['tiff']['XMP']) ? count($info['tiff']['XMP']) : 0);
                         $info['tiff']['XMP'][$xmpkey]['raw'] = $this->fread($fieldarray['raw']['length']);
                         if (substr($info['tiff']['XMP'][$xmpkey]['raw'], 0, strlen($XMPmagic)) != $XMPmagic) {
-                            $this->warning('did not find expected XMP data at offset '.$fieldarray['offset']);
+                            $this->warning('did not find expected XMP data at offset ' . $fieldarray['offset']);
                             unset($info['tiff']['XMP'][$xmpkey]['raw']);
                         }
                         break;
@@ -262,8 +262,8 @@ class getid3_tiff extends getid3_handler
     }
 
     /**
-     * @param  string  $bytestring
-     * @param  string  $byteorder
+     * @param string $bytestring
+     * @param string $byteorder
      *
      * @return int|float|false
      */
@@ -278,7 +278,7 @@ class getid3_tiff extends getid3_handler
     }
 
     /**
-     * @param  int  $id
+     * @param int $id
      *
      * @return string
      */
@@ -653,11 +653,11 @@ class getid3_tiff extends getid3_handler
                 // Indicates an identifier assigned uniquely to each image.
             );
         }
-        return (isset($TIFFcommentName[$id]) ? $TIFFcommentName[$id] : 'unknown/invalid ('.$id.')');
+        return (isset($TIFFcommentName[$id]) ? $TIFFcommentName[$id] : 'unknown/invalid (' . $id . ')');
     }
 
     /**
-     * @param  int  $id
+     * @param int $id
      *
      * @return string
      */
@@ -692,7 +692,7 @@ class getid3_tiff extends getid3_handler
                 0x879B => 'JBIG2',
             );
         }
-        return (isset($TIFFcompressionMethod[$id]) ? $TIFFcompressionMethod[$id] : 'unknown/invalid ('.$id.')');
+        return (isset($TIFFcompressionMethod[$id]) ? $TIFFcompressionMethod[$id] : 'unknown/invalid (' . $id . ')');
     }
 
 }

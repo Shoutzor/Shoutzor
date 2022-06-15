@@ -92,9 +92,9 @@ class getID3_cached_dbm extends getID3
     /**
      * constructor - see top of this file for cache type and cache_options
      *
-     * @param  string  $cache_type
-     * @param  string  $dbm_filename
-     * @param  string  $lock_filename
+     * @param string $cache_type
+     * @param string $dbm_filename
+     * @param string $lock_filename
      *
      * @throws Exception
      * @throws getid3_exception
@@ -109,19 +109,19 @@ class getID3_cached_dbm extends getID3
 
         // Check for specific dba driver
         if (!function_exists('dba_handlers') || !in_array($cache_type, dba_handlers())) {
-            throw new Exception('PHP is not compiled --with '.$cache_type.' support, required to use DBM style cache.');
+            throw new Exception('PHP is not compiled --with ' . $cache_type . ' support, required to use DBM style cache.');
         }
 
         // Create lock file if needed
         if (!file_exists($lock_filename)) {
             if (!touch($lock_filename)) {
-                throw new Exception('failed to create lock file: '.$lock_filename);
+                throw new Exception('failed to create lock file: ' . $lock_filename);
             }
         }
 
         // Open lock file for writing
         if (!is_writeable($lock_filename)) {
-            throw new Exception('lock file: '.$lock_filename.' is not writable');
+            throw new Exception('lock file: ' . $lock_filename . ' is not writable');
         }
         $this->lock = fopen($lock_filename, 'w');
 
@@ -131,7 +131,7 @@ class getID3_cached_dbm extends getID3
         // Create dbm-file if needed
         if (!file_exists($dbm_filename)) {
             if (!touch($dbm_filename)) {
-                throw new Exception('failed to create dbm file: '.$dbm_filename);
+                throw new Exception('failed to create dbm file: ' . $dbm_filename);
             }
         }
 
@@ -143,7 +143,7 @@ class getID3_cached_dbm extends getID3
             $this->dba = dba_open($dbm_filename, 'n', $cache_type);
 
             if (!$this->dba) {
-                throw new Exception('failed to create dbm file: '.$dbm_filename);
+                throw new Exception('failed to create dbm file: ' . $dbm_filename);
             }
 
             // Insert getID3 version number
@@ -180,7 +180,7 @@ class getID3_cached_dbm extends getID3
         $this->dba = dba_open($this->dbm_filename, 'n', $this->cache_type);
 
         if (!$this->dba) {
-            throw new Exception('failed to clear cache/recreate dbm file: '.$this->dbm_filename);
+            throw new Exception('failed to clear cache/recreate dbm file: ' . $this->dbm_filename);
         }
 
         // Insert getID3 version number
@@ -209,9 +209,9 @@ class getID3_cached_dbm extends getID3
     /**
      * clear cache
      *
-     * @param  string  $filename
-     * @param  int  $filesize
-     * @param  string  $original_filename
+     * @param string $filename
+     * @param int $filesize
+     * @param string $original_filename
      *
      * @return mixed
      */
@@ -221,7 +221,7 @@ class getID3_cached_dbm extends getID3
         if (file_exists($filename)) {
 
             // Calc key     filename::mod_time::size    - should be unique
-            $key = $filename.'::'.filemtime($filename).'::'.filesize($filename);
+            $key = $filename . '::' . filemtime($filename) . '::' . filesize($filename);
 
             // Loopup key
             $result = dba_fetch($key, $this->dba);

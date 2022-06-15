@@ -17,12 +17,12 @@ export default {
 
     computed: {
         votes: () => MediaVote.query()
-                              .orderBy('count', 'desc')
-                              .with(["media.artists"])
-                              .limit(10)
-                              .get(),
+            .orderBy('count', 'desc')
+            .with(["media.artists"])
+            .limit(10)
+            .get(),
 
-        totalVotes: function() {
+        totalVotes: function () {
             return this.votes.reduce((total, vote) => {
                 return total + vote.count
             }, 0)

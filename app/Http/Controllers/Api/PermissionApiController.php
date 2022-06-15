@@ -14,7 +14,7 @@ class PermissionApiController extends Controller
     /**
      * Returns a single or all permissions
      *
-     * @param  int|null  $id
+     * @param int|null $id
      * @return JsonResponse an array of permissions
      */
     public function get(int $id = null)
@@ -38,9 +38,9 @@ class PermissionApiController extends Controller
      * Role will return only the permissions inherited from roles
      * Direct will return only the permissions directly assigned to the user
      *
-     * @param  Request  $request
-     * @param  int|null  $id
-     * @param  string  $type
+     * @param Request $request
+     * @param int|null $id
+     * @param string $type
      * @return JsonResponse an array of permissions
      */
     public function user(Request $request, string $uuid = null, string $type = "all")
@@ -50,7 +50,7 @@ class PermissionApiController extends Controller
             $user = User::find($uuid);
 
             if (!$user) {
-                return response()->json(['message' => 'No user with ID '.$uuid.' could be found'], 404);
+                return response()->json(['message' => 'No user with ID ' . $uuid . ' could be found'], 404);
             }
         } else {
             $user = $request->user();

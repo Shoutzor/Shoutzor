@@ -10,7 +10,7 @@ class TextCommand extends AbstractCommand
     /**
      * Write text on given image
      *
-     * @param  Image  $image
+     * @param Image $image
      * @return boolean
      */
     public function execute($image)

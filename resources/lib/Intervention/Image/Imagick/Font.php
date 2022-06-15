@@ -13,9 +13,9 @@ class Font extends AbstractFont
     /**
      * Draws font to given image at given position
      *
-     * @param  Image  $image
-     * @param  int  $posx
-     * @param  int  $posy
+     * @param Image $image
+     * @param int $posx
+     * @param int $posy
      * @return void
      */
     public function applyToImage(Image $image, $posx = 0, $posy = 0)

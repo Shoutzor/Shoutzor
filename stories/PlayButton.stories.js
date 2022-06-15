@@ -1,26 +1,26 @@
 import PlayButton from '@components/PlayButton';
 
 export default {
-  title: 'player/PlayButton',
-  component: PlayButton,
-  argTypes: {
-      onClick: {},
-      state: {
-          name: 'Button state',
-          control: { type: 'select', required: true },
-          options: ['stopped', 'playing', 'loading'],
-          defaultValue: 'stopped',
-          description: 'The state of the playbutton'
-      }
-  },
+    title: 'player/PlayButton',
+    component: PlayButton,
+    argTypes: {
+        onClick: {},
+        state: {
+            name: 'Button state',
+            control: {type: 'select', required: true},
+            options: ['stopped', 'playing', 'loading'],
+            defaultValue: 'stopped',
+            description: 'The state of the playbutton'
+        }
+    },
 };
 
 const Template = (args) => ({
-  components: { PlayButton },
-  setup() {
-    return { args };
-  },
-  template: '<play-button v-bind="args" />',
+    components: {PlayButton},
+    setup() {
+        return {args};
+    },
+    template: '<play-button v-bind="args" />',
 });
 
 export const Loading = Template.bind({});

@@ -20,7 +20,8 @@ class AlbumFactory extends Factory
         ?Collection $afterMaking = null,
         ?Collection $afterCreating = null,
         $connection = null
-    ) {
+    )
+    {
         parent::__construct($count, $states, $has, $for, $afterMaking, $afterCreating, $connection);
 
         $this->albumImageLocation = storage_path('app/public/album');

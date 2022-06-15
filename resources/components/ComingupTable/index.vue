@@ -69,9 +69,9 @@ import BaseTable from "@components/BaseTable";
 import ArtistList from "@components/ArtistList";
 import BeautifiedTime from "@components/BeautifiedTime";
 
-import { useQuery } from "@vue/apollo-composable";
+import {useQuery} from "@vue/apollo-composable";
 import gql from "graphql-tag";
-import { computed } from "vue";
+import {computed} from "vue";
 
 const REQUESTS_QUERY = gql`
     query getRequests {
@@ -108,7 +108,7 @@ export default {
         BeautifiedTime
     },
     setup() {
-        const { result, loading, error } = useQuery(REQUESTS_QUERY);
+        const {result, loading, error} = useQuery(REQUESTS_QUERY);
 
         const queue = computed(() => result?.value?.requests?.data ?? []);
 

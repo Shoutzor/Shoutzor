@@ -89,7 +89,7 @@ export default {
 
     emits: ['cancelClick', 'confirmClick'],
 
-    setup(props, { emit }) {
+    setup(props, {emit}) {
         props = reactive(props);
 
         return {

@@ -17,7 +17,7 @@
 class getid3_id3v1 extends getid3_handler
 {
     /**
-     * @param  string  $OriginalGenre
+     * @param string $OriginalGenre
      *
      * @return string|false
      */
@@ -30,8 +30,8 @@ class getid3_id3v1 extends getid3_handler
     }
 
     /**
-     * @param  string  $genre
-     * @param  bool  $allowSCMPXextended
+     * @param string $genre
+     * @param bool $allowSCMPXextended
      *
      * @return string|false
      */
@@ -48,7 +48,7 @@ class getid3_id3v1 extends getid3_handler
     }
 
     /**
-     * @param  bool  $allowSCMPXextended
+     * @param bool $allowSCMPXextended
      *
      * @return string[]
      */
@@ -238,8 +238,8 @@ class getid3_id3v1 extends getid3_handler
     }
 
     /**
-     * @param  string  $genreid
-     * @param  bool  $allowSCMPXextended
+     * @param string $genreid
+     * @param bool $allowSCMPXextended
      *
      * @return string|false
      */
@@ -269,7 +269,7 @@ class getid3_id3v1 extends getid3_handler
 
         if (!getid3_lib::intValueSupported($info['filesize'])) {
             $this->warning(
-                'Unable to check for ID3v1 because file is larger than '.round(PHP_INT_MAX / 1073741824).'GB'
+                'Unable to check for ID3v1 because file is larger than ' . round(PHP_INT_MAX / 1073741824) . 'GB'
             );
             return false;
         }
@@ -383,7 +383,7 @@ class getid3_id3v1 extends getid3_handler
     }
 
     /**
-     * @param  string  $str
+     * @param string $str
      *
      * @return string
      */
@@ -393,13 +393,13 @@ class getid3_id3v1 extends getid3_handler
     }
 
     /**
-     * @param  string  $title
-     * @param  string  $artist
-     * @param  string  $album
-     * @param  string  $year
-     * @param  int  $genreid
-     * @param  string  $comment
-     * @param  int|string  $track
+     * @param string $title
+     * @param string $artist
+     * @param string $album
+     * @param string $year
+     * @param int $genreid
+     * @param string $comment
+     * @param int|string $track
      *
      * @return string
      */
@@ -414,7 +414,7 @@ class getid3_id3v1 extends getid3_handler
             $ID3v1Tag .= str_pad(trim(substr($comment, 0, 28)), 28, "\x00", STR_PAD_RIGHT);
             $ID3v1Tag .= "\x00";
             if (gettype($track) == 'string') {
-                $track = (int) $track;
+                $track = (int)$track;
             }
             $ID3v1Tag .= chr($track);
         } else {

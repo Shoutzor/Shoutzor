@@ -25,7 +25,7 @@ import StatusIcon from "@components/StatusIcon";
 
 export default {
     name: 'health-status',
-    components: { StatusIcon },
+    components: {StatusIcon},
     props: {
         healthy: {
             type: Boolean,

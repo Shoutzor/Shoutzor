@@ -11,7 +11,7 @@ class PolygonCommand extends AbstractCommand
     /**
      * Draw a polygon on given image
      *
-     * @param  image  $image
+     * @param image $image
      * @return boolean
      */
     public function execute($image)

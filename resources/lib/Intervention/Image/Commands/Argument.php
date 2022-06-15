@@ -27,8 +27,8 @@ class Argument
     /**
      * Creates new instance from given command and key
      *
-     * @param  AbstractCommand  $command
-     * @param  int  $key
+     * @param AbstractCommand $command
+     * @param int $key
      */
     public function __construct(AbstractCommand $command, $key = 0)
     {
@@ -60,7 +60,7 @@ class Argument
     public function getCommandName()
     {
         preg_match("/\\\\([\w]+)Command$/", get_class($this->command), $matches);
-        return isset($matches[1]) ? lcfirst($matches[1]).'()' : 'Method';
+        return isset($matches[1]) ? lcfirst($matches[1]) . '()' : 'Method';
     }
 
     /**
@@ -89,7 +89,7 @@ class Argument
     /**
      * Returns value of current argument
      *
-     * @param  mixed  $default
+     * @param mixed $default
      * @return mixed
      */
     public function value($default = null)
@@ -171,7 +171,7 @@ class Argument
     /**
      * Checks if value is "PHP" integer (120 but also 120.0)
      *
-     * @param  mixed  $value
+     * @param mixed $value
      * @return boolean
      */
     private function isDigit($value)

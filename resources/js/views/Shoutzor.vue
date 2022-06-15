@@ -1,16 +1,16 @@
 <template>
-    <the-header id="header" :isAuthenticated="false" />
+    <the-header id="header" :isAuthenticated="false"/>
 
     <div id="wrapper" class="d-flex flex-nowrap">
-      <the-menu :isAuthenticated="false" class="flex-column flex-shrink-0 p-3" />
+        <the-menu :isAuthenticated="false" class="flex-column flex-shrink-0 p-3"/>
 
-      <main id="main-content" class="d-flex flex-column flex-grow-1">
-          <perfect-scrollbar ref="scroll">
-              <div class="container">
-                  <router-view />
-              </div>
-          </perfect-scrollbar>
-      </main>
+        <main id="main-content" class="d-flex flex-column flex-grow-1">
+            <perfect-scrollbar ref="scroll">
+                <div class="container">
+                    <router-view/>
+                </div>
+            </perfect-scrollbar>
+        </main>
     </div>
 
     <media-player id="media-player" :volume="100" :playerStatus="'stopped'"/>
@@ -24,13 +24,13 @@ import MediaPlayer from '@components/MediaPlayer';
 import UploadManager from "@components/UploadManager";
 
 export default {
-  name: "Shoutzor",
-  components: {
-      TheHeader,
-      TheMenu,
-      MediaPlayer,
-      UploadManager
-  }
+    name: "Shoutzor",
+    components: {
+        TheHeader,
+        TheMenu,
+        MediaPlayer,
+        UploadManager
+    }
 }
 </script>
 

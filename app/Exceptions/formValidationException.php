@@ -17,9 +17,9 @@ class formValidationException extends Exception
     private array $errors;
 
     /**
-     * @param  formValidationFieldError[]  $errors
-     * @param  int  $code
-     * @param  Throwable|null  $previous
+     * @param formValidationFieldError[] $errors
+     * @param int $code
+     * @param Throwable|null $previous
      */
     public function __construct(array $errors, int $code = 0, Throwable $previous = null)
     {
@@ -31,7 +31,8 @@ class formValidationException extends Exception
      * Returns the fields that have failed validation
      * @return formValidationFieldError[]
      */
-    public function getErrors(): array {
+    public function getErrors(): array
+    {
         return $this->errors;
     }
 }

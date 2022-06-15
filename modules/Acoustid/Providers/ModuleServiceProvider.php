@@ -18,7 +18,7 @@ class ModuleServiceProvider extends ServiceProvider
         $this->loadTranslationsFrom(module_path('acoustid', 'Resources/Lang', 'app'), 'acoustid');
         $this->loadViewsFrom(module_path('acoustid', 'Resources/Views', 'app'), 'acoustid');
         $this->loadMigrationsFrom(module_path('acoustid', 'Database/Migrations', 'app'));
-        if(!$this->app->configurationIsCached()) {
+        if (!$this->app->configurationIsCached()) {
             $this->loadConfigsFrom(module_path('acoustid', 'Config', 'app'));
         }
         $this->loadFactoriesFrom(module_path('acoustid', 'Database/Factories', 'app'));
@@ -45,6 +45,6 @@ class ModuleServiceProvider extends ServiceProvider
      */
     protected function registerConfig()
     {
-        $this->publishes([__DIR__.'/config/config.php' => config_path('shoutzor_acoustid.php')], 'config');
+        $this->publishes([__DIR__ . '/config/config.php' => config_path('shoutzor_acoustid.php')], 'config');
     }
 }

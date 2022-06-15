@@ -1,8 +1,8 @@
 <template>
     <div class="nowplaying">
         <div class="track-background">
-            <img v-if="error || loading || !request.media?.image" class="album-image" :src="defaultAlbumImage" />
-            <img v-else class="album-image" :src="request.media.image" />
+            <img v-if="error || loading || !request.media?.image" class="album-image" :src="defaultAlbumImage"/>
+            <img v-else class="album-image" :src="request.media.image"/>
             <div class="album-overlay"></div>
         </div>
         <div class="track-content card card-aside">
@@ -11,8 +11,9 @@
             </div>
             <template v-else>
                 <div v-if="loading" class="album-image card-aside-column placeholder"></div>
-                <img v-else-if="error || !request.media?.image" class="album-image card-aside-column" :src="defaultAlbumImage" />
-                <img v-else alt="album image" class="album-image card-aside-column" :src="request.media.image" />
+                <img v-else-if="error || !request.media?.image" class="album-image card-aside-column"
+                     :src="defaultAlbumImage"/>
+                <img v-else alt="album image" class="album-image card-aside-column" :src="request.media.image"/>
 
                 <div class="track-info card-body d-flex flex-column mt-auto">
                     <template v-if="loading">
@@ -47,7 +48,7 @@ import gql from "graphql-tag";
 import {useQuery} from "@vue/apollo-composable";
 import {computed} from "vue";
 
-import { defaultAlbumImage } from "@js/config";
+import {defaultAlbumImage} from "@js/config";
 
 const LASTPLAYED_QUERY = gql`
     query getLastPlayed {
@@ -86,7 +87,7 @@ export default {
         }
     },
     setup() {
-        const { result, loading, error } = useQuery(LASTPLAYED_QUERY);
+        const {result, loading, error} = useQuery(LASTPLAYED_QUERY);
 
         const request = computed(() => result?.value?.requests?.data[0] ?? {});
 

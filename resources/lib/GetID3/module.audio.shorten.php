@@ -29,11 +29,11 @@ class getid3_shorten extends getid3_handler
         $magic = 'ajkg';
         if (substr($ShortenHeader, 0, 4) != $magic) {
             $this->error(
-                'Expecting "'.getid3_lib::PrintHexBytes(
+                'Expecting "' . getid3_lib::PrintHexBytes(
                     $magic
-                ).'" at offset '.$info['avdataoffset'].', found "'.getid3_lib::PrintHexBytes(
+                ) . '" at offset ' . $info['avdataoffset'] . ', found "' . getid3_lib::PrintHexBytes(
                     substr($ShortenHeader, 0, 4)
-                ).'"'
+                ) . '"'
             );
             return false;
         }
@@ -56,11 +56,11 @@ class getid3_shorten extends getid3_handler
             if ($SeekTableMagic != $magic) {
 
                 $this->error(
-                    'Expecting "'.getid3_lib::PrintHexBytes(
+                    'Expecting "' . getid3_lib::PrintHexBytes(
                         $magic
-                    ).'" at offset '.$info['shn']['seektable']['offset'].', found "'.getid3_lib::PrintHexBytes(
+                    ) . '" at offset ' . $info['shn']['seektable']['offset'] . ', found "' . getid3_lib::PrintHexBytes(
                         $SeekTableMagic
-                    ).'"'
+                    ) . '"'
                 );
                 return false;
 
@@ -138,13 +138,13 @@ class getid3_shorten extends getid3_handler
 
             $RequiredFiles = array('shorten.exe', 'cygwin1.dll', 'head.exe');
             foreach ($RequiredFiles as $required_file) {
-                if (!is_readable(GETID3_HELPERAPPSDIR.$required_file)) {
-                    $this->error(GETID3_HELPERAPPSDIR.$required_file.' does not exist');
+                if (!is_readable(GETID3_HELPERAPPSDIR . $required_file)) {
+                    $this->error(GETID3_HELPERAPPSDIR . $required_file . ' does not exist');
                     return false;
                 }
             }
             $commandline =
-                GETID3_HELPERAPPSDIR.'shorten.exe -x "'.$info['filenamepath'].'" - | '.GETID3_HELPERAPPSDIR.'head.exe -c 64';
+                GETID3_HELPERAPPSDIR . 'shorten.exe -x "' . $info['filenamepath'] . '" - | ' . GETID3_HELPERAPPSDIR . 'head.exe -c 64';
             $commandline = str_replace('/', '\\', $commandline);
 
         } else {
@@ -158,9 +158,9 @@ class getid3_shorten extends getid3_handler
                 return false;
             }
             $commandline =
-                (file_exists('/usr/local/bin/shorten') ? '/usr/local/bin/' : '').'shorten -x '.escapeshellarg(
+                (file_exists('/usr/local/bin/shorten') ? '/usr/local/bin/' : '') . 'shorten -x ' . escapeshellarg(
                     $info['filenamepath']
-                ).' - | head -c 64';
+                ) . ' - | head -c 64';
 
         }
 
@@ -168,7 +168,7 @@ class getid3_shorten extends getid3_handler
 
         if (!empty($output) && (substr($output, 12, 4) == 'fmt ')) {
 
-            getid3_lib::IncludeDependency(GETID3_INCLUDEPATH.'module.audio-video.riff.php', __FILE__, true);
+            getid3_lib::IncludeDependency(GETID3_INCLUDEPATH . 'module.audio-video.riff.php', __FILE__, true);
 
             $fmt_size = getid3_lib::LittleEndian2Int(substr($output, 16, 4));
             $DecodedWAVFORMATEX = getid3_riff::parseWAVEFORMATex(substr($output, 20, $fmt_size));

@@ -9,7 +9,7 @@ class WidenCommand extends ResizeCommand
     /**
      * Resize image proportionally to given width
      *
-     * @param  Image  $image
+     * @param Image $image
      * @return boolean
      */
     public function execute($image)

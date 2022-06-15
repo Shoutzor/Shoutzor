@@ -14,7 +14,7 @@
 //                                                            ///
 /////////////////////////////////////////////////////////////////
 
-getid3_lib::IncludeDependency(GETID3_INCLUDEPATH.'module.audio-video.riff.php', __FILE__, true);
+getid3_lib::IncludeDependency(GETID3_INCLUDEPATH . 'module.audio-video.riff.php', __FILE__, true);
 
 class getid3_real extends getid3_handler
 {
@@ -36,7 +36,7 @@ class getid3_real extends getid3_handler
             $ChunkName = substr($ChunkData, 0, 4);
             $ChunkSize = getid3_lib::BigEndian2Int(substr($ChunkData, 4, 4));
 
-            if ($ChunkName == '.ra'."\xFD") {
+            if ($ChunkName == '.ra' . "\xFD") {
                 $ChunkData .= $this->fread($ChunkSize - 8);
                 if ($this->ParseOldRAheader(substr($ChunkData, 0, 128), $info['real']['old_ra_header'])) {
                     $info['audio']['dataformat'] = 'real';
@@ -78,7 +78,7 @@ class getid3_real extends getid3_handler
             $thisfile_real_chunks_currentchunk['length'] = $ChunkSize;
             if (($thisfile_real_chunks_currentchunk['offset'] + $thisfile_real_chunks_currentchunk['length']) > $info['avdataend']) {
                 $this->warning(
-                    'Chunk "'.$thisfile_real_chunks_currentchunk['name'].'" at offset '.$thisfile_real_chunks_currentchunk['offset'].' claims to be '.$thisfile_real_chunks_currentchunk['length'].' bytes long, which is beyond end of file'
+                    'Chunk "' . $thisfile_real_chunks_currentchunk['name'] . '" at offset ' . $thisfile_real_chunks_currentchunk['offset'] . ' claims to be ' . $thisfile_real_chunks_currentchunk['length'] . ' bytes long, which is beyond end of file'
                 );
                 return false;
             }
@@ -162,11 +162,11 @@ class getid3_real extends getid3_handler
                             $info['bitrate'] += $thisfile_real_chunks_currentchunk['avg_bit_rate'];
                         }
                         $thisfile_real_chunks_currentchunk['flags']['save_enabled'] =
-                            (bool) ($thisfile_real_chunks_currentchunk['flags_raw'] & 0x0001);
+                            (bool)($thisfile_real_chunks_currentchunk['flags_raw'] & 0x0001);
                         $thisfile_real_chunks_currentchunk['flags']['perfect_play'] =
-                            (bool) ($thisfile_real_chunks_currentchunk['flags_raw'] & 0x0002);
+                            (bool)($thisfile_real_chunks_currentchunk['flags_raw'] & 0x0002);
                         $thisfile_real_chunks_currentchunk['flags']['live_broadcast'] =
-                            (bool) ($thisfile_real_chunks_currentchunk['flags_raw'] & 0x0004);
+                            (bool)($thisfile_real_chunks_currentchunk['flags_raw'] & 0x0004);
                     }
                     break;
 
@@ -267,7 +267,7 @@ class getid3_real extends getid3_handler
                                 $info['video']['resolution_x'] = $thisfile_real_chunks_currentchunk_videoinfo['width'];
                                 $info['video']['resolution_y'] = $thisfile_real_chunks_currentchunk_videoinfo['height'];
                                 $info['video']['frame_rate'] =
-                                    (float) $thisfile_real_chunks_currentchunk_videoinfo['frames_per_second'];
+                                    (float)$thisfile_real_chunks_currentchunk_videoinfo['frames_per_second'];
                                 $info['video']['codec'] = $thisfile_real_chunks_currentchunk_videoinfo['codec'];
                                 $info['video']['bits_per_sample'] =
                                     $thisfile_real_chunks_currentchunk_videoinfo['bits_per_sample'];
@@ -366,7 +366,7 @@ class getid3_real extends getid3_handler
                                     $info['video']['bitrate_mode'] = 'cbr';
                                     $info['video']['dataformat'] = 'real';
                                     $info['video']['lossless'] = false;
-                                    $info['video']['pixel_aspect_ratio'] = (float) 1;
+                                    $info['video']['pixel_aspect_ratio'] = (float)1;
                                     break;
 
                                 case 'audio/x-ralf-mpeg4-generic':
@@ -392,28 +392,28 @@ class getid3_real extends getid3_handler
                             getid3_lib::BigEndian2Int(substr($ChunkData, $offset, 2));
                         $offset += 2;
                         $thisfile_real_chunks_currentchunk['title'] =
-                            (string) substr($ChunkData, $offset, $thisfile_real_chunks_currentchunk['title_len']);
+                            (string)substr($ChunkData, $offset, $thisfile_real_chunks_currentchunk['title_len']);
                         $offset += $thisfile_real_chunks_currentchunk['title_len'];
 
                         $thisfile_real_chunks_currentchunk['artist_len'] =
                             getid3_lib::BigEndian2Int(substr($ChunkData, $offset, 2));
                         $offset += 2;
                         $thisfile_real_chunks_currentchunk['artist'] =
-                            (string) substr($ChunkData, $offset, $thisfile_real_chunks_currentchunk['artist_len']);
+                            (string)substr($ChunkData, $offset, $thisfile_real_chunks_currentchunk['artist_len']);
                         $offset += $thisfile_real_chunks_currentchunk['artist_len'];
 
                         $thisfile_real_chunks_currentchunk['copyright_len'] =
                             getid3_lib::BigEndian2Int(substr($ChunkData, $offset, 2));
                         $offset += 2;
                         $thisfile_real_chunks_currentchunk['copyright'] =
-                            (string) substr($ChunkData, $offset, $thisfile_real_chunks_currentchunk['copyright_len']);
+                            (string)substr($ChunkData, $offset, $thisfile_real_chunks_currentchunk['copyright_len']);
                         $offset += $thisfile_real_chunks_currentchunk['copyright_len'];
 
                         $thisfile_real_chunks_currentchunk['comment_len'] =
                             getid3_lib::BigEndian2Int(substr($ChunkData, $offset, 2));
                         $offset += 2;
                         $thisfile_real_chunks_currentchunk['comment'] =
-                            (string) substr($ChunkData, $offset, $thisfile_real_chunks_currentchunk['comment_len']);
+                            (string)substr($ChunkData, $offset, $thisfile_real_chunks_currentchunk['comment_len']);
                         $offset += $thisfile_real_chunks_currentchunk['comment_len'];
 
                         $commentkeystocopy = array(
@@ -462,7 +462,7 @@ class getid3_real extends getid3_handler
 
                 default:
                     $this->warning(
-                        'Unhandled RealMedia chunk "'.$ChunkName.'" at offset '.$thisfile_real_chunks_currentchunk['offset']
+                        'Unhandled RealMedia chunk "' . $ChunkName . '" at offset ' . $thisfile_real_chunks_currentchunk['offset']
                     );
                     break;
             }
@@ -480,8 +480,8 @@ class getid3_real extends getid3_handler
     }
 
     /**
-     * @param  string  $OldRAheaderData
-     * @param  array  $ParsedArray
+     * @param string $OldRAheaderData
+     * @param array $ParsedArray
      *
      * @return bool
      */
@@ -491,7 +491,7 @@ class getid3_real extends getid3_handler
 
         $ParsedArray = array();
         $ParsedArray['magic'] = substr($OldRAheaderData, 0, 4);
-        if ($ParsedArray['magic'] != '.ra'."\xFD") {
+        if ($ParsedArray['magic'] != '.ra' . "\xFD") {
             return false;
         }
         $ParsedArray['version1'] = getid3_lib::BigEndian2Int(substr($OldRAheaderData, 4, 2));
@@ -609,8 +609,8 @@ class getid3_real extends getid3_handler
     }
 
     /**
-     * @param  string  $fourcc
-     * @param  int  $bitrate
+     * @param string $fourcc
+     * @param int $bitrate
      *
      * @return string
      */

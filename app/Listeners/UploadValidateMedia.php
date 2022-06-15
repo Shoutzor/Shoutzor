@@ -18,7 +18,7 @@ class UploadValidateMedia
     /**
      * Handle the event.
      *
-     * @param  UploadProcessingEvent  $event
+     * @param UploadProcessingEvent $event
      * @return void
      */
     public function handle(UploadProcessingEvent $event)

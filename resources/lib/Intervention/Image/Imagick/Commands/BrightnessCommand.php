@@ -10,7 +10,7 @@ class BrightnessCommand extends AbstractCommand
     /**
      * Changes image brightness
      *
-     * @param  Image  $image
+     * @param Image $image
      * @return boolean
      */
     public function execute($image)

@@ -9,7 +9,7 @@ class HeightenCommand extends ResizeCommand
     /**
      * Resize image proportionally to given height
      *
-     * @param  Image  $image
+     * @param Image $image
      * @return boolean
      */
     public function execute($image)
