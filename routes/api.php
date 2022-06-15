@@ -32,7 +32,6 @@ Route::post('system/health/fix', 'SystemApiController@fixHealth');
 Route::group(
     ['middleware' => 'install.finished'],
     function () {
-        Route::post('auth/login', 'AuthApiController@login');
         Route::get('role/guest', 'RoleApiController@guest');
         Route::get('permission/user', 'PermissionApiController@user');
 
@@ -54,10 +53,8 @@ Route::group(
          * --------------------------------------------------------------------------
          */
         Route::group(
-            ['middleware' => 'auth:api'],
+            ['middleware' => 'auth:sanctum'],
             function () {
-                Route::get('auth/logout', 'AuthApiController@logout');
-                Route::get('auth/user', 'AuthApiController@user');
                 Route::get('role/user', 'RoleApiController@user');
             }
         );

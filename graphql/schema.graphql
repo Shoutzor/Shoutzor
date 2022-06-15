@@ -62,3 +62,9 @@ type Query {
         name: String! @where(operator: "like")
     ): [Permission!]! @paginate(defaultCount: 20)
 }
+
+type Mutation {
+    _ : Boolean
+}
+
+#import sanctum.graphql

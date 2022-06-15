@@ -12,9 +12,6 @@ use App\Helpers\Filesystem;
 use App\MediaSource\MediaSource;
 use App\MediaSource\MediaSourceManager;
 use Illuminate\Support\ServiceProvider;
-use Laravel\Passport\Console\ClientCommand;
-use Laravel\Passport\Console\InstallCommand;
-use Laravel\Passport\Console\KeysCommand;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -43,17 +40,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //For security reasons, only register the passport commands & migrations when installing
-        if(config('shoutzor.installed') === false) {
-            $this->loadMigrationsFrom(base_path('vendor/laravel/passport/database/migrations'));
-
-            $this->commands([
-                InstallCommand::class,
-                ClientCommand::class,
-                KeysCommand::class,
-            ]);
-        }
-
         // Register the default media filetype sources (local audio file & local video file)
         // Other sources can be added as a module (ie: youtube, spotify, etc.)
         $this->mediaSourceManager->registerSource(new MediaSource('audio', 'audio file', ''));

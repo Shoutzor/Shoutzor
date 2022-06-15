@@ -13,6 +13,19 @@ import App from "@js/views/App.vue";
 const emitter = mitt();
 window.Pusher = require('pusher-js');
 
+function getHeaders() {
+    const headers = {}
+    const token = localStorage.getItem('token')
+    if (token) {
+        headers.authorization = `Bearer ${token}`
+    }
+
+    return {
+        ...headers,
+        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+    };
+}
+
 let echoClient = new Echo({
     broadcaster: 'pusher',
     key: process.env.MIX_PUSHER_APP_KEY,
@@ -29,7 +42,8 @@ let echoClient = new Echo({
 const httpLink = new HttpLink({
     // You should use an absolute URL here
     uri: window.Laravel.APP_URL + '/graphql',
-})
+    headers: getHeaders()
+});
 
 // using the ability to split links, you can send data to each link
 // depending on what kind of operation is being sent
@@ -50,7 +64,12 @@ const link = split(
 const apolloClient = new ApolloClient({
     link,
     cache: new InMemoryCache(),
-    connectToDevTools: window.Laravel.APP_DEBUG
+    connectToDevTools: window.Laravel.APP_DEBUG,
+    defaultOptions: {
+        $query: {
+            fetchPolicy: 'cache-and-network',
+        },
+    },
 });
 
 // Create the Vue App instance

@@ -36,14 +36,6 @@ class Installer {
             'method' => 'migrateDatabase'
         ],
         [
-            'name' => 'Generate Encryption Keys',
-            'description' => 'creates the encryption keys needed to generate secure access tokens',
-            'slug' => 'generate-keys',
-            'running' => false,
-            'status' => -1,
-            'method' => 'installPassport'
-        ],
-        [
             'name' => 'Database seeding',
             'description' => 'Adds initial data to the database',
             'slug' => 'seed-database',
@@ -321,26 +313,6 @@ class Installer {
         try {
             # Execute the database migrations
             Artisan::call('migrate --force');
-        } catch (Exception $e) {
-            $success = false;
-            $exception = $e;
-        }
-
-        return new InstallStepResult($success, Artisan::output() ?: $exception?->getMessage() ?? '', $exception);
-    }
-
-    /**
-     * Executes the artisan passport:install command
-     * @return InstallStepResult
-     */
-    public function installPassport(): InstallStepResult
-    {
-        $success = true;
-        $exception = null;
-
-        try {
-            # Run the passport:install command
-            Artisan::call('passport:install --force');
         } catch (Exception $e) {
             $success = false;
             $exception = $e;

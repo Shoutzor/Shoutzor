@@ -38,6 +38,7 @@ mix.js('resources/js/app.js', 'public/js')
         // Some of our CSS is not properly detected, thus requiring whitelisting.
         safelist: [
             /^dropdown/,
+            /^alert/,
             /data-bs-popper/, //Some bootstrap classes are generated with this data tag
             /^ps/, // vue-perfect-scrollbar classes
             "router-link-exact-active" //Since this class is added via JS it's not detected by PurgeCSS

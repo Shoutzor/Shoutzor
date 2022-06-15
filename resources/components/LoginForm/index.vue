@@ -1,15 +1,10 @@
 <template>
     <div class="login-form">
-        <base-alert v-if="error" :type="error.type">{{ error.message }}</base-alert>
+        <base-alert v-if="error" type="danger">{{ error }}</base-alert>
 
-        <form class="auth-login-form mb-0" @submit.prevent="onLogin">
-            <base-input :hasError="fieldError.includes('username')" v-model="username" name="username" placeholder="Username" autocomplete="username" />
-            <base-input :hasError="fieldError.includes('password')" v-model="password" name="password" placeholder="Password" autocomplete="current-password" class="mt-1" />
-
-            <label class="form-check mt-1" data-children-count="1">
-                <input v-model="remember_me" class="form-check-input" type="checkbox" />
-                <span class="form-check-label">Remember me</span>
-            </label>
+        <form class="auth-login-form mb-0" @submit.prevent="login">
+            <base-input v-model="username" name="username" placeholder="Username" autocomplete="username" />
+            <base-input v-model="password" name="password" placeholder="Password" autocomplete="current-password" class="mt-1" />
 
             <base-button :disabled="loading" type="submit" class="btn-primary mt-2">
                 <template v-if="loading"><base-spinner /></template>
@@ -24,12 +19,21 @@
 <script>
 import "./LoginForm.scss";
 
+import gql from "graphql-tag";
 import { ref, reactive } from "vue";
+import { useMutation } from "@vue/apollo-composable";
 
 import BaseAlert from "@components/BaseAlert";
 import BaseButton from "@components/BaseButton";
 import BaseInput from "@components/BaseInput";
 import BaseSpinner from "@components/BaseSpinner";
+
+const LOGIN_MUTATION = gql`
+    mutation login($input: LoginInput!) {
+      login(input: $input) {
+        token
+      }
+    }`;
 
 export default {
     name: 'login-form',
@@ -41,46 +45,31 @@ export default {
         BaseAlert
     },
 
-    props: {
-        remember_me: {
-            type: Boolean,
-            required: false,
-            default: false
-        },
-        loading: {
-            type: Boolean,
-            required: false,
-            default: false
-        },
-        error: {
-            type: Object,
-            required: false,
-            default: null
-        },
-        fieldError: {
-            type: Array,
-            required: false,
-            default: []
-        }
-    },
-
-    emits: ['login'],
-
     setup(props, { emit }) {
         const username = ref("");
         const password = ref("");
         props = reactive(props);
 
+        const { mutate: login, loading, error, onDone } = useMutation(LOGIN_MUTATION, () => ({
+            fetchPolicy: 'no-cache',
+            variables: {
+                input: {
+                    username: username.value,
+                    password: password.value,
+                },
+            }
+        }));
+
+        onDone(result => {
+            localStorage.setItem('token', result.data.login.token)
+        });
+
         return {
+            loading,
+            error,
             username,
             password,
-            onLogin() {
-                emit('login', {
-                    username: this.username,
-                    password: this.password,
-                    remember_me: this.remember_me
-                });
-            }
+            login
         }
     }
 }
