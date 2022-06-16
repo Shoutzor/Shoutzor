@@ -130,7 +130,7 @@ return [
         /*
          * Should the `@cache` directive use a tagged cache?
          */
-        'tags' => false,
+        'tags' => true,
     ],
 
     /*
