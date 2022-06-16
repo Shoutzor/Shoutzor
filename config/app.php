@@ -200,6 +200,7 @@ return [
         /*
          * GraphQL Service Providers
          */
+        \Nuwave\Lighthouse\Subscriptions\SubscriptionServiceProvider::class,
         \Nuwave\Lighthouse\WhereConditions\WhereConditionsServiceProvider::class,
     ],
 

@@ -64,7 +64,12 @@ type Query {
 }
 
 type Mutation {
-    _ : Boolean
+    _ : Boolean @all
+}
+
+type Subscription {
+    lastPlayedUpdated: Request
+        @subscription(class: "App\\GraphQL\\Subscriptions\\LastPlayedUpdated")
 }
 
 #import sanctum.graphql

@@ -67,33 +67,11 @@ import BaseProgressbar from "@components/BaseProgressbar";
 import PlayButton from "@components/PlayButton";
 import ArtistList from "@components/ArtistList";
 import BaseSpinner from "@components/BaseSpinner";
-import gql from "graphql-tag";
 import {useQuery} from "@vue/apollo-composable";
 import {computed} from "vue";
 
 import {defaultMediaImage} from "@js/config";
-
-const NOWPLAYING_QUERY = gql`
-    query getLastPlayed {
-      requests(
-        first: 1
-        orderBy: { column: "played_at", order: DESC }
-      ) {
-        data {
-          id
-          media {
-            id
-            title
-            image
-            duration
-            artists {
-              id,
-              name
-            }
-          }
-        }
-      }
-    }`;
+import {LASTPLAYED_REQUEST_QUERY} from "@constants/graphql/requests";
 
 export default {
     name: 'media-player',
@@ -112,7 +90,7 @@ export default {
         }
     },
     setup() {
-        const {result, loading, error} = useQuery(NOWPLAYING_QUERY);
+        const {result, loading, error} = useQuery(LASTPLAYED_REQUEST_QUERY);
 
         const nowplaying = computed(() => result?.value?.requests?.data[0] ?? {});
 

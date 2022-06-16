@@ -1,8 +1,8 @@
 <template>
     <div class="nowplaying">
         <div class="track-background">
-            <img v-if="error || loading || !request.media?.image" class="album-image" :src="defaultMediaImage"/>
-            <img v-else v-media-image-fallback class="album-image" :src="request.media.image"/>
+            <img v-if="error || loading || !request.media?.image" class="album-image" :src="defaultMediaImage" alt="default media image"/>
+            <img v-else v-media-image-fallback class="album-image" :src="request.media.image" alt="media image"/>
             <div class="album-overlay"></div>
         </div>
         <div class="track-content card card-aside">
@@ -12,7 +12,7 @@
             <template v-else>
                 <div v-if="loading" class="album-image card-aside-column placeholder"></div>
                 <img v-else-if="error || !request.media?.image" class="album-image card-aside-column"
-                     :src="defaultMediaImage"/>
+                     :src="defaultMediaImage" alt="default media image"/>
                 <img v-else v-media-image-fallback alt="album image" class="album-image card-aside-column" :src="request.media.image"/>
 
                 <div class="track-info card-body d-flex flex-column mt-auto">
@@ -44,36 +44,11 @@ import "./NowPlaying.scss";
 import ArtistList from "@components/ArtistList";
 import UserList from "@components/UserList";
 import BaseAlert from "@components/BaseAlert";
-import gql from "graphql-tag";
 import {useQuery} from "@vue/apollo-composable";
 import {computed} from "vue";
 
-import {defaultAlbumImage} from "@js/config";
-
-const LASTPLAYED_QUERY = gql`
-    query getLastPlayed {
-      requests(
-        first: 1
-        orderBy: { column: "played_at", order: DESC }
-      ) {
-        data {
-          id
-          media {
-            id
-            title
-            image
-            artists {
-              id,
-              name
-            }
-          }
-          requested_by {
-            id
-            username
-          }
-        }
-      }
-    }`;
+import {defaultMediaImage} from "@js/config";
+import {LASTPLAYED_REQUEST_QUERY} from "@constants/graphql/requests";
 
 export default {
     name: "now-playing",
@@ -84,11 +59,11 @@ export default {
     },
     data() {
         return {
-            defaultAlbumImage
+            defaultMediaImage
         }
     },
     setup() {
-        const {result, loading, error} = useQuery(LASTPLAYED_QUERY);
+        const {result, loading, error} = useQuery(LASTPLAYED_REQUEST_QUERY);
 
         const request = computed(() => result?.value?.requests?.data[0] ?? {});
 
