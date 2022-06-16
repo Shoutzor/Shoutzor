@@ -71,7 +71,7 @@ import {useQuery} from "@vue/apollo-composable";
 import {computed} from "vue";
 
 import {defaultMediaImage} from "@js/config";
-import {LASTPLAYED_REQUEST_QUERY} from "@constants/graphql/requests";
+import {LASTPLAYED_REQUEST_QUERY} from "@graphql/requests";
 
 export default {
     name: 'media-player',

@@ -5,11 +5,12 @@ import PerfectScrollbar from 'vue3-perfect-scrollbar';
 import {createApp } from 'vue'
 import {BootstrapIconsPlugin} from 'bootstrap-icons-vue';
 import {DefaultApolloClient} from '@vue/apollo-composable'
-import {ApolloClient, HttpLink, InMemoryCache, split} from '@apollo/client/core'
+import {ApolloClient, HttpLink, split} from '@apollo/client/core'
 import {createLighthouseSubscriptionLink} from "@thekonz/apollo-lighthouse-subscription-link";
 import {getMainDefinition} from "@apollo/client/utilities";
 import MediaImageFallback from "@js/directives/mediaImageFallback";
 import App from "@js/views/App.vue";
+import { cache } from "@graphql/cache";
 
 const emitter = mitt();
 window.Pusher = require('pusher-js');
@@ -30,7 +31,7 @@ function getHeaders() {
 let echoClient = new Echo({
     broadcaster: 'pusher',
     key: process.env.MIX_PUSHER_APP_KEY,
-    wsHost: process.env.MIX_PUSHER_HOST,
+    wsHost: process.env.MIX_PUSHER_SOCKET_HOST,
     wsPort: process.env.MIX_PUSHER_PORT,
     wssPort: process.env.MIX_PUSHER_PORT,
     forceTLS: process.env.MIX_PUSHER_SCHEME === 'https',
@@ -64,13 +65,13 @@ const link = split(
 // Create the apollo client
 const apolloClient = new ApolloClient({
     link,
-    cache: new InMemoryCache(),
+    cache,
     connectToDevTools: window.Laravel.APP_DEBUG,
     defaultOptions: {
         $query: {
             fetchPolicy: 'cache-and-network',
         },
-    },
+    }
 });
 
 // Create the Vue App instance
@@ -80,6 +81,7 @@ app.directive('media-image-fallback', MediaImageFallback);
 app.provide(DefaultApolloClient, apolloClient);
 
 app.config.globalProperties.emitter = emitter;
+
 app.use(router)
     .use(PerfectScrollbar)
     .use(BootstrapIconsPlugin)

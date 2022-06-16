@@ -30,13 +30,8 @@ import BaseAlert from "@components/BaseAlert";
 import BaseButton from "@components/BaseButton";
 import BaseInput from "@components/BaseInput";
 import BaseSpinner from "@components/BaseSpinner";
-
-const LOGIN_MUTATION = gql`
-    mutation login($input: LoginInput!) {
-      login(input: $input) {
-        token
-      }
-    }`;
+import {isLoggedInVar} from "@graphql/cache";
+import { LOGIN_MUTATION } from "@graphql/auth";
 
 export default {
     name: 'login-form',
@@ -64,7 +59,8 @@ export default {
         }));
 
         onDone(result => {
-            localStorage.setItem('token', result.data.login.token)
+            localStorage.setItem('token', result.data.login.token);
+            isLoggedInVar.value = true;
         });
 
         return {

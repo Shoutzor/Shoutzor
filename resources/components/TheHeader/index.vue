@@ -4,11 +4,11 @@
             <router-link :to="{name: 'dashboard'}" class="navbar-brand">
                 <img alt="logo" class="navbar-brand-image filter-invert" src="@static/images/shoutzor-logo-header.png">
             </router-link>
-            <ul v-if="isAuthenticated" class="d-flex justify-content-end nav">
+            <ul v-if="isAuthenticated === true" class="d-flex justify-content-end nav">
                 <li class="nav-item dropdown">
                     <a class="nav-link link-light dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink"
                        role="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
-                        <div>{{ user.username }}</div>
+<!--                        <div>{{ user.username }}</div>-->
                         <div class="mt-1 small text-muted">Administrator</div>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right user-dropdown">
@@ -16,7 +16,7 @@
                             Profile
                         </router-link>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#" @click.prevent="$emit('logout')">Logout</a>
+                        <a class="dropdown-item" href="#" @click.prevent="logout">Logout</a>
                     </div>
                 </li>
             </ul>
@@ -43,6 +43,9 @@ import "./TheHeader.scss";
 
 import BaseButton from "@components/BaseButton";
 import LoginForm from "@components/LoginForm";
+import {useMutation} from "@vue/apollo-composable";
+import { isLoggedInVar } from "@graphql/cache";
+import { LOGOUT_MUTATION } from "@graphql/auth";
 
 export default {
     name: 'the-header',
@@ -50,12 +53,24 @@ export default {
         BaseButton,
         LoginForm
     },
+    setup(props, {emit}) {
+        const {mutate: logout, loading, error, onDone} = useMutation(LOGOUT_MUTATION, {
+            fetchPolicy: 'no-cache'
+        });
+
+        onDone(result => {
+            localStorage.removeItem('token');
+            isLoggedInVar.value = false;
+        });
+
+        return {
+            isAuthenticated: isLoggedInVar,
+            logout,
+            loading,
+            error
+        }
+    },
     props: {
-        isAuthenticated: {
-            type: Boolean,
-            required: false,
-            default: false
-        },
         isAdministrator: {
             type: Boolean,
             required: false,

@@ -10,7 +10,7 @@ mix.webpackConfig({
             '@models': __dirname + '/resources/js/models',
             '@scss': __dirname + '/resources/scss',
             '@static': __dirname + '/resources/static',
-            '@constants': __dirname + '/resources/js/constants',
+            '@graphql': __dirname + '/resources/js/graphql',
         },
         fallback: {
             "stream": require.resolve("stream-browserify")

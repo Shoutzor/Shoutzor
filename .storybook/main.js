@@ -26,7 +26,7 @@ module.exports = {
         config.resolve.alias = {
             ...config.resolve.alias,
             '@components': path.resolve(__dirname, '../resources/components'),
-            '@constants': path.resolve(__dirname, '../resources/js/constants'),
+            '@graphql': path.resolve(__dirname, '../resources/js/graphql'),
             '@js': path.resolve(__dirname, '../resources/js'),
             '@models': path.resolve(__dirname, '../resources/js/models'),
             '@scss': path.resolve(__dirname, '../resources/scss'),
