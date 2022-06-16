@@ -7,9 +7,6 @@ export default {
 
 const Template = (args) => ({
     components: {NowPlaying},
-    setup() {
-        return {args};
-    },
     template: '<now-playing />',
 });
 
