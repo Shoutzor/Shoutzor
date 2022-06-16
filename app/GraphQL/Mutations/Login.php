@@ -7,6 +7,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Laravel\Sanctum\Contracts\HasApiTokens;
 use Nuwave\Lighthouse\Exceptions\AuthenticationException;
 use DanielDeWit\LighthouseSanctum\Exceptions\HasApiTokensException;
+use DanielDeWit\LighthouseSanctum\Traits\HasUserModel;
 
 /**
  * Override the original class because that always expects an email & password combination
@@ -14,6 +15,7 @@ use DanielDeWit\LighthouseSanctum\Exceptions\HasApiTokensException;
  */
 class Login extends \DanielDeWit\LighthouseSanctum\GraphQL\Mutations\Login
 {
+    use HasUserModel;
 
     /**
      * @param mixed $_
@@ -43,6 +45,7 @@ class Login extends \DanielDeWit\LighthouseSanctum\GraphQL\Mutations\Login
         }
 
         return [
+            'userId' => $this->getModelFromUser($user)->id,
             'token' => $user->createToken('default')->plainTextToken,
         ];
     }

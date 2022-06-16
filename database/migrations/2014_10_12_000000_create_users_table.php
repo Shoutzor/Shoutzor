@@ -5,6 +5,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Str;
 
 class CreateUsersTable extends Migration
 {
@@ -30,9 +31,12 @@ class CreateUsersTable extends Migration
         /*
          * Create the initial admin user
          */
-        DB::table('users')->insert(
-            ['username' => "admin", 'email' => "admin-user@example.org", 'password' => Hash::make('admin'),]
-        );
+        DB::table('users')->insert([
+            'id' => Str::uuid(),
+            'username' => "admin",
+            'email' => "admin-user@example.org",
+            'password' => Hash::make('admin')
+        ]);
     }
 
     /**

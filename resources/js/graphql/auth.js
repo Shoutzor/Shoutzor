@@ -14,3 +14,15 @@ export const LOGOUT_MUTATION = gql`
             message
         }
     }`;
+
+export const WHOAMI_MUTATION = gql`
+    mutation whoami {
+        whoami {
+            user {
+                id
+                username
+                email
+                is_admin
+            }
+        }
+    }`;

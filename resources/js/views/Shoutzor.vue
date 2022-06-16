@@ -1,8 +1,8 @@
 <template>
-    <the-header id="header" :isAuthenticated="false"/>
+    <the-header id="header" />
 
     <div id="wrapper" class="d-flex flex-nowrap">
-        <the-menu :isAuthenticated="false" class="flex-column flex-shrink-0 p-3"/>
+        <the-menu class="flex-column flex-shrink-0 p-3"/>
 
         <main id="main-content" class="d-flex flex-column flex-grow-1">
             <perfect-scrollbar ref="scroll">

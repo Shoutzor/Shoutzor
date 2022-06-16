@@ -1,5 +1,8 @@
 <template>
-    <load-screen v-if="loading" message="Loading data, please wait"/>
+    <div v-if="loading" class="d-flex flex-grow-1 align-items-center justify-content-center">
+        <load-screen message="Loading, please wait"/>
+    </div>
+
     <shoutzor v-else-if="hasAccess"/>
     <login-screen v-else/>
 </template>
@@ -16,17 +19,17 @@ export default {
         LoginScreen,
         Shoutzor
     },
-    props: {
-        loading: {
-            type: Boolean,
-            required: false,
-            default: false
-        },
-        hasAccess: {
-            type: Boolean,
-            required: false,
-            default: true
-        }
+    data() {
+        return {
+            loading: false,
+            hasAccess: true
+        };
+    },
+    setup() {
+/*        this.auth.resumeSession()
+            .finally(() => {
+                this.loading = false;
+            })*/
     }
 }
 </script>

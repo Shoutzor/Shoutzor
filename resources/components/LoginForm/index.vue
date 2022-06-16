@@ -22,16 +22,12 @@
 <script>
 import "./LoginForm.scss";
 
-import gql from "graphql-tag";
 import {ref, reactive} from "vue";
-import {useMutation} from "@vue/apollo-composable";
 
 import BaseAlert from "@components/BaseAlert";
 import BaseButton from "@components/BaseButton";
 import BaseInput from "@components/BaseInput";
 import BaseSpinner from "@components/BaseSpinner";
-import {isLoggedInVar} from "@graphql/cache";
-import { LOGIN_MUTATION } from "@graphql/auth";
 
 export default {
     name: 'login-form',
@@ -43,32 +39,27 @@ export default {
         BaseAlert
     },
 
-    setup(props, {emit}) {
-        const username = ref("");
-        const password = ref("");
-        props = reactive(props);
-
-        const {mutate: login, loading, error, onDone} = useMutation(LOGIN_MUTATION, () => ({
-            fetchPolicy: 'no-cache',
-            variables: {
-                input: {
-                    username: username.value,
-                    password: password.value,
-                },
-            }
-        }));
-
-        onDone(result => {
-            localStorage.setItem('token', result.data.login.token);
-            isLoggedInVar.value = true;
-        });
-
+    data() {
         return {
-            loading,
-            error,
-            username,
-            password,
-            login
+            username: '',
+            password: '',
+            loading: false,
+            error: null
+        }
+    },
+
+    methods: {
+        login() {
+            this.loading = true;
+            this.error = null;
+
+            this.auth.login(this.username, this.password)
+                .catch(error => {
+                    this.error = error;
+                })
+                .finally(r => {
+                    this.loading = false;
+                })
         }
     }
 }

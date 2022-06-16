@@ -64,7 +64,8 @@ type Query {
 }
 
 type Mutation {
-    _ : Boolean @all
+    whoami: WhoamiResponse! @guard
+        @field(resolver: "App\\GraphQL\\Mutations\\Whoami")
 }
 
 type Subscription {
@@ -72,4 +73,12 @@ type Subscription {
         @subscription(class: "App\\GraphQL\\Subscriptions\\LastPlayedUpdated")
 }
 
+type WhoamiResponse {
+    user: User!
+}
+
+type LoginResponse {
+    userId: String!
+    token: String!
+}
 #import sanctum.graphql

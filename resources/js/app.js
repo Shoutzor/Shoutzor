@@ -11,6 +11,7 @@ import {getMainDefinition} from "@apollo/client/utilities";
 import MediaImageFallback from "@js/directives/mediaImageFallback";
 import App from "@js/views/App.vue";
 import { cache } from "@graphql/cache";
+import { AuthenticationPlugin } from "@js/plugins/Authentication";
 
 const emitter = mitt();
 window.Pusher = require('pusher-js');
@@ -83,6 +84,12 @@ app.provide(DefaultApolloClient, apolloClient);
 app.config.globalProperties.emitter = emitter;
 
 app.use(router)
+    .use(AuthenticationPlugin, {
+        tokenName: 'token',
+        apolloClient: apolloClient,
+        echoClient: echoClient,
+        httpClient: httpLink
+    })
     .use(PerfectScrollbar)
     .use(BootstrapIconsPlugin)
     .mount('#shoutzor');

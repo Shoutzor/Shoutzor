@@ -5,5 +5,6 @@ type User {
     email_verified_at: DateTime
     created_at: DateTime!
     updated_at: DateTime!
-    role: Role! @hasOne
+    role: Role! @hasMany
+    is_admin: Boolean!
 }

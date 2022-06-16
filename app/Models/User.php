@@ -11,6 +11,7 @@ use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasPermissions;
 use Spatie\Permission\Traits\HasRoles;
 use Spatie\Permission\Traits\RefreshesPermissionCache;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 
 class User extends Authenticatable implements HasApiTokensContract
 {
@@ -22,6 +23,7 @@ class User extends Authenticatable implements HasApiTokensContract
      * @var array
      */
     protected $fillable = ['username', 'email', 'password', 'api_token'];
+    protected $appends = ['is_admin'];
 
     /**
      * The attributes that should be hidden for arrays.
@@ -40,5 +42,12 @@ class User extends Authenticatable implements HasApiTokensContract
     public function uploads()
     {
         return $this->hasMany(Upload::class);
+    }
+
+    protected function isAdmin(): Attribute
+    {
+        return new Attribute(
+            get: fn() => $this->hasRole('admin')
+        );
     }
 }

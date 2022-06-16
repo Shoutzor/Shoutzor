@@ -8,8 +8,8 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link link-light dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink"
                        role="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
-<!--                        <div>{{ user.username }}</div>-->
-                        <div class="mt-1 small text-muted">Administrator</div>
+                        <div>{{ user.username }}</div>
+                        <div v-if="user.is_admin" class="mt-1 small text-muted">Administrator</div>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right user-dropdown">
                         <router-link :to="{name: 'profile'}" class="dropdown-item">
@@ -31,7 +31,7 @@
                     </div>
                 </li>
             </ul>
-            <div v-if="isAuthenticated && isAdministrator" class="d-flex justify-content-end nav">
+            <div v-if="isAuthenticated && user.is_admin" class="d-flex justify-content-end nav">
                 <base-button class="btn-sm btn-outline-primary">Admin panel</base-button>
             </div>
         </div>
@@ -43,9 +43,6 @@ import "./TheHeader.scss";
 
 import BaseButton from "@components/BaseButton";
 import LoginForm from "@components/LoginForm";
-import {useMutation} from "@vue/apollo-composable";
-import { isLoggedInVar } from "@graphql/cache";
-import { LOGOUT_MUTATION } from "@graphql/auth";
 
 export default {
     name: 'the-header',
@@ -53,33 +50,21 @@ export default {
         BaseButton,
         LoginForm
     },
-    setup(props, {emit}) {
-        const {mutate: logout, loading, error, onDone} = useMutation(LOGOUT_MUTATION, {
-            fetchPolicy: 'no-cache'
-        });
-
-        onDone(result => {
-            localStorage.removeItem('token');
-            isLoggedInVar.value = false;
-        });
-
+    data() {
         return {
-            isAuthenticated: isLoggedInVar,
-            logout,
-            loading,
-            error
+            loading: false,
+            isAuthenticated: this.auth.isAuthenticated,
+            user: this.auth.user
         }
     },
-    props: {
-        isAdministrator: {
-            type: Boolean,
-            required: false,
-            default: false
-        },
-        user: {
-            type: Object,
-            required: false,
-            default: null
+    methods: {
+        logout() {
+            this.loading = true;
+
+            this.auth.logout()
+                .finally(() => {
+                    this.loading = false;
+                });
         }
     }
 }
