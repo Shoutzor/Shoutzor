@@ -3,27 +3,23 @@
         <div
             class="media-info d-inline-flex flex-grow-1 flex-shrink-0 flex-basis-0 align-items-center order-1 order-md-0">
             <div class="album-image d-inline-block pe-1">
-                <div v-if="loading" class="rounded">
-                    <base-spinner></base-spinner>
-                </div>
-                <img v-else v-media-image-fallback class="rounded" :src="nowplaying.media.image ?? defaultMediaImage" alt="media image"/>
+                <img v-media-image-fallback class="rounded" :src="nowplaying?.media?.image ?? defaultMediaImage" alt="media image"/>
             </div>
             <div class="track-info d-inline-block">
-                <span v-if="error" class="track-title">Now playing: Unavailable</span>
-                <span v-else-if="loading" class="track-title">Loading..</span>
-                <template v-else>
+                <template v-if="nowplaying">
                     <span class="track-title">{{ nowplaying.media.title }}</span>
                     <artist-list :artists="nowplaying.media.artists" class="text-muted"/>
                 </template>
+                <span v-else class="track-title">Now playing: Unavailable</span>
             </div>
         </div>
         <div
             class="media-control-container d-flex flex-fill flex-column flex-wrap align-items-center order-0 order-md-1">
             <div class="media-controls d-flex flex-fill align-items-center justify-content-center">
-                <b-icon-hand-thumbs-up v-if="isAuthenticated && !!error && !loading" @click="$emit('mediaplayerUpvote')"
+                <b-icon-hand-thumbs-up v-if="isAuthenticated && nowplaying" @click="$emit('mediaplayerUpvote')"
                                        class="upvote me-3"/>
                 <play-button @click="$emit('mediaplayerPlay')" :state="playerStatus" class="mt-1"></play-button>
-                <b-icon-hand-thumbs-down v-if="isAuthenticated && !!error && !loading"
+                <b-icon-hand-thumbs-down v-if="isAuthenticated && nowplaying"
                                          @click="$emit('mediaplayerDownvote')" class="downvote ms-3"/>
             </div>
 
@@ -67,11 +63,8 @@ import BaseProgressbar from "@components/BaseProgressbar";
 import PlayButton from "@components/PlayButton";
 import ArtistList from "@components/ArtistList";
 import BaseSpinner from "@components/BaseSpinner";
-import {useQuery} from "@vue/apollo-composable";
-import {computed} from "vue";
 
 import {defaultMediaImage} from "@js/config";
-import {LASTPLAYED_REQUEST_QUERY} from "@graphql/requests";
 
 export default {
     name: 'media-player',
@@ -89,16 +82,15 @@ export default {
             PlayerState
         }
     },
-    setup() {
-        const {result, loading, error} = useQuery(LASTPLAYED_REQUEST_QUERY);
+    computed: {
+        isAuthenticated() { return this.auth.isAuthenticated; },
+        nowplaying() { return this.mediaPlayer.lastPlayed; },
+        timePassed() { return 0; },
+        timeDuration() { return this.nowplaying?.media?.duration; },
 
-        const nowplaying = computed(() => result?.value?.requests?.data[0] ?? {});
-
-        return {
-            result,
-            loading,
-            error,
-            nowplaying
+        percentagePlayed() {
+            //TODO calculate from timePassed and timeDuration
+            return 42;
         }
     },
     props: {
@@ -112,30 +104,10 @@ export default {
             required: true,
             default: 'stopped'
         },
-        isAuthenticated: {
-            type: Boolean,
-            required: false,
-            default: false
-        },
         videoEnabled: {
             type: Boolean,
             required: false,
             default: false
-        }
-    },
-
-    computed: {
-        timePassed() {
-            return 0;
-        },
-
-        timeDuration() {
-            return this.nowplaying?.media?.duration;
-        },
-
-        percentagePlayed() {
-            //TODO calculate from timePassed and timeDuration
-            return 42;
         }
     },
 

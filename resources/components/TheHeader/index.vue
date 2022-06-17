@@ -55,10 +55,12 @@ export default {
     },
     data() {
         return {
-            loading: false,
-            isAuthenticated: this.auth.isAuthenticated,
-            user: this.auth.user
+            loading: false
         }
+    },
+    computed: {
+        isAuthenticated() { return this.auth.isAuthenticated; },
+        user() { return this.auth.user; }
     },
     methods: {
         logout() {

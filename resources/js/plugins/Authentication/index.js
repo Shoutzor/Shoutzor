@@ -1,7 +1,7 @@
-import {ref, reactive} from "vue";
+import {reactive} from "vue";
 import {provideApolloClient, useMutation} from "@vue/apollo-composable";
 
-import { LOGIN_MUTATION, WHOAMI_MUTATION, LOGOUT_MUTATION } from "@graphql/auth";
+import {LOGIN_MUTATION, LOGOUT_MUTATION, WHOAMI_MUTATION} from "@graphql/auth";
 
 class AuthenticationManager {
 
@@ -10,32 +10,35 @@ class AuthenticationManager {
 
     #tokenName;
     #token;
-    #user;
-    #isAuthenticated;
+    #state;
 
     constructor(tokenName, echoClient, httpClient) {
         this.#tokenName = tokenName;
         this.#token = localStorage.getItem(tokenName);
-        this.#user = reactive({});
-        this.#isAuthenticated = ref(false);
+
+        this.#state = reactive({
+            user: null,
+            isAuthenticated: false
+        });
 
         this.#echoClient = echoClient;
         this.#httpClient = httpClient;
     }
 
     get isAuthenticated() {
-        return this.#isAuthenticated;
+        return this.#state.isAuthenticated;
     }
 
-    // we dont use a setter because isAuthenticated shouldn't be changed from outside this class
+    // Private setter
     #updateIsAuthenticated(value) {
-        this.#isAuthenticated.value = value;
+        this.#state.isAuthenticated = value;
     }
 
     get token() {
         return this.#token;
     }
 
+    // Private setter
     #updateToken(token) {
         this.#token = token;
         localStorage.setItem(this.#tokenName, token);
@@ -53,11 +56,12 @@ class AuthenticationManager {
     }
 
     get user() {
-        return this.#user;
+        return this.#state.user;
     }
 
-    #updateUser(newObj) {
-        Object.assign(this.#user, newObj);
+    // Private setter
+    #updateUser(user) {
+        this.#state.user = user;
     }
 
     // This function will attempt to load the user object who is the owner of the token
@@ -67,7 +71,7 @@ class AuthenticationManager {
                 fetchPolicy: 'no-cache'
             });
 
-            const { result, onError, onDone} = whoamiMutate()
+            whoamiMutate()
                 .then(result => {
                     this.#updateUser(result.data.whoami.user);
                     this.#updateIsAuthenticated(true);
@@ -103,13 +107,12 @@ class AuthenticationManager {
             });
 
             // Fetch the token using username / password authentication
-            const { result, onError, onDone} = loginMutate({
+            loginMutate({
                 input: {
                     username,
                     password,
                 },
             }).then(result => {
-                console.log(result);
                 this.#updateToken(result.data.login.token);
 
                 this.resumeSession()
@@ -132,11 +135,11 @@ class AuthenticationManager {
                 fetchPolicy: 'no-cache'
             });
 
-            const { result, onError, onDone} = logoutMutate()
-                .then(result => {
+            logoutMutate()
+                .then(() => {
                     this.#updateIsAuthenticated(false);
                     this.#removeToken();
-                    this.#updateUser({});
+                    this.#updateUser(null);
                     resolve(true);
                 })
                 .catch(error => {
@@ -151,8 +154,6 @@ export const AuthenticationPlugin = {
 
         provideApolloClient(options.apolloClient);
 
-        const AuthManager = new AuthenticationManager(options.tokenName, options.echoClient, options.httpClient);
-        app.config.globalProperties.auth = AuthManager;
-        app.provide('auth', AuthManager);
+        app.config.globalProperties.auth = new AuthenticationManager(options.tokenName, options.echoClient, options.httpClient);
     }
 }

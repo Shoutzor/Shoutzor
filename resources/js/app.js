@@ -12,6 +12,7 @@ import MediaImageFallback from "@js/directives/mediaImageFallback";
 import App from "@js/views/App.vue";
 import { cache } from "@graphql/cache";
 import { AuthenticationPlugin } from "@js/plugins/Authentication";
+import { MediaPlayerPlugin } from "@js/plugins/MediaPlayer";
 
 const emitter = mitt();
 window.Pusher = require('pusher-js');
@@ -81,14 +82,19 @@ const app = createApp(App);
 app.directive('media-image-fallback', MediaImageFallback);
 app.provide(DefaultApolloClient, apolloClient);
 
+app.config.globalProperties.echo = echoClient;
 app.config.globalProperties.emitter = emitter;
 
 app.use(router)
     .use(AuthenticationPlugin, {
         tokenName: 'token',
-        apolloClient: apolloClient,
-        echoClient: echoClient,
+        apolloClient,
+        echoClient,
         httpClient: httpLink
+    })
+    .use(MediaPlayerPlugin, {
+        apolloClient,
+        echoClient
     })
     .use(PerfectScrollbar)
     .use(BootstrapIconsPlugin)

@@ -66,11 +66,13 @@ type Query {
 type Mutation {
     whoami: WhoamiResponse! @guard
         @field(resolver: "App\\GraphQL\\Mutations\\Whoami")
+
+    lastPlayed: lastPlayedResponse
+        @field(resolver: "App\\GraphQL\\Mutations\\LastPlayed")
 }
 
-type Subscription {
-    lastPlayedUpdated: Request
-        @subscription(class: "App\\GraphQL\\Subscriptions\\LastPlayedUpdated")
+type lastPlayedResponse {
+    request: Request
 }
 
 type WhoamiResponse {

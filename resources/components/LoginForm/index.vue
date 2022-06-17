@@ -22,8 +22,6 @@
 <script>
 import "./LoginForm.scss";
 
-import {ref, reactive} from "vue";
-
 import BaseAlert from "@components/BaseAlert";
 import BaseButton from "@components/BaseButton";
 import BaseInput from "@components/BaseInput";
