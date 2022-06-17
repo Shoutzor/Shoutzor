@@ -21,15 +21,15 @@ export default {
     },
     data() {
         return {
-            loading: false,
+            loading: true,
             hasAccess: true
         };
     },
-    setup() {
-/*        this.auth.resumeSession()
+    created() {
+        this.auth.resumeSession()
             .finally(() => {
                 this.loading = false;
-            })*/
+            });
     }
 }
 </script>

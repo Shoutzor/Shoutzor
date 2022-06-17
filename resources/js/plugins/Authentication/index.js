@@ -81,12 +81,13 @@ class AuthenticationManager {
 
     resumeSession() {
         return new Promise((resolve, reject) => {
-            if(!!this.#token) {
-                reject("No token configured");
+            if(!!!this.#token) {
+                return reject("No token configured");
             }
 
             this.#getUser()
                 .then(() => {
+                    this.#updateIsAuthenticated(true);
                     resolve(true);
                 })
                 .catch(error => {
