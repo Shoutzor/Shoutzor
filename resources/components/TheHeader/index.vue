@@ -16,6 +16,12 @@
                             </div>
                         </a>
                         <div class="dropdown-menu dropdown-menu-right user-dropdown">
+                            <template v-if="user.is_admin">
+                                <router-link :to="{name: 'profile'}" class="dropdown-item d-block d-md-none">
+                                    Admin panel
+                                </router-link>
+                                <div class="dropdown-divider d-block d-md-none"></div>
+                            </template>
                             <router-link :to="{name: 'profile'}" class="dropdown-item">
                                 Profile
                             </router-link>
@@ -23,7 +29,7 @@
                             <a class="dropdown-item" href="#" @click.prevent="logout">Logout</a>
                         </div>
                     </li>
-                    <li v-if="user.is_admin" class="nav-item d-flex align-items-center justify-content-center">
+                    <li v-if="user.is_admin" class="nav-item d-none d-md-flex align-items-center justify-content-center">
                         <base-button class="btn-sm btn-outline-primary">Admin panel</base-button>
                     </li>
                 </template>
