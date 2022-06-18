@@ -75,7 +75,7 @@ import {computed} from "vue";
 
 const REQUESTS_QUERY = gql`
     query getRequests {
-      requests {
+      requests(where: { column: PLAYED_AT, operator: IS_NULL }) {
         paginatorInfo{
           total
           hasMorePages

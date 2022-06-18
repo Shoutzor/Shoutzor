@@ -19,7 +19,7 @@ class VoteFactory extends Factory
                 return User::inRandomOrder()->first()->id;
             },
             'request_id' => function () {
-                return Request::inRandomOrder()->first()->id;
+                return Request::inRandomOrder()->whereNotNull('requested_by')->first()->id;
             }
         ];
     }

@@ -2,13 +2,12 @@
 
 namespace App\Models;
 
-use App\Traits\UsesUUID;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Vote extends Model
 {
-    use UsesUUID, HasFactory;
+    use HasFactory;
 
     public $timestamps = false;
 
