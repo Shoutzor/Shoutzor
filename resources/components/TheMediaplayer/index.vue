@@ -1,5 +1,5 @@
 <template>
-    <div class="audio-player d-flex flex-wrap justify-content-between container-fluid">
+    <div class="audio-player d-flex flex-wrap mt-auto justify-content-between container-fluid">
         <div
             class="media-info d-inline-flex flex-grow-1 flex-shrink-0 flex-basis-0 align-items-center order-1 order-md-0">
             <div class="album-image d-inline-block pe-1">
@@ -32,7 +32,7 @@
             </div>
         </div>
         <div
-            class="extra-control d-inline-flex flex-grow-1 flex-shrink-0 flex-basis-0 align-items-center justify-content-end order-2">
+            class="extra-control d-inline-flex flex-md-grow-1 flex-md-shrink-0 flex-basis-0 align-items-center justify-content-end order-2">
             <div class="video-control" v-if="videoEnabled && playerStatus === PlayerState.PLAYING"
                  @click="onVideoClick">
                 <b-icon-tv/>
