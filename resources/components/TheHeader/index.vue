@@ -4,14 +4,19 @@
             <router-link :to="{name: 'dashboard'}" class="navbar-brand">
                 <img alt="logo" class="navbar-brand-image filter-invert" src="@static/images/shoutzor-logo-header.png">
             </router-link>
+            <button class="navbar-toggler position-absolute d-md-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-left" aria-controls="sidebarMenu" aria-expanded="true" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
             <ul class="d-flex justify-content-end nav">
                 <template v-if="isAuthenticated">
                     <li class="nav-item dropdown">
-                        <a class="nav-link link-light dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink"
+                        <a class="d-flex align-items-center nav-link link-light dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink"
                            role="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
-                            <div>{{ user.username }}</div>
-                            <div v-if="user.is_admin" class="mt-1 small text-muted">Administrator</div>
-                            <div v-else class="mt-1 small text-muted">User</div>
+                            <div class="d-inline-block">
+                                <div>{{ user.username }}</div>
+                                <div v-if="user.is_admin" class="small text-muted">Administrator</div>
+                                <div v-else class="small text-muted">User</div>
+                            </div>
                         </a>
                         <div class="dropdown-menu dropdown-menu-right user-dropdown">
                             <router-link :to="{name: 'profile'}" class="dropdown-item">

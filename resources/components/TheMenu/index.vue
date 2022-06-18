@@ -1,6 +1,6 @@
 <template>
-    <nav id="navbar-left" class="fixed d-lg-block sidebar collapse">
-        <div id="navbar-left-menu">
+    <nav id="navbar-left" class="fixed d-lg-block sidebar collapse col-12 col-md-3 col-lg-2">
+        <div id="navbar-left-menu" class="position-sticky">
             <span class="sidebar-heading d-flex justify-content-between align-items-center px-3 mb-1 text-muted">Music zone</span>
             <ul class="nav flex-column">
                 <li class="nav-item">

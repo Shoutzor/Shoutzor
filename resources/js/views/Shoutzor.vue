@@ -13,22 +13,22 @@
         </main>
     </div>
 
-    <media-player id="media-player" :volume="100" :playerStatus="'stopped'"/>
+    <the-mediaplayer id="media-player" :volume="100" :playerStatus="'stopped'"/>
     <upload-manager></upload-manager>
 </template>
 
 <script>
 import TheHeader from '@components/TheHeader';
 import TheMenu from '@components/TheMenu';
-import MediaPlayer from '@components/MediaPlayer';
+import TheMediaplayer from '@components/TheMediaplayer';
 import UploadManager from "@components/UploadManager";
 
 export default {
     name: "Shoutzor",
     components: {
+        TheMediaplayer,
         TheHeader,
         TheMenu,
-        MediaPlayer,
         UploadManager
     }
 }
