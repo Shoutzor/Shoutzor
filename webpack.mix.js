@@ -30,7 +30,7 @@ mix.webpackConfig({
  */
 mix.js('resources/js/app.js', 'public/js')
     .vue({
-        globalStyles: __dirname + '/resources/scss/app.scss',
+        globalStyles: __dirname + '/resources/scss/_theme.scss',
     })
     .sass('resources/scss/app.scss', 'public/css')
     .purgeCss({
@@ -41,7 +41,7 @@ mix.js('resources/js/app.js', 'public/js')
             /^alert/,
             /data-bs-popper/, //Some bootstrap classes are generated with this data tag
             /^ps/, // vue-perfect-scrollbar classes
-            "router-link-exact-active" //Since this class is added via JS it's not detected by PurgeCSS
+            /^router-link/ //All router-link classes are generated with JS
         ]
     });
 
