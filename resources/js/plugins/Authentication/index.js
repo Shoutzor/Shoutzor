@@ -34,6 +34,11 @@ class AuthenticationManager {
         this.#state.isAuthenticated = value;
     }
 
+    can(permission) {
+        //TODO implement role-based permissions
+        return true;
+    }
+
     get token() {
         return this.#token;
     }

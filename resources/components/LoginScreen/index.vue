@@ -8,24 +8,16 @@
                 <div class="card-body">
                     <h2 class="mb-3 text-center">Login to your account</h2>
 
-                    <div v-if="isAuthenticated">
-                        <div v-if="isLoading" class="text-center">
-                            <p>Loading user information</p>
-                            <div class="spinner-border" role="status"></div>
-                        </div>
-                        <div v-else class="text-center">
+                    <template v-if="isAuthenticated">
+                        <div class="text-center">
                             <base-alert type="danger" class="mb-2">You are not authorized to access the website
                             </base-alert>
                             <base-button class="mt-2" @click="$emit('logout')">Logout</base-button>
                         </div>
-                    </div>
+                    </template>
 
                     <login-form v-else></login-form>
                 </div>
-            </div>
-
-            <div v-if="isAuthenticated === false" class="text-center text-muted">
-                No account yet? <a href="#" tabindex="-1">Sign up</a>
             </div>
         </div>
     </div>
@@ -46,15 +38,9 @@ export default {
         BaseAlert,
         LoginForm
     },
-
-    props: {
-        isAuthenticated: {
-            type: Boolean,
-            required: false
-        },
-        isLoading: {
-            type: Boolean,
-            required: false
+    computed: {
+        isAuthenticated() {
+            return this.auth.isAuthenticated;
         }
     }
 }

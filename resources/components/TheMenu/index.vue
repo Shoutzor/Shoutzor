@@ -22,16 +22,17 @@
                     </router-link>
                 </li>
             </ul>
-            <span v-if="isAuthenticated"
-                  class="sidebar-heading d-flex justify-content-between align-items-center px-3 mb-1 text-muted">Your zone</span>
-            <ul v-if="isAuthenticated" class="nav flex-column">
-                <li class="nav-item">
-                    <router-link :to="{name: 'dashboard'}" class="nav-link">
-                        <b-icon-cloud-upload></b-icon-cloud-upload>
-                        Upload manager
-                    </router-link>
-                </li>
-            </ul>
+            <template v-if="isAuthenticated">
+                <span class="sidebar-heading d-flex justify-content-between align-items-center px-3 mb-1 mt-md-5 text-muted">Your zone</span>
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <router-link :to="{name: 'upload'}" class="nav-link">
+                            <b-icon-cloud-upload></b-icon-cloud-upload>
+                            Upload manager
+                        </router-link>
+                    </li>
+                </ul>
+            </template>
         </div>
     </nav>
 </template>
@@ -39,13 +40,10 @@
 <script>
 export default {
     name: 'the-menu',
-
-    props: {
-        isAuthenticated: {
-            type: Boolean,
-            required: false,
-            default: false
-        },
+    computed: {
+        isAuthenticated() {
+            return this.auth.isAuthenticated;
+        }
     }
 }
 </script>
