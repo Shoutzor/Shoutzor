@@ -93,6 +93,7 @@ app.use(router)
         httpClient: httpLink
     })
     .use(MediaPlayerPlugin, {
+        broadcastUrl: window.Laravel.BROADCAST_URL,
         apolloClient,
         echoClient
     })

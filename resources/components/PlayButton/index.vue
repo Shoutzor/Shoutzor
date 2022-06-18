@@ -1,28 +1,33 @@
 <template>
     <div class="playbutton" @click="onClick">
-        <b-icon-play-fill v-if="state === 'stopped'" class="play"></b-icon-play-fill>
-        <b-icon-stop-fill v-if="state === 'playing'" class="stop"></b-icon-stop-fill>
-
-        <div v-if="state === 'loading'" class="spinner-border loading" role="status"></div>
+        <b-icon-play-fill v-if="state === PlayerState.STOPPED" class="play"></b-icon-play-fill>
+        <b-icon-stop-fill v-else-if="state === PlayerState.PLAYING" class="stop"></b-icon-stop-fill>
+        <div v-else class="spinner-border loading" role="status"></div>
     </div>
 </template>
 
 <script>
 import './PlayButton.scss'
 import {BIconPlayFill, BIconStopFill} from 'bootstrap-icons-vue';
+import {PlayerState} from "@models/PlayerState";
 import {reactive} from 'vue';
 
 export default {
     name: 'play-button',
     components: {BIconPlayFill, BIconStopFill},
+    data() {
+        return {
+            PlayerState
+        }
+    },
     props: {
         state: {
-            type: String,
+            type: Number,
             required: true,
             validator: function (value) {
-                return ['stopped', 'playing', 'loading'].indexOf(value) !== -1;
+                return Object.values(PlayerState).indexOf(value) !== -1;
             },
-            default: 'stopped'
+            default: PlayerState.STOPPED
         }
     },
 

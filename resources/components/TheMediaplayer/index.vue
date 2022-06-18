@@ -16,11 +16,11 @@
         <div
             class="media-control-container d-flex flex-fill flex-column flex-wrap align-items-center order-0 order-md-1">
             <div class="media-controls d-flex flex-fill align-items-center justify-content-center">
-                <b-icon-hand-thumbs-up v-if="isAuthenticated && nowplaying" @click="$emit('mediaplayerUpvote')"
+                <b-icon-hand-thumbs-up v-if="isAuthenticated && nowplaying" @click="onUpvoteClick"
                                        class="upvote me-3"/>
-                <play-button @click="$emit('mediaplayerPlay')" :state="playerStatus" class="mt-1"></play-button>
+                <play-button @click="onPlayClick" :state="playerStatus" class="mt-1"></play-button>
                 <b-icon-hand-thumbs-down v-if="isAuthenticated && nowplaying"
-                                         @click="$emit('mediaplayerDownvote')" class="downvote ms-3"/>
+                                         @click="onDownvoteClick" class="downvote ms-3"/>
             </div>
 
             <div class="mt-1 mb-1 d-flex flex-fill">
@@ -33,8 +33,8 @@
         </div>
         <div
             class="extra-control d-inline-flex flex-grow-1 flex-shrink-0 flex-basis-0 align-items-center justify-content-end order-2">
-            <div class="video-control" v-if="videoEnabled && playerStatus !== PlayerState.STOPPED"
-                 @click="$emit('mediaplayerVideo')">
+            <div class="video-control" v-if="videoEnabled && playerStatus === PlayerState.PLAYING"
+                 @click="onVideoClick">
                 <b-icon-tv/>
             </div>
 
@@ -49,6 +49,8 @@
                 </div>
             </div>
         </div>
+
+        <video id="mediaPlayerSource"></video>
     </div>
 </template>
 
@@ -78,39 +80,81 @@ export default {
     },
     data() {
         return {
+            volume: 100,
             defaultMediaImage,
             PlayerState
         }
     },
+    mounted() {
+        this.mediaPlayer.initialize();
+    },
     computed: {
         isAuthenticated() { return this.auth.isAuthenticated; },
+        playerStatus() { return this.mediaPlayer.playerStatus; },
+        videoEnabled() { return false; },
         nowplaying() { return this.mediaPlayer.lastPlayed; },
         timePassed() { return 0; },
-        timeDuration() { return this.nowplaying?.media?.duration; },
+        timeDuration() { return this.mediaPlayer.lastPlayed?.media?.duration; },
 
         percentagePlayed() {
             //TODO calculate from timePassed and timeDuration
             return 42;
         }
     },
-    props: {
-        volume: {
-            type: Number,
-            required: true,
-            default: 100
-        },
-        playerStatus: {
-            type: String,
-            required: true,
-            default: 'stopped'
-        },
-        videoEnabled: {
-            type: Boolean,
-            required: false,
-            default: false
+    watch: {
+        volume: function(val, oldVal) {
+            if(val > 0) {
+                //Convert the int to a double
+                val = val / 100;
+            }
+
+            this.mediaPlayer.setVolume(val);
         }
     },
-
-    emits: ['mediaplayerUpvote', 'mediaplayerDownvote', 'mediaplayerPlay', 'mediaplayerVideo']
+    methods: {
+        onPlayClick() {
+            console.log(this.playerStatus);
+            if(this.playerStatus === PlayerState.STOPPED) {
+                this.mediaPlayer.play();
+            } else {
+                this.mediaPlayer.stop();
+            }
+        },
+        onVideoClick() {
+            // Showing the video, so hide it
+            if(this.showingVideo === true) {
+                this.hideVideo();
+            }
+            // Not showing the video yet, show it
+            else {
+                this.showVideo();
+            }
+        },
+        onUpvoteClick() {
+            // TODO
+        },
+        onDownvoteClick() {
+            // TODO
+        },
+        showVideo() {
+            document.querySelector("#mediaPlayerSource").classList.add("visible");
+            document.querySelector("#video-control").classList.add("active");
+            this.showingVideo = true;
+            this.setHighVideoQuality();
+        },
+        hideVideo() {
+            document.querySelector("#mediaPlayerSource").classList.remove("visible");
+            document.querySelector("#video-control").classList.remove("active");
+            this.showingVideo = false;
+            this.setLowVideoQuality();
+        },
+        setLowVideoQuality() {
+            this.player.updateSettings({'streaming': {'abr': {'autoSwitchBitrate': {'video': false}}}});
+            this.player.setQualityFor("video", 0);
+        },
+        setHighVideoQuality() {
+            this.player.updateSettings({'streaming': {'abr': {'autoSwitchBitrate': {'video': true}}}});
+        }
+    }
 }
 </script>

@@ -33,7 +33,8 @@
             APP_DEBUG: <?php echo config('app.debug') ? 'true' : 'false'; ?>,
             APP_ENV: '<?php echo config('app.env'); ?>',
             APP_URL: '<?php echo config('app.url'); ?>',
-            APP_BASE_URL: '<?php echo parse_url(config('app.url'), PHP_URL_HOST); ?>'
+            APP_BASE_URL: '<?php echo parse_url(config('app.url'), PHP_URL_HOST); ?>',
+            BROADCAST_URL: 'https://dash.akamaized.net/akamai/bbb_30fps/bbb_30fps.mpd'
         };
     </script>
 

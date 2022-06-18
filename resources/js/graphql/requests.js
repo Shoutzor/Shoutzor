@@ -13,6 +13,7 @@ export const LASTPLAYED_MUTATION = gql`
                     id
                     title
                     image
+                    duration
                     artists {
                         id
                         name
