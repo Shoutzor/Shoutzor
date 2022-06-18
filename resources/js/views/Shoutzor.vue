@@ -36,7 +36,7 @@ export default {
 
 <style lang="scss" scoped>
 #wrapper {
-    padding-top: calc($navbar-height + 1.5rem);
+    padding-top: 1rem;
     padding-bottom: 0.5rem;
 }
 

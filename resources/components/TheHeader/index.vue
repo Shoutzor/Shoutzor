@@ -1,12 +1,9 @@
 <template>
-    <header id="navbar-top" class="navbar navbar-dark fixed-top p-0">
+    <header id="navbar-top" class="navbar navbar-dark flex-md-nowrap sticky-top p-0">
         <div class="container-fluid">
             <router-link :to="{name: 'dashboard'}" class="navbar-brand">
                 <img alt="logo" class="navbar-brand-image filter-invert" src="@static/images/shoutzor-logo-header.png">
             </router-link>
-            <button class="navbar-toggler position-absolute d-md-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-left" aria-controls="sidebarMenu" aria-expanded="true" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
             <ul class="d-flex justify-content-end nav">
                 <template v-if="isAuthenticated">
                     <li class="nav-item dropdown">
@@ -42,6 +39,9 @@
                     </li>
                 </template>
             </ul>
+            <button class="navbar-toggler d-md-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-left" aria-controls="sidebarMenu" aria-expanded="true" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
         </div>
     </header>
 </template>
