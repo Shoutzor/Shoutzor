@@ -32,7 +32,6 @@ class RequestFactory extends Factory
     {
         return $this->afterCreating(function (Request $request) {
             $request->requested_by = (random_int(0, 5) > 3) ? null : User::inRandomOrder()->first()->id;
-            $request->played_at = (random_int(0, 5) > 3) ? null : Carbon::now()->addSeconds(random_int(1, 5))->format('Y-m-d H:i:s');
             $request->save();
         });
     }

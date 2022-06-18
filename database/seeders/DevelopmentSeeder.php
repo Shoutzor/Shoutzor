@@ -50,11 +50,14 @@ class DevelopmentSeeder extends Seeder
             ->count(10)
             ->create();
 
-        // Create some votes
+/*
+ *  TODO: Prevent duplicate entries.
+ *
+ *         // Create some votes
         $this->command->info("Generating Votes");
         Vote::factory()
             ->count(20)
-            ->create();
+            ->create();*/
 
         // Create some history
         $this->command->info("Generating Request History");
