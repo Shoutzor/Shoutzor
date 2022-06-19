@@ -14,7 +14,7 @@
             </div>
         </div>
         <div
-            class="media-control-container d-flex flex-fill flex-column flex-wrap align-items-center order-0 order-md-1">
+            class="media-control-container d-flex flex-fill flex-column flex-wrap align-items-center order-0 order-md-1 pt-1">
             <div class="media-controls d-flex flex-fill align-items-center justify-content-center">
                 <b-icon-hand-thumbs-up v-if="isAuthenticated && nowplaying" @click="onUpvoteClick"
                                        class="upvote me-3"/>
@@ -23,13 +23,11 @@
                                          @click="onDownvoteClick" class="downvote ms-3"/>
             </div>
 
-            <div class="mt-1 mb-1 d-flex flex-fill">
-                <base-progressbar
-                    :pre-text="timePassed + '' || ''"
-                    :post-text="timeDuration + '' || ''"
-                    :current-value="percentagePlayed || 0"
-                    class="col"/>
-            </div>
+            <base-progressbar
+                :pre-text="timePassed + '' || ''"
+                :post-text="timeDuration + '' || ''"
+                :current-value="percentagePlayed || 0"
+                class="col d-flex flex-fill"/>
         </div>
         <div
             class="extra-control d-inline-flex flex-md-grow-1 flex-md-shrink-0 flex-basis-0 align-items-center justify-content-end order-2">

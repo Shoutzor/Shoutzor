@@ -5,6 +5,8 @@ import {LOGIN_MUTATION, LOGOUT_MUTATION, WHOAMI_MUTATION} from "@graphql/auth";
 
 class AuthenticationManager {
 
+    #app
+
     #echoClient
     #httpClient
 
@@ -12,7 +14,8 @@ class AuthenticationManager {
     #token;
     #state;
 
-    constructor(tokenName, echoClient, httpClient) {
+    constructor(app, tokenName, echoClient, httpClient) {
+        this.#app = app;
         this.#tokenName = tokenName;
         this.#token = localStorage.getItem(tokenName);
 
@@ -41,6 +44,10 @@ class AuthenticationManager {
 
     get token() {
         return this.#token;
+    }
+
+    #showError(message) {
+        this.#app.config.globalProperties.bootstrapControl.showToast("danger", message);
     }
 
     // Private setter
@@ -83,7 +90,6 @@ class AuthenticationManager {
                     resolve(true);
                 })
                 .catch(error => {
-                    console.log(error.graphQLErrors);
                     reject(error);
                 });
         });
@@ -97,11 +103,14 @@ class AuthenticationManager {
 
             this.#getUser()
                 .then(() => {
-                    this.#updateIsAuthenticated(true);
                     resolve(true);
                 })
                 .catch(error => {
-                    console.log("ERROR", error);
+                    localStorage.removeItem(this.#tokenName);
+
+                    console.error("Failed to login using saved token, reason", error);
+                    this.#showError("Failed to automatically login, please try manually");
+
                     reject(error);
                 });
         });
@@ -122,11 +131,14 @@ class AuthenticationManager {
             }).then(result => {
                 this.#updateToken(result.data.login.token);
 
-                this.resumeSession()
+                this.#getUser()
                     .then(() => {
                         resolve(true);
                     })
                     .catch(error => {
+                        console.error("Failed to get user information, reason", error);
+                        this.#showError("Failed to get user information, please try again");
+
                         reject(error);
                     });
             })
@@ -161,6 +173,6 @@ export const AuthenticationPlugin = {
 
         provideApolloClient(options.apolloClient);
 
-        app.config.globalProperties.auth = new AuthenticationManager(options.tokenName, options.echoClient, options.httpClient);
+        app.config.globalProperties.auth = new AuthenticationManager(app, options.tokenName, options.echoClient, options.httpClient);
     }
 }

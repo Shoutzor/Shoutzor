@@ -12,6 +12,7 @@ import App from "@js/views/App.vue";
 import { cache } from "@graphql/cache";
 import { AuthenticationPlugin } from "@js/plugins/Authentication";
 import { MediaPlayerPlugin } from "@js/plugins/MediaPlayer";
+import { BootstrapControlPlugin } from "@js/plugins/BootstrapControl";
 
 const emitter = mitt();
 window.Pusher = require('pusher-js');
@@ -85,6 +86,7 @@ app.config.globalProperties.echo = echoClient;
 app.config.globalProperties.emitter = emitter;
 
 app.use(router)
+    .use(BootstrapControlPlugin)
     .use(AuthenticationPlugin, {
         tokenName: 'token',
         apolloClient,

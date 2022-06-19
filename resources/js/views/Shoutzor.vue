@@ -13,8 +13,12 @@
         </main>
     </div>
 
+    <div class="position-relative bottom-0 order-3">
+        <the-toastmanager />
+    </div>
+
     <the-mediaplayer id="media-player" :volume="100" :playerStatus="'stopped'"/>
-    <upload-manager></upload-manager>
+    <upload-manager />
 </template>
 
 <script>
@@ -22,6 +26,7 @@ import TheHeader from '@components/TheHeader';
 import TheMenu from '@components/TheMenu';
 import TheMediaplayer from '@components/TheMediaplayer';
 import UploadManager from "@components/UploadManager";
+import TheToastmanager from "@components/TheToastmanager";
 
 export default {
     name: "Shoutzor",
@@ -29,7 +34,8 @@ export default {
         TheMediaplayer,
         TheHeader,
         TheMenu,
-        UploadManager
+        UploadManager,
+        TheToastmanager
     }
 }
 </script>
