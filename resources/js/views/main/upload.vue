@@ -3,7 +3,15 @@
         <div class="row row-cards">
             <div class="col-sm-12">
                 <upload-area></upload-area>
+            </div>
+        </div>
+        <div class="row row-cards">
+            <div class="col-sm-12">
                 <upload-progress></upload-progress>
+            </div>
+        </div>
+        <div class="row row-cards">
+            <div class="col-sm-12">
                 <upload-table></upload-table>
             </div>
         </div>

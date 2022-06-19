@@ -1,3 +1,4 @@
+import axios from 'axios';
 import {reactive} from "vue";
 import {provideApolloClient, useMutation} from "@vue/apollo-composable";
 
@@ -9,15 +10,16 @@ class AuthenticationManager {
 
     #echoClient
     #httpClient
+    #axiosInstance
 
     #tokenName;
     #token;
     #state;
 
-    constructor(app, tokenName, echoClient, httpClient) {
+    constructor(app, tokenName, echoClient, httpClient, axiosInstance) {
         this.#app = app;
         this.#tokenName = tokenName;
-        this.#token = localStorage.getItem(tokenName);
+        this.#token = null;
 
         this.#state = reactive({
             user: null,
@@ -26,6 +28,17 @@ class AuthenticationManager {
 
         this.#echoClient = echoClient;
         this.#httpClient = httpClient;
+        this.#axiosInstance = axiosInstance;
+
+        this.#initialize();
+    }
+
+    #initialize() {
+        let token = localStorage.getItem(this.#tokenName);
+
+        if(!!token) {
+            this.#updateToken(token);
+        }
     }
 
     get isAuthenticated() {
@@ -55,6 +68,9 @@ class AuthenticationManager {
         this.#token = token;
         localStorage.setItem(this.#tokenName, token);
 
+        console.dir(this.#httpClient);
+
+        axios.defaults.headers.common.Authorization = 'Bearer ' + token;
         this.#echoClient.connector.options.auth.headers.authorization = "Bearer " + token;
         this.#httpClient.options.headers.authorization = "Bearer " + token;
     }
@@ -63,6 +79,7 @@ class AuthenticationManager {
         this.#token = null;
         localStorage.removeItem(this.#tokenName);
 
+        delete axios.defaults.headers.common.Authorization;
         delete this.#echoClient.connector.options.auth.headers.authorization;
         delete this.#httpClient.options.headers.authorization;
     }
@@ -173,6 +190,6 @@ export const AuthenticationPlugin = {
 
         provideApolloClient(options.apolloClient);
 
-        app.config.globalProperties.auth = new AuthenticationManager(app, options.tokenName, options.echoClient, options.httpClient);
+        app.config.globalProperties.auth = new AuthenticationManager(app, options.tokenName, options.echoClient, options.httpClient, options.axiosInstance);
     }
 }

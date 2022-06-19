@@ -1,7 +1,8 @@
 <template>
     <div v-if="status.totalFiles !== undefined && status.totalFiles > 0" class="card upload-progress">
         <div class="card-body">
-            <div v-if="status.totalFiles - 1 > 0" class="h1 mb-3">Uploading files, {{ status.totalFiles - 1 }} pending
+            <div v-if="status.totalFiles > 1" class="h1 mb-3">
+                Uploading files, {{ status.totalFiles - 1 }} pending
             </div>
             <div v-if="status.currentFile !== null">
                 <table class="table table-borderless card-table upload-info mb-2">

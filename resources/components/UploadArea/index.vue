@@ -1,7 +1,7 @@
 <template>
     <form action="" class="upload-area" enctype="multipart/form-data" method="post" @drop="onDrop">
         <div class="box_input">
-            <file-upload-icon class="box_icon"></file-upload-icon>
+            <b-icon-cloud-upload class="box_icon"></b-icon-cloud-upload>
             <input id="file" class="box_file" data-multiple-caption="{count} files selected" multiple name="files[]"
                    type="file" @change="onFileSelect"/>
             <label for="file">

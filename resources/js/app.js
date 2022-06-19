@@ -1,3 +1,4 @@
+import axios from 'axios';
 import Echo from 'laravel-echo';
 import router from "./router/app";
 import mitt from 'mitt';
@@ -13,22 +14,15 @@ import { cache } from "@graphql/cache";
 import { AuthenticationPlugin } from "@js/plugins/Authentication";
 import { MediaPlayerPlugin } from "@js/plugins/MediaPlayer";
 import { BootstrapControlPlugin } from "@js/plugins/BootstrapControl";
+import {UploadManagerPlugin} from "@js/plugins/UploadManager";
+
+// The UploadManager still uses Axios. Ideally this also should be replaced by GraphQL later on
+// Currently not the case because I haven't figured out how to track upload progress.
+axios.defaults.baseURL = window.Laravel.APP_URL + '/api';
+axios.defaults.headers.common['Accept'] = 'application/json';
 
 const emitter = mitt();
 window.Pusher = require('pusher-js');
-
-function getHeaders() {
-    const headers = {}
-    const token = localStorage.getItem('token')
-    if (token) {
-        headers.authorization = `Bearer ${token}`
-    }
-
-    return {
-        ...headers,
-        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
-    };
-}
 
 let echoClient = new Echo({
     broadcaster: 'pusher',
@@ -46,7 +40,7 @@ let echoClient = new Echo({
 const httpLink = new HttpLink({
     // You should use an absolute URL here
     uri: window.Laravel.APP_URL + '/graphql',
-    headers: getHeaders()
+    headers: {}
 });
 
 // using the ability to split links, you can send data to each link
@@ -96,6 +90,9 @@ app.use(router)
     .use(MediaPlayerPlugin, {
         broadcastUrl: window.Laravel.BROADCAST_URL,
         apolloClient,
+        echoClient
+    })
+    .use(UploadManagerPlugin, {
         echoClient
     })
     .use(PerfectScrollbar)

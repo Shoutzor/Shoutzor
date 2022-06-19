@@ -18,14 +18,12 @@
     </div>
 
     <the-mediaplayer id="media-player" :volume="100" :playerStatus="'stopped'"/>
-    <upload-manager />
 </template>
 
 <script>
 import TheHeader from '@components/TheHeader';
 import TheMenu from '@components/TheMenu';
 import TheMediaplayer from '@components/TheMediaplayer';
-import UploadManager from "@components/UploadManager";
 import TheToastmanager from "@components/TheToastmanager";
 
 export default {
@@ -34,7 +32,6 @@ export default {
         TheMediaplayer,
         TheHeader,
         TheMenu,
-        UploadManager,
         TheToastmanager
     }
 }
