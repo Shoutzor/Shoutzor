@@ -36,13 +36,13 @@ stages:
               dockerComposeCommand: up -d mysql
 
           - task: DockerCompose@0
-              displayName: 'Start Redis container in background'
-              inputs:
-                action: Run a Docker Compose command
-                dockerComposeFile: docker-compose.yml
-                additionalDockerComposeFiles: docker-compose.test.yml
-                projectName: shoutzor
-                dockerComposeCommand: up -d redis
+            displayName: 'Start Redis container in background'
+            inputs:
+              action: Run a Docker Compose command
+              dockerComposeFile: docker-compose.yml
+              additionalDockerComposeFiles: docker-compose.test.yml
+              projectName: shoutzor
+              dockerComposeCommand: up -d redis
 
           - task: DockerCompose@0
             displayName: 'Install Shoutzor via composer'
