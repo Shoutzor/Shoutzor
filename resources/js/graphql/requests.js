@@ -22,3 +22,66 @@ export const LASTPLAYED_MUTATION = gql`
             }
         }
     }`;
+
+export const COMINGUP_QUERY = gql`
+    query getRequests {
+        requests(where: { column: PLAYED_AT, operator: IS_NULL }) {
+            paginatorInfo{
+                total
+                hasMorePages
+            }
+            data {
+                id
+                media {
+                    id
+                    title
+                    is_video
+                    duration
+                    artists {
+                        id,
+                        name
+                    }
+                }
+                requested_at
+                requested_by {
+                    id
+                    username
+                }
+            }
+        }
+    }`;
+
+export const HISTORY_QUERY = gql`
+    query getHistory {
+        requests(
+            where: { column: PLAYED_AT, operator: IS_NOT_NULL }
+            orderBy: { column: "played_at", order: DESC }
+        ) {
+            paginatorInfo{
+                total
+                hasMorePages
+            }
+            data {
+                id
+                media {
+                    id
+                    title
+                    is_video
+                    duration
+                    album {
+                        id
+                        title
+                    }
+                    artists {
+                        id,
+                        name
+                    }
+                }
+                played_at
+                requested_by {
+                    id
+                    username
+                }
+            }
+        }
+    }`;

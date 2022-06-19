@@ -70,36 +70,8 @@ import ArtistList from "@components/ArtistList";
 import BeautifiedTime from "@components/BeautifiedTime";
 
 import {useQuery} from "@vue/apollo-composable";
-import gql from "graphql-tag";
 import {computed} from "vue";
-
-const REQUESTS_QUERY = gql`
-    query getRequests {
-      requests(where: { column: PLAYED_AT, operator: IS_NULL }) {
-        paginatorInfo{
-          total
-          hasMorePages
-        }
-        data {
-          id
-          media {
-            id
-            title
-            is_video
-            duration
-            artists {
-              id,
-              name
-            }
-          }
-          requested_at
-          requested_by {
-            id
-            username
-          }
-        }
-      }
-    }`;
+import {COMINGUP_QUERY} from "@graphql/requests";
 
 export default {
     name: "comingup-table",
@@ -110,7 +82,7 @@ export default {
         BeautifiedTime
     },
     setup() {
-        const {result, loading, error} = useQuery(REQUESTS_QUERY);
+        const {result, loading, error} = useQuery(COMINGUP_QUERY);
 
         const queue = computed(() => result?.value?.requests?.data ?? []);
 
