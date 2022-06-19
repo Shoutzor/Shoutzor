@@ -1,7 +1,7 @@
 # Shoutz0r
 
 [![License](https://img.shields.io/github/license/xorinzor/shoutz0r.svg?style=flat)](https://www.gnu.org/licenses/gpl-3.0.en.html)
-![Azure DevOps builds](https://img.shields.io/azure-devops/build/xorinzor/a25fbc4c-12ac-4473-beb7-219329581d73/4)
+[![Azure DevOps builds](https://img.shields.io/azure-devops/build/xorinzor/a25fbc4c-12ac-4473-beb7-219329581d73/4)](https://dev.azure.com/xorinzor/Shoutz0r/_build)
 [![CodeFactor](https://www.codefactor.io/repository/github/xorinzor/shoutz0r-app/badge/master)](https://www.codefactor.io/repository/github/xorinzor/shoutz0r-app/overview/master)
 
 Shoutz0r - A media voting system perfect for events such as lan-parties!\
@@ -16,13 +16,12 @@ Shoutz0r gives users a platform to upload different kinds of media, and vote on 
 yes it supports videos too!).\
 The queue can be generated based on the amount of votes, or as a regular queue (first come, first serve).
 
-Built using the Laravel Framework and Vue components.
+Built using Laravel, Vue, GraphQL (Lighthouse) & Apollo.
 
-Documentation can be found over at [shoutzor.com](https://www.shoutzor.com)
+API Docs & Storybook can be found over at [shoutzor.com](https://www.shoutzor.com). \
+Documentation has yet to be written. Feel free to ask any questions in the `discussions`.
 
 ### To setup:
-
-Currently there's a few hoops to go through. These should be resolved on the proper release.
 
 First off, optionally edit the values in `.env.template`. These will be used during setup.
 
@@ -35,7 +34,7 @@ For development environments:
 
 - Ensure you have composer and npm installed
 - Run `composer install-shoutzor-dev`
-- Optionally Run `composer add-mock-data` this will run a seeder to add fake data
+- If at any point you want additional data, you can run `composer add-mock-data` this will run the `DevelopmentSeeder` to add fake data
 
 The Shoutz0r app should now be ready for use! You can optionally remove the `.env.template` file now, it has been copied
 to `.env`.
@@ -53,7 +52,8 @@ This will set up a basic and simple docker network with a few containers pre-con
 
 For development environments you should run: `docker-compose -f docker-compose.yml -f docker-compose.dev.yml up`
 
-When your docker is up and running, make sure to run `composer install-shoutzor` in the `php` container.
+When your docker is up and running, make sure to run `composer install-shoutzor` in the `php` container.\
+If you want a development environment, run `composer install-shoutzor-dev` instead.
 
 Please note that I will not be providing support on any issues regarding docker itself.\
 By using Docker I expect you to have the required knowledge about how it works.
