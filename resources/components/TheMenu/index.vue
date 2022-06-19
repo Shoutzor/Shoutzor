@@ -5,20 +5,20 @@
             <ul class="nav flex-column">
                 <li class="nav-item">
                     <router-link :to="{name: 'dashboard'}" class="nav-link">
-                        <b-icon-house-fill></b-icon-house-fill>
-                        Dashboard
+                        <b-icon-house-fill class="icon" />
+                        <span class="text ps-1">Dashboard</span>
                     </router-link>
                 </li>
                 <li class="nav-item">
                     <router-link :to="{name: 'history'}" class="nav-link">
-                        <b-icon-clock-history></b-icon-clock-history>
-                        History
+                        <b-icon-clock-history class="icon" />
+                        <span class="text ps-1">History</span>
                     </router-link>
                 </li>
                 <li class="nav-item">
                     <router-link :to="{name: 'popular'}" class="nav-link">
-                        <b-icon-star></b-icon-star>
-                        Most Played
+                        <b-icon-star class="icon" />
+                        <span class="text ps-1">Most Played</span>
                     </router-link>
                 </li>
             </ul>
@@ -27,8 +27,8 @@
                 <ul class="nav flex-column">
                     <li class="nav-item">
                         <router-link :to="{name: 'upload'}" class="nav-link">
-                            <b-icon-cloud-upload></b-icon-cloud-upload>
-                            Upload manager
+                            <b-icon-cloud-upload class="icon" />
+                            <span class="text ps-1">Upload manager</span>
                         </router-link>
                     </li>
                 </ul>
@@ -38,6 +38,8 @@
 </template>
 
 <script>
+import "./TheMenu.scss";
+
 export default {
     name: 'the-menu',
     computed: {
