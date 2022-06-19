@@ -1,11 +1,11 @@
 <template>
     <div class="nowplaying">
         <div class="track-background">
-            <img v-media-image-fallback class="album-image" :src="request?.media?.image || defaultMediaImage" alt="media image"/>
+            <img class="album-image" :src="request?.media?.image || defaultMediaImage" alt="media image"/>
             <div class="album-overlay"></div>
         </div>
         <div class="track-content card card-aside">
-            <img v-media-image-fallback alt="album image" class="album-image card-aside-column" :src="request?.media?.image || defaultMediaImage"/>
+            <img alt="album image" class="album-image card-aside-column" :src="request?.media?.image || defaultMediaImage"/>
 
             <div class="track-info card-body d-flex flex-column mt-auto">
                 <template v-if="request">

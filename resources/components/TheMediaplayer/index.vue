@@ -3,7 +3,7 @@
         <div
             class="media-info d-inline-flex flex-grow-1 flex-shrink-0 flex-basis-0 align-items-center order-1 order-md-0">
             <div class="album-image d-inline-block pe-1">
-                <img v-media-image-fallback class="rounded" :src="nowplaying?.media?.image || defaultMediaImage" alt="media image"/>
+                <img class="rounded" :src="nowplaying?.media?.image || defaultMediaImage" alt="media image"/>
             </div>
             <div class="track-info d-inline-block">
                 <template v-if="nowplaying">

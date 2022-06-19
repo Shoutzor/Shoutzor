@@ -83,6 +83,7 @@ class AuthenticationManager {
                     resolve(true);
                 })
                 .catch(error => {
+                    console.log(error.graphQLErrors);
                     reject(error);
                 });
         });
@@ -100,6 +101,7 @@ class AuthenticationManager {
                     resolve(true);
                 })
                 .catch(error => {
+                    console.log("ERROR", error);
                     reject(error);
                 });
         });

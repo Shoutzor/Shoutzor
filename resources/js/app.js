@@ -2,13 +2,12 @@ import Echo from 'laravel-echo';
 import router from "./router/app";
 import mitt from 'mitt';
 import PerfectScrollbar from 'vue3-perfect-scrollbar';
-import {createApp } from 'vue'
+import { createApp } from 'vue'
 import {BootstrapIconsPlugin} from 'bootstrap-icons-vue';
 import {DefaultApolloClient} from '@vue/apollo-composable'
 import {ApolloClient, HttpLink, split} from '@apollo/client/core'
 import {createLighthouseSubscriptionLink} from "@thekonz/apollo-lighthouse-subscription-link";
 import {getMainDefinition} from "@apollo/client/utilities";
-import MediaImageFallback from "@js/directives/mediaImageFallback";
 import App from "@js/views/App.vue";
 import { cache } from "@graphql/cache";
 import { AuthenticationPlugin } from "@js/plugins/Authentication";
@@ -79,7 +78,7 @@ const apolloClient = new ApolloClient({
 // Create the Vue App instance
 const app = createApp(App);
 
-app.directive('media-image-fallback', MediaImageFallback);
+//app.directive('media-image-fallback', MediaImageFallback);
 app.provide(DefaultApolloClient, apolloClient);
 
 app.config.globalProperties.echo = echoClient;
