@@ -27,7 +27,19 @@ $danger: $red;
 $info: $azure;
 $warning: $orange;
 
+//Media file colors
+$audio-default: #467fcf;
+$brand-color-spotify: #1DB954;
+$brand-color-soundcloud: #FF7700;
+$brand-color-youtube: #FF0000;
+
+
 $theme-colors: (
+    "audio": $audio-default,
+    "video": $orange,
+    "brand-spotify": $brand-color-spotify,
+    "brand-soundcloud": $brand-color-soundcloud,
+    "brand-youtube": $brand-color-youtube,
     "blue": $blue,
     "indigo": $indigo,
     "purple": $purple,
@@ -59,12 +71,6 @@ $body-color: $light;
 /*
  * Shoutz0r variables
  */
-
-//Brand colors
-$brand-color-none: #467fcf;
-$brand-color-spotify: #1DB954;
-$brand-color-soundcloud: #FF7700;
-$brand-color-youtube: #FF0000;
 
 //Element sizes
 $navbar-height: 3.5rem;

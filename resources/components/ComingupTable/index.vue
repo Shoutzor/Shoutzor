@@ -35,11 +35,11 @@
             <template v-else-if="queue.length > 0">
                 <tr v-for="request in queue" :key="request.id">
                     <td class="text-center mediatype-column">
-                        <span v-if="!!request.media.is_video" class="avatar mediatype video bg-orange-lt">
-                            <b-icon-film class="mediasource-icon"></b-icon-film>
-                        </span>
-                        <span v-else class="avatar mediatype audio bg-azure-lt">
-                            <b-icon-music-note-beamed class="mediasource-icon"></b-icon-music-note-beamed>
+                        <span
+                            :class="request.media.is_video ? 'bg-video text-white video' : 'bg-audio text-white audio'"
+                            class="avatar mediatype">
+                            <component :is="request.media.is_video ? 'b-icon-film' : 'b-icon-music-note-beamed'"
+                                       class="mediasource-icon"></component>
                         </span>
                     </td>
                     <td>

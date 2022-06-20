@@ -40,6 +40,7 @@ mix.js('resources/js/app.js', 'public/js')
             /^dropdown/,
             /^alert/,
             /^toast/,
+            /^bg-/, // .bg-<color> classes
             /data-bs-popper/, //Some bootstrap classes are generated with this data tag
             /^ps/, // vue-perfect-scrollbar classes
             /^router-link/ //All router-link classes are generated with JS
