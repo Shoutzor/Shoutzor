@@ -3,8 +3,8 @@ type AccessToken {
 }
 
 input LoginInput {
-    username: String! @rules(apply: ["alpha_num"])
-    password: String!
+    username: String! @rules(apply: ["required", "alpha_num"])
+    password: String! @rules(apply: ["required"])
 }
 
 type LogoutResponse {
@@ -142,7 +142,7 @@ enum UpdatePasswordStatus {
 
 extend type Mutation {
     login(input: LoginInput @spread): LoginResponse!
-        @field(resolver: "App\\GraphQL\\Mutations\\Login")
+        @field(resolver: "DanielDeWit\\LighthouseSanctum\\GraphQL\\Mutations\\Login")
     logout: LogoutResponse! @guard
         @field(resolver: "DanielDeWit\\LighthouseSanctum\\GraphQL\\Mutations\\Logout")
     register(input: RegisterInput @spread): RegisterResponse!
