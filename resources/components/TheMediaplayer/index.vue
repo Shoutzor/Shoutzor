@@ -27,7 +27,7 @@
                 :pre-text="timePassed + '' || ''"
                 :post-text="timeDuration + '' || ''"
                 :current-value="percentagePlayed || 0"
-                class="col d-flex flex-fill"/>
+                class="col d-flex flex-fill" />
         </div>
         <div
             class="extra-control d-inline-flex flex-md-grow-1 flex-md-shrink-0 flex-basis-0 align-items-center justify-content-end order-2">

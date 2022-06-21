@@ -1,8 +1,8 @@
 <template>
-    <div v-if="totalFiles > 0" class="card upload-progress">
+    <div v-if="isUploading" class="card upload-progress">
         <div class="card-body">
-            <div v-if="totalFiles > 1" class="h1 mb-3">
-                Uploading files, {{ totalFiles - 1 }} pending
+            <div v-if="totalFiles > 0" class="h1 mb-3">
+                Uploading files, {{ totalFiles }} pending
             </div>
             <div v-if="currentFile">
                 <table class="table table-borderless card-table upload-info mb-2">
@@ -18,7 +18,9 @@
                     </tbody>
                 </table>
                 <div class="progress progress-sm">
-                    <base-progressbar :currentValue="progress" :postText="progress + '% Complete'" />
+                    <base-progressbar
+                        :current-value="progress"
+                        class="col d-flex flex-fill" />
                 </div>
             </div>
         </div>
@@ -32,9 +34,12 @@ export default {
     name: "upload-progress",
     components: {BaseProgressbar},
     computed: {
-        totalFiles() { return this.uploadManager.totalFiles; },
+        totalFiles() {
+            return this.uploadManager.files.length;
+        },
         currentFile() { return this.uploadManager.currentFile; },
-        progress() { return this.uploadManager.progress; }
+        progress() { return this.uploadManager.progress; },
+        isUploading() { return this.uploadManager.isUploading; }
     }
 }
 

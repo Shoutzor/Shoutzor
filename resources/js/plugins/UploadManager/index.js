@@ -31,8 +31,12 @@ class UploadManager {
         return this.#state.currentFile;
     }
 
+    get files() {
+        return this.#state.files;
+    }
+
     get totalFiles() {
-        return this.#state.files.length;
+        return this.files.length;
     }
 
     uploadFiles(addedFiles) {
@@ -41,7 +45,8 @@ class UploadManager {
             return;
         }
 
-        //Iterate over the array of files to add to the upload queue
+        // Iterate over addedFiles to add them all to the upload queue
+        // Required because addedFiles isn't actually an array, but a FileList object
         for (let i = 0; i < addedFiles.length; i++) {
             let file = addedFiles.item(i);
             this.#state.files.push(file);
@@ -57,28 +62,27 @@ class UploadManager {
     }
 
     uploadNextFile() {
-        //Grab the first file from the stack
+        // Grab the first file from the stack
         var currentFile = this.#state.files.shift();
 
-        //TODO check if file is a valid media format
+        // TODO check if file is a valid media format
+        // These extensions should be dynamically fetched / updated (echo-subscription?)
 
-        //Update status variables
-        this.resetStateVariables();
-
-        //Set uploading status to true
+        // Set uploading status to true
         this.#state.isUploading = true;
         this.#state.currentFile = currentFile.name;
 
         let formData = new FormData();
         formData.append("media", currentFile);
 
-        //Upload the file
+        // Upload the file
+        // TODO replace with GraphQL upload mutation eventually
         axios.post("/upload", formData, {
                 headers: {
                     "Content-Type": "multipart/form-data"
                 },
-                onUploadProgress: () => {
-                    this.#state.progress = Math.round((100 * event.loaded) / event.total);
+                onUploadProgress: (event) => {
+                    this.#state.progress = Math.floor((100 * event.loaded) / event.total);
                 }
             })
             .then(response => {
@@ -88,30 +92,28 @@ class UploadManager {
             })
             .catch(error => {
                 //Add the file to the failed uploads list to inform the user
-                this.#state.failedFiles.push(Object.assign({
-                        filename: currentFile.name,
-                        message: ""
-                    }, //Parse the error response to create appropriate status output
-                    this.parseError(error.response)))
+                this.#state.failedFiles.push(
+                        Object.assign({
+                            filename: currentFile.name,
+                            message: ""
+                        }, //Parse the error response to create appropriate status output
+                        this.parseError(error.response))
+                    );
             })
             .finally(() => {
-                //We're finished with all queued files
-                this.#state.isUploading = false;
-
                 //Update status variables
-                this.resetStateVariables();
+                this.#state.progress = 0;
+                this.#state.currentFile = null;
 
                 //Check if there are any remaining files to upload
                 if (this.totalFiles > 0) {
                     //Start the upload of the next file.
                     this.uploadNextFile();
+                } else {
+                    //We're finished with all queued files
+                    this.#state.isUploading = false;
                 }
             });
-    }
-
-    resetStateVariables() {
-        this.#state.progress = 0;
-        this.#state.currentFile = null;
     }
 
     parseError(error) {
