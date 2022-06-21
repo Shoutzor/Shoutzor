@@ -60,6 +60,10 @@ class AuthenticationManager {
         this.#app.config.globalProperties.bootstrapControl.showToast("danger", message);
     }
 
+    #showSuccess(message) {
+        this.#app.config.globalProperties.bootstrapControl.showToast("success", message);
+    }
+
     // Private setter
     #updateToken(token) {
         this.#token = token;
@@ -171,6 +175,7 @@ class AuthenticationManager {
                     this.#updateIsAuthenticated(false);
                     this.#removeToken();
                     this.#updateUser(null);
+                    this.#showSuccess("You are now signed out");
                     resolve(true);
                 })
                 .catch(error => {
