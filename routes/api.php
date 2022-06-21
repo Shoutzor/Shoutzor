@@ -21,42 +21,18 @@ Route::pattern('uuid', '[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]
  * These routes are always available
  * --------------------------------------------------------------------------
  */
-Route::get('system/health/', 'SystemApiController@getHealthStatus');
-Route::post('system/health/fix', 'SystemApiController@fixHealth');
+Route::get('role/guest', 'RoleApiController@guest');
+Route::get('permission/user', 'PermissionApiController@user');
 
 /*
  * --------------------------------------------------------------------------
- * Routes within this group require Shoutz0r to be installed
+ * Routes within this group require to be authenticated
  * --------------------------------------------------------------------------
  */
 Route::group(
-    ['middleware' => 'install.finished'],
+    ['middleware' => 'auth:sanctum'],
     function () {
-        Route::get('role/guest', 'RoleApiController@guest');
-        Route::get('permission/user', 'PermissionApiController@user');
-
-        /*
-         * --------------------------------------------------------------------------
-         * Routes within this group require the website.access permission
-         * --------------------------------------------------------------------------
-         */
-        Route::group(
-            ['middleware' => 'can:website.access'],
-            function () {
-                Route::post('upload', 'UploadApiController@store')->middleware('can:website.upload');
-            }
-        );
-
-        /*
-         * --------------------------------------------------------------------------
-         * Routes within this group require to be authenticated
-         * --------------------------------------------------------------------------
-         */
-        Route::group(
-            ['middleware' => 'auth:sanctum'],
-            function () {
-                Route::get('role/user', 'RoleApiController@user');
-            }
-        );
+        Route::post('upload', 'UploadApiController@store')->middleware('can:website.upload');
+        Route::get('role/user', 'RoleApiController@user');
     }
 );

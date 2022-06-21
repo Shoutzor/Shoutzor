@@ -28,6 +28,19 @@ class UploadApiController extends Controller
         $name = $request->file('media')->getClientOriginalName();
         $ext = $request->file('media')->extension();
 
+        // TODO supported media extensions should dynamically be provided by modular processing modules
+        $validExtensions = [
+            //Audio extensions
+            'mp3', 'ogg', 'wav', 'flac', 'm4a', 'wma', 'weba'
+
+            //Video is not implemented yet
+            //'webm', 'avi', 'mp4', 'mkv'
+        ];
+
+        if(!in_array($ext, $validExtensions)) {
+            return response()->json(['error' => 'The uploaded file format is unsupported'], 400);
+        }
+
         //Set the new  name for the file
         $newName = time() . $name . '.' . $ext;
 
@@ -43,9 +56,6 @@ class UploadApiController extends Controller
         //Send the event that an upload has been added
         $event = new UploadAddedEvent($upload);
         app(EventDispatcher::class)->dispatch($event);
-
-        //TODO add eventlistener: check if the file is a valid media file.
-        //TODO add eventlistener: sanitize the uploaded file. ie: remove all metadata to prevent possible exploits.
 
         // Check if any eventhandlers marked the upload as invalid
         if ($event->isValid() === false) {

@@ -267,16 +267,16 @@
         },
         {
             "name": "daniel-de-wit/lighthouse-sanctum",
-            "version": "2.1.0",
+            "version": "2.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/daniel-de-wit/lighthouse-sanctum.git",
-                "reference": "ac468c89cdcc4130060f9e068efbb29602031c15"
+                "reference": "a2618abbc07765001d8943f24d4b19b81eb30439"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/daniel-de-wit/lighthouse-sanctum/zipball/ac468c89cdcc4130060f9e068efbb29602031c15",
-                "reference": "ac468c89cdcc4130060f9e068efbb29602031c15",
+                "url": "https://api.github.com/repos/daniel-de-wit/lighthouse-sanctum/zipball/a2618abbc07765001d8943f24d4b19b81eb30439",
+                "reference": "a2618abbc07765001d8943f24d4b19b81eb30439",
                 "shasum": ""
             },
             "require": {
@@ -331,9 +331,9 @@
             ],
             "support": {
                 "issues": "https://github.com/daniel-de-wit/lighthouse-sanctum/issues",
-                "source": "https://github.com/daniel-de-wit/lighthouse-sanctum/tree/2.1.0"
+                "source": "https://github.com/daniel-de-wit/lighthouse-sanctum/tree/2.1.1"
             },
-            "time": "2022-06-20T09:53:58+00:00"
+            "time": "2022-06-21T14:32:07+00:00"
         },
         {
             "name": "dasprid/enum",
