@@ -32,6 +32,9 @@ Route::get('permission/user', 'PermissionApiController@user');
 Route::group(
     ['middleware' => 'auth:sanctum'],
     function () {
+        Route::get('system/health/', 'SystemApiController@getHealthStatus')->middleware('can:admin.healthcheck');
+        Route::post('system/health/fix', 'SystemApiController@fixHealth')->middleware('can:admin.healthcheck.fix');
+
         Route::post('upload', 'UploadApiController@store')->middleware('can:website.upload');
         Route::get('role/user', 'RoleApiController@user');
     }
