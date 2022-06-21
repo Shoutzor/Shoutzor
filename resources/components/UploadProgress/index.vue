@@ -1,27 +1,24 @@
 <template>
-    <div v-if="status.totalFiles !== undefined && status.totalFiles > 0" class="card upload-progress">
+    <div v-if="totalFiles > 0" class="card upload-progress">
         <div class="card-body">
-            <div v-if="status.totalFiles > 1" class="h1 mb-3">
-                Uploading files, {{ status.totalFiles - 1 }} pending
+            <div v-if="totalFiles > 1" class="h1 mb-3">
+                Uploading files, {{ totalFiles - 1 }} pending
             </div>
-            <div v-if="status.currentFile !== null">
+            <div v-if="currentFile">
                 <table class="table table-borderless card-table upload-info mb-2">
                     <tbody>
                     <tr>
                         <td><strong>Uploading:</strong></td>
-                        <td>{{ status.currentFile }}</td>
+                        <td>{{ currentFile }}</td>
                     </tr>
                     <tr>
                         <td><strong>Progress:</strong></td>
-                        <td>{{ status.progress }}%</td>
+                        <td>{{ progress }}%</td>
                     </tr>
                     </tbody>
                 </table>
                 <div class="progress progress-sm">
-                    <div :aria-valuenow="status.progress" :style="cssVars" aria-valuemax="100" aria-valuemin="0"
-                         class="progress-bar bg-blue" role="progressbar">
-                        <span class="sr-only">{{ status.progress }}% Complete</span>
-                    </div>
+                    <base-progressbar :currentValue="progress" :postText="progress + '% Complete'" />
                 </div>
             </div>
         </div>
@@ -29,36 +26,15 @@
 </template>
 
 <script>
+import BaseProgressbar from "@components/BaseProgressbar";
+
 export default {
     name: "upload-progress",
-
-    data() {
-        return {
-            status: {}
-        }
-    },
-
-    mounted() {
-        this.emitter.on('upload-status', this.uploadStatusUpdate);
-    },
-
-    beforeUnmount() {
-        this.emitter.off('upload-status', this.uploadStatusUpdate);
-    },
-
-    methods: {
-        uploadStatusUpdate(statusUpdate) {
-            this.status = statusUpdate;
-            console.log(this.status);
-        }
-    },
-
+    components: {BaseProgressbar},
     computed: {
-        cssVars() {
-            return {
-                '--width': this.status.progress + '%'
-            }
-        }
+        totalFiles() { return this.uploadManager.totalFiles; },
+        currentFile() { return this.uploadManager.currentFile; },
+        progress() { return this.uploadManager.progress; }
     }
 }
 

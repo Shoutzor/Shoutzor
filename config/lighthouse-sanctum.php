@@ -35,5 +35,7 @@ return [
     | Configure the credential fields by which the user will be identified.
     | Default: email
     */
-    'user_identifier_field_name' => 'username',
+    'identification' => [
+        'user_identifier_field_name' => 'username',
+    ]
 ];

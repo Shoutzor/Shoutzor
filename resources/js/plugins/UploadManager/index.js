@@ -1,6 +1,5 @@
 import axios from 'axios';
 import { reactive } from 'vue';
-import {provideApolloClient} from "@vue/apollo-composable";
 
 class UploadManager {
 
@@ -43,7 +42,10 @@ class UploadManager {
         }
 
         //Iterate over the array of files to add to the upload queue
-        addedFiles.forEach(file => this.files.push(file));
+        for (let i = 0; i < addedFiles.length; i++) {
+            let file = addedFiles.item(i);
+            this.#state.files.push(file);
+        }
 
         //Check if we're already uploading a file
         if (this.isUploading === true) {
@@ -64,21 +66,21 @@ class UploadManager {
         this.resetStateVariables();
 
         //Set uploading status to true
-        this.isUploading = true;
+        this.#state.isUploading = true;
         this.#state.currentFile = currentFile.name;
 
         let formData = new FormData();
         formData.append("media", currentFile);
 
         //Upload the file
-        axios.post("/api/upload", formData, {
-            headers: {
-                "Content-Type": "multipart/form-data"
-            },
-            onUploadProgress: () => {
-                this.#state.progress = Math.round((100 * event.loaded) / event.total);
-            }
-        })
+        axios.post("/upload", formData, {
+                headers: {
+                    "Content-Type": "multipart/form-data"
+                },
+                onUploadProgress: () => {
+                    this.#state.progress = Math.round((100 * event.loaded) / event.total);
+                }
+            })
             .then(response => {
                 console.log("upload response: ", response);
                 //On success?
@@ -94,7 +96,7 @@ class UploadManager {
             })
             .finally(() => {
                 //We're finished with all queued files
-                this.isUploading = false;
+                this.#state.isUploading = false;
 
                 //Update status variables
                 this.resetStateVariables();
@@ -143,8 +145,6 @@ class UploadManager {
 
 export const UploadManagerPlugin = {
     install: (app, options) => {
-        provideApolloClient(options.apolloClient);
-
         app.config.globalProperties.uploadManager = new UploadManager(options.echoClient);
     }
 }

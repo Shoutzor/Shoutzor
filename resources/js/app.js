@@ -5,7 +5,7 @@ import mitt from 'mitt';
 import PerfectScrollbar from 'vue3-perfect-scrollbar';
 import { createApp } from 'vue'
 import {BootstrapIconsPlugin} from 'bootstrap-icons-vue';
-import {DefaultApolloClient} from '@vue/apollo-composable'
+import {DefaultApolloClient, provideApolloClient} from '@vue/apollo-composable'
 import {ApolloClient, HttpLink, split} from '@apollo/client/core'
 import {createLighthouseSubscriptionLink} from "@thekonz/apollo-lighthouse-subscription-link";
 import {getMainDefinition} from "@apollo/client/utilities";
@@ -75,6 +75,7 @@ const app = createApp(App);
 
 //app.directive('media-image-fallback', MediaImageFallback);
 app.provide(DefaultApolloClient, apolloClient);
+provideApolloClient(apolloClient);
 
 app.config.globalProperties.echo = echoClient;
 app.config.globalProperties.emitter = emitter;
@@ -83,7 +84,6 @@ app.use(router)
     .use(BootstrapControlPlugin)
     .use(AuthenticationPlugin, {
         tokenName: 'token',
-        apolloClient,
         echoClient,
         httpClient: httpLink
     })

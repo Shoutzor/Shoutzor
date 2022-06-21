@@ -101,7 +101,7 @@ return [
          * - 1: uses the store, key and ttl config values to store the schema as a string in the given cache store.
          * - 2: uses the path config value to store the schema in a PHP file allowing OPcache to pick it up.
          */
-        'version' => env('LIGHTHOUSE_CACHE_VERSION', 1),
+        'version' => env('LIGHTHOUSE_CACHE_VERSION', 2),
 
         /*
          * Allows using a specific cache store, uses the app's default if set to null.

@@ -5,18 +5,16 @@ import {provideApolloClient, useMutation} from "@vue/apollo-composable";
 import {LOGIN_MUTATION, LOGOUT_MUTATION, WHOAMI_MUTATION} from "@graphql/auth";
 
 class AuthenticationManager {
-
     #app
 
     #echoClient
     #httpClient
-    #axiosInstance
 
     #tokenName;
     #token;
     #state;
 
-    constructor(app, tokenName, echoClient, httpClient, axiosInstance) {
+    constructor(app, tokenName, echoClient, httpClient) {
         this.#app = app;
         this.#tokenName = tokenName;
         this.#token = null;
@@ -28,7 +26,6 @@ class AuthenticationManager {
 
         this.#echoClient = echoClient;
         this.#httpClient = httpClient;
-        this.#axiosInstance = axiosInstance;
 
         this.#initialize();
     }
@@ -185,9 +182,6 @@ class AuthenticationManager {
 
 export const AuthenticationPlugin = {
     install: (app, options) => {
-
-        provideApolloClient(options.apolloClient);
-
-        app.config.globalProperties.auth = new AuthenticationManager(app, options.tokenName, options.echoClient, options.httpClient, options.axiosInstance);
+        app.config.globalProperties.auth = new AuthenticationManager(app, options.tokenName, options.echoClient, options.httpClient);
     }
 }

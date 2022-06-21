@@ -1,0 +1,47 @@
+.upload-area {
+    padding: 25px 20px;
+    background-color: rgba(1, 1, 1, 0.1);
+    outline: 2px dashed rgba(1, 1, 1, 0.4);
+    outline-offset: -10px;
+
+    .box_input {
+        text-align: center;
+        color: rgba(255, 255, 255, 0.4);
+
+        .box_icon {
+            width: 100%;
+            height: 50px;
+            display: block;
+            margin-bottom: 10px;
+            stroke-width: 1;
+        }
+
+        .box_file {
+            width: 0.1px;
+            height: 0.1px;
+            opacity: 0;
+            overflow: hidden;
+            position: absolute;
+            z-index: -1;
+        }
+
+        label {
+            font-size: 23px;
+            max-width: 80%;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            cursor: pointer;
+            display: inline-block;
+            overflow: hidden;
+
+            strong {
+                font-weight: 600;
+                color: rgba(255, 255, 255, 0.7);
+            }
+
+            .box_dragndrop {
+                display: inline;
+            }
+        }
+    }
+}

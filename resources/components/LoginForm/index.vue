@@ -26,6 +26,7 @@ import BaseAlert from "@components/BaseAlert";
 import BaseButton from "@components/BaseButton";
 import BaseInput from "@components/BaseInput";
 import BaseSpinner from "@components/BaseSpinner";
+import {provideApolloClient} from "@vue/apollo-composable";
 
 export default {
     name: 'login-form',
