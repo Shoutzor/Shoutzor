@@ -1,5 +1,5 @@
 <template>
-    <form action="" class="upload-area" enctype="multipart/form-data" method="post" @drop="onDrop">
+    <form action="" class="upload-area" enctype="multipart/form-data" method="post">
         <div class="box_input">
             <b-icon-cloud-upload class="box_icon"></b-icon-cloud-upload>
 
@@ -31,30 +31,28 @@ export default {
     }),
 
     mounted() {
-        document.querySelector('body').addEventListener('dragover', this.onDragOver);
-        document.querySelector('body').addEventListener('dragleave', this.onDragLeave);
+        document.querySelector('.upload-area').addEventListener('dragover', this.onDragOver);
+        document.querySelector('.upload-area').addEventListener('dragleave', this.onDragLeave);
+        document.querySelector('.upload-area').addEventListener('drop', this.onDrop);
     },
 
     beforeUnmount() {
-        document.querySelector('body').removeEventListener('dragover', this.onDragOver);
-        document.querySelector('body').removeEventListener('dragleave', this.onDragLeave);
+        document.querySelector('.upload-area').removeEventListener('dragover', this.onDragOver);
+        document.querySelector('.upload-area').removeEventListener('dragleave', this.onDragLeave);
+        document.querySelector('.upload-area').removeEventListener('drop', this.onDrop);
     },
 
     methods: {
         onDragOver(e) {
             var dt = e.dataTransfer;
             if (dt.types && (dt.types.indexOf ? dt.types.indexOf('Files') !== -1 : dt.types.contains('Files'))) {
+                e.preventDefault();
                 document.querySelector(".upload-area").classList.add("showarea");
-                if (this.dragTimer !== undefined) {
-                    window.clearTimeout(this.dragTimer);
-                }
             }
         },
 
         onDragLeave(e) {
-            this.dragTimer = window.setTimeout(function () {
-                document.querySelector(".upload-area").classList.remove("showarea");
-            }, 25);
+            document.querySelector(".upload-area").classList.remove("showarea");
         },
 
         onDrop(e) {
