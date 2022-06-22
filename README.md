@@ -34,6 +34,8 @@ Navigate to where you installed the files, from there:
 
 4. When docker-compose is up and running, make sure to run `composer install-shoutzor` in the `app` container. You can do this from your host by running `docker-compose run app composer install-shoutzor`
 
+5. After installation is complete, make sure to restart the `queueWorker` container (or just restart them all via `docker-compose restart`)
+
 You can now access the app on `shoutzor.local` (or your own hostname if you changed this in `.env`).\
 The default login is admin/admin
 
