@@ -51,7 +51,7 @@ stages:
               dockerComposeFile: docker-compose.yml
               additionalDockerComposeFiles: docker-compose.test.yml
               projectName: shoutzor
-              dockerComposeCommand: run php composer install-shoutzor-dev
+              dockerComposeCommand: run app composer install-shoutzor-dev
 
           - script: |
               cp .env .env.testing
@@ -64,7 +64,7 @@ stages:
               dockerComposeFile: docker-compose.yml
               additionalDockerComposeFiles: docker-compose.test.yml
               projectName: shoutzor
-              dockerComposeCommand: run php php /code/artisan config:cache
+              dockerComposeCommand: run app php /code/artisan config:cache
 
           - task: DockerCompose@0
             displayName: 'Run PHPUnit'
