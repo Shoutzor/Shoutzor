@@ -26,7 +26,7 @@ Documentation has yet to be written. Feel free to ask any questions in the `disc
 Navigate to where you installed the files, from there:
 
 1. Copy `.env.template` to `.env` and edit the values to what you'd like them to be.
-When you run the `docker-compose` commands it will use these values for the configuration.
+   When you run the `docker-compose` commands it will use these values for the configuration.
 
 2. Make sure that whatever hostname is used is correctly updated in your `hosts` file or DNS server. By default this is set to `shoutzor.local`.
 
