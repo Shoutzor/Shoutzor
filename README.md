@@ -21,45 +21,49 @@ Built using Laravel, Vue, GraphQL (Lighthouse) & Apollo.
 API Docs & Storybook can be found over at [shoutzor.com](https://www.shoutzor.com). \
 Documentation has yet to be written. Feel free to ask any questions in the `discussions`.
 
-### To setup:
+### Installation:
 
-First off, optionally edit the values in `.env.template`. These will be used during setup.
+Navigate to where you installed the files, from there:
 
-For production environments:
+1. Copy `.env.template` to `.env` and edit the values to what you'd like them to be.
+When you run the `docker-compose` commands it will use these values for the configuration.
 
-- Ensure you have composer and npm installed
-- Run `composer install-shoutzor`
+2. Make sure that whatever hostname is used is correctly updated in your `hosts` file or DNS server. By default this is set to `shoutzor.local`.
 
-For development environments:
+3. Run `docker-compose up`. This will set up a basic and simple docker network with a few containers pre-configured for use.
 
-- Ensure you have composer and npm installed
-- Run `composer install-shoutzor-dev`
-- If at any point you want additional data, you can run `composer add-mock-data` this will run the `DevelopmentSeeder` to add fake data
+4. When docker-compose is up and running, make sure to run `composer install-shoutzor` in the `app` container. You can do this from your host by running `docker-compose run app composer install-shoutzor`
 
-The Shoutz0r app should now be ready for use! You can optionally remove the `.env.template` file now, it has been copied
-to `.env`.
-
+You can now access the app on `shoutzor.local` (or your own hostname if you changed this in `.env`).\
 The default login is admin/admin
 
-If you're going to work on the front-end, make sure to run `npm run watch`.
+Please note: if you experience issues and are using a customized `docker-compose.yml` file; verify the issues persist when you use the original file before reporting the issue.
 
-### Docker setup:
-
-All docker files can be found in `/docker`.
-
-For production environments you can simply run `docker-compose up`. \
-This will set up a basic and simple docker network with a few containers pre-configured for use.
-
-For development environments you should run: `docker-compose -f docker-compose.yml -f docker-compose.dev.yml up`
-
-When your docker is up and running, make sure to run `composer install-shoutzor` in the `php` container.\
-If you want a development environment, run `composer install-shoutzor-dev` instead.
-
-Please note that I will not be providing support on any issues regarding docker itself.\
-By using Docker I expect you to have the required knowledge about how it works.
-
-If you have improvements however, by all means please create a discussion or issue (or even better, a pull-request).\
+I will not be providing support to any docker-related issues you may experience after customizing the `docker-compose.yml`.  If you have improvements however, by all means please create a discussion or issue (or even better, a pull-request).\
 I'm always open for feedback.
+
+### Development:
+
+#### Alternative Docker setup:
+For development environments you should run: `docker-compose -f docker-compose.yml -f docker-compose.dev.yml up`.\
+This will open up ports to the MySQL and Redis containers for direct access.
+
+Additionally, you can choose to run `composer install-shoutzor-dev` instead of `composer install-shoutzor`; This will add mock data.
+
+#### Frontend development:
+
+If you are going to do any work on the frontend, make sure to run `npm run watch`.\
+
+Sidenote: We use `PurgeCSS` to remove unused CSS from the compiled CSS file.\
+The side-effect of this is that it will only check for used CSS selectors on initial run. If you add any new styling that isn't used anywhere else `npm run watch` will not include this styling yet. Make sure you stop and restart the watcher for these additions to be picked up.
+
+### Composer commands:
+
+| Command                         | Explanation                                                           |
+|---------------------------------|-----------------------------------------------------------------------|
+| `composer install-shoutzor`     | Installs shoutzor for production environments                         |
+| `composer install-shoutzor-dev` | Installs shoutzor for development environments (adds mock data)       |
+| `composer add-mock-data`        | Generates and adds mock data to the database using `DevelopmentSeeder` |
 
 ### Kindly supported by
 
