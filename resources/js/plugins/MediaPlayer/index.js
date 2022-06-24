@@ -21,7 +21,8 @@ class MediaPlayer {
         this.#echoClient = echoClient;
         this.#state = reactive({
             lastPlayed: null,
-            playerStatus: PlayerState.STOPPED
+            playerStatus: PlayerState.STOPPED,
+            trackPosition: 0
         });
     }
 
@@ -39,6 +40,14 @@ class MediaPlayer {
 
     #updateLastPlayed(request) {
         this.#state.lastPlayed = request;
+    }
+
+    get trackPosition() {
+        return this.#state.trackPosition;
+    }
+
+    #updateTrackPosition(seconds) {
+        this.#state.trackPosition = seconds;
     }
 
     initialize() {

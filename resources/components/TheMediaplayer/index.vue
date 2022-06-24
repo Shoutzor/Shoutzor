@@ -16,16 +16,16 @@
         <div
             class="media-control-container d-flex flex-fill flex-column flex-wrap align-items-center order-0 order-md-1 pt-1">
             <div class="media-controls d-flex flex-fill align-items-center justify-content-center">
-                <b-icon-hand-thumbs-up v-if="isAuthenticated && nowplaying" @click="onUpvoteClick"
+                <b-icon-hand-thumbs-up v-if="isAuthenticated && votingEnabled && nowplaying" @click="onUpvoteClick"
                                        class="upvote me-3"/>
                 <play-button @click="onPlayClick" :state="playerStatus" class="mt-1"></play-button>
-                <b-icon-hand-thumbs-down v-if="isAuthenticated && nowplaying"
+                <b-icon-hand-thumbs-down v-if="isAuthenticated && votingEnabled && nowplaying"
                                          @click="onDownvoteClick" class="downvote ms-3"/>
             </div>
 
             <base-progressbar
-                :pre-text="timePassed + '' || ''"
-                :post-text="timeDuration + '' || ''"
+                :pre-text="timePassed"
+                :post-text="timeDuration"
                 :current-value="percentagePlayed || 0"
                 class="col d-flex flex-fill" />
         </div>
@@ -79,6 +79,7 @@ export default {
     data() {
         return {
             volume: 100,
+            votingEnabled: false,
             defaultMediaImage,
             PlayerState
         }
@@ -91,12 +92,20 @@ export default {
         playerStatus() { return this.mediaPlayer.playerStatus; },
         videoEnabled() { return false; },
         nowplaying() { return this.mediaPlayer.lastPlayed; },
-        timePassed() { return 0; },
-        timeDuration() { return this.mediaPlayer.lastPlayed?.media?.duration; },
+        timePassed() {
+            let p = this.mediaPlayer.trackPosition;
+            return (!p && p !== 0) ? null : this.$filters.formatTime(p);
+        },
+        timeDuration() {
+            let d = this.mediaPlayer.lastPlayed?.media?.duration;
+            return (!d && d !== 0) ? null : this.$filters.formatTime(d);
+        },
 
         percentagePlayed() {
-            //TODO calculate from timePassed and timeDuration
-            return 42;
+            let p = this.mediaPlayer.trackPosition;
+            let d = this.mediaPlayer.lastPlayed?.media?.duration;
+
+            return (!p || !d) ? 0 : Math.round((p / d) * 100);
         }
     },
     watch: {
