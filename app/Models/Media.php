@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Helpers\Filesystem;
 use App\Traits\UsesUUID;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -25,5 +26,14 @@ class Media extends Model
     public function artists()
     {
         return $this->belongsToMany('App\Models\Artist');
+    }
+
+    public function getImageAttribute($value)
+    {
+        if(File::exists(storage_path($value))) {
+            return $value;
+        }
+
+        return 'images/album_cover_placeholder.jpg';
     }
 }
