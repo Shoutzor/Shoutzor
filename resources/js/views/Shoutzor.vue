@@ -7,7 +7,7 @@
         <main id="main-content" class="d-flex flex-column flex-grow-1">
             <perfect-scrollbar ref="scroll">
                 <div class="container">
-                    <router-view/>
+                    <router-view @vnodeMounted="updateScrollbar" @vnodeUpdated="updateScrollbar" />
                 </div>
             </perfect-scrollbar>
         </main>
@@ -33,6 +33,16 @@ export default {
         TheHeader,
         TheMenu,
         TheToastmanager
+    },
+    watch: {
+        $route() {
+            this.$refs.scroll.$el.scrollTop = 0;
+        }
+    },
+    methods: {
+        updateScrollbar() {
+            this.$refs.scroll.update();
+        }
     }
 }
 </script>
