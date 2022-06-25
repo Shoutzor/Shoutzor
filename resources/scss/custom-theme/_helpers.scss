@@ -1,0 +1,17 @@
+.antialiased {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.text-prewrap {
+    white-space: pre-wrap;
+}
+
+.flex-basis-0 {
+    flex-basis: 0;
+}
+
+.filter-invert {
+    -webkit-filter: brightness(0) invert(1);
+    filter: brightness(0) invert(1);
+}

@@ -15,9 +15,12 @@
 //
 // Our styling
 //
+@import "custom-theme/animations";
+@import "custom-theme/helpers";
 @import "custom-theme/style";
 
 // Include styling overrides
+@import "overrides/bootstrap";
 @import "overrides/vue-perfect-scrollbar";
 
 // Shoutz0r App-loader component styling

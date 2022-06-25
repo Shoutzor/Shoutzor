@@ -68,6 +68,13 @@ $theme-colors: (
 $body-bg: $dark;
 $body-color: $light;
 
+$dropdown-dark-bg: $black;
+$dropdown-dark-color: $secondary;
+$dropdown-dark-link-hover-bg: $dark;
+$dropdown-dark-link-hover-color: $secondary;
+$dropdown-dark-link-active-bg: $dropdown-dark-link-hover-bg;
+$dropdown-dark-link-active-color: $dropdown-dark-link-hover-color;
+
 /*
  * Shoutz0r variables
  */

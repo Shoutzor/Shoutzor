@@ -15,7 +15,7 @@
                                 <div v-else class="small text-muted">User</div>
                             </div>
                         </a>
-                        <div class="dropdown-menu dropdown-menu-right user-dropdown">
+                        <div class="dropdown-menu dropdown-menu-dark dropdown-menu-right user-dropdown">
                             <template v-if="user.is_admin">
                                 <router-link :to="{name: 'profile'}" class="dropdown-item d-block d-md-none">
                                     Admin panel
