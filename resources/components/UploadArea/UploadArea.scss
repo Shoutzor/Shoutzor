@@ -1,12 +1,18 @@
 .upload-area {
     padding: 25px 20px;
-    background-color: rgba(1, 1, 1, 0.1);
-    outline: 2px dashed rgba(1, 1, 1, 0.4);
+    background-color: $black;
+    outline: 2px dashed $dark;
     outline-offset: -10px;
+    color: $secondary;
+
+    &.showarea {
+        background-color: $secondary;
+        outline-color: $dark;
+        color: $dark;
+    }
 
     .box_input {
         text-align: center;
-        color: rgba(255, 255, 255, 0.4);
 
         .box_icon {
             width: 100%;
@@ -34,9 +40,8 @@
             display: inline-block;
             overflow: hidden;
 
-            strong {
-                font-weight: 600;
-                color: rgba(255, 255, 255, 0.7);
+            .action {
+                color: $primary;
             }
 
             .box_dragndrop {

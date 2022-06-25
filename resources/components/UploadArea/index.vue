@@ -12,8 +12,11 @@
                 type="file"
                 @change="onFileSelect" />
 
-            <label for="file">
-                <strong>Choose a file</strong>
+            <label v-if="dragOver" for="file">
+                <span class="box_dragndrop">Drop your file here</span>
+            </label>
+            <label v-else for="file">
+                <span class="action">Choose a file</span>
                 <span class="box_dragndrop"> or drag it here</span>
             </label>
         </div>
@@ -27,31 +30,43 @@ export default {
     name: "upload-area",
 
     data: () => ({
-        dragTimer: null
+        dragTimer: null,
+        dragOver: false
     }),
 
     mounted() {
-        document.querySelector('.upload-area').addEventListener('dragover', this.onDragOver);
-        document.querySelector('.upload-area').addEventListener('dragleave', this.onDragLeave);
+        document.querySelector('body').addEventListener('dragover', this.onDragOver);
+        document.querySelector('body').addEventListener('dragleave', this.onDragLeave);
         document.querySelector('.upload-area').addEventListener('drop', this.onDrop);
     },
 
     beforeUnmount() {
-        document.querySelector('.upload-area').removeEventListener('dragover', this.onDragOver);
-        document.querySelector('.upload-area').removeEventListener('dragleave', this.onDragLeave);
+        document.querySelector('body').removeEventListener('dragover', this.onDragOver);
+        document.querySelector('body').removeEventListener('dragleave', this.onDragLeave);
         document.querySelector('.upload-area').removeEventListener('drop', this.onDrop);
     },
 
     methods: {
         onDragOver(e) {
-            var dt = e.dataTransfer;
-            if (dt.types && (dt.types.indexOf ? dt.types.indexOf('Files') !== -1 : dt.types.contains('Files'))) {
-                e.preventDefault();
-                document.querySelector(".upload-area").classList.add("showarea");
+            e.preventDefault();
+
+            // Prevent running the queryselector + classlist modifiers on every single dragover event
+            // which is basically triggered on every pixel movement
+            if(this.dragOver) {
+                return;
             }
+
+            this.dragOver = true;
+            document.querySelector(".upload-area").classList.add("showarea");
         },
 
         onDragLeave(e) {
+            // Only trigger when the dragleave event has no related target (ie: left the <body>)
+            if(e.relatedTarget) {
+                return;
+            }
+
+            this.dragOver = false;
             document.querySelector(".upload-area").classList.remove("showarea");
         },
 
