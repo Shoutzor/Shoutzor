@@ -76,11 +76,14 @@ export default {
             if (dt.types && (dt.types.indexOf ? dt.types.indexOf('Files') !== -1 : dt.types.contains('Files'))) {
                 this.uploadManager.uploadFiles(e.dataTransfer.files);
             }
+
+            this.onDragLeave(e);
         },
 
         onFileSelect(e) {
             if (e.target.files !== undefined) {
                 this.uploadManager.uploadFiles(e.target.files);
+                e.target.value = null;
             }
         }
     }

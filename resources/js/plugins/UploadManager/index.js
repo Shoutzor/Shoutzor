@@ -82,7 +82,7 @@ class UploadManager {
                     "Content-Type": "multipart/form-data"
                 },
                 onUploadProgress: (event) => {
-                    this.#state.progress = Math.floor((100 * event.loaded) / event.total);
+                    this.#state.progress = Math.floor((event.loaded / event.total) * 100);
                 }
             })
             .then(response => {
