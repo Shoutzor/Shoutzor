@@ -18,7 +18,19 @@ class ProcessUpload implements ShouldQueue
 
     protected Upload $upload;
 
+    /**
+     * The number of times the job may be attempted.
+     *
+     * @var int
+     */
     public $tries = 3;
+
+    /**
+     * The number of seconds to wait before retrying the job.
+     *
+     * @var int
+     */
+    public $backoff = 3;
 
     /**
      * Create a new job instance.
@@ -56,9 +68,12 @@ class ProcessUpload implements ShouldQueue
         if($exception && is_a($exception, "UploadExistsException")) {
             $this->upload->status = Upload::STATUS_FAILED_FINAL;
         }
+        // If the # of attempts has exceeded the allowed # of tries, Stop further processing of this job.
         elseif($this->attempts() >= $this->tries) {
             $this->upload->status = Upload::STATUS_FAILED_FINAL;
         }
+        // Update the status of the upload to failed_retry to indicate to the frontend that it has failed
+        // but will be re-attempted
         else {
             $this->upload->status = Upload::STATUS_FAILED_RETRY;
         }
