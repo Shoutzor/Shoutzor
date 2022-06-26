@@ -2,7 +2,7 @@
 
 namespace App\Modules\LastFM\Subscribers;
 
-use App\Events\Internal\UploadProcessingEvent;
+use App\Events\UploadUpdatedEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class UploadSubscriber implements EventSubscriberInterface
@@ -10,16 +10,16 @@ class UploadSubscriber implements EventSubscriberInterface
 
     public static function getSubscribedEvents()
     {
-        return [UploadProcessingEvent::NAME => [['onProcessUpload', 0]]];
+        return [UploadUpdatedEvent::NAME => [['onProcessUpload', 0]]];
     }
 
     /**
      * Handle the event.
      *
-     * @param UploadProcessingEvent $event
+     * @param UploadUpdatedEvent $event
      * @return void
      */
-    public function onProcessUpload(UploadProcessingEvent $event)
+    public function onProcessUpload(UploadUpdatedEvent $event)
     {
     }
 }

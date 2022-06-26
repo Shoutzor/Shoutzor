@@ -2,16 +2,13 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Events\Internal\UploadAddedEvent;
 use App\Http\Controllers\Controller;
 use App\Jobs\ProcessUpload;
 use App\Models\Upload;
 use Illuminate\Http\Request;
-use Symfony\Component\EventDispatcher\EventDispatcher;
 
 class UploadApiController extends Controller
 {
-
     public function store(Request $request)
     {
         //Check if a file has been provided with the request
@@ -52,20 +49,9 @@ class UploadApiController extends Controller
         $upload->filename = $newName;
         $upload->uploaded_by = $request->user()->id;
         $upload->status = Upload::STATUS_QUEUED;
-
-        //Send the event that an upload has been added
-        $event = new UploadAddedEvent($upload);
-        app(EventDispatcher::class)->dispatch($event);
-
-        // Check if any eventhandlers marked the upload as invalid
-        if ($event->isValid() === false) {
-            return response()->json(['message' => 'Upload rejected, reason: ' . $event->getReason()], 406);
-        }
-
         $upload->save();
 
         //Add the Upload as a job to the Queue for processing
-        //ProcessUpload::dispatch($upload)->onConnection('database_' . Upload::QUEUE_NAME)->onQueue(Upload::QUEUE_NAME);
         ProcessUpload::dispatch($upload)->onQueue(Upload::QUEUE_NAME);
 
         return response()->json(['message' => 'Upload queued for processing'], 200);

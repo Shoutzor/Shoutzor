@@ -2,7 +2,7 @@
 
 namespace App\Listeners;
 
-use App\Events\Internal\UploadProcessingEvent;
+use App\Events\UploadUpdatedEvent;
 
 class UploadValidateMedia
 {
@@ -18,10 +18,10 @@ class UploadValidateMedia
     /**
      * Handle the event.
      *
-     * @param UploadProcessingEvent $event
+     * @param UploadUpdatedEvent $event
      * @return void
      */
-    public function handle(UploadProcessingEvent $event)
+    public function handle(UploadUpdatedEvent $event)
     {
         // Check if the uploaded media file is valid
         $media = $event->getMedia();

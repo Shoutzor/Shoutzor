@@ -11,6 +11,7 @@ use App\HealthCheck\WritableFilesHealthCheck;
 use App\Helpers\Filesystem;
 use App\MediaSource\MediaSource;
 use App\MediaSource\MediaSourceManager;
+use App\Models\Upload;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -68,10 +69,12 @@ class AppServiceProvider extends ServiceProvider
                 [
                     Filesystem::correctDS(public_path()),
                     Filesystem::correctDS(storage_path()),
+                    Filesystem::correctDS(storage_path('logs/')),
                     Filesystem::correctDS(storage_path('app/public/album/')),
                     Filesystem::correctDS(storage_path('app/public/artist/')),
                     Filesystem::correctDS(storage_path('app/public/packages/')),
-                    Filesystem::correctDS(storage_path('app/public/media/'))
+                    Filesystem::correctDS(storage_path('app/public/media/')),
+                    Filesystem::correctDS(storage_path('app/' . Upload::STORAGE_PATH))
                 ]
             ),
             false
