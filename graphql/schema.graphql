@@ -46,25 +46,46 @@ type Query {
     requests(
         where: _ @whereConditions(columns: ["played_at"])
         orderBy: RequestsOrderBy @orderBy
-    ): [Request!]! @orderBy(column: "requested_at" direction: ASC) @paginate(defaultCount: 10)
+    ): [Request!]!
+        @orderBy(column: "requested_at" direction: ASC)
+        @paginate(defaultCount: 10)
 
     "Fetch Role"
-    role(id: ID! @eq): Role @find
+    role(id: ID! @eq): Role
+        @find
 
     "Fetch all roles"
-    roles: [Role!]! @paginate(defaultCount: 10)
+    roles: [Role!]!
+        @paginate(defaultCount: 10)
 
     "Fetch Permission"
-    permission(id: ID! @eq): Permission @find
+    permission(id: ID! @eq): Permission
+        @find
 
     "Fetch multiple permissions"
     permissions(
         name: String! @where(operator: "like")
-    ): [Permission!]! @paginate(defaultCount: 20)
+    ): [Permission!]!
+        @paginate(defaultCount: 20)
+
+    "Fetch Upload"
+    upload(id: ID! @eq): Upload
+        @guard
+        @find
+
+    "Fetch multiple uploads"
+    uploads(
+        where: _ @whereConditions(columns: ["uploaded_by", "status"])
+        orderBy: UploadsOrderBy @orderBy
+    ): [Upload!]!
+        @guard
+        @orderBy(column: "uploaded_at" direction: ASC)
+        @paginate(defaultCount: 10)
 }
 
 type Mutation {
-    whoami: WhoamiResponse! @guard
+    whoami: WhoamiResponse!
+        @guard
         @field(resolver: "App\\GraphQL\\Mutations\\Whoami")
 
     lastPlayed: lastPlayedResponse
@@ -80,7 +101,6 @@ type WhoamiResponse {
 }
 
 type LoginResponse {
-    userId: String!
     token: String!
 }
 #import sanctum.graphql

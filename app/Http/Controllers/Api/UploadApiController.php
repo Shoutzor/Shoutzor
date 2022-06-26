@@ -50,7 +50,7 @@ class UploadApiController extends Controller
         //Store the upload in the database for use in the Job
         $upload = new Upload();
         $upload->filename = $newName;
-        $upload->user_id = $request->user()->id;
+        $upload->uploaded_by = $request->user()->id;
         $upload->status = Upload::STATUS_QUEUED;
 
         //Send the event that an upload has been added

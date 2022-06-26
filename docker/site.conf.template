@@ -8,6 +8,8 @@ server {
     root /code/public;
     index index.php;
 
+    client_max_body_size ${MAX_UPLOAD_SIZE};
+
     add_header X-Frame-Options "SAMEORIGIN";
     add_header X-Content-Type-Options "nosniff";
 
@@ -23,7 +25,8 @@ server {
     error_page 404 /index.php;
 
     location ~ \.php$ {
-        fastcgi_pass app:9000;
+        fastcgi_pass ${FASTCGI_HOST}:${FASTCGI_PORT};
+        fastcgi_param PHP_VALUE "upload_max_filesize=${MAX_UPLOAD_SIZE} \n post_max_size=${MAX_UPLOAD_SIZE}";
         fastcgi_param SCRIPT_FILENAME $realpath_root$fastcgi_script_name;
         include fastcgi_params;
     }

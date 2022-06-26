@@ -1,0 +1,8 @@
+"Order by clause for Query.uploads.orderBy."
+input UploadsOrderBy {
+    "The column that is used for ordering."
+    column: UploadsOrderByColumns!
+
+    "The direction that is used for ordering."
+    order: SortOrder!
+}

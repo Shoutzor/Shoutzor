@@ -17,11 +17,12 @@ class Upload extends Model
     const QUEUE_NAME = 'uploads';
     const STORAGE_PATH = 'temp/upload/';
 
-    public $timestamps = false;
+    const CREATED_AT = 'uploaded_at';
+    const UPDATED_AT = null;
 
-    public function user()
+    public function uploaded_by()
     {
-        return $this->belongsTo('App\Models\User');
+        return $this->hasOne('App\Models\User', 'id', 'uploaded_by');
     }
 
 }
