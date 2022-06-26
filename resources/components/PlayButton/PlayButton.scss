@@ -5,13 +5,14 @@
     cursor: pointer;
     width: 2.5rem;
     height: 2.5rem;
-    border: 1px solid $gray-500;
     border-radius: 50%;
     text-align: center;
+    background: $white;
 
     svg {
         width: 1.8rem;
         height: 1.8rem;
+        color: $dark;
 
         &.play {
             padding-left: 0.15rem;
@@ -21,5 +22,6 @@
     .spinner-border {
         width: 1.5rem;
         height: 1.5rem;
+        color: $dark;
     }
 }
