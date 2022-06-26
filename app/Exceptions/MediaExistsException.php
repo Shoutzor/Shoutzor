@@ -5,7 +5,7 @@ namespace App\Exceptions;
 use Exception;
 use Throwable;
 
-class UploadExistsException extends Exception
+class MediaExistsException extends Exception
 {
     public function __construct($message = "", $code = 0, Throwable $previous = null)
     {

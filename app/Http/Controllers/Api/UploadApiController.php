@@ -22,7 +22,7 @@ class UploadApiController extends Controller
         }
 
         //Get the name and extension of the file
-        $name = $request->file('media')->getClientOriginalName();
+        $name = md5($request->file('media')->getClientOriginalName());
         $ext = $request->file('media')->extension();
 
         // TODO supported media extensions should dynamically be provided by modular processing modules
@@ -38,17 +38,18 @@ class UploadApiController extends Controller
             return response()->json(['error' => 'The uploaded file format is unsupported'], 400);
         }
 
-        //Set the new  name for the file
-        $newName = time() . $name . '.' . $ext;
+        //Set the new filename (format: timestamp-md5hash.ext)
+        $newName = time() . '-' . $name . '.' . $ext;
 
         //Move the file to a temporary directory while it's awaiting processing.
         $request->file('media')->storeAs(Upload::STORAGE_PATH, $newName);
 
         //Store the upload in the database for use in the Job
-        $upload = new Upload();
-        $upload->filename = $newName;
-        $upload->uploaded_by = $request->user()->id;
-        $upload->status = Upload::STATUS_QUEUED;
+        $upload = new Upload([
+            'filename' => $newName,
+            'uploaded_by' => $request->user()->id,
+            'status' => Upload::STATUS_QUEUED
+        ]);
         $upload->save();
 
         //Add the Upload as a job to the Queue for processing

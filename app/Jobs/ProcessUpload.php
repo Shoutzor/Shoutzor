@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Exceptions\MediaExistsException;
 use App\Models\Upload;
 use App\Processors\UploadProcessor;
 use DateTime;
@@ -10,6 +11,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Log;
 use Throwable;
 
 class ProcessUpload implements ShouldQueue
@@ -50,38 +52,52 @@ class ProcessUpload implements ShouldQueue
      */
     public function handle(UploadProcessor $processor)
     {
-        //Update the status
-        $this->upload->status = Upload::STATUS_PROCESSING;
-        $this->upload->save();
+        try {
+            Log::debug("Updating upload status to: processing",[$this->upload]);
 
-        $processor->parse($this->upload);
-    }
+            //Update the status
+            $this->upload->status = Upload::STATUS_PROCESSING;
+            $this->upload->save();
 
-    /**
-     * Handle a job failure.
-     *
-     * @return void
-     */
-    public function failed(Throwable $exception)
-    {
-        // Upload Exists Exception has been thrown. Stop further processing of this job.
-        if($exception && is_a($exception, "UploadExistsException")) {
-            $this->upload->status = Upload::STATUS_FAILED_FINAL;
-        }
-        // If the # of attempts has exceeded the allowed # of tries, Stop further processing of this job.
-        elseif($this->attempts() >= $this->tries) {
-            $this->upload->status = Upload::STATUS_FAILED_FINAL;
-        }
-        // Update the status of the upload to failed_retry to indicate to the frontend that it has failed
-        // but will be re-attempted
-        else {
-            $this->upload->status = Upload::STATUS_FAILED_RETRY;
-        }
-        $this->upload->save();
+            Log::debug("Start processing upload");
 
-        if($this->upload->status === Upload::STATUS_FAILED_FINAL) {
-            // Delete the current job
-            $this->delete();
+            $processor->parse($this->upload);
+
+            Log::debug("Processing successfully finished");
+        }
+        catch(Throwable $exception) {
+            Log::error("An exception occured while processing the job: " . $exception->getMessage());
+
+            // Upload Exists Exception has been thrown. Stop further processing of this job.
+            if($exception instanceof MediaExistsException) {
+                Log::debug("MediaExistsException thrown. Marking upload as failed (final)");
+                $this->upload->status = Upload::STATUS_FAILED_FINAL;
+            }
+            // If the # of attempts has exceeded the allowed # of tries, Stop further processing of this job.
+            elseif($this->attempts() >= $this->tries) {
+                Log::debug("Upload processing failed and # of tries exceeded. Marking upload as failed (final)");
+                $this->upload->status = Upload::STATUS_FAILED_FINAL;
+            }
+            // Update the status of the upload to failed_retry to indicate to the frontend that it has failed
+            // but will be re-attempted
+            else {
+                Log::debug("Upload processing failed. Marking upload as failed (with retry)");
+                $this->upload->status = Upload::STATUS_FAILED_RETRY;
+            }
+            $this->upload->save();
+
+            // Check if the status indicates the job should be marked as failed.
+            if($this->upload->status === Upload::STATUS_FAILED_FINAL) {
+                Log::debug("Job failed, marking as failed");
+
+                // Delete the current job
+                $this->fail($exception);
+            }
+            else {
+                Log::debug("Job failed, releasing back to queue");
+                // Forward the exception
+                $this->release($this->backoff);
+            }
         }
     }
 
