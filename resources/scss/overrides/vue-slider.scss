@@ -1,0 +1,17 @@
+.vue-slider {
+    .vue-slider-rail {
+        .vue-slider-process {
+            background-color: $primary;
+        }
+
+        .vue-slider-dot {
+            .vue-slider-dot-tooltip {
+                .vue-slider-dot-tooltip-inner {
+                    background-color: $primary;
+                    border-color: $primary;
+                    color: $black;
+                }
+            }
+        }
+    }
+}

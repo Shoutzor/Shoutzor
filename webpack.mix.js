@@ -43,7 +43,8 @@ mix.js('resources/js/app.js', 'public/js')
             /^bg-/, // .bg-<color> classes
             /data-bs-popper/, //Some bootstrap classes are generated with this data tag
             /^ps/, // vue-perfect-scrollbar classes
-            /^router-link/ //All router-link classes are generated with JS
+            /^router-link/, //All router-link classes are generated with JS
+            /^vue-slider/ // vue-slider classes
         ]
     });
 
