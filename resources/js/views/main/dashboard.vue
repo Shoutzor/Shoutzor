@@ -7,7 +7,7 @@
         </div>
         <div class="row row-cards">
             <div class="col-sm-12">
-                <h2 class="category-header">Coming up</h2>
+                <h2 class="category-header">Coming Up</h2>
                 <comingup-table/>
             </div>
         </div>

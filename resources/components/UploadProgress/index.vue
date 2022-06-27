@@ -1,19 +1,26 @@
 <template>
-    <div v-if="isUploading" class="card upload-progress">
+    <div class="card upload-progress mb-3">
         <div class="card-body">
-            <div v-if="totalFiles > 0" class="h1 mb-3">
-                Uploading files, {{ totalFiles }} pending
-            </div>
-            <div v-if="currentFile">
-                <p><strong>Uploading:</strong> {{ currentFile }}</p>
-                <p><strong>Progress:</strong> {{ progress }}%</p>
-
-                <div class="progress progress-sm">
-                    <base-progressbar
-                        :current-value="progress"
-                        class="col d-flex flex-fill" />
+            <template v-if="isUploading">
+                <div v-if="totalFiles > 0" class="h1 mb-3">
+                    Uploading files, {{ totalFiles }} pending
                 </div>
-            </div>
+                <div v-if="currentFile">
+                    <p><strong>Uploading:</strong> {{ currentFile }}</p>
+                    <p><strong>Progress:</strong> {{ progress }}%</p>
+
+                    <div class="progress progress-sm">
+                        <base-progressbar
+                            :current-value="progress"
+                            class="col d-flex flex-fill" />
+                    </div>
+                </div>
+            </template>
+            <template v-else>
+                <div>
+                    <p><strong>Status: </strong> No uploads pending</p>
+                </div>
+            </template>
         </div>
     </div>
 </template>
