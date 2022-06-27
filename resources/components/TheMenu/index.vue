@@ -1,7 +1,7 @@
 <template>
     <nav id="navbar-left" class="d-md-block col-md-4 col-lg-2 sidebar collapse">
         <div id="navbar-left-menu" class="position-sticky">
-            <span class="sidebar-heading d-flex justify-content-between align-items-center px-3 mb-1 text-muted">Music zone</span>
+            <span class="sidebar-heading d-flex justify-content-between align-items-center px-3 mb-1 text-muted">App zone</span>
             <ul class="nav flex-column">
                 <li class="nav-item">
                     <router-link :to="{name: 'dashboard'}" class="nav-link">
@@ -23,7 +23,7 @@
                 </li>
             </ul>
             <template v-if="isAuthenticated">
-                <span class="sidebar-heading d-flex justify-content-between align-items-center px-3 mb-1 mt-md-5 text-muted">Your zone</span>
+                <span class="sidebar-heading d-flex justify-content-between align-items-center px-3 mb-1 mt-md-5 text-muted">User zone</span>
                 <ul class="nav flex-column">
                     <li class="nav-item">
                         <router-link :to="{name: 'upload'}" class="nav-link">
