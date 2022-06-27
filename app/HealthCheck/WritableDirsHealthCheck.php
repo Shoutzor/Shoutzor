@@ -52,7 +52,6 @@ class WritableDirsHealthCheck extends BaseHealthCheck
             if (is_writable($directory) === false) {
                 $healthCheck = false;
                 $caughtErrors[] = "Not writable: $directory";
-                continue;
             }
         }
 

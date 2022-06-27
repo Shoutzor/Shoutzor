@@ -7,6 +7,7 @@ use DanielDeWit\LighthouseSanctum\Traits\HasUserModel;
 use Exception;
 use GraphQL\Type\Definition\ResolveInfo;
 use Illuminate\Contracts\Auth\Factory as AuthFactory;
+use JetBrains\PhpStorm\ArrayShape;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
 /**
@@ -26,12 +27,10 @@ class Whoami
     }
 
     /**
-     * @param mixed $_
-     * @param array<string, string> $args
+     * @param ResolveInfo $resolveInfo
      * @return string[]
-     * @throws Exception
      */
-    public function __invoke($_, array $args, GraphQLContext $context, ResolveInfo $resolveInfo): array
+    #[ArrayShape(['user' => "\App\Models\User"])] public function __invoke(ResolveInfo $resolveInfo): array
     {
         $this->resolveInfo = $resolveInfo;
         $user = $this->getAuthenticatedUser();

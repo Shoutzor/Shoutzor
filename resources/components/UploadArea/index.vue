@@ -72,7 +72,7 @@ export default {
 
         onDrop(e) {
             e.preventDefault();
-            var dt = e.dataTransfer;
+            let dt = e.dataTransfer;
             if (dt.types && (dt.types.indexOf ? dt.types.indexOf('Files') !== -1 : dt.types.contains('Files'))) {
                 this.uploadManager.uploadFiles(e.dataTransfer.files);
             }

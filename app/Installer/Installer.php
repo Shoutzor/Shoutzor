@@ -181,10 +181,6 @@ class Installer
         ]
     ];
 
-    public function __construct()
-    {
-    }
-
     /**
      * Tests & Configures the SQL settings to use
      * @param string $dbtype

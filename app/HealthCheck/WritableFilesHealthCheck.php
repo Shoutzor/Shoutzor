@@ -53,7 +53,6 @@ class WritableFilesHealthCheck extends BaseHealthCheck
             if (is_writable($file) === false) {
                 $healthCheck = false;
                 $caughtErrors[] = "Not writable: $file";
-                continue;
             }
         }
 

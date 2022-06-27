@@ -51,7 +51,6 @@ class SymlinkHealthCheck extends BaseHealthCheck
             if (is_readable($symlinkLocation) === false) {
                 $healthCheck = false;
                 $caughtErrors[] = "Symlink not readable: $symlinkLocation";
-                continue;
             }
         }
 
@@ -64,14 +63,14 @@ class SymlinkHealthCheck extends BaseHealthCheck
         $result = new HealthCheckFixResult();
 
         # Remove broken symlinks
-        $errors = [];
+        $resultErrors = [];
         foreach ($this->symlinks as $symlinkLocation => $targetLocation) {
             try {
                 if (is_link($symlinkLocation) && !file_exists($symlinkLocation)) {
                     unlink($symlinkLocation);
                 }
             } catch (Exception $e) {
-                $errors[] = "Could not remove broken symlink at $symlinkLocation, reason: " . $e->getMessage();
+                $resultErrors[] = "Could not remove broken symlink at $symlinkLocation, reason: " . $e->getMessage();
             }
         }
 
@@ -79,15 +78,15 @@ class SymlinkHealthCheck extends BaseHealthCheck
             $exitCode = Artisan::call('storage:link');
         } catch (Exception $e) {
             $exitCode = -1;
-            $errors[] = "Failed to perform storage:link, reason: " . $e->getMessage();
+            $resultErrors[] = "Failed to perform storage:link, reason: " . $e->getMessage();
         }
 
-        if (count($errors) === 0 && $exitCode === 0) {
+        if (empty($resultErrors) && $exitCode === 0) {
             $result->setFixed(true);
             $result->setMessage('Symlinks created');
         } else {
             $result->setFixed(false);
-            $result->setMessage(implode("\n", $errors));
+            $result->setMessage(implode("\n", $resultErrors));
         }
 
         return $result;

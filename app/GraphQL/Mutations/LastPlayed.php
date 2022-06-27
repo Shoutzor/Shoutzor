@@ -5,6 +5,7 @@ namespace App\GraphQL\Mutations;
 use App\Models\Request;
 use Exception;
 use GraphQL\Type\Definition\ResolveInfo;
+use JetBrains\PhpStorm\ArrayShape;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
 /**
@@ -14,12 +15,9 @@ use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 class LastPlayed
 {
     /**
-     * @param mixed $_
-     * @param array<string, string> $args
      * @return string[]
-     * @throws Exception
      */
-    public function __invoke($_, array $args, GraphQLContext $context, ResolveInfo $resolveInfo): array
+    #[ArrayShape(['request' => "\App\Models\Request"])] public function __invoke(): array
     {
         $lastPlayed = Request::query()
             ->with(['requested_by', 'media.artists'])

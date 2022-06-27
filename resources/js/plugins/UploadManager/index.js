@@ -63,7 +63,7 @@ class UploadManager {
 
     uploadNextFile() {
         // Grab the first file from the stack
-        var currentFile = this.#state.files.shift();
+        let currentFile = this.#state.files.shift();
 
         // TODO check if file is a valid media format
         // These extensions should be dynamically fetched / updated (echo-subscription?)
@@ -117,7 +117,7 @@ class UploadManager {
     }
 
     parseError(error) {
-        var code = error.status;
+        let code = error.status;
 
         //401: Unauthorized
         if (code === 401) {

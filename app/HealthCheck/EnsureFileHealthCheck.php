@@ -56,7 +56,7 @@ class EnsureFileHealthCheck extends BaseHealthCheck
     {
         $result = new HealthCheckFixResult();
 
-        $errors = [];
+        $errorResults = [];
         foreach ($this->files as $fileLocation => $templateLocation) {
             if (is_readable($fileLocation) === false) {
                 try {
@@ -64,17 +64,17 @@ class EnsureFileHealthCheck extends BaseHealthCheck
                         throw new Exception();
                     }
                 } catch (Exception $e) {
-                    $errors[] = "Failed to copy the template from $templateLocation to $fileLocation";
+                    $errorResults[] = "Failed to copy the template from $templateLocation to $fileLocation";
                 }
             }
         }
 
-        if (count($errors) === 0) {
+        if (empty($errorResults)) {
             $result->setFixed(true);
             $result->setMessage('Files created');
         } else {
             $result->setFixed(false);
-            $result->setMessage(implode("\n", $errors));
+            $result->setMessage(implode("\n", $errorResults));
         }
 
         return $result;
