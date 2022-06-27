@@ -43,43 +43,30 @@ class Handler extends ExceptionHandler
     ];
 
     /**
-     * Report or log an exception.
-     *
-     * @param Throwable $exception
-     * @return void
-     *
-     * @throws Throwable
-     */
-    public function report(Throwable $exception)
-    {
-        parent::report($exception);
-    }
-
-    /**
      * Render an exception into an HTTP response.
      *
      * @param Request $request
-     * @param Throwable $exception
+     * @param Throwable $e
      * @return Response
      *
      * @throws Throwable
      */
-    public function render($request, Throwable $exception)
+    public function render($request, Throwable $e): Response
     {
         if ($request->is('api/*')) {
-            if ($exception instanceof NotFoundHttpException) {
+            if ($e instanceof NotFoundHttpException) {
                 return response()->json([
                     'message' => 'The requested page was not found'
                 ], 404);
             }
 
-            if ($exception instanceof UnauthorizedHttpException || $exception instanceof AuthorizationException) {
+            if ($e instanceof UnauthorizedHttpException || $e instanceof AuthorizationException) {
                 return response()->json([
                     'message' => 'You do not have the required permissions',
                 ], 403);
             }
 
-            if (config('app.debug') == false) {
+            if (!config('app.debug')) {
                 return response()->json([
                     'message' => 'a server error occurred, check the log for more information'
                 ], 500);
@@ -87,10 +74,10 @@ class Handler extends ExceptionHandler
 
             return response()->json([
                 'message' => 'a server error occurred, check the log or response JSON for more information',
-                'exception' => $exception
+                'exception' => $e
             ], 500);
         } else {
-            return parent::render($request, $exception);
+            return parent::render($request, $e);
         }
     }
 }
