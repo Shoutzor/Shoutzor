@@ -2,7 +2,7 @@
 
 namespace App\Helpers;
 
-use Exception;
+use App\Exceptions\InvalidDirectoryException;
 use Symfony\Component\Finder\Finder;
 
 class Filesystem
@@ -13,7 +13,7 @@ class Filesystem
      * @param string $path the directory to scan
      * @param string $filter the extensions of files to allow, can be regex
      * @return array the files that have been found
-     * @throws Exception
+     * @throws InvalidDirectoryException
      */
     public static function findFiles(string $path, string $filter = ''): array
     {
@@ -34,7 +34,7 @@ class Filesystem
             }
         } //If the path is a file, check if it is a valid extension
         else {
-            throw new Exception("Provided path is not a directory");
+            throw new InvalidDirectoryException("Provided path is not a directory");
         }
 
         return $files;

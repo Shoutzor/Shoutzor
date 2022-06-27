@@ -59,11 +59,7 @@ class EnsureFileHealthCheck extends BaseHealthCheck
         $errorResults = [];
         foreach ($this->files as $fileLocation => $templateLocation) {
             if (is_readable($fileLocation) === false) {
-                try {
-                    if (!copy($templateLocation, $fileLocation)) {
-                        throw new Exception();
-                    }
-                } catch (Exception $e) {
+                if (!copy($templateLocation, $fileLocation)) {
                     $errorResults[] = "Failed to copy the template from $templateLocation to $fileLocation";
                 }
             }

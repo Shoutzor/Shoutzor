@@ -2,8 +2,8 @@
 
 namespace App\Installer;
 
-use App\Exceptions\formValidationException;
-use App\Exceptions\formValidationFieldError;
+use App\Exceptions\FormValidationException;
+use App\Exceptions\FormValidationFieldError;
 use Illuminate\Support\Facades\Artisan;
 use \Exception;
 use Illuminate\Support\Facades\DB;
@@ -216,8 +216,8 @@ class Installer
 
         // Validate the provided database type
         if ($dbTypeValidator->fails()) {
-            $validationErrors[] = new formValidationFieldError('dbtype', 'Invalid database type provided');
-            return new InstallStepResult(false, '', new formValidationException($exception));
+            $validationErrors[] = new FormValidationFieldError('dbtype', 'Invalid database type provided');
+            return new InstallStepResult(false, '', new FormValidationException($exception));
         }
 
         // Select the fields to use based on the selected database type
@@ -238,10 +238,10 @@ class Installer
             $validationErrors = [];
 
             foreach ($errors as $name => $error) {
-                $validationErrors[] = new formValidationFieldError($name, $error);
+                $validationErrors[] = new FormValidationFieldError($name, $error);
             }
 
-            return new InstallStepResult(false, '', new formValidationException($validationErrors));
+            return new InstallStepResult(false, '', new FormValidationException($validationErrors));
         }
 
         // Create an array for the new config values

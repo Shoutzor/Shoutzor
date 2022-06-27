@@ -101,7 +101,6 @@ app.config.globalProperties.$filters = {
     }
 };
 
-//app.directive('media-image-fallback', MediaImageFallback);
 app.provide(DefaultApolloClient, apolloClient);
 provideApolloClient(apolloClient);
 

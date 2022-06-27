@@ -25,18 +25,15 @@ class AuthServiceProvider extends ServiceProvider
         $this->registerPolicies();
 
         Gate::after(
-            function ($user, $ability, $result, $arguments) {
+            function ($user, $ability, $result) {
                 if (!$user) {
                     $role = Role::findByName('guest');
 
-                    //Check if the guest role could be found
-                    if ($role) {
-                        //Check if the guest role has the permission
-                        if ($role->hasPermissionTo($ability)) {
-                            //Permit the request
-                            //Response::allow();
-                            return true;
-                        }
+                    //Check if the guest role could be found and has permission
+                    if ($role && $role->hasPermissionTo($ability)) {
+                        //Permit the request
+                        //Response::allow();
+                        return true;
                     }
                 }
 

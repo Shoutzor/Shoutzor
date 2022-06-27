@@ -10,7 +10,6 @@
 import './PlayButton.scss'
 import {BIconPlayFill, BIconStopFill} from 'bootstrap-icons-vue';
 import {PlayerState} from "@models/PlayerState";
-import {reactive} from 'vue';
 
 export default {
     name: 'play-button',
@@ -33,8 +32,7 @@ export default {
 
     emits: ['click'],
 
-    setup(props, {emit}) {
-
+    setup(_props, {emit}) {
         return {
             onClick() {
                 emit('click');

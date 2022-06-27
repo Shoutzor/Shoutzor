@@ -68,7 +68,7 @@ export default {
                 'form-control-lg': props.size === 'large',
                 'is-invalid': props.hasError
             })),
-            handleInput(e) {
+            handleInput() {
                 emit('input', props.value);
             }
         }

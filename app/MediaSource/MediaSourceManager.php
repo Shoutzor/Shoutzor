@@ -2,7 +2,7 @@
 
 namespace App\MediaSource;
 
-use \Exception;
+use App\Exceptions\MediaSourceDuplicateException;
 
 class MediaSourceManager
 {
@@ -19,12 +19,12 @@ class MediaSourceManager
      * as well as show the correct information for the file details (front-end)
      *
      * @param MediaSource $source
-     * @throws Exception
+     * @throws MediaSourceDuplicateException
      */
     public function registerSource(MediaSource $source): void
     {
         if (array_key_exists($source->getIdentifier(), $this->source)) {
-            throw new Exception("MediaSource with the identifier '{$source->getIdentifier()}' already exists");
+            throw new MediaSourceDuplicateException("MediaSource with the identifier '{$source->getIdentifier()}' already exists");
         }
 
         $this->source[$source->getIdentifier()] = $source;

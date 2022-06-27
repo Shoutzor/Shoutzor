@@ -15,7 +15,6 @@
 </template>
 
 <script>
-import './BaseProgressbar.css'
 import {reactive, computed} from 'vue';
 
 export default {
@@ -59,7 +58,7 @@ export default {
         }
     },
 
-    setup(props, {emit}) {
+    setup(props) {
         props = reactive(props);
         return {
             classes: computed(() => ({

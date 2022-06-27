@@ -5,7 +5,7 @@ namespace App\Exceptions;
 /**
  * Used in App\Exception\formValidationException to indicate which fields have failed validation
  */
-class formValidationFieldError
+class FormValidationFieldError
 {
 
     /**

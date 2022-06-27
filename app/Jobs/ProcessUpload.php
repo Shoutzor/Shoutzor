@@ -2,7 +2,7 @@
 
 namespace App\Jobs;
 
-use App\Exceptions\MediaExistsException;
+use App\Exceptions\MediaDuplicateException;
 use App\Models\Upload;
 use App\Processors\UploadProcessor;
 use DateTime;
@@ -69,7 +69,7 @@ class ProcessUpload implements ShouldQueue
             Log::error("An exception occured while processing the job: " . $exception->getMessage());
 
             // Upload Exists Exception has been thrown. Stop further processing of this job.
-            if($exception instanceof MediaExistsException) {
+            if($exception instanceof MediaDuplicateException) {
                 Log::debug("MediaExistsException thrown. Marking upload as failed (final)");
                 $this->upload->status = Upload::STATUS_FAILED_FINAL;
             }

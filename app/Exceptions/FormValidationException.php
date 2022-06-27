@@ -8,16 +8,16 @@ use Throwable;
 /**
  * This exception is thrown when a form has failed validation.
  */
-class formValidationException extends Exception
+class FormValidationException extends Exception
 {
     /**
      * Contains the fields that have failed validation
-     * @var formValidationFieldError[]
+     * @var FormValidationFieldError[]
      */
     private array $errors;
 
     /**
-     * @param formValidationFieldError[] $errors
+     * @param FormValidationFieldError[] $errors
      * @param int $code
      * @param Throwable|null $previous
      */
@@ -29,7 +29,7 @@ class formValidationException extends Exception
 
     /**
      * Returns the fields that have failed validation
-     * @return formValidationFieldError[]
+     * @return FormValidationFieldError[]
      */
     public function getErrors(): array
     {

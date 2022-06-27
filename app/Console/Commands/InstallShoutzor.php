@@ -3,7 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Exceptions\ShoutzorInstallerException;
-use App\Exceptions\formValidationException;
+use App\Exceptions\FormValidationException;
 use App\HealthCheck\HealthCheckManager;
 use App\Installer\Installer;
 use \Exception;
@@ -60,7 +60,7 @@ class InstallShoutzor extends Command
         try {
             // Running the installer while shoutzor is already installed will break & reset things. Bad idea.
             if (config('shoutzor.installed')) {
-                throw new Exception('Shoutz0r is already installed, aborting.');
+                throw new ShoutzorInstallerException('Shoutz0r is already installed, aborting.');
             }
 
             $useEnv = $this->option('useenv');
@@ -115,7 +115,7 @@ class InstallShoutzor extends Command
 
             // Check if any of the health-checks still failed
             if ($result['result'] === false) {
-                throw new Exception('Auto-fix failed on one or more healtchecks, manual fix required');
+                throw new ShoutzorInstallerException('Auto-fix failed on one or more healtchecks, manual fix required');
             } else {
                 $this->info('Auto-fix succeeded in fixing the issues.');
             }
@@ -256,7 +256,7 @@ class InstallShoutzor extends Command
             return true;
         } else {
             // Check if it's a formValidation exception, or regular exception
-            if ($step->getException() instanceof formValidationException) {
+            if ($step->getException() instanceof FormValidationException) {
                 // $errors will now contain formValidationFieldError[] from the exception
                 $errors = $step->getException()->getErrors();
 

@@ -2,7 +2,7 @@
 
 namespace App\Processors;
 
-use App\Exceptions\MediaExistsException;
+use App\Exceptions\MediaDuplicateException;
 use App\Exceptions\MediaPropertyMissingException;
 use App\Exceptions\UploadFileMissingException;
 use App\Models\Media;
@@ -22,7 +22,7 @@ class UploadProcessor
     }
 
     /**
-     * @throws MediaExistsException
+     * @throws MediaDuplicateException
      */
     public function parse(Upload $upload)
     {
@@ -77,14 +77,12 @@ class UploadProcessor
      */
     private function createBaseMediaObject(Upload $upload): Media
     {
-        $media = new Media([
+        return new Media([
             'title' => '',
             'filename' => $upload->filename,
             'duration' => 0,
             'is_video' => false
         ]);
-
-        return $media;
     }
 
     /**
@@ -114,14 +112,14 @@ class UploadProcessor
     }
 
     /**
-     * @throws MediaExistsException if the Media file is not unique
+     * @throws MediaDuplicateException if the Media file is not unique
      */
     private function checkIfUnique(Media $media)
     {
         $exist = Media::query()->where('hash', $media->hash)->first();
 
         if ($exist) {
-            throw new MediaExistsException("A media file with the same hash is already in the database");
+            throw new MediaDuplicateException("A media file with the same hash is already in the database");
         }
     }
 

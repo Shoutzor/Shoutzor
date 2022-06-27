@@ -1,6 +1,6 @@
 import axios from 'axios';
 import {reactive} from "vue";
-import {provideApolloClient, useMutation} from "@vue/apollo-composable";
+import {useMutation} from "@vue/apollo-composable";
 
 import {LOGIN_MUTATION, LOGOUT_MUTATION, WHOAMI_MUTATION} from "@graphql/auth";
 
@@ -47,7 +47,7 @@ class AuthenticationManager {
         this.#state.isAuthenticated = value;
     }
 
-    can(permission) {
+    can(_permission) {
         //TODO implement role-based permissions
         return true;
     }
