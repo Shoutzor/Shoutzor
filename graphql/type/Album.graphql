@@ -1,4 +1,4 @@
-type Album {
+type Album implements HasArtists & HasImage {
     id: ID!
     title: String!
     summary: String!

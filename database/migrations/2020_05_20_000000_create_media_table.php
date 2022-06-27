@@ -17,7 +17,7 @@ class CreateMediaTable extends Migration
             'media',
             function (Blueprint $table) {
                 $table->uuid('id')->primary();
-                $table->string('title');
+                $table->string('title')->fulltext();
                 $table->string('filename');
                 $table->string('image');
                 $table->char('hash', 128);

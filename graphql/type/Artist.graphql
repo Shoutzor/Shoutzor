@@ -1,4 +1,4 @@
-type Artist {
+type Artist implements HasImage {
     id: ID!
     name: String!
     summary: String!

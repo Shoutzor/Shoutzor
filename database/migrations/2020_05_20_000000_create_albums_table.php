@@ -17,7 +17,7 @@ class CreateAlbumsTable extends Migration
             'albums',
             function (Blueprint $table) {
                 $table->uuid('id')->primary();
-                $table->string('title');
+                $table->string('title')->fulltext();
                 $table->string('image');
                 $table->text('summary');
                 $table->timestamps();

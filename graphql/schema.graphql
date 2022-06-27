@@ -1,7 +1,14 @@
 #import scalar/*.graphql
+#import interface/*.graphql
 #import type/*.graphql
 #import enum/*.graphql
 #import input/*.graphql
+
+type SearchResult {
+    media: [Media!]
+    artists: [Artist!]
+    albums: [Album!]
+}
 
 type Query {
     "Fetch single user"
@@ -68,11 +75,6 @@ type Query {
     ): [Permission!]!
         @paginate(defaultCount: 20)
 
-    "Fetch Upload"
-    upload(id: ID! @eq): Upload
-        @guard
-        @find
-
     "Fetch multiple uploads"
     uploads(
         where: _ @whereConditions(columns: ["uploaded_by", "status"])
@@ -81,6 +83,11 @@ type Query {
         @guard
         @orderBy(column: "uploaded_at" direction: ASC)
         @paginate(defaultCount: 10)
+
+    search(
+        q: String! @search @rules(apply: ["required"])
+    ): SearchResult!
+
 }
 
 type Mutation {
@@ -103,4 +110,5 @@ type WhoamiResponse {
 type LoginResponse {
     token: String!
 }
+
 #import sanctum.graphql

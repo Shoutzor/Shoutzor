@@ -17,7 +17,7 @@ class CreateArtistsTable extends Migration
             'artists',
             function (Blueprint $table) {
                 $table->uuid('id')->primary();
-                $table->string('name');
+                $table->string('name')->fulltext();
                 $table->string('image');
                 $table->text('summary');
                 $table->timestamps();
