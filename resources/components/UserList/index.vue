@@ -10,8 +10,6 @@
 </template>
 
 <script>
-import './UserList.css';
-
 export default {
     name: 'user-list',
     props: {

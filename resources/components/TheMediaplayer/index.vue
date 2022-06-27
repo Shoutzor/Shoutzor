@@ -109,7 +109,7 @@ export default {
         }
     },
     watch: {
-        volume: function(val, oldVal) {
+        volume: function(val, _oldVal) {
             if(val > 0) {
                 //Convert the int to a double
                 val = val / 100;

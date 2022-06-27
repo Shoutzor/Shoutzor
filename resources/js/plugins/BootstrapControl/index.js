@@ -55,7 +55,7 @@ class BootstrapControl {
 }
 
 export const BootstrapControlPlugin = {
-    install: (app, options) => {
+    install: (app, _options) => {
         app.config.globalProperties.bootstrapControl = new BootstrapControl();
     }
 }

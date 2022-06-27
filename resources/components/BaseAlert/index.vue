@@ -21,7 +21,7 @@ export default {
         }
     },
 
-    setup(props, {emit}) {
+    setup(props) {
         props = reactive(props);
 
         return {

@@ -14,7 +14,6 @@ class RequireInstalled
             return $next($request);
         }
 
-        //return response('Shoutz0r is not yet installed. Please check the README for information on how to install.', 503);
         return response()
             ->view('install-required', [], 503);
     }

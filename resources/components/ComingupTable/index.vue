@@ -2,7 +2,7 @@
     <base-table description="Lists the media files that will be played next">
         <template #header>
             <tr>
-                <th class="text-center"></th>
+                <th scope="col" class="text-center"></th>
                 <th scope="col">Media</th>
                 <th scope="col">Requested by</th>
                 <th scope="col">Duration</th>

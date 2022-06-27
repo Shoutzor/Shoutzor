@@ -34,7 +34,7 @@ export default {
     emits: ['click'],
 
     setup(props, {emit}) {
-        props = reactive(props);
+
         return {
             onClick() {
                 emit('click');

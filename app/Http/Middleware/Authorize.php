@@ -22,14 +22,11 @@ class Authorize extends \Illuminate\Auth\Middleware\Authorize
             //Get the Guest role
             $role = Role::findByName('guest');
 
-            //Check if the guest role could be found
-            if ($role) {
-                //Check if the guest role has the permission
-                if ($role->hasPermissionTo($ability)) {
-                    //Permit the request
-                    Response::allow();
-                    return $next($request);
-                }
+            //Check if the guest role could be found and has permission
+            if ($role && $role->hasPermissionTo($ability)) {
+                //Permit the request
+                Response::allow();
+                return $next($request);
             }
         } else {
             if ($user->hasPermissionTo($ability)) {

@@ -5,7 +5,7 @@ export default {
     component: NowPlaying
 };
 
-const Template = (args) => ({
+const Template = (_args) => ({
     components: {NowPlaying},
     template: '<now-playing />',
 });

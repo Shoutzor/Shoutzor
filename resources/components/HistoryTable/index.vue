@@ -4,7 +4,7 @@
         description="Lists the media files that have been played previously">
         <template #header>
             <tr>
-                <th></th>
+                <th scope="col"></th>
                 <th scope="col">Media</th>
                 <th scope="col">Album</th>
                 <th scope="col">Requested by</th>

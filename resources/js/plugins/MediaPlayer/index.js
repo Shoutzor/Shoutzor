@@ -68,17 +68,17 @@ class MediaPlayer {
     }
 
     #listenForEvents() {
-        this.#echoClient.channel('shoutzor').listen('LastPlayedUpdated', (e) => {
+        this.#echoClient.channel('shoutzor').listen('LastPlayedUpdated', () => {
             this.#onLastPlayedUpdate();
         });
 
         //DashJS Player: Loading
-        this.#player.on(dashjs.MediaPlayer.events["STREAM_INITIALIZING"], (e) => this.#updatePlayerState(PlayerState.LOADING));
-        this.#player.on(dashjs.MediaPlayer.events["PLAYBACK_WAITING"], (e) => this.#updatePlayerState(PlayerState.LOADING));
-        this.#player.on(dashjs.MediaPlayer.events["PLAYBACK_STALLED"], (e) => this.#updatePlayerState(PlayerState.LOADING));
+        this.#player.on(dashjs.MediaPlayer.events["STREAM_INITIALIZING"], () => this.#updatePlayerState(PlayerState.LOADING));
+        this.#player.on(dashjs.MediaPlayer.events["PLAYBACK_WAITING"], () => this.#updatePlayerState(PlayerState.LOADING));
+        this.#player.on(dashjs.MediaPlayer.events["PLAYBACK_STALLED"], () => this.#updatePlayerState(PlayerState.LOADING));
 
         //DashJS Player: Playing
-        this.#player.on(dashjs.MediaPlayer.events["PLAYBACK_PLAYING"], (e) => this.#updatePlayerState(PlayerState.PLAYING));
+        this.#player.on(dashjs.MediaPlayer.events["PLAYBACK_PLAYING"], () => this.#updatePlayerState(PlayerState.PLAYING));
 
         //DashJS Player: Stopped
         this.#player.on(dashjs.MediaPlayer.events["ERROR"], () => this.#updatePlayerState(PlayerState.STOPPED));
