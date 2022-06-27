@@ -1,11 +1,11 @@
 <template>
-    <base-table>
+    <base-table description="Lists the media files that will be played next">
         <template #header>
             <tr>
                 <th class="text-center"></th>
-                <th>Media</th>
-                <th>Requested by</th>
-                <th>Duration</th>
+                <th scope="col">Media</th>
+                <th scope="col">Requested by</th>
+                <th scope="col">Duration</th>
             </tr>
         </template>
 

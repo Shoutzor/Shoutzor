@@ -5,18 +5,9 @@
                 Uploading files, {{ totalFiles }} pending
             </div>
             <div v-if="currentFile">
-                <table class="table table-borderless card-table upload-info mb-2">
-                    <tbody>
-                    <tr>
-                        <td><strong>Uploading:</strong></td>
-                        <td>{{ currentFile }}</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Progress:</strong></td>
-                        <td>{{ progress }}%</td>
-                    </tr>
-                    </tbody>
-                </table>
+                <p><strong>Uploading:</strong> {{ currentFile }}</p>
+                <p><strong>Progress:</strong> {{ progress }}%</p>
+
                 <div class="progress progress-sm">
                     <base-progressbar
                         :current-value="progress"

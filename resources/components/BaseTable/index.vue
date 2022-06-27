@@ -1,6 +1,7 @@
 <template>
     <div class="table-responsive">
         <table :class="classes">
+            <caption class="d-none">{{ description }}</caption>
             <thead v-if="this.$slots.header">
             <slot name="header"></slot>
             </thead>
@@ -18,6 +19,11 @@ export default {
     name: 'base-table',
 
     props: {
+        description: {
+            type: String,
+            required: false,
+            default: ''
+        },
         dark: {
             type: Boolean,
             required: false,

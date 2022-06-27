@@ -17,7 +17,7 @@ class LastPlayed
     /**
      * @return string[]
      */
-    #[ArrayShape(['request' => "\App\Models\Request"])] public function __invoke(): array
+    #[ArrayShape(['request' => "\App\Models\Request"])] public function __invoke($_, array $args, GraphQLContext $context, ResolveInfo $resolveInfo): array
     {
         $lastPlayed = Request::query()
             ->with(['requested_by', 'media.artists'])

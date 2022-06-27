@@ -30,7 +30,7 @@ class Whoami
      * @param ResolveInfo $resolveInfo
      * @return string[]
      */
-    #[ArrayShape(['user' => "\App\Models\User"])] public function __invoke(ResolveInfo $resolveInfo): array
+    #[ArrayShape(['user' => "\App\Models\User"])] public function __invoke($_, array $args, GraphQLContext $context, ResolveInfo $resolveInfo): array
     {
         $this->resolveInfo = $resolveInfo;
         $user = $this->getAuthenticatedUser();
