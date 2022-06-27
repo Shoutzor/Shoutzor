@@ -4,6 +4,7 @@
 [![Azure DevOps builds](https://img.shields.io/azure-devops/build/xorinzor/a25fbc4c-12ac-4473-beb7-219329581d73/4)](https://dev.azure.com/xorinzor/Shoutz0r/_build)
 [![CodeFactor](https://www.codefactor.io/repository/github/xorinzor/shoutz0r-app/badge/master)](https://www.codefactor.io/repository/github/xorinzor/shoutz0r-app/overview/master)
 [![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=xorinzor_Shoutz0r-app&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=xorinzor_Shoutz0r-app)
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=xorinzor_Shoutz0r-app&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=xorinzor_Shoutz0r-app)
 
 Shoutz0r - A media voting system perfect for events such as lan-parties!\
 Comes with autoDJ to keep requests going when no requests have been added by users.
