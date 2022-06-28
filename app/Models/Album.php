@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Traits\UsesUUID;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\File;
 
 class Album extends Model
 {
@@ -25,5 +26,14 @@ class Album extends Model
     public function media()
     {
         return $this->hasMany('App\Models\Media');
+    }
+
+    public function getImageAttribute($value)
+    {
+        if(File::exists(storage_path($value))) {
+            return $value;
+        }
+
+        return '/images/album_cover_placeholder.jpg';
     }
 }

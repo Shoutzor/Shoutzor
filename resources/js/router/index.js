@@ -35,7 +35,7 @@ const router = createRouter({
         }, {
             name: 'search',
             path: '/search',
-            component: loadView('main/dashboard')
+            component: loadView('main/search')
         }, {
             name: 'profile',
             path: '/profile',

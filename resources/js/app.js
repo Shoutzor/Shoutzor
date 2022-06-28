@@ -1,6 +1,6 @@
 import axios from 'axios';
 import Echo from 'laravel-echo';
-import router from "./router/app";
+import router from "@js/router";
 import mitt from 'mitt';
 import PerfectScrollbar from 'vue3-perfect-scrollbar';
 import { createApp } from 'vue'

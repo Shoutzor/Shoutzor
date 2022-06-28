@@ -1,7 +1,20 @@
-/* Disable the button outline when it's pressed */
-.btn-primary:focus, .btn-primary.focus, .btn:focus, .btn.focus {
+/* Disable the focus outline */
+textarea:hover,
+input:hover,
+textarea:active,
+input:active,
+textarea:focus,
+input:focus,
+button:focus,
+button:active,
+button:hover,
+label:focus,
+.btn:active,
+.btn.active
+{
+    outline:0 !important;
+    -webkit-appearance:none;
     box-shadow: none !important;
-    outline: none !important;
 }
 
 .dropdown .dropdown-menu {

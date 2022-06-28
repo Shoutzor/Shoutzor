@@ -32,6 +32,6 @@ class Media extends Model
             return $value;
         }
 
-        return 'images/album_cover_placeholder.jpg';
+        return '/images/album_cover_placeholder.jpg';
     }
 }

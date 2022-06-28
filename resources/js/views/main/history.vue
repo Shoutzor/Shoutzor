@@ -1,10 +1,8 @@
 <template>
-    <div>
-        <div class="row row-cards">
-            <div class="col-sm-12">
-                <h2 class="category-header">History</h2>
-                <history-table></history-table>
-            </div>
+    <div class="row row-cards">
+        <div class="col-sm-12">
+            <h2 class="category-header">History</h2>
+            <history-table></history-table>
         </div>
     </div>
 </template>

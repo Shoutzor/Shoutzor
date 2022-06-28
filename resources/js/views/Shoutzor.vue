@@ -1,5 +1,5 @@
 <template>
-    <the-header id="header" />
+    <the-header />
 
     <div id="wrapper" class="d-flex flex-nowrap">
         <the-menu class="flex-column flex-shrink-0 p-3"/>

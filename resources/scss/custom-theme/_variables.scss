@@ -33,7 +33,6 @@ $brand-color-spotify: #1DB954;
 $brand-color-soundcloud: #FF7700;
 $brand-color-youtube: #FF0000;
 
-
 $theme-colors: (
     "audio": $audio-default,
     "video": $orange,
@@ -74,6 +73,9 @@ $dropdown-dark-link-hover-bg: $dark;
 $dropdown-dark-link-hover-color: $secondary;
 $dropdown-dark-link-active-bg: $dropdown-dark-link-hover-bg;
 $dropdown-dark-link-active-color: $dropdown-dark-link-hover-color;
+
+$list-group-color: $secondary;
+$list-group-bg: $black;
 
 /*
  * Shoutz0r variables

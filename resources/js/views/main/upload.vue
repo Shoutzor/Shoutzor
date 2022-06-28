@@ -1,20 +1,18 @@
 <template>
-    <div>
-        <div class="row row-cards">
-            <div class="col-sm-12">
-                <upload-area></upload-area>
-            </div>
+    <div class="row row-cards">
+        <div class="col-sm-12">
+            <upload-area></upload-area>
         </div>
-        <div class="row row-cards">
-            <div class="col-sm-12">
-                <h2 class="category-header">File Uploads</h2>
-                <upload-progress></upload-progress>
-            </div>
+    </div>
+    <div class="row row-cards">
+        <div class="col-sm-12">
+            <h2 class="category-header">File Uploads</h2>
+            <upload-progress></upload-progress>
         </div>
-        <div class="row row-cards">
-            <div class="col-sm-12">
-                <upload-table></upload-table>
-            </div>
+    </div>
+    <div class="row row-cards">
+        <div class="col-sm-12">
+            <upload-table></upload-table>
         </div>
     </div>
 </template>

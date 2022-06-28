@@ -104,10 +104,6 @@ export default {
 
     .mediatype-column {
         width: 50px;
-
-        .avatar.mediatype {
-            font-size: 24px !important;
-        }
     }
 }
 </style>

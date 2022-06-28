@@ -1,60 +1,17 @@
-@use "sass:math";
+#header {
+    .input-group.search-container {
+        width: initial;
 
-.dropdown .dropdown-menu {
-    width: 250px
-}
-
-#navbar-top {
-    width: 100%;
-    z-index: 999;
-    background: $body-bg;
-    -webkit-box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.2);
-    -moz-box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.2);
-    box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.2);
-
-    @include media-breakpoint-up(md) {
-        height: $navbar-height;
-    }
-
-    .header-search-container {
-        display: flex;
-        position: absolute;
-        left: 50%;
-        width: $header-search-width;
-        margin-left: math.div(-$header-search-width, 2);
-
-        @media (max-width: map-get($grid-breakpoints, lg)) {
-            position: relative;
-            left: 0;
-            width: 100%;
-            margin-left: 0;
+        span.input-group-text {
+            background-color: $black;
+            border: 0;
+            padding: 0 0 0 10px;
         }
 
-        form {
-            flex-grow: 1;
-        }
-    }
-
-    .adminpanel-button {
-        margin-right: 0.5rem;
-        margin-left: -0.5rem;
-    }
-
-    .navbar-brand {
-        -webkit-filter: none;
-        filter: none;
-
-        @include media-breakpoint-up(lg) {
-            display: flex;
-            justify-content: center;
-            width: $sidebar-width;
-            height: $navbar-height;
-            margin: 0;
-            padding: 0;
-        }
-
-        .navbar-brand-image {
-            padding: 8px;
+        input.form-control {
+            background-color: $black;
+            border: 0;
+            padding-left: 8px;
         }
     }
 }
