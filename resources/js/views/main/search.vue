@@ -126,8 +126,6 @@ export default {
                 q: this.query
             });
 
-            console.dir(result);
-
             this.loading = loading;
             this.error = error;
             this.result = result;
