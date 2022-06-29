@@ -35,12 +35,7 @@
             <template v-else-if="queue.length > 0">
                 <tr v-for="request in queue" :key="request.id">
                     <td class="text-center mediatype-column">
-                        <span
-                            :class="request.media.is_video ? 'bg-video text-white video' : 'bg-audio text-white audio'"
-                            class="avatar mediatype">
-                            <component :is="request.media.is_video ? 'b-icon-film' : 'b-icon-music-note-beamed'"
-                                       class="mediasource-icon"></component>
-                        </span>
+                        <media-icon :is_video="request.media.is_video" />
                     </td>
                     <td>
                         <div>{{ request.media.title }}</div>
@@ -68,6 +63,7 @@
 import BaseTable from "@components/BaseTable";
 import ArtistList from "@components/ArtistList";
 import BeautifiedTime from "@components/BeautifiedTime";
+import MediaIcon from "@components/MediaIcon";
 
 import {useQuery} from "@vue/apollo-composable";
 import {computed} from "vue";
@@ -79,7 +75,8 @@ export default {
     components: {
         BaseTable,
         ArtistList,
-        BeautifiedTime
+        BeautifiedTime,
+        MediaIcon
     },
     setup() {
         const {result, loading, error} = useQuery(COMINGUP_QUERY);

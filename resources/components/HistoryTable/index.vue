@@ -16,12 +16,7 @@
             <template v-if="history && history.length > 0">
                 <tr v-for="request in history" :key="request.id">
                     <td class="text-center mediatype-column">
-                            <span
-                                :class="request.media.is_video ? 'bg-video text-white video' : 'bg-audio text-white audio'"
-                                class="avatar mediatype">
-                                <component :is="request.media.is_video ? 'b-icon-film' : 'b-icon-music-note-beamed'"
-                                           class="mediasource-icon"></component>
-                            </span>
+                        <media-icon :is_video="request.media.is_video" />
                     </td>
                     <td>
                         <div>{{ request.media.title }}</div>
@@ -58,13 +53,14 @@
 </template>
 
 <script>
+import {computed} from "vue";
+import {useQuery} from "@vue/apollo-composable";
+import {HISTORY_QUERY} from "@graphql/requests";
 import BeautifiedTime from "@components/BeautifiedTime";
 import ArtistList from "@components/ArtistList";
 import UserList from "@components/UserList";
-import {useQuery} from "@vue/apollo-composable";
-import {computed} from "vue";
-import {HISTORY_QUERY} from "@graphql/requests";
 import BaseTable from "@components/BaseTable";
+import MediaIcon from "@components/MediaIcon";
 
 export default {
     name: 'history-table',
@@ -73,7 +69,8 @@ export default {
         BaseTable,
         BeautifiedTime,
         ArtistList,
-        UserList
+        UserList,
+        MediaIcon
     },
 
     setup() {
