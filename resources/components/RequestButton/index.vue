@@ -13,14 +13,18 @@ export default {
         BaseButton
     },
     props: {
-        media: {
-            type: Object,
+        id: {
+            type: Number,
+            required: true
+        },
+        title: {
+            type: String,
             required: true
         }
     },
     methods: {
         onClick() {
-            console.log("requested!", this.media);
+            console.log("requested!", this.id, this.title);
         }
     }
 };

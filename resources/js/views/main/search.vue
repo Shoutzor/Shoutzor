@@ -36,7 +36,7 @@
                                 <div class="text-white">{{ media.title }}</div>
                                 <artist-list :artists="media.artists" class="small"/>
                             </div>
-                            <request-button :media="media" class="ms-auto" />
+                            <request-button v-bind="media" class="ms-auto" />
                         </div>
                     </div>
                 </div>
