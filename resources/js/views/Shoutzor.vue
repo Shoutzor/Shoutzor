@@ -48,15 +48,15 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-#wrapper {
-    padding-top: 1rem;
-    padding-bottom: 0.5rem;
-}
-
-#wrapper main {
+#wrapper #main-content {
     .ps {
         flex: 1 1 auto;
         height: 0; // Required to make content scrollable, see: https://stackoverflow.com/a/14964944/1024322
+
+        .container {
+            padding-top: 0.5rem;
+            padding-bottom: 0.5rem;
+        }
     }
 }
 </style>
