@@ -9,6 +9,8 @@ use DanielDeWit\LighthouseSanctum\Traits\HasAuthenticatedUser;
 use DanielDeWit\LighthouseSanctum\Traits\HasUserModel;
 use GraphQL\Type\Definition\ResolveInfo;
 use Illuminate\Contracts\Auth\Factory as AuthFactory;
+use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\Log;
 use JetBrains\PhpStorm\ArrayShape;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Illuminate\Database\Eloquent\Model;
@@ -64,6 +66,20 @@ class AddRequest
             $success = false;
             $message = 'The artist has been played too recently, please try again later.';
         }
+        // All validation checks have passed, add the request to the database
+        else {
+            try {
+                Request::create([
+                    'media_id' => $media->id,
+                    'requested_by' => $user->id,
+                    'played_at' => null
+                ]);
+            } catch (QueryException $e) {
+                $success = false;
+                $message = "Something went wrong while adding the request";
+                Log::error("Failed to add user request to the database, error: {$e->getMessage()}");
+            }
+        }
 
         return [
             'success' => $success,
@@ -85,8 +101,13 @@ class AddRequest
     private function userCanRequest(Model $user): bool
     {
         $recent = Request::query()
-            ->where('requested_by', '=', $user->id)
-            ->where('requested_at', '<', '(CURRENT_TIMESTAMP() - ?)', [config('shoutzor.userRequestDelay')])
+            ->whereRaw('
+                requested_by = ? AND
+                requested_at >= (CURRENT_TIMESTAMP() - ?)
+            ', [
+                $user->id,
+                config('shoutzor.userRequestDelay')
+            ])
             ->orderBy('requested_at', 'DESC')
             ->limit(1)
             ->first();
@@ -104,11 +125,9 @@ class AddRequest
     private function isMediaRequestable(Media $media): bool
     {
         $recent = Request::query()
-            ->leftJoin('artist_media', 'artist_media.artist_id', 'IN', $media->artists()->pluck('id')->toArray())
-            ->leftJoin('artists', 'artists.id', '=', 'artist_media.artist_id')
             ->whereRaw('
-                media_id = ? AND
-                requested_at < (CURRENT_TIMESTAMP() - ?)
+                requests.media_id = ? AND
+                requested_at > (CURRENT_TIMESTAMP() - ?)
             ', [
                 $media->id,
                 config('shoutzor.mediaRequestDelay')
@@ -129,12 +148,25 @@ class AddRequest
      */
     private function isArtistRequestable(Media $media): bool
     {
+        $artists = $media->artists()->pluck('id')->toArray();
+
+        // If the media has no (known) artist, then it can be requested regardless
+        if(!$artists) {
+            return true;
+        }
+
         $recent = Request::query()
-            ->leftJoin('artist_media', 'artist_media.artist_id', 'IN', $media->artists()->pluck('id')->toArray())
             ->whereRaw('
-                media_id = artist_media.media_id AND
-                requested_at < (CURRENT_TIMESTAMP() - ?)
-            ', [ config('shoutzor.artistRequestDelay') ])
+                requests.media_id IN (
+                    SELECT media_id
+                    FROM `artist_media`
+                    WHERE artist_id IN (' . str_repeat('?,', count($artists) - 1) . '?)
+                ) AND
+                requested_at > (CURRENT_TIMESTAMP() - ?)
+            ', array_merge(
+                $artists,
+                [config('shoutzor.artistRequestDelay')]
+            ))
             ->orderBy('requested_at', 'DESC')
             ->limit(1)
             ->first();

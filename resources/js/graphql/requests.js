@@ -85,3 +85,11 @@ export const HISTORY_QUERY = gql`
             }
         }
     }`;
+
+export const ADDREQUEST_MUTATION = gql`
+    mutation addRequest($id: ID!) {
+        addRequest(id: $id) {
+            success
+            message
+        }
+    }`;

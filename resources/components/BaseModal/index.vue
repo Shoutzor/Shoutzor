@@ -6,20 +6,31 @@
                     <h5 class="modal-title">{{ title }}</h5>
                 </div>
                 <div class="modal-body">
-                    <slot></slot>
+                    <template v-if="loading">
+                        <div class="text-center">
+                            <base-spinner />
+                        </div>
+                    </template>
+                    <slot v-else></slot>
                 </div>
                 <div v-if="hasFooter" class="modal-footer">
                     <base-button
                         v-if="hasCancelButton"
-                        @click="onCancelClick"
-                        class="btn btn-secondary me-auto">
+                        @click="onCancel"
+                        :disabled="loading"
+                        class="btn btn-secondary me-auto"
+                        data-bs-dismiss="modal">
                         {{ cancelButton }}
                     </base-button>
                     <base-button
                         v-if="hasConfirmButton"
-                        @click="onConfirmClick"
+                        @click="onConfirm"
+                        :disabled="loading"
                         class="btn btn-primary">
-                        {{ confirmButton }}
+                        <template v-if="loading">
+                            <base-spinner />
+                        </template>
+                        <template v-else>{{ confirmButton }}</template>
                     </base-button>
                 </div>
             </div>
@@ -32,11 +43,13 @@ import "./BaseModal.scss";
 
 import {computed, reactive} from "vue";
 import BaseButton from "@components/BaseButton";
+import BaseSpinner from "@components/BaseSpinner";
 
 export default {
     name: 'base-modal',
 
     components: {
+        BaseSpinner,
         BaseButton
     },
 
@@ -84,21 +97,26 @@ export default {
             type: Boolean,
             required: false,
             default: true
+        },
+        onConfirm: {
+            type: Function,
+            required: true
+        },
+        onCancel: {
+            type: Function,
+            required: true
+        },
+        loading: {
+            type: Boolean,
+            required: false,
+            default: false
         }
     },
 
-    emits: ['cancelClick', 'confirmClick'],
-
-    setup(props, {emit}) {
+    setup(props) {
         props = reactive(props);
 
         return {
-            onCancelClick() {
-                emit('cancelClick', props.id);
-            },
-            onConfirmClick() {
-                emit('confirmClick', props.id);
-            },
             classes: computed(() => ({
                 'modal': true,
                 'modal-blur': true,

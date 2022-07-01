@@ -1,10 +1,11 @@
 <?php
 
 return [
+    'installed' => env('SHOUTZOR_INSTALLED', false),
     'uploadMediaDurationLimit' => 300,
     'uploadEnabled' => true,
     'requestEnabled' => true,
-    'userRequestDelay' => 10,
+    'userRequestDelay' => 600,
     'mediaRequestDelay' => 3600,
     'artistRequestDelay' => 1800,
 ];

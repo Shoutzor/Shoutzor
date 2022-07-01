@@ -14,6 +14,7 @@
     </div>
 
     <div class="position-relative bottom-0 order-3">
+        <the-modalmanager />
         <the-toastmanager />
     </div>
 
@@ -25,14 +26,16 @@ import TheHeader from '@components/TheHeader';
 import TheMenu from '@components/TheMenu';
 import TheMediaplayer from '@components/TheMediaplayer';
 import TheToastmanager from "@components/TheToastmanager";
+import TheModalmanager from "@components/TheModalmanager";
 
 export default {
     name: "Shoutzor",
     components: {
-        TheMediaplayer,
         TheHeader,
         TheMenu,
-        TheToastmanager
+        TheModalmanager,
+        TheToastmanager,
+        TheMediaplayer
     },
     watch: {
         $route() {
