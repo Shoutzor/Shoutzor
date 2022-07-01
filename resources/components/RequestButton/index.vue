@@ -53,7 +53,7 @@ export default {
             addRequestMutate()
                 .then(result => {
                     if(result.data.addRequest.success) {
-                        this.bootstrapControl.showToast("success", this.title + "requested!");
+                        this.bootstrapControl.showToast("success", "Your request has been added to the queue");
                     } else {
                         this.bootstrapControl.showToast("danger", result.data.addRequest.message);
                     }
