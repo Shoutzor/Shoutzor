@@ -5,7 +5,7 @@
             :key="modal.id"
             :id="modal.id"
             v-bind="modal.options">
-            {{ modal.options.body }}
+            <div v-html="modal.options.body"></div>
         </base-modal>
     </div>
 </template>

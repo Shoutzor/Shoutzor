@@ -31,9 +31,16 @@ export default {
     },
     methods: {
         onClick() {
+            // Making sure nothing in the media title can cause an XSS vulnerability
+            let escapedTitle = String(this.title)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;');
+
             this.modalId = this.bootstrapControl.showModal({
                 onConfirm: this.doRequest,
-                body: `Do you want to request: ${this.title}?`,
+                body: `Do you want to request: <strong>${escapedTitle}</strong>?`,
                 confirmButton: 'Request'
             });
         },

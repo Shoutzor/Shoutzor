@@ -10,6 +10,7 @@ use DanielDeWit\LighthouseSanctum\Traits\HasUserModel;
 use GraphQL\Type\Definition\ResolveInfo;
 use Illuminate\Contracts\Auth\Factory as AuthFactory;
 use Illuminate\Database\QueryException;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Log;
 use JetBrains\PhpStorm\ArrayShape;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
@@ -103,10 +104,10 @@ class AddRequest
         $recent = Request::query()
             ->whereRaw('
                 requested_by = ? AND
-                requested_at >= (CURRENT_TIMESTAMP() - ?)
+                requested_at > ?
             ', [
                 $user->id,
-                config('shoutzor.userRequestDelay')
+                Carbon::now()->subSeconds(config('shoutzor.userRequestDelay'))
             ])
             ->orderBy('requested_at', 'DESC')
             ->limit(1)
@@ -127,10 +128,10 @@ class AddRequest
         $recent = Request::query()
             ->whereRaw('
                 requests.media_id = ? AND
-                requested_at > (CURRENT_TIMESTAMP() - ?)
+                requested_at > ?
             ', [
                 $media->id,
-                config('shoutzor.mediaRequestDelay')
+                Carbon::now()->subSeconds(config('shoutzor.mediaRequestDelay'))
             ])
             ->orderBy('requested_at', 'DESC')
             ->limit(1)
@@ -162,10 +163,10 @@ class AddRequest
                     FROM `artist_media`
                     WHERE artist_id IN (' . str_repeat('?,', count($artists) - 1) . '?)
                 ) AND
-                requested_at > (CURRENT_TIMESTAMP() - ?)
+                requested_at > ?
             ', array_merge(
                 $artists,
-                [config('shoutzor.artistRequestDelay')]
+                [Carbon::now()->subSeconds(config('shoutzor.artistRequestDelay'))]
             ))
             ->orderBy('requested_at', 'DESC')
             ->limit(1)
