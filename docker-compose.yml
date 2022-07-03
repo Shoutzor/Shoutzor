@@ -91,6 +91,7 @@ services:
       - SOKETI_ADAPTER_DRIVER=redis
       - SOKETI_CACHE_DRIVER=memory
       - SOKETI_QUEUE_DRIVER=redis
+      - SOKETI_DB_REDIS_KEY_PREFIX=soketi
     restart: unless-stopped
 
 networks:
