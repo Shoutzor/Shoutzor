@@ -89,7 +89,7 @@ services:
       - SOKETI_DB_REDIS_PASSWORD=${REDIS_PASSWORD}
       - SOKETI_DB_REDIS_DB=${REDIS_DB}
       - SOKETI_ADAPTER_DRIVER=redis
-      - SOKETI_CACHE_DRIVER=redis
+      - SOKETI_CACHE_DRIVER=memory
       - SOKETI_QUEUE_DRIVER=redis
     restart: unless-stopped
 
