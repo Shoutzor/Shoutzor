@@ -87,7 +87,10 @@ services:
       - SOKETI_DB_REDIS_HOST=${REDIS_HOST}
       - SOKETI_DB_REDIS_PORT=${REDIS_PORT}
       - SOKETI_DB_REDIS_PASSWORD=${REDIS_PASSWORD}
-      - SOKETI_DB_REDIS_DB=${REDIS_CACHE_DB}
+      - SOKETI_DB_REDIS_DB=${REDIS_DB}
+      - SOKETI_ADAPTER_DRIVER=redis
+      - SOKETI_CACHE_DRIVER=redis
+      - SOKETI_QUEUE_DRIVER=redis
     restart: unless-stopped
 
 networks:

@@ -65,8 +65,8 @@ import ArtistList from "@components/ArtistList";
 import BeautifiedTime from "@components/BeautifiedTime";
 import MediaIcon from "@components/MediaIcon";
 
-import {useQuery, useSubscription} from "@vue/apollo-composable";
-import {computed} from "vue";
+import {useQuery} from "@vue/apollo-composable";
+import {watch, computed} from "vue";
 import {COMINGUP_QUERY, REQUESTADDED_SUBSCRIPTION} from "@graphql/requests";
 
 export default {
@@ -79,31 +79,27 @@ export default {
         MediaIcon
     },
     setup() {
-        const {result, loading, error} = useQuery(COMINGUP_QUERY);
+        const {result, loading, error, subscribeToMore } = useQuery(COMINGUP_QUERY);
 
         const queue = computed(() => result?.value?.requests?.data ?? []);
+
+        subscribeToMore(() => ({
+             document: REQUESTADDED_SUBSCRIPTION,
+             updateQuery: (previousResult, { subscriptionData }) => {
+                 console.log("update called");
+
+                 console.dir(previousResult);
+                 console.dir(subscriptionData);
+
+                return previousResult;
+            }
+        }));
 
         return {
             result,
             loading,
             error,
             queue
-        }
-    },
-    mounted() {
-        const response = useSubscription(REQUESTADDED_SUBSCRIPTION);
-        response.onResult((result) => this.onSubscriptionResult(result));
-        response.onError(({ graphQLErrors, operation, forward }) => {
-            this.onSubscriptionError({ graphQLErrors, operation, forward });
-        });
-    },
-    methods: {
-        onSubscriptionResult(result) {
-            console.dir(result);
-        },
-        onSubscriptionError({ graphQLErrors, operation, forward }) {
-            console.log("error");
-            console.dir({ graphQLErrors, operation, forward });
         }
     }
 }

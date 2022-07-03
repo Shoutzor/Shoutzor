@@ -95,7 +95,7 @@ export const ADDREQUEST_MUTATION = gql`
     }`;
 
 export const REQUESTADDED_SUBSCRIPTION = gql`
-    subscription requestAdded {
+    subscription onRequestAdded {
         requestAdded {
             id
             media {

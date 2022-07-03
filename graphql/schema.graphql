@@ -103,6 +103,7 @@ type Mutation {
 type Subscription {
     requestAdded: Request
         @subscription(class: "\\App\\GraphQL\\Subscriptions\\RequestAdded")
+
 }
 
 type lastPlayedResponse {
