@@ -10,7 +10,6 @@
     "require": {
         "php": "^8.0.2",
         "ext-pdo": "*",
-        "beyondcode/laravel-websockets": "^1.13",
         "daniel-de-wit/lighthouse-sanctum": "^2.1.1",
         "guzzlehttp/guzzle": "^7.2",
         "intervention/image": "^2.7",

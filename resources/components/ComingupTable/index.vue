@@ -65,9 +65,9 @@ import ArtistList from "@components/ArtistList";
 import BeautifiedTime from "@components/BeautifiedTime";
 import MediaIcon from "@components/MediaIcon";
 
-import {useQuery} from "@vue/apollo-composable";
+import {useQuery, useSubscription} from "@vue/apollo-composable";
 import {computed} from "vue";
-import {COMINGUP_QUERY} from "@graphql/requests";
+import {COMINGUP_QUERY, REQUESTADDED_SUBSCRIPTION} from "@graphql/requests";
 
 export default {
     name: "comingup-table",
@@ -88,6 +88,22 @@ export default {
             loading,
             error,
             queue
+        }
+    },
+    mounted() {
+        const response = useSubscription(REQUESTADDED_SUBSCRIPTION);
+        response.onResult((result) => this.onSubscriptionResult(result));
+        response.onError(({ graphQLErrors, operation, forward }) => {
+            this.onSubscriptionError({ graphQLErrors, operation, forward });
+        });
+    },
+    methods: {
+        onSubscriptionResult(result) {
+            console.dir(result);
+        },
+        onSubscriptionError({ graphQLErrors, operation, forward }) {
+            console.log("error");
+            console.dir({ graphQLErrors, operation, forward });
         }
     }
 }

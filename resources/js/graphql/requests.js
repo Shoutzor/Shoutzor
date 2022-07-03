@@ -93,3 +93,30 @@ export const ADDREQUEST_MUTATION = gql`
             message
         }
     }`;
+
+export const REQUESTADDED_SUBSCRIPTION = gql`
+    subscription requestAdded {
+        requestAdded {
+            id
+            media {
+                id
+                title
+                is_video
+                duration
+                album {
+                    id
+                    title
+                }
+                artists {
+                    id,
+                    name
+                }
+            }
+            requested_by {
+                id
+                username
+            }
+            requested_at
+            played_at
+        }
+    }`;

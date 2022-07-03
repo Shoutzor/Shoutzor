@@ -70,8 +70,8 @@ class AuthenticationManager {
         localStorage.setItem(this.#tokenName, token);
 
         axios.defaults.headers.common.Authorization = 'Bearer ' + token;
-        this.#echoClient.connector.options.auth.headers.authorization = "Bearer " + token;
-        this.#httpClient.options.headers.authorization = "Bearer " + token;
+        this.#echoClient.connector.options.auth.headers.Authorization = "Bearer " + token;
+        this.#httpClient.options.headers.Authorization = "Bearer " + token;
     }
 
     #removeToken() {

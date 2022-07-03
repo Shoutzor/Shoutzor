@@ -13,6 +13,7 @@ use Illuminate\Database\QueryException;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Log;
 use JetBrains\PhpStorm\ArrayShape;
+use Nuwave\Lighthouse\Execution\Utils\Subscription;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Illuminate\Database\Eloquent\Model;
 
@@ -70,11 +71,13 @@ class AddRequest
         // All validation checks have passed, add the request to the database
         else {
             try {
-                Request::create([
+                $request = Request::create([
                     'media_id' => $media->id,
                     'requested_by' => $user->id,
                     'played_at' => null
                 ]);
+
+                Subscription::broadcast('requestAdded', $request);
             } catch (QueryException $e) {
                 $success = false;
                 $message = "Something went wrong while adding the request";

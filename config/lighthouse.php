@@ -28,6 +28,8 @@ return [
          * make sure to return spec-compliant responses in case an error is thrown.
          */
         'middleware' => [
+            \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
+
             /*
              * forbids GET requests, and POST requests which can be created using HTML forms.
              * Other request types and POST requests with a Content-Type that can not be set from
