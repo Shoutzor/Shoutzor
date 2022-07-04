@@ -65,7 +65,7 @@ import ArtistList from "@components/ArtistList";
 import BeautifiedTime from "@components/BeautifiedTime";
 import MediaIcon from "@components/MediaIcon";
 
-import {useQuery} from "@vue/apollo-composable";
+import {useQuery, useSubscription} from "@vue/apollo-composable";
 import {watch, computed} from "vue";
 import {COMINGUP_QUERY, REQUESTADDED_SUBSCRIPTION} from "@graphql/requests";
 
@@ -78,29 +78,36 @@ export default {
         BeautifiedTime,
         MediaIcon
     },
-    setup() {
-        const {result, loading, error, subscribeToMore } = useQuery(COMINGUP_QUERY);
-
-        const queue = computed(() => result?.value?.requests?.data ?? []);
-
-        subscribeToMore(() => ({
-             document: REQUESTADDED_SUBSCRIPTION,
-             updateQuery: (previousResult, { subscriptionData }) => {
-                 console.log("update called");
-
-                 console.dir(previousResult);
-                 console.dir(subscriptionData);
-
-                return previousResult;
-            }
-        }));
-
+    data() {
         return {
+            result: [],
+            loading: true,
+            error: null
+        };
+    },
+    computed: {
+        queue() {
+            return this.result?.requests?.data ?? [];
+        }
+    },
+    mounted() {
+        const {
             result,
             loading,
             error,
-            queue
-        }
+            refetch
+        } = useQuery(COMINGUP_QUERY);
+
+        this.loading = loading;
+        this.error = error;
+        this.result = result;
+
+        const { result:subResult } = useSubscription(REQUESTADDED_SUBSCRIPTION);
+
+        watch(subResult,
+            data => {
+                refetch();
+            });
     }
 }
 </script>

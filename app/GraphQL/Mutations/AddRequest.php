@@ -2,6 +2,7 @@
 
 namespace App\GraphQL\Mutations;
 
+use App\Exceptions\MediaQueueException;
 use App\Models\Media;
 use App\Models\Request;
 use App\Models\User;
@@ -46,43 +47,30 @@ class AddRequest
         $media = Media::find($args['id']);
 
         // Default feedback
-        $success = true;
-        $message = 'The request has been added to the queue';
+        $success = false;
 
-        if(!$media) {
-            $success = false;
-            $message = 'The requested media does not exist';
-        }
-        // Check if the user can perform a request
-        elseif(!$this->userCanRequest($user)) {
-            $success = false;
-            $message = 'You have requested media too recently, please try again later.';
-        }
-        // Check if the media file has not been played too recently
-        elseif(!$this->isMediaRequestable($media)) {
-            $success = false;
-            $message = 'This media has been played too recently, please try again later.';
-        }
-        // Check if the artist has not been played too recently
-        elseif(!$this->isArtistRequestable($media)) {
-            $success = false;
-            $message = 'The artist has been played too recently, please try again later.';
-        }
-        // All validation checks have passed, add the request to the database
-        else {
-            try {
-                $request = Request::create([
-                    'media_id' => $media->id,
-                    'requested_by' => $user->id,
-                    'played_at' => null
-                ]);
+        try {
+            $this->userCanRequest($user);
+            $this->isMediaRequestable($media);
+            $this->isArtistRequestable($media);
 
-                Subscription::broadcast('requestAdded', $request);
-            } catch (QueryException $e) {
-                $success = false;
-                $message = "Something went wrong while adding the request";
-                Log::error("Failed to add user request to the database, error: {$e->getMessage()}");
-            }
+            $request = Request::create([
+                'media_id' => $media->id,
+                'requested_by' => $user->id,
+                'played_at' => null
+            ]);
+
+            Subscription::broadcast('requestAdded', $request);
+
+            $success = true;
+            $message = 'The request has been added to the queue';
+        }
+        catch (MediaQueueException $e) {
+            $message = $e->getMessage();
+        }
+        catch (QueryException $e) {
+            $message = "Something went wrong while adding the request";
+            Log::error("Failed to add user request to the database, error: {$e->getMessage()}");
         }
 
         return [
@@ -100,9 +88,10 @@ class AddRequest
      * Determines if the user is able to make a request at this moment
      * ie: requested something too recently
      * @param User $user
-     * @return bool
+     * @return void
+     * @throws MediaQueueException
      */
-    private function userCanRequest(Model $user): bool
+    private function userCanRequest(Model $user): void
     {
         $recent = Request::query()
             ->whereRaw('
@@ -116,66 +105,90 @@ class AddRequest
             ->limit(1)
             ->first();
 
-        // Check if a result has been found, if not, the user can request the track
-        return !$recent;
+        if($recent) {
+            throw new MediaQueueException("You have requested media too recently, please try again later.");
+        }
     }
 
     /**
      * Determines if the provided media object is requestable
      * ie: not requested too recently
      * @param Media $media
-     * @return false
+     * @return void
+     * @throws MediaQueueException
      */
-    private function isMediaRequestable(Media $media): bool
+    private function isMediaRequestable(Media $media): void
     {
         $recent = Request::query()
             ->whereRaw('
-                requests.media_id = ? AND
-                requested_at > ?
+                (
+                    requests.media_id = ? AND
+                    played_at > ?
+                ) OR
+                (
+                    requests.media_id = ? AND
+                    played_at IS NULL
+                )
             ', [
                 $media->id,
-                Carbon::now()->subSeconds(config('shoutzor.mediaRequestDelay'))
+                Carbon::now()->subSeconds(config('shoutzor.mediaRequestDelay')),
+                $media->id
             ])
             ->orderBy('requested_at', 'DESC')
             ->limit(1)
             ->first();
 
-        // If no results are found, the media file is requestable
-        return !$recent;
+        if($recent) {
+            // If played_at is null it means this file is already in the queue
+            // Otherwise, it has been played too recently
+            throw new MediaQueueException(
+                $recent->played_at === null ?
+                    "This media is already in the queue" :
+                    "This media has been played too recently, please try again later.");
+        }
     }
 
     /**
      * Determines if the artist of the provided media object is requestable
      * ie: no tracks of the artist have been played too recently
      * @param Media $media
-     * @return false
+     * @return void
+     * @throws MediaQueueException
      */
-    private function isArtistRequestable(Media $media): bool
+    private function isArtistRequestable(Media $media): void
     {
         $artists = $media->artists()->pluck('id')->toArray();
 
         // If the media has no (known) artist, then it can be requested regardless
         if(!$artists) {
-            return true;
+            return;
         }
 
         $recent = Request::query()
+            ->leftJoin('artist_media', 'artist_media.media_id', '=', 'requests.media_id')
             ->whereRaw('
-                requests.media_id IN (
-                    SELECT media_id
-                    FROM `artist_media`
-                    WHERE artist_id IN (' . str_repeat('?,', count($artists) - 1) . '?)
-                ) AND
-                requested_at > ?
+                (
+                    artist_media.artist_id IN (' . str_repeat('?,', count($artists) - 1) . '?) AND
+                    played_at > ?
+                ) OR
+                (
+                    artist_media.artist_id IN (' . str_repeat('?,', count($artists) - 1) . '?) AND
+                    played_at IS NULL
+                )
             ', array_merge(
                 $artists,
-                [Carbon::now()->subSeconds(config('shoutzor.artistRequestDelay'))]
+                [Carbon::now()->subSeconds(config('shoutzor.artistRequestDelay'))],
+                $artists
             ))
             ->orderBy('requested_at', 'DESC')
             ->limit(1)
             ->first();
 
-        // If no results are found, the artist is requestable
-        return !$recent;
+        if($recent) {
+            throw new MediaQueueException(
+                $recent->played_at === null ?
+                    "This artist is already in the queue" :
+                    "This artist has been played too recently, please try again later.");
+        }
     }
 }
