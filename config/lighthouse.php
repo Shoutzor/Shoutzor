@@ -422,7 +422,7 @@ return [
         /*
          * Determines if broadcasts should be queued by default.
          */
-        'queue_broadcasts' => env('LIGHTHOUSE_QUEUE_BROADCASTS', true),
+        'queue_broadcasts' => env('LIGHTHOUSE_QUEUE_BROADCASTS', false),
 
         /*
          * Determines the queue to use for broadcasting queue jobs.
@@ -464,8 +464,8 @@ return [
             ],
             'echo' => [
                 'driver' => 'echo',
-                'connection' => env('LIGHTHOUSE_SUBSCRIPTION_REDIS_CONNECTION', 'default'),
                 'routes' => \Nuwave\Lighthouse\Subscriptions\SubscriptionRouter::class . '@echoRoutes',
+                'connection' => env('LIGHTHOUSE_SUBSCRIPTION_REDIS_CONNECTION', 'default'),
             ],
         ],
 
