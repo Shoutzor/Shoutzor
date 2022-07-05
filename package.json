@@ -1,6 +1,7 @@
 {
     "private": true,
     "scripts": {
+        "postinstall": "npx patch-package",
         "dev": "npm run development",
         "development": "mix",
         "watch": "mix watch",
@@ -16,7 +17,7 @@
         "@babel/plugin-proposal-class-properties": "^7.17.12",
         "@popperjs/core": "^2.11.5",
         "@rollup/plugin-commonjs": "^22.0.0",
-        "@thekonz/apollo-lighthouse-subscription-link": "^2.0.0-rc.1",
+        "@thekonz/apollo-lighthouse-subscription-link": "2.0.0-rc.1",
         "@vue/apollo-components": "^4.0.0-alpha.18",
         "@vue/apollo-composable": "^4.0.0-alpha.18",
         "@vue/babel-helper-vue-jsx-merge-props": "^1.2.1",
@@ -37,6 +38,7 @@
         "laravel-mix-purgecss": "^6.0.0",
         "mitt": "^3.0.0",
         "moment": "^2.29.1",
+        "patch-package": "^6.4.7",
         "postcss": "^8.4.14",
         "pusher-js": "^7.1.1-beta",
         "resolve-url-loader": "^5.0.0",
