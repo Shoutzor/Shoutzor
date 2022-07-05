@@ -45,8 +45,8 @@
 <body class="antialiased theme-dark fixed-header">
 <div id="shoutzor" v-cloak>
     <div id="app-loader">
-        <img src="{{ asset('images/shoutzor-logo-large.png') }}" alt="Shoutz0r logo">
-        <div class="spinner-border mt-5 text-gray" role="status"></div>
+        @svg('images/shoutzor-logo.svg', 'logo')
+        <div class="spinner-border mt-5" role="status"></div>
     </div>
 </div>
 </body>

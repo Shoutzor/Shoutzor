@@ -52,6 +52,7 @@
         "vue-loader": "^17.0.0",
         "vue-router": "^4.0.15",
         "vue-slider-component": "^4.0.0-beta.5",
+        "vue-svg-inline-loader": "^2.1.5",
         "vue3-perfect-scrollbar": "^1.6.0",
         "webpack": "^5.73.0"
     },

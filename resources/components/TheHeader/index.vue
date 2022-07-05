@@ -2,7 +2,8 @@
     <header id="header" class="navbar navbar-dark flex-md-nowrap sticky-top p-0">
         <div class="container-fluid">
             <router-link :to="{name: 'dashboard'}" class="navbar-brand order-1">
-                <img alt="logo" class="navbar-brand-image filter-invert" src="@static/images/shoutzor-logo-header.png">
+                <img svg-inline src="@static/images/shoutzor-logo.svg" class="navbar-brand-image">
+                <!-- 242 x 54 -->
             </router-link>
             <form action="#" @submit.prevent="search"  class="search-container input-group justify-content-center order-3 order-md-2 pt-2 pt-md-0">
                 <span class="input-group-text"><b-icon-search /></span>

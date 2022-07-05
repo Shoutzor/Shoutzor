@@ -1,6 +1,6 @@
 <template>
     <div class="load-screen text-center">
-        <img src="@static/images/shoutzor-logo-small.png" alt="Shoutz0r logo">
+        <img svg-inline src="@static/images/shoutzor-logo.svg" alt="Shoutz0r logo">
         <div class="center-block">
             <BaseSpinner class="mt-5"/>
 
@@ -12,8 +12,8 @@
 </template>
 
 <script>
-import "./LoadScreen.css";
-import BaseSpinner from "../BaseSpinner";
+import "./LoadScreen.scss";
+import BaseSpinner from "@components/BaseSpinner";
 
 export default {
     name: 'LoadScreen',

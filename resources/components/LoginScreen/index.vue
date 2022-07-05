@@ -2,7 +2,7 @@
     <div class="wrapper">
         <div class="container container-tight py-6">
             <div class="text-center mb-4">
-                <img class="logo" alt="Shoutz0r logo" src="@static/images/shoutzor-logo-header.png">
+                <img svg-inline src="@static/images/shoutzor-logo.svg" class="logo">
             </div>
             <div class="card card-md">
                 <div class="card-body">

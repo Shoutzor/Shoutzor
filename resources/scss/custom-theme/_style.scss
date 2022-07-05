@@ -94,6 +94,12 @@ body {
 #header {
     order: 1;
     flex: 0 1 auto;
+
+    .navbar-brand-image {
+        width: 242px;
+        height: 54px;
+        fill: $white;
+    }
 }
 
 #wrapper {

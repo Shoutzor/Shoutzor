@@ -18,6 +18,15 @@ mix.webpackConfig({
     }
 });
 
+mix.override(config => {
+    config.module.rules.push({
+        test: /\.vue$/,
+        use: [
+            "vue-svg-inline-loader",
+        ]
+    })
+})
+
 /*
  |--------------------------------------------------------------------------
  | Mix Asset Management
@@ -49,7 +58,7 @@ mix.js('resources/js/app.js', 'public/js')
         ]
     });
 
-mix.copy('resources/static/images/shoutzor-logo-large.png', 'public/images');
+mix.copy('resources/static/images/shoutzor-logo.svg', 'public/images');
 mix.copy('resources/static/images/appicon', 'public/images/appicon');
 
 if (mix.inProduction()) {

@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Contracts\Support\Renderable;
 
-class HomeController extends Controller
+class AppController extends Controller
 {
     /**
      * Show the application dashboard.
@@ -13,6 +13,6 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        return view('app');
     }
 }

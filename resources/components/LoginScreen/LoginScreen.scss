@@ -9,7 +9,9 @@
         height: initial;
 
         .logo {
-            filter: brightness(0) invert(1);
+            max-width: 25%;
+            max-height: 25%;
+            fill: $white;
         }
     }
 }
