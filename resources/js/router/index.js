@@ -27,11 +27,11 @@ const router = createRouter({
         }, {
             name: 'artist',
             path: '/artist',
-            component: loadView('main/dashboard')
+            component: loadView('main/artist')
         }, {
             name: 'album',
             path: '/album',
-            component: loadView('main/dashboard')
+            component: loadView('main/album')
         }, {
             name: 'search',
             path: '/search',
