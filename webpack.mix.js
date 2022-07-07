@@ -60,6 +60,7 @@ mix.js('resources/js/app.js', 'public/js')
 
 mix.copy('resources/static/images/shoutzor-logo.svg', 'public/images');
 mix.copy('resources/static/images/appicon', 'public/images/appicon');
+mix.copy('resources/static/fonts', 'public/fonts');
 
 if (mix.inProduction()) {
     mix.version();

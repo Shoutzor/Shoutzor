@@ -19,8 +19,14 @@
 
     <title>{{ config('app.name', 'Shoutz0r') }}</title>
 
-    <link rel="icon" href="{{ asset('favicon.ico') }}" type="image/x-icon"/>
-    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('favicon.ico') }}"/>
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('images/appicon/apple-touch-icon.png') }}">
+    <link rel="icon" sizes="any" href="{{ asset('images/appicon/favicon.ico') }}" type="image/x-icon"/>
+    <link rel="icon" href="{{ asset('images/appicon/favicon.svg') }}" type="image/svg+xml">
+    <link rel="manifest" href="{{ asset('images/appicon/site.webmanifest') }}">
+    <link rel="mask-icon" href="{{ asset('images/appicon/safari-pinned-tab.svg') }}" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#79dfc1">
+    <meta name="msapplication-config" content="{{ asset('images/appicon/browserconfig.xml') }}">
+    <meta name="theme-color" content="#212121">
 
     <!-- Stylesheet -->
     <link rel="dns-prefetch" href="//fonts.googleapis.com">
