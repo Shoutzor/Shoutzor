@@ -38,34 +38,6 @@ a {
     }
 }
 
-/*
- * This has been copied from the Tabler.io CSS Framework
- */
-.avatar {
-    position: relative;
-    width: 2.5rem;
-    height: 2.5rem;
-    font-size: calc(2.5rem / 2.8571429);
-    font-weight: 500;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    color: #656d77;
-    text-align: center;
-    text-transform: uppercase;
-    vertical-align: bottom;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-    background: #f0f2f6 no-repeat center/cover;
-    border-radius: 4px;
-}
-
-.avatar.mediatype {
-    font-size: 24px !important;
-}
-
 .category-header {
     margin: 1rem 0 0.5rem;
     color: $secondary;

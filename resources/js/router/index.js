@@ -26,12 +26,18 @@ const router = createRouter({
             meta: {requiresAuth: true}
         }, {
             name: 'artist',
-            path: '/artist',
-            component: loadView('main/artist')
+            path: '/artist/:id',
+            component: loadView('main/artist'),
+            props: ({params}) => ({
+                id: params.id || null
+            })
         }, {
             name: 'album',
-            path: '/album',
-            component: loadView('main/album')
+            path: '/album/:id',
+            component: loadView('main/album'),
+            props: ({params}) => ({
+                id: params.id || null
+            })
         }, {
             name: 'search',
             path: '/search',

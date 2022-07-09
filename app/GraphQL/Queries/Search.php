@@ -16,8 +16,6 @@ final class Search
     {
         $q = $args['q'];
 
-        // TODO query input sanitization
-
         $media = Media::query()
             ->with(['artists'])
             ->leftJoin('artist_media', 'artist_media.media_id', '=', 'media.id')

@@ -85,9 +85,14 @@ type Query {
         @paginate(defaultCount: 10)
 
     search(
-        q: String! @search @rules(apply: ["required"])
+        q: String! @rules(apply: ["required"])
     ): SearchResult!
 
+    topMedia(
+        artist: ID
+        album: ID
+    ): [Media!]
+        @paginate(defaultCount: 10)
 }
 
 type Mutation {
