@@ -14,6 +14,7 @@ final class TopMedia
     {
         $artist = array_key_exists("artist", $args) ? $args['artist'] : null;
         $album = array_key_exists("album", $args) ? $args['album'] : null;
+        $limit = array_key_exists("limit", $args) ? $args['limit'] : null;
 
         $media = Media::query()
             ->with(['artists'])
@@ -28,11 +29,15 @@ final class TopMedia
             ->orderBy('request_count', 'DESC');
 
         if($artist) {
-            $media->whereRaw('artists.id = ?', [$artist]);
+            $media->whereRaw('artist_media.artist_id = ?', [$artist]);
         }
 
         if($album) {
             $media->whereRaw('media.album_id = ?', [$album]);
+        }
+
+        if($limit) {
+            $media->limit($limit);
         }
 
         return $media->get();

@@ -87,7 +87,8 @@ export default {
     },
     computed: {
         items() {
-            return this.result?.topMedia?.data ?? [];
+            console.dir(this.result?.topMedia);
+            return this.result?.topMedia ?? [];
         }
     },
     mounted() {
