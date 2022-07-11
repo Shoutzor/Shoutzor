@@ -87,7 +87,6 @@ export default {
     },
     computed: {
         items() {
-            console.dir(this.result?.topMedia);
             return this.result?.topMedia ?? [];
         }
     },
