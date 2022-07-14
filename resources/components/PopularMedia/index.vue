@@ -1,8 +1,8 @@
 <template>
     <base-table description="Lists popular media file for the current artist or album">
-        <template #header>
+        <template #header v-if="items.length > 0">
             <tr>
-                <th scope="col" class="text-center"></th>
+                <th scope="col" class="mediatype-column text-center"></th>
                 <th scope="col">Media</th>
                 <th scope="col">Duration</th>
             </tr>
@@ -43,7 +43,7 @@
             </template>
             <template v-else>
                 <tr>
-                    <td colspan="4">No popular media found</td>
+                    <td colspan="4" class="text-center">No popular media found</td>
                 </tr>
             </template>
         </template>

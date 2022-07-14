@@ -94,6 +94,12 @@ type Query {
         limit: Int @limit
     ): [Media!]
         @field(resolver: "TopMedia")
+
+    topAlbums(
+        artist: ID!
+        limit: Int @limit
+    ): [Album!]
+    @field(resolver: "TopAlbums")
 }
 
 type Mutation {
