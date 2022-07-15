@@ -1,5 +1,5 @@
 <template>
-    <base-table description="Lists popular albums of the current artist">
+    <base-table description="Lists popular albums of the current artist" :hoverable="true">
         <template #header v-if="albums.length > 0">
             <tr>
                 <th scope="col" class="image-column"></th>
@@ -24,7 +24,11 @@
                 </tr>
             </template>
             <template v-else-if="albums.length > 0">
-                <tr v-for="album in albums" :key="album.id">
+                <tr
+                    v-for="album in albums"
+                    :key="album.id"
+                    @click="onAlbumClick(album.id)"
+                    class="clickable">
                     <td class="image-column">
                         <img alt="image" class="avatar" :src="album.image"/>
                     </td>
@@ -87,16 +91,17 @@ export default {
         this.loading = loading;
         this.error = error;
         this.result = result;
+    },
+    methods: {
+        onAlbumClick(id) {
+            this.$router.push({ name:'album', params:{ id: id } });
+        }
     }
 }
 </script>
 
 <style lang="scss" scoped>
 .table {
-    thead td {
-        border-bottom: 1px solid rgb(226, 227, 227);
-    }
-
     .image-column {
         width: 50px;
     }

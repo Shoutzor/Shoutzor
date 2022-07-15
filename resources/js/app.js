@@ -11,6 +11,7 @@ import {createLighthouseSubscriptionLink} from "@thekonz/apollo-lighthouse-subsc
 import App from "@js/views/App.vue";
 import { cache } from "@graphql/cache";
 import { AuthenticationPlugin } from "@js/plugins/Authentication";
+import { RequestManagerPlugin } from "@js/plugins/RequestManager";
 import { MediaPlayerPlugin } from "@js/plugins/MediaPlayer";
 import { BootstrapControlPlugin } from "@js/plugins/BootstrapControl";
 import {UploadManagerPlugin} from "@js/plugins/UploadManager";
@@ -110,6 +111,7 @@ app.use(router)
     .use(UploadManagerPlugin, {
         echoClient
     })
+    .use(RequestManagerPlugin)
     .use(PerfectScrollbar)
     .use(BootstrapIconsPlugin)
     .mount('#shoutzor');

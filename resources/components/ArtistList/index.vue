@@ -5,6 +5,7 @@
         >
             <template v-if="index !== 0">, </template>
             <router-link
+                @click.stop
                 :to="{ name:'artist', params:{ id: artist.id } }"
                 class="artist"
             >{{ artist.name }}</router-link>

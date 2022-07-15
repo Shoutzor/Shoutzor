@@ -1,5 +1,5 @@
 <template>
-    <base-table description="Lists popular media file for the current artist or album">
+    <base-table description="Lists popular media file for the current artist or album" :hoverable="true">
         <template #header v-if="items.length > 0">
             <tr>
                 <th scope="col" class="mediatype-column text-center"></th>
@@ -28,7 +28,11 @@
                 </tr>
             </template>
             <template v-else-if="items.length > 0">
-                <tr v-for="media in items" :key="media.id">
+                <tr
+                    v-for="media in items"
+                    :key="media.id"
+                    @click="onMediaClick(media)"
+                    class="clickable">
                     <td class="text-center mediatype-column">
                         <media-icon :is_video="media.is_video" />
                     </td>
@@ -106,16 +110,17 @@ export default {
         this.loading = loading;
         this.error = error;
         this.result = result;
+    },
+    methods: {
+        onMediaClick(media) {
+            this.requestManager.request(media.id, media.title);
+        }
     }
 }
 </script>
 
 <style lang="scss" scoped>
 .table {
-    thead td {
-        border-bottom: 1px solid rgb(226, 227, 227);
-    }
-
     .mediatype-column {
         width: 50px;
     }

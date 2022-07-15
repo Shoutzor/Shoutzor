@@ -18,11 +18,11 @@
     </div>
     <div class="row row-cards">
         <div class="col-sm-12 col-lg-6">
-            <h2 class="category-header">Top Media</h2>
+            <h2 class="category-header">Most Requested</h2>
             <popular-media :artist="id" />
         </div>
         <div class="col-sm-12 col-lg-6">
-            <h2 class="category-header">Albums</h2>
+            <h2 class="category-header">Top Albums</h2>
             <popular-albums :artist="id" />
         </div>
     </div>
