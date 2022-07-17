@@ -50,11 +50,15 @@ class AppServiceProvider extends ServiceProvider
             $path = trim($path, "' ");
             $class = trim($class, "' ");
 
-            // Create the dom document as per the other answers
-            $svg = new \DOMDocument();
-            $svg->load(public_path($path));
-            $svg->documentElement->setAttribute("class", $class);
-            return $svg->saveXML($svg->documentElement);
+            if(file_exists(public_path($path))) {
+                // Create the dom document as per the other answers
+                $svg = new \DOMDocument();
+                $svg->load(public_path($path));
+                $svg->documentElement->setAttribute("class", $class);
+                return $svg->saveXML($svg->documentElement);
+            }
+
+            return "File '$path' does not exist";
         });
 
         // Register the default media filetype sources (local audio file & local video file)
