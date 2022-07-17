@@ -275,7 +275,7 @@ class Installer
             $success = false;
         }
 
-        return new InstallStepResult($success, Artisan::output() ?: $exception?->getMessage() ?? '', $exception);
+        return new InstallStepResult($success, $success ? Artisan::output() : $exception?->getMessage() ?? '', $exception);
     }
 
     /**
@@ -295,7 +295,7 @@ class Installer
             $exception = $e;
         }
 
-        return new InstallStepResult($success, Artisan::output() ?: $exception?->getMessage() ?? '', $exception);
+        return new InstallStepResult($success, $success ? Artisan::output() : $exception?->getMessage() ?? '', $exception);
     }
 
     /**
@@ -315,7 +315,7 @@ class Installer
             $exception = $e;
         }
 
-        return new InstallStepResult($success, Artisan::output() ?: $exception?->getMessage() ?? '', $exception);
+        return new InstallStepResult($success, $success ? Artisan::output() : $exception?->getMessage() ?? '', $exception);
     }
 
     /**
@@ -335,7 +335,7 @@ class Installer
             $exception = $e;
         }
 
-        return new InstallStepResult($success, Artisan::output() ?: $exception?->getMessage() ?? '', $exception);
+        return new InstallStepResult($success, $success ? Artisan::output() : $exception?->getMessage() ?? '', $exception);
     }
 
     /**
@@ -358,7 +358,7 @@ class Installer
             $exception = $e;
         }
 
-        return new InstallStepResult($success, Artisan::output() ?: $exception?->getMessage() ?? '', $exception);
+        return new InstallStepResult($success, $success ? Artisan::output() : $exception?->getMessage() ?? '', $exception);
     }
 
     /**
@@ -385,7 +385,7 @@ class Installer
             $exception = $e;
         }
 
-        return new InstallStepResult($success, Artisan::output() ?: $exception?->getMessage() ?? '', $exception);
+        return new InstallStepResult($success, $success ? Artisan::output() : $exception?->getMessage() ?? '', $exception);
     }
 
     /**
@@ -405,7 +405,7 @@ class Installer
             $exception = $e;
         }
 
-        return new InstallStepResult($success, Artisan::output() ?: $exception?->getMessage() ?? '', $exception);
+        return new InstallStepResult($success, $success ? Artisan::output() : $exception?->getMessage() ?? '', $exception);
     }
 
     /**
@@ -425,6 +425,6 @@ class Installer
             $exception = $e;
         }
 
-        return new InstallStepResult($success, Artisan::output() ?: $exception?->getMessage() ?? '', $exception);
+        return new InstallStepResult($success, $success ? Artisan::output() : $exception?->getMessage() ?? '', $exception);
     }
 }
