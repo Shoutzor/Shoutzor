@@ -1,5 +1,5 @@
 <template>
-    <base-table description="Lists popular media file for the current artist or album" :hoverable="true">
+    <base-table description="Lists popular media file for the current artist or album" :hoverable="items.length > 0">
         <template #header v-if="items.length > 0">
             <tr>
                 <th scope="col" class="mediatype-column text-center"></th>

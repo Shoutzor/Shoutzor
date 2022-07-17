@@ -10,7 +10,6 @@ export const ALBUM_QUERY = gql`
         }
     }`;
 
-
 export const TOPALBUMS_QUERY = gql`
     query getTopAlbums($artist: ID!, $limit: Int) {
         topAlbums(artist: $artist, limit: $limit) {

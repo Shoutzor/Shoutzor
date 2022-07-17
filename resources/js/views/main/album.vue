@@ -23,6 +23,7 @@
         </div>
         <div class="col-sm-12 col-lg-6">
             <h2 class="category-header">Top Artists</h2>
+            <popular-artists :album="id" />
         </div>
     </div>
 </template>
@@ -33,10 +34,12 @@ import {defaultAlbumImage} from "@js/config";
 import InformationHeader from "@components/InformationHeader";
 import PopularMedia from "@components/PopularMedia";
 import {ALBUM_QUERY} from "@graphql/album";
+import PopularArtists from "../../../components/PopularArtists";
 
 export default {
     name: "album-view",
     components: {
+        PopularArtists,
         InformationHeader,
         PopularMedia
     },

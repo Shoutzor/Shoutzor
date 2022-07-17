@@ -1,9 +1,9 @@
 <template>
-    <base-table description="Lists popular albums of the current artist" :hoverable="albums.length > 0">
-        <template #header v-if="albums.length > 0">
+    <base-table description="Lists popular albums of the current artist" :hoverable="artists.length > 0">
+        <template #header v-if="artists.length > 0">
             <tr>
                 <th scope="col" class="image-column"></th>
-                <th scope="col">Album</th>
+                <th scope="col">Artist</th>
             </tr>
         </template>
 
@@ -20,26 +20,26 @@
             </template>
             <template v-else-if="error">
                 <tr>
-                    <td colspan="2">Something went wrong while attempting to fetch the popular albums</td>
+                    <td colspan="2">Something went wrong while attempting to fetch the popular artists</td>
                 </tr>
             </template>
-            <template v-else-if="albums.length > 0">
+            <template v-else-if="artists.length > 0">
                 <tr
-                    v-for="album in albums"
-                    :key="album.id"
-                    @click="onAlbumClick(album.id)"
+                    v-for="artist in artists"
+                    :key="artist.id"
+                    @click="onArtistClick(artist.id)"
                     class="clickable">
                     <td class="image-column">
-                        <img alt="image" class="avatar" :src="album.image"/>
+                        <img alt="image" class="avatar" :src="artist.image"/>
                     </td>
                     <td>
-                        {{ album.title }}
+                        {{ artist.name }}
                     </td>
                 </tr>
             </template>
             <template v-else>
                 <tr>
-                    <td colspan="2" class="text-center">No albums found</td>
+                    <td colspan="2" class="text-center">No artists found</td>
                 </tr>
             </template>
         </template>
@@ -50,16 +50,16 @@
 import BaseTable from "@components/BaseTable";
 
 import {useQuery } from "@vue/apollo-composable";
-import {TOPALBUMS_QUERY} from "@graphql/album";
+import {TOPARTISTS_QUERY} from "@graphql/artist";
 
 export default {
-    name: "popular-albums",
+    name: "popular-artists",
 
     components: {
         BaseTable
     },
     props: {
-        artist: {
+        album: {
             type: String,
             required: false
         }
@@ -72,8 +72,8 @@ export default {
         };
     },
     computed: {
-        albums() {
-            return this.result?.topAlbums ?? [];
+        artists() {
+            return this.result?.topArtists ?? [];
         }
     },
     mounted() {
@@ -81,9 +81,9 @@ export default {
             result,
             loading,
             error
-        } = useQuery(TOPALBUMS_QUERY, () => {
+        } = useQuery(TOPARTISTS_QUERY, () => {
             return {
-                artist: this.artist,
+                album: this.album,
                 limit: 5
             };
         });
@@ -93,8 +93,8 @@ export default {
         this.result = result;
     },
     methods: {
-        onAlbumClick(id) {
-            this.$router.push({ name:'album', params:{ id: id } });
+        onArtistClick(id) {
+            this.$router.push({ name:'artist', params:{ id: id } });
         }
     }
 }

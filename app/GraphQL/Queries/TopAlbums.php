@@ -15,6 +15,8 @@ final class TopAlbums
         $artist = $args['artist'];
         $limit = array_key_exists("limit", $args) ? $args['limit'] : 10;
 
+        // Return most popular albums of an artist, ordered by who which album's media has been requested the most
+
         return Album::query()
             ->leftJoin('media', 'media.album_id', '=', 'albums.id')
             ->leftJoin('artist_media', 'artist_media.media_id', '=', 'media.id')

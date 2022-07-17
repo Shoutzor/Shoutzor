@@ -99,7 +99,13 @@ type Query {
         artist: ID!
         limit: Int @limit
     ): [Album!]
-    @field(resolver: "TopAlbums")
+        @field(resolver: "TopAlbums")
+
+    topArtists(
+        album: ID!
+        limit: Int @limit
+    ): [Artist!]
+        @field(resolver: "TopArtists")
 }
 
 type Mutation {
