@@ -9,7 +9,7 @@ resources:
     - repository: Shoutz0r
       type: github
       endpoint: github.com_xorinzor
-      name: xorinzor/Shoutz0r
+      name: Shoutz0r/app
 
 stages:
   - stage: unitTest
