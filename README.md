@@ -69,6 +69,14 @@ The side-effect of this is that it will only check for used CSS selectors on ini
 | `composer install-shoutzor-dev` | Installs shoutzor for development environments (adds mock data)       |
 | `composer add-mock-data`        | Generates and adds mock data to the database using `DevelopmentSeeder` |
 
+
+### Docker Container Diagram:
+
+This diagram might contain some errors (please notify me if it does) but should give an idea of the way this app is setup.
+The Queue worker, front-end and back-end can be setup as either separate containers (instantiated from the same "web" image), or ran from a single container.
+
+![Container diagram](./docker-diagram.png)
+
 ### Kindly supported by
 
 * [JetBrains](https://www.jetbrains.com/?from=Shoutz0r)
