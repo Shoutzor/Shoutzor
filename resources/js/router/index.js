@@ -6,61 +6,89 @@ function loadView(view) {
 
 const router = createRouter({
     history: createWebHashHistory(),
-    routes: [{
-        name: 'dashboard',
-        path: '/',
-        component: loadView('main/dashboard')
-    },
+    routes: [
+        {
+            name: 'dashboard',
+            path: '/',
+            component: loadView('main/dashboard'),
+            meta: {
+                requiresPermission: "website.access"
+            }
+        },
         {
             name: 'history',
             path: '/history',
-            component: loadView('main/history')
+            component: loadView('main/history'),
+            meta: {
+                requiresPermission: "website.access"
+            }
         }, {
             name: 'popular',
             path: '/popular',
-            component: loadView('main/dashboard')
+            component: loadView('main/dashboard'),
+            meta: {
+                requiresPermission: "website.access"
+            }
         }, {
             name: 'upload',
             path: '/upload',
             component: loadView('main/upload'),
-            meta: {requiresAuth: true}
+            meta: {
+                requiresPermission: "website.access"
+            }
         }, {
             name: 'artist',
             path: '/artist/:id',
             component: loadView('main/artist'),
             props: ({params}) => ({
                 id: params.id || null
-            })
+            }),
+            meta: {
+                requiresPermission: "website.access"
+            }
         }, {
             name: 'album',
             path: '/album/:id',
             component: loadView('main/album'),
             props: ({params}) => ({
                 id: params.id || null
-            })
+            }),
+            meta: {
+                requiresPermission: "website.access"
+            }
         }, {
             name: 'search',
             path: '/search',
-            component: loadView('main/search')
+            component: loadView('main/search'),
+            meta: {
+                requiresPermission: "website.search"
+            }
         }, {
             name: 'profile',
             path: '/profile',
             component: loadView('main/dashboard'),
-            meta: {requiresAuth: true}
+            meta: {
+                requiresAuth: true
+            }
         },
-        /*{
+        {
             name: 'admin',
             path: '/admin',
-            component: loadView('admin/index'),
+            redirect: {
+                name: 'admin-dashboard'
+            },
             meta: {
-                requiresAuth: true,
                 requiresPermission: 'admin.access'
             },
             children: [{
                 name: 'admin-dashboard',
                 path: 'dashboard',
-                component: loadView('admin/dashboard')
-            }, {
+                component: loadView('admin/dashboard'),
+                meta: {
+                    requiresPermission: 'admin.access'
+                },
+            }]
+        }/*, {
                 name: 'admin-users',
                 path: 'users',
                 component: loadView('admin/users')

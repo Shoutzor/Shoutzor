@@ -22,12 +22,6 @@
                                 </div>
                             </a>
                             <div class="dropdown-menu dropdown-menu-dark dropdown-menu-right user-dropdown">
-                                <template v-if="user.is_admin">
-                                    <router-link :to="{name: 'profile'}" class="dropdown-item d-block d-md-none">
-                                        Admin panel
-                                    </router-link>
-                                    <div class="dropdown-divider d-block d-md-none"></div>
-                                </template>
                                 <router-link :to="{name: 'profile'}" class="dropdown-item">
                                     Profile
                                 </router-link>
@@ -36,7 +30,7 @@
                             </div>
                         </li>
                         <li v-if="user.is_admin" class="nav-item d-none d-md-flex align-items-center justify-content-center">
-                            <base-button class="btn-sm btn-outline-primary">Admin panel</base-button>
+                            <router-link :to="{name: 'admin-dashboard'}" class="btn btn-sm btn-outline-primary">Admin panel</router-link>
                         </li>
                     </template>
                     <template v-else>

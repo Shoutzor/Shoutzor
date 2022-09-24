@@ -2,7 +2,7 @@
     <the-header />
 
     <div id="wrapper" class="d-flex flex-nowrap">
-        <the-menu class="flex-column flex-shrink-0 p-3"/>
+        <the-menu :items="menuItemsToRender" class="flex-column flex-shrink-0 p-3"/>
 
         <main id="main-content" class="d-flex flex-column flex-grow-1">
             <perfect-scrollbar ref="scroll">
@@ -37,6 +37,65 @@ export default {
         TheToastmanager,
         TheMediaplayer
     },
+    data() {
+        return {
+            /**
+             * items to display in the left-hand menu
+             * items in the menu will check if the route has required permissions configured, and only show if matched
+             * structure is as follows:
+             * type (ie: main or admin area) [
+             *     section {
+             *         name: "name of section"
+             *         items: [
+             *              {
+             *                  name: "name of item to display in menu"
+             *                  route: "name of route as configured in router"
+             *                  icon: "icon to show in menu"
+             *              }
+             *         ]
+             *     }
+             * ]
+             */
+            menuItems: {
+                main: [
+                    {
+                        name: "App zone",
+                        items: [{
+                            name: "Dashboard",
+                            route: "dashboard",
+                            icon: "b-icon-house-fill"
+                        }, {
+                            name: "History",
+                            route: "history",
+                            icon: "b-icon-clock-history"
+                        }, {
+                            name: "Most Played",
+                            route: "popular",
+                            icon: "b-icon-star"
+                        }]
+                    },
+                    {
+                        name: "User zone",
+                        items: [{
+                            name: "Upload manager",
+                            route: "upload",
+                            icon: "b-icon-cloud-upload"
+                        }]
+                    }
+                ],
+                admin: [
+                    {
+                        name: "Admin panel",
+                        items: [{
+                            name: "Dashboard",
+                            route: "admin-dashboard",
+                            icon: "b-icon-graph-up"
+                        }]
+                    }
+                ]
+            }
+        }
+    },
     watch: {
         $route() {
             this.$refs.scroll.$el.scrollTop = 0;
@@ -45,6 +104,17 @@ export default {
     methods: {
         updateScrollbar() {
             this.$refs.scroll.update();
+        }
+    },
+    computed: {
+        menuItemsToRender() {
+            // Check if we're in the admin panel
+            if(this.$route.matched.some(route => route.name.includes('admin'))) {
+                return this.menuItems.admin;
+            }
+
+            // Otherwise return the regular menu items
+            return this.menuItems.main;
         }
     }
 }
