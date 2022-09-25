@@ -1,3 +1,23 @@
+#navbar-left {
+    // Hide by default
+    display: none;
+
+    // Show when toggled to show
+    &.show {
+        display: flex;
+    }
+
+    //Or if the screen size is MD or larger
+    @include media-breakpoint-up(md) {
+        display: flex;
+    }
+
+    .ps {
+        flex: 1 1 auto;
+        height: 0; // Required to make content scrollable, see: https://stackoverflow.com/a/14964944/1024322
+    }
+}
+
 .nav-link {
     .icon {
         display: inline-block;
