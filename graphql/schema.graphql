@@ -58,7 +58,10 @@ type Query {
         @paginate(defaultCount: 10)
 
     "Fetch Role"
-    role(id: ID! @eq): Role
+    role(
+        id: ID @eq
+        name: String @eq
+    ): Role
         @find
 
     "Fetch all roles"

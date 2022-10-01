@@ -50,4 +50,15 @@ class User extends Authenticatable implements HasApiTokensContract
             get: fn() => $this->hasRole('admin')
         );
     }
+
+    /**
+     * Will contain both permissions inherited via assigned roles, and directly assigned permissions
+     * @return Attribute
+     */
+    public function allPermissions(): Attribute
+    {
+        return new Attribute(
+            get: fn() => $this->getAllPermissions()
+        );
+    }
 }

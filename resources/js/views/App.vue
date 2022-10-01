@@ -1,5 +1,5 @@
 <template>
-    <div v-if="loading" class="d-flex flex-grow-1 align-items-center justify-content-center">
+    <div v-if="!hasLoaded" class="d-flex flex-grow-1 align-items-center justify-content-center">
         <load-screen message="Loading, please wait"/>
     </div>
 
@@ -19,17 +19,13 @@ export default {
         LoginScreen,
         Shoutzor
     },
-    data() {
-        return {
-            loading: true,
-            hasAccess: true
-        };
-    },
-    created() {
-        this.auth.resumeSession()
-            .finally(() => {
-                this.loading = false;
-            });
+    computed: {
+        hasLoaded() {
+            return this.auth.isInitialized;
+        },
+        hasAccess() {
+            return this.auth.can("website.access");
+        }
     }
 }
 </script>

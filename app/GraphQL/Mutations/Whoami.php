@@ -4,16 +4,11 @@ namespace App\GraphQL\Mutations;
 
 use DanielDeWit\LighthouseSanctum\Traits\HasAuthenticatedUser;
 use DanielDeWit\LighthouseSanctum\Traits\HasUserModel;
-use Exception;
 use GraphQL\Type\Definition\ResolveInfo;
 use Illuminate\Contracts\Auth\Factory as AuthFactory;
 use JetBrains\PhpStorm\ArrayShape;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
-/**
- * Override the original class because that always expects an email & password combination
- * Shoutz0r however uses a username & password combination
- */
 class Whoami
 {
     use HasAuthenticatedUser;

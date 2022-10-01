@@ -10,7 +10,7 @@ import {ApolloClient, ApolloLink, HttpLink } from '@apollo/client/core'
 import {createLighthouseSubscriptionLink} from "@thekonz/apollo-lighthouse-subscription-link";
 import App from "@js/views/App.vue";
 import { cache } from "@graphql/cache";
-import { AuthenticationPlugin } from "@js/plugins/Authentication";
+import { AuthenticationPlugin } from "@js/plugins/AuthenticationManager";
 import { RequestManagerPlugin } from "@js/plugins/RequestManager";
 import { MediaPlayerPlugin } from "@js/plugins/MediaPlayer";
 import { BootstrapControlPlugin } from "@js/plugins/BootstrapControl";
@@ -101,7 +101,8 @@ app.use(router)
     .use(AuthenticationPlugin, {
         tokenName: 'token',
         echoClient,
-        httpClient: httpLink
+        httpClient: httpLink,
+        apolloClient
     })
     .use(MediaPlayerPlugin, {
         broadcastUrl: window.Laravel.BROADCAST_URL,

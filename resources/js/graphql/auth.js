@@ -15,6 +15,15 @@ export const LOGOUT_MUTATION = gql`
         }
     }`;
 
+export const GUEST_PERMISSIONS_QUERY = gql`
+    query GuestPermissions {
+        role(name: "guest") {
+            permissions {
+                name
+            }
+        }
+    }`;
+
 export const WHOAMI_MUTATION = gql`
     mutation whoami {
         whoami {
@@ -23,6 +32,9 @@ export const WHOAMI_MUTATION = gql`
                 username
                 email
                 is_admin
+                allPermissions {
+                    name
+                }
             }
         }
     }`;
