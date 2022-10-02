@@ -34,7 +34,8 @@ const router = createRouter({
             path: '/upload',
             component: loadView('main/upload'),
             meta: {
-                requiresPermission: "website.access"
+                requiresPermission: "website.upload",
+                requiresAuth: true
             }
         }, {
             name: 'artist',
@@ -68,6 +69,7 @@ const router = createRouter({
             path: '/profile',
             component: loadView('main/dashboard'),
             meta: {
+                requiresPermission: "website.profile",
                 requiresAuth: true
             }
         },
@@ -86,7 +88,8 @@ const router = createRouter({
                     path: 'dashboard',
                     component: loadView('admin/dashboard'),
                     meta: {
-                        requiresPermission: 'admin.access'
+                        requiresPermission: "admin.access",
+                        requiresAuth: true
                     }
                 }, {
                     name: 'admin-users',
@@ -100,7 +103,8 @@ const router = createRouter({
                             path: 'list',
                             component: loadView('admin/users/list'),
                             meta: {
-                                requiresPermission: 'admin.user.list'
+                                requiresPermission: "admin.user.list",
+                                requiresAuth: true
                             }
                         }
                     ]
@@ -116,7 +120,8 @@ const router = createRouter({
                             path: 'list',
                             component: loadView('admin/roles/list'),
                             meta: {
-                                requiresPermission: 'admin.role.list'
+                                requiresPermission: "admin.role.list",
+                                requiresAuth: true
                             }
                         }, {
                             name: 'admin-roles-edit',
@@ -126,7 +131,8 @@ const router = createRouter({
                                 roleId: Number.parseInt(params.roleId, 10) || null
                             }),
                             meta: {
-                                requiresPermission: 'admin.role.edit'
+                                requiresPermission: "admin.role.edit",
+                                requiresAuth: true
                             }
                         }
                     ]

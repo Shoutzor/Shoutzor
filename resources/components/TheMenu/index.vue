@@ -2,7 +2,7 @@
     <nav id="navbar-left" class="col-12 col-md-4 col-lg-2 sidebar collapse">
         <perfect-scrollbar ref="menuScroll">
             <div id="navbar-left-menu" class="position-sticky">
-                <template v-for="(section, index) in items">
+                <template v-for="(section, index) in allowedItems">
                     <span
                         class="sidebar-heading d-flex justify-content-between align-items-center px-3 mb-1 text-muted"
                         :class="index > 0 ? 'mt-md-5' : ''"
@@ -66,7 +66,7 @@ export default {
                     return false;
                 }
 
-                if("requiresAuth" in m && m.requiresAuth === true && this.isAuthenticated() === false) {
+                if("requiresAuth" in m && m.requiresAuth === true && this.auth.isAuthenticated === false) {
                     return false;
                 }
             }
@@ -81,8 +81,21 @@ export default {
         }
     },
     computed: {
-        isAuthenticated() {
-            return this.auth.isAuthenticated;
+        allowedItems() {
+            let items = this.items;
+            let result = [];
+
+            items.forEach((section) => {
+                let allowedSubItems = section.items.filter(item => this.canAccess(item.route));
+                if(allowedSubItems.length > 0) {
+                    section.items = allowedSubItems;
+
+                    //Add the resulting section to our result array
+                    result.push(section);
+                }
+            });
+
+            return result;
         }
     }
 }

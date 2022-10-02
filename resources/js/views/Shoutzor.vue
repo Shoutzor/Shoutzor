@@ -105,6 +105,8 @@ export default {
         }
     },
     watch: {
+        // Warning: IDE's might say this is unused, but it's not. DO NOT REMOVE.
+        // Will bring the page back to the top whenever the route is changed
         $route() {
             this.$refs.scroll.$el.scrollTop = 0;
         }
