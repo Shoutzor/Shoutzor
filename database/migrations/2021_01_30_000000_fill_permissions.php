@@ -42,15 +42,13 @@ class FillPermissions extends Migration
 
         $this->createPermission('admin.access', '(dis)allows accessing the admin panel and sub-pages', [$admin]);
 
-        $this->createPermission('admin.modules', '(dis)allows managing shoutzor modules', [$admin]);
+        $this->createPermission('admin.user.list', '(dis)allows listing shoutzor roles', [$admin]);
+        $this->createPermission('admin.user.edit', '(dis)allows listing shoutzor roles', [$admin]);
+        $this->createPermission('admin.user.delete', '(dis)allows listing shoutzor roles', [$admin]);
 
-        $this->createPermission(
-            'admin.permissions.permission.get',
-            '(dis)allows managing shoutzor permissions',
-            [$admin]
-        );
-
-        $this->createPermission('admin.permissions.role.get', '(dis)allows managing shoutzor roles', [$admin]);
+        $this->createPermission('admin.role.list', '(dis)allows listing shoutzor roles', [$admin]);
+        $this->createPermission('admin.role.edit', '(dis)allows listing shoutzor roles', [$admin]);
+        $this->createPermission('admin.role.delete', '(dis)allows listing shoutzor roles', [$admin]);
 
         $user = User::where('username', 'admin')->first();
         $user->assignRole('user');
