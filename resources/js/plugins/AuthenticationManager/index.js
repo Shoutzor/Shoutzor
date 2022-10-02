@@ -1,9 +1,8 @@
 import axios from 'axios';
 import {reactive} from "vue";
-import {useMutation, useQuery} from "@vue/apollo-composable";
+import {useMutation} from "@vue/apollo-composable";
 
-import {LOGIN_MUTATION, LOGOUT_MUTATION, WHOAMI_MUTATION} from "@graphql/auth";
-import {GUEST_PERMISSIONS_QUERY} from "../../graphql/auth";
+import {LOGIN_MUTATION, LOGOUT_MUTATION, WHOAMI_MUTATION, GUEST_PERMISSIONS_QUERY} from "@graphql/auth";
 
 class AuthenticationManager {
     #app
@@ -18,12 +17,12 @@ class AuthenticationManager {
     #state;
 
     constructor(app, tokenName, echoClient, httpClient, apolloClient) {
+        this.#app = app;
+        this.#tokenName = tokenName;
         this.#echoClient = echoClient;
         this.#httpClient = httpClient;
         this.#apolloClient = apolloClient;
 
-        this.#app = app;
-        this.#tokenName = tokenName;
         this.#token = null;
         this.#guestPermissions = [];
 
@@ -109,8 +108,32 @@ class AuthenticationManager {
         // Once all promises are resolved, the AuthenticationManager has finished initializing
         Promise.allSettled([guestPermissionsPromise, sessionPromise])
             .finally(() => {
+                this.#setRouterGuard();
                 this.#state.isInitialized = true;
             });
+    }
+
+    // Calling this method will set the router guard
+    // The router guard will check if the user has the permissions required by the route being navigated to
+    #setRouterGuard() {
+        this.#app.router.beforeEach(async (to, from) => {
+            if("meta" in to) {
+                let m = to.meta;
+
+                // If requiresPermission is set, check if the user has the required permission.
+                if ("requiresPermission" in m && this.can(m.requiresPermission) === false) {
+                    return false;
+                }
+
+                // If requiresAuth is set, check if the user is authenticated (permission-based is preferred)
+                if ("requiresAuth" in m && m.requiresAuth === true && this.isAuthenticated === false) {
+                    return false;
+                }
+            }
+
+            // Everything checks out, allow the navigation to continue
+            return true;
+        });
     }
 
     #resumeSession() {

@@ -8,8 +8,7 @@
 </template>
 
 <script>
-import RoleList from "@js/components/admin/roles/RoleList";
-import Role from "@js/models/Role";
+import RoleList from "@components/RoleList";
 
 export default {
     name: "admin-roles",
@@ -17,7 +16,7 @@ export default {
         RoleList
     },
     computed: {
-        roles: () => Role.all()
+        roles: () => []
     }
 
 };

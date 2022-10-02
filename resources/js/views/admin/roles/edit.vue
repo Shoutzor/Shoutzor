@@ -44,9 +44,7 @@
 </template>
 
 <script>
-import Role from "@js/models/Role";
-import Permission from "@js/models/Permission";
-import PermissionList from "../../../../components/PermissionList/PermissionList";
+import PermissionList from "@components/PermissionList";
 
 export default {
     name: "admin-roles",

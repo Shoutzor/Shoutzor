@@ -80,55 +80,61 @@ const router = createRouter({
             meta: {
                 requiresPermission: 'admin.access'
             },
-            children: [{
-                name: 'admin-dashboard',
-                path: 'dashboard',
-                component: loadView('admin/dashboard'),
-                meta: {
-                    requiresPermission: 'admin.access'
-                },
-            }]
-        }/*, {
-                name: 'admin-users',
-                path: 'users',
-                component: loadView('admin/users')
-            }, {
-                name: 'admin-roles',
-                path: 'roles',
-                component: loadView('admin/roles'),
-                children: [{
-                    name: 'admin-roles-list',
-                    path: 'list',
-                    component: loadView('admin/roles/list')
+            children: [
+                {
+                    name: 'admin-dashboard',
+                    path: 'dashboard',
+                    component: loadView('admin/dashboard'),
+                    meta: {
+                        requiresPermission: 'admin.access'
+                    }
                 }, {
-                    name: 'admin-roles-edit',
-                    path: 'edit/:roleId',
-                    component: loadView('admin/roles/edit'),
-                    props: ({params}) => ({
-                        roleId: Number.parseInt(params.roleId, 10) || null
-                    })
-                }]
-            }, {
-                name: 'admin-modules',
-                path: 'modules',
-                component: loadView('admin/modules')
-            }]
-        }*/
+                    name: 'admin-users',
+                    path: 'users',
+                    redirect: {
+                        name: 'admin-users-list'
+                    },
+                    children: [
+                        {
+                            name: 'admin-users-list',
+                            path: 'list',
+                            component: loadView('admin/users/list'),
+                            meta: {
+                                requiresPermission: 'admin.user.list'
+                            }
+                        }
+                    ]
+                }, {
+                    name: 'admin-roles',
+                    path: 'roles',
+                    redirect: {
+                        name: 'admin-roles-list'
+                    },
+                    children: [
+                        {
+                            name: 'admin-roles-list',
+                            path: 'list',
+                            component: loadView('admin/roles/list'),
+                            meta: {
+                                requiresPermission: 'admin.role.list'
+                            }
+                        }, {
+                            name: 'admin-roles-edit',
+                            path: 'edit/:roleId',
+                            component: loadView('admin/roles/edit'),
+                            props: ({params}) => ({
+                                roleId: Number.parseInt(params.roleId, 10) || null
+                            }),
+                            meta: {
+                                requiresPermission: 'admin.role.edit'
+                            }
+                        }
+                    ]
+                }
+            ]
+        }
     ]
 });
-
-//Authentication check
-/*router.beforeEach((to, from, next) => {
-    if (to.matched.some(record => record.meta.requiresAuth)) {
-        if (store.getters.hasToken) {
-            next()
-            return
-        }
-        next('/')
-    } else {
-        next()
-    }
-});*/
 
 export default (app) => {
     app.router = router;

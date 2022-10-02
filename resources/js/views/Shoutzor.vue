@@ -90,6 +90,14 @@ export default {
                             name: "Dashboard",
                             route: "admin-dashboard",
                             icon: "b-icon-graph-up"
+                        }, {
+                            name: "Users",
+                            route: "admin-users",
+                            icon: "b-icon-graph-up"
+                        }, {
+                            name: "Roles",
+                            route: "admin-roles",
+                            icon: "b-icon-graph-up"
                         }]
                     }
                 ]

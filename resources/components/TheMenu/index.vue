@@ -53,19 +53,25 @@ export default {
         canAccess(routeName) {
             let r = this.getRoute(routeName);
 
+            // If the route is a redirect of a different route,
+            // check the permissions of the route being redirected to
+            if(r?.redirect?.name) {
+                return this.canAccess(r.redirect.name);
+            }
+
             if(r) {
                 let m = r.meta;
 
-                if("requiresPermission" in m) {
-                    return this.auth.can(m.requiresPermission);
+                if("requiresPermission" in m && this.auth.can(m.requiresPermission) === false) {
+                    return false;
                 }
 
-                if("requiresAuth" in m && m.requiresAuth === true) {
-                    return this.isAuthenticated();
+                if("requiresAuth" in m && m.requiresAuth === true && this.isAuthenticated() === false) {
+                    return false;
                 }
             }
 
-            return false;
+            return true;
         },
         getRoute(routeName) {
             return this.routesObj.find(x => x.name === routeName) || null;
