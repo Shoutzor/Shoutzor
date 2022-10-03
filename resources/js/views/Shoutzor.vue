@@ -39,6 +39,7 @@ export default {
     },
     data() {
         return {
+            routes: this.$router.getRoutes(),
             /**
              * items to display in the left-hand menu
              * items in the menu will check if the route has required permissions configured, and only show if matched
@@ -114,17 +115,73 @@ export default {
     methods: {
         updateScrollbar() {
             this.$refs.scroll.update();
+        },
+        getRoute(routeName) {
+            // Returns the Route object from vue-router
+            return this.routes.find(x => x.name === routeName) || null;
+        },
+        canAccessRoute(routeName) {
+            let r = this.getRoute(routeName);
+
+            // If the route is not found, it's invalid. Don't show to the user.
+            if(!r) {
+                console.error(`Route ${routeName} not found`);
+                return false;
+            }
+
+            // If the route is a redirect of a different route,
+            // check the permissions of the route being redirected to
+            if(r?.redirect?.name) {
+                return this.canAccessRoute(r.redirect.name);
+            }
+
+            // Finally check if a "meta" property is set, this will contain any authorization settings
+            if("meta" in r) {
+                let m = r.meta;
+
+                // If meta.requiresAuth is set, check if the user is authenticated
+                if("requiresAuth" in m && m.requiresAuth === true && this.auth.isAuthenticated === false) {
+                    return false;
+                }
+
+                // If meta.requiresPermission is set, check if the user has the configured permission
+                if("requiresPermission" in m && this.auth.can(m.requiresPermission) === false) {
+                    return false;
+                }
+            }
+
+            // Route is valid & all requirements (if any) are matched. Can be shown to the user.
+            return true;
         }
     },
     computed: {
         menuItemsToRender() {
+            let items;
+
             // Check if we're in the admin panel
             if(this.$route.matched.some(route => route.name.includes('admin'))) {
-                return this.menuItems.admin;
+                items = this.menuItems.admin;
+            }
+            else {
+                items = this.menuItems.main;
             }
 
-            // Otherwise return the regular menu items
-            return this.menuItems.main;
+            let result = [];
+
+            // Iterate over the menu items, this is before any authorization checks.
+            items.forEach((section) => {
+                let allowedSubItems = section.items.filter(item => this.canAccessRoute(item.route));
+                if(allowedSubItems.length > 0) {
+                    // Overwrite the section items with only the items the user has access to
+                    section.items = allowedSubItems;
+
+                    //Add the resulting section to our result array
+                    result.push(section);
+                }
+            });
+
+            // Return the resulting items
+            return result;
         }
     }
 }
