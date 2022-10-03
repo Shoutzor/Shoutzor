@@ -21,7 +21,7 @@ class BootstrapControl {
         this.#bsToastOptions = {
             animation: true,
             autohide: true,
-            delay: 5000
+            delay: 2500
         };
 
         this.#toastCounter = 0;

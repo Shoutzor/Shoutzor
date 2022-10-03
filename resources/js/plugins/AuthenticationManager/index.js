@@ -224,6 +224,7 @@ class AuthenticationManager {
                 this.#setToken(result.data.login.token);
                 this.#updateUser()
                     .then(() => {
+                        this.#showSuccess("You are now logged in");
                         resolve(true);
                     })
                     .catch(error => {
