@@ -94,11 +94,11 @@ export default {
                         }, {
                             name: "Users",
                             route: "admin-users",
-                            icon: "b-icon-graph-up"
+                            icon: "b-icon-people-fill"
                         }, {
                             name: "Roles",
                             route: "admin-roles",
-                            icon: "b-icon-graph-up"
+                            icon: "b-icon-person-check-fill"
                         }]
                     }
                 ]
