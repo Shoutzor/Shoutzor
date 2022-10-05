@@ -1,7 +1,11 @@
 <template>
     <nav>
         <ul :class="classes">
-            <li class="page-item" :class="hasPrev ? '' : 'disabled'">
+            <li v-if="showFirst" class="page-item" :class="hasPrev ? '' : 'disabled'">
+                <span class="page-link" @click.prevent="onNavigate(1)">&laquo;</span>
+            </li>
+
+            <li v-if="showPrev" class="page-item" :class="hasPrev ? '' : 'disabled'">
                 <span class="page-link" @click.prevent="onPrev">Previous</span>
             </li>
 
@@ -15,8 +19,12 @@
                 <span class="page-link" @click.prevent="onNavigate(page)">{{ page }}</span>
             </li>
 
-            <li class="page-item" :class="hasNext ? '' : 'disabled'">
+            <li v-if="showNext" class="page-item" :class="hasNext ? '' : 'disabled'">
                 <span class="page-link" @click.prevent="onNext">Next</span>
+            </li>
+
+            <li v-if="showLast" class="page-item" :class="hasNext ? '' : 'disabled'">
+                <span class="page-link" @click.prevent="onNavigate(totalPages)">&raquo;</span>
             </li>
         </ul>
     </nav>
@@ -46,6 +54,26 @@ export default {
         onNavigate: {
             type: Function,
             required: true
+        },
+        showFirst: {
+            type: Boolean,
+            required: false,
+            default: false,
+        },
+        showLast: {
+            type: Boolean,
+            required: false,
+            default: false,
+        },
+        showPrev: {
+            type: Boolean,
+            required: false,
+            default: true,
+        },
+        showNext: {
+            type: Boolean,
+            required: false,
+            default: true,
         },
         size: {
             type: String,
