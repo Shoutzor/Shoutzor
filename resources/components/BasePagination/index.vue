@@ -26,10 +26,10 @@ export default {
             type: Number,
             required: true
         },
-        maxPagesToShow: {
+        maxPerSide: {
             type: Number,
             required: false,
-            default: 5
+            default: 2
         },
         onNavigate: {
             type: Function,
@@ -43,8 +43,8 @@ export default {
         hasNext() {
             return this.modelValue + 1 <= this.totalPages;
         },
-        maxPerSide() {
-            return Math.floor(this.maxPagesToShow / 2);
+        maxPagesToShow() {
+            return this.maxPerSide * 2;
         },
         maxOnLeftSide() {
             if(this.modelValue <= this.maxPerSide) {
@@ -57,9 +57,13 @@ export default {
         maxOnRightSide() {
             // We're still on the left side
             if(this.modelValue <= this.maxPerSide) {
-                return this.maxPagesToShow - this.modelValue;
+                // Subtract 1 from the current modelValue as when the active tab is on page 1
+                // we do not want to subtract 1 of the maxPagesTo show. There's nothing on the left
+                // thus we want to display all remaining pages on the right.
+                return this.maxPagesToShow - (this.modelValue - 1);
             }
 
+            // Nothing to show on the right side when we're on the last page already
             if(this.modelValue >= this.totalPages) {
                 return 0;
             }
@@ -71,7 +75,8 @@ export default {
             let res = [];
             for(let i = 1; i <= this.maxOnLeftSide; i++) {
                 let n = this.modelValue - i;
-                if(n <= 0) {
+                // There is no page 0 or lower
+                if(n < 1) {
                     continue;
                 }
                 res.push(n);
