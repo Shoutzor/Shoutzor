@@ -23,6 +23,8 @@
 </template>
 
 <script>
+import "./BasePagination.scss";
+
 import {computed, reactive} from "vue";
 
 export default {

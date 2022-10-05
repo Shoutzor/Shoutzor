@@ -64,28 +64,37 @@ $theme-colors: (
 );
 
 // Body
-$body-bg: $dark;
-$body-color: $light;
+$body-bg:       $dark;
+$body-color:    $light;
 
 $table-hover-bg-factor: 1;
 
-$dropdown-dark-bg: $black;
-$dropdown-dark-color: $secondary;
-$dropdown-dark-link-hover-bg: $dark;
-$dropdown-dark-link-hover-color: $secondary;
-$dropdown-dark-link-active-bg: $dropdown-dark-link-hover-bg;
-$dropdown-dark-link-active-color: $dropdown-dark-link-hover-color;
+$dropdown-dark-bg:                  $black;
+$dropdown-dark-color:               $secondary;
+$dropdown-dark-link-hover-bg:       $dark;
+$dropdown-dark-link-hover-color:    $secondary;
+$dropdown-dark-link-active-bg:      $dropdown-dark-link-hover-bg;
+$dropdown-dark-link-active-color:   $dropdown-dark-link-hover-color;
 
-$list-group-color: $secondary;
-$list-group-bg: $black;
-$list-group-border-color: $dark;
+$list-group-color:          $secondary;
+$list-group-bg:             $black;
+$list-group-border-color:   $dark;
 
-$modal-content-bg: $black;
-$modal-content-color: $white;
-$modal-content-border-color: $dark;
-$modal-backdrop-opacity: 0.75;
-$modal-header-border-color: $modal-content-border-color;
-$modal-footer-border-color: $modal-content-border-color;
+$modal-content-bg:              $black;
+$modal-content-color:           $white;
+$modal-content-border-color:    $dark;
+$modal-backdrop-opacity:        0.75;
+$modal-header-border-color:     $modal-content-border-color;
+$modal-footer-border-color:     $modal-content-border-color;
+
+$pagination-bg:                     $black;
+$pagination-color:                  $white;
+$pagination-border-color:           $dark;
+$pagination-disabled-bg:            $pagination-bg;
+$pagination-disabled-border-color:  $pagination-border-color;
+$pagination-hover-bg:               $dark;
+$pagination-hover-border-color:     $pagination-border-color;
+$pagination-active-color:           $black;
 
 /*
  * Shoutz0r variables

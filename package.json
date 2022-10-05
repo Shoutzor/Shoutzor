@@ -24,7 +24,7 @@
         "@vue/compiler-sfc": "^3.2.40",
         "autoprefixer": "^10.4.7",
         "axios": "^0.27.2",
-        "bootstrap": "^5.2.0-beta1",
+        "bootstrap": "^5.2.2",
         "bootstrap-icons-vue": "^1.8.1",
         "cross-env": "^7.0.3",
         "css-loader": "^6.7.1",
