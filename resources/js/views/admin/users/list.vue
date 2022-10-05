@@ -6,8 +6,6 @@
             <base-pagination
                 v-model="currentPage"
                 :totalPages="10"
-                :hasNext="currentPage < 10"
-                :hasPrev="currentPage > 10"
                 :onNavigate="doNav"
                 ></base-pagination>
         </div>

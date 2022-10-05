@@ -1,20 +1,30 @@
 <template>
-    <nav aria-label="Page navigation example">
-        <ul class="pagination">
-            <li class="page-item"><a class="page-link" href="#" @click.prevent="onPrev">Previous</a></li>
-            <template v-for="page in showBefore">
-                <li class="page-item"><a class="page-link" href="#" @click.prevent="onNavigate(page)">{{ page }}</a></li>
-            </template>
-            <li class="page-item active"><a class="page-link" href="#">{{ modelValue }}</a></li>
-            <template v-for="page in showAfter">
-                <li class="page-item"><a class="page-link" href="#" @click.prevent="onNavigate(page)">{{ page }}</a></li>
-            </template>
-            <li class="page-item"><a class="page-link" href="#" @click.prevent="onNext">Next</a></li>
+    <nav>
+        <ul :class="classes">
+            <li class="page-item" :class="hasPrev ? '' : 'disabled'">
+                <span class="page-link" @click.prevent="onPrev">Previous</span>
+            </li>
+
+            <li class="page-item" v-for="page in showBefore">
+                <span class="page-link" @click.prevent="onNavigate(page)">{{ page }}</span>
+            </li>
+
+            <li class="page-item active"><span class="page-link">{{ modelValue }}</span></li>
+
+            <li class="page-item" v-for="page in showAfter">
+                <span class="page-link" @click.prevent="onNavigate(page)">{{ page }}</span>
+            </li>
+
+            <li class="page-item" :class="hasNext ? '' : 'disabled'">
+                <span class="page-link" @click.prevent="onNext">Next</span>
+            </li>
         </ul>
     </nav>
 </template>
 
 <script>
+import {computed, reactive} from "vue";
+
 export default {
     name: 'base-pagination',
     props: {
@@ -35,6 +45,36 @@ export default {
             type: Function,
             required: true
         },
+        size: {
+            type: String,
+            required: false,
+            validator: function (value) {
+                return ['normal', 'large', 'small'].indexOf(value) !== -1;
+            },
+            default: 'normal'
+        },
+        justify: {
+            type: String,
+            required: false,
+            validator: function (value) {
+                return ['start', 'center', 'end'].indexOf(value) !== -1;
+            },
+            default: 'start'
+        }
+    },
+    setup(props) {
+        props = reactive(props);
+
+        return {
+            classes: computed(() => ({
+                'pagination': true,
+                'pagination-sm': props.size === 'small',
+                'pagination-lg': props.size === 'large',
+                'justify-content-start': props.justify === 'start',
+                'justify-content-center': props.justify === 'center',
+                'justify-content-end': props.justify === 'end',
+            }))
+        }
     },
     computed: {
         hasPrev() {
@@ -51,25 +91,34 @@ export default {
                 return this.modelValue;
             }
 
-            let c = this.maxPagesToShow - this.maxOnRightSide;
-            return this.maxOnRightSide >= this.maxPerSide ? this.maxPerSide : c;
+            return this.maxOnRightSide >= this.maxPerSide
+                ? this.maxPerSide
+                : this.maxPagesToShow - this.maxOnRightSide;
         },
         maxOnRightSide() {
-            // We're still on the left side
-            if(this.modelValue <= this.maxPerSide) {
-                // Subtract 1 from the current modelValue as when the active tab is on page 1
-                // we do not want to subtract 1 of the maxPagesTo show. There's nothing on the left
-                // thus we want to display all remaining pages on the right.
-                return this.maxPagesToShow - (this.modelValue - 1);
-            }
-
             // Nothing to show on the right side when we're on the last page already
             if(this.modelValue >= this.totalPages) {
                 return 0;
             }
 
-            let c = this.totalPages - this.modelValue;
-            return this.maxPerSide < c ? this.maxPerSide : c;
+            // Start with the max that we can show
+            let toShow = this.maxPerSide * 2;
+
+            // If the left side is showing it's maximum amount
+            if(this.modelValue > this.maxPerSide) {
+                toShow = this.maxPerSide;
+            }
+            // Left side will be showing less than the maxPerSide
+            else {
+                toShow -= this.modelValue - 1;
+            }
+
+            // Finally, do a check that we're not showing pages beyond the number of totalPages
+            if(toShow >= this.totalPages - this.modelValue) {
+                return this.totalPages - this.modelValue;
+            }
+
+            return toShow;
         },
         showBefore() {
             let res = [];
