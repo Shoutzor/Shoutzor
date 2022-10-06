@@ -1,5 +1,5 @@
 <template>
-    <nav>
+    <nav class="pagination-wrapper">
         <ul :class="classes">
             <li v-if="showFirst" class="page-item" :class="hasPrev ? '' : 'disabled'">
                 <span class="page-link" @click.prevent="onNavigate(1)">&laquo;</span>
