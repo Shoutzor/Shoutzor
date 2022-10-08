@@ -3,10 +3,10 @@
         <table :class="classes">
             <caption class="d-none">{{ description }}</caption>
             <thead v-if="this.$slots.header">
-            <slot name="header"></slot>
+                <slot name="header"></slot>
             </thead>
             <tbody>
-            <slot></slot>
+                <slot></slot>
             </tbody>
         </table>
     </div>

@@ -1,7 +1,25 @@
-.pagination .page-item {
-    cursor: pointer;
+.pagination {
+    $pagination-outer-border-color: $secondary;
 
-    &.disabled, &.active {
-        cursor: default;
+    .page-item {
+        border-top: 1px solid $pagination-outer-border-color;
+        border-bottom: 1px solid $pagination-outer-border-color;
+        cursor: pointer;
+
+        &.disabled, &.active {
+            cursor: default;
+        }
+
+        &:first-child {
+            border-left: 1px solid $pagination-outer-border-color;
+            border-top-left-radius: $border-radius;
+            border-bottom-left-radius: $border-radius;
+        }
+
+        &:last-child {
+            border-right: 1px solid $pagination-outer-border-color;
+            border-top-right-radius: $border-radius;
+            border-bottom-right-radius: $border-radius;
+        }
     }
 }

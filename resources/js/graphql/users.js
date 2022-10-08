@@ -4,7 +4,6 @@ export const LIST_USERS_QUERY = gql`
     query getUsers($page: Int, $limit: Int) {
         users(page: $page, first: $limit) {
             paginatorInfo{
-                currentPage
                 lastPage
                 total
             }

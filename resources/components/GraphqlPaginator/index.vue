@@ -106,8 +106,9 @@ export default {
                 }
             })
             .then((result) => {
-                this.totalPages = result.data.users.paginatorInfo.lastPage;
-                this.itemsOnPage = result.data.users.data;
+                let data = Object.values(result.data)[0];
+                this.totalPages = data.paginatorInfo.lastPage;
+                this.itemsOnPage = data.data;
                 this.afterPageChange();
             })
             .catch((error) => {

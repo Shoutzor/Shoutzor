@@ -65,8 +65,7 @@ type Query {
         @find
 
     "Fetch all roles"
-    roles: [Role!]!
-        @paginate(defaultCount: 10)
+    roles: [Role!]! @paginate(defaultCount: 10)
 
     "Fetch Permission"
     permission(id: ID! @eq): Permission
