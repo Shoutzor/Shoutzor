@@ -34,14 +34,6 @@ a {
     }
 }
 
-.card {
-    border: 1px solid darken($body-bg, 5%);
-
-    .card-body {
-        background: lighten($body-bg, 5%);
-    }
-}
-
 .category-header {
     margin: 1rem 0 0.5rem;
     color: $secondary;

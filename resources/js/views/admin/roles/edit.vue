@@ -9,7 +9,7 @@
 
             <form action="#" method="post">
                 <div class="form-group mb-3">
-                    <label class="form-label">Role name</label>
+                    <label class="form-label">Name</label>
                     <div>
                         <input :disabled="role.protected"
                            :value="role.name"
@@ -19,7 +19,7 @@
                     </div>
                 </div>
                 <div class="form-group mb-3">
-                    <label class="form-label">Role Description</label>
+                    <label class="form-label">Description</label>
                     <div>
                         <textarea :disabled="role.protected"
                               class="form-control"
@@ -29,12 +29,15 @@
                         </small>
                     </div>
                 </div>
-                <div class="form-group mb-3">
-                    <permission-list
-                        :hasPermissions="role.permissions"
-                        :permissions="allPermissions" />
+                <div class="card ">
+                    <div class="card-header">Permissions</div>
+                    <div class="card-body">
+                        <permission-list
+                            :hasPermissions="role.permissions"
+                            :permissions="allPermissions" />
+                    </div>
                 </div>
-                <div class="form-footer">
+                <div class="form-footer mt-2">
                     <button class="btn btn-primary" type="button">Save</button>
                 </div>
             </form>
@@ -96,7 +99,6 @@ export default {
             })
             .then((result) => {
                 this.role = result.data.role;
-                console.log(result, this.role);
             })
             .catch((error) => {
                 this.error = true;

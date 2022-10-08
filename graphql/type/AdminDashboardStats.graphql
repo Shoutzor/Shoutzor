@@ -1,0 +1,5 @@
+type AdminDashboardStats {
+    users: Int @count(model: "App\\Models\\User")
+    media: Int @count(model: "App\\Models\\Media")
+    albums: Int @count(model: "App\\Models\\Album")
+}

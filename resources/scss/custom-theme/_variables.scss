@@ -78,10 +78,10 @@ $input-border-color: $secondary;
 $input-disabled-color: $secondary;
 $input-disabled-bg: $body-bg;
 
-$form-check-input-border: $secondary;
+$form-check-input-border: 1px solid $secondary;
 $form-check-input-checked-color: $dark;
 $form-check-input-checked-bg-color: $primary;
-$form-check-input-checked-border-color: $form-check-input-border;
+$form-check-input-checked-border-color: $dark;
 $form-check-input-indeterminate-color: $dark;
 $form-check-input-indeterminate-border-color: $form-check-input-border;
 $form-check-input-indeterminate-bg-color: $primary;
@@ -92,6 +92,10 @@ $form-switch-checked-color: $primary;
 $form-switch-checked-bg-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'><circle r='3' fill='#{$dark}'/></svg>") !default;
 
 $table-hover-bg-factor: 1;
+
+$card-bg: $black;
+$card-cap-bg: $card-bg;
+$card-border-color: $dark;
 
 $dropdown-dark-bg:                  $black;
 $dropdown-dark-color:               $secondary;
