@@ -19,7 +19,7 @@ type Query {
 
     "Fetch multiple users"
     users(
-        username: String! @where(operator: "like")
+        username: String @where(operator: "like")
     ): [User!]! @paginate(defaultCount: 10)
 
     "Fetch media file"

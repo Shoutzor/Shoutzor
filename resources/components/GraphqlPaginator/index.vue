@@ -4,7 +4,7 @@
             <base-spinner />
         </slot>
 
-        <slot :items="itemsOnPage" v-else></slot>
+        <slot :itemsOnPage="itemsOnPage" v-else></slot>
 
         <BasePagination
             v-model="currentPage"
@@ -16,13 +16,11 @@
 
 <script>
 import {computed, reactive} from "vue";
-import {DefaultApolloClient} from "@vue/apollo-composable";
 import BaseSpinner from "@components/BaseSpinner";
 import BasePagination from "@components/BasePagination";
 
 export default {
     name: 'graphql-paginator',
-    inject: [DefaultApolloClient],
     components: {
         BaseSpinner,
         BasePagination
@@ -38,9 +36,9 @@ export default {
             default: 10
         },
         where: {
-            type: String,
+            type: Object,
             required: false,
-            default: ''
+            default: {}
         },
         beforePageChange: {
             type: Function,
@@ -94,24 +92,26 @@ export default {
             await this.loadPage(page);
         },
         async loadPage(page) {
-            this.isLoading = true;
             this.beforePageChange();
 
-            await this.DefaultApolloClient.query({
+            this.isLoading = true;
+            this.currentPage = page;
+
+            await this.apollo.query({
                 query: this.queryObj,
                 variables: {
+                    page: this.currentPage,
                     limit: this.limit,
                     where: this.where
                 }
             })
             .then((result) => {
-                this.currentPage = page;
-                this.itemsOnPage = result.data;
+                this.totalPages = result.data.users.paginatorInfo.lastPage;
+                this.itemsOnPage = result.data.users.data;
                 this.afterPageChange();
             })
             .catch((error) => {
-                console.log(error);
-                this.bootstrapControl.showToast("error", "Could not load the results, error:" + error);
+                this.bootstrapControl.showToast("danger", "Could not load the results, error:" + error);
                 this.afterPageChangeError();
             })
             .finally(() => {

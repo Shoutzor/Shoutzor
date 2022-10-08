@@ -93,6 +93,7 @@ app.config.globalProperties.$filters = {
 app.provide(DefaultApolloClient, apolloClient);
 provideApolloClient(apolloClient);
 
+app.config.globalProperties.apollo = apolloClient;
 app.config.globalProperties.echo = echoClient;
 app.config.globalProperties.emitter = emitter;
 
