@@ -73,9 +73,9 @@ type Query {
 
     "Fetch multiple permissions"
     permissions(
-        name: String! @where(operator: "like")
+        name: String @where(operator: "like")
     ): [Permission!]!
-        @paginate(defaultCount: 20)
+        @all
 
     "Fetch multiple uploads"
     uploads(

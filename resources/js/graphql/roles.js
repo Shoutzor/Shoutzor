@@ -15,3 +15,18 @@ export const LIST_ROLES_QUERY = gql`
             }
         }
     }`;
+
+export const GET_ROLE_QUERY = gql`
+    query getRole($id: ID) {
+        role(id: $id) {
+            id
+            name
+            description
+            protected
+            permissions {
+                id
+                name
+                description
+            }
+        }
+    }`;

@@ -30,10 +30,18 @@
                                 {{ role.description }}
                             </td>
                             <td>
-                                <base-button class="btn-outline-primary">Edit</base-button>
-                                <base-button :disabled="role.protected"
-                                             class="ms-2 btn-outline-danger"
-                                >Delete</base-button>
+                                <div class="hstack gap-2">
+                                    <router-link :to="{ name: 'admin-roles-edit', params: { roleId: role.id } }"
+                                        class="btn btn-outline-primary text-decoration-none"
+                                    >
+                                        Edit
+                                    </router-link>
+                                    <base-button :disabled="role.protected"
+                                         class="btn-outline-danger"
+                                    >
+                                        Delete
+                                    </base-button>
+                                </div>
                             </td>
                         </tr>
                         <tr v-else>

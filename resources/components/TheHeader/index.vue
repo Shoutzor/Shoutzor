@@ -30,7 +30,7 @@
                             </div>
                         </li>
                         <li v-if="user.is_admin" class="nav-item d-none d-md-flex align-items-center justify-content-center">
-                            <router-link :to="{name: 'admin-dashboard'}" class="btn btn-sm btn-outline-primary">Admin panel</router-link>
+                            <router-link :to="{name: 'admin-dashboard'}" class="btn btn-sm btn-outline-primary text-decoration-none">Admin panel</router-link>
                         </li>
                     </template>
                     <template v-else>

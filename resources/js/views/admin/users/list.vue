@@ -32,8 +32,10 @@
                                     emptyMessage="No roles assigned" />
                             </td>
                             <td>
-                                <base-button class="btn-outline-primary">Edit</base-button>
-                                <base-button class="ms-2 btn-outline-danger">Delete</base-button>
+                                <div class="hstack gap-2">
+                                    <base-button class="btn-outline-primary">Edit</base-button>
+                                    <base-button class="ms-2 btn-outline-danger">Delete</base-button>
+                                </div>
                             </td>
                         </tr>
                         <tr v-else>

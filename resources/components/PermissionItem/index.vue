@@ -1,11 +1,11 @@
 <template>
-    <div class="list-item">
-        <div>
-            <input :checked="hasPermission" class="form-check-input" type="checkbox">
-        </div>
+    <div class="list-item form-check form-switch">
+        <input :checked="hasPermission" class="form-check-input" type="checkbox" :id="'permission_' + permission.name" role="switch">
         <div class="text-truncate">
-            <span class="text-body d-block">{{ permission.name }}</span>
-            <small class="d-block text-muted text-truncate mt-n1">{{ permission.description }}</small>
+            <label :for="'permission_' + permission.name">
+                <div class="text-body d-block">{{ permission.name }}</div>
+                <small class="d-block text-muted text-truncate mt-n1">{{ permission.description }}</small>
+            </label>
         </div>
     </div>
 </template>

@@ -67,6 +67,30 @@ $theme-colors: (
 $body-bg:       $dark;
 $body-color:    $light;
 
+$component-active-bg: $dark;
+$component-active-color: $white;
+
+$input-bg: $black;
+$input-focus-border-color: $secondary;
+$input-btn-focus-box-shadow: $dark;
+
+$input-border-color: $secondary;
+$input-disabled-color: $secondary;
+$input-disabled-bg: $body-bg;
+
+$form-check-input-border: $secondary;
+$form-check-input-checked-color: $dark;
+$form-check-input-checked-bg-color: $primary;
+$form-check-input-checked-border-color: $form-check-input-border;
+$form-check-input-indeterminate-color: $dark;
+$form-check-input-indeterminate-border-color: $form-check-input-border;
+$form-check-input-indeterminate-bg-color: $primary;
+
+$form-switch-color: $secondary;
+$form-switch-bg-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'><circle r='3' fill='#{$secondary}'/></svg>") !default;
+$form-switch-checked-color: $primary;
+$form-switch-checked-bg-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'><circle r='3' fill='#{$dark}'/></svg>") !default;
+
 $table-hover-bg-factor: 1;
 
 $dropdown-dark-bg:                  $black;

@@ -1,10 +1,10 @@
 <template>
     <div class="list list-row">
         <template v-if="permissions.length > 0">
-            <PermissionListItem
+            <permission-item
                 v-for="(permission, index) in permissions"
                 :key="permission.id"
-                :hasPermission="!!hasPermissions[index]"
+                :hasPermission="activePermissions.indexOf(permission.name) !== -1"
                 :permission="permission"/>
         </template>
     </div>
@@ -14,15 +14,22 @@
 import PermissionItem from "@components/PermissionItem";
 
 export default {
-    components: {PermissionItem},
+    components: {
+        PermissionItem
+    },
     props: {
         permissions: {
             type: Array,
-            required: false
+            required: true
         },
         hasPermissions: {
             type: Array,
-            required: false
+            required: true
+        }
+    },
+    computed: {
+        activePermissions() {
+            return this.hasPermissions.map(p => p.name);
         }
     }
 }
