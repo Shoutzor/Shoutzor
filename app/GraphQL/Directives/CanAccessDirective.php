@@ -3,10 +3,12 @@
 namespace App\GraphQL\Directives;
 
 use Closure;
-use Nuwave\Lighthouse\Exceptions\DefinitionException;
+use GraphQL\Type\Definition\ResolveInfo;
+use Nuwave\Lighthouse\Exceptions\AuthorizationException;
 use Nuwave\Lighthouse\Schema\Directives\BaseDirective;
 use Nuwave\Lighthouse\Schema\Values\FieldValue;
 use Nuwave\Lighthouse\Support\Contracts\FieldMiddleware;
+use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Spatie\Permission\Models\Role;
 
 final class CanAccessDirective extends BaseDirective implements FieldMiddleware
@@ -39,14 +41,16 @@ GRAPHQL;
      */
     public function handleField(FieldValue $fieldValue, Closure $next): FieldValue
     {
-        $fieldValue->setResolver(function ($root, $args, $context) {
+        $previousResolver = $fieldValue->getResolver();
+
+        $fieldValue->setResolver(function ($root, array $args, GraphQLContext $context, ResolveInfo $resolveInfo) use ($previousResolver) {
             $user = $context?->user();
             $requireAuth = $this->directiveArgValue('requireAuth', false);
             $permissions = $this->directiveArgValue('permissions', []);
             $roles = $this->directiveArgValue('roles', []);
 
             if(!$user && $requireAuth) {
-                throw new DefinitionException("Users are required to be authenticated to access this data");
+                throw new AuthorizationException("Users are required to be authenticated to access this data");
             }
 
             // If the user is unauthenticated, but a role is required, return false.
@@ -63,12 +67,12 @@ GRAPHQL;
                     (count($roles) === 1 &&
                     !in_array("guest", $roles))
                 ) {
-                    throw new DefinitionException("User is unauthenticated");
+                    throw new AuthorizationException("User is unauthenticated");
                 }
 
                 foreach ($permissions as $permission) {
                     if(!$guestRole->hasPermissionTo($permission, 'api')) {
-                        throw new DefinitionException("Guest does not have the '$permission' permission.");
+                        throw new AuthorizationException("Guest does not have the '$permission' permission.");
                     }
                 }
             }
@@ -76,18 +80,18 @@ GRAPHQL;
             else {
                 foreach ($permissions as $permission) {
                     if(!$user->hasPermissionTo($permission, 'api')) {
-                        throw new DefinitionException("User does not have the '$permission' permission.");
+                        throw new AuthorizationException("User does not have the '$permission' permission.");
                     }
                 }
 
                 foreach ($roles as $role) {
                     if (!$user->hasRole($role)) {
-                        throw new DefinitionException("User does not have the '$role' role.");
+                        throw new AuthorizationException("User does not have the '$role' role.");
                     }
                 }
             }
 
-            return true;
+            return $previousResolver($root, $args, $context, $resolveInfo);
         });
 
         return $next($fieldValue);

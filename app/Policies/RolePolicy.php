@@ -28,7 +28,7 @@ class RolePolicy
         }
 
         // admin permission to list roles is authorized too
-        if($user->hasPermissionTo('admin.role.list')) {
+        if($user?->hasPermissionTo('admin.role.list')) {
             return true;
         }
 
