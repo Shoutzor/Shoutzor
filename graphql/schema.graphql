@@ -127,14 +127,18 @@ type Query {
 
 type Mutation {
     whoami: WhoamiResponse!
+        @canAccess(permissions: ["website.access"])
 
     lastPlayed: lastPlayedResponse
+        @canAccess(permissions: ["website.access"])
 
     addRequest(id: ID!): AddRequestResponse!
+        @canAccess(permissions: ["website.request"])
 }
 
 type Subscription {
     requestAdded: Request
+        @canAccess(permissions: ["website.access"])
         @subscription(class: "\\App\\GraphQL\\Subscriptions\\RequestAdded")
 }
 
