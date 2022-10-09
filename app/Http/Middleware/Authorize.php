@@ -29,7 +29,7 @@ class Authorize extends \Illuminate\Auth\Middleware\Authorize
                 return $next($request);
             }
         } else {
-            if ($user->hasPermissionTo($ability)) {
+            if ($user->hasPermissionTo($ability, 'api')) {
                 Response::allow();
                 return $next($request);
             }

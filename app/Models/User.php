@@ -17,6 +17,8 @@ class User extends Authenticatable implements HasApiTokensContract
 {
     use UsesUUID, HasApiTokens, Notifiable, HasRoles, HasPermissions, RefreshesPermissionCache, HasFactory;
 
+    protected $guard_name = 'api';
+
     /**
      * The attributes that are mass assignable.
      *
