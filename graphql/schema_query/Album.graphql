@@ -1,0 +1,22 @@
+extend type Query {
+    "Fetch album"
+    album(id: ID! @eq): Album
+        @find
+
+    "Fetch multiple albums"
+    albums(
+        title: String! @where(operator: "like")
+    ): [Album!]!
+        @paginate(defaultCount: 10)
+
+    albumCount: Int!
+        @canAccess(permissions: ["admin.access"], requireAuth: true)
+        @count(model: "App\\Models\\Album")
+
+    topAlbums(
+        artist: ID!
+        limit: Int @limit
+    ): [Album!]
+        @canAccess(permissions: ["website.access"])
+        @field(resolver: "TopAlbums")
+}

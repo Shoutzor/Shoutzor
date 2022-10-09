@@ -1,0 +1,12 @@
+extend type Query {
+    search(
+        q: String! @rules(apply: ["required"])
+    ): SearchResult!
+        @canAccess(permissions: ["website.search"])
+}
+
+type SearchResult {
+    media: [Media!]
+    artists: [Artist!]
+    albums: [Album!]
+}

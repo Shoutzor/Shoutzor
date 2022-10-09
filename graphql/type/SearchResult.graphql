@@ -1,5 +1,0 @@
-type SearchResult {
-    media: [Media!]
-    artists: [Artist!]
-    albums: [Album!]
-}

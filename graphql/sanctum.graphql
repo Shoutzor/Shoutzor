@@ -2,6 +2,9 @@ type AccessToken {
     token: String!
 }
 
+"""
+Customized for username / password authentication instead of email/password
+"""
 input LoginInput {
     username: String! @rules(apply: ["required", "alpha_num"])
     password: String! @rules(apply: ["required"])
@@ -141,7 +144,7 @@ enum UpdatePasswordStatus {
 }
 
 extend type Mutation {
-    login(input: LoginInput @spread): LoginResponse!
+    login(input: LoginInput @spread): AccessToken!
         @field(resolver: "DanielDeWit\\LighthouseSanctum\\GraphQL\\Mutations\\Login")
     logout: LogoutResponse! @guard
         @field(resolver: "DanielDeWit\\LighthouseSanctum\\GraphQL\\Mutations\\Logout")

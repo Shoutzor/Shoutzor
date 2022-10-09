@@ -1,0 +1,5 @@
+extend type Subscription {
+    requestAdded: Request
+        @canAccess(permissions: ["website.access"])
+        @subscription(class: "\\App\\GraphQL\\Subscriptions\\RequestAdded")
+}

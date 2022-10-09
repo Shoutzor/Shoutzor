@@ -1,0 +1,13 @@
+extend type Query {
+    "Fetch Permission"
+    permission(id: ID! @eq): Permission
+        @cache
+        @find
+
+    "Fetch multiple permissions"
+    permissions(
+        name: String @where(operator: "like")
+    ): [Permission!]!
+        @cache
+        @all
+}
