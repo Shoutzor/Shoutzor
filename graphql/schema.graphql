@@ -133,7 +133,7 @@ type Mutation {
         @canAccess(permissions: ["website.access"])
 
     addRequest(id: ID!): AddRequestResponse!
-        @canAccess(permissions: ["website.request"])
+        @canAccess(permissions: ["website.request"], requireAuth: true)
 }
 
 type Subscription {
