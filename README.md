@@ -12,6 +12,8 @@
 Shoutz0r - A media voting system perfect for events such as lan-parties!\
 Comes with autoDJ to keep requests going when no requests have been added by users.
 
+The codebase of Shoutz0r is split up between the [Frontend](https://github.com/Shoutz0r/frontend) & [Backend](https://github.com/Shoutz0r/backend) for better maintainability.
+
 PLEASE NOTE: Shoutz0r is currently still under heavy development & lacks major functionality. If interested, please "
 watch" the repository to receive a notification when the first release is created.
 
@@ -22,8 +24,6 @@ yes it supports videos too!).\
 The queue can be generated based on the amount of votes, or as a regular queue (first come, first serve).
 
 Documentation has yet to be written. Feel free to ask any questions in the `discussions`.
-
-The codebase of Shoutz0r is split up between the [Frontend](https://github.com/Shoutz0r/frontend) & [Backend](https://github.com/Shoutz0r/backend) for better maintainability.
 
 ## Docker Container Diagram:
 
