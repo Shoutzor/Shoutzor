@@ -1,7 +1,0 @@
-type Role {
-    id: ID!
-    name: String!
-    description: String!
-    protected: Boolean!
-    permissions: [Permission!]! @hasMany
-}

@@ -1,3 +1,0 @@
-interface HasArtists {
-    artists: [Artist!]! @hasMany
-}

@@ -1,8 +1,0 @@
-"Order by clause for Query.requests.orderBy."
-input RequestsOrderBy {
-    "The column that is used for ordering."
-    column: RequestsOrderByColumns!
-
-    "The direction that is used for ordering."
-    order: SortOrder!
-}

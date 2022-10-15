@@ -1,5 +1,0 @@
-type Permission {
-    id: ID!
-    name: String!
-    description: String!
-}

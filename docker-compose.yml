@@ -1,14 +1,10 @@
 version: '3.8'
 services:
   web:
-    image: 'nginx:latest'
+    image: 'xorinzor/Shoutz0r-frontend:latest'
     ports:
       - "80:80"
       - "443:443"
-    volumes:
-      - ./:/code:ro
-      - ./docker/site.conf.template:/etc/nginx/templates/site.conf.template:ro
-    working_dir: /code
     networks:
       - shoutzor-frontend
     environment:
@@ -19,12 +15,8 @@ services:
       - FASTCGI_PORT=9000
 
   app:
-    build:
-      context: .
-      dockerfile: docker/app.Dockerfile
-    image: shoutz0r/app
+    image: 'xorinzor/Shoutz0r-backend:latest'
     volumes:
-      - ./:/code
       - ./docker/php-fpm.conf:/usr/local/etc/php-fpm.d/zzz-shoutzor.conf:ro
     working_dir: /code
     networks:
@@ -40,16 +32,11 @@ services:
       - MYSQL_ROOT_PASSWORD=${DB_PASSWORD:?MYSQL_PASSWORD_NOT_PROVIDED}
 
   queueWorker:
-    build:
-      context: .
-      dockerfile: docker/worker.Dockerfile
-    image: shoutz0r/worker
+    image: 'xorinzor/Shoutz0r-backend:latest'
     depends_on:
       - mysql
     volumes:
-      - ./:/code
       - ./docker/php-cli.conf:/usr/local/etc/php-cli.d/zzz-shoutzor.conf:ro
-    working_dir: /code
     command: "php artisan queue:work --queue=uploads"
     networks:
       - shoutzor-backend

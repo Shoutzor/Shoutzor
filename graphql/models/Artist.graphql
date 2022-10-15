@@ -1,8 +1,0 @@
-type Artist implements HasImage {
-    id: ID!
-    name: String!
-    summary: String!
-    image: String
-    albums: [Album!]! @belongsToMany
-    media: [Media!]! @belongsToMany
-}

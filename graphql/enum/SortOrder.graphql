@@ -1,8 +1,0 @@
-"Directions for ordering a list of records."
-enum SortOrder {
-    "Sort records in ascending order."
-    ASC
-
-    "Sort records in descending order."
-    DESC
-}

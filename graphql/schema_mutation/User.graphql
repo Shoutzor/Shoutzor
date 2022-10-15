@@ -1,8 +1,0 @@
-extend type Mutation {
-    whoami: WhoamiResponse!
-        @canAccess(permissions: ["website.access"])
-}
-
-type WhoamiResponse {
-    user: User!
-}

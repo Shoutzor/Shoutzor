@@ -1,5 +1,0 @@
-"Allowed column names for Query.uploads.orderBy"
-enum UploadsOrderByColumns {
-    UPLOADED_AT @enum(value: "uploaded_at")
-    STATUS @enum(value: "status")
-}

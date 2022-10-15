@@ -1,7 +1,0 @@
-type Upload {
-    id: ID!
-    filename: String!
-    uploaded_at: DateTime!
-    uploaded_by: User @hasOne
-    status: Int!
-}
