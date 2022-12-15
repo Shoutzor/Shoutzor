@@ -14,8 +14,7 @@ Comes with autoDJ to keep requests going when no requests have been added by use
 
 The codebase of Shoutz0r is split up between the [Frontend](https://github.com/Shoutz0r/frontend) & [Backend](https://github.com/Shoutz0r/backend) for better maintainability.
 
-PLEASE NOTE: Shoutz0r is currently still under heavy development & lacks major functionality. If interested, please "
-watch" the repository to receive a notification when the first release is created.
+PLEASE NOTE: Shoutz0r is currently still under heavy development and although working should be considered in an "alpha" state. Expect lots of changes.
 
 ![Preview Image](./screenshot.png)
 
